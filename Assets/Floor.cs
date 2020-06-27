@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Floor : MonoBehaviour
 {
+    [SerializeField]
     private Room[] mMemberRooms = new Room[3];
     
     public  bool  CanUpdate
@@ -24,12 +25,11 @@ public class Floor : MonoBehaviour
     {
         // mMemberRooms배열을 여기서 초기화한다
 
-        for (int i = 0; i < 3; ++i)
+        for(int i = 0; i < 3; ++i)
         {
-            new GameObject("Room", typeof(Room)).TryGetComponent(out mMemberRooms[i]);
-
             mMemberRooms[i].Init(this);
         }
+
         StartCoroutine(CR_update());
     }
 

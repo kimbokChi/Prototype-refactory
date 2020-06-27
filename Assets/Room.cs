@@ -16,7 +16,7 @@ public class Room : MonoBehaviour
         mMasterFloor = masterFloor;
 
         // 0번째 인덱스 : 왼쪽 지점 || 1번째 인덱스 : 가운데 지점 || 2번째 인덱스 : 오른쪽 지점
-        for (int i = 1; i > -2; --i)
+        for (int i = 1; i > -1; --i)
         {
             mMovePoints[i] = (Vector2)transform.position + (Vector2.left * MOVEPOINT_OFFSET * i);
         }
