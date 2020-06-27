@@ -16,10 +16,37 @@ public class Floor : MonoBehaviour
     {
         get { return mIsOnPlayer; }
     }
-    private bool mIsOnPlayer = false;
+    private bool mIsOnPlayer = true;
+
+    private void Start() => Init();
 
     public void Init()
     {
         // mMemberRooms배열을 여기서 초기화한다
+
+        for (int i = 0; i < 3; ++i)
+        {
+            new GameObject("Room", typeof(Room)).TryGetComponent(out mMemberRooms[i]);
+
+            mMemberRooms[i].Init(this);
+        }
+        StartCoroutine(CR_update());
+    }
+
+    private IEnumerator CR_update()
+    {
+        while(gameObject.activeSelf)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                mIsOnPlayer = !mIsOnPlayer;
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                mCanUpdate = !mCanUpdate;
+            }
+            yield return null;
+        }
+        yield break;
     }
 }
