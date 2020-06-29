@@ -8,3 +8,7 @@
     
     END
 }
+public enum POSITION3
+{
+    TOP, MID, BOT
+}

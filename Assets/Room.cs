@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    public  Transform[]  MovePoints = new Transform[3];
-    private   Vector2[] mMovePoints = new   Vector2[3];
+    [SerializeField][Tooltip("좌측 이동 지점입니다")] private Transform LMovePoint; 
+    [SerializeField][Tooltip("중심 이동 지점입니다")] private Transform CMovePoint;
+    [SerializeField][Tooltip("우측 이동 지점입니다")] private Transform RMovePoint; 
 
     private Floor mMasterFloor;
 
@@ -14,9 +15,6 @@ public class Room : MonoBehaviour
     {
         mMasterFloor = masterFloor;
 
-        mMovePoints[0] = MovePoints[0].position;
-        mMovePoints[1] = MovePoints[1].position;
-        mMovePoints[2] = MovePoints[2].position;
         Debug.Log("방 초기화!");
     }
 
@@ -24,5 +22,10 @@ public class Room : MonoBehaviour
     {
         // todo. . .
         Debug.Log("방 업데이트!");
+    }
+
+    public Vector2[] GetMovePoints()
+    {
+        return new Vector2[3] { LMovePoint.position, CMovePoint.position, RMovePoint.position };
     }
 }

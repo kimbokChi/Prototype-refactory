@@ -465,10 +465,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2874cdcedd66ba54c8c60ab5de4e1769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovePoints:
-  - {fileID: 307075659}
-  - {fileID: 1454036477}
-  - {fileID: 558963330}
+  LMovePoint: {fileID: 307075659}
+  CMovePoint: {fileID: 1454036477}
+  RMovePoint: {fileID: 558963330}
 --- !u!1 &894972605
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,10 +528,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2874cdcedd66ba54c8c60ab5de4e1769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovePoints:
-  - {fileID: 1972655803}
-  - {fileID: 10980823}
-  - {fileID: 1659161970}
+  LMovePoint: {fileID: 1972655803}
+  CMovePoint: {fileID: 10980823}
+  RMovePoint: {fileID: 1659161970}
 --- !u!212 &982312570
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -630,10 +628,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2874cdcedd66ba54c8c60ab5de4e1769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovePoints:
-  - {fileID: 1468312706}
-  - {fileID: 894972606}
-  - {fileID: 647563717}
+  LMovePoint: {fileID: 1468312706}
+  CMovePoint: {fileID: 894972606}
+  RMovePoint: {fileID: 647563717}
 --- !u!212 &1009291209
 SpriteRenderer:
   m_ObjectHideFlags: 0
