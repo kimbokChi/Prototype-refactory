@@ -17,10 +17,12 @@ public class Room : MonoBehaviour
         mMovePoints[0] = MovePoints[0].position;
         mMovePoints[1] = MovePoints[1].position;
         mMovePoints[2] = MovePoints[2].position;
+        Debug.Log("방 초기화!");
     }
 
     public void IUpdate()
     {
         // todo. . .
+        Debug.Log("방 업데이트!");
     }
 }
