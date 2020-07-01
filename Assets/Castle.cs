@@ -18,19 +18,15 @@ public class Castle : Singleton<Castle>
     {
         mCurrentFloor.IInit();
 
+        Vector2[] topMovePoint = mCurrentFloor.GetMovePoints(POSITION3.TOP);
+        Vector2[] midMovePoint = mCurrentFloor.GetMovePoints(POSITION3.MID);
+        Vector2[] botMovePoint = mCurrentFloor.GetMovePoints(POSITION3.BOT);
+
         mMovePoints = new Vector2[(int)DIRECTION9.END]
         {
-            mCurrentFloor.GetMovePoints(POSITION3.TOP)[0],
-            mCurrentFloor.GetMovePoints(POSITION3.TOP)[1],
-            mCurrentFloor.GetMovePoints(POSITION3.TOP)[2],
-
-            mCurrentFloor.GetMovePoints(POSITION3.MID)[0],
-            mCurrentFloor.GetMovePoints(POSITION3.MID)[1],
-            mCurrentFloor.GetMovePoints(POSITION3.MID)[2],
-
-            mCurrentFloor.GetMovePoints(POSITION3.BOT)[0],
-            mCurrentFloor.GetMovePoints(POSITION3.BOT)[1],
-            mCurrentFloor.GetMovePoints(POSITION3.BOT)[2]
+            topMovePoint[0], topMovePoint[1], topMovePoint[2],
+            midMovePoint[0], midMovePoint[1], midMovePoint[2],
+            botMovePoint[0], botMovePoint[1], botMovePoint[2]
         };
 
         for(int i = 0; i < (int)DIRECTION9.END; ++i)
