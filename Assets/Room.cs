@@ -14,14 +14,11 @@ public class Room : MonoBehaviour
     public void IInit(Floor masterFloor)
     {
         mMasterFloor = masterFloor;
-
-        Debug.Log("방 초기화!");
     }
 
     public void IUpdate()
     {
         // todo. . .
-        Debug.Log("방 업데이트!");
     }
 
     public Vector2[] GetMovePoints()

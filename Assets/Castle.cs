@@ -29,13 +29,6 @@ public class Castle : Singleton<Castle>
             botMovePoint[0], botMovePoint[1], botMovePoint[2]
         };
 
-        for(int i = 0; i < (int)DIRECTION9.END; ++i)
-        {
-            GameObject game = new GameObject("AAA");
-
-            game.transform.position = mMovePoints[i];
-        }
-
         while (mIsActivation)
         {
             if (mCurrentFloor)
