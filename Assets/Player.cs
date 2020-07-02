@@ -8,6 +8,9 @@ public class Player : MonoBehaviour, IObject
 
     private IEnumerator mCRmove;
 
+    [SerializeField]
+    private Golden_Flip mGolden_Flip;
+
     private void Start()
     {
         mLocation9 = DIRECTION9.MID;
@@ -46,6 +49,8 @@ public class Player : MonoBehaviour, IObject
 
         Vector2 initPos = transform.position;
 
+        mGolden_Flip.UseItem(ITEM_KEYWORD.MOVE_BEGIN);
+
         while (value < 1)
         {
             temporary = value + Time.deltaTime * 5.5f;
@@ -57,6 +62,8 @@ public class Player : MonoBehaviour, IObject
             yield return null;
         }
         mCRmove = null;
+        mGolden_Flip.UseItem(ITEM_KEYWORD.MOVE_END);
+
         yield break;
     }
 

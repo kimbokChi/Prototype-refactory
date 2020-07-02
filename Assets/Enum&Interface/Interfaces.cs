@@ -12,3 +12,8 @@ public interface IObject
     void IInit();
     void IUpdate();
 }
+
+public interface IItem
+{
+    void UseItem(ITEM_KEYWORD keyword);
+}

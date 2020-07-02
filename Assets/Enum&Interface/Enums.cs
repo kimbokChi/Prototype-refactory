@@ -12,3 +12,19 @@ public enum POSITION3
 {
     TOP, MID, BOT
 }
+
+/* README
+ * MOVE [이동]
+ * 
+ * STRUCK [타격]
+ * 
+ * DAMAGE [피격]
+ * 
+ * ENTER [입장]
+ * 
+ * CHARGE [충전]
+ */
+public enum ITEM_KEYWORD
+{
+    MOVE_BEGIN, MOVE_END, STRUCK, DAMAGE, ENTER, CHARGE
+}
