@@ -8,6 +8,9 @@ public class Player : MonoBehaviour, IObject
 
     private IEnumerator mCRmove;
 
+    [SerializeField]
+    private Golden_Flip mGolden_Flip;
+
     private void Start()
     {
         mLocation9 = DIRECTION9.MID;
