@@ -5,48 +5,27 @@ using UnityEngine;
 public class Floor : MonoBehaviour
 {
     [SerializeField]
+    [Tooltip("가장 높이있는 방일수록 가장 작은 인덱스에 저장해 주세요!")]
     private Room[] mMemberRooms = new Room[3];
-    
-    public  bool  CanUpdate
+
+    public void IInit()
     {
-        get { return mCanUpdate; }
-    }
-    private bool mCanUpdate = true;
-
-    public  bool  IsOnPlayer
-    {
-        get { return mIsOnPlayer; }
-    }
-    private bool mIsOnPlayer = true;
-
-    private void Start() => Init();
-
-    public void Init()
-    {
-        // mMemberRooms배열을 여기서 초기화한다
-
-        for(int i = 0; i < 3; ++i)
-        {
-            mMemberRooms[i].Init(this);
-        }
-
-        StartCoroutine(CR_update());
+        mMemberRooms[0].IInit(this);
+        mMemberRooms[1].IInit(this);
+        mMemberRooms[2].IInit(this);
+        Debug.Log("층 초기화!");
     }
 
-    private IEnumerator CR_update()
+    public void IUpdate()
     {
-        while(gameObject.activeSelf)
-        {
-            if(Input.GetMouseButtonDown(0))
-            {
-                mIsOnPlayer = !mIsOnPlayer;
-            }
-            if (Input.GetMouseButtonDown(1))
-            {
-                mCanUpdate = !mCanUpdate;
-            }
-            yield return null;
-        }
-        yield break;
+        mMemberRooms[0].IUpdate();
+        mMemberRooms[1].IUpdate();
+        mMemberRooms[2].IUpdate();
+        Debug.Log("층 업데이트!");
+    }
+
+    public Vector2[] GetMovePoints(POSITION3 position)
+    {
+        return mMemberRooms[(int)position].GetMovePoints();
     }
 }
