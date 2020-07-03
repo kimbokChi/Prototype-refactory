@@ -9,11 +9,13 @@ public class Player : MonoBehaviour, IObject
     private IEnumerator mCRmove;
 
     [SerializeField]
-    private Golden_Flip mGolden_Flip;
+    private Item mEquipItem;
 
     private void Start()
     {
         mLocation9 = DIRECTION9.MID;
+
+        mEquipItem.Init();
     }
 
     private void Update()
@@ -49,7 +51,7 @@ public class Player : MonoBehaviour, IObject
 
         Vector2 initPos = transform.position;
 
-        mGolden_Flip.UseItem(ITEM_KEYWORD.MOVE_BEGIN);
+        mEquipItem.UseItem(ITEM_KEYWORD.MOVE_BEGIN);
 
         while (value < 1)
         {
@@ -62,7 +64,7 @@ public class Player : MonoBehaviour, IObject
             yield return null;
         }
         mCRmove = null;
-        mGolden_Flip.UseItem(ITEM_KEYWORD.MOVE_END);
+        mEquipItem.UseItem(ITEM_KEYWORD.MOVE_END);
 
         yield break;
     }

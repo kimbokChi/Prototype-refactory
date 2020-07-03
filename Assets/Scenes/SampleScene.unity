@@ -735,7 +735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 607c36bd91081304c9964d639ee5df09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mGolden_Flip: {fileID: 576382838}
+  mEquipItem: {fileID: 576382838}
 --- !u!1 &1009291207
 GameObject:
   m_ObjectHideFlags: 0
