@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IObject
 {
+    public Detector EDetector;
+
+
     private DIRECTION9 mLocation9;
 
     private IEnumerator mCRmove;
@@ -20,6 +23,8 @@ public class Player : MonoBehaviour, IObject
 
     private void Update()
     {
+        EDetector.SetRange(mEquipItem.WeaponRange);
+
         if (mCRmove == null && Input.anyKeyDown)
         {
             if (Input.GetKeyDown(KeyCode.DownArrow))

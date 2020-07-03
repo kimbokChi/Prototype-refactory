@@ -866,6 +866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 607c36bd91081304c9964d639ee5df09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EDetector: {fileID: 2055968785}
   mEquipItem: {fileID: 576382838}
 --- !u!1 &1009291207
 GameObject:
@@ -1145,8 +1146,9 @@ GameObject:
   - component: {fileID: 2055968782}
   - component: {fileID: 2055968784}
   - component: {fileID: 2055968783}
+  - component: {fileID: 2055968785}
   m_Layer: 0
-  m_Name: Range
+  m_Name: Detector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1203,3 +1205,15 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &2055968785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055968781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 927aef57483783142aa42e37d6fedc28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
