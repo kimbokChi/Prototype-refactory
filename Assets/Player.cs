@@ -6,6 +6,7 @@ public class Player : MonoBehaviour, IObject
 {
     public Detector EDetector;
 
+    private SpriteRenderer mRenderer;
 
     private DIRECTION9 mLocation9;
 
@@ -19,11 +20,24 @@ public class Player : MonoBehaviour, IObject
         mLocation9 = DIRECTION9.MID;
 
         mEquipItem.Init();
+
+        TryGetComponent(out mRenderer);
     }
 
     private void Update()
     {
         EDetector.SetRange(mEquipItem.WeaponRange);
+
+        Collider2D challenger = EDetector.GetChallenger();
+
+        if (challenger)
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                mEquipItem.UseItem(ITEM_KEYWORD.STRUCK);
+            }
+            mRenderer.flipX = (challenger.transform.position.x > transform.position.x);
+        }
 
         if (mCRmove == null && Input.anyKeyDown)
         {
