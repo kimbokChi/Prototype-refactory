@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Timer : MonoBehaviour
+public class Timer
 {
     private float mWaitTime    = 0.0f;
     private float mWaitTimeSum = 0.0f;
 
-    public void SetTimer(float waitTime) => mWaitTime = waitTime;
+    public void Start(float waitTime)
+    {
+        mWaitTime = waitTime;
 
-    public bool IsOver()
+        mWaitTimeSum = 0.0f;
+    }
+
+    public void Update()
     {
         mWaitTimeSum += Time.deltaTime * Time.timeScale;
-
-        if (mWaitTimeSum >= mWaitTime)
-        {
-            mWaitTimeSum = 0.0f; return true;
-        }
-        return false;
     }
+
+    public bool IsOver() => mWaitTimeSum >= mWaitTime;
+
+    public float TimeOverFlow() => mWaitTime - mWaitTimeSum;
 }
