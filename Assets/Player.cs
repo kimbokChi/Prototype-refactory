@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IObject, ICombat
 {
+    private const float BLINK_TIME = 0.5f;
+    private Timer mBlinkTimer = new Timer();
+
     public float WaitTimeATK;
     private Timer mWaitATK = new Timer();
+
 
     public Detector EDetector;
 
@@ -36,6 +40,8 @@ public class Player : MonoBehaviour, IObject, ICombat
         Collider2D challenger = EDetector.GetChallenger();
 
         mWaitATK.Update();
+
+        if (!mBlinkTimer.IsOver()) { mBlinkTimer.Update(); }
 
         if (challenger)
         {
@@ -102,6 +108,12 @@ public class Player : MonoBehaviour, IObject, ICombat
 
     public void Damaged(float damage, GameObject attacker, out GameObject victim)
     {
+        // 깜박이 상태라면 공격 무시
+        if (!mBlinkTimer.IsOver())
+        { victim = null; Debug.Log("Blink!"); return; }
+
         victim = gameObject;
+
+        mBlinkTimer.Start(BLINK_TIME);
     }
 }
