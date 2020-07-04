@@ -19,6 +19,9 @@ public class Player : MonoBehaviour, IObject, ICombat
 
     private IEnumerator mCRmove;
 
+    private float mHealthPoint = 100.0f;
+    private float mDefensivePower = 1.0f;
+
     [SerializeField]
     private Item mEquipItem;
 
@@ -113,6 +116,10 @@ public class Player : MonoBehaviour, IObject, ICombat
         { victim = null; Debug.Log("Blink!"); return; }
 
         victim = gameObject;
+
+        mHealthPoint -= damage / mDefensivePower;
+
+        mEquipItem.UseItem(ITEM_KEYWORD.BE_DAMAGED);
 
         mBlinkTimer.Start(BLINK_TIME);
     }
