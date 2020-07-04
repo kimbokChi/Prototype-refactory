@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IObject, ICombat
 {
+    public float WaitTimeATK;
+    private Timer mWaitATK = new Timer();
+
     public Detector EDetector;
 
     private SpriteRenderer mRenderer;
@@ -11,9 +14,6 @@ public class Player : MonoBehaviour, IObject, ICombat
     private DIRECTION9 mLocation9;
 
     private IEnumerator mCRmove;
-
-    public  float WaitTimeATK;
-    private float mWaitSumATK = 0.0f;
 
     [SerializeField]
     private Item mEquipItem;
@@ -25,6 +25,8 @@ public class Player : MonoBehaviour, IObject, ICombat
         mEquipItem.Init();
 
         TryGetComponent(out mRenderer);
+
+        mWaitATK.Start(WaitTimeATK);
     }
 
     private void Update()
@@ -33,11 +35,15 @@ public class Player : MonoBehaviour, IObject, ICombat
 
         Collider2D challenger = EDetector.GetChallenger();
 
+        mWaitATK.Update();
+
         if (challenger)
         {
-            if (WaitATK())
+            if (mWaitATK.IsOver())
             {
                 mEquipItem.UseItem(ITEM_KEYWORD.STRUCK);
+
+                mWaitATK.Start(WaitTimeATK);
             }
             mRenderer.flipX = (challenger.transform.position.x > transform.position.x);
         }
@@ -89,17 +95,6 @@ public class Player : MonoBehaviour, IObject, ICombat
         mEquipItem.UseItem(ITEM_KEYWORD.MOVE_END);
 
         yield break;
-    }
-
-    private bool WaitATK()
-    {
-        mWaitSumATK += Time.deltaTime;
-
-        if (mWaitSumATK >= WaitTimeATK)
-        {
-            mWaitSumATK = 0.0f; return true;
-        }
-        return false;
     }
 
     void IObject.IInit() { }
