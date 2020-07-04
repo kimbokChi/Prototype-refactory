@@ -867,6 +867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EDetector: {fileID: 2055968785}
+  WaitTimeATK: 0.8
   mEquipItem: {fileID: 576382838}
 --- !u!1 &1009291207
 GameObject:

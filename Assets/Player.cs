@@ -12,6 +12,9 @@ public class Player : MonoBehaviour, IObject
 
     private IEnumerator mCRmove;
 
+    public  float WaitTimeATK;
+    private float mWaitSumATK = 0.0f;
+
     [SerializeField]
     private Item mEquipItem;
 
@@ -32,7 +35,7 @@ public class Player : MonoBehaviour, IObject
 
         if (challenger)
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if (WaitATK())
             {
                 mEquipItem.UseItem(ITEM_KEYWORD.STRUCK);
             }
@@ -86,6 +89,17 @@ public class Player : MonoBehaviour, IObject
         mEquipItem.UseItem(ITEM_KEYWORD.MOVE_END);
 
         yield break;
+    }
+
+    private bool WaitATK()
+    {
+        mWaitSumATK += Time.deltaTime;
+
+        if (mWaitSumATK >= WaitTimeATK)
+        {
+            mWaitSumATK = 0.0f; return true;
+        }
+        return false;
     }
 
     void IObject.IInit() { }
