@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IObject
+public class Player : MonoBehaviour, IObject, ICombat
 {
     public Detector EDetector;
 
@@ -104,4 +104,9 @@ public class Player : MonoBehaviour, IObject
 
     void IObject.IInit() { }
     void IObject.IUpdate() { }
+
+    public void Damaged(float damage, GameObject attacker, out GameObject victim)
+    {
+        victim = gameObject;
+    }
 }
