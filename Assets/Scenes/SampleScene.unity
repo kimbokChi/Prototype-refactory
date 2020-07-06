@@ -324,7 +324,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcbba22ee03113e40a7d7c88a99f77b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCurrentFloor: {fileID: 1203827879}
+  mFloors:
+  - {fileID: 1203827879}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  mCurrentFloor: {fileID: 0}
 --- !u!1 &307075658
 GameObject:
   m_ObjectHideFlags: 0
@@ -866,8 +877,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 607c36bd91081304c9964d639ee5df09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EDetector: {fileID: 2055968785}
   WaitTimeATK: 0.8
+  EDetector: {fileID: 2055968785}
   mEquipItem: {fileID: 576382838}
 --- !u!1 &1009291207
 GameObject:

@@ -10,7 +10,7 @@
 }
 public enum POSITION3
 {
-    TOP, MID, BOT
+    TOP, MID, BOT, NONE
 }
 
 /* README

@@ -6,6 +6,11 @@ public class Castle : Singleton<Castle>
 {
     private bool mIsActivation = true;
 
+    private Player mEyePlayer;
+
+    private POSITION3 mLastPlayerPOS = POSITION3.NONE;
+
+    [SerializeField] private   Floor[] mFloors = new Floor[10];
     [SerializeField] private   Floor   mCurrentFloor;
                      private Vector2[] mMovePoints;
 
@@ -14,10 +19,26 @@ public class Castle : Singleton<Castle>
         return mMovePoints[(int)direction];
     }
 
-    private IEnumerator CR_update()
+    public void PlayerRegister(uint floor, Player player)
+    {
+        if (mFloors[floor] != null)
+        {
+            mCurrentFloor = mFloors[floor];
+
+            mEyePlayer = player;
+            
+            Renew();
+        }
+    }
+
+    private void Renew()
     {
         mCurrentFloor.IInit();
 
+        if (mEyePlayer)
+        {
+            RenewPlayerPOS();
+        }
         Vector2[] topMovePoint = mCurrentFloor.GetMovePoints(POSITION3.TOP);
         Vector2[] midMovePoint = mCurrentFloor.GetMovePoints(POSITION3.MID);
         Vector2[] botMovePoint = mCurrentFloor.GetMovePoints(POSITION3.BOT);
@@ -28,9 +49,28 @@ public class Castle : Singleton<Castle>
             midMovePoint[0], midMovePoint[1], midMovePoint[2],
             botMovePoint[0], botMovePoint[1], botMovePoint[2]
         };
+    }
 
+    private void RenewPlayerPOS()
+    {
+        if(mLastPlayerPOS != mEyePlayer.GetPOSITION9())
+        {
+            if (mLastPlayerPOS != POSITION3.NONE)
+            {
+                mCurrentFloor.ExitPlayer(mLastPlayerPOS);
+            }
+            mCurrentFloor.EnterPlayer(mLastPlayerPOS = mEyePlayer.GetPOSITION9());
+        }
+    }
+
+    private IEnumerator CR_update()
+    {
         while (mIsActivation)
         {
+            if (mEyePlayer)
+            {
+                RenewPlayerPOS();
+            }
             if (mCurrentFloor)
             {
                 mCurrentFloor.IUpdate();
