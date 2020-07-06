@@ -6,6 +6,7 @@ public class Castle : Singleton<Castle>
 {
     private bool mIsActivation = true;
 
+    [SerializeField] private   Floor[] mFloors = new Floor[10];
     [SerializeField] private   Floor   mCurrentFloor;
                      private Vector2[] mMovePoints;
 
@@ -14,7 +15,17 @@ public class Castle : Singleton<Castle>
         return mMovePoints[(int)direction];
     }
 
-    private IEnumerator CR_update()
+    public void PlayerLocateFloor(uint floor)
+    {
+        if(mFloors[floor] != null)
+        {
+            mCurrentFloor = mFloors[floor];
+
+            Renew();
+        }
+    }
+
+    private void Renew()
     {
         mCurrentFloor.IInit();
 
@@ -28,7 +39,10 @@ public class Castle : Singleton<Castle>
             midMovePoint[0], midMovePoint[1], midMovePoint[2],
             botMovePoint[0], botMovePoint[1], botMovePoint[2]
         };
+    }
 
+    private IEnumerator CR_update()
+    {
         while (mIsActivation)
         {
             if (mCurrentFloor)

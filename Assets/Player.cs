@@ -27,6 +27,8 @@ public class Player : MonoBehaviour, IObject, ICombat
 
     private void Start()
     {
+        Castle.Instnace.PlayerLocateFloor(0);
+
         mLocation9 = DIRECTION9.MID;
 
         mEquipItem.Init();
