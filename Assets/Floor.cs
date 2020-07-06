@@ -22,6 +22,21 @@ public class Floor : MonoBehaviour
         mMemberRooms[2].IUpdate();
     }
 
+    public void EnterPlayer(POSITION3 position)
+    {
+        // 플레이어가 해당 층에 존재한다! [강림]
+        mMemberRooms[(int)position].EnterPlayer();
+
+        Debug.Log("강림");
+    }
+    public void ExitPlayer(POSITION3 position)
+    {
+        // 플레이어가 나갔다..
+        mMemberRooms[(int)position].ExitPlayer();
+
+        Debug.Log("퇴장!");
+    }
+
     public Vector2[] GetMovePoints(POSITION3 position)
     {
         return mMemberRooms[(int)position].GetMovePoints();

@@ -10,15 +10,27 @@ public class Room : MonoBehaviour
 
     private Floor mMasterFloor;
 
-
     public void IInit(Floor masterFloor)
     {
         mMasterFloor = masterFloor;
+
+        gameObject.SetActive(true);
     }
 
     public void IUpdate()
     {
-        // todo. . .
+    
+    }
+
+    public void EnterPlayer()
+    {
+        Debug.Log("플레ㅣ어께서 존재하신다!");
+        // 플레이어가 해당 방에 존재한다!
+    }
+    public void ExitPlayer()
+    {
+        Debug.Log("이젠 아니야...");
+        // 플레이어가 나갔다..
     }
 
     public Vector2[] GetMovePoints()

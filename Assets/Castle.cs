@@ -6,6 +6,10 @@ public class Castle : Singleton<Castle>
 {
     private bool mIsActivation = true;
 
+    private Player mEyePlayer;
+
+    private POSITION3 mLastPlayerPOS = POSITION3.NONE;
+
     [SerializeField] private   Floor[] mFloors = new Floor[10];
     [SerializeField] private   Floor   mCurrentFloor;
                      private Vector2[] mMovePoints;
@@ -15,11 +19,15 @@ public class Castle : Singleton<Castle>
         return mMovePoints[(int)direction];
     }
 
-    public void PlayerLocateFloor(uint floor)
+    public void PlayerRegister(uint floor, Player player)
     {
-        if(mFloors[floor] != null)
+        if (mFloors[floor] != null)
         {
             mCurrentFloor = mFloors[floor];
+
+            mEyePlayer = player;
+
+            mLastPlayerPOS = POSITION3.BOT;
 
             Renew();
         }
@@ -29,6 +37,15 @@ public class Castle : Singleton<Castle>
     {
         mCurrentFloor.IInit();
 
+        if (mEyePlayer)
+        {
+            if (mEyePlayer.GetPOSITION9() != mLastPlayerPOS)
+            {
+                mCurrentFloor.ExitPlayer (mLastPlayerPOS);
+
+                mCurrentFloor.EnterPlayer(mLastPlayerPOS = mEyePlayer.GetPOSITION9());
+            }
+        }
         Vector2[] topMovePoint = mCurrentFloor.GetMovePoints(POSITION3.TOP);
         Vector2[] midMovePoint = mCurrentFloor.GetMovePoints(POSITION3.MID);
         Vector2[] botMovePoint = mCurrentFloor.GetMovePoints(POSITION3.BOT);

@@ -25,9 +25,35 @@ public class Player : MonoBehaviour, IObject, ICombat
     [SerializeField]
     private Item mEquipItem;
 
+    public POSITION3 GetPOSITION9()
+    {
+        switch (mLocation9)
+        {
+            case DIRECTION9.TOP_LEFT:
+            case DIRECTION9.TOP:
+            case DIRECTION9.TOP_RIGHT:
+                return POSITION3.TOP;
+
+            case DIRECTION9.MID_LEFT:
+            case DIRECTION9.MID:
+            case DIRECTION9.MID_RIGHT:
+                return POSITION3.MID;
+
+            case DIRECTION9.BOT_LEFT:
+            case DIRECTION9.BOT:
+            case DIRECTION9.BOT_RIGHT:
+                return POSITION3.BOT;
+
+            default:
+                break;
+        }
+        Debug.Log("Value Error");
+        return POSITION3.NONE;
+    }
+
     private void Start()
     {
-        Castle.Instnace.PlayerLocateFloor(0);
+        Castle.Instnace.PlayerRegister(0, this);
 
         mLocation9 = DIRECTION9.MID;
 
