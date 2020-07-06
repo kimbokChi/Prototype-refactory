@@ -26,9 +26,7 @@ public class Castle : Singleton<Castle>
             mCurrentFloor = mFloors[floor];
 
             mEyePlayer = player;
-
-            mLastPlayerPOS = POSITION3.BOT;
-
+            
             Renew();
         }
     }
@@ -39,12 +37,7 @@ public class Castle : Singleton<Castle>
 
         if (mEyePlayer)
         {
-            if (mEyePlayer.GetPOSITION9() != mLastPlayerPOS)
-            {
-                mCurrentFloor.ExitPlayer (mLastPlayerPOS);
-
-                mCurrentFloor.EnterPlayer(mLastPlayerPOS = mEyePlayer.GetPOSITION9());
-            }
+            RenewPlayerPOS();
         }
         Vector2[] topMovePoint = mCurrentFloor.GetMovePoints(POSITION3.TOP);
         Vector2[] midMovePoint = mCurrentFloor.GetMovePoints(POSITION3.MID);
@@ -58,10 +51,26 @@ public class Castle : Singleton<Castle>
         };
     }
 
+    private void RenewPlayerPOS()
+    {
+        if(mLastPlayerPOS != mEyePlayer.GetPOSITION9())
+        {
+            if (mLastPlayerPOS != POSITION3.NONE)
+            {
+                mCurrentFloor.ExitPlayer(mLastPlayerPOS);
+            }
+            mCurrentFloor.EnterPlayer(mLastPlayerPOS = mEyePlayer.GetPOSITION9());
+        }
+    }
+
     private IEnumerator CR_update()
     {
         while (mIsActivation)
         {
+            if (mEyePlayer)
+            {
+                RenewPlayerPOS();
+            }
             if (mCurrentFloor)
             {
                 mCurrentFloor.IUpdate();
