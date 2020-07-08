@@ -16,6 +16,8 @@ public class RoomLibrary : Singleton<RoomLibrary>
             if (!mLibrary.ContainsKey(iterator.RoomNumber))
             {
                 mLibrary.Add(iterator.RoomNumber, iterator);
+
+                Debug.Log(iterator.gameObject.name);
             }
         }
     }
