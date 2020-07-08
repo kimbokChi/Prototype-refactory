@@ -10,6 +10,12 @@ public class Room : MonoBehaviour
 
     private Floor mMasterFloor;
 
+                     public  ROOM_NUMBER  RoomNumber
+    {
+        get { return mRoomNumber; }
+    }
+    [SerializeField] private ROOM_NUMBER mRoomNumber;
+
     public void IInit(Floor masterFloor)
     {
         mMasterFloor = masterFloor;
