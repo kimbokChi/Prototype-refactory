@@ -53,8 +53,6 @@ public class Player : MonoBehaviour, IObject, ICombat
 
     private void Start()
     {
-        Castle.Instnace.PlayerRegister(0, this);
-
         mLocation9 = DIRECTION9.MID;
 
         mEquipItem.Init();

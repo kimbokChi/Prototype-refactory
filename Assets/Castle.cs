@@ -14,20 +14,28 @@ public class Castle : Singleton<Castle>
     [SerializeField] private   Floor   mCurrentFloor;
                      private Vector2[] mMovePoints;
 
+
     public Vector2 GetMovePoint(DIRECTION9 direction)
     {
         return mMovePoints[(int)direction];
     }
 
-    public void PlayerRegister(uint floor, Player player)
-    {
-        if (mFloors[floor] != null)
-        {
-            mCurrentFloor = mFloors[floor];
 
-            mEyePlayer = player;
-            
-            Renew();
+    private void BuildCastle()
+    {
+        for (int i = 0; i < mFloors.Length; ++i)
+        {
+            mFloors[i].BuildRoom();
+        }
+    }
+
+    private void PlayerRegister(int floor)
+    {
+        if (mFloors[floor - 1] != null)
+        {
+            mCurrentFloor = mFloors[floor - 1];
+
+            mEyePlayer = FindObjectOfType(typeof(Player)) as Player;
         }
     }
 
@@ -50,10 +58,9 @@ public class Castle : Singleton<Castle>
             botMovePoint[0], botMovePoint[1], botMovePoint[2]
         };
     }
-
     private void RenewPlayerPOS()
     {
-        if(mLastPlayerPOS != mEyePlayer.GetPOSITION9())
+        if (mLastPlayerPOS != mEyePlayer.GetPOSITION9())
         {
             if (mLastPlayerPOS != POSITION3.NONE)
             {
@@ -80,18 +87,14 @@ public class Castle : Singleton<Castle>
         yield break;
     }
 
-    private void BuildCastle()
-    {
-        for (int i = 0; i < mFloors.Length; ++i)
-        {
-            mFloors[i].BuildRoom();
-        }
-    }
-
     private void Start()
     {
-        StartCoroutine(CR_update());
-
         BuildCastle();
+
+        PlayerRegister(1);
+
+        Renew();
+
+        StartCoroutine(CR_update());
     }
 }
