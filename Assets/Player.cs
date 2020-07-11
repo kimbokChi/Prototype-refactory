@@ -22,6 +22,8 @@ public class Player : MonoBehaviour, IObject, ICombat
     private float mHealthPoint = 100.0f;
     private float mDefensivePower = 1.0f;
 
+    private bool mIsElevation = false;
+
     [SerializeField]
     private Item mEquipItem;
 
@@ -91,6 +93,8 @@ public class Player : MonoBehaviour, IObject, ICombat
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow))
             {
+                mIsElevation = (GetPOSITION9() == POSITION3.TOP);
+
                 mLocation9 = ((int)mLocation9 - 3) < 0 ? mLocation9 : mLocation9 - 3;
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -101,7 +105,12 @@ public class Player : MonoBehaviour, IObject, ICombat
             {
                 mLocation9 = (int)mLocation9 % 3 == 2 ? mLocation9 : mLocation9 + 1;
             }
-            mCRmove = CR_move(Castle.Instnace.GetMovePoint(mLocation9));
+
+            if (mIsElevation)
+            {
+                 mCRmove = CR_move(Castle.Instnace.NextFloor());
+            }
+            else mCRmove = CR_move(Castle.Instnace.GetMovePoint(mLocation9));
 
             StartCoroutine(mCRmove);
         }
@@ -129,6 +138,23 @@ public class Player : MonoBehaviour, IObject, ICombat
         mCRmove = null;
         mEquipItem.UseItem(ITEM_KEYWORD.MOVE_END);
 
+        if (mIsElevation)
+        {
+            switch (mLocation9)
+            {
+                case DIRECTION9.TOP_LEFT:
+                    mLocation9 = DIRECTION9.BOT_LEFT;
+                    break;
+                case DIRECTION9.TOP:
+                    mLocation9 = DIRECTION9.BOT;
+                    break;
+                case DIRECTION9.TOP_RIGHT:
+                    mLocation9 = DIRECTION9.BOT_RIGHT;
+                    break;
+            }
+            Castle.Instnace.AliveNextFloor();
+            mIsElevation = false;
+        }
         yield break;
     }
 

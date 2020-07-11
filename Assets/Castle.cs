@@ -20,6 +20,17 @@ public class Castle : Singleton<Castle>
         return mMovePoints[(int)direction];
     }
 
+    public Vector2 NextFloor()
+    {
+        return mFloors[mCurrentFloor.PairOfStairs].GetMovePoints(POSITION3.BOT)[1];
+    }
+    public void AliveNextFloor()
+    {
+        mCurrentFloor = mFloors[mCurrentFloor.PairOfStairs];
+
+        Renew();
+    }
+
 
     private void BuildCastle()
     {
