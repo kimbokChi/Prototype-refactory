@@ -12,6 +12,11 @@ public class Floor : MonoBehaviour
     [Tooltip("가장 높이있는 방일수록 가장 작은 인덱스에 저장해 주세요!")]
     private Transform[] mRoomPoints = new Transform[3];
 
+    public  int  PairOfStairs
+    { get { return mPairOfStairs; } }
+    [SerializeField]
+    private int mPairOfStairs;
+
     public void IInit()
     {
         mMemberRooms[0].IInit(this);

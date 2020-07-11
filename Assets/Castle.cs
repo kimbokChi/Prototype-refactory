@@ -10,7 +10,7 @@ public class Castle : Singleton<Castle>
 
     private POSITION3 mLastPlayerPOS = POSITION3.NONE;
 
-    [SerializeField] private   Floor[] mFloors = new Floor[1];
+    [SerializeField] private   Floor[] mFloors;
     [SerializeField] private   Floor   mCurrentFloor;
                      private Vector2[] mMovePoints;
 
