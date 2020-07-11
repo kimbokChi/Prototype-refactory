@@ -8,6 +8,10 @@ public class Floor : MonoBehaviour
     [Tooltip("가장 높이있는 방일수록 가장 작은 인덱스에 저장해 주세요!")]
     private Room[] mMemberRooms = new Room[3];
 
+    [SerializeField]
+    [Tooltip("가장 높이있는 방일수록 가장 작은 인덱스에 저장해 주세요!")]
+    private Transform[] mRoomPoints = new Transform[3];
+
     public void IInit()
     {
         mMemberRooms[0].IInit(this);
@@ -20,6 +24,14 @@ public class Floor : MonoBehaviour
         mMemberRooms[0].IUpdate();
         mMemberRooms[1].IUpdate();
         mMemberRooms[2].IUpdate();
+    }
+
+    public void BuildRoom()
+    {
+        for (int i = 0; i < mMemberRooms.Length; ++i)
+        {
+            mMemberRooms[i] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[i].position, Quaternion.identity);
+        }
     }
 
     public void EnterPlayer(POSITION3 position)

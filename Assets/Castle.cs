@@ -10,7 +10,7 @@ public class Castle : Singleton<Castle>
 
     private POSITION3 mLastPlayerPOS = POSITION3.NONE;
 
-    [SerializeField] private   Floor[] mFloors = new Floor[10];
+    [SerializeField] private   Floor[] mFloors = new Floor[1];
     [SerializeField] private   Floor   mCurrentFloor;
                      private Vector2[] mMovePoints;
 
@@ -80,8 +80,18 @@ public class Castle : Singleton<Castle>
         yield break;
     }
 
+    private void BuildCastle()
+    {
+        for (int i = 0; i < mFloors.Length; ++i)
+        {
+            mFloors[i].BuildRoom();
+        }
+    }
+
     private void Start()
     {
         StartCoroutine(CR_update());
+
+        BuildCastle();
     }
 }
