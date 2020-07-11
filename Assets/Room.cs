@@ -23,7 +23,6 @@ public class Room : MonoBehaviour
     {
         mMasterFloor = masterFloor;
 
-        gameObject.SetActive(true);
         IObject Object;
 
         for (int i = 0; i < transform.childCount; ++i)
@@ -35,6 +34,7 @@ public class Room : MonoBehaviour
                 Object.IInit();
             }
         }
+        gameObject.SetActive(false);
     }
 
     public void IUpdate()
