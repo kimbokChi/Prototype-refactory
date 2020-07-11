@@ -16,16 +16,33 @@ public class Room : MonoBehaviour
     }
     [SerializeField] private ROOM_NUMBER mRoomNumber;
 
+    // 해당 객실에 귀속된 오브젝트들을 저장합니다
+    private List<IObject> mObjects = new List<IObject>();
+
     public void IInit(Floor masterFloor)
     {
         mMasterFloor = masterFloor;
 
         gameObject.SetActive(true);
+        IObject Object;
+
+        for (int i = 0; i < transform.childCount; ++i)
+        {
+            if (transform.GetChild(i).TryGetComponent(out Object))
+            {
+                mObjects.Add(Object);
+
+                Object.IInit();
+            }
+        }
     }
 
     public void IUpdate()
     {
-    
+        for (int i = 0; i < mObjects.Count; ++i)
+        {
+            mObjects[i].IUpdate();
+        }
     }
 
     public void EnterPlayer()
