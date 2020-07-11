@@ -34,6 +34,5 @@ public enum ROOM_NUMBER
     ZERO_ZERO_ZERO,
     ZERO_ZERO_ONE,
     ZERO_ZERO_TWO,
-    ZERO_ZERO_THREE,
-    ZERO_ZERO_FOUR,
+    END
 }
