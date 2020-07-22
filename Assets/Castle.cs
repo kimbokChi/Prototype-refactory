@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,15 +23,39 @@ public class Castle : Singleton<Castle>
 
     public Vector2 NextFloor()
     {
-        return mFloors[mCurrentFloor.PairOfStairs].GetMovePoints(LPOSITION3.BOT)[1];
+        int playerPOS = (int)mEyePlayer.GetTPOSITION3();
+
+        Floor moveFloor;
+
+        // 더이상 위 지역으로 이동할 수 없을때
+        if (IsIndexOutFloor(mCurrentFloor.PairOfStairs))
+        {
+            moveFloor = mFloors[mCurrentFloor.PairOfStairs - 1];
+
+            return moveFloor.GetMovePoints(LPOSITION3.TOP)[playerPOS];
+        }
+        else
+        {
+            moveFloor = mFloors[mCurrentFloor.PairOfStairs];
+
+            return moveFloor.GetMovePoints(LPOSITION3.BOT)[playerPOS];
+        }
     }
     public void AliveNextFloor()
     {
-        mCurrentFloor = mFloors[mCurrentFloor.PairOfStairs];
+        // 위 지역으로 이동할 수 있을때
+        if (!IsIndexOutFloor(mCurrentFloor.PairOfStairs)) 
+        {
+            mCurrentFloor = mFloors[mCurrentFloor.PairOfStairs];
 
-        Renew();
+            Renew();
+        }
     }
 
+    private bool IsIndexOutFloor(int floorNumber)
+    {
+        return (mFloors.Length <= floorNumber);
+    }
 
     private void BuildCastle()
     {
