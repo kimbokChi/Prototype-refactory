@@ -8,9 +8,14 @@
     
     END
 }
-public enum POSITION3
+public enum LPOSITION3
 {
     TOP, MID, BOT, NONE
+}
+
+public enum TPOSITION3
+{
+    LEFT, MID, RIGHT, NONE
 }
 
 /* README

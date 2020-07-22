@@ -27,31 +27,58 @@ public class Player : MonoBehaviour, IObject, ICombat
     [SerializeField]
     private Item mEquipItem;
 
-    public POSITION3 GetPOSITION9()
+    public LPOSITION3 GetLPOSITION3()
     {
         switch (mLocation9)
         {
             case DIRECTION9.TOP_LEFT:
             case DIRECTION9.TOP:
             case DIRECTION9.TOP_RIGHT:
-                return POSITION3.TOP;
+                return LPOSITION3.TOP;
 
             case DIRECTION9.MID_LEFT:
             case DIRECTION9.MID:
             case DIRECTION9.MID_RIGHT:
-                return POSITION3.MID;
+                return LPOSITION3.MID;
 
             case DIRECTION9.BOT_LEFT:
             case DIRECTION9.BOT:
             case DIRECTION9.BOT_RIGHT:
-                return POSITION3.BOT;
+                return LPOSITION3.BOT;
 
             default:
                 break;
         }
         Debug.Log("Value Error");
-        return POSITION3.NONE;
+        return LPOSITION3.NONE;
     }
+
+    public TPOSITION3 GetTPOSITION3()
+    {
+        switch (mLocation9)
+        {
+            case DIRECTION9.TOP_LEFT:
+            case DIRECTION9.MID_LEFT:
+            case DIRECTION9.BOT_LEFT:
+                return TPOSITION3.LEFT;
+
+            case DIRECTION9.TOP:
+            case DIRECTION9.MID:
+            case DIRECTION9.BOT:
+                return TPOSITION3.MID;
+
+            case DIRECTION9.TOP_RIGHT:
+            case DIRECTION9.MID_RIGHT:
+            case DIRECTION9.BOT_RIGHT:
+                return TPOSITION3.RIGHT;
+
+            default:
+                break;
+        }
+        Debug.Log("Value Error");
+        return TPOSITION3.NONE;
+    }
+
 
     private void Start()
     {
@@ -93,7 +120,7 @@ public class Player : MonoBehaviour, IObject, ICombat
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                mIsElevation = (GetPOSITION9() == POSITION3.TOP);
+                mIsElevation = (GetLPOSITION3() == LPOSITION3.TOP);
 
                 mLocation9 = ((int)mLocation9 - 3) < 0 ? mLocation9 : mLocation9 - 3;
             }

@@ -8,7 +8,7 @@ public class Castle : Singleton<Castle>
 
     private Player mEyePlayer;
 
-    private POSITION3 mLastPlayerPOS = POSITION3.NONE;
+    private LPOSITION3 mLastPlayerPOS = LPOSITION3.NONE;
 
     [SerializeField] private   Floor[] mFloors;
     [SerializeField] private   Floor   mCurrentFloor;
@@ -22,7 +22,7 @@ public class Castle : Singleton<Castle>
 
     public Vector2 NextFloor()
     {
-        return mFloors[mCurrentFloor.PairOfStairs].GetMovePoints(POSITION3.BOT)[1];
+        return mFloors[mCurrentFloor.PairOfStairs].GetMovePoints(LPOSITION3.BOT)[1];
     }
     public void AliveNextFloor()
     {
@@ -58,9 +58,9 @@ public class Castle : Singleton<Castle>
         {
             RenewPlayerPOS();
         }
-        Vector2[] topMovePoint = mCurrentFloor.GetMovePoints(POSITION3.TOP);
-        Vector2[] midMovePoint = mCurrentFloor.GetMovePoints(POSITION3.MID);
-        Vector2[] botMovePoint = mCurrentFloor.GetMovePoints(POSITION3.BOT);
+        Vector2[] topMovePoint = mCurrentFloor.GetMovePoints(LPOSITION3.TOP);
+        Vector2[] midMovePoint = mCurrentFloor.GetMovePoints(LPOSITION3.MID);
+        Vector2[] botMovePoint = mCurrentFloor.GetMovePoints(LPOSITION3.BOT);
 
         mMovePoints = new Vector2[(int)DIRECTION9.END]
         {
@@ -71,13 +71,13 @@ public class Castle : Singleton<Castle>
     }
     private void RenewPlayerPOS()
     {
-        if (mLastPlayerPOS != mEyePlayer.GetPOSITION9())
+        if (mLastPlayerPOS != mEyePlayer.GetLPOSITION3())
         {
-            if (mLastPlayerPOS != POSITION3.NONE)
+            if (mLastPlayerPOS != LPOSITION3.NONE)
             {
                 mCurrentFloor.ExitPlayer(mLastPlayerPOS);
             }
-            mCurrentFloor.EnterPlayer(mLastPlayerPOS = mEyePlayer.GetPOSITION9());
+            mCurrentFloor.EnterPlayer(mLastPlayerPOS = mEyePlayer.GetLPOSITION3());
         }
     }
 

@@ -41,14 +41,14 @@ public class Floor : MonoBehaviour
         }
     }
 
-    public void EnterPlayer(POSITION3 position)
+    public void EnterPlayer(LPOSITION3 position)
     {
         // 플레이어가 해당 층에 존재한다! [강림]
         mMemberRooms[(int)position].EnterPlayer();
 
         Debug.Log("강림" + mMemberRooms[(int)position].gameObject.name);
     }
-    public void ExitPlayer(POSITION3 position)
+    public void ExitPlayer(LPOSITION3 position)
     {
         // 플레이어가 나갔다..
         mMemberRooms[(int)position].ExitPlayer();
@@ -56,7 +56,7 @@ public class Floor : MonoBehaviour
         Debug.Log("퇴장!" + mMemberRooms[(int)position].gameObject.name);
     }
 
-    public Vector2[] GetMovePoints(POSITION3 position)
+    public Vector2[] GetMovePoints(LPOSITION3 position)
     {
         return mMemberRooms[(int)position].GetMovePoints();
     }
