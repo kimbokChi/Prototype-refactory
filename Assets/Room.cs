@@ -47,12 +47,10 @@ public class Room : MonoBehaviour
 
     public void EnterPlayer()
     {
-        Debug.Log("플레ㅣ어께서 존재하신다!" + gameObject.name);
         // 플레이어가 해당 방에 존재한다!
     }
     public void ExitPlayer()
     {
-        Debug.Log("이젠 아니야..." + gameObject.name);
         // 플레이어가 나갔다..
     }
 

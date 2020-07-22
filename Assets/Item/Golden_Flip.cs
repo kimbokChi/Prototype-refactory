@@ -11,6 +11,5 @@ public class Golden_Flip : Item
 
     public override void UseItem(ITEM_KEYWORD keyword)
     {
-        Debug.Log(keyword.ToString());
     }
 }
