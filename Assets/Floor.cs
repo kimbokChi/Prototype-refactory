@@ -12,10 +12,10 @@ public class Floor : MonoBehaviour
     [Tooltip("가장 높이있는 방일수록 가장 작은 인덱스에 저장해 주세요!")]
     private Transform[] mRoomPoints = new Transform[3];
 
-    public  int  PairOfStairs
-    { get { return mPairOfStairs; } }
+    public  int  FloorIndex
+    { get { return mFloorIndex; } }
     [SerializeField]
-    private int mPairOfStairs;
+    private int mFloorIndex;
 
     public void IInit()
     {
@@ -31,6 +31,11 @@ public class Floor : MonoBehaviour
         mMemberRooms[2].IUpdate();
     }
 
+    #region READ
+    /// <summary>
+    /// 해당 층을 구성할 방 객체들을 생성합니다.
+    /// </summary>
+    #endregion
     public void BuildRoom()
     {
         for (int i = 0; i < mMemberRooms.Length; ++i)
@@ -43,15 +48,18 @@ public class Floor : MonoBehaviour
 
     public void EnterPlayer(LPOSITION3 position)
     {
-        // 플레이어가 해당 층에 존재한다! [강림]
         mMemberRooms[(int)position].EnterPlayer();
     }
     public void ExitPlayer(LPOSITION3 position)
     {
-        // 플레이어가 나갔다..
         mMemberRooms[(int)position].ExitPlayer();
     }
 
+    #region READ
+    /// <summary>
+    /// 지정한 방에 존재하는 이동지점들을 반환합니다.
+    /// </summary>
+    #endregion
     public Vector2[] GetMovePoints(LPOSITION3 position)
     {
         return mMemberRooms[(int)position].GetMovePoints();
