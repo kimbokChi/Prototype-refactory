@@ -16,26 +16,41 @@ public class Room : MonoBehaviour
     }
     [SerializeField] private ROOM_NUMBER mRoomNumber;
 
+    // 해당 객실에 귀속된 오브젝트들을 저장합니다
+    private List<IObject> mObjects = new List<IObject>();
+
     public void IInit(Floor masterFloor)
     {
         mMasterFloor = masterFloor;
 
-        gameObject.SetActive(true);
+        IObject Object;
+
+        for (int i = 0; i < transform.childCount; ++i)
+        {
+            if (transform.GetChild(i).TryGetComponent(out Object))
+            {
+                mObjects.Add(Object);
+
+                Object.IInit();
+            }
+        }
+        gameObject.SetActive(false);
     }
 
     public void IUpdate()
     {
-    
+        for (int i = 0; i < mObjects.Count; ++i)
+        {
+            mObjects[i].IUpdate();
+        }
     }
 
     public void EnterPlayer()
     {
-        Debug.Log("플레ㅣ어께서 존재하신다!" + gameObject.name);
         // 플레이어가 해당 방에 존재한다!
     }
     public void ExitPlayer()
     {
-        Debug.Log("이젠 아니야..." + gameObject.name);
         // 플레이어가 나갔다..
     }
 
