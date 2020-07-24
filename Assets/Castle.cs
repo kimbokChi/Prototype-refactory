@@ -27,27 +27,36 @@ public class Castle : Singleton<Castle>
 
     #region READ
     /// <summary>
-    /// 다음 층의 위치를 반환합니다.
+    /// 다음 층으로 이동할 수 있는지의 여부를 반환합니다.
     /// </summary>
     #endregion 
-    public Vector2 GetNextPoint()
+    public bool CanNextPoint()
     {
-        int playerPOS = (int)mPlayer.GetTPOSITION3();
+        return !(IsIndexOutFloor(mPlayerFloor.FloorIndex));
+    }
 
-        Floor moveFloor;
-
-        // 더이상 위 지역으로 이동할 수 없을때
+    #region READ
+    /// <summary>
+    /// 다음 층으로 이동할 수 있는지의 여부를 반환합니다.
+    /// </summary>
+    /// <param name="point">다음층의 이동 지점을 저장할 변수를 사용합니다</param>
+    /// <returns></returns>
+    #endregion 
+    public bool CanNextPoint(out Vector2 point)
+    {
         if (IsIndexOutFloor(mPlayerFloor.FloorIndex))
         {
-            moveFloor = mFloors[mPlayerFloor.FloorIndex - 1];
-
-            return moveFloor.GetMovePoints(LPOSITION3.TOP)[playerPOS];
+            point = Vector2.zero; return false;
         }
         else
         {
-            moveFloor = mFloors[mPlayerFloor.FloorIndex];
+            Floor moveFloor = mFloors[mPlayerFloor.FloorIndex];
 
-            return moveFloor.GetMovePoints(LPOSITION3.BOT)[playerPOS];
+            int playerPOS = (int)mPlayer.GetTPOSITION3();
+
+            point = moveFloor.GetMovePoints(LPOSITION3.BOT)[playerPOS];
+
+            return true;
         }
     }
 
