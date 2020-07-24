@@ -7,51 +7,71 @@ public class Castle : Singleton<Castle>
 {
     private bool mIsActivation = true;
 
-    private Player mEyePlayer;
+    private Player mPlayer;
 
     private LPOSITION3 mLastPlayerPOS = LPOSITION3.NONE;
 
     [SerializeField] private   Floor[] mFloors;
-    [SerializeField] private   Floor   mCurrentFloor;
+    [SerializeField] private   Floor   mPlayerFloor;
                      private Vector2[] mMovePoints;
 
-
+    #region READ
+    /// <summary>
+    /// 현재 층안에 존재하는 이동 지점의 위치를 반한합니다.
+    /// </summary>
+    #endregion 
     public Vector2 GetMovePoint(DIRECTION9 direction)
     {
         return mMovePoints[(int)direction];
     }
 
-    public Vector2 NextFloor()
+    #region READ
+    /// <summary>
+    /// 다음 층의 위치를 반환합니다.
+    /// </summary>
+    #endregion 
+    public Vector2 GetNextPoint()
     {
-        int playerPOS = (int)mEyePlayer.GetTPOSITION3();
+        int playerPOS = (int)mPlayer.GetTPOSITION3();
 
         Floor moveFloor;
 
         // 더이상 위 지역으로 이동할 수 없을때
-        if (IsIndexOutFloor(mCurrentFloor.PairOfStairs))
+        if (IsIndexOutFloor(mPlayerFloor.FloorIndex))
         {
-            moveFloor = mFloors[mCurrentFloor.PairOfStairs - 1];
+            moveFloor = mFloors[mPlayerFloor.FloorIndex - 1];
 
             return moveFloor.GetMovePoints(LPOSITION3.TOP)[playerPOS];
         }
         else
         {
-            moveFloor = mFloors[mCurrentFloor.PairOfStairs];
+            moveFloor = mFloors[mPlayerFloor.FloorIndex];
 
             return moveFloor.GetMovePoints(LPOSITION3.BOT)[playerPOS];
         }
     }
-    public void AliveNextFloor()
+
+    #region READ
+    /// <summary>
+    /// 층간이동으로 플레이어가 이동한 층을 활성화시킵니다.
+    /// </summary>
+    #endregion 
+    public void AliveNextPoint()
     {
         // 위 지역으로 이동할 수 있을때
-        if (!IsIndexOutFloor(mCurrentFloor.PairOfStairs)) 
+        if (!IsIndexOutFloor(mPlayerFloor.FloorIndex)) 
         {
-            mCurrentFloor = mFloors[mCurrentFloor.PairOfStairs];
+            mPlayerFloor = mFloors[mPlayerFloor.FloorIndex];
 
             Renew();
         }
     }
 
+    #region _MEMBER
+    /// <summary>
+    /// 멤버함수 : 지정한 인덱스의 층이 존재하는지의 여부를 반환합니다.
+    /// </summary>
+    #endregion 
     private bool IsIndexOutFloor(int floorNumber)
     {
         return (mFloors.Length <= floorNumber);
@@ -65,27 +85,33 @@ public class Castle : Singleton<Castle>
         }
     }
 
-    private void PlayerRegister(int floor)
+    private void PlayerCheck(int floor)
     {
         if (mFloors[floor - 1] != null)
         {
-            mCurrentFloor = mFloors[floor - 1];
+            mPlayerFloor = mFloors[floor - 1];
 
-            mEyePlayer = FindObjectOfType(typeof(Player)) as Player;
+            mPlayer = FindObjectOfType(typeof(Player)) as Player;
         }
     }
 
+    #region _MEMBER
+    /// <summary>
+    /// 플레이어가 존재하는 층인 mPlayerFloor를 가동시키고,
+    /// <para>멤버변수들의 정보를 mPlayerFloor에 대한 정보로 갱신합니다.</para>
+    /// </summary>
+    #endregion 
     private void Renew()
     {
-        mCurrentFloor.IInit();
+        mPlayerFloor.IInit();
 
-        if (mEyePlayer)
+        if (mPlayer)
         {
             RenewPlayerPOS();
         }
-        Vector2[] topMovePoint = mCurrentFloor.GetMovePoints(LPOSITION3.TOP);
-        Vector2[] midMovePoint = mCurrentFloor.GetMovePoints(LPOSITION3.MID);
-        Vector2[] botMovePoint = mCurrentFloor.GetMovePoints(LPOSITION3.BOT);
+        Vector2[] topMovePoint = mPlayerFloor.GetMovePoints(LPOSITION3.TOP);
+        Vector2[] midMovePoint = mPlayerFloor.GetMovePoints(LPOSITION3.MID);
+        Vector2[] botMovePoint = mPlayerFloor.GetMovePoints(LPOSITION3.BOT);
 
         mMovePoints = new Vector2[(int)DIRECTION9.END]
         {
@@ -94,15 +120,21 @@ public class Castle : Singleton<Castle>
             botMovePoint[0], botMovePoint[1], botMovePoint[2]
         };
     }
+    #region _MEMBER
+    /// <summary>
+    /// 현재 플레이어가 있는 층을 가리키는 mPlayerFloor를 가동시키고,
+    /// <para>멤버변수들의 정보를 mPlayerFloor에 대한 정보로 갱신합니다.</para>
+    /// </summary>
+    #endregion
     private void RenewPlayerPOS()
     {
-        if (mLastPlayerPOS != mEyePlayer.GetLPOSITION3())
+        if (mLastPlayerPOS != mPlayer.GetLPOSITION3())
         {
             if (mLastPlayerPOS != LPOSITION3.NONE)
             {
-                mCurrentFloor.ExitPlayer(mLastPlayerPOS);
+                mPlayerFloor.ExitPlayer(mLastPlayerPOS);
             }
-            mCurrentFloor.EnterPlayer(mLastPlayerPOS = mEyePlayer.GetLPOSITION3());
+            mPlayerFloor.EnterPlayer(mLastPlayerPOS = mPlayer.GetLPOSITION3());
         }
     }
 
@@ -110,13 +142,13 @@ public class Castle : Singleton<Castle>
     {
         while (mIsActivation)
         {
-            if (mEyePlayer)
+            if (mPlayer)
             {
                 RenewPlayerPOS();
             }
-            if (mCurrentFloor)
+            if (mPlayerFloor)
             {
-                mCurrentFloor.IUpdate();
+                mPlayerFloor.IUpdate();
             }
             yield return null;
         }
@@ -127,7 +159,7 @@ public class Castle : Singleton<Castle>
     {
         BuildCastle();
 
-        PlayerRegister(1);
+        PlayerCheck(1);
 
         Renew();
 

@@ -188,7 +188,7 @@ MonoBehaviour:
   - {fileID: 90462402}
   - {fileID: 1012885842}
   - {fileID: 411899834}
-  mPairOfStairs: 2
+  mFloorIndex: 2
 --- !u!4 &71019849
 Transform:
   m_ObjectHideFlags: 0
@@ -413,7 +413,7 @@ MonoBehaviour:
   - {fileID: 1203827879}
   - {fileID: 71019848}
   - {fileID: 1419833728}
-  mCurrentFloor: {fileID: 0}
+  mPlayerFloor: {fileID: 0}
 --- !u!1 &307075658
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,7 +1355,7 @@ MonoBehaviour:
   - {fileID: 1438309101}
   - {fileID: 1235611344}
   - {fileID: 996383012}
-  mPairOfStairs: 1
+  mFloorIndex: 1
 --- !u!4 &1203827880
 Transform:
   m_ObjectHideFlags: 0
@@ -1440,7 +1440,7 @@ MonoBehaviour:
   - {fileID: 369620874}
   - {fileID: 371095165}
   - {fileID: 1524936952}
-  mPairOfStairs: 3
+  mFloorIndex: 3
 --- !u!4 &1419833729
 Transform:
   m_ObjectHideFlags: 0

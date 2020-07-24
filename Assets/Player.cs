@@ -135,7 +135,7 @@ public class Player : MonoBehaviour, IObject, ICombat
 
             if (mIsElevation)
             {
-                 mCRmove = CR_move(Castle.Instnace.NextFloor());
+                 mCRmove = CR_move(Castle.Instnace.GetNextPoint());
             }
             else mCRmove = CR_move(Castle.Instnace.GetMovePoint(mLocation9));
 
@@ -179,7 +179,7 @@ public class Player : MonoBehaviour, IObject, ICombat
                     mLocation9 = DIRECTION9.BOT_RIGHT;
                     break;
             }
-            Castle.Instnace.AliveNextFloor();
+            Castle.Instnace.AliveNextPoint();
             mIsElevation = false;
         }
         yield break;
