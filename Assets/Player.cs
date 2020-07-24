@@ -22,7 +22,7 @@ public class Player : MonoBehaviour, IObject, ICombat
     private float mHealthPoint = 100.0f;
     private float mDefensivePower = 1.0f;
 
-    private bool mIsElevation = false;
+    private bool mCanElevation = false;
 
     [SerializeField]
     private Item mEquipItem;
@@ -120,9 +120,15 @@ public class Player : MonoBehaviour, IObject, ICombat
             }
             else if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                mIsElevation = (GetLPOSITION3() == LPOSITION3.TOP);
+                if (GetLPOSITION3() == LPOSITION3.TOP)
+                {
+                    mCanElevation = Castle.Instnace.CanNextPoint();
+                }
 
-                mLocation9 = ((int)mLocation9 - 3) < 0 ? mLocation9 : mLocation9 - 3;
+                if (!mCanElevation)
+                {
+                    mLocation9 = ((int)mLocation9 - 3) < 0 ? mLocation9 : mLocation9 - 3;
+                }
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
@@ -133,13 +139,21 @@ public class Player : MonoBehaviour, IObject, ICombat
                 mLocation9 = (int)mLocation9 % 3 == 2 ? mLocation9 : mLocation9 + 1;
             }
 
-            if (mIsElevation)
+            if (mCanElevation)
             {
-                 mCRmove = CR_move(Castle.Instnace.GetNextPoint());
+                Vector2 nextPoint;
+
+                if (Castle.Instnace.CanNextPoint(out nextPoint))
+                {
+                    mCRmove = CR_move(nextPoint);
+                }
             }
             else mCRmove = CR_move(Castle.Instnace.GetMovePoint(mLocation9));
 
-            StartCoroutine(mCRmove);
+            if (mCRmove != null)
+            {
+                StartCoroutine(mCRmove);
+            }
         }
     }
 
@@ -165,7 +179,7 @@ public class Player : MonoBehaviour, IObject, ICombat
         mCRmove = null;
         mEquipItem.UseItem(ITEM_KEYWORD.MOVE_END);
 
-        if (mIsElevation)
+        if (mCanElevation)
         {
             switch (mLocation9)
             {
@@ -180,7 +194,7 @@ public class Player : MonoBehaviour, IObject, ICombat
                     break;
             }
             Castle.Instnace.AliveNextPoint();
-            mIsElevation = false;
+            mCanElevation = false;
         }
         yield break;
     }
