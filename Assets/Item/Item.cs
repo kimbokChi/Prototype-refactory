@@ -4,12 +4,6 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour
 {
-    public    float  WeaponRange
-    {
-        get { return mWeaponRange; }
-    }
-    protected float mWeaponRange = 0.0f;
-
     public    Sprite  Sprite
     {
         get
@@ -25,6 +19,22 @@ public abstract class Item : MonoBehaviour
         }
     }
     protected Sprite mSprite;
+
+    public virtual ITEM_RATING RATING
+    {
+        get
+        {
+            return ITEM_RATING.COMMON;
+        }
+    }
+
+    public virtual float WeaponRange
+    {
+        get 
+        {
+            return 1.0f; 
+        }
+    }
 
     public abstract void Init();
 
