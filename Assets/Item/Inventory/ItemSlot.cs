@@ -11,6 +11,8 @@ public class ItemSlot : MonoBehaviour
     
     private Image mImage;
 
+    public  SLOT_TYPE  SLOT_TYPE
+    { get { return mSLOT_TYPE; } }
     private SLOT_TYPE mSLOT_TYPE;
 
     public void Init(SLOT_TYPE type)

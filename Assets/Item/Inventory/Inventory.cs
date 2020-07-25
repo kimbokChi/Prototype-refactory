@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -35,5 +36,36 @@ public class Inventory : MonoBehaviour
             }
         }
         Debug.Log("더이상 아이템을 담을수 없습니다!");
+    }
+
+    public void UseItem(ITEM_KEYWORD KEYWORD)
+    {
+        mWeaponSlot.ContainItem.WeaponUse(KEYWORD);
+
+        for (int i = 0; i < mAccessorySlot.Length; ++i)
+        {
+            mAccessorySlot[i].ContainItem.AccessoryUse(KEYWORD);
+        }
+    }
+
+    private IEnumerable<ItemSlot> EGetSlots()
+    {
+        int iterIndex = 0;
+
+        yield return mWeaponSlot;
+
+        while (iterIndex < mAccessorySlot.Length)
+        {
+            yield return mAccessorySlot[iterIndex++];
+        }
+
+        iterIndex = 0;
+        
+        while (iterIndex < mContainer.Length)
+        {
+            yield return mContainer[iterIndex++];
+        }
+
+        yield break;
     }
 }
