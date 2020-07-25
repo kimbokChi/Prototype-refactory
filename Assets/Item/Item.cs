@@ -12,5 +12,6 @@ public abstract class Item : MonoBehaviour
 
     public abstract void Init();
 
-    public abstract void UseItem(ITEM_KEYWORD keyword);
+    public abstract void AccessoryUse(ITEM_KEYWORD keyword);
+    public abstract void WeaponUse(ITEM_KEYWORD keyword);
 }

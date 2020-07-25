@@ -105,7 +105,7 @@ public class Player : MonoBehaviour, IObject, ICombat
         {
             if (mWaitATK.IsOver())
             {
-                mEquipItem.UseItem(ITEM_KEYWORD.STRUCK);
+                mEquipItem.AccessoryUse(ITEM_KEYWORD.STRUCK);
 
                 mWaitATK.Start(WaitTimeATK);
             }
@@ -164,7 +164,7 @@ public class Player : MonoBehaviour, IObject, ICombat
 
         Vector2 initPos = transform.position;
 
-        mEquipItem.UseItem(ITEM_KEYWORD.MOVE_BEGIN);
+        mEquipItem.AccessoryUse(ITEM_KEYWORD.MOVE_BEGIN);
 
         while (value < 1)
         {
@@ -177,7 +177,7 @@ public class Player : MonoBehaviour, IObject, ICombat
             yield return null;
         }
         mCRmove = null;
-        mEquipItem.UseItem(ITEM_KEYWORD.MOVE_END);
+        mEquipItem.AccessoryUse(ITEM_KEYWORD.MOVE_END);
 
         if (mCanElevation)
         {
@@ -212,7 +212,7 @@ public class Player : MonoBehaviour, IObject, ICombat
 
         mHealthPoint -= damage / mDefensivePower;
 
-        mEquipItem.UseItem(ITEM_KEYWORD.BE_DAMAGED);
+        mEquipItem.AccessoryUse(ITEM_KEYWORD.BE_DAMAGED);
 
         mBlinkTimer.Start(BLINK_TIME);
     }

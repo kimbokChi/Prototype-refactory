@@ -9,7 +9,13 @@ public class Golden_Flip : Item
         mWeaponRange = 3.0f;
     }
 
-    public override void UseItem(ITEM_KEYWORD keyword)
+    public override void AccessoryUse(ITEM_KEYWORD keyword)
     {
+        Debug.Log($"Using Accessory {keyword}");
+    }
+
+    public override void WeaponUse(ITEM_KEYWORD keyword)
+    {
+        Debug.Log($"Using Weapon {keyword}");
     }
 }
