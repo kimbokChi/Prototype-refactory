@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public class Player : MonoBehaviour, IObject, ICombat
 
 
     public Detector EDetector;
+    public Inventory mInventory;
+
 
     private SpriteRenderer mRenderer;
 
@@ -84,6 +87,8 @@ public class Player : MonoBehaviour, IObject, ICombat
     {
         mLocation9 = DIRECTION9.MID;
 
+        mInventory.Init();
+
         mEquipItem.Init();
 
         TryGetComponent(out mRenderer);
@@ -105,7 +110,7 @@ public class Player : MonoBehaviour, IObject, ICombat
         {
             if (mWaitATK.IsOver())
             {
-                mEquipItem.UseItem(ITEM_KEYWORD.STRUCK);
+                mInventory.UseItem(ITEM_KEYWORD.STRUCK);
 
                 mWaitATK.Start(WaitTimeATK);
             }
@@ -114,6 +119,11 @@ public class Player : MonoBehaviour, IObject, ICombat
 
         if (mCRmove == null && Input.anyKeyDown)
         {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                mInventory.AddItem(mEquipItem);
+            }
+
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 mLocation9 = ((int)mLocation9 + 3) > 8 ? mLocation9 : mLocation9 + 3;
@@ -164,7 +174,7 @@ public class Player : MonoBehaviour, IObject, ICombat
 
         Vector2 initPos = transform.position;
 
-        mEquipItem.UseItem(ITEM_KEYWORD.MOVE_BEGIN);
+        mInventory.UseItem(ITEM_KEYWORD.MOVE_BEGIN);
 
         while (value < 1)
         {
@@ -177,7 +187,7 @@ public class Player : MonoBehaviour, IObject, ICombat
             yield return null;
         }
         mCRmove = null;
-        mEquipItem.UseItem(ITEM_KEYWORD.MOVE_END);
+        mInventory.UseItem(ITEM_KEYWORD.MOVE_END);
 
         if (mCanElevation)
         {
@@ -212,7 +222,7 @@ public class Player : MonoBehaviour, IObject, ICombat
 
         mHealthPoint -= damage / mDefensivePower;
 
-        mEquipItem.UseItem(ITEM_KEYWORD.BE_DAMAGED);
+        mInventory.UseItem(ITEM_KEYWORD.BE_DAMAGED);
 
         mBlinkTimer.Start(BLINK_TIME);
     }
