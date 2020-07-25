@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private ItemSlot   mWeaponSlot;
-    private ItemSlot[] mAccessorySlot = new ItemSlot[4];
-    private ItemSlot[] mContainer     = new ItemSlot[8];
+    [SerializeField] private ItemSlot   mWeaponSlot;
+    [SerializeField] private ItemSlot[] mAccessorySlot = new ItemSlot[4];
+    [SerializeField] private ItemSlot[] mContainer     = new ItemSlot[8];
 
     public void Init()
     {

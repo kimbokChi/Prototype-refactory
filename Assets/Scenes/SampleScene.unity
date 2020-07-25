@@ -748,6 +748,64 @@ Transform:
   m_Father: {fileID: 1419833729}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &404642457
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 404642458}
+  - component: {fileID: 404642459}
+  m_Layer: 0
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &404642458
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404642457}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 985103576}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &404642459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404642457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b952fd25b5bc2ef46bf3e3954891c159, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mWeaponSlot: {fileID: 1803972482}
+  mAccessorySlot:
+  - {fileID: 1867081720}
+  - {fileID: 1779289953}
+  - {fileID: 736359021}
+  - {fileID: 1376504536}
+  mContainer:
+  - {fileID: 2144507171}
+  - {fileID: 885524975}
+  - {fileID: 712996294}
+  - {fileID: 532981142}
+  - {fileID: 1775689076}
+  - {fileID: 1206738123}
+  - {fileID: 1722478958}
+  - {fileID: 1898747058}
 --- !u!1 &411899833
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,6 +1920,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2055968782}
+  - {fileID: 404642458}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1879,6 +1938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaitTimeATK: 0.8
   EDetector: {fileID: 2055968785}
+  mInventory: {fileID: 404642459}
   mEquipItem: {fileID: 576382838}
 --- !u!1 &996383011
 GameObject:

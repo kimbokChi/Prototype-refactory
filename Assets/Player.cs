@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ public class Player : MonoBehaviour, IObject, ICombat
 
 
     public Detector EDetector;
+    public Inventory mInventory;
+
 
     private SpriteRenderer mRenderer;
 
@@ -83,6 +86,8 @@ public class Player : MonoBehaviour, IObject, ICombat
     private void Start()
     {
         mLocation9 = DIRECTION9.MID;
+
+        mInventory.Init();
 
         mEquipItem.Init();
 
