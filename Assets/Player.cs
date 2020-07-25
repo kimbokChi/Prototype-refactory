@@ -119,7 +119,10 @@ public class Player : MonoBehaviour, IObject, ICombat
 
         if (mCRmove == null && Input.anyKeyDown)
         {
-            mInventory.AddItem(mEquipItem);
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                mInventory.AddItem(mEquipItem);
+            }
 
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {

@@ -26,6 +26,19 @@ public class ItemSlot : MonoBehaviour
     {
         mContainItem = item;
 
-        mImage.sprite = item.Sprite;
+        if (item == null)
+        {
+             mImage.sprite = null;
+        }
+        else mImage.sprite = item.Sprite;
+    }
+
+    public void Select()
+    {
+        Finger.Instnace.GetCarryItem(out Item carryItem);
+
+        Finger.Instnace.SetCarryItem(mContainItem);
+
+        this.SetItem(carryItem);
     }
 }
