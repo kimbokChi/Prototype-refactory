@@ -40,11 +40,16 @@ public class Inventory : MonoBehaviour
 
     public void UseItem(ITEM_KEYWORD KEYWORD)
     {
-        mWeaponSlot.ContainItem.WeaponUse(KEYWORD);
-
+        if (mWeaponSlot.ContainItem != null)
+        {
+            mWeaponSlot.ContainItem.WeaponUse(KEYWORD);
+        }
         for (int i = 0; i < mAccessorySlot.Length; ++i)
         {
-            mAccessorySlot[i].ContainItem.AccessoryUse(KEYWORD);
+            if (mAccessorySlot[i].ContainItem != null)
+            {
+                mAccessorySlot[i].ContainItem.AccessoryUse(KEYWORD);
+            }
         }
     }
 
