@@ -22,4 +22,18 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+
+    public void AddItem(Item item)
+    {
+        for (int i = 0; i < mContainer.Length; ++i)
+        {
+            if (mContainer[i].ContainItem == null)
+            {
+                mContainer[i].SetItem(item);
+
+                return;
+            }
+        }
+        Debug.Log("더이상 아이템을 담을수 없습니다!");
+    }
 }

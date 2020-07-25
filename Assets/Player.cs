@@ -119,6 +119,8 @@ public class Player : MonoBehaviour, IObject, ICombat
 
         if (mCRmove == null && Input.anyKeyDown)
         {
+            mInventory.AddItem(mEquipItem);
+
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 mLocation9 = ((int)mLocation9 + 3) > 8 ? mLocation9 : mLocation9 + 3;
