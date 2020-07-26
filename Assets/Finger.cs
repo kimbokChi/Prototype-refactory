@@ -47,9 +47,15 @@ public class Finger : Singleton<Finger>
                 mClickTime += Time.deltaTime;
             }
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && mClickTime >= PRESS_TIME)
         {
             mChargeGauge.gameObject.SetActive(false);
+
+            Player player = FindObjectOfType(typeof(Player)) as Player;
+
+            player.mInventory.UseItem(ITEM_KEYWORD.CHARGE);
+
+            Debug.Log($"Charge : {(int)(mChargeGauge.Charge*100)}%");
 
             mClickTime = 0;
         }
