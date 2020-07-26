@@ -11,7 +11,7 @@ public class ItemBox : MonoBehaviour, IObject
     private bool mIsOpen;
 
     private Item mContainItem;
-    private GameObject mContainObject;
+    private DropItem mDropItem;
 
     public void IInit()
     {
@@ -34,13 +34,14 @@ public class ItemBox : MonoBehaviour, IObject
 
         mContainItem = ItemLibrary.Instnace.GetRandomItem();
 
-        mContainObject = transform.GetChild(0).gameObject;
-
-        if (mContainItem != null)
+        if (transform.GetChild(0).TryGetComponent(out mDropItem))
         {
-            if (mContainObject.TryGetComponent(out SpriteRenderer render))
+            if (mContainItem != null)
             {
-                render.sprite = mContainItem.Sprite;
+                if (mDropItem.gameObject.TryGetComponent(out SpriteRenderer render))
+                {
+                    render.sprite = mContainItem.Sprite;
+                }
             }
         }
     }
@@ -52,6 +53,21 @@ public class ItemBox : MonoBehaviour, IObject
             mAnimator.enabled = true;
 
             StartCoroutine(CR_openBox());
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") && mIsOpen && !mDropItem.IsCatch)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                mDropItem.Catch();
+
+                Player player = FindObjectOfType(typeof(Player)) as Player;
+
+                player.mInventory.AddItem(mContainItem);
+            }
         }
     }
 
@@ -68,7 +84,7 @@ public class ItemBox : MonoBehaviour, IObject
 
             renderer.sprite = mOpenBox;
 
-            mContainObject.SetActive(true);
+            mDropItem.gameObject.SetActive(true);
         }
         yield break;
     }
