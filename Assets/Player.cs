@@ -138,10 +138,7 @@ public class Player : MonoBehaviour, IObject, ICombat
             moveRIR9 = (int)mLocation9 % 3 == 2 ? mLocation9 : mLocation9 + 1;
         }
 
-        if (moveRIR9 != DIRECTION9.END)
-        {
-            MoveAction(moveRIR9);
-        }
+        MoveAction(moveRIR9);
     }
 
     private void Update()
@@ -179,12 +176,15 @@ public class Player : MonoBehaviour, IObject, ICombat
                     mCRmove = CR_move(nextPoint);
                 }
             }
-            else mCRmove = CR_move(Castle.Instnace.GetMovePoint(moveRIR9));
-
-            if (mCRmove != null)
+            else if (moveRIR9 != DIRECTION9.END)
             {
                 mLocation9 = moveRIR9;
 
+                mCRmove = CR_move(Castle.Instnace.GetMovePoint(moveRIR9));
+            }
+
+            if (mCRmove != null)
+            {
                 StartCoroutine(mCRmove);
             }
         }
