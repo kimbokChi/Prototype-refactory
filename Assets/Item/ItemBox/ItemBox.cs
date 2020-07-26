@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class ItemBox : MonoBehaviour, IObject
@@ -15,8 +14,6 @@ public class ItemBox : MonoBehaviour, IObject
 
     private Item mContainItem;
     private DropItem mDropItem;
-
-    private UInputAction mInputSystem;
 
     public void IInit()
     {
@@ -49,11 +46,6 @@ public class ItemBox : MonoBehaviour, IObject
                 }
             }
         }
-        mInputSystem = new UInputAction();
-
-        mInputSystem.PlayerAction.ItemInteraction.performed += BoxOpen;
-
-        mInputSystem.Enable();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -76,9 +68,9 @@ public class ItemBox : MonoBehaviour, IObject
         }
     }
 
-    private void BoxOpen(InputAction.CallbackContext context)
+    private void Update()
     {
-        if (context.control.path.Equals(Keyboard.current.enterKey.path))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             if (mIsPlayerEnter && mIsOpen && !mDropItem.IsCatch)
             {
