@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Finger : Singleton<Finger>
 {
     private Item mCarryItem = null;
 
     private ChargeGauge mChargeGauge;
+
+    private float mClickTime = 0;
+    private const float PRESS_TIME = 0.8f;
 
     private void Awake()
     {
@@ -22,4 +26,32 @@ public class Finger : Singleton<Finger>
         item = mCarryItem;
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            mChargeGauge.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            mChargeGauge.transform.Translate(0, 0, 10);
+        }
+        if (Input.GetMouseButton(0))
+        {
+            if (mClickTime >= PRESS_TIME)
+            {
+                mChargeGauge.gameObject.SetActive(true);
+
+                mChargeGauge.GaugeUp(0.8f);
+            }
+            else
+            {
+                mClickTime += Time.deltaTime;
+            }
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            mChargeGauge.gameObject.SetActive(false);
+
+            mClickTime = 0;
+        }
+    }
 }

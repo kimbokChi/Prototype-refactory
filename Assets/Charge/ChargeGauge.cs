@@ -18,4 +18,6 @@ public class ChargeGauge : MonoBehaviour
     }
 
     private void OnEnable() => mLerpAmount = 0.0f;
+
+    private void OnDisable() => transform.localScale = Vector3.zero;
 }
