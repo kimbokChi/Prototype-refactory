@@ -34,14 +34,18 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     public Item GetRandomItem()
     {
-        int index = mRandom.Next(0, mItems.Count);
+        if (mItems.Count > 0)
+        {
+            int index = mRandom.Next(0, mItems.Count);
 
 
-        Item randomItem = mItems[index];
+            Item randomItem = mItems[index];
 
-        mItems.Remove(mItems[index]);
+            mItems.Remove(mItems[index]);
 
 
-        return randomItem;
+            return randomItem;
+        }
+        return null;
     }
 }
