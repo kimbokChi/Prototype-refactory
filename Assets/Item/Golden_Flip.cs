@@ -28,11 +28,19 @@ public class Golden_Flip : Item
 
     public override void AccessoryUse(ITEM_KEYWORD keyword)
     {
-        Debug.Log($"Using Accessory {keyword}");
+        if (keyword == ITEM_KEYWORD.ENTER)
+        {
+            Debug.Log("슨슈-입장-!");
+        }
+        else Debug.Log($"Using Accessory {keyword}");
     }
 
     public override void WeaponUse(ITEM_KEYWORD keyword)
     {
-        Debug.Log($"Using Weapon {keyword}");
+        if (keyword == ITEM_KEYWORD.ENTER)
+        {
+            Debug.Log("슨슈-입장-!");
+        }
+        else Debug.Log($"Using Weapon {keyword}");
     }
 }
