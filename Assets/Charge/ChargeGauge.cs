@@ -8,7 +8,7 @@ public class ChargeGauge : MonoBehaviour
 
     private float mLerpAmount = 0.0f;
 
-    public float GaugeUp(float accel)
+    public float GaugeUp(float accel = 1.0f)
     {
         mLerpAmount = Mathf.Min(mLerpAmount + (Time.deltaTime * accel), 1);
 

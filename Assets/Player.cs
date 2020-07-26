@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IObject, ICombat
@@ -14,8 +13,6 @@ public class Player : MonoBehaviour, IObject, ICombat
 
     public Detector EDetector;
     public Inventory mInventory;
-
-    private UInputAction mInputSystem;
 
     private SpriteRenderer mRenderer;
 
@@ -95,20 +92,13 @@ public class Player : MonoBehaviour, IObject, ICombat
         TryGetComponent(out mRenderer);
 
         mWaitATK.Start(WaitTimeATK);
-
-        mInputSystem = new UInputAction();
-        
-        mInputSystem.PlayerControl.Input.performed += InputAct;
-
-        mInputSystem.Enable();
     }
 
-    private void InputAct(InputAction.CallbackContext context)
+    private void InputAct()
     {
         DIRECTION9 moveRIR9 = DIRECTION9.END;
 
-        // Up Arrow
-        if (context.control.path.Equals(Keyboard.current.upArrowKey.path))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (GetLPOSITION3() == LPOSITION3.TOP)
             {
@@ -119,21 +109,15 @@ public class Player : MonoBehaviour, IObject, ICombat
                 moveRIR9 = ((int)mLocation9 - 3) < 0 ? mLocation9 : mLocation9 - 3;
             }
         }
-
-        // Dwon Arrow
-        if (context.control.path.Equals(Keyboard.current.downArrowKey.path))
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             moveRIR9 = ((int)mLocation9 + 3) > 8 ? mLocation9 : mLocation9 + 3;
         }
-
-        // Left Arrow
-        if (context.control.path.Equals(Keyboard.current.leftArrowKey.path))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             moveRIR9 = (int)mLocation9 % 3 == 0 ? mLocation9 : mLocation9 - 1;
         }
-
-        // Right Arrow
-        if (context.control.path.Equals(Keyboard.current.rightArrowKey.path))
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             moveRIR9 = (int)mLocation9 % 3 == 2 ? mLocation9 : mLocation9 + 1;
         }
@@ -161,6 +145,8 @@ public class Player : MonoBehaviour, IObject, ICombat
             }
             mRenderer.flipX = (challenger.transform.position.x > transform.position.x);
         }
+
+        InputAct();
     }
 
     private void MoveAction(DIRECTION9 moveRIR9)
