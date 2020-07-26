@@ -34,6 +34,16 @@ public enum ITEM_KEYWORD
     MOVE_BEGIN, MOVE_END, STRUCK, BE_DAMAGED, ENTER, CHARGE
 }
 
+public enum ITEM_RATING
+{
+    COMMON, RARE, EPIC, LEGENDARY
+}
+
+public enum ITEM_DATA
+{
+    GOLDEN_FLIP
+}
+
 public enum SLOT_TYPE
 {
     CONTAINER, ACCESSORY, WEAPON
