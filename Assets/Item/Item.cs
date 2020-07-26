@@ -48,4 +48,9 @@ public abstract class Item : MonoBehaviour
 
     public abstract void AccessoryUse(ITEM_KEYWORD keyword);
     public abstract void WeaponUse(ITEM_KEYWORD keyword);
+
+    public abstract void CAccessoryUse(float power);
+
+    public abstract void CWeaponUse(float power);
+
 }

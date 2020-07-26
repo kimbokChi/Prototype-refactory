@@ -43,4 +43,14 @@ public class Golden_Flip : Item
         }
         else Debug.Log($"Using Weapon {keyword}");
     }
+
+    public override void CAccessoryUse(float power)
+    {
+        Debug.Log($"Using Accessory Charge : {(int)(power * 100)}%");
+    }
+
+    public override void CWeaponUse(float power)
+    {
+        Debug.Log($"Using Weapon Charge : {(int)(power * 100)}%");
+    }
 }

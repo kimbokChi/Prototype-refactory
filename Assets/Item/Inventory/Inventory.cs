@@ -52,6 +52,20 @@ public class Inventory : MonoBehaviour
             }
         }
     }
+    public void CUseItem(float power)
+    {
+        if (mWeaponSlot.ContainItem != null)
+        {
+            mWeaponSlot.ContainItem.CWeaponUse(power);
+        }
+        for (int i = 0; i < mAccessorySlot.Length; ++i)
+        {
+            if (mAccessorySlot[i].ContainItem != null)
+            {
+                mAccessorySlot[i].ContainItem.CAccessoryUse(power);
+            }
+        }
+    }
 
     private IEnumerable<ItemSlot> EGetSlots()
     {

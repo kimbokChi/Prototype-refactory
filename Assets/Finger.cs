@@ -59,9 +59,7 @@ public class Finger : Singleton<Finger>
 
             Player player = FindObjectOfType(typeof(Player)) as Player;
 
-            player.mInventory.UseItem(ITEM_KEYWORD.CHARGE);
-
-            Debug.Log($"Charge : {(int)(mChargeGauge.Charge * 100)}%");
+            player.mInventory.CUseItem(mChargeGauge.Charge);
 
             mIsGaugeBreak = false;
 
