@@ -27,6 +27,13 @@ public abstract class Item : MonoBehaviour
             return ITEM_RATING.COMMON;
         }
     }
+    public virtual ITEM_DATA DATA
+    {
+        get
+        {
+            return ITEM_DATA.GOLDEN_FLIP;
+        }
+    }
 
     public virtual float WeaponRange
     {
@@ -35,6 +42,7 @@ public abstract class Item : MonoBehaviour
             return 1.0f; 
         }
     }
+
 
     public abstract void Init();
 

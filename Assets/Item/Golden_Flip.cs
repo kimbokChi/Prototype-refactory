@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Golden_Flip : Item
 {
+    public override float WeaponRange => 3.0f;
+
     public override ITEM_RATING RATING
     {
         get
@@ -12,11 +14,11 @@ public class Golden_Flip : Item
         }
     }
 
-    public override float WeaponRange
+    public override ITEM_DATA DATA
     {
         get
         {
-            return 3.0f;
+            return ITEM_DATA.GOLDEN_FLIP;
         }
     }
 
