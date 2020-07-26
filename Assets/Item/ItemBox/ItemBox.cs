@@ -10,6 +10,9 @@ public class ItemBox : MonoBehaviour, IObject
 
     private bool mIsOpen;
 
+    private Item mContainItem;
+    private GameObject mContainObject;
+
     public void IInit()
     {
 
@@ -27,6 +30,18 @@ public class ItemBox : MonoBehaviour, IObject
         if (TryGetComponent(out mAnimator))
         {
             mAnimator.enabled = false;
+        }
+
+        mContainItem = ItemLibrary.Instnace.GetRandomItem();
+
+        mContainObject = transform.GetChild(0).gameObject;
+
+        if (mContainItem != null)
+        {
+            if (mContainObject.TryGetComponent(out SpriteRenderer render))
+            {
+                render.sprite = mContainItem.Sprite;
+            }
         }
     }
 
@@ -52,6 +67,8 @@ public class ItemBox : MonoBehaviour, IObject
             mIsOpen = true;
 
             renderer.sprite = mOpenBox;
+
+            mContainObject.SetActive(true);
         }
         yield break;
     }
