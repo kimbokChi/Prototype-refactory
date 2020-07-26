@@ -21,6 +21,8 @@ public class ItemLibrary : Singleton<ItemLibrary>
         {
             if (!mLibrary.ContainsKey(mItems[i].DATA))
             {
+                mItems[i].Init();
+
                 mLibrary.Add(mItems[i].DATA, mItems[i]);
             }
             else
