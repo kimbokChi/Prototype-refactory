@@ -12,6 +12,8 @@ public class Finger : Singleton<Finger>
     private float mClickTime = 0;
     private const float PRESS_TIME = 0.8f;
 
+    private bool mIsGaugeBreak;
+
     private void Awake()
     {
         transform.GetChild(0).TryGetComponent(out mChargeGauge);
@@ -41,13 +43,17 @@ public class Finger : Singleton<Finger>
                 mChargeGauge.gameObject.SetActive(true);
 
                 mChargeGauge.GaugeUp(0.8f);
+
+                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                mIsGaugeBreak = Vector2.Distance(mousePos, mChargeGauge.transform.position) > mChargeGauge.Scale.x * 0.5f;
             }
             else
             {
                 mClickTime += Time.deltaTime;
             }
         }
-        if (Input.GetMouseButtonUp(0) && mClickTime >= PRESS_TIME)
+        if ((Input.GetMouseButtonUp(0) && mClickTime >= PRESS_TIME) || mIsGaugeBreak)
         {
             mChargeGauge.gameObject.SetActive(false);
 
@@ -55,7 +61,9 @@ public class Finger : Singleton<Finger>
 
             player.mInventory.UseItem(ITEM_KEYWORD.CHARGE);
 
-            Debug.Log($"Charge : {(int)(mChargeGauge.Charge*100)}%");
+            Debug.Log($"Charge : {(int)(mChargeGauge.Charge * 100)}%");
+
+            mIsGaugeBreak = false;
 
             mClickTime = 0;
         }

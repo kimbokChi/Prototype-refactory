@@ -14,6 +14,14 @@ public class ChargeGauge : MonoBehaviour
         }
     }
 
+    public Vector2 Scale
+    {
+        get
+        {
+            return transform.localScale;
+        }
+    }
+
     private float mLerpAmount = 0.0f;
 
     public void GaugeUp(float accel = 1.0f)
