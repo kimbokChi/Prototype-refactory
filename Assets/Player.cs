@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IObject, ICombat
@@ -11,10 +12,10 @@ public class Player : MonoBehaviour, IObject, ICombat
     public float WaitTimeATK;
     private Timer mWaitATK = new Timer();
 
-
     public Detector EDetector;
     public Inventory mInventory;
 
+    private UInputAction mInputSystem;
 
     private SpriteRenderer mRenderer;
 
@@ -94,6 +95,53 @@ public class Player : MonoBehaviour, IObject, ICombat
         TryGetComponent(out mRenderer);
 
         mWaitATK.Start(WaitTimeATK);
+
+        mInputSystem = new UInputAction();
+        
+        mInputSystem.PlayerControl.Input.performed += InputAct;
+
+        mInputSystem.Enable();
+    }
+
+    private void InputAct(InputAction.CallbackContext context)
+    {
+        DIRECTION9 moveRIR9 = DIRECTION9.END;
+
+        // Up Arrow
+        if (context.control.path.Equals(Keyboard.current.upArrowKey.path))
+        {
+            if (GetLPOSITION3() == LPOSITION3.TOP)
+            {
+                mCanElevation = Castle.Instnace.CanNextPoint();
+            }
+            if (!mCanElevation)
+            {
+                moveRIR9 = ((int)mLocation9 - 3) < 0 ? mLocation9 : mLocation9 - 3;
+            }
+        }
+
+        // Dwon Arrow
+        if (context.control.path.Equals(Keyboard.current.downArrowKey.path))
+        {
+            moveRIR9 = ((int)mLocation9 + 3) > 8 ? mLocation9 : mLocation9 + 3;
+        }
+
+        // Left Arrow
+        if (context.control.path.Equals(Keyboard.current.leftArrowKey.path))
+        {
+            moveRIR9 = (int)mLocation9 % 3 == 0 ? mLocation9 : mLocation9 - 1;
+        }
+
+        // Right Arrow
+        if (context.control.path.Equals(Keyboard.current.rightArrowKey.path))
+        {
+            moveRIR9 = (int)mLocation9 % 3 == 2 ? mLocation9 : mLocation9 + 1;
+        }
+
+        if (moveRIR9 != DIRECTION9.END)
+        {
+            MoveAction(moveRIR9);
+        }
     }
 
     private void Update()
@@ -116,39 +164,12 @@ public class Player : MonoBehaviour, IObject, ICombat
             }
             mRenderer.flipX = (challenger.transform.position.x > transform.position.x);
         }
+    }
 
-        if (mCRmove == null && Input.anyKeyDown)
+    private void MoveAction(DIRECTION9 moveRIR9)
+    {
+        if (mCRmove == null)
         {
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
-                mInventory.AddItem(mEquipItem);
-            }
-
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                mLocation9 = ((int)mLocation9 + 3) > 8 ? mLocation9 : mLocation9 + 3;
-            }
-            else if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                if (GetLPOSITION3() == LPOSITION3.TOP)
-                {
-                    mCanElevation = Castle.Instnace.CanNextPoint();
-                }
-
-                if (!mCanElevation)
-                {
-                    mLocation9 = ((int)mLocation9 - 3) < 0 ? mLocation9 : mLocation9 - 3;
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                mLocation9 = (int)mLocation9 % 3 == 0 ? mLocation9 : mLocation9 - 1;
-            }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                mLocation9 = (int)mLocation9 % 3 == 2 ? mLocation9 : mLocation9 + 1;
-            }
-
             if (mCanElevation)
             {
                 Vector2 nextPoint;
@@ -158,10 +179,12 @@ public class Player : MonoBehaviour, IObject, ICombat
                     mCRmove = CR_move(nextPoint);
                 }
             }
-            else mCRmove = CR_move(Castle.Instnace.GetMovePoint(mLocation9));
+            else mCRmove = CR_move(Castle.Instnace.GetMovePoint(moveRIR9));
 
             if (mCRmove != null)
             {
+                mLocation9 = moveRIR9;
+
                 StartCoroutine(mCRmove);
             }
         }
