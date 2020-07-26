@@ -227,6 +227,9 @@ public class Player : MonoBehaviour, IObject, ICombat
                     break;
             }
             Castle.Instnace.AliveNextPoint();
+
+            mInventory.UseItem(ITEM_KEYWORD.ENTER);
+
             mCanElevation = false;
         }
         yield break;
