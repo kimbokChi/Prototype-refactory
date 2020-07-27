@@ -21,6 +21,9 @@ public class Scarecrow : MonoBehaviour, IObject
     [SerializeField]
     private float mMoveSpeed;
 
+    [SerializeField]
+    private float mMaxVelocity;
+
     private Timer mWaitForMove;
 
     private IEnumerator mEMove;
@@ -66,7 +69,13 @@ public class Scarecrow : MonoBehaviour, IObject
         {
             lerp = Mathf.Min(lerp + Time.deltaTime * Time.timeScale * mMoveSpeed, 1);
 
-            transform.position = Vector2.Lerp(beginPos, movePoint, lerp);
+            Vector2 lerpVector = Vector2.Lerp(transform.position, movePoint, lerp);
+
+            if (mMaxVelocity < lerpVector.magnitude)
+            {
+                lerpVector = lerpVector.normalized * mMaxVelocity;
+            }
+            transform.position = lerpVector;
 
             yield return null;
         }

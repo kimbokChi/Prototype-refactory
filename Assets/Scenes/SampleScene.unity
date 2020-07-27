@@ -380,6 +380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mMoveSpeed: 1.2
+  mMaxVelocity: 2
 --- !u!1 &101411252
 GameObject:
   m_ObjectHideFlags: 0
