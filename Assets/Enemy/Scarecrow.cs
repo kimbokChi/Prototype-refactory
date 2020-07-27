@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class Scarecrow : MonoBehaviour, IObject
 {
-    private const float WAIT_FOR_MOVE = 1.2f;
+    private const float WAIT_FOR_MOVE_MIN = 0.6f;
+    private const float WAIT_FOR_MOVE_MAX = 1.2f;
 
     private const float HALF_MOVE_RANGE_X = 2.5f;
     private const float HALF_MOVE_RANGE_Y = 0.0f;
+
+    private float mWaitMoveTime
+    {
+        get
+        {
+            return Random.Range(WAIT_FOR_MOVE_MIN, WAIT_FOR_MOVE_MAX);
+        }
+    }
 
     [SerializeField]
     private float mMoveSpeed;
@@ -20,7 +29,7 @@ public class Scarecrow : MonoBehaviour, IObject
     {
         mWaitForMove = new Timer();
 
-        mWaitForMove.Start(WAIT_FOR_MOVE);
+        mWaitForMove.Start(mWaitMoveTime);
     }
 
     private void Update()
@@ -63,7 +72,7 @@ public class Scarecrow : MonoBehaviour, IObject
         }
         mEMove = null;
 
-        mWaitForMove.Start(WAIT_FOR_MOVE); 
+        mWaitForMove.Start(mWaitMoveTime); 
 
         yield break;
     }
