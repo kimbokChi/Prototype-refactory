@@ -44,11 +44,11 @@ public class Scarecrow : MonoBehaviour, IObject
                 Vector2 movePoint;
 
                 movePoint.x = Random.Range(-HALF_MOVE_RANGE_X, HALF_MOVE_RANGE_X);
-                movePoint.y = Random.Range(-HALF_MOVE_RANGE_Y, HALF_MOVE_RANGE_Y) + transform.position.y;
+                movePoint.y = Random.Range(-HALF_MOVE_RANGE_Y, HALF_MOVE_RANGE_Y) + transform.localPosition.y;
 
                 if (TryGetComponent(out SpriteRenderer renderer))
                 {
-                    renderer.flipX = (movePoint.x < transform.position.x);
+                    renderer.flipX = (movePoint.x < transform.localPosition.x);
                 }
                 StartCoroutine(mEMove = EMove(movePoint));
             }
@@ -63,19 +63,19 @@ public class Scarecrow : MonoBehaviour, IObject
     {
         float lerp = 0.0f;
 
-        Vector2 beginPos = transform.position;
+        Vector2 beginPos = transform.localPosition;
 
         while (lerp < 1)
         {
             lerp = Mathf.Min(lerp + Time.deltaTime * Time.timeScale * mMoveSpeed, 1);
 
-            Vector2 lerpVector = Vector2.Lerp(transform.position, movePoint, lerp);
+            Vector2 lerpVector = Vector2.Lerp(transform.localPosition, movePoint, lerp);
 
             if (mMaxVelocity < lerpVector.magnitude)
             {
                 lerpVector = lerpVector.normalized * mMaxVelocity;
             }
-            transform.position = lerpVector;
+            transform.localPosition = lerpVector;
 
             yield return null;
         }
