@@ -28,6 +28,10 @@ public class Scarecrow : MonoBehaviour, IObject
 
     private Timer mWaitForMove;
 
+    private Player mPlayer;
+
+    private SpriteRenderer mRenderer;
+
     private IEnumerator mEMove;
     private IEnumerator EMove(Vector2 movePoint)
     {
@@ -58,6 +62,7 @@ public class Scarecrow : MonoBehaviour, IObject
         {
             mLocateFloor = room.BelongFloorIndex;
         }
+        TryGetComponent(out SpriteRenderer renderer);
     }
     public void IUpdate()
     {
@@ -70,10 +75,8 @@ public class Scarecrow : MonoBehaviour, IObject
                 movePoint.x = Random.Range(-HALF_MOVE_RANGE_X, HALF_MOVE_RANGE_X);
                 movePoint.y = Random.Range(-HALF_MOVE_RANGE_Y, HALF_MOVE_RANGE_Y) + transform.localPosition.y;
 
-                if (TryGetComponent(out SpriteRenderer renderer))
-                {
-                    renderer.flipX = (movePoint.x < transform.localPosition.x);
-                }
+                mRenderer.flipX = (movePoint.x < transform.localPosition.x);
+
                 StartCoroutine(mEMove = EMove(movePoint));
             }
         }
@@ -85,11 +88,40 @@ public class Scarecrow : MonoBehaviour, IObject
 
     public void PlayerEnter()
     {
-        
+        mPlayer = FindObjectOfType(typeof(Player)) as Player;
     }
 
     public void PlayerExit()
     {
-        
+        mPlayer = null;
     }
+    private bool IsLookAtPlayer(out Vector2 playerPos)
+    {
+        if (mPlayer != null)
+        {
+            playerPos = mPlayer.transform.position;
+
+            // LOOK AT THE LEFT
+            if (mRenderer.flipX)
+            {
+                if (mPlayer.transform.position.x < transform.position.x)
+                {
+                    return true;
+                }
+            }
+
+            // LOOL AT THE RIGHT
+            else
+            {
+                if (mPlayer.transform.position.x > transform.position.x)
+                {
+                    return true;
+                }
+            }
+        }
+        playerPos = Vector2.zero;
+
+        return false;
+    }
+
 }
