@@ -10,6 +10,18 @@ public class Room : MonoBehaviour
 
     private Floor mMasterFloor;
 
+    public int BelongFloorIndex
+    {
+        get
+        {
+            if (mMasterFloor != null)
+            {
+                return mMasterFloor.FloorIndex;
+            }
+            return 0;
+        }
+    }
+
                      public  ROOM_NUMBER  RoomNumber
     {
         get { return mRoomNumber; }
