@@ -13,6 +13,9 @@ public interface IObject
 {
     void IInit();
     void IUpdate();
+
+    void PlayerEnter();
+    void PlayerExit();
 }
 
 public interface ICombat

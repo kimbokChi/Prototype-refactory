@@ -82,4 +82,14 @@ public class Scarecrow : MonoBehaviour, IObject
             mWaitForMove.Update();
         }
     }
+
+    public void PlayerEnter()
+    {
+        
+    }
+
+    public void PlayerExit()
+    {
+        
+    }
 }
