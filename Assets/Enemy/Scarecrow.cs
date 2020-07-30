@@ -24,41 +24,11 @@ public class Scarecrow : MonoBehaviour, IObject
     [SerializeField][Tooltip("해당 개체가 한번 움직일 때마다 이동에 걸리는 시간을 지정합니다. 시간이 적을수록 더욱 빠르게 움직입니다.")]
     private float mMoveTime;
 
+    private int mLocateFloor;
+
     private Timer mWaitForMove;
 
     private IEnumerator mEMove;
-
-    private void Start()
-    {
-        mWaitForMove = new Timer();
-
-        mWaitForMove.Start(mWaitMoveTime);
-    }
-
-    private void Update()
-    {
-        if (mWaitForMove.IsOver())
-        {
-            if (mEMove == null)
-            {
-                Vector2 movePoint;
-
-                movePoint.x = Random.Range(-HALF_MOVE_RANGE_X, HALF_MOVE_RANGE_X);
-                movePoint.y = Random.Range(-HALF_MOVE_RANGE_Y, HALF_MOVE_RANGE_Y) + transform.localPosition.y;
-
-                if (TryGetComponent(out SpriteRenderer renderer))
-                {
-                    renderer.flipX = (movePoint.x < transform.localPosition.x);
-                }
-                StartCoroutine(mEMove = EMove(movePoint));
-            }
-        }
-        else
-        {
-            mWaitForMove.Update();
-        }
-    }
-
     private IEnumerator EMove(Vector2 movePoint)
     {
         Vector2 refVelocity = Vector2.zero;
@@ -80,10 +50,36 @@ public class Scarecrow : MonoBehaviour, IObject
 
     public void IInit()
     {
+        mWaitForMove = new Timer();
 
+        mWaitForMove.Start(mWaitMoveTime);
+
+        if (transform.parent.TryGetComponent(out Room room))
+        {
+            mLocateFloor = room.BelongFloorIndex;
+        }
     }
     public void IUpdate()
     {
-        
+        if (mWaitForMove.IsOver())
+        {
+            if (mEMove == null)
+            {
+                Vector2 movePoint;
+
+                movePoint.x = Random.Range(-HALF_MOVE_RANGE_X, HALF_MOVE_RANGE_X);
+                movePoint.y = Random.Range(-HALF_MOVE_RANGE_Y, HALF_MOVE_RANGE_Y) + transform.localPosition.y;
+
+                if (TryGetComponent(out SpriteRenderer renderer))
+                {
+                    renderer.flipX = (movePoint.x < transform.localPosition.x);
+                }
+                StartCoroutine(mEMove = EMove(movePoint));
+            }
+        }
+        else
+        {
+            mWaitForMove.Update();
+        }
     }
 }
