@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Scarecrow : MonoBehaviour, IObject
 {
-    private const float WAIT_FOR_MOVE_MIN = 0.6f;
-    private const float WAIT_FOR_MOVE_MAX = 1.2f;
+    [SerializeField] private float WAIT_FOR_MOVE_MIN;
+    [SerializeField] private float WAIT_FOR_MOVE_MAX;
 
-    private const float HALF_MOVE_RANGE_X = 2.5f;
-    private const float HALF_MOVE_RANGE_Y = 0.0f;
+    [SerializeField] private float HALF_MOVE_RANGE_X;
+    [SerializeField] private float HALF_MOVE_RANGE_Y;
 
     private float mWaitMoveTime
     {
@@ -21,8 +21,8 @@ public class Scarecrow : MonoBehaviour, IObject
     [SerializeField]
     private float mMoveSpeed;
 
-    [SerializeField]
-    private float mMaxVelocity;
+    [SerializeField][Tooltip("해당 개체가 한번 움직일 때마다 이동에 걸리는 시간을 지정합니다. 시간이 적을수록 더욱 빠르게 움직입니다.")]
+    private float mMoveTime;
 
     private Timer mWaitForMove;
 
@@ -61,21 +61,13 @@ public class Scarecrow : MonoBehaviour, IObject
 
     private IEnumerator EMove(Vector2 movePoint)
     {
-        float lerp = 0.0f;
+        Vector2 refVelocity = Vector2.zero;
 
-        Vector2 beginPos = transform.localPosition;
-
-        while (lerp < 1)
+        while (Vector2.Distance(transform.localPosition, movePoint) > 0.5f)
         {
-            lerp = Mathf.Min(lerp + Time.deltaTime * Time.timeScale * mMoveSpeed, 1);
+            float deltaTime = Time.deltaTime * Time.timeScale;
 
-            Vector2 lerpVector = Vector2.Lerp(transform.localPosition, movePoint, lerp);
-
-            if (mMaxVelocity < lerpVector.magnitude)
-            {
-                lerpVector = lerpVector.normalized * mMaxVelocity;
-            }
-            transform.localPosition = lerpVector;
+            transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movePoint, ref refVelocity, 0.5f, mMoveSpeed, deltaTime);
 
             yield return null;
         }

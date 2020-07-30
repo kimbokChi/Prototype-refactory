@@ -379,8 +379,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74094461f3f40bc4aba79e5fb59efb52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mMoveSpeed: 1.2
-  mMaxVelocity: 0.7
+  WAIT_FOR_MOVE_MIN: 0.3
+  WAIT_FOR_MOVE_MAX: 0.9
+  HALF_MOVE_RANGE_X: 2.5
+  HALF_MOVE_RANGE_Y: 0
+  mMoveSpeed: 2
+  mMoveTime: 0
 --- !u!1 &101411252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1350,7 +1354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 662258887}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
