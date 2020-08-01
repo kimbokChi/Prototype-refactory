@@ -21,6 +21,9 @@ public class Scarecrow : MonoBehaviour, IObject
     [SerializeField]
     private float mRange;
 
+    [SerializeField][Range(0.01f, 1f)]
+    private float mMoveSmooth;
+
     [SerializeField]
     private float mMoveSpeed;
 
@@ -40,7 +43,7 @@ public class Scarecrow : MonoBehaviour, IObject
     {
         Vector2 refVelocity = Vector2.zero;
 
-        while (Vector2.Distance(transform.localPosition, movePoint) > mRange)
+        while (Vector2.Distance(movePoint, transform.localPosition) > mMoveSmooth)
         {
             float deltaTime = Time.deltaTime * Time.timeScale;
 
@@ -74,14 +77,19 @@ public class Scarecrow : MonoBehaviour, IObject
             if (mEMove == null)
             {
                 Vector2 movePoint;
+                Vector2 playerPoint;
 
-                if (!IsLookAtPlayer(out movePoint))
-                {
-                    movePoint.x = Random.Range(-HALF_MOVE_RANGE_X, HALF_MOVE_RANGE_X);
-                    movePoint.y = Random.Range(-HALF_MOVE_RANGE_Y, HALF_MOVE_RANGE_Y) + transform.localPosition.y;
-                }
+                movePoint.x = Random.Range(-HALF_MOVE_RANGE_X, HALF_MOVE_RANGE_X);
+                movePoint.y = Random.Range(-HALF_MOVE_RANGE_Y, HALF_MOVE_RANGE_Y) + transform.localPosition.y;
+
                 mRenderer.flipX = (movePoint.x < transform.localPosition.x);
 
+                if (IsLookAtPlayer(out playerPoint))
+                {
+                    movePoint = playerPoint;
+
+                    mRenderer.flipX = (movePoint.x < transform.localPosition.x);
+                }
                 StartCoroutine(mEMove = EMove(movePoint));
             }
         }
@@ -109,7 +117,7 @@ public class Scarecrow : MonoBehaviour, IObject
     {
         if (mPlayer != null)
         {
-            if (IsRangeInPlayer(playerPos = PlayerLocalized()))
+            if (IsRangeInPoint(playerPos = PlayerLocalized()))
             {
                 return true;
             }
@@ -137,13 +145,14 @@ public class Scarecrow : MonoBehaviour, IObject
         return false;
     }
 
-    private bool IsRangeInPlayer(Vector2 localizePlayerPos)
+    #region MEMBER
+    /// <summary>
+    /// 해당 개체의 사정거리 내에 인수로 사용한 localizePoint가 존재하는지의 여부를 반환합니다.
+    /// </summary>
+    #endregion
+    private bool IsRangeInPoint(Vector2 localizePoint)
     {
-        if (mPlayer != null)
-        {
-            return (Vector2.Distance(localizePlayerPos, transform.localPosition) <= mRange);
-        }
-        return false;
+        return (Vector2.Distance(localizePoint, transform.localPosition) <= mRange);
     }
 
     #region MEMBER

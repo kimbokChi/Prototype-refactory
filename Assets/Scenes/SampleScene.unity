@@ -384,6 +384,7 @@ MonoBehaviour:
   HALF_MOVE_RANGE_X: 2.5
   HALF_MOVE_RANGE_Y: 0
   mRange: 1
+  mMoveSmooth: 0.07
   mMoveSpeed: 2
   mMoveTime: 0
 --- !u!1 &101411252
