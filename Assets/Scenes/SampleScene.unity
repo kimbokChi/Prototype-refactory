@@ -4607,6 +4607,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 982312571}
     m_Modifications:
+    - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
+        type: 3}
+      propertyPath: mWaitATKTime
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6949924797478406765, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
       propertyPath: m_Name

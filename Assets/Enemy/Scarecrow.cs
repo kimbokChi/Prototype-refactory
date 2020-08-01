@@ -19,6 +19,9 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
     }
 
     [SerializeField]
+    private float mWaitATKTime;
+
+    [SerializeField]
     private float mRange;
 
     [SerializeField][Range(0.01f, 1f)]
@@ -32,6 +35,7 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
 
     private int mLocateFloor;
 
+    private Timer mWaitForATK;
     private Timer mWaitForMove;
 
     private Player mPlayer;
@@ -62,8 +66,10 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
 
     public void IInit()
     {
-        mWaitForMove = new Timer();
+        mWaitForATK  = new Timer();
+        mWaitForATK.Start(mWaitATKTime);
 
+        mWaitForMove = new Timer();
         mWaitForMove.Start(mWaitMoveTime);
 
         if (transform.parent.TryGetComponent(out Room room))
@@ -104,6 +110,25 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
         {
             mWaitForMove.Update();
         }
+
+        if (mPlayer != null)
+        {
+            if (mWaitForATK.IsOver())
+            {
+                if (IsLookAtPlayer(out Vector2 p) && IsRangeInPoint(PlayerLocalized(), mMoveSmooth))
+                {
+                    mPlayer.Damaged(1f, gameObject, out GameObject v);
+
+                    Debug.Log($"Attack To {(v == null ? "null" : v.name)}!");
+
+                    mWaitForATK.Start(mWaitATKTime);
+                }
+            }
+            else
+            {
+                mWaitForATK.Update();
+            }
+        }
     }
 
     public void PlayerEnter()
@@ -116,6 +141,8 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
     public void PlayerExit()
     {
         mPlayer = null;
+
+        mWaitForATK.Start(mWaitATKTime);
 
         Debug.Log("Player Exit");
     }
@@ -154,9 +181,9 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
     /// 해당 개체의 사정거리 내에 localizePoint가 존재하는지의 여부를 반환합니다.
     /// </summary>
     #endregion
-    private bool IsRangeInPoint(Vector2 localizePoint)
+    private bool IsRangeInPoint(Vector2 localizePoint, float rangeOffset = 0f)
     {
-        return (Vector2.Distance(localizePoint, transform.localPosition) <= mRange);
+        return (Vector2.Distance(localizePoint, transform.localPosition) <= mRange + rangeOffset);
     }
 
     #region MEMBER
