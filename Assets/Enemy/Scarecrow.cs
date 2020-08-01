@@ -236,4 +236,9 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
 
         if (mCurHealth <= 0) gameObject.SetActive(false);
     }
+
+    public bool IsActive()
+    {
+        return gameObject.activeSelf;
+    }
 }
