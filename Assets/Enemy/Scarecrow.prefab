@@ -150,5 +150,6 @@ MonoBehaviour:
   mWaitATKTime: 0.2
   mRange: 1
   mMoveSmooth: 0.15
+  mRangeOffset: 0.16
   mMoveSpeed: 2
   mMoveTime: 0

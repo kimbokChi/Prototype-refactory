@@ -27,6 +27,9 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
     [SerializeField][Range(0.01f, 1f)]
     private float mMoveSmooth;
 
+    [SerializeField][Range(0f, 1f)]
+    private float mRangeOffset;
+
     [SerializeField]
     private float mMoveSpeed;
 
@@ -115,7 +118,7 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
         {
             if (mWaitForATK.IsOver())
             {
-                if (IsLookAtPlayer(out Vector2 p) && IsRangeInPoint(PlayerLocalized(), mMoveSmooth))
+                if (IsLookAtPlayer(out Vector2 p) && IsRangeInPoint(PlayerLocalized(), mRangeOffset))
                 {
                     mPlayer.Damaged(1f, gameObject, out GameObject v);
 
