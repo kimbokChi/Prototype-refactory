@@ -19,6 +19,9 @@ public class Scarecrow : MonoBehaviour, IObject
     }
 
     [SerializeField]
+    private float mRange;
+
+    [SerializeField]
     private float mMoveSpeed;
 
     [SerializeField][Tooltip("해당 개체가 한번 움직일 때마다 이동에 걸리는 시간을 지정합니다. 시간이 적을수록 더욱 빠르게 움직입니다.")]
@@ -37,7 +40,7 @@ public class Scarecrow : MonoBehaviour, IObject
     {
         Vector2 refVelocity = Vector2.zero;
 
-        while (Vector2.Distance(transform.localPosition, movePoint) > 0.5f)
+        while (Vector2.Distance(transform.localPosition, movePoint) > mRange)
         {
             float deltaTime = Time.deltaTime * Time.timeScale;
 
@@ -101,13 +104,15 @@ public class Scarecrow : MonoBehaviour, IObject
 
         Debug.Log("Player Exit");
     }
+
     private bool IsLookAtPlayer(out Vector2 playerPos)
     {
         if (mPlayer != null)
         {
-            playerPos = transform.InverseTransformPoint(mPlayer.transform.position);
-
-            playerPos += (Vector2)transform.localPosition;
+            if (IsRangeInPlayer(playerPos = PlayerLocalized()))
+            {
+                return true;
+            }
 
             // LOOK AT THE LEFT
             if (mRenderer.flipX)
@@ -132,4 +137,23 @@ public class Scarecrow : MonoBehaviour, IObject
         return false;
     }
 
+    private bool IsRangeInPlayer(Vector2 localizePlayerPos)
+    {
+        if (mPlayer != null)
+        {
+            return (Vector2.Distance(localizePlayerPos, transform.localPosition) <= mRange);
+        }
+        return false;
+    }
+
+    #region MEMBER
+    /// <summary>
+    /// 해당 개체의 지역 좌표를 기준으로한 플레이어의 좌표를 반환합니다.
+    /// <para>플레이어 개체가 확실히 존재할 때에만 사용하십시오.</para>
+    /// </summary>
+    #endregion
+    private Vector2 PlayerLocalized()
+    {
+        return transform.InverseTransformPoint(mPlayer.transform.position) + transform.localPosition;
+    }
 }

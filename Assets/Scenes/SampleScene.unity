@@ -383,6 +383,7 @@ MonoBehaviour:
   WAIT_FOR_MOVE_MAX: 0.9
   HALF_MOVE_RANGE_X: 2.5
   HALF_MOVE_RANGE_Y: 0
+  mRange: 1
   mMoveSpeed: 2
   mMoveTime: 0
 --- !u!1 &101411252
