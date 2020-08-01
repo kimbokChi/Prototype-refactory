@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scarecrow : MonoBehaviour, IObject
+public class Scarecrow : MonoBehaviour, IObject, ICombat
 {
     [SerializeField] private float WAIT_FOR_MOVE_MIN;
     [SerializeField] private float WAIT_FOR_MOVE_MAX;
@@ -90,7 +90,12 @@ public class Scarecrow : MonoBehaviour, IObject
                 }
                 if (IsLookAtPlayer(out playerPoint))
                 {
-                    movePoint = playerPoint - (mRenderer.flipX ? Vector2.left : Vector2.right) * mRange;
+                    movePoint = playerPoint;
+
+                    if (!IsRangeInPoint(movePoint))
+                    {
+                        movePoint -= (mRenderer.flipX ? Vector2.left : Vector2.right) * mRange;
+                    }
                 }
                 StartCoroutine(mEMove = EMove(movePoint));
             }
@@ -185,5 +190,10 @@ public class Scarecrow : MonoBehaviour, IObject
             movePoint.x = HALF_MOVE_RANGE_X * 2 + transform.localPosition.x;
         }
         return movePoint;
+    }
+
+    public void Damaged(float damage, GameObject attacker, out GameObject victim)
+    {
+        victim = gameObject;
     }
 }
