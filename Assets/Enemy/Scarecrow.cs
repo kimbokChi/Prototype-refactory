@@ -62,7 +62,7 @@ public class Scarecrow : MonoBehaviour, IObject
         {
             mLocateFloor = room.BelongFloorIndex;
         }
-        TryGetComponent(out SpriteRenderer renderer);
+        TryGetComponent(out mRenderer);
     }
     public void IUpdate()
     {
@@ -72,9 +72,11 @@ public class Scarecrow : MonoBehaviour, IObject
             {
                 Vector2 movePoint;
 
-                movePoint.x = Random.Range(-HALF_MOVE_RANGE_X, HALF_MOVE_RANGE_X);
-                movePoint.y = Random.Range(-HALF_MOVE_RANGE_Y, HALF_MOVE_RANGE_Y) + transform.localPosition.y;
-
+                if (!IsLookAtPlayer(out movePoint))
+                {
+                    movePoint.x = Random.Range(-HALF_MOVE_RANGE_X, HALF_MOVE_RANGE_X);
+                    movePoint.y = Random.Range(-HALF_MOVE_RANGE_Y, HALF_MOVE_RANGE_Y) + transform.localPosition.y;
+                }
                 mRenderer.flipX = (movePoint.x < transform.localPosition.x);
 
                 StartCoroutine(mEMove = EMove(movePoint));
@@ -89,22 +91,28 @@ public class Scarecrow : MonoBehaviour, IObject
     public void PlayerEnter()
     {
         mPlayer = FindObjectOfType(typeof(Player)) as Player;
+
+        Debug.Log("Player Enter");
     }
 
     public void PlayerExit()
     {
         mPlayer = null;
+
+        Debug.Log("Player Exit");
     }
     private bool IsLookAtPlayer(out Vector2 playerPos)
     {
         if (mPlayer != null)
         {
-            playerPos = mPlayer.transform.position;
+            playerPos = transform.InverseTransformPoint(mPlayer.transform.position);
+
+            playerPos += (Vector2)transform.localPosition;
 
             // LOOK AT THE LEFT
             if (mRenderer.flipX)
             {
-                if (mPlayer.transform.position.x < transform.position.x)
+                if (playerPos.x < transform.position.x)
                 {
                     return true;
                 }
@@ -113,7 +121,7 @@ public class Scarecrow : MonoBehaviour, IObject
             // LOOL AT THE RIGHT
             else
             {
-                if (mPlayer.transform.position.x > transform.position.x)
+                if (playerPos.x > transform.position.x)
                 {
                     return true;
                 }
