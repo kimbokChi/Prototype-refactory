@@ -43,6 +43,8 @@ public class Scarecrow : MonoBehaviour, IObject
     {
         Vector2 refVelocity = Vector2.zero;
 
+        movePoint = ControlMovePoint(movePoint);
+
         while (Vector2.Distance(movePoint, transform.localPosition) > mMoveSmooth)
         {
             float deltaTime = Time.deltaTime * Time.timeScale;
@@ -161,5 +163,27 @@ public class Scarecrow : MonoBehaviour, IObject
     private Vector2 PlayerLocalized()
     {
         return transform.InverseTransformPoint(mPlayer.transform.position) + transform.localPosition;
+    }
+
+    private Vector2 ControlMovePoint(Vector2 movePoint)
+    {
+        if (HALF_MOVE_RANGE_Y == 0)
+        {
+            movePoint.y = transform.localPosition.y;
+        }
+        else if (Mathf.Abs(movePoint.y - transform.localPosition.y) > HALF_MOVE_RANGE_Y * 2)
+        {
+            movePoint.y = HALF_MOVE_RANGE_Y * 2 + transform.localPosition.y;
+        }
+
+        if (HALF_MOVE_RANGE_X == 0)
+        {
+            movePoint.x = transform.localPosition.x;
+        }
+        else if (Mathf.Abs(movePoint.x - transform.localPosition.x) > HALF_MOVE_RANGE_X * 2)
+        {
+            movePoint.x = HALF_MOVE_RANGE_X * 2 + transform.localPosition.x;
+        }
+        return movePoint;
     }
 }
