@@ -10,6 +10,18 @@ public class Room : MonoBehaviour
 
     private Floor mMasterFloor;
 
+    public int BelongFloorIndex
+    {
+        get
+        {
+            if (mMasterFloor != null)
+            {
+                return mMasterFloor.FloorIndex;
+            }
+            return 0;
+        }
+    }
+
                      public  ROOM_NUMBER  RoomNumber
     {
         get { return mRoomNumber; }
@@ -47,11 +59,17 @@ public class Room : MonoBehaviour
 
     public void EnterPlayer()
     {
-        // 플레이어가 해당 방에 존재한다!
+        for (int i = 0; i < mObjects.Count; ++i)
+        {
+            mObjects[i].PlayerEnter();
+        }
     }
     public void ExitPlayer()
     {
-        // 플레이어가 나갔다..
+        for (int i = 0; i < mObjects.Count; ++i)
+        {
+            mObjects[i].PlayerExit();
+        }
     }
 
     public Vector2[] GetMovePoints()

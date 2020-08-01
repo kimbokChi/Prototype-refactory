@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemBox : MonoBehaviour, IObject
+public class ItemBox : MonoBehaviour
 {
     [SerializeField] private Sprite mOpenBox;
     
@@ -14,16 +14,6 @@ public class ItemBox : MonoBehaviour, IObject
 
     private Item mContainItem;
     private DropItem mDropItem;
-
-    public void IInit()
-    {
-
-    }
-
-    public void IUpdate()
-    {
-        
-    }
 
     private void Start()
     {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IObject, ICombat
+public class Player : MonoBehaviour, ICombat
 {
     private const float BLINK_TIME = 0.5f;
     private Timer mBlinkTimer = new Timer();
@@ -220,9 +220,6 @@ public class Player : MonoBehaviour, IObject, ICombat
         }
         yield break;
     }
-
-    void IObject.IInit() { }
-    void IObject.IUpdate() { }
 
     public void Damaged(float damage, GameObject attacker, out GameObject victim)
     {
