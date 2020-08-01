@@ -10,6 +10,9 @@ public class Room : MonoBehaviour
 
     private Floor mMasterFloor;
 
+    public  bool  IsClear => mIsClear;
+    private bool mIsClear;
+
     public int BelongFloorIndex
     {
         get
@@ -28,7 +31,6 @@ public class Room : MonoBehaviour
     }
     [SerializeField] private ROOM_NUMBER mRoomNumber;
 
-    // 해당 객실에 귀속된 오브젝트들을 저장합니다
     private List<IObject> mObjects = new List<IObject>();
 
     public void IInit(Floor masterFloor)
@@ -47,13 +49,29 @@ public class Room : MonoBehaviour
             }
         }
         gameObject.SetActive(false);
+
+        mIsClear = false;
     }
 
     public void IUpdate()
     {
-        for (int i = 0; i < mObjects.Count; ++i)
+        if (!mIsClear)
         {
-            mObjects[i].IUpdate();
+            int activeCount = 0;
+
+            for (int i = 0; i < mObjects.Count; ++i)
+            {
+                if (mObjects[i].IsActive())
+                {
+                    mObjects[i].IUpdate();
+
+                    activeCount++;
+                }
+            }
+            if (activeCount == 0)
+            {
+                mIsClear = true;
+            }
         }
     }
 
