@@ -86,9 +86,7 @@ public class Scarecrow : MonoBehaviour, IObject
 
                 if (IsLookAtPlayer(out playerPoint))
                 {
-                    movePoint = playerPoint;
-
-                    mRenderer.flipX = (movePoint.x < transform.localPosition.x);
+                    movePoint = playerPoint - (mRenderer.flipX ? Vector2.left : Vector2.right) * mRange;
                 }
                 StartCoroutine(mEMove = EMove(movePoint));
             }
@@ -117,10 +115,7 @@ public class Scarecrow : MonoBehaviour, IObject
     {
         if (mPlayer != null)
         {
-            if (IsRangeInPoint(playerPos = PlayerLocalized()))
-            {
-                return true;
-            }
+            playerPos = PlayerLocalized();
 
             // LOOK AT THE LEFT
             if (mRenderer.flipX)
@@ -147,7 +142,7 @@ public class Scarecrow : MonoBehaviour, IObject
 
     #region MEMBER
     /// <summary>
-    /// 해당 개체의 사정거리 내에 인수로 사용한 localizePoint가 존재하는지의 여부를 반환합니다.
+    /// 해당 개체의 사정거리 내에 localizePoint가 존재하는지의 여부를 반환합니다.
     /// </summary>
     #endregion
     private bool IsRangeInPoint(Vector2 localizePoint)
