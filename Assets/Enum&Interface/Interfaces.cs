@@ -16,6 +16,8 @@ public interface IObject
 
     void PlayerEnter();
     void PlayerExit();
+
+    bool IsActive();
 }
 
 public interface ICombat

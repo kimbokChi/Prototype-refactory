@@ -137,8 +137,10 @@ public class Player : MonoBehaviour, ICombat
 
         if (challenger)
         {
-            if (mWaitATK.IsOver())
+            if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombat combat))
             {
+                combat.Damaged(100, gameObject, out GameObject v);
+
                 mInventory.UseItem(ITEM_KEYWORD.STRUCK);
 
                 mWaitATK.Start(WaitTimeATK);

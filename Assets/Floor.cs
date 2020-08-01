@@ -17,18 +17,38 @@ public class Floor : MonoBehaviour
     [SerializeField]
     private int mFloorIndex;
 
+    public  bool  IsClear => mIsClear;
+    private bool mIsClear;
+
     public void IInit()
     {
         mMemberRooms[0].gameObject.SetActive(true);
         mMemberRooms[1].gameObject.SetActive(true);
         mMemberRooms[2].gameObject.SetActive(true);
+
+        mIsClear = false;
     }
 
     public void IUpdate()
     {
-        mMemberRooms[0].IUpdate();
-        mMemberRooms[1].IUpdate();
-        mMemberRooms[2].IUpdate();
+        if (!mIsClear)
+        {
+            int clearRoomCount = 0;
+
+            for (int i = 0; i < mMemberRooms.Length; ++i)
+            {
+                mMemberRooms[i].IUpdate();
+
+                if (mMemberRooms[i].IsClear)
+                {
+                    clearRoomCount++;
+                }
+            }
+            if (clearRoomCount == mMemberRooms.Length)
+            {
+                mIsClear = true;
+            }
+        }
     }
 
     #region READ

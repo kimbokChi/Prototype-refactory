@@ -36,6 +36,10 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
     [SerializeField][Tooltip("해당 개체가 한번 움직일 때마다 이동에 걸리는 시간을 지정합니다. 시간이 적을수록 더욱 빠르게 움직입니다.")]
     private float mMoveTime;
 
+    [SerializeField]
+    private float mMaxHealth;
+    private float mCurHealth;
+
     private int mLocateFloor;
 
     private Timer mWaitForATK;
@@ -80,6 +84,8 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
             mLocateFloor = room.BelongFloorIndex;
         }
         TryGetComponent(out mRenderer);
+
+        mCurHealth = mMaxHealth;
     }
     public void IUpdate()
     {
@@ -225,5 +231,14 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
     public void Damaged(float damage, GameObject attacker, out GameObject victim)
     {
         victim = gameObject;
+
+        mCurHealth -= damage;
+
+        if (mCurHealth <= 0) gameObject.SetActive(false);
+    }
+
+    public bool IsActive()
+    {
+        return gameObject.activeSelf;
     }
 }

@@ -32,7 +32,7 @@ public class Castle : Singleton<Castle>
     #endregion 
     public bool CanNextPoint()
     {
-        return !(IsIndexOutFloor(mPlayerFloor.FloorIndex));
+        return !(IsIndexOutFloor(mPlayerFloor.FloorIndex)) && mPlayerFloor.IsClear;
     }
 
     #region READ
