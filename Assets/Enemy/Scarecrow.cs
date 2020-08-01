@@ -82,8 +82,10 @@ public class Scarecrow : MonoBehaviour, IObject
                 movePoint.x = Random.Range(-HALF_MOVE_RANGE_X, HALF_MOVE_RANGE_X);
                 movePoint.y = Random.Range(-HALF_MOVE_RANGE_Y, HALF_MOVE_RANGE_Y) + transform.localPosition.y;
 
-                mRenderer.flipX = (movePoint.x < transform.localPosition.x);
-
+                if (!IsLookAtPlayer(out playerPoint))
+                {
+                    mRenderer.flipX = (movePoint.x < transform.localPosition.x);
+                }
                 if (IsLookAtPlayer(out playerPoint))
                 {
                     movePoint = playerPoint - (mRenderer.flipX ? Vector2.left : Vector2.right) * mRange;
