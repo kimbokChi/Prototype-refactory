@@ -10,23 +10,29 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     private Dictionary<ITEM_DATA, Item> mLibrary;
 
-    public delegate void WeaponUseMoveBegin();
-    public event WeaponUseMoveBegin WUseMoveBegin;
+    public delegate void UseMoveBegin();
+    public event UseMoveBegin WUseMoveBegin;
+    public event UseMoveBegin AUseMoveBegin;
 
-    public delegate void WeaponUseMoveEnd();
-    public event WeaponUseMoveEnd WUseMoveEnd;
+    public delegate void UseMoveEnd();
+    public event UseMoveEnd WUseMoveEnd;
+    public event UseMoveEnd AUseMoveEnd;
 
-    public delegate void WeaponUseStruck();
-    public event WeaponUseStruck WUseStruck;
+    public delegate void UseStruck();
+    public event UseStruck WUseStruck;
+    public event UseStruck AUseStruck;
 
-    public delegate void WeaponUseBeDamaged();
-    public event WeaponUseBeDamaged WUseBeDamaged;
+    public delegate void UseBeDamaged(ref float damage, GameObject attacker, GameObject victim);
+    public event UseBeDamaged WUseBeDamaged;
+    public event UseBeDamaged AUseBeDamaged;
 
-    public delegate void WeaponUseEnter();
-    public event WeaponUseEnter WUseEnter;
+    public delegate void UseEnter();
+    public event UseEnter WUseEnter;
+    public event UseEnter AUseEnter;
 
-    public delegate void WeaponUseCharge(float charge);
-    public event WeaponUseCharge WUseCharge;
+    public delegate void UseCharge(float charge);
+    public event UseCharge WUseCharge;
+    public event UseCharge AUseCharge;
 
     private void Awake()
     {
