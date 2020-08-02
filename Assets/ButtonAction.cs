@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ButtonAction : MonoBehaviour
 {
-    public GameObject SwitchingObject;
+    [SerializeField]
+    private GameObject SwitchingObject;
 
     public void ActiveSwitching()
     {

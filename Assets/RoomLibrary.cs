@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoomLibrary : Singleton<RoomLibrary>
 {
     [SerializeField]
-    private List<Room> mRooms = new List<Room>();
+    private List<Room> mRooms;
 
     private Dictionary<ROOM_NUMBER, Room> mLibrary;
 
@@ -29,7 +29,7 @@ public class RoomLibrary : Singleton<RoomLibrary>
     #endregion
     public Room Random()
     {
-        int RandomIndex = UnityEngine.Random.Range(0, mRooms.Count);
+        int RandomIndex = UnityEngine.Random.Range(0, (int)ROOM_NUMBER.END);
 
         if (mLibrary.ContainsKey((ROOM_NUMBER)RandomIndex))
         {
