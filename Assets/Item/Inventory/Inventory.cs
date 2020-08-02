@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public const float MINMUM_RANGE = 1f;
+
     [SerializeField] private ItemSlot   mWeaponSlot;
     [SerializeField] private ItemSlot[] mAccessorySlot = new ItemSlot[4];
     [SerializeField] private ItemSlot[] mContainer     = new ItemSlot[8];
@@ -36,6 +38,15 @@ public class Inventory : MonoBehaviour
             }
         }
         Debug.Log("더이상 아이템을 담을수 없습니다!");
+    }
+
+    public float GetWeaponRange()
+    {
+        if (mWeaponSlot.ContainItem != null)
+        {
+            return mWeaponSlot.ContainItem.WeaponRange;
+        }
+        return MINMUM_RANGE;
     }
 
     public void UseItem(ITEM_KEYWORD KEYWORD)
