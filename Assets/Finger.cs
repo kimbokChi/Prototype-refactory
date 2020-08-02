@@ -7,9 +7,10 @@ public class Finger : Singleton<Finger>
 {
     private const float PRESS_TIME = 0.8f;
 
-    private Item mCarryItem;
-
+    [SerializeField]
     private ChargeGauge mChargeGauge;
+
+    private Item mCarryItem;
 
     private float mCurPressTime;
 
@@ -17,8 +18,6 @@ public class Finger : Singleton<Finger>
 
     private void Awake()
     {
-        transform.GetChild(0).TryGetComponent(out mChargeGauge);
-
         mCurPressTime = 0f;
     }
 
