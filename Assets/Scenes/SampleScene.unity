@@ -2256,10 +2256,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 607c36bd91081304c9964d639ee5df09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mBlinkTime: 0.2
   WaitTimeATK: 0.8
-  EDetector: {fileID: 2055968785}
+  mMoveSpeed: 4
+  mEnemyDetector: {fileID: 2055968785}
   mInventory: {fileID: 404642459}
-  mEquipItem: {fileID: 576382838}
+  mMaxHealth: 10000
+  mDefense: 10000
+  mLocation9: 4
 --- !u!61 &985103578
 BoxCollider2D:
   m_ObjectHideFlags: 0
