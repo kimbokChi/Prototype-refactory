@@ -67,12 +67,11 @@ public class Castle : Singleton<Castle>
     #endregion 
     public void AliveNextPoint()
     {
-        // 위 지역으로 이동할 수 있을때
         if (!IsIndexOutFloor(mPlayerFloor.FloorIndex)) 
         {
             mPlayerFloor = mFloors[mPlayerFloor.FloorIndex];
 
-            Renew();
+            RenewPlayerFloor();
         }
     }
 
@@ -94,23 +93,13 @@ public class Castle : Singleton<Castle>
         }
     }
 
-    private void PlayerCheck(int floor)
-    {
-        if (mFloors[floor - 1] != null)
-        {
-            mPlayerFloor = mFloors[floor - 1];
-
-            mPlayer = FindObjectOfType(typeof(Player)) as Player;
-        }
-    }
-
     #region _MEMBER
     /// <summary>
     /// 플레이어가 존재하는 층인 mPlayerFloor를 가동시키고,
     /// <para>멤버변수들의 정보를 mPlayerFloor에 대한 정보로 갱신합니다.</para>
     /// </summary>
     #endregion 
-    private void Renew()
+    private void RenewPlayerFloor()
     {
         mPlayerFloor.IInit();
 
@@ -147,7 +136,7 @@ public class Castle : Singleton<Castle>
         }
     }
 
-    private IEnumerator CR_update()
+    private IEnumerator EUpdate()
     {
         while (mIsActivation)
         {
@@ -168,10 +157,10 @@ public class Castle : Singleton<Castle>
     {
         BuildCastle();
 
-        PlayerCheck(1);
+        mPlayer = FindObjectOfType(typeof(Player)) as Player;
 
-        Renew();
+        RenewPlayerFloor();
 
-        StartCoroutine(CR_update());
+        StartCoroutine(EUpdate());
     }
 }
