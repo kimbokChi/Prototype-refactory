@@ -16,8 +16,8 @@ public class Player : MonoBehaviour, ICombat
     [SerializeField]
     private float mMoveSpeed;
 
-    [SerializeField] private Detector  mEnemyDetector;
-    [SerializeField] private Inventory mInventory;
+    [SerializeField] 
+    private Detector mEnemyDetector;
 
     [SerializeField]
     private float mMaxHealth;
@@ -96,8 +96,6 @@ public class Player : MonoBehaviour, ICombat
         mWaitATK    = new Timer();
         mBlinkTimer = new Timer();
 
-        mInventory.Init();
-
         mWaitATK.Start(WaitTimeATK);
     }
 
@@ -141,13 +139,13 @@ public class Player : MonoBehaviour, ICombat
             mBlinkTimer.Update(); 
         }
 
-        mEnemyDetector.SetRange(mInventory.GetWeaponRange());
+        mEnemyDetector.SetRange(Inventory.Instnace.GetWeaponRange());
 
         if (mEnemyDetector.HasChallenger(out Collider2D challenger))
         {
             if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombat combat))
             {
-                mInventory.UseItem(ITEM_KEYWORD.STRUCK);
+                Inventory.Instnace.UseItem(ITEM_KEYWORD.STRUCK);
 
                 mWaitATK.Start(WaitTimeATK);
             }
@@ -194,7 +192,7 @@ public class Player : MonoBehaviour, ICombat
 
     private IEnumerator EMove(Vector2 movePoint, DIRECTION9 moveDIR9)
     {
-        mInventory.UseItem(ITEM_KEYWORD.MOVE_BEGIN);
+        Inventory.Instnace.UseItem(ITEM_KEYWORD.MOVE_BEGIN);
 
         float lerpAmount = 0;
 
@@ -206,13 +204,13 @@ public class Player : MonoBehaviour, ICombat
 
             yield return null;
         }
-        mInventory.UseItem(ITEM_KEYWORD.MOVE_END);
+        Inventory.Instnace.UseItem(ITEM_KEYWORD.MOVE_END);
 
         if (mCanElevation)
         {
             Castle.Instnace.AliveNextPoint();
 
-            mInventory.UseItem(ITEM_KEYWORD.ENTER);
+            Inventory.Instnace.UseItem(ITEM_KEYWORD.ENTER);
 
             mCanElevation = false;
         }
@@ -231,7 +229,7 @@ public class Player : MonoBehaviour, ICombat
 
         mCurHealth -= damage / mDefense;
 
-        mInventory.UseItem(ITEM_KEYWORD.BE_DAMAGED);
+        Inventory.Instnace.UseItem(ITEM_KEYWORD.BE_DAMAGED);
         mBlinkTimer.Start(mBlinkTime);
     }
 }

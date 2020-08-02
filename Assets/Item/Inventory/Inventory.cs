@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : Singleton<Inventory>
 {
     public const float DEFAULT_RANGE = 1f;
 
@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private ItemSlot[] mAccessorySlot;
     [SerializeField] private ItemSlot[] mContainer;
 
-    public void Init()
+    private void Awake()
     {
         mWeaponSlot.Init(SLOT_TYPE.WEAPON);
 
