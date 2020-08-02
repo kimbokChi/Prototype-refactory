@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public const float DEFAULT_RANGE = 1f;
+
     [SerializeField] private ItemSlot   mWeaponSlot;
-    [SerializeField] private ItemSlot[] mAccessorySlot = new ItemSlot[4];
-    [SerializeField] private ItemSlot[] mContainer     = new ItemSlot[8];
+    [SerializeField] private ItemSlot[] mAccessorySlot;
+    [SerializeField] private ItemSlot[] mContainer;
 
     public void Init()
     {
@@ -38,6 +40,15 @@ public class Inventory : MonoBehaviour
         Debug.Log("더이상 아이템을 담을수 없습니다!");
     }
 
+    public float GetWeaponRange()
+    {
+        if (mWeaponSlot.ContainItem != null)
+        {
+            return mWeaponSlot.ContainItem.WeaponRange;
+        }
+        return DEFAULT_RANGE;
+    }
+
     public void UseItem(ITEM_KEYWORD KEYWORD)
     {
         if (mWeaponSlot.ContainItem != null)
@@ -65,26 +76,5 @@ public class Inventory : MonoBehaviour
                 mAccessorySlot[i].ContainItem.CAccessoryUse(power);
             }
         }
-    }
-
-    private IEnumerable<ItemSlot> EGetSlots()
-    {
-        int iterIndex = 0;
-
-        yield return mWeaponSlot;
-
-        while (iterIndex < mAccessorySlot.Length)
-        {
-            yield return mAccessorySlot[iterIndex++];
-        }
-
-        iterIndex = 0;
-        
-        while (iterIndex < mContainer.Length)
-        {
-            yield return mContainer[iterIndex++];
-        }
-
-        yield break;
     }
 }

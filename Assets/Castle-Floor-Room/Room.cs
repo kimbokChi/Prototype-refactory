@@ -8,7 +8,7 @@ public class Room : MonoBehaviour
     [SerializeField][Tooltip("중심 이동 지점입니다")] private Transform CMovePoint;
     [SerializeField][Tooltip("우측 이동 지점입니다")] private Transform RMovePoint; 
 
-    private Floor mMasterFloor;
+    private Floor mBelongFloor;
 
     public  bool  IsClear => mIsClear;
     private bool mIsClear;
@@ -17,31 +17,28 @@ public class Room : MonoBehaviour
     {
         get
         {
-            if (mMasterFloor != null)
+            if (mBelongFloor != null)
             {
-                return mMasterFloor.FloorIndex;
+                return mBelongFloor.FloorIndex;
             }
             return 0;
         }
     }
 
-                     public  ROOM_NUMBER  RoomNumber
-    {
-        get { return mRoomNumber; }
-    }
+                     public  ROOM_NUMBER  RoomNumber => mRoomNumber;
     [SerializeField] private ROOM_NUMBER mRoomNumber;
 
-    private List<IObject> mObjects = new List<IObject>();
+    private List<IObject> mObjects;
 
-    public void IInit(Floor masterFloor)
+    public void IInit(Floor parentFloor)
     {
-        mMasterFloor = masterFloor;
+        mBelongFloor = parentFloor;
 
-        IObject Object;
+        mObjects = new List<IObject>();
 
         for (int i = 0; i < transform.childCount; ++i)
         {
-            if (transform.GetChild(i).TryGetComponent(out Object))
+            if (transform.GetChild(i).TryGetComponent(out IObject Object))
             {
                 mObjects.Add(Object);
 

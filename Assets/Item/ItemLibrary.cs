@@ -6,18 +6,16 @@ using UnityEngine;
 public class ItemLibrary : Singleton<ItemLibrary>
 {
     [SerializeField]
-    private List<Item> mItems = new List<Item>();
+    private List<Item> mItems;
 
-    private Dictionary<ITEM_DATA, Item> mLibrary = new Dictionary<ITEM_DATA, Item>();
-
-
-
-    private System.Random mRandom = new System.Random();
+    private Dictionary<ITEM_DATA, Item> mLibrary;
 
 
     private void Awake()
     {
-        for(int i = 0; i < mItems.Count; ++i)
+        mLibrary = new Dictionary<ITEM_DATA, Item>();
+
+        for (int i = 0; i < mItems.Count; ++i)
         {
             if (!mLibrary.ContainsKey(mItems[i].DATA))
             {
@@ -27,7 +25,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
             }
             else
             {
-                Debug.LogWarning($"중복된 아이템이 존재합니다. 중복된 인덱스 : {i}");
+                Debug.LogError($"중복된 아이템이 존재합니다. 중복된 인덱스 : {i}");
             }
         }
     }
@@ -36,7 +34,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
     {
         if (mItems.Count > 0)
         {
-            int index = mRandom.Next(0, mItems.Count);
+            int index = Random.Range(0, mItems.Count);
 
 
             Item randomItem = mItems[index];

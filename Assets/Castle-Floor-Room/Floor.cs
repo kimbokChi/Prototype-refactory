@@ -4,18 +4,14 @@ using UnityEngine;
 
 public class Floor : MonoBehaviour
 {
-    [SerializeField]
-    [Tooltip("가장 높이있는 방일수록 가장 작은 인덱스에 저장해 주세요!")]
     private Room[] mMemberRooms = new Room[3];
 
     [SerializeField]
-    [Tooltip("가장 높이있는 방일수록 가장 작은 인덱스에 저장해 주세요!")]
+    [Tooltip("높이있는 방일수록 가장 작은 인덱스에 저장해 주세요!")]
     private Transform[] mRoomPoints = new Transform[3];
 
-    public  int  FloorIndex
-    { get { return mFloorIndex; } }
-    [SerializeField]
-    private int mFloorIndex;
+                     public  int  FloorIndex => mFloorIndex;
+    [SerializeField] private int mFloorIndex;
 
     public  bool  IsClear => mIsClear;
     private bool mIsClear;

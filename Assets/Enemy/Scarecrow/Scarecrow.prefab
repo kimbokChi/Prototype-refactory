@@ -143,13 +143,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74094461f3f40bc4aba79e5fb59efb52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WAIT_FOR_MOVE_MIN: 0.3
-  WAIT_FOR_MOVE_MAX: 0.9
-  HALF_MOVE_RANGE_X: 2.5
-  HALF_MOVE_RANGE_Y: 0
+  mWaitForMoveMin: 0.2
+  mWaitForMoveMax: 0.5
+  mHalfMoveRangeX: 2.5
+  mHalfMoveRangeY: 0
   mWaitATKTime: 0.2
   mRange: 1
   mMoveSmooth: 0.15
   mRangeOffset: 0.16
   mMoveSpeed: 2
   mMoveTime: 0
+  mMaxHealth: 100

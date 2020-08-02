@@ -10,9 +10,17 @@ public class Detector : MonoBehaviour
 
 
 
-    public Collider2D GetChallenger()
+    public bool HasChallenger(out Collider2D challenger)
     {
-        return mChallenger;
+        challenger = null;
+
+        if (mChallenger != null)
+        {
+            challenger = mChallenger;
+
+            return true;
+        }
+        return false;
     }
     public void SetRange(float radius)
     {

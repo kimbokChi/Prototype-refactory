@@ -5,18 +5,21 @@ using UnityEngine.UIElements;
 
 public class Finger : Singleton<Finger>
 {
-    private Item mCarryItem = null;
+    private const float PRESS_TIME = 0.8f;
+
+    private Item mCarryItem;
 
     private ChargeGauge mChargeGauge;
 
-    private float mClickTime = 0;
-    private const float PRESS_TIME = 0.8f;
+    private float mCurPressTime;
 
     private bool mIsGaugeBreak;
 
     private void Awake()
     {
         transform.GetChild(0).TryGetComponent(out mChargeGauge);
+
+        mCurPressTime = 0f;
     }
 
     public void SetCarryItem(Item item)
@@ -38,7 +41,7 @@ public class Finger : Singleton<Finger>
         }
         if (Input.GetMouseButton(0))
         {
-            if (mClickTime >= PRESS_TIME)
+            if (mCurPressTime >= PRESS_TIME)
             {
                 mChargeGauge.gameObject.SetActive(true);
 
@@ -50,20 +53,20 @@ public class Finger : Singleton<Finger>
             }
             else
             {
-                mClickTime += Time.deltaTime;
+                mCurPressTime += Time.deltaTime;
             }
         }
-        if ((Input.GetMouseButtonUp(0) && mClickTime >= PRESS_TIME) || mIsGaugeBreak)
+        if ((Input.GetMouseButtonUp(0) && mCurPressTime >= PRESS_TIME) || mIsGaugeBreak)
         {
             mChargeGauge.gameObject.SetActive(false);
 
             Player player = FindObjectOfType(typeof(Player)) as Player;
 
-            player.mInventory.CUseItem(mChargeGauge.Charge);
+            //player.mInventory.CUseItem(mChargeGauge.Charge);
 
             mIsGaugeBreak = false;
 
-            mClickTime = 0;
+            mCurPressTime = 0;
         }
     }
 }

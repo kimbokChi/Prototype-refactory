@@ -5,28 +5,34 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, ICombat
 {
-    private const float BLINK_TIME = 0.5f;
-    private Timer mBlinkTimer = new Timer();
-
-    public float WaitTimeATK;
-    private Timer mWaitATK = new Timer();
-
-    public Detector EDetector;
-    public Inventory mInventory;
-
-    private SpriteRenderer mRenderer;
-
-    private DIRECTION9 mLocation9;
-
-    private IEnumerator mCRmove;
-
-    private float mHealthPoint = 100.0f;
-    private float mDefensivePower = 1.0f;
-
-    private bool mCanElevation = false;
+    [SerializeField]
+    private float mBlinkTime;
+    private Timer mBlinkTimer;
 
     [SerializeField]
-    private Item mEquipItem;
+    private float WaitTimeATK;
+    private Timer mWaitATK;
+
+    [SerializeField]
+    private float mMoveSpeed;
+
+    [SerializeField] private Detector  mEnemyDetector;
+    [SerializeField] private Inventory mInventory;
+
+    [SerializeField]
+    private float mMaxHealth;
+    private float mCurHealth;
+
+    [SerializeField]
+    private float mDefense;
+
+    [SerializeField]
+    private DIRECTION9 mLocation9;
+
+
+    private IEnumerator mEMove;
+
+    private bool mCanElevation;
 
     public LPOSITION3 GetLPOSITION3()
     {
@@ -83,22 +89,23 @@ public class Player : MonoBehaviour, ICombat
 
     private void Start()
     {
-        mLocation9 = DIRECTION9.MID;
+        mCanElevation = false;
+
+        mCurHealth = mMaxHealth;
+
+        mWaitATK    = new Timer();
+        mBlinkTimer = new Timer();
 
         mInventory.Init();
-
-        mEquipItem.Init();
-
-        TryGetComponent(out mRenderer);
 
         mWaitATK.Start(WaitTimeATK);
     }
 
-    private void InputAct()
+    private void InputAction()
     {
         DIRECTION9 moveRIR9 = DIRECTION9.END;
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             if (GetLPOSITION3() == LPOSITION3.TOP)
             {
@@ -109,15 +116,15 @@ public class Player : MonoBehaviour, ICombat
                 moveRIR9 = ((int)mLocation9 - 3) < 0 ? mLocation9 : mLocation9 - 3;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
             moveRIR9 = ((int)mLocation9 + 3) > 8 ? mLocation9 : mLocation9 + 3;
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.LeftArrow))
         {
             moveRIR9 = (int)mLocation9 % 3 == 0 ? mLocation9 : mLocation9 - 1;
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
             moveRIR9 = (int)mLocation9 % 3 == 2 ? mLocation9 : mLocation9 + 1;
         }
@@ -127,114 +134,104 @@ public class Player : MonoBehaviour, ICombat
 
     private void Update()
     {
-        EDetector.SetRange(mEquipItem.WeaponRange);
-
-        Collider2D challenger = EDetector.GetChallenger();
-
         mWaitATK.Update();
 
-        if (!mBlinkTimer.IsOver()) { mBlinkTimer.Update(); }
+        if (!mBlinkTimer.IsOver()) 
+        {
+            mBlinkTimer.Update(); 
+        }
 
-        if (challenger)
+        mEnemyDetector.SetRange(mInventory.GetWeaponRange());
+
+        if (mEnemyDetector.HasChallenger(out Collider2D challenger))
         {
             if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombat combat))
             {
-                combat.Damaged(100, gameObject, out GameObject v);
-
                 mInventory.UseItem(ITEM_KEYWORD.STRUCK);
 
                 mWaitATK.Start(WaitTimeATK);
             }
-            mRenderer.flipX = (challenger.transform.position.x > transform.position.x);
+            if (TryGetComponent(out SpriteRenderer renderer))
+            {
+                renderer.flipX = (challenger.transform.position.x > transform.position.x);
+            }            
         }
-
-        InputAct();
+        InputAction();
     }
 
-    private void MoveAction(DIRECTION9 moveRIR9)
+    private void MoveAction(DIRECTION9 moveDIR9)
     {
-        if (mCRmove == null)
+        if (mEMove == null && moveDIR9 != mLocation9)
         {
+            // Move To Next Floor
             if (mCanElevation)
             {
-                Vector2 nextPoint;
-
-                if (Castle.Instnace.CanNextPoint(out nextPoint))
+                if (Castle.Instnace.CanNextPoint(out Vector2 nextPoint))
                 {
-                    mCRmove = CR_move(nextPoint);
+                    switch (mLocation9)
+                    {
+                        case DIRECTION9.TOP_LEFT:
+                            moveDIR9 = DIRECTION9.BOT_LEFT;
+                            break;
+                        case DIRECTION9.TOP:
+                            moveDIR9 = DIRECTION9.BOT;
+                            break;
+                        case DIRECTION9.TOP_RIGHT:
+                            moveDIR9 = DIRECTION9.BOT_RIGHT;
+                            break;
+                    }
+                    StartCoroutine(mEMove = EMove(nextPoint, moveDIR9));
                 }
             }
-            else if (moveRIR9 != DIRECTION9.END)
-            {
-                mLocation9 = moveRIR9;
 
-                mCRmove = CR_move(Castle.Instnace.GetMovePoint(moveRIR9));
-            }
-
-            if (mCRmove != null)
+            // Move To MovePoint
+            else if (moveDIR9 != DIRECTION9.END)
             {
-                StartCoroutine(mCRmove);
+                StartCoroutine(mEMove = EMove(Castle.Instnace.GetMovePoint(moveDIR9), moveDIR9));
             }
         }
     }
 
-    private IEnumerator CR_move(Vector2 movePoint)
+    private IEnumerator EMove(Vector2 movePoint, DIRECTION9 moveDIR9)
     {
-        float value = 0;
-        float temporary = 0;
-
-        Vector2 initPos = transform.position;
-
         mInventory.UseItem(ITEM_KEYWORD.MOVE_BEGIN);
 
-        while (value < 1)
+        float lerpAmount = 0;
+
+        while (lerpAmount < 1)
         {
-            temporary = value + Time.deltaTime * 5.5f;
+            lerpAmount = Mathf.Min(1, lerpAmount + Time.deltaTime * Time.timeScale * mMoveSpeed);
 
-            value = temporary > 1 ? 1 : temporary;
-
-            transform.position = Vector2.Lerp(initPos, movePoint, value);
+            transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
 
             yield return null;
         }
-        mCRmove = null;
         mInventory.UseItem(ITEM_KEYWORD.MOVE_END);
 
         if (mCanElevation)
         {
-            switch (mLocation9)
-            {
-                case DIRECTION9.TOP_LEFT:
-                    mLocation9 = DIRECTION9.BOT_LEFT;
-                    break;
-                case DIRECTION9.TOP:
-                    mLocation9 = DIRECTION9.BOT;
-                    break;
-                case DIRECTION9.TOP_RIGHT:
-                    mLocation9 = DIRECTION9.BOT_RIGHT;
-                    break;
-            }
             Castle.Instnace.AliveNextPoint();
 
             mInventory.UseItem(ITEM_KEYWORD.ENTER);
 
             mCanElevation = false;
         }
+        mLocation9 = moveDIR9; mEMove = null;
+
         yield break;
     }
 
     public void Damaged(float damage, GameObject attacker, out GameObject victim)
     {
-        // 깜박이 상태라면 공격 무시
         if (!mBlinkTimer.IsOver())
-        { victim = null; Debug.Log("Blink!"); return; }
-
+        {
+            victim = null; return;
+        }
         victim = gameObject;
 
-        mHealthPoint -= damage / mDefensivePower;
+        mCurHealth -= damage / mDefense;
 
         mInventory.UseItem(ITEM_KEYWORD.BE_DAMAGED);
-
-        mBlinkTimer.Start(BLINK_TIME);
+        mBlinkTimer.Start(mBlinkTime);
     }
 }
