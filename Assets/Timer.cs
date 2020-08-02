@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Timer
 {
-    private float mWaitTime    = 0.0f;
-    private float mWaitTimeSum = 0.0f;
+    private float mWaitTime;
+    private float mWaitTimeSum;
 
     public void Start(float waitTime)
     {
@@ -20,6 +20,4 @@ public class Timer
     }
 
     public bool IsOver() => mWaitTimeSum >= mWaitTime;
-
-    public float TimeOverFlow() => mWaitTime - mWaitTimeSum;
 }
