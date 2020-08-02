@@ -10,6 +10,23 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     private Dictionary<ITEM_DATA, Item> mLibrary;
 
+    public delegate void WeaponUseMoveBegin();
+    public event WeaponUseMoveBegin WUseMoveBegin;
+
+    public delegate void WeaponUseMoveEnd();
+    public event WeaponUseMoveEnd WUseMoveEnd;
+
+    public delegate void WeaponUseStruck();
+    public event WeaponUseStruck WUseStruck;
+
+    public delegate void WeaponUseBeDamaged();
+    public event WeaponUseBeDamaged WUseBeDamaged;
+
+    public delegate void WeaponUseEnter();
+    public event WeaponUseEnter WUseEnter;
+
+    public delegate void WeaponUseCharge(float charge);
+    public event WeaponUseCharge WUseCharge;
 
     private void Awake()
     {
