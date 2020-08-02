@@ -29,7 +29,7 @@ public class RoomLibrary : Singleton<RoomLibrary>
     #endregion
     public Room Random()
     {
-        int RandomIndex = mRandom.Next(0, (int)ROOM_NUMBER.END);
+        int RandomIndex = mRandom.Next(0, mRooms.Count);
 
         if (mLibrary.ContainsKey((ROOM_NUMBER)RandomIndex))
         {

@@ -128,8 +128,6 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
                 {
                     mPlayer.Damaged(1f, gameObject, out GameObject v);
 
-                    Debug.Log($"Attack To {(v == null ? "null" : v.name)}!");
-
                     mWaitForATK.Start(mWaitATKTime);
                 }
             }
