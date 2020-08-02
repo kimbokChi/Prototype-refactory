@@ -68,7 +68,7 @@ public class ItemBox : MonoBehaviour
 
                 Player player = FindObjectOfType(typeof(Player)) as Player;
 
-                player.mInventory.AddItem(mContainItem);
+                //player.mInventory.AddItem(mContainItem);
             }
         }
     }

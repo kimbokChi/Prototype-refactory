@@ -59,7 +59,7 @@ public class Finger : Singleton<Finger>
 
             Player player = FindObjectOfType(typeof(Player)) as Player;
 
-            player.mInventory.CUseItem(mChargeGauge.Charge);
+            //player.mInventory.CUseItem(mChargeGauge.Charge);
 
             mIsGaugeBreak = false;
 
