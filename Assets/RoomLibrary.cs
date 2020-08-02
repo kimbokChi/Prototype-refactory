@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class RoomLibrary : Singleton<RoomLibrary>
 {
-    private Dictionary<ROOM_NUMBER, Room> mLibrary = new Dictionary<ROOM_NUMBER, Room>();
-
     [SerializeField]
     private List<Room> mRooms = new List<Room>();
 
-    private System.Random mRandom = new System.Random();
+    private Dictionary<ROOM_NUMBER, Room> mLibrary;
 
     private void Awake()
     {
+        mLibrary = new Dictionary<ROOM_NUMBER, Room>();
+
         foreach (Room iterator in mRooms)
         {
             if (!mLibrary.ContainsKey(iterator.RoomNumber))
@@ -29,7 +29,7 @@ public class RoomLibrary : Singleton<RoomLibrary>
     #endregion
     public Room Random()
     {
-        int RandomIndex = mRandom.Next(0, mRooms.Count);
+        int RandomIndex = UnityEngine.Random.Range(0, mRooms.Count);
 
         if (mLibrary.ContainsKey((ROOM_NUMBER)RandomIndex))
         {
