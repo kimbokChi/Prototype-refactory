@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class ItemBox : MonoBehaviour
 {
+    public const string TRIGGER_TAG = "Player";
+
     [SerializeField] private Sprite mOpenBox;
     
     private Animator mAnimator;
 
     private bool mIsOpen;
-
     private bool mIsPlayerEnter;
 
     private Item mContainItem;
@@ -40,7 +41,7 @@ public class ItemBox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && !mIsOpen)
+        if (collision.CompareTag(TRIGGER_TAG) && !mIsOpen)
         {
             mAnimator.enabled = true;
 
@@ -52,7 +53,7 @@ public class ItemBox : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag(TRIGGER_TAG))
         {
             mIsPlayerEnter = false;
         }

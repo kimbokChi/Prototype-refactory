@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class DropItem : MonoBehaviour
 {
-    private IEnumerator mCRplayAnimation = null;
+    private IEnumerator mEPlayAnimation;
 
-    public bool IsCatch => (mCRplayAnimation != null);
+    public bool IsCatch => (mEPlayAnimation != null);
 
     public void Catch()
     {
@@ -14,11 +14,11 @@ public class DropItem : MonoBehaviour
         {
             animator.SetBool(animator.GetParameter(0).nameHash, true);
 
-            StartCoroutine(mCRplayAnimation = CR_playAnimation());
+            StartCoroutine(mEPlayAnimation = EPlayAnimation());
         }
     }
 
-    private IEnumerator CR_playAnimation()
+    private IEnumerator EPlayAnimation()
     {
         for(float i = 0; i < 0.417f; i += Time.deltaTime * Time.timeScale)
         {
