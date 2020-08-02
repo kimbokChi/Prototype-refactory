@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Scarecrow : MonoBehaviour, IObject, ICombat
 {
-    [SerializeField] private float WAIT_FOR_MOVE_MIN;
-    [SerializeField] private float WAIT_FOR_MOVE_MAX;
+    [SerializeField] private float mWaitForMoveMin;
+    [SerializeField] private float mWaitForMoveMax;
 
-    [SerializeField] private float HALF_MOVE_RANGE_X;
-    [SerializeField] private float HALF_MOVE_RANGE_Y;
+    [SerializeField] private float mHalfMoveRangeX;
+    [SerializeField] private float mHalfMoveRangeY;
 
     private float mWaitMoveTime
     {
         get
         {
-            return Random.Range(WAIT_FOR_MOVE_MIN, WAIT_FOR_MOVE_MAX);
+            return Random.Range(mWaitForMoveMin, mWaitForMoveMax);
         }
     }
 
@@ -96,8 +96,8 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
                 Vector2 movePoint;
                 Vector2 playerPoint;
 
-                movePoint.x = Random.Range(-HALF_MOVE_RANGE_X, HALF_MOVE_RANGE_X);
-                movePoint.y = Random.Range(-HALF_MOVE_RANGE_Y, HALF_MOVE_RANGE_Y) + transform.localPosition.y;
+                movePoint.x = Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+                movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + transform.localPosition.y;
 
                 if (!IsLookAtPlayer(out playerPoint))
                 {
@@ -206,22 +206,22 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
 
     private Vector2 ControlMovePoint(Vector2 movePoint)
     {
-        if (HALF_MOVE_RANGE_Y == 0)
+        if (mHalfMoveRangeY == 0)
         {
             movePoint.y = transform.localPosition.y;
         }
-        else if (Mathf.Abs(movePoint.y - transform.localPosition.y) > HALF_MOVE_RANGE_Y * 2)
+        else if (Mathf.Abs(movePoint.y - transform.localPosition.y) > mHalfMoveRangeY * 2)
         {
-            movePoint.y = HALF_MOVE_RANGE_Y * 2 + transform.localPosition.y;
+            movePoint.y = mHalfMoveRangeY * 2 + transform.localPosition.y;
         }
 
-        if (HALF_MOVE_RANGE_X == 0)
+        if (mHalfMoveRangeX == 0)
         {
             movePoint.x = transform.localPosition.x;
         }
-        else if (Mathf.Abs(movePoint.x - transform.localPosition.x) > HALF_MOVE_RANGE_X * 2)
+        else if (Mathf.Abs(movePoint.x - transform.localPosition.x) > mHalfMoveRangeX * 2)
         {
-            movePoint.x = HALF_MOVE_RANGE_X * 2 + transform.localPosition.x;
+            movePoint.x = mHalfMoveRangeX * 2 + transform.localPosition.x;
         }
         return movePoint;
     }
