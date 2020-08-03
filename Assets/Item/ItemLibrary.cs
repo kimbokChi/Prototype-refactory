@@ -10,29 +10,9 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     private Dictionary<ITEM_DATA, Item> mLibrary;
 
-    public delegate void UseMoveBegin();
-    public event UseMoveBegin MoveBeginAction;
-
-    public delegate void UseMoveEnd();
-    public event UseMoveEnd MoveEndAction;
-
-    public delegate void UseStruck();
-    public event UseStruck StruckAction;
-
-    public delegate void UseBeDamaged(ref float damage, GameObject attacker, GameObject victim);
-    public event UseBeDamaged BeDamagedAction;
-
-    public delegate void UseEnter();
-    public event UseEnter EnterAction;
-
-    public delegate void UseCharge(float charge);
-    public event UseCharge ChargeAction;
-
     private void Awake()
     {
         mLibrary = new Dictionary<ITEM_DATA, Item>();
-
-        EventInit();
 
         for (int i = 0; i < mItems.Count; ++i)
         {
@@ -46,14 +26,6 @@ public class ItemLibrary : Singleton<ItemLibrary>
             {
                 Debug.LogError($"중복된 아이템이 존재합니다. 중복된 인덱스 : {i}");
             }
-        }
-    }
-
-    private void EventInit()
-    {
-        if (BeDamagedAction == null)
-        {
-            BeDamagedAction = delegate (ref float damage, GameObject attacker, GameObject victim) { };
         }
     }
 
@@ -72,10 +44,5 @@ public class ItemLibrary : Singleton<ItemLibrary>
             return randomItem;
         }
         return null;
-    }
-
-    public void BeDamaged(ref float damage, GameObject attacker, GameObject victim)
-    {
-        BeDamagedAction.Invoke(ref damage, attacker, victim);
     }
 }

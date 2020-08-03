@@ -24,7 +24,7 @@ public class Golden_Flip : Item
 
     public override void Init()
     {
-        ItemLibrary.Instnace.BeDamagedAction += BeDamaged;
+        Inventory.Instnace.BeDamagedAction += BeDamaged;
     }
 
     private void BeDamaged(ref float damage, GameObject attacker, GameObject victim)

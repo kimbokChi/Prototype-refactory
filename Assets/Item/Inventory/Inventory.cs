@@ -7,6 +7,28 @@ public class Inventory : Singleton<Inventory>
 {
     public const float DEFAULT_RANGE = 1f;
 
+    #region Item Function Event
+
+    public delegate void UseMoveBegin();
+    public event UseMoveBegin MoveBeginAction;
+
+    public delegate void UseMoveEnd();
+    public event UseMoveEnd MoveEndAction;
+
+    public delegate void UseStruck();
+    public event UseStruck StruckAction;
+
+    public delegate void UseBeDamaged(ref float damage, GameObject attacker, GameObject victim);
+    public event UseBeDamaged BeDamagedAction;
+
+    public delegate void UseEnter();
+    public event UseEnter EnterAction;
+
+    public delegate void UseCharge(float charge);
+    public event UseCharge ChargeAction;
+
+    #endregion
+
     [SerializeField] private ItemSlot   mWeaponSlot;
     [SerializeField] private ItemSlot[] mAccessorySlot;
     [SerializeField] private ItemSlot[] mContainer;
@@ -23,6 +45,15 @@ public class Inventory : Singleton<Inventory>
             {
                 mAccessorySlot[i].Init(SLOT_TYPE.ACCESSORY);
             }
+        }
+        EventInit();
+    }
+
+    private void EventInit()
+    {
+        if (BeDamagedAction == null)
+        {
+            BeDamagedAction = delegate (ref float damage, GameObject attacker, GameObject victim) { };
         }
     }
 
@@ -47,6 +78,11 @@ public class Inventory : Singleton<Inventory>
             return mWeaponSlot.ContainItem.WeaponRange;
         }
         return DEFAULT_RANGE;
+    }
+
+    public void BeDamaged(ref float damage, GameObject attacker, GameObject victim)
+    {
+        BeDamagedAction.Invoke(ref damage, attacker, victim);
     }
 
     public void UseItem(ITEM_KEYWORD KEYWORD)
