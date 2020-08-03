@@ -35,15 +35,10 @@ public class Golden_Flip : Item
                 break;
 
             case SLOT_TYPE.WEAPON:
-                Inventory.Instnace.StruckAction += Combat;
+                Inventory.Instnace.AttackAction += Combat;
                 Inventory.Instnace.BeDamagedAction += BeDamaged;
                 break;
         }
-    }
-
-    private void Combat(GameObject attacker, ICombat targetCombat)
-    {
-        targetCombat.Damaged(100f, attacker, out GameObject v);
     }
 
     public override void OffEquipThis(SLOT_TYPE offSlot)
@@ -55,7 +50,7 @@ public class Golden_Flip : Item
                 break;
 
             case SLOT_TYPE.WEAPON:
-                Inventory.Instnace.StruckAction -= Combat;
+                Inventory.Instnace.AttackAction -= Combat;
                 Inventory.Instnace.BeDamagedAction -= BeDamaged;
                 break;
         }
@@ -72,5 +67,10 @@ public class Golden_Flip : Item
     private void Charge(float power)
     {
         Debug.Log($"추충전 : {(int)(power * 100)}%");
+    }
+
+    private void Combat(GameObject attacker, ICombat targetCombat)
+    {
+        targetCombat.Damaged(100f, attacker, out GameObject v);
     }
 }

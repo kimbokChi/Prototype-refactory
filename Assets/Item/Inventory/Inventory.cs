@@ -15,8 +15,8 @@ public class Inventory : Singleton<Inventory>
     public delegate void UseMoveEnd();
     public event UseMoveEnd MoveEndAction;
 
-    public delegate void UseStruck(GameObject attacker, ICombat targetCombat);
-    public event UseStruck StruckAction;
+    public delegate void UseAttack(GameObject attacker, ICombat targetCombat);
+    public event UseAttack AttackAction;
 
     public delegate void UseBeDamaged(ref float damage, GameObject attacker, GameObject victim);
     public event UseBeDamaged BeDamagedAction;
@@ -59,9 +59,9 @@ public class Inventory : Singleton<Inventory>
         {
             ChargeAction = delegate (float power) { };
         }
-        if (StruckAction == null)
+        if (AttackAction == null)
         {
-            StruckAction = delegate (GameObject attacker, ICombat targetCombat) { };
+            AttackAction = delegate (GameObject attacker, ICombat targetCombat) { };
         }
     }
 
@@ -98,8 +98,8 @@ public class Inventory : Singleton<Inventory>
         ChargeAction.Invoke(power);
     }
 
-    public void UseStruckAction(GameObject attacker, ICombat targetCombat)
+    public void UseAttackAction(GameObject attacker, ICombat targetCombat)
     {
-        StruckAction.Invoke(attacker, targetCombat);
+        AttackAction.Invoke(attacker, targetCombat);
     }
 }
