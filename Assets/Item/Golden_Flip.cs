@@ -24,12 +24,16 @@ public class Golden_Flip : Item
 
     public override void Init()
     {
-        Inventory.Instnace.BeDamagedAction += BeDamaged;
     }
 
     private void BeDamaged(ref float damage, GameObject attacker, GameObject victim)
     {
         damage *= 0.5f;
+    }
+
+    private void Charge(float power)
+    {
+        Debug.Log($"추충전 : {(int)(power * 100)}%");
     }
 
     public override void AccessoryUse(ITEM_KEYWORD keyword)
@@ -58,5 +62,33 @@ public class Golden_Flip : Item
     public override void CWeaponUse(float power)
     {
         Debug.Log($"Using Weapon Charge : {(int)(power * 100)}%");
+    }
+
+    public override void Equip(SLOT_TYPE equipSlot)
+    {
+        switch (equipSlot)
+        {
+            case SLOT_TYPE.ACCESSORY:
+                Inventory.Instnace.ChargeAction += Charge;
+                break;
+
+            case SLOT_TYPE.WEAPON:
+                Inventory.Instnace.BeDamagedAction += BeDamaged;
+                break;
+        }
+    }
+
+    public override void TurnOffEquip(SLOT_TYPE turnOffSlot)
+    {
+        switch (turnOffSlot)
+        {
+            case SLOT_TYPE.ACCESSORY:
+                Inventory.Instnace.ChargeAction -= Charge;
+                break;
+
+            case SLOT_TYPE.WEAPON:
+                Inventory.Instnace.BeDamagedAction -= BeDamaged;
+                break;
+        }
     }
 }
