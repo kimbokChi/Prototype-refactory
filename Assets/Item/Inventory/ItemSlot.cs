@@ -23,7 +23,7 @@ public class ItemSlot : MonoBehaviour
     {
         if (mContainItem != null)
         {
-            mContainItem.TurnOffEquip(mSLOT_TYPE);
+            mContainItem.OffEquipThis(mSLOT_TYPE);
         }        
         mContainItem = item;
 
@@ -33,7 +33,7 @@ public class ItemSlot : MonoBehaviour
         }
         else
         {
-            item.Equip(mSLOT_TYPE);
+            item.OnEquipThis(mSLOT_TYPE);
 
             mImage.sprite = item.Sprite;
         }

@@ -64,9 +64,9 @@ public class Golden_Flip : Item
         Debug.Log($"Using Weapon Charge : {(int)(power * 100)}%");
     }
 
-    public override void Equip(SLOT_TYPE equipSlot)
+    public override void OnEquipThis(SLOT_TYPE onSlot)
     {
-        switch (equipSlot)
+        switch (onSlot)
         {
             case SLOT_TYPE.ACCESSORY:
                 Inventory.Instnace.ChargeAction += Charge;
@@ -78,9 +78,9 @@ public class Golden_Flip : Item
         }
     }
 
-    public override void TurnOffEquip(SLOT_TYPE turnOffSlot)
+    public override void OffEquipThis(SLOT_TYPE offSlot)
     {
-        switch (turnOffSlot)
+        switch (offSlot)
         {
             case SLOT_TYPE.ACCESSORY:
                 Inventory.Instnace.ChargeAction -= Charge;
