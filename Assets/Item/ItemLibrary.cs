@@ -32,6 +32,8 @@ public class ItemLibrary : Singleton<ItemLibrary>
     {
         mLibrary = new Dictionary<ITEM_DATA, Item>();
 
+        EventInit();
+
         for (int i = 0; i < mItems.Count; ++i)
         {
             if (!mLibrary.ContainsKey(mItems[i].DATA))
@@ -44,6 +46,14 @@ public class ItemLibrary : Singleton<ItemLibrary>
             {
                 Debug.LogError($"중복된 아이템이 존재합니다. 중복된 인덱스 : {i}");
             }
+        }
+    }
+
+    private void EventInit()
+    {
+        if (BeDamagedAction == null)
+        {
+            BeDamagedAction = delegate (ref float damage, GameObject attacker, GameObject victim) { };
         }
     }
 
@@ -62,5 +72,10 @@ public class ItemLibrary : Singleton<ItemLibrary>
             return randomItem;
         }
         return null;
+    }
+
+    public void BeDamaged(ref float damage, GameObject attacker, GameObject victim)
+    {
+        BeDamagedAction.Invoke(ref damage, attacker, victim);
     }
 }
