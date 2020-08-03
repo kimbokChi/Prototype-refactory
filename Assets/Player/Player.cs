@@ -208,8 +208,6 @@ public class Player : MonoBehaviour, ICombat
 
         if (mCanElevation)
         {
-            Castle.Instnace.AliveNextPoint();
-
             // Inventory.Instnace.UseItem(ITEM_KEYWORD.ENTER);
 
             mCanElevation = false;
