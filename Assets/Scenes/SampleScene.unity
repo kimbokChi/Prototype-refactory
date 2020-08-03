@@ -345,6 +345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcbba22ee03113e40a7d7c88a99f77b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mCamaraMoveAccel: 0.6
   mFloors:
   - {fileID: 1203827879}
   - {fileID: 71019848}

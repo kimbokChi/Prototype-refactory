@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Castle : Singleton<Castle>
 {
+    [SerializeField][Range(0.1f, 2f)]
+    private float mCamaraMoveAccel;
+
     private bool mIsActivation = true;
 
     private Player mPlayer;
@@ -57,6 +60,8 @@ public class Castle : Singleton<Castle>
             point = mPlayerFloor.GetMovePoints(LPOSITION3.BOT)[playerPOS];
 
             RenewPlayerFloor();
+
+            StartCoroutine(ECamaraMove(mPlayerFloor.transform.position, Camera.main));
 
             return true;
         }
@@ -121,6 +126,23 @@ public class Castle : Singleton<Castle>
             }
             mPlayerFloor.EnterPlayer(mLastPlayerPOS = mPlayer.GetLPOSITION3());
         }
+    }
+
+    private IEnumerator ECamaraMove(Vector2 movePoint, Camera camera)
+    {
+        float lerpAmount = 0f;
+
+        while (lerpAmount < 1f)
+        {
+            lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * mCamaraMoveAccel);
+
+            camera.transform.position = Vector2.Lerp(camera.transform.position, movePoint, lerpAmount);
+
+            camera.transform.Translate(0, 0, -10f);
+
+            yield return null;
+        }
+        yield break;
     }
 
     private IEnumerator EUpdate()
