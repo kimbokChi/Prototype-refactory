@@ -93,33 +93,4 @@ public class Inventory : Singleton<Inventory>
     {
         ChargeAction.Invoke(power);
     }
-
-    public void UseItem(ITEM_KEYWORD KEYWORD)
-    {
-        if (mWeaponSlot.ContainItem != null)
-        {
-            mWeaponSlot.ContainItem.WeaponUse(KEYWORD);
-        }
-        for (int i = 0; i < mAccessorySlot.Length; ++i)
-        {
-            if (mAccessorySlot[i].ContainItem != null)
-            {
-                mAccessorySlot[i].ContainItem.AccessoryUse(KEYWORD);
-            }
-        }
-    }
-    public void CUseItem(float power)
-    {
-        if (mWeaponSlot.ContainItem != null)
-        {
-            mWeaponSlot.ContainItem.CWeaponUse(power);
-        }
-        for (int i = 0; i < mAccessorySlot.Length; ++i)
-        {
-            if (mAccessorySlot[i].ContainItem != null)
-            {
-                mAccessorySlot[i].ContainItem.CAccessoryUse(power);
-            }
-        }
-    }
 }

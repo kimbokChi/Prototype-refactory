@@ -145,7 +145,7 @@ public class Player : MonoBehaviour, ICombat
         {
             if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombat combat))
             {
-                Inventory.Instnace.UseItem(ITEM_KEYWORD.STRUCK);
+                // Inventory.Instnace.UseItem(ITEM_KEYWORD.STRUCK);
 
                 mWaitATK.Start(WaitTimeATK);
             }
@@ -192,7 +192,7 @@ public class Player : MonoBehaviour, ICombat
 
     private IEnumerator EMove(Vector2 movePoint, DIRECTION9 moveDIR9)
     {
-        Inventory.Instnace.UseItem(ITEM_KEYWORD.MOVE_BEGIN);
+        // Inventory.Instnace.UseItem(ITEM_KEYWORD.MOVE_BEGIN);
 
         float lerpAmount = 0;
 
@@ -204,13 +204,13 @@ public class Player : MonoBehaviour, ICombat
 
             yield return null;
         }
-        Inventory.Instnace.UseItem(ITEM_KEYWORD.MOVE_END);
+        // Inventory.Instnace.UseItem(ITEM_KEYWORD.MOVE_END);
 
         if (mCanElevation)
         {
             Castle.Instnace.AliveNextPoint();
 
-            Inventory.Instnace.UseItem(ITEM_KEYWORD.ENTER);
+            // Inventory.Instnace.UseItem(ITEM_KEYWORD.ENTER);
 
             mCanElevation = false;
         }
@@ -227,13 +227,10 @@ public class Player : MonoBehaviour, ICombat
         }
         victim = gameObject;
 
-        Debug.Log($"Before Damage : {damage}");
         Inventory.Instnace.BeDamaged(ref damage, attacker, gameObject);
-        Debug.Log($"After Damage : {damage}");
 
         mCurHealth -= damage / mDefense;
 
-        Inventory.Instnace.UseItem(ITEM_KEYWORD.BE_DAMAGED);
         mBlinkTimer.Start(mBlinkTime);
     }
 }
