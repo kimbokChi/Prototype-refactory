@@ -55,6 +55,10 @@ public class Inventory : Singleton<Inventory>
         {
             BeDamagedAction = delegate (ref float damage, GameObject attacker, GameObject victim) { };
         }
+        if (ChargeAction == null)
+        {
+            ChargeAction = delegate (float power) { };
+        }
     }
 
     public void AddItem(Item item)
@@ -83,6 +87,11 @@ public class Inventory : Singleton<Inventory>
     public void BeDamaged(ref float damage, GameObject attacker, GameObject victim)
     {
         BeDamagedAction.Invoke(ref damage, attacker, victim);
+    }
+
+    public void Charge(float power)
+    {
+        ChargeAction.Invoke(power);
     }
 
     public void UseItem(ITEM_KEYWORD KEYWORD)
