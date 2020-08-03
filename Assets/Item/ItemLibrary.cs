@@ -11,28 +11,22 @@ public class ItemLibrary : Singleton<ItemLibrary>
     private Dictionary<ITEM_DATA, Item> mLibrary;
 
     public delegate void UseMoveBegin();
-    public event UseMoveBegin WUseMoveBegin;
-    public event UseMoveBegin AUseMoveBegin;
+    public event UseMoveBegin MoveBeginAction;
 
     public delegate void UseMoveEnd();
-    public event UseMoveEnd WUseMoveEnd;
-    public event UseMoveEnd AUseMoveEnd;
+    public event UseMoveEnd MoveEndAction;
 
     public delegate void UseStruck();
-    public event UseStruck WUseStruck;
-    public event UseStruck AUseStruck;
+    public event UseStruck StruckAction;
 
     public delegate void UseBeDamaged(ref float damage, GameObject attacker, GameObject victim);
-    public event UseBeDamaged WUseBeDamaged;
-    public event UseBeDamaged AUseBeDamaged;
+    public event UseBeDamaged BeDamagedAction;
 
     public delegate void UseEnter();
-    public event UseEnter WUseEnter;
-    public event UseEnter AUseEnter;
+    public event UseEnter EnterAction;
 
     public delegate void UseCharge(float charge);
-    public event UseCharge WUseCharge;
-    public event UseCharge AUseCharge;
+    public event UseCharge ChargeAction;
 
     private void Awake()
     {
