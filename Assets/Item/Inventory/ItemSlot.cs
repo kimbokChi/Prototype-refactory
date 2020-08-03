@@ -21,13 +21,22 @@ public class ItemSlot : MonoBehaviour
 
     public void SetItem(Item item)
     {
+        if (mContainItem != null)
+        {
+            mContainItem.TurnOffEquip(mSLOT_TYPE);
+        }        
         mContainItem = item;
 
         if (item == null)
         {
-             mImage.sprite = null;
+            mImage.sprite = null;
         }
-        else mImage.sprite = item.Sprite;
+        else
+        {
+            item.Equip(mSLOT_TYPE);
+
+            mImage.sprite = item.Sprite;
+        }
     }
 
     public void Select()
