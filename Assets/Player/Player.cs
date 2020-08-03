@@ -145,7 +145,7 @@ public class Player : MonoBehaviour, ICombat
         {
             if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombat combat))
             {
-                Inventory.Instnace.UseStruckAction(challenger.gameObject, combat);
+                Inventory.Instnace.UseStruckAction(gameObject, combat);
 
                 mWaitATK.Start(WaitTimeATK);
             }
