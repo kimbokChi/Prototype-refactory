@@ -50,28 +50,15 @@ public class Castle : Singleton<Castle>
         }
         else
         {
-            Floor moveFloor = mFloors[mPlayerFloor.FloorIndex];
+            mPlayerFloor = mFloors[mPlayerFloor.FloorIndex];
 
             int playerPOS = (int)mPlayer.GetTPOSITION3();
 
-            point = moveFloor.GetMovePoints(LPOSITION3.BOT)[playerPOS];
-
-            return true;
-        }
-    }
-
-    #region READ
-    /// <summary>
-    /// 층간이동으로 플레이어가 이동한 층을 활성화시킵니다.
-    /// </summary>
-    #endregion 
-    public void AliveNextPoint()
-    {
-        if (!IsIndexOutFloor(mPlayerFloor.FloorIndex)) 
-        {
-            mPlayerFloor = mFloors[mPlayerFloor.FloorIndex];
+            point = mPlayerFloor.GetMovePoints(LPOSITION3.BOT)[playerPOS];
 
             RenewPlayerFloor();
+
+            return true;
         }
     }
 
