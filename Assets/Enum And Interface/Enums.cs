@@ -21,7 +21,7 @@ public enum TPOSITION3
 /* README
  * MOVE [이동]
  * 
- * STRUCK [타격]
+ * ATTACK [타격]
  * 
  * DAMAGE [피격]
  * 
@@ -31,7 +31,7 @@ public enum TPOSITION3
  */
 public enum ITEM_KEYWORD
 {
-    MOVE_BEGIN, MOVE_END, STRUCK, BE_DAMAGED, ENTER
+    MOVE_BEGIN, MOVE_END, ATTACK, BE_DAMAGED, ENTER
 }
 
 public enum ITEM_RATING
