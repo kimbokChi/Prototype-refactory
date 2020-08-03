@@ -59,7 +59,7 @@ public class Finger : Singleton<Finger>
         {
             mChargeGauge.gameObject.SetActive(false);
 
-            Inventory.Instnace.CUseItem(mChargeGauge.Charge);
+            Inventory.Instnace.UseChargeAction(mChargeGauge.Charge);
 
             mIsGaugeBreak = false;
 

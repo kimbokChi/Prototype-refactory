@@ -7,6 +7,28 @@ public class Inventory : Singleton<Inventory>
 {
     public const float DEFAULT_RANGE = 1f;
 
+    #region Item Function Event
+
+    public delegate void UseMoveBegin();
+    public event UseMoveBegin MoveBeginAction;
+
+    public delegate void UseMoveEnd();
+    public event UseMoveEnd MoveEndAction;
+
+    public delegate void UseStruck();
+    public event UseStruck StruckAction;
+
+    public delegate void UseBeDamaged(ref float damage, GameObject attacker, GameObject victim);
+    public event UseBeDamaged BeDamagedAction;
+
+    public delegate void UseEnter();
+    public event UseEnter EnterAction;
+
+    public delegate void UseCharge(float charge);
+    public event UseCharge ChargeAction;
+
+    #endregion
+
     [SerializeField] private ItemSlot   mWeaponSlot;
     [SerializeField] private ItemSlot[] mAccessorySlot;
     [SerializeField] private ItemSlot[] mContainer;
@@ -23,6 +45,19 @@ public class Inventory : Singleton<Inventory>
             {
                 mAccessorySlot[i].Init(SLOT_TYPE.ACCESSORY);
             }
+        }
+        EventInit();
+    }
+
+    private void EventInit()
+    {
+        if (BeDamagedAction == null)
+        {
+            BeDamagedAction = delegate (ref float damage, GameObject attacker, GameObject victim) { };
+        }
+        if (ChargeAction == null)
+        {
+            ChargeAction = delegate (float power) { };
         }
     }
 
@@ -49,32 +84,13 @@ public class Inventory : Singleton<Inventory>
         return DEFAULT_RANGE;
     }
 
-    public void UseItem(ITEM_KEYWORD KEYWORD)
+    public void UseDamagedAction(ref float damage, GameObject attacker, GameObject victim)
     {
-        if (mWeaponSlot.ContainItem != null)
-        {
-            mWeaponSlot.ContainItem.WeaponUse(KEYWORD);
-        }
-        for (int i = 0; i < mAccessorySlot.Length; ++i)
-        {
-            if (mAccessorySlot[i].ContainItem != null)
-            {
-                mAccessorySlot[i].ContainItem.AccessoryUse(KEYWORD);
-            }
-        }
+        BeDamagedAction.Invoke(ref damage, attacker, victim);
     }
-    public void CUseItem(float power)
+
+    public void UseChargeAction(float power)
     {
-        if (mWeaponSlot.ContainItem != null)
-        {
-            mWeaponSlot.ContainItem.CWeaponUse(power);
-        }
-        for (int i = 0; i < mAccessorySlot.Length; ++i)
-        {
-            if (mAccessorySlot[i].ContainItem != null)
-            {
-                mAccessorySlot[i].ContainItem.CAccessoryUse(power);
-            }
-        }
+        ChargeAction.Invoke(power);
     }
 }

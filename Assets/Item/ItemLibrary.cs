@@ -10,7 +10,6 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     private Dictionary<ITEM_DATA, Item> mLibrary;
 
-
     private void Awake()
     {
         mLibrary = new Dictionary<ITEM_DATA, Item>();

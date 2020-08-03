@@ -26,31 +26,44 @@ public class Golden_Flip : Item
     {
     }
 
-    public override void AccessoryUse(ITEM_KEYWORD keyword)
+    public override void OnEquipThis(SLOT_TYPE onSlot)
     {
-        if (keyword == ITEM_KEYWORD.ENTER)
+        switch (onSlot)
         {
-            Debug.Log("슨슈-입장-!");
+            case SLOT_TYPE.ACCESSORY:
+                Inventory.Instnace.ChargeAction += Charge;
+                break;
+
+            case SLOT_TYPE.WEAPON:
+                Inventory.Instnace.BeDamagedAction += BeDamaged;
+                break;
         }
-        else Debug.Log($"Using Accessory {keyword}");
     }
 
-    public override void WeaponUse(ITEM_KEYWORD keyword)
+    public override void OffEquipThis(SLOT_TYPE offSlot)
     {
-        if (keyword == ITEM_KEYWORD.ENTER)
+        switch (offSlot)
         {
-            Debug.Log("슨슈-입장-!");
+            case SLOT_TYPE.ACCESSORY:
+                Inventory.Instnace.ChargeAction -= Charge;
+                break;
+
+            case SLOT_TYPE.WEAPON:
+                Inventory.Instnace.BeDamagedAction -= BeDamaged;
+                break;
         }
-        else Debug.Log($"Using Weapon {keyword}");
+    }
+    private void BeDamaged(ref float damage, GameObject attacker, GameObject victim)
+    {
+        Debug.Log($"Before Damage : {damage}");
+
+        damage *= 0.5f;
+
+        Debug.Log($"After Damage : {damage}");
     }
 
-    public override void CAccessoryUse(float power)
+    private void Charge(float power)
     {
-        Debug.Log($"Using Accessory Charge : {(int)(power * 100)}%");
-    }
-
-    public override void CWeaponUse(float power)
-    {
-        Debug.Log($"Using Weapon Charge : {(int)(power * 100)}%");
+        Debug.Log($"추충전 : {(int)(power * 100)}%");
     }
 }

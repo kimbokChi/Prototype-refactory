@@ -46,11 +46,6 @@ public abstract class Item : MonoBehaviour
 
     public abstract void Init();
 
-    public abstract void AccessoryUse(ITEM_KEYWORD keyword);
-    public abstract void WeaponUse(ITEM_KEYWORD keyword);
-
-    public abstract void CAccessoryUse(float power);
-
-    public abstract void CWeaponUse(float power);
-
+    public abstract void  OnEquipThis(SLOT_TYPE onSlot);
+    public abstract void OffEquipThis(SLOT_TYPE offSlot);
 }

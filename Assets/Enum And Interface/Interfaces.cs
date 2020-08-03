@@ -18,6 +18,8 @@ public interface IObject
     void PlayerExit();
 
     bool IsActive();
+
+    GameObject ThisObject();
 }
 
 public interface ICombat
