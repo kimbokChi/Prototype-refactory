@@ -227,7 +227,7 @@ public class Player : MonoBehaviour, ICombat
         }
         victim = gameObject;
 
-        Inventory.Instnace.BeDamaged(ref damage, attacker, gameObject);
+        Inventory.Instnace.UseDamagedAction(ref damage, attacker, gameObject);
 
         mCurHealth -= damage / mDefense;
 

@@ -84,12 +84,12 @@ public class Inventory : Singleton<Inventory>
         return DEFAULT_RANGE;
     }
 
-    public void BeDamaged(ref float damage, GameObject attacker, GameObject victim)
+    public void UseDamagedAction(ref float damage, GameObject attacker, GameObject victim)
     {
         BeDamagedAction.Invoke(ref damage, attacker, victim);
     }
 
-    public void Charge(float power)
+    public void UseChargeAction(float power)
     {
         ChargeAction.Invoke(power);
     }
