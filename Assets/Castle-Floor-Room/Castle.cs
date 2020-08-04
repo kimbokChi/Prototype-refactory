@@ -18,6 +18,8 @@ public class Castle : Singleton<Castle>
     [SerializeField] private   Floor   mPlayerFloor;
                      private Vector2[] mMovePoints;
 
+    private IEnumerator mECamaraMove;
+
     #region READ
     /// <summary>
     /// 현재 층안에 존재하는 이동 지점의 위치를 반한합니다.
@@ -61,7 +63,11 @@ public class Castle : Singleton<Castle>
 
             RenewPlayerFloor();
 
-            StartCoroutine(ECamaraMove(mPlayerFloor.transform.position, Camera.main));
+            if (mECamaraMove != null)
+            {
+                StopCoroutine(mECamaraMove);
+            }
+            StartCoroutine(mECamaraMove = ECamaraMove(mPlayerFloor.transform.position, Camera.main));
 
             return true;
         }
@@ -142,6 +148,8 @@ public class Castle : Singleton<Castle>
 
             yield return null;
         }
+        mECamaraMove = null;
+
         yield break;
     }
 
