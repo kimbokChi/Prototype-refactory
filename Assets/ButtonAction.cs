@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class ButtonAction : MonoBehaviour
@@ -19,5 +20,17 @@ public class ButtonAction : MonoBehaviour
         else Time.timeScale = 1f;
 
         Castle.Instnace.ShutDownSwitching();
+    }
+
+    public void Resume()
+    {
+        ActiveSwitching();
+
+        GamePause();
+    }
+
+    public void ReStart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
