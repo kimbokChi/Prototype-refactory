@@ -9,6 +9,7 @@ public class Castle : Singleton<Castle>
     private float mCamaraMoveAccel;
 
     private bool mIsActivation = true;
+    private bool mIsShutDown   = false;
 
     private Player mPlayer;
 
@@ -71,6 +72,11 @@ public class Castle : Singleton<Castle>
 
             return true;
         }
+    }
+
+    public void ShutDownSwitching()
+    {
+        mIsShutDown = !mIsShutDown;
     }
 
     #region _MEMBER
@@ -157,13 +163,16 @@ public class Castle : Singleton<Castle>
     {
         while (mIsActivation)
         {
-            if (mPlayer)
+            if (!mIsShutDown)
             {
-                RenewPlayerPOS();
-            }
-            if (mPlayerFloor)
-            {
-                mPlayerFloor.IUpdate();
+                if (mPlayer)
+                {
+                    RenewPlayerPOS();
+                }
+                if (mPlayerFloor)
+                {
+                    mPlayerFloor.IUpdate();
+                }
             }
             yield return null;
         }

@@ -11,4 +11,13 @@ public class ButtonAction : MonoBehaviour
     {
         SwitchingObject.SetActive(!SwitchingObject.activeSelf);
     }
+
+    public void GamePause()
+    {
+        if (Time.timeScale > 0f) Time.timeScale = 0f;
+
+        else Time.timeScale = 1f;
+
+        Castle.Instnace.ShutDownSwitching();
+    }
 }
