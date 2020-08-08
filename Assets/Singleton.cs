@@ -16,7 +16,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 {
                     mInstnace = new GameObject(typeof(T).ToString(), typeof(T)) as T;
                 }
-                DontDestroyOnLoad(mInstnace);
+                //DontDestroyOnLoad(mInstnace);
             }
             return mInstnace;
         }

@@ -9,6 +9,7 @@ public class Castle : Singleton<Castle>
     private float mCamaraMoveAccel;
 
     private bool mIsActivation = true;
+    private bool mIsPause   = false;
 
     private Player mPlayer;
 
@@ -72,6 +73,10 @@ public class Castle : Singleton<Castle>
             return true;
         }
     }
+
+    public void PauseEnable() => mIsPause = true;
+
+    public void PauseDisable() => mIsPause = false;
 
     #region _MEMBER
     /// <summary>
@@ -157,13 +162,16 @@ public class Castle : Singleton<Castle>
     {
         while (mIsActivation)
         {
-            if (mPlayer)
+            if (!mIsPause)
             {
-                RenewPlayerPOS();
-            }
-            if (mPlayerFloor)
-            {
-                mPlayerFloor.IUpdate();
+                if (mPlayer)
+                {
+                    RenewPlayerPOS();
+                }
+                if (mPlayerFloor)
+                {
+                    mPlayerFloor.IUpdate();
+                }
             }
             yield return null;
         }
