@@ -13,41 +13,74 @@ public class ItemLibrary : Singleton<ItemLibrary>
     [SerializeField]
     private List<Item> mItems;
 
-    private Dictionary<ITEM_DATA, Item> mLibrary;
+    private Dictionary<ITEM_RATING, List<Item>> mLibrary;
 
     private void Awake()
     {
-        mLibrary = new Dictionary<ITEM_DATA, Item>();
+        mLibrary = new Dictionary<ITEM_RATING, List<Item>>();
 
         for (int i = 0; i < mItems.Count; ++i)
         {
-            if (!mLibrary.ContainsKey(mItems[i].DATA))
+            switch (mItems[i].RATING)
             {
-                mItems[i].Init();
+                case ITEM_RATING.COMMON:
+                    mLibrary[ITEM_RATING.COMMON].Add(mItems[i]);
+                    break;
 
-                mLibrary.Add(mItems[i].DATA, mItems[i]);
-            }
-            else
-            {
-                Debug.LogError($"중복된 아이템이 존재합니다. 중복된 인덱스 : {i}");
+                case ITEM_RATING.RARE:
+                    mLibrary[ITEM_RATING.RARE].Add(mItems[i]);
+                    break;
+
+                case ITEM_RATING.EPIC:
+                    mLibrary[ITEM_RATING.EPIC].Add(mItems[i]);
+                    break;
+
+                case ITEM_RATING.LEGENDARY:
+                    mLibrary[ITEM_RATING.LEGENDARY].Add(mItems[i]);
+                    break;
             }
         }
     }
 
     public Item GetRandomItem()
     {
-        if (mItems.Count > 0)
+        int probability = Random.Range(0, 100);
+
+        int returnIndex;
+
+        Item returnItem = null;
+
+        if (probability < COMMON_PROBABILITY && mLibrary[ITEM_RATING.COMMON].Count > 0)
         {
-            int index = Random.Range(0, mItems.Count);
+            returnIndex = Random.Range(0, mLibrary[ITEM_RATING.COMMON].Count);
 
-
-            Item randomItem = mItems[index];
-
-            mItems.Remove(mItems[index]);
-
-
-            return randomItem;
+            returnItem = mLibrary[ITEM_RATING.COMMON][returnIndex];
+                         mLibrary[ITEM_RATING.COMMON].RemoveAt(returnIndex);
         }
-        return null;
+
+        else if (probability - COMMON_PROBABILITY < RARE_PROBABILITY || mLibrary[ITEM_RATING.COMMON].Count <= 0)
+        {
+            returnIndex = Random.Range(0, mLibrary[ITEM_RATING.RARE].Count);
+
+            returnItem = mLibrary[ITEM_RATING.RARE][returnIndex];
+                         mLibrary[ITEM_RATING.RARE].RemoveAt(returnIndex);
+        }
+
+        else if (probability - COMMON_PROBABILITY - RARE_PROBABILITY < EPIC_PROBABILITY || mLibrary[ITEM_RATING.RARE].Count <= 0)
+        {
+            returnIndex = Random.Range(0, mLibrary[ITEM_RATING.EPIC].Count);
+
+            returnItem = mLibrary[ITEM_RATING.EPIC][returnIndex];
+                         mLibrary[ITEM_RATING.EPIC].RemoveAt(returnIndex);
+        }
+
+        else if (mLibrary[ITEM_RATING.LEGENDARY].Count > 0 && mLibrary[ITEM_RATING.EPIC].Count <= 0)
+        {
+            returnIndex = Random.Range(0, mLibrary[ITEM_RATING.LEGENDARY].Count);
+
+            returnItem = mLibrary[ITEM_RATING.LEGENDARY][returnIndex];
+                         mLibrary[ITEM_RATING.LEGENDARY].RemoveAt(returnIndex);
+        }
+        return returnItem;
     }
 }
