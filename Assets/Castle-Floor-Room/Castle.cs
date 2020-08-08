@@ -9,7 +9,7 @@ public class Castle : Singleton<Castle>
     private float mCamaraMoveAccel;
 
     private bool mIsActivation = true;
-    private bool mIsShutDown   = false;
+    private bool mIsPause   = false;
 
     private Player mPlayer;
 
@@ -74,10 +74,9 @@ public class Castle : Singleton<Castle>
         }
     }
 
-    public void ShutDownSwitching()
-    {
-        mIsShutDown = !mIsShutDown;
-    }
+    public void PauseEnable() => mIsPause = true;
+
+    public void PauseDisable() => mIsPause = false;
 
     #region _MEMBER
     /// <summary>
@@ -163,7 +162,7 @@ public class Castle : Singleton<Castle>
     {
         while (mIsActivation)
         {
-            if (!mIsShutDown)
+            if (!mIsPause)
             {
                 if (mPlayer)
                 {
