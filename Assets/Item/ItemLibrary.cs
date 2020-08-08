@@ -19,6 +19,11 @@ public class ItemLibrary : Singleton<ItemLibrary>
     {
         mLibrary = new Dictionary<ITEM_RATING, List<Item>>();
 
+        mLibrary.Add(ITEM_RATING.COMMON, new List<Item>());
+        mLibrary.Add(ITEM_RATING.RARE, new List<Item>());
+        mLibrary.Add(ITEM_RATING.EPIC, new List<Item>());
+        mLibrary.Add(ITEM_RATING.LEGENDARY, new List<Item>());
+
         for (int i = 0; i < mItems.Count; ++i)
         {
             switch (mItems[i].RATING)
@@ -83,4 +88,5 @@ public class ItemLibrary : Singleton<ItemLibrary>
         }
         return returnItem;
     }
+
 }
