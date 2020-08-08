@@ -15,11 +15,19 @@ public class ButtonAction : MonoBehaviour
 
     public void GamePause()
     {
-        if (Time.timeScale > 0f) Time.timeScale = 0f;
+        if (Time.timeScale > 0f)
+        {
+            Castle.Instnace.PauseEnable();
 
-        else Time.timeScale = 1f;
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Castle.Instnace.PauseDisable();
 
-        Castle.Instnace.ShutDownSwitching();
+            Time.timeScale = 1f;
+        }
+
     }
 
     public void Resume()
@@ -32,5 +40,13 @@ public class ButtonAction : MonoBehaviour
     public void ReStart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        #region Release Pause
+
+        Castle.Instnace.PauseDisable();
+
+        Time.timeScale = 1f;
+
+        #endregion
     }
 }
