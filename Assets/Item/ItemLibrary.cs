@@ -63,7 +63,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
                          mLibrary[ITEM_RATING.COMMON].RemoveAt(returnIndex);
         }
 
-        else if (probability - COMMON_PROBABILITY < RARE_PROBABILITY || mLibrary[ITEM_RATING.COMMON].Count <= 0)
+        else if ((probability - COMMON_PROBABILITY < RARE_PROBABILITY || mLibrary[ITEM_RATING.COMMON].Count <= 0) && mLibrary[ITEM_RATING.RARE].Count > 0)
         {
             returnIndex = Random.Range(0, mLibrary[ITEM_RATING.RARE].Count);
 
@@ -71,7 +71,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
                          mLibrary[ITEM_RATING.RARE].RemoveAt(returnIndex);
         }
 
-        else if (probability - COMMON_PROBABILITY - RARE_PROBABILITY < EPIC_PROBABILITY || mLibrary[ITEM_RATING.RARE].Count <= 0)
+        else if ((probability - COMMON_PROBABILITY - RARE_PROBABILITY < EPIC_PROBABILITY || mLibrary[ITEM_RATING.RARE].Count <= 0) && mLibrary[ITEM_RATING.EPIC].Count > 0)
         {
             returnIndex = Random.Range(0, mLibrary[ITEM_RATING.EPIC].Count);
 
