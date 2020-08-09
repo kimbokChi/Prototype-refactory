@@ -6,6 +6,9 @@ using UnityEngine;
 public class Player : MonoBehaviour, ICombat
 {
     [SerializeField]
+    private GameObject mGameOverWindow;
+
+    [SerializeField]
     private float mBlinkTime;
     private Timer mBlinkTimer;
 
@@ -153,6 +156,8 @@ public class Player : MonoBehaviour, ICombat
                 else transform.rotation = Quaternion.Euler(0f, 0f, -90.0f);
             }
             transform.position += (Vector3.up * -0.4f);
+
+            mGameOverWindow.SetActive(true);
         }
     }
 
