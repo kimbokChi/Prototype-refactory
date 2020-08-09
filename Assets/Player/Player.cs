@@ -33,6 +33,7 @@ public class Player : MonoBehaviour, ICombat
     private IEnumerator mEMove;
 
     private bool mCanElevation;
+    private bool mIsDeath;
 
     public LPOSITION3 GetLPOSITION3()
     {
@@ -90,6 +91,7 @@ public class Player : MonoBehaviour, ICombat
     private void Start()
     {
         mCanElevation = false;
+        mIsDeath      = false;
 
         mCurHealth = mMaxHealth;
 
@@ -130,6 +132,11 @@ public class Player : MonoBehaviour, ICombat
         MoveAction(moveRIR9);
     }
 
+    private void CheckToDeath()
+    {
+        mIsDeath = (mCurHealth <= 0f);
+    }
+
     private void Update()
     {
         mWaitATK.Update();
@@ -155,6 +162,8 @@ public class Player : MonoBehaviour, ICombat
             }            
         }
         InputAction();
+
+        CheckToDeath();
     }
 
     private void MoveAction(DIRECTION9 moveDIR9)
