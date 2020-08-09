@@ -90,12 +90,6 @@ public class ItemLibrary : Singleton<ItemLibrary>
         {
             for (ITEM_RATING RATING = ITEM_RATING.LEGENDARY; !CanGetRatingItem(RATING, out returnItem) && RATING > ITEM_RATING.COMMON; RATING--) { }
         }
-        
-        if (returnItem != null)
-        {
-            Debug.Log($"PROBABILITY : {probability}% | RATING : {returnItem.RATING.ToString()}");
-        }
-
         return returnItem;
     }
 
@@ -111,10 +105,5 @@ public class ItemLibrary : Singleton<ItemLibrary>
         else getItem = null;
 
         return (getItem != null);
-    }
-
-    private void Update()
-    {
-        GetRandomItem();
     }
 }
