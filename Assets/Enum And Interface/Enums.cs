@@ -41,7 +41,10 @@ public enum ITEM_RATING
 
 public enum ITEM_DATA
 {
-    GOLDEN_FLIP
+    GOLDEN_FLIP,
+    SLIVER_FLIP,
+    BRONZE_FLIP,
+    IRON_FLIP
 }
 
 public enum SLOT_TYPE
