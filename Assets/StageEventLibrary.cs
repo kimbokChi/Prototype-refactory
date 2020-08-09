@@ -33,10 +33,16 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
 
     public void StageClearEvent(Vector2[] TopMovePoint, Vector2[] MidMovePoint, Vector2[] BotMovePoint)
     {
-        float probabilty = UnityEngine.Random.Range(0f, 100f) + mIncreaseEventProbabilty;
-
         Vector2[][] LMovePoints = new Vector2[3][] { TopMovePoint, MidMovePoint, BotMovePoint };
 
-        StageClear.Invoke(LMovePoints, probabilty);
+        var stageClearEvent = StageClear.GetInvocationList();
+
+
+        for (int i = 0; i < stageClearEvent.Length; ++i)
+        {
+            float probabilty = UnityEngine.Random.Range(0f, 100f) + mIncreaseEventProbabilty;
+
+            stageClearEvent[i].DynamicInvoke(LMovePoints, probabilty);
+        }
     }
 }
