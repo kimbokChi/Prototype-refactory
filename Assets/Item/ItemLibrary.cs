@@ -49,7 +49,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     public Item GetRandomItem()
     {
-        int probability = Random.Range(1, 101);
+        float probability = Random.Range(1f, 100f);
 
         Item returnItem = null;
 
