@@ -16,7 +16,7 @@ public class ItemBox : MonoBehaviour
     private Item mContainItem;
     private DropItem mDropItem;
 
-    private void Start()
+    private void OnEnable()
     {
         mIsOpen = false;
 

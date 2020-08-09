@@ -8,6 +8,7 @@ public class Castle : Singleton<Castle>
     [SerializeField][Range(0.1f, 2f)]
     private float mCamaraMoveAccel;
 
+    private bool mIsCastClearEvent;
     private bool mIsActivation = true;
     private bool mIsPause   = false;
 
@@ -172,6 +173,14 @@ public class Castle : Singleton<Castle>
                 {
                     mPlayerFloor.IUpdate();
                 }
+                if (mPlayerFloor.IsClear && !mIsCastClearEvent)
+                {
+                    mIsCastClearEvent = true;
+
+                    StageEventLibrary.Instnace.StageClearEvent(mPlayerFloor.GetMovePoints(LPOSITION3.TOP), 
+                                                               mPlayerFloor.GetMovePoints(LPOSITION3.MID), 
+                                                               mPlayerFloor.GetMovePoints(LPOSITION3.BOT));
+                }
             }
             yield return null;
         }
@@ -180,6 +189,8 @@ public class Castle : Singleton<Castle>
 
     private void Start()
     {
+        mIsCastClearEvent = false;
+
         BuildCastle();
 
         mPlayer = FindObjectOfType(typeof(Player)) as Player;
