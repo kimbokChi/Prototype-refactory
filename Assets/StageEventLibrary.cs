@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class StageEventLibrary : Singleton<StageEventLibrary>
 {
-    public event Action<Vector2[], Vector2[], Vector2[]> StageClear;
+    public event Action<Vector2[][]> StageClear;
 
     [SerializeField] private GameObject ItemAndItemBox;
 
@@ -13,27 +13,14 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
     {
         if (StageClear == null)
         {
-            StageClear = delegate (Vector2[] T, Vector2[] M, Vector2[] B) { };
+            StageClear = delegate (Vector2[][] LMovePoints) { };
         }
         StageClear += CreateItemBox;
     }
 
-    private void CreateItemBox(Vector2[] TopMovePoint, Vector2[] MidMovePoint, Vector2[] BotMovePoint)
+    private void CreateItemBox(Vector2[][] LMovePoints)
     {
-        Vector2[] selectMovePoint = new Vector2[3];
-
-        switch (UnityEngine.Random.Range(0,3))
-        {
-            case 0:
-                selectMovePoint = TopMovePoint;
-                break;
-            case 1:
-                selectMovePoint = MidMovePoint;
-                break;
-            case 2:
-                selectMovePoint = BotMovePoint;
-                break;
-        }
+        Vector2[] selectMovePoint = LMovePoints[UnityEngine.Random.Range(0, 3)];
 
         float xPoint = UnityEngine.Random.Range(selectMovePoint[0].x, selectMovePoint[2].x);
 
@@ -42,8 +29,10 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
         Instantiate(ItemAndItemBox, new Vector2(xPoint, yPoint), Quaternion.identity).SetActive(true);
     }
 
-    public void StageClearEvent(Vector2[] TmovePoints, Vector2[] MmovePoints, Vector2[] BmovePoints )
+    public void StageClearEvent(Vector2[] TopMovePoint, Vector2[] MidMovePoint, Vector2[] BotMovePoint)
     {
-        StageClear.Invoke(TmovePoints, MmovePoints, BmovePoints);
+        Vector2[][] LMovePoints = new Vector2[3][] { TopMovePoint, MidMovePoint, BotMovePoint };
+
+        StageClear.Invoke(LMovePoints);
     }
 }
