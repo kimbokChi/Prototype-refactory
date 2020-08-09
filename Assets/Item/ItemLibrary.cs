@@ -49,43 +49,53 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     public Item GetRandomItem()
     {
-        int probability = Random.Range(0, 100);
-
-        int returnIndex;
+        int probability = Random.Range(1, 101);
 
         Item returnItem = null;
 
-        if (probability < COMMON_PROBABILITY && mLibrary[ITEM_RATING.COMMON].Count > 0)
+        if (probability < COMMON_PROBABILITY)
         {
-            returnIndex = Random.Range(0, mLibrary[ITEM_RATING.COMMON].Count);
-
-            returnItem = mLibrary[ITEM_RATING.COMMON][returnIndex];
-                         mLibrary[ITEM_RATING.COMMON].RemoveAt(returnIndex);
+            for (ITEM_RATING RATING = ITEM_RATING.COMMON; !CanGetRatingItem(RATING, out returnItem) && RATING < ITEM_RATING.LEGENDARY; RATING++) { }
         }
 
-        else if ((probability - COMMON_PROBABILITY < RARE_PROBABILITY || mLibrary[ITEM_RATING.COMMON].Count <= 0) && mLibrary[ITEM_RATING.RARE].Count > 0)
+        else if (probability - COMMON_PROBABILITY < RARE_PROBABILITY)
         {
-            returnIndex = Random.Range(0, mLibrary[ITEM_RATING.RARE].Count);
-
-            returnItem = mLibrary[ITEM_RATING.RARE][returnIndex];
-                         mLibrary[ITEM_RATING.RARE].RemoveAt(returnIndex);
+            if (!CanGetRatingItem(ITEM_RATING.RARE, out returnItem))
+            {
+                if (!CanGetRatingItem(ITEM_RATING.EPIC, out returnItem))
+                {
+                    if (!CanGetRatingItem(ITEM_RATING.LEGENDARY, out returnItem))
+                    {
+                        CanGetRatingItem(ITEM_RATING.COMMON, out returnItem);
+                    }
+                }
+            }
         }
 
-        else if ((probability - COMMON_PROBABILITY - RARE_PROBABILITY < EPIC_PROBABILITY || mLibrary[ITEM_RATING.RARE].Count <= 0) && mLibrary[ITEM_RATING.EPIC].Count > 0)
+        else if (probability - COMMON_PROBABILITY - RARE_PROBABILITY < EPIC_PROBABILITY)
         {
-            returnIndex = Random.Range(0, mLibrary[ITEM_RATING.EPIC].Count);
-
-            returnItem = mLibrary[ITEM_RATING.EPIC][returnIndex];
-                         mLibrary[ITEM_RATING.EPIC].RemoveAt(returnIndex);
+            if (!CanGetRatingItem(ITEM_RATING.EPIC, out returnItem))
+            {
+                if (!CanGetRatingItem(ITEM_RATING.LEGENDARY, out returnItem))
+                {
+                    if (!CanGetRatingItem(ITEM_RATING.RARE, out returnItem))
+                    {
+                        CanGetRatingItem(ITEM_RATING.COMMON, out returnItem);
+                    }
+                }
+            }
         }
 
-        else if (mLibrary[ITEM_RATING.LEGENDARY].Count > 0 && mLibrary[ITEM_RATING.EPIC].Count <= 0)
+        else if (probability - COMMON_PROBABILITY - RARE_PROBABILITY - EPIC_PROBABILITY < LEGENDARY_PROBABILITY)
         {
-            returnIndex = Random.Range(0, mLibrary[ITEM_RATING.LEGENDARY].Count);
-
-            returnItem = mLibrary[ITEM_RATING.LEGENDARY][returnIndex];
-                         mLibrary[ITEM_RATING.LEGENDARY].RemoveAt(returnIndex);
+            for (ITEM_RATING RATING = ITEM_RATING.LEGENDARY; !CanGetRatingItem(RATING, out returnItem) && RATING > ITEM_RATING.COMMON; RATING--) { }
         }
+        
+        if (returnItem != null)
+        {
+            Debug.Log($"PROBABILITY : {probability}% | RATING : {returnItem.RATING.ToString()}");
+        }
+
         return returnItem;
     }
 
@@ -105,11 +115,6 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     private void Update()
     {
-        Item item = GetRandomItem();
-
-        if (item != null)
-        {
-            Debug.Log($"NAME : {item.name} | RATING : {item.RATING.ToString()}");
-        }
+        GetRandomItem();
     }
 }
