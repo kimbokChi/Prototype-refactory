@@ -89,4 +89,27 @@ public class ItemLibrary : Singleton<ItemLibrary>
         return returnItem;
     }
 
+    private bool CanGetRatingItem(ITEM_RATING RATING, out Item getItem)
+    {
+        if (mLibrary[RATING].Count > 0)
+        {
+            int itemIndex = Random.Range(0, mLibrary[RATING].Count);
+
+            getItem = mLibrary[RATING][itemIndex];
+                      mLibrary[RATING].RemoveAt(itemIndex);
+        }
+        else getItem = null;
+
+        return (getItem != null);
+    }
+
+    private void Update()
+    {
+        Item item = GetRandomItem();
+
+        if (item != null)
+        {
+            Debug.Log($"NAME : {item.name} | RATING : {item.RATING.ToString()}");
+        }
+    }
 }
