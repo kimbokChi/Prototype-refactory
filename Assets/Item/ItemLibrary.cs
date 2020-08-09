@@ -53,12 +53,12 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
         Item returnItem = null;
 
-        if (probability < COMMON_PROBABILITY)
+        if (probability <= COMMON_PROBABILITY)
         {
             for (ITEM_RATING RATING = ITEM_RATING.COMMON; !CanGetRatingItem(RATING, out returnItem) && RATING < ITEM_RATING.LEGENDARY; RATING++) { }
         }
 
-        else if (probability - COMMON_PROBABILITY < RARE_PROBABILITY)
+        else if (probability - COMMON_PROBABILITY <= RARE_PROBABILITY)
         {
             if (!CanGetRatingItem(ITEM_RATING.RARE, out returnItem))
             {
@@ -72,7 +72,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
             }
         }
 
-        else if (probability - COMMON_PROBABILITY - RARE_PROBABILITY < EPIC_PROBABILITY)
+        else if (probability - COMMON_PROBABILITY - RARE_PROBABILITY <= EPIC_PROBABILITY)
         {
             if (!CanGetRatingItem(ITEM_RATING.EPIC, out returnItem))
             {
@@ -86,7 +86,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
             }
         }
 
-        else if (probability - COMMON_PROBABILITY - RARE_PROBABILITY - EPIC_PROBABILITY < LEGENDARY_PROBABILITY)
+        else if (probability - COMMON_PROBABILITY - RARE_PROBABILITY - EPIC_PROBABILITY <= LEGENDARY_PROBABILITY)
         {
             for (ITEM_RATING RATING = ITEM_RATING.LEGENDARY; !CanGetRatingItem(RATING, out returnItem) && RATING > ITEM_RATING.COMMON; RATING--) { }
         }
