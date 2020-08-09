@@ -33,6 +33,8 @@ public class Player : MonoBehaviour, ICombat
     private IEnumerator mEMove;
 
     private bool mCanElevation;
+
+    public  bool IsDeath => mIsDeath;
     private bool mIsDeath;
 
     public LPOSITION3 GetLPOSITION3()
@@ -135,6 +137,23 @@ public class Player : MonoBehaviour, ICombat
     private void CheckToDeath()
     {
         mIsDeath = (mCurHealth <= 0f);
+
+        if (mIsDeath)
+        {
+            mEnemyDetector.enabled = false;
+
+            if (TryGetComponent(out SpriteRenderer renderer))
+            {
+                renderer.color = new Color(0.7f, 0.7f, 0.7f, 0.8f);
+
+                if (renderer.flipX)
+                {
+                     transform.rotation = Quaternion.Euler(0f, 0f, 90.0f);
+                }
+                else transform.rotation = Quaternion.Euler(0f, 0f, -90.0f);
+            }
+            transform.position += (Vector3.up * -0.4f);
+        }
     }
 
     private void Update()
@@ -161,9 +180,12 @@ public class Player : MonoBehaviour, ICombat
                 renderer.flipX = (challenger.transform.position.x > transform.position.x);
             }            
         }
-        InputAction();
+        if (!mIsDeath)
+        {
+            InputAction();
 
-        CheckToDeath();
+            CheckToDeath();
+        }        
     }
 
     private void MoveAction(DIRECTION9 moveDIR9)
