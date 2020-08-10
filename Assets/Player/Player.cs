@@ -6,6 +6,9 @@ using UnityEngine;
 public class Player : MonoBehaviour, ICombat
 {
     [SerializeField]
+    private GameObject mGameOverWindow;
+
+    [SerializeField]
     private float mBlinkTime;
     private Timer mBlinkTimer;
 
@@ -33,6 +36,9 @@ public class Player : MonoBehaviour, ICombat
     private IEnumerator mEMove;
 
     private bool mCanElevation;
+
+    public  bool IsDeath => mIsDeath;
+    private bool mIsDeath;
 
     public LPOSITION3 GetLPOSITION3()
     {
@@ -90,6 +96,7 @@ public class Player : MonoBehaviour, ICombat
     private void Start()
     {
         mCanElevation = false;
+        mIsDeath      = false;
 
         mCurHealth = mMaxHealth;
 
@@ -130,6 +137,30 @@ public class Player : MonoBehaviour, ICombat
         MoveAction(moveRIR9);
     }
 
+    private void CheckToDeath()
+    {
+        mIsDeath = (mCurHealth <= 0f);
+
+        if (mIsDeath)
+        {
+            mEnemyDetector.enabled = false;
+
+            if (TryGetComponent(out SpriteRenderer renderer))
+            {
+                renderer.color = new Color(0.7f, 0.7f, 0.7f, 0.8f);
+
+                if (renderer.flipX)
+                {
+                     transform.rotation = Quaternion.Euler(0f, 0f, 90.0f);
+                }
+                else transform.rotation = Quaternion.Euler(0f, 0f, -90.0f);
+            }
+            transform.position += (Vector3.up * -0.4f);
+
+            mGameOverWindow.SetActive(true);
+        }
+    }
+
     private void Update()
     {
         mWaitATK.Update();
@@ -154,7 +185,12 @@ public class Player : MonoBehaviour, ICombat
                 renderer.flipX = (challenger.transform.position.x > transform.position.x);
             }            
         }
-        InputAction();
+        if (!mIsDeath)
+        {
+            InputAction();
+
+            CheckToDeath();
+        }        
     }
 
     private void MoveAction(DIRECTION9 moveDIR9)

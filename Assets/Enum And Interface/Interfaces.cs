@@ -14,7 +14,7 @@ public interface IObject
     void IInit();
     void IUpdate();
 
-    void PlayerEnter();
+    void PlayerEnter(Player enterPlayer);
     void PlayerExit();
 
     bool IsActive();
