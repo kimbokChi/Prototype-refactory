@@ -181,6 +181,10 @@ public class Castle : Singleton<Castle>
                                                                mPlayerFloor.GetMovePoints(LPOSITION3.MID), 
                                                                mPlayerFloor.GetMovePoints(LPOSITION3.BOT));
                 }
+                if (mPlayer.IsDeath)
+                {
+                    mPlayerFloor.ExitPlayer(mLastPlayerPOS);
+                }
             }
             yield return null;
         }
