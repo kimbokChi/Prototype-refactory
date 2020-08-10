@@ -138,9 +138,9 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
         }
     }
 
-    public void PlayerEnter()
+    public void PlayerEnter(Player enterPlayer)
     {
-        mPlayer = FindObjectOfType(typeof(Player)) as Player;
+        mPlayer = enterPlayer;
 
         Debug.Log("Player Enter");
     }
