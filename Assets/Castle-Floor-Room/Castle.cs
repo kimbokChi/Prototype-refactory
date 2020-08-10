@@ -136,7 +136,7 @@ public class Castle : Singleton<Castle>
             {
                 mPlayerFloor.ExitPlayer(mLastPlayerPOS);
             }
-            mPlayerFloor.EnterPlayer(mLastPlayerPOS = mPlayer.GetLPOSITION3());
+            mPlayerFloor.EnterPlayer(mPlayer, mLastPlayerPOS = mPlayer.GetLPOSITION3());
         }
     }
 
