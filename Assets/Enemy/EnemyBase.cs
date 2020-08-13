@@ -14,6 +14,8 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
 
     [SerializeField] protected float mRange;
 
+    [SerializeField] protected Vector2 mOriginPosition;
+
     [SerializeField][Range(0.01f, 1f)] protected float mMoveSmooth;
 
     [SerializeField][Range(0.00f, 1f)] protected float mRangeOffset;

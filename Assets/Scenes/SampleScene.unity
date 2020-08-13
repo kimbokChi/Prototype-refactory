@@ -2028,6 +2028,7 @@ MonoBehaviour:
   mHalfMoveRangeY: 0
   mWaitATKTime: 3
   mRange: 1
+  mOriginPosition: {x: 0, y: 0.87}
   mMoveSmooth: 0.15
   mRangeOffset: 0.16
   mMoveSpeed: 2
