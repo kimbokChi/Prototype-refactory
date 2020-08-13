@@ -51,7 +51,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
     /// </para>
     /// </summary>
     #endregion
-    protected bool IsLookAtPlayer(out Vector2 playerPos)
+    protected bool IsLookAtPlayer(out Vector2 playerPos, Vector2 lookingDirection)
     {
         if (mPlayer != null)
         {
@@ -63,7 +63,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
             }
 
             // LOOK AT THE LEFT
-            if (mRenderer.flipX)
+            if (lookingDirection.x < 0)
             {
                 if (playerPos.x < transform.position.x)
                 {
@@ -72,7 +72,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
             }
 
             // LOOK AT THE RIGHT
-            else
+            else if(lookingDirection.x > 0)
             {
                 if (playerPos.x > transform.position.x)
                 {
