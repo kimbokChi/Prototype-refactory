@@ -31,7 +31,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
     protected bool  IsMoveFinish => mIsMoveFinish;
     private   bool mIsMoveFinish = true;
 
-    protected float mWaitMoveTime
+    protected float WaitMoveTime
     {
         get
         {

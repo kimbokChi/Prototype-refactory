@@ -34,6 +34,24 @@ public class Scarecrow : EnemyBase
                 movePoint.x = Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX) + mOriginPosition.x;
                 movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + mOriginPosition.y;
 
+                if (mPlayer != null)
+                {
+                    Vector2 playerPos;
+
+                    Vector2 lookingDir = movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left;
+
+                    if (IsLookAtPlayer(out playerPos, lookingDir))
+                    {
+                        if (!IsPointOnRange(playerPos))
+                        {
+                            movePoint -= lookingDir * mRange;
+                        }
+                        else
+                        {
+                            movePoint = transform.localPosition;
+                        }
+                    }
+                }
                 MoveToPoint(movePoint);
             }
         }
@@ -45,7 +63,7 @@ public class Scarecrow : EnemyBase
 
     protected override void MoveFinish()
     {
-        mWaitForMove.Start(mWaitMoveTime);
+        mWaitForMove.Start(WaitMoveTime);
     }
 
     public override void PlayerEnter(Player enterPlayer)

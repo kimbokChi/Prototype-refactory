@@ -40,7 +40,7 @@ public class Can : EnemyBase
 
     protected override void MoveFinish()
     {        
-        mWaitForMove.Start(mWaitMoveTime);
+        mWaitForMove.Start(WaitMoveTime);
     }
 
     public override void PlayerEnter(Player enterPlayer)
