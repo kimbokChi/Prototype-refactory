@@ -6399,6 +6399,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room ZERO_ZERO_ZERO
       objectReference: {fileID: 0}
+    - target: {fileID: 3930122264108940042, guid: c9d0aef9e5add4a4c9bff79ef87b64f6,
+        type: 3}
+      propertyPath: mHalfMoveRangeY
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9d0aef9e5add4a4c9bff79ef87b64f6, type: 3}
 --- !u!1001 &6972505123314906019

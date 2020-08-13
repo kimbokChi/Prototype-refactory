@@ -47,6 +47,8 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
 
     private Player mPlayer;
 
+    private Vector2 mOriginPositon;
+
     private SpriteRenderer mRenderer;
 
     private IEnumerator mEMove;
@@ -86,6 +88,8 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
         TryGetComponent(out mRenderer);
 
         mCurHealth = mMaxHealth;
+
+        mOriginPositon = transform.localPosition;
     }
     public void IUpdate()
     {
@@ -97,7 +101,7 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
                 Vector2 playerPoint;
 
                 movePoint.x = Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
-                movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + transform.localPosition.y;
+                movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + mOriginPositon.y;
 
                 if (!IsLookAtPlayer(out playerPoint))
                 {
@@ -210,18 +214,18 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
         {
             movePoint.y = transform.localPosition.y;
         }
-        else if (Mathf.Abs(movePoint.y - transform.localPosition.y) > mHalfMoveRangeY * 2)
+        else if (Mathf.Abs(movePoint.y - mOriginPositon.y) > mHalfMoveRangeY)
         {
-            movePoint.y = mHalfMoveRangeY * 2 + transform.localPosition.y;
+            movePoint.y = mHalfMoveRangeY + mOriginPositon.y;
         }
 
         if (mHalfMoveRangeX == 0)
         {
             movePoint.x = transform.localPosition.x;
         }
-        else if (Mathf.Abs(movePoint.x - transform.localPosition.x) > mHalfMoveRangeX * 2)
+        else if (Mathf.Abs(movePoint.x - mOriginPositon.x) > mHalfMoveRangeX)
         {
-            movePoint.x = mHalfMoveRangeX * 2 + transform.localPosition.x;
+            movePoint.x = mHalfMoveRangeX + mOriginPositon.x;
         }
         return movePoint;
     }
