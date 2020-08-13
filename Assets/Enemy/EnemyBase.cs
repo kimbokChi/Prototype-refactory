@@ -28,6 +28,9 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
 
     protected SpriteRenderer mRenderer;
 
+    protected bool  IsMoveFinish => mIsMoveFinish;
+    private   bool mIsMoveFinish = true;
+
     protected float mWaitMoveTime
     {
         get
@@ -136,6 +139,8 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
     {
         Vector2 refVelocity = Vector2.zero;
 
+        mIsMoveFinish = false;
+
         while (Vector2.Distance(movePoint, transform.localPosition) > mMoveSmooth)
         {
             float deltaTime = Time.deltaTime * Time.timeScale;
@@ -145,6 +150,8 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
             yield return null;
         }
         mEMove = null;
+
+        mIsMoveFinish = true;
 
         MoveFinish();
 

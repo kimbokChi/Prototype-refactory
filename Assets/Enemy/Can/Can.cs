@@ -7,8 +7,6 @@ public class Can : EnemyBase
     private Timer mWaitForATK;
     private Timer mWaitForMove;
 
-    private bool mIsMoveFinish;
-
     public override void Damaged(float damage, GameObject attacker, out GameObject victim)
     {
         victim = gameObject;
@@ -18,15 +16,13 @@ public class Can : EnemyBase
     {
         mWaitForATK  = new Timer();
         mWaitForMove = new Timer();
-
-        mIsMoveFinish = true;
     }
 
     public override void IUpdate()
     {
         if (mWaitForMove.IsOver())
         {
-            if (mIsMoveFinish)
+            if (IsMoveFinish)
             {
                 Vector2 movePoint;
 
@@ -34,8 +30,6 @@ public class Can : EnemyBase
                 movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + mOriginPosition.y;
 
                 MoveToPoint(movePoint);
-
-                mIsMoveFinish = false;
             }
         }
         else
@@ -45,9 +39,7 @@ public class Can : EnemyBase
     }
 
     protected override void MoveFinish()
-    {
-        mIsMoveFinish = true;
-        
+    {        
         mWaitForMove.Start(mWaitMoveTime);
     }
 
