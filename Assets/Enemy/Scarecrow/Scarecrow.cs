@@ -27,7 +27,7 @@ public class Scarecrow : EnemyBase
     {
         if (mWaitForMove.IsOver())
         {
-            if (IsMoveFinish)
+            if (IsMoveFinish && !WasLookingAtPlayer())
             {
                 Vector2 movePoint;
 
@@ -45,11 +45,7 @@ public class Scarecrow : EnemyBase
                         if (!IsPointOnRange(playerPos))
                         {
                             movePoint -= lookingDir * mRange;
-                        }
-                        else
-                        {
-                            movePoint = transform.localPosition;
-                        }
+                        }    
                     }
                 }
                 MoveToPoint(movePoint);
@@ -79,5 +75,17 @@ public class Scarecrow : EnemyBase
     public override GameObject ThisObject()
     {
         return gameObject;
+    }
+
+    private bool WasLookingAtPlayer()
+    {
+        if (mPlayer != null)
+        {
+            if (IsLookAtPlayer(out Vector2 playerPoint))
+            {
+                return IsPointOnRange(playerPoint);
+            }
+        }
+        return false;
     }
 }
