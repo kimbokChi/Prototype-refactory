@@ -56,8 +56,6 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
     {
         Vector2 refVelocity = Vector2.zero;
 
-        movePoint = ControlMovePoint(movePoint);
-
         while (Vector2.Distance(movePoint, transform.localPosition) > mMoveSmooth)
         {
             float deltaTime = Time.deltaTime * Time.timeScale;
@@ -206,28 +204,6 @@ public class Scarecrow : MonoBehaviour, IObject, ICombat
     private Vector2 PlayerLocalized()
     {
         return transform.InverseTransformPoint(mPlayer.transform.position) + transform.localPosition;
-    }
-
-    private Vector2 ControlMovePoint(Vector2 movePoint)
-    {
-        if (mHalfMoveRangeY == 0)
-        {
-            movePoint.y = transform.localPosition.y;
-        }
-        else if (Mathf.Abs(movePoint.y - mOriginPositon.y) > mHalfMoveRangeY)
-        {
-            movePoint.y = mHalfMoveRangeY + mOriginPositon.y;
-        }
-
-        if (mHalfMoveRangeX == 0)
-        {
-            movePoint.x = transform.localPosition.x;
-        }
-        else if (Mathf.Abs(movePoint.x - mOriginPositon.x) > mHalfMoveRangeX)
-        {
-            movePoint.x = mHalfMoveRangeX + mOriginPositon.x;
-        }
-        return movePoint;
     }
 
     public void Damaged(float damage, GameObject attacker, out GameObject victim)
