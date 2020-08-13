@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Can : EnemyBase
 {
+    private Timer mWaitForATK;
+    private Timer mWaitForMove;
+
+    private Vector2 mOriginPosition;
+
+    private bool mIsMoveFinish;
+
     public override void Damaged(float damage, GameObject attacker, out GameObject victim)
     {
         victim = gameObject;
@@ -11,10 +18,39 @@ public class Can : EnemyBase
 
     public override void IInit()
     {
+        mWaitForATK  = new Timer();
+        mWaitForMove = new Timer();
+
+        mOriginPosition = transform.localPosition;
+
+        mIsMoveFinish = true;
     }
 
     public override void IUpdate()
     {
+        if (mIsMoveFinish)
+        {
+            mWaitForMove.Update();
+
+            if (mWaitForMove.IsOver())
+            {
+                Vector2 movePoint;
+
+                movePoint.x = Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+                movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + mOriginPosition.y;
+
+                MoveToPoint(movePoint);
+
+                mIsMoveFinish = false;
+            }
+        }
+    }
+
+    protected override void MoveFinish()
+    {
+        mWaitForMove.Start(mWaitMoveTime);
+
+        mIsMoveFinish = true;
     }
 
     public override void PlayerEnter(Player enterPlayer)
