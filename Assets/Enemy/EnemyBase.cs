@@ -24,6 +24,8 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
     protected float mMaxHealth;
     protected float mCurHealth;
 
+    protected SpriteRenderer mRenderer;
+
     protected float mWaitMoveTime
     {
         get
@@ -50,26 +52,28 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
         {
             playerPos = PositionLocalized(mPlayer.transform.position);
 
-            if (TryGetComponent(out SpriteRenderer renderer))
+            if (mRenderer == null)
             {
-                // LOOK AT THE LEFT
-                if (renderer.flipX)
-                {
-                    if (playerPos.x < transform.position.x)
-                    {
-                        return true;
-                    }
-                }
+                Debug.Assert(TryGetComponent(out mRenderer));
+            }
 
-                // LOOK AT THE RIGHT
-                else
+            // LOOK AT THE LEFT
+            if (mRenderer.flipX)
+            {
+                if (playerPos.x < transform.position.x)
                 {
-                    if (playerPos.x > transform.position.x)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
-            }           
+            }
+
+            // LOOK AT THE RIGHT
+            else
+            {
+                if (playerPos.x > transform.position.x)
+                {
+                    return true;
+                }
+            }
         }
         playerPos = Vector2.zero;
 
@@ -110,6 +114,12 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
         {
             StopCoroutine(mEMove);
         }
+        if (mRenderer == null)
+        {
+            Debug.Assert(TryGetComponent(out mRenderer));
+        }
+        mRenderer.flipX = point.x < transform.localPosition.x;
+
         StartCoroutine(mEMove = EMove(point));
     }
 
