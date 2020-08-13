@@ -28,11 +28,9 @@ public class Can : EnemyBase
 
     public override void IUpdate()
     {
-        if (mIsMoveFinish)
+        if (mWaitForMove.IsOver())
         {
-            mWaitForMove.Update();
-
-            if (mWaitForMove.IsOver())
+            if (mIsMoveFinish)
             {
                 Vector2 movePoint;
 
@@ -44,13 +42,17 @@ public class Can : EnemyBase
                 mIsMoveFinish = false;
             }
         }
+        else
+        {
+            mWaitForMove.Update();
+        }
     }
 
     protected override void MoveFinish()
     {
-        mWaitForMove.Start(mWaitMoveTime);
-
         mIsMoveFinish = true;
+        
+        mWaitForMove.Start(mWaitMoveTime);
     }
 
     public override void PlayerEnter(Player enterPlayer)
