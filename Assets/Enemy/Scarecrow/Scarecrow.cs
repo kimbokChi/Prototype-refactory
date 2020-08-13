@@ -42,6 +42,8 @@ public class Scarecrow : EnemyBase
 
                     if (IsLookAtPlayer(out playerPos, lookingDir))
                     {
+                        movePoint = playerPos;
+
                         if (!IsPointOnRange(playerPos))
                         {
                             movePoint -= lookingDir * mRange;
