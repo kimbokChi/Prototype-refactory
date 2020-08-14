@@ -31,7 +31,7 @@ public class Scarecrow : EnemyBase
     {
         if (mWaitForMove.IsOver())
         {
-            if (IsMoveFinish && !IsArrivedAtPlayer())
+            if (IsMoveFinish && !IsInReachPlayer())
             {
                 Vector2 movePoint;
 
@@ -61,7 +61,7 @@ public class Scarecrow : EnemyBase
             mWaitForMove.Update();
         }
 
-        if (IsArrivedAtPlayer())
+        if (IsInReachPlayer())
         {
             if (mWaitForATK.IsOver())
             {

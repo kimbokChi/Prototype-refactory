@@ -223,7 +223,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
         return (Vector2.Distance(point, transform.localPosition) <= mRange + mRangeOffset);
     }
 
-    protected bool IsArrivedAtPlayer()
+    protected bool IsInReachPlayer()
     {
         if (mPlayer != null)
         {
