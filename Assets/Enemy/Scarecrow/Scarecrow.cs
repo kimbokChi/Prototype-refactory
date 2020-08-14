@@ -36,15 +36,13 @@ public class Scarecrow : EnemyBase
 
                 if (mPlayer != null)
                 {
-                    Vector2 playerPos;
-
                     Vector2 lookingDir = movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left;
 
-                    if (IsLookAtPlayer(out playerPos, lookingDir))
+                    if (IsLookAtPlayer(lookingDir) || IsLookAtPlayer())
                     {
-                        movePoint = playerPos;
+                        movePoint = PositionLocalized(mPlayer.transform.position);
 
-                        if (!IsPointOnRange(playerPos))
+                        if (!IsPointOnRange(movePoint))
                         {
                             movePoint -= lookingDir * mRange;
                         }    
