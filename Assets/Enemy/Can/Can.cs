@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scarecrow : EnemyBase
+public class Can : EnemyBase
 {
     private Timer mWaitForATK;
     private Timer mWaitForMove;
@@ -18,37 +18,17 @@ public class Scarecrow : EnemyBase
         mWaitForMove = new Timer();
     }
 
-    public override bool IsActive()
-    {
-        return gameObject.activeSelf;
-    }
-
     public override void IUpdate()
     {
         if (mWaitForMove.IsOver())
         {
-            if (IsMoveFinish && !IsArrivedAtPlayer())
+            if (IsMoveFinish)
             {
                 Vector2 movePoint;
 
                 movePoint.x = Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX) + mOriginPosition.x;
                 movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + mOriginPosition.y;
 
-                if (mPlayer != null)
-                {
-                    Vector2 lookingDir = movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left;
-
-                    if (IsLookAtPlayer(lookingDir) || IsLookAtPlayer())
-                    {
-                        movePoint = PositionLocalized(mPlayer.transform.position);
-
-                        if (!IsPointOnRange(movePoint))
-                        {
-                            movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * mRange;
-
-                        }    
-                    }
-                }
                 MoveToPoint(movePoint);
             }
         }
@@ -59,7 +39,7 @@ public class Scarecrow : EnemyBase
     }
 
     protected override void MoveFinish()
-    {
+    {        
         mWaitForMove.Start(WaitMoveTime);
     }
 
@@ -76,5 +56,10 @@ public class Scarecrow : EnemyBase
     public override GameObject ThisObject()
     {
         return gameObject;
+    }
+
+    public override bool IsActive()
+    {
+        return gameObject.activeSelf;
     }
 }
