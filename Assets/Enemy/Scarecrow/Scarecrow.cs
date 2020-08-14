@@ -44,7 +44,8 @@ public class Scarecrow : EnemyBase
 
                         if (!IsPointOnRange(movePoint))
                         {
-                            movePoint -= lookingDir * mRange;
+                            movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * mRange;
+
                         }    
                     }
                 }
