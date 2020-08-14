@@ -267,13 +267,18 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
 
             yield return null;
         }
+        MoveStopEvent();
+
+        yield break;
+    }
+
+    private void MoveStopEvent()
+    {
         mEMove = null;
 
         mIsMoveFinish = true;
 
         MoveFinish();
-
-        yield break;
     }
 
     #region interfaces : 
