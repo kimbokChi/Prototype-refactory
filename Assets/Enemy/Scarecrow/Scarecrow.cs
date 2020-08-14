@@ -18,6 +18,8 @@ public class Scarecrow : EnemyBase
     {
         mWaitForATK  = new Timer();
         mWaitForMove = new Timer();
+
+        mWaitForATK.Start(mWaitATKTime);
     }
 
     public override bool IsActive()
@@ -59,18 +61,18 @@ public class Scarecrow : EnemyBase
             mWaitForMove.Update();
         }
 
-        if (mWaitForATK.IsOver())
+        if (IsArrivedAtPlayer())
         {
-            if (IsArrivedAtPlayer())
+            if (mWaitForATK.IsOver())
             {
                 mPlayer.Damaged(mDamage, gameObject, out GameObject v);
 
                 mWaitForATK.Start(mWaitATKTime);
             }
-        }
-        else
-        {
-            mWaitForATK.Update();
+            else
+            {
+                mWaitForATK.Update();
+            }
         }
     }
 
