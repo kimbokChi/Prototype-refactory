@@ -223,6 +223,18 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
         return (Vector2.Distance(point, transform.localPosition) <= mRange + mRangeOffset);
     }
 
+    protected bool IsArrivedAtPlayer()
+    {
+        if (mPlayer != null)
+        {
+            if (IsLookAtPlayer(out Vector2 playerPoint))
+            {
+                return IsPointOnRange(playerPoint);
+            }
+        }
+        return false;
+    }
+
     #region MEMBER
     /// <summary>
     /// 인자로 지정한 지점을 향해 이동합니다. 그리고 이 이동이 끝나게되면 MoveFinish함수를 호출합니다.
