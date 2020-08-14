@@ -7,6 +7,8 @@ public class Scarecrow : EnemyBase
     private Timer mWaitForATK;
     private Timer mWaitForMove;
 
+    [SerializeField] private float mDamage;
+
     public override void Damaged(float damage, GameObject attacker, out GameObject victim)
     {
         victim = gameObject;
@@ -16,6 +18,8 @@ public class Scarecrow : EnemyBase
     {
         mWaitForATK  = new Timer();
         mWaitForMove = new Timer();
+
+        mWaitForATK.Start(mWaitATKTime);
     }
 
     public override bool IsActive()
@@ -55,6 +59,20 @@ public class Scarecrow : EnemyBase
         else
         {
             mWaitForMove.Update();
+        }
+
+        if (IsArrivedAtPlayer())
+        {
+            if (mWaitForATK.IsOver())
+            {
+                mPlayer.Damaged(mDamage, gameObject, out GameObject v);
+
+                mWaitForATK.Start(mWaitATKTime);
+            }
+            else
+            {
+                mWaitForATK.Update();
+            }
         }
     }
 
