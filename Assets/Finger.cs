@@ -7,6 +7,8 @@ public class Finger : Singleton<Finger>
 {
     private const float PRESS_TIME = 0.8f;
 
+    private float DeltaTime => Time.deltaTime * Time.timeScale;
+
     [SerializeField]
     private ChargeGauge mChargeGauge;
 
@@ -65,5 +67,10 @@ public class Finger : Singleton<Finger>
 
             mCurPressTime = 0;
         }
+    }
+
+    private void CastBulletTime(float slowMax, float decrease)
+    {
+        Time.timeScale = Mathf.Max(slowMax, Time.timeScale - decrease * DeltaTime);
     }
 }
