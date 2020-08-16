@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,23 +10,23 @@ public class Inventory : Singleton<Inventory>
 
     #region Item Function Event
 
-    public delegate void UseMoveBegin();
-    public event UseMoveBegin MoveBeginAction;
+    public delegate void MoveBegin();
+    public event MoveBegin MoveBeginAction;
 
-    public delegate void UseMoveEnd();
-    public event UseMoveEnd MoveEndAction;
+    public delegate void MoveEnd();
+    public event MoveEnd MoveEndAction;
 
-    public delegate void UseAttack(GameObject attacker, ICombat targetCombat);
-    public event UseAttack AttackAction;
+    public delegate void Attack(GameObject attacker, ICombat targetCombat);
+    public event Attack AttackAction;
 
-    public delegate void UseBeDamaged(ref float damage, GameObject attacker, GameObject victim);
-    public event UseBeDamaged BeDamagedAction;
+    public delegate void BeDamaged(ref float damage, GameObject attacker, GameObject victim);
+    public event BeDamaged BeDamagedAction;
 
-    public delegate void UseEnter();
-    public event UseEnter EnterAction;
+    public delegate void FloorEnter();
+    public event FloorEnter FloorEnterAction;
 
-    public delegate void UseCharge(float charge);
-    public event UseCharge ChargeAction;
+    public delegate void Charge(float charge);
+    public event Charge ChargeAction;
 
     #endregion
 
