@@ -39,6 +39,8 @@ public class Player : MonoBehaviour, ICombat
 
     private bool mCanElevation;
 
+    private bool mIsMoveToUpDown;
+
     public  bool IsDeath => mIsDeath;
     private bool mIsDeath;
 
@@ -100,6 +102,8 @@ public class Player : MonoBehaviour, ICombat
         mCanElevation = false;
         mIsDeath      = false;
 
+        mIsMoveToUpDown = false;
+
         mCurHealth = mMaxHealth;
 
         mWaitATK    = new Timer();
@@ -122,12 +126,20 @@ public class Player : MonoBehaviour, ICombat
             }
             if (!mCanElevation)
             {
+                DIRECTION9 prevLocation9 = mLocation9;
+
                 moveRIR9 = ((int)mLocation9 - 3) < 0 ? mLocation9 : mLocation9 - 3;
+
+                mIsMoveToUpDown = (prevLocation9 != moveRIR9);
             }
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
+            DIRECTION9 prevLocation9 = mLocation9;
+
             moveRIR9 = ((int)mLocation9 + 3) > 8 ? mLocation9 : mLocation9 + 3;
+
+            mIsMoveToUpDown = (prevLocation9 != moveRIR9);
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -261,6 +273,8 @@ public class Player : MonoBehaviour, ICombat
             mCanElevation = false;
         }
         mLocation9 = moveDIR9; mEMove = null;
+
+        mIsMoveToUpDown = false;
 
         yield break;
     }
