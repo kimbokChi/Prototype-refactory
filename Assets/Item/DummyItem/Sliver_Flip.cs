@@ -17,11 +17,11 @@ public class Sliver_Flip : Item
         switch (offSlot)
         {
             case SLOT_TYPE.ACCESSORY:
-                Inventory.Instnace.MoveEndAction += MoveEndAction;
+                Inventory.Instnace.MoveEndAction -= MoveEndAction;
                 break;
 
             case SLOT_TYPE.WEAPON:
-                Inventory.Instnace.MoveBeginAction += MoveBeginAction;
+                Inventory.Instnace.MoveBeginAction -= MoveBeginAction;
                 break;
         }
     }
@@ -31,11 +31,11 @@ public class Sliver_Flip : Item
         switch (onSlot)
         {
             case SLOT_TYPE.ACCESSORY:
-                Inventory.Instnace.MoveEndAction -= MoveEndAction;
+                Inventory.Instnace.MoveEndAction += MoveEndAction;
                 break;
 
             case SLOT_TYPE.WEAPON:
-                Inventory.Instnace.MoveBeginAction -= MoveBeginAction;
+                Inventory.Instnace.MoveBeginAction += MoveBeginAction;
                 break;
         }
     }
@@ -51,7 +51,7 @@ public class Sliver_Flip : Item
         {
             if (colliders[i].TryGetComponent(out ICombat combat))
             {
-                combat.Damaged(10, FindObjectOfType(typeof(Player)) as GameObject, out GameObject v);
+                combat.Damaged(60, FindObjectOfType(typeof(Player)) as GameObject, out GameObject v);
             }
         }
     }
