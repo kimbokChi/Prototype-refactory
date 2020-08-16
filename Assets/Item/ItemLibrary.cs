@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class ItemLibrary : Singleton<ItemLibrary>
 {
-    public const float COMMON_PROBABILITY = 40f;
-    public const float RARE_PROBABILITY = 35f;
-    public const float EPIC_PROBABILITY = 20f;
-    public const float LEGENDARY_PROBABILITY = 5f;
+    public const float    COMMON_PROBABILITY = 40f;
+    public const float      RARE_PROBABILITY = 35f;
+    public const float      EPIC_PROBABILITY = 20f;
+    public const float LEGENDARY_PROBABILITY =  5f;
 
     [SerializeField]
     private List<Item> mItems;
