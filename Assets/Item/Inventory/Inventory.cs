@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,23 +10,23 @@ public class Inventory : Singleton<Inventory>
 
     #region Item Function Event
 
-    public delegate void UseMoveBegin();
-    public event UseMoveBegin MoveBeginAction;
+    public delegate void MoveBegin(Vector2 moveDir);
+    public event MoveBegin MoveBeginAction;
 
-    public delegate void UseMoveEnd();
-    public event UseMoveEnd MoveEndAction;
+    public delegate void MoveEnd(Collider2D[] colliders);
+    public event MoveEnd MoveEndAction;
 
-    public delegate void UseAttack(GameObject attacker, ICombat targetCombat);
-    public event UseAttack AttackAction;
+    public delegate void Attack(GameObject attacker, ICombat targetCombat);
+    public event Attack AttackAction;
 
-    public delegate void UseBeDamaged(ref float damage, GameObject attacker, GameObject victim);
-    public event UseBeDamaged BeDamagedAction;
+    public delegate void BeDamaged(ref float damage, GameObject attacker, GameObject victim);
+    public event BeDamaged BeDamagedAction;
 
-    public delegate void UseEnter();
-    public event UseEnter EnterAction;
+    public delegate void FloorEnter();
+    public event FloorEnter FloorEnterAction;
 
-    public delegate void UseCharge(float charge);
-    public event UseCharge ChargeAction;
+    public delegate void Charge(float charge);
+    public event Charge ChargeAction;
 
     #endregion
 
@@ -63,6 +64,14 @@ public class Inventory : Singleton<Inventory>
         {
             AttackAction = delegate (GameObject attacker, ICombat targetCombat) { };
         }
+        if (MoveBeginAction == null)
+        {
+            MoveBeginAction = delegate (Vector2 dir) { };
+        }
+        if (MoveEndAction == null)
+        {
+            MoveEndAction = delegate (Collider2D[] colliders) { };
+        }
     }
 
     public void AddItem(Item item)
@@ -88,18 +97,21 @@ public class Inventory : Singleton<Inventory>
         return DEFAULT_RANGE;
     }
 
-    public void UseDamagedAction(ref float damage, GameObject attacker, GameObject victim)
+    public void OnDamaged(ref float damage, GameObject attacker, GameObject victim)
     {
         BeDamagedAction.Invoke(ref damage, attacker, victim);
     }
 
-    public void UseChargeAction(float power)
+    public void OnCharge(float power)
     {
         ChargeAction.Invoke(power);
     }
 
-    public void UseAttackAction(GameObject attacker, ICombat targetCombat)
+    public void OnAttack(GameObject attacker, ICombat targetCombat)
     {
         AttackAction.Invoke(attacker, targetCombat);
     }
+
+    public void OnMoveBegin(Vector2 moveDir) => MoveBeginAction.Invoke(moveDir);
+    public void OnMoveEnd(Collider2D[] colliders) => MoveEndAction.Invoke(colliders);
 }

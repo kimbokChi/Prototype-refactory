@@ -35,6 +35,8 @@ public class Player : MonoBehaviour, ICombat
 
     private IEnumerator mEMove;
 
+    private List<Collider2D> mCollidersOnMove;
+
     private bool mCanElevation;
 
     public  bool IsDeath => mIsDeath;
@@ -104,6 +106,8 @@ public class Player : MonoBehaviour, ICombat
         mBlinkTimer = new Timer();
 
         mWaitATK.Start(WaitTimeATK);
+
+        mCollidersOnMove = new List<Collider2D>();
     }
 
     private void InputAction()
@@ -176,7 +180,7 @@ public class Player : MonoBehaviour, ICombat
         {
             if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombat combat))
             {
-                Inventory.Instnace.UseAttackAction(gameObject, combat);
+                Inventory.Instnace.OnAttack(gameObject, combat);
 
                 mWaitATK.Start(WaitTimeATK);
             }
@@ -185,12 +189,18 @@ public class Player : MonoBehaviour, ICombat
                 renderer.flipX = (challenger.transform.position.x > transform.position.x);
             }            
         }
+
         if (!mIsDeath)
         {
             InputAction();
 
             CheckToDeath();
         }        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (mEMove != null) mCollidersOnMove.Add(collision);
     }
 
     private void MoveAction(DIRECTION9 moveDIR9)
@@ -228,7 +238,7 @@ public class Player : MonoBehaviour, ICombat
 
     private IEnumerator EMove(Vector2 movePoint, DIRECTION9 moveDIR9)
     {
-        // Inventory.Instnace.UseItem(ITEM_KEYWORD.MOVE_BEGIN);
+        Inventory.Instnace.OnMoveBegin(movePoint.normalized);
 
         float lerpAmount = 0;
 
@@ -240,7 +250,9 @@ public class Player : MonoBehaviour, ICombat
 
             yield return null;
         }
-        // Inventory.Instnace.UseItem(ITEM_KEYWORD.MOVE_END);
+        Inventory.Instnace.OnMoveEnd(mCollidersOnMove.ToArray());
+
+        mCollidersOnMove.Clear();
 
         if (mCanElevation)
         {
@@ -261,7 +273,7 @@ public class Player : MonoBehaviour, ICombat
         }
         victim = gameObject;
 
-        Inventory.Instnace.UseDamagedAction(ref damage, attacker, gameObject);
+        Inventory.Instnace.OnDamaged(ref damage, attacker, gameObject);
 
         mCurHealth -= damage / mDefense;
 
