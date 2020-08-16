@@ -10,10 +10,10 @@ public class Inventory : Singleton<Inventory>
 
     #region Item Function Event
 
-    public delegate void MoveBegin();
+    public delegate void MoveBegin(Vector2 moveDir);
     public event MoveBegin MoveBeginAction;
 
-    public delegate void MoveEnd();
+    public delegate void MoveEnd(Collider2D[] colliders);
     public event MoveEnd MoveEndAction;
 
     public delegate void Attack(GameObject attacker, ICombat targetCombat);
