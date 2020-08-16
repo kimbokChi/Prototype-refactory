@@ -64,6 +64,14 @@ public class Inventory : Singleton<Inventory>
         {
             AttackAction = delegate (GameObject attacker, ICombat targetCombat) { };
         }
+        if (MoveBeginAction == null)
+        {
+            MoveBeginAction = delegate (Vector2 dir) { };
+        }
+        if (MoveEndAction == null)
+        {
+            MoveEndAction = delegate (Collider2D[] colliders) { };
+        }
     }
 
     public void AddItem(Item item)
@@ -103,4 +111,7 @@ public class Inventory : Singleton<Inventory>
     {
         AttackAction.Invoke(attacker, targetCombat);
     }
+
+    public void UseMoveBeginAction(Vector2 moveDir) => MoveBeginAction.Invoke(moveDir);
+    public void UseMoveEndAction(Collider2D[] colliders) => MoveEndAction.Invoke(colliders);
 }
