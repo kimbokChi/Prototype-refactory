@@ -97,21 +97,21 @@ public class Inventory : Singleton<Inventory>
         return DEFAULT_RANGE;
     }
 
-    public void UseDamagedAction(ref float damage, GameObject attacker, GameObject victim)
+    public void OnDamaged(ref float damage, GameObject attacker, GameObject victim)
     {
         BeDamagedAction.Invoke(ref damage, attacker, victim);
     }
 
-    public void UseChargeAction(float power)
+    public void OnCharge(float power)
     {
         ChargeAction.Invoke(power);
     }
 
-    public void UseAttackAction(GameObject attacker, ICombat targetCombat)
+    public void OnAttack(GameObject attacker, ICombat targetCombat)
     {
         AttackAction.Invoke(attacker, targetCombat);
     }
 
-    public void UseMoveBeginAction(Vector2 moveDir) => MoveBeginAction.Invoke(moveDir);
-    public void UseMoveEndAction(Collider2D[] colliders) => MoveEndAction.Invoke(colliders);
+    public void OnMoveBegin(Vector2 moveDir) => MoveBeginAction.Invoke(moveDir);
+    public void OnMoveEnd(Collider2D[] colliders) => MoveEndAction.Invoke(colliders);
 }

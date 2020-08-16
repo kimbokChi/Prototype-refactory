@@ -176,7 +176,7 @@ public class Player : MonoBehaviour, ICombat
         {
             if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombat combat))
             {
-                Inventory.Instnace.UseAttackAction(gameObject, combat);
+                Inventory.Instnace.OnAttack(gameObject, combat);
 
                 mWaitATK.Start(WaitTimeATK);
             }
@@ -261,7 +261,7 @@ public class Player : MonoBehaviour, ICombat
         }
         victim = gameObject;
 
-        Inventory.Instnace.UseDamagedAction(ref damage, attacker, gameObject);
+        Inventory.Instnace.OnDamaged(ref damage, attacker, gameObject);
 
         mCurHealth -= damage / mDefense;
 
