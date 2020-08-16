@@ -12,6 +12,10 @@ public class Scarecrow : EnemyBase
     public override void Damaged(float damage, GameObject attacker, out GameObject victim)
     {
         victim = gameObject;
+
+        mCurHealth -= damage;
+
+        if (mCurHealth <= 0) gameObject.SetActive(false);
     }
 
     public override void IInit()
