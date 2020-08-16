@@ -69,8 +69,13 @@ public class Finger : Singleton<Finger>
         }
     }
 
-    private void CastBulletTime(float slowMax, float decrease)
+    private void OnBulletTime(float decrease, float accel, float slowMax)
     {
-        Time.timeScale = Mathf.Max(slowMax, Time.timeScale - decrease * DeltaTime);
+        Time.timeScale = Mathf.Max(slowMax, Time.timeScale - decrease * accel * DeltaTime);
+    }
+
+    private void DisBulletTime(float increase, float accel, float origin = 1f)
+    {
+        Time.timeScale = Mathf.Min(origin, Time.timeScale + increase * accel * DeltaTime);
     }
 }
