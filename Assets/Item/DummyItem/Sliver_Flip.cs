@@ -14,9 +14,45 @@ public class Sliver_Flip : Item
 
     public override void OffEquipThis(SLOT_TYPE offSlot)
     {
+        switch (offSlot)
+        {
+            case SLOT_TYPE.ACCESSORY:
+                Inventory.Instnace.MoveEndAction += MoveEndAction;
+                break;
+
+            case SLOT_TYPE.WEAPON:
+                Inventory.Instnace.MoveBeginAction += MoveBeginAction;
+                break;
+        }
     }
 
     public override void OnEquipThis(SLOT_TYPE onSlot)
     {
+        switch (onSlot)
+        {
+            case SLOT_TYPE.ACCESSORY:
+                Inventory.Instnace.MoveEndAction -= MoveEndAction;
+                break;
+
+            case SLOT_TYPE.WEAPON:
+                Inventory.Instnace.MoveBeginAction -= MoveBeginAction;
+                break;
+        }
+    }
+
+    private void MoveBeginAction(Vector2 moveDir)
+    {
+        Debug.Log($"Move Direction : {moveDir}");
+    }
+
+    private void MoveEndAction(Collider2D[] colliders)
+    {
+        for (int i = 0; i < colliders.Length; ++i)
+        {
+            if (colliders[i].TryGetComponent(out ICombat combat))
+            {
+                combat.Damaged(10, FindObjectOfType(typeof(Player)) as GameObject, out GameObject v);
+            }
+        }
     }
 }
