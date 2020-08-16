@@ -18,6 +18,8 @@ public class Finger : Singleton<Finger>
 
     private bool mIsGaugeBreak;
 
+    private IEnumerator mEOnBulletTime;
+
     private void Awake()
     {
         mCurPressTime = 0f;
@@ -34,6 +36,8 @@ public class Finger : Singleton<Finger>
 
     private void Update()
     {
+        Debug.Log(Time.timeScale);
+
         if (Input.GetMouseButtonDown(0))
         {
             mChargeGauge.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -47,6 +51,11 @@ public class Finger : Singleton<Finger>
                 mChargeGauge.gameObject.SetActive(true);
 
                 mChargeGauge.GaugeUp(0.8f);
+
+                if (mEOnBulletTime == null)
+                {
+                    StartCoroutine(mEOnBulletTime = EOnBulletTime(1.5f, 0.45f));
+                }
 
                 Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -66,16 +75,40 @@ public class Finger : Singleton<Finger>
             mIsGaugeBreak = false;
 
             mCurPressTime = 0;
+
+            StartCoroutine(EDisBulletTime(1.75f));
         }
     }
 
-    private void OnBulletTime(float decrease, float accel, float slowMax)
+    private IEnumerator EOnBulletTime(float accel, float slowMax)
     {
-        Time.timeScale = Mathf.Max(slowMax, Time.timeScale - decrease * accel * DeltaTime);
+        float lerpAmount = 0f;
+
+        while (!Input.GetMouseButtonUp(0))
+        {
+            lerpAmount = Mathf.Min(slowMax, lerpAmount + accel * DeltaTime);
+
+            Time.timeScale = Mathf.Lerp(Time.timeScale, slowMax, lerpAmount);
+
+            yield return null;
+        }
+        mEOnBulletTime = null;
+
+        yield break;
     }
 
-    private void DisBulletTime(float increase, float accel, float origin = 1f)
+    private IEnumerator EDisBulletTime(float accel, float origin = 1f)
     {
-        Time.timeScale = Mathf.Min(origin, Time.timeScale + increase * accel * DeltaTime);
+        float lerpAmount = 0f;
+
+        while (Time.timeScale != origin)
+        {
+            lerpAmount = Mathf.Min(origin, lerpAmount + accel * DeltaTime);
+
+            Time.timeScale = Mathf.Lerp(Time.timeScale, origin, lerpAmount);
+
+            yield return null;
+        }
+        yield break;
     }
 }
