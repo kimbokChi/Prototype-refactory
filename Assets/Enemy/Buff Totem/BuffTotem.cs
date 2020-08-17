@@ -4,5 +4,7 @@ using UnityEngine;
 
 public class BuffTotem : MonoBehaviour
 {
+    [SerializeField] private Area mSenseArae;
+
 
 }
