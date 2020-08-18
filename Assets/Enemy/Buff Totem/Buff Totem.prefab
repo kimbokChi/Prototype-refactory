@@ -167,4 +167,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1116093eb2f8aa341889ec1066767046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mWaitCastTime: 3
   mSenseArae: {fileID: 53926453138816439}
