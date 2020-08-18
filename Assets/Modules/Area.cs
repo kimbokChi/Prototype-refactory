@@ -31,9 +31,9 @@ public class Area : MonoBehaviour
 
         for (int i = 0; i > mEnterObjects.Count; ++i)
         {
-            if (mEnterObjects[i] is T)
+            if (mEnterObjects[i].TryGetComponent(out T instnace))
             {
-                TContainer.Add(mEnterObjects[i] as T);
+                TContainer.Add(instnace);
 
             }
         }
