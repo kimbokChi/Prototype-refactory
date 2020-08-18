@@ -20,7 +20,7 @@ public enum TPOSITION3
 
 public enum BUFF
 {
-    HEAL
+    HEAL, SPEEDUP
 }
 
 /* README
