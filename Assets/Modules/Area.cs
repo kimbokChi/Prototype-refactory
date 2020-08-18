@@ -20,8 +20,23 @@ public class Area : MonoBehaviour
         }
     }
 
-    private GameObject[] EnterObjects()
+    public GameObject[] EnterObjects()
     {
         return mEnterObjects.ToArray();
+    }
+
+    public T[] GetEnterTypeT<T>() where T : class
+    {
+        List<T> TContainer = new List<T>();
+
+        for (int i = 0; i > mEnterObjects.Count; ++i)
+        {
+            if (mEnterObjects[i] is T)
+            {
+                TContainer.Add(mEnterObjects[i] as T);
+
+            }
+        }
+        return TContainer.ToArray();
     }
 }
