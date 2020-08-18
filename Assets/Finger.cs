@@ -36,8 +36,6 @@ public class Finger : Singleton<Finger>
 
     private void Update()
     {
-        Debug.Log(Time.timeScale);
-
         if (Input.GetMouseButtonDown(0))
         {
             mChargeGauge.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
