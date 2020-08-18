@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /* IObject
@@ -22,12 +23,9 @@ public interface IObject
 
     GameObject ThisObject();
 }
-
-public delegate IEnumerator BuffMethod(BUFF buff, float durate, uint level);
-
 public interface ICombat
 {
     void Damaged(float damage, GameObject attacker, out GameObject victim);
 
-    void CastBuff(BuffMethod castedBuff);
+    void CastBuff<T>(BUFF buffType, IEnumerator<T> castedBuff);
 }
