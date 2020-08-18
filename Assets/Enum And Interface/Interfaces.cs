@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /* IObject
  * 플레이어나 적같은 오브젝트들은 해당 인터페이스를 구현하여 초기화/업데이트를 할때 사용한다.
@@ -22,9 +23,11 @@ public interface IObject
     GameObject ThisObject();
 }
 
+public delegate IEnumerator BuffMethod(BUFF buff, float durate, uint level);
+
 public interface ICombat
 {
     void Damaged(float damage, GameObject attacker, out GameObject victim);
 
-    void CastBuff(BUFF effect, float durate, int level);
+    void CastBuff(BuffMethod castedBuff);
 }
