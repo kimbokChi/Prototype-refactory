@@ -42,7 +42,7 @@ public class BuffTotem : MonoBehaviour, IObject
 
         for (int i = 0; i < combats.Length; ++i)
         {
-            combats[i].Damaged(-20f, gameObject, out GameObject v);
+            combats[i].CastBuff(BUFF.HEAL, BuffLibrary.Instnace.Heal(1));
         }
     }
 
