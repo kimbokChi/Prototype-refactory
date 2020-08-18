@@ -25,4 +25,6 @@ public interface IObject
 public interface ICombat
 {
     void Damaged(float damage, GameObject attacker, out GameObject victim);
+
+    void CastBuff(BUFF effect, float durate, int level);
 }

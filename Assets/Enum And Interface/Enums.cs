@@ -18,6 +18,11 @@ public enum TPOSITION3
     LEFT, MID, RIGHT, NONE
 }
 
+public enum BUFF
+{
+    HEAL
+}
+
 /* README
  * MOVE [이동]
  * 
