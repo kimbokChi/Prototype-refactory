@@ -4,10 +4,10 @@ using UnityEngine;
 
 public enum STAT_ON_TABLE
 {
-    MOVESPEED
+    MOVESPEED, IMOVESPEED
 }
 
-public class StatTable
+public class StatTable : MonoBehaviour
 {
     private int KeyCode;
     private Dictionary<STAT_ON_TABLE, float> mStatTable;
@@ -20,7 +20,9 @@ public class StatTable
         KeyCode = BelongObject.GetHashCode();
 
         mStatTable = new Dictionary<STAT_ON_TABLE, float>();
-        mStatTable.Add(STAT_ON_TABLE.MOVESPEED, mMoveSpeed);
+
+        mStatTable.Add(STAT_ON_TABLE. MOVESPEED,  mMoveSpeed);
+        mStatTable.Add(STAT_ON_TABLE.IMOVESPEED, mIMoveSpeed);
     }
 
     public bool GetTable(int keyCode, out Dictionary<STAT_ON_TABLE, float> table)
@@ -38,12 +40,13 @@ public class StatTable
 
     public float  MoveSpeed
     {
-        get =>  mMoveSpeed;
+        get => mStatTable[STAT_ON_TABLE.MOVESPEED];
+
         set => mIMoveSpeed = value - MoveSpeed;
     }
     public float IMoveSpeed
     {
-        get { return mIMoveSpeed; }
+        get { return mStatTable[STAT_ON_TABLE.IMOVESPEED]; }
     }
 
     [SerializeField] private float  mMoveSpeed;
