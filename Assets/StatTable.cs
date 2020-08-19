@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class StatTable
 {
-    public float  MoveSpeed;
-    public float IMoveSpeed;
+    public float  MoveSpeed
+    {
+        get =>  mMoveSpeed;
+        set => mIMoveSpeed = value - MoveSpeed;
+    }
+    public float IMoveSpeed
+    {
+        get { return mIMoveSpeed; }
+    }
+
+    [SerializeField] private float  mMoveSpeed;
+    [SerializeField] private float mIMoveSpeed;
 }
