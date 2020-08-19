@@ -25,6 +25,12 @@ public interface IObject
 }
 public interface ICombat
 {
+    StatTable Stat
+    {
+        get;
+        set;
+    }
+
     void Damaged(float damage, GameObject attacker, out GameObject victim);
 
     void CastBuff<T>(BUFF buffType, IEnumerator<T> castedBuff);
