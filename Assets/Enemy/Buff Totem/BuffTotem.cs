@@ -8,6 +8,10 @@ public class BuffTotem : MonoBehaviour, IObject
 
     [SerializeField] private Area mSenseArae;
 
+    [SerializeField] private BUFF  mCastBuff;
+    [SerializeField] private float mDurate;
+    [SerializeField] private uint  mLevel;
+
     private Timer mWaitForCastBuff;
 
     public void IInit()
@@ -44,7 +48,16 @@ public class BuffTotem : MonoBehaviour, IObject
         {
             StatTable stat = combats[i].Stat;
 
-            combats[i].CastBuff(BUFF.HEAL, BuffLibrary.Instnace.SpeedUp(3f, 5, stat));
+            switch (mCastBuff)
+            {
+                case BUFF.HEAL:
+                    combats[i].CastBuff(BUFF.HEAL, BuffLibrary.Instnace.Heal(mLevel, stat));
+                    break;
+
+                case BUFF.SPEEDUP:
+                    combats[i].CastBuff(BUFF.SPEEDUP, BuffLibrary.Instnace.SpeedUp(mDurate, mLevel, stat));
+                    break;
+            }
         }
     }
 
