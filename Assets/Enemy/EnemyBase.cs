@@ -294,6 +294,8 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
     }
 
     #region interfaces : 
+    public abstract StatTable Stat { get; }
+
     public abstract void IInit();
     public abstract bool IsActive();
     public abstract void IUpdate();
@@ -301,5 +303,6 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
     public abstract void PlayerExit();
     public abstract GameObject ThisObject();
     public abstract void Damaged(float damage, GameObject attacker, out GameObject victim);
+    public abstract void CastBuff(BUFF buffType, IEnumerator<float> castedBuff);
     #endregion
 }
