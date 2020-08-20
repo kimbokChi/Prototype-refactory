@@ -6,6 +6,7 @@ public class BuffLibrary : Singleton<BuffLibrary>
 {
     public const float HEAL = 15f;
     public const float SPEEDUP = 0.2f;
+    public const float POWER_BOOST = 0.3f;
 
     public float DeltaTime => Time.deltaTime * Time.timeScale;
 
@@ -43,5 +44,23 @@ public class BuffLibrary : Singleton<BuffLibrary>
     public  IEnumerator SpeedUp    (float durate, uint level, StatTable statTable)
     {
         return SpeedUpBuff(durate, level, statTable).GetEnumerator();
+    }
+
+    private IEnumerable PowerBoostBuff(float durate, uint level, StatTable statTable)
+    {
+        statTable.IOffensivePower += statTable.OffensivePower * level * POWER_BOOST;
+
+        for (float i = 0; i < durate; i += DeltaTime) { yield return null; }
+
+        statTable.IOffensivePower -= statTable.OffensivePower * level * POWER_BOOST;
+    }
+    #region READ
+    /// <summary>
+    /// 지속 : 공격력을 증가시키는 버프입니다.
+    /// </summary>
+    #endregion
+    public IEnumerator PowerBoost(float durate, uint level, StatTable statTable)
+    {
+        yield return PowerBoostBuff(durate, level, statTable);
     }
 }
