@@ -316,7 +316,7 @@ public class Player : MonoBehaviour, ICombat
 
         Inventory.Instnace.OnDamaged(ref damage, attacker, gameObject);
 
-        mCurHealth -= damage / mDefense;
+        mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage / mDefense;
 
         mBlinkTimer.Start(mBlinkTime);
     }
