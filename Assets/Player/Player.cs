@@ -120,7 +120,7 @@ public class Player : MonoBehaviour, ICombat
 
         mCollidersOnMove = new List<Collider2D>();
 
-        Debug.Assert(mStat.GetTable(GetHashCode(), out mStatTable));
+        Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
     }
 
     private void InputAction()

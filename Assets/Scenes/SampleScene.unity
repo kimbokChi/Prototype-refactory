@@ -3447,6 +3447,7 @@ GameObject:
   - component: {fileID: 1249284099}
   - component: {fileID: 1249284102}
   - component: {fileID: 1249284103}
+  - component: {fileID: 1249284104}
   m_Layer: 0
   m_Name: Singleton Instance
   m_TagString: Untagged
@@ -3556,6 +3557,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemAndItemBox: {fileID: 208112648425833888}
   mIncreaseEventProbabilty: 0
+--- !u!114 &1249284104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249284097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d58d37b6f053564e9504126fede9ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1250011944
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,7 +32,7 @@ public class Scarecrow : EnemyBase
         mWaitForATK  = new Timer();
         mWaitForMove = new Timer();
 
-        Debug.Assert(mStat.GetTable(GetHashCode(), out mStatTable));
+        Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
 
         mWaitForATK.Start(mWaitATKTime);
     }
