@@ -24,11 +24,13 @@ public class BuffLibrary : Singleton<BuffLibrary>
         return HealBuff(level).GetEnumerator();
     }
 
-    private IEnumerable<float> SpeedUpBuff(float durate, uint level, float originSpeed)
+    private IEnumerable SpeedUpBuff(float durate, uint level, StatTable statTable)
     {
         for (float i = 0; i < durate; i += DeltaTime)
         {
-            yield return originSpeed * level * SPEEDUP;
+            statTable.MoveSpeed += statTable.MoveSpeed * level * SPEEDUP;
+
+            yield return null;
         }
     }
     #region READ
@@ -37,8 +39,8 @@ public class BuffLibrary : Singleton<BuffLibrary>
     /// <para>레벨 1당 SPEEDUP만큼의 이동속도 증가치를 반환합니다.</para>
     /// </summary>
     #endregion
-    public  IEnumerator<float> SpeedUp    (float durate, uint level, float originSpeed)
+    public  IEnumerator SpeedUp    (float durate, uint level, StatTable statTable)
     {
-        return SpeedUpBuff(durate, level, originSpeed).GetEnumerator();
+        return SpeedUpBuff(durate, level, statTable).GetEnumerator();
     }
 }

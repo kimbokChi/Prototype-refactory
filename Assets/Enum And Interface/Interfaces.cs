@@ -32,5 +32,5 @@ public interface ICombat
 
     void Damaged(float damage, GameObject attacker, out GameObject victim);
 
-    void CastBuff(BUFF buffType, IEnumerator<float> castedBuff);
+    void CastBuff(BUFF buffType, IEnumerator castedBuff);
 }
