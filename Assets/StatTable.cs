@@ -23,8 +23,6 @@ public class StatTable : MonoBehaviour
 
         mStatTable.Add(STAT_ON_TABLE. MOVESPEED,  mMoveSpeed);
         mStatTable.Add(STAT_ON_TABLE.IMOVESPEED, mIMoveSpeed);
-
-        StartCoroutine(EIncreaseAbiltyReset());
     }
 
     public bool GetTable(int keyCode, out Dictionary<STAT_ON_TABLE, float> table)
@@ -52,16 +50,4 @@ public class StatTable : MonoBehaviour
 
     [SerializeField] private float  mMoveSpeed;
     [SerializeField] private float mIMoveSpeed;
-
-    private IEnumerator EIncreaseAbiltyReset()
-    {
-        while (gameObject.activeSelf)
-        {
-            for (int i = 0; i < mStatTable.Count; ++i)
-            {
-                if ((i & 1) == 1) mStatTable[(STAT_ON_TABLE)i] = 0;
-            }
-            yield return new WaitForEndOfFrame();
-        }
-    }
 }
