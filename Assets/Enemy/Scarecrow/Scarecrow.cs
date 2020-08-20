@@ -9,6 +9,16 @@ public class Scarecrow : EnemyBase
 
     [SerializeField] private float mDamage;
 
+    [SerializeField] private StatTable mStat;
+
+    private Dictionary<BUFF, IEnumerator<float>> mBuffs;
+    private Dictionary<STAT_ON_TABLE, float> mStatTable;
+
+    public override StatTable Stat 
+    {
+        get => mStat;
+    }
+
     public override void Damaged(float damage, GameObject attacker, out GameObject victim)
     {
         victim = gameObject;
@@ -22,6 +32,10 @@ public class Scarecrow : EnemyBase
     {
         mWaitForATK  = new Timer();
         mWaitForMove = new Timer();
+
+        Debug.Assert(mStat.GetTable(GetHashCode(), out mStatTable));
+
+        mBuffs = new Dictionary<BUFF, IEnumerator<float>>();
 
         mWaitForATK.Start(mWaitATKTime);
     }
@@ -100,5 +114,10 @@ public class Scarecrow : EnemyBase
     public override GameObject ThisObject()
     {
         return gameObject;
+    }
+
+    public override void CastBuff(BUFF buffType, IEnumerator<float> castedBuff)
+    {
+        mBuffs.Add(buffType, castedBuff);
     }
 }
