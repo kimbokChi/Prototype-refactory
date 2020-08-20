@@ -45,6 +45,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BelongObject: {fileID: 6949924797478406765}
   mMoveSpeed: 2
+  mMaxHealth: 150
+  mOffensivePower: 8
 --- !u!1 &6949924797478406765
 GameObject:
   m_ObjectHideFlags: 0
