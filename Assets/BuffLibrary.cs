@@ -26,12 +26,11 @@ public class BuffLibrary : Singleton<BuffLibrary>
 
     private IEnumerable SpeedUpBuff(float durate, uint level, StatTable statTable)
     {
-        for (float i = 0; i < durate; i += DeltaTime)
-        {
-            statTable.IMoveSpeed += statTable.MoveSpeed * level * SPEEDUP;
+        statTable.IMoveSpeed += statTable.MoveSpeed * level * SPEEDUP;
 
-            yield return null;
-        }
+        for (float i = 0; i < durate; i += DeltaTime) { yield return null; }
+
+        statTable.IMoveSpeed -= statTable.MoveSpeed * level * SPEEDUP;
     }
     #region READ
     /// <summary>
