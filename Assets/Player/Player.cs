@@ -23,6 +23,9 @@ public class Player : MonoBehaviour, ICombat
     private Detector mEnemyDetector;
 
     [SerializeField]
+    private StatTable mStat;
+
+    [SerializeField]
     private float mMaxHealth;
     private float mCurHealth;
 
@@ -32,6 +35,7 @@ public class Player : MonoBehaviour, ICombat
     [SerializeField]
     private DIRECTION9 mLocation9;
 
+    private Dictionary<STAT_ON_TABLE, float> mStatTable;
 
     private IEnumerator mEMove;
 
@@ -42,6 +46,9 @@ public class Player : MonoBehaviour, ICombat
     private bool mIsMoveToUpDown;
 
     public  bool IsDeath => mIsDeath;
+
+    public StatTable Stat => mStat;
+
     private bool mIsDeath;
 
     public LPOSITION3 GetLPOSITION3()
@@ -112,6 +119,8 @@ public class Player : MonoBehaviour, ICombat
         mWaitATK.Start(WaitTimeATK);
 
         mCollidersOnMove = new List<Collider2D>();
+
+        Debug.Assert(mStat.GetTable(GetHashCode(), out mStatTable));
     }
 
     private void InputAction()
@@ -308,5 +317,10 @@ public class Player : MonoBehaviour, ICombat
         mCurHealth -= damage / mDefense;
 
         mBlinkTimer.Start(mBlinkTime);
+    }
+
+    public void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    {
+        StartCoroutine(castedBuff);
     }
 }

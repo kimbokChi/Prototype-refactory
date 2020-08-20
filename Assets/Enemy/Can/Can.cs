@@ -7,6 +7,12 @@ public class Can : EnemyBase
     private Timer mWaitForATK;
     private Timer mWaitForMove;
 
+    private Dictionary<STAT_ON_TABLE, float> mStatTable;
+
+    [SerializeField] private StatTable mStat;
+
+    public override StatTable Stat => mStat;
+
     public override void Damaged(float damage, GameObject attacker, out GameObject victim)
     {
         victim = gameObject;
@@ -16,6 +22,8 @@ public class Can : EnemyBase
     {
         mWaitForATK  = new Timer();
         mWaitForMove = new Timer();
+
+        Debug.Assert(mStat.GetTable(GetHashCode(), out mStatTable));
     }
 
     public override void IUpdate()
@@ -61,5 +69,10 @@ public class Can : EnemyBase
     public override bool IsActive()
     {
         return gameObject.activeSelf;
+    }
+
+    public override void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    {
+        StartCoroutine(castedBuff);
     }
 }
