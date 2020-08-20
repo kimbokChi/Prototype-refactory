@@ -47,6 +47,24 @@ public class Scarecrow : EnemyBase
 
     public override void IUpdate()
     {
+        foreach (var Buff in mBuffs)
+        {
+            switch (Buff.Key)
+            {
+                case BUFF.HEAL:
+                    break;
+
+                case BUFF.SPEEDUP:
+                    if (Buff.Value.MoveNext())
+                    {
+                        mStat.MoveSpeed += Buff.Value.Current;
+                    }
+                    else mBuffs.Remove(BUFF.SPEEDUP);
+                    break;
+            }
+        }
+
+
         if (mWaitForMove.IsOver())
         {
             if (IsMoveFinish && !IsInReachPlayer())
