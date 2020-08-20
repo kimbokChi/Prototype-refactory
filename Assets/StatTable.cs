@@ -5,7 +5,8 @@ using UnityEngine;
 public enum STAT_ON_TABLE
 {
     MOVESPEED, IMOVESPEED,
-    CURHEALTH, MAXHEALTH
+    CURHEALTH, MAXHEALTH,
+    OFFENSIVE_POWER, IOFFENSIVE_POWER
 }
 
 public class StatTable : MonoBehaviour
@@ -34,6 +35,9 @@ public class StatTable : MonoBehaviour
 
         mStatTable.Add(STAT_ON_TABLE.CURHEALTH, mMaxHealth);
         mStatTable.Add(STAT_ON_TABLE.MAXHEALTH, mMaxHealth);
+
+        mStatTable.Add(STAT_ON_TABLE. OFFENSIVE_POWER, mOffensivePower);
+        mStatTable.Add(STAT_ON_TABLE.IOFFENSIVE_POWER, increase);
     }
 
     public bool GetTable(int keyCode, out Dictionary<STAT_ON_TABLE, float> table)
@@ -74,6 +78,17 @@ public class StatTable : MonoBehaviour
         get => mStatTable[STAT_ON_TABLE.MAXHEALTH];
     }
 
+    public float OffensivePower
+    {
+        get => mStatTable[STAT_ON_TABLE.OFFENSIVE_POWER];
+    }
+    public float IOffensivePower
+    {
+        get => mStatTable[STAT_ON_TABLE.IOFFENSIVE_POWER];
+        set => mStatTable[STAT_ON_TABLE.IOFFENSIVE_POWER] = value;
+    }
+
     [SerializeField] private float mMoveSpeed;
     [SerializeField] private float mMaxHealth;
+    [SerializeField] private float mOffensivePower;
 }
