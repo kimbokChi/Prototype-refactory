@@ -57,6 +57,10 @@ public class BuffTotem : MonoBehaviour, IObject
                 case BUFF.SPEEDUP:
                     combats[i].CastBuff(BUFF.SPEEDUP, BuffLibrary.Instnace.SpeedUp(mDurate, mLevel, stat));
                     break;
+
+                case BUFF.POWER_BOOST:
+                    combats[i].CastBuff(BUFF.POWER_BOOST, BuffLibrary.Instnace.PowerBoost(mDurate, mLevel, stat));
+                    break;
             }
         }
     }
