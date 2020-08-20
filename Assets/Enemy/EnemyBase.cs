@@ -275,7 +275,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
         {
             float deltaTime = Time.deltaTime * Time.timeScale;
 
-            transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movePoint, ref refVelocity, 0.5f, mMoveSpeed, deltaTime);
+            transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movePoint, ref refVelocity, 0.5f, Stat.MoveSpeed, deltaTime);
 
             yield return null;
         }
