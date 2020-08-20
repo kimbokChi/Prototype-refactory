@@ -8,8 +8,6 @@ public class BuffTotem : MonoBehaviour, IObject
 
     [SerializeField] private Area mSenseArae;
 
-    [SerializeField] private BUFF mCastBuff;
-
     private Timer mWaitForCastBuff;
 
     public void IInit()

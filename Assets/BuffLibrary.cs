@@ -9,9 +9,11 @@ public class BuffLibrary : Singleton<BuffLibrary>
 
     public float DeltaTime => Time.deltaTime * Time.timeScale;
 
-    private IEnumerable<float> HealBuff(uint level)
+    private IEnumerable HealBuff(uint level, StatTable statTable)
     {
-        yield return HEAL * level;
+        statTable.CurHealth += level * HEAL;
+
+        yield break;
     }
     #region READ
     /// <summary>
@@ -19,9 +21,9 @@ public class BuffLibrary : Singleton<BuffLibrary>
     /// <para>레벨 1당 HEAL만큼의 체력을 회복합니다.</para>
     /// </summary>
     #endregion
-    public  IEnumerator<float> Heal    (uint level)
+    public  IEnumerator Heal    (uint level, StatTable statTable)
     {
-        return HealBuff(level).GetEnumerator();
+        return HealBuff(level, statTable).GetEnumerator();
     }
 
     private IEnumerable SpeedUpBuff(float durate, uint level, StatTable statTable)
