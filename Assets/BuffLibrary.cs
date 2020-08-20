@@ -28,7 +28,7 @@ public class BuffLibrary : Singleton<BuffLibrary>
     {
         for (float i = 0; i < durate; i += DeltaTime)
         {
-            statTable.MoveSpeed += statTable.MoveSpeed * level * SPEEDUP;
+            statTable.IMoveSpeed += statTable.MoveSpeed * level * SPEEDUP;
 
             yield return null;
         }
