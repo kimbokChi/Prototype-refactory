@@ -11,7 +11,6 @@ public class Scarecrow : EnemyBase
 
     [SerializeField] private StatTable mStat;
 
-    private Dictionary<BUFF, IEnumerator<float>> mBuffs;
     private Dictionary<STAT_ON_TABLE, float> mStatTable;
 
     public override StatTable Stat 
@@ -35,8 +34,6 @@ public class Scarecrow : EnemyBase
 
         Debug.Assert(mStat.GetTable(GetHashCode(), out mStatTable));
 
-        mBuffs = new Dictionary<BUFF, IEnumerator<float>>();
-
         mWaitForATK.Start(mWaitATKTime);
     }
 
@@ -47,24 +44,6 @@ public class Scarecrow : EnemyBase
 
     public override void IUpdate()
     {
-        foreach (var Buff in mBuffs)
-        {
-            switch (Buff.Key)
-            {
-                case BUFF.HEAL:
-                    break;
-
-                case BUFF.SPEEDUP:
-                    if (Buff.Value.MoveNext())
-                    {
-                        mStat.MoveSpeed += Buff.Value.Current;
-                    }
-                    else mBuffs.Remove(BUFF.SPEEDUP);
-                    break;
-            }
-        }
-
-
         if (mWaitForMove.IsOver())
         {
             if (IsMoveFinish && !IsInReachPlayer())
@@ -134,8 +113,8 @@ public class Scarecrow : EnemyBase
         return gameObject;
     }
 
-    public override void CastBuff(BUFF buffType, IEnumerator<float> castedBuff)
+    public override void CastBuff(BUFF buffType, IEnumerator castedBuff)
     {
-        mBuffs.Add(buffType, castedBuff);
+        StartCoroutine(castedBuff);
     }
 }

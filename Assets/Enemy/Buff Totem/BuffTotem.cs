@@ -44,7 +44,7 @@ public class BuffTotem : MonoBehaviour, IObject
         {
             StatTable stat = combats[i].Stat;
 
-            combats[i].CastBuff(BUFF.HEAL, BuffLibrary.Instnace.SpeedUp(3f, 1, stat.MoveSpeed));
+            combats[i].CastBuff(BUFF.HEAL, BuffLibrary.Instnace.SpeedUp(3f, 1, stat));
         }
     }
 

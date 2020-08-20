@@ -303,6 +303,6 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
     public abstract void PlayerExit();
     public abstract GameObject ThisObject();
     public abstract void Damaged(float damage, GameObject attacker, out GameObject victim);
-    public abstract void CastBuff(BUFF buffType, IEnumerator<float> castedBuff);
+    public abstract void CastBuff(BUFF buffType, IEnumerator castedBuff);
     #endregion
 }
