@@ -15,6 +15,11 @@ public class StatTable : MonoBehaviour
     [SerializeField]
     private GameObject BelongObject;
 
+    private void Reset()
+    {
+        BelongObject = transform.parent.gameObject;
+    }
+
     private void Awake()
     {
         KeyCode = BelongObject.GetHashCode();
@@ -49,5 +54,5 @@ public class StatTable : MonoBehaviour
     }
 
     [SerializeField] private float  mMoveSpeed;
-    [SerializeField] private float mIMoveSpeed;
+                     private float mIMoveSpeed;
 }

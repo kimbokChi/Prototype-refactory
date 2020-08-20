@@ -265,7 +265,9 @@ public class Player : MonoBehaviour, ICombat
 
         while (lerpAmount < 1)
         {
-            lerpAmount = Mathf.Min(1, lerpAmount + Time.deltaTime * Time.timeScale * mMoveSpeed);
+            float moveSpeed = mStat.MoveSpeed + mStat.IMoveSpeed;
+
+            lerpAmount = Mathf.Min(1, lerpAmount + Time.deltaTime * Time.timeScale * moveSpeed);
 
             transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
 
