@@ -82,7 +82,9 @@ public class Scarecrow : EnemyBase
         {
             if (mWaitForATK.IsOver())
             {
-                mPlayer.Damaged(mDamage, gameObject, out GameObject v);
+                float damage = mStat.OffensivePower + mStat.IOffensivePower;
+
+                mPlayer.Damaged(damage, gameObject, out GameObject v);
 
                 mWaitForATK.Start(mWaitATKTime);
             }

@@ -169,3 +169,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mWaitCastTime: 6
   mSenseArae: {fileID: 53926453138816439}
+  mCastBuff: 1
+  mDurate: 3
+  mLevel: 5
