@@ -26,10 +26,6 @@ public class Player : MonoBehaviour, ICombat
     private StatTable mStat;
 
     [SerializeField]
-    private float mMaxHealth;
-    private float mCurHealth;
-
-    [SerializeField]
     private float mDefense;
 
     [SerializeField]
@@ -111,8 +107,6 @@ public class Player : MonoBehaviour, ICombat
 
         mIsMoveToUpDown = false;
 
-        mCurHealth = mMaxHealth;
-
         mWaitATK    = new Timer();
         mBlinkTimer = new Timer();
 
@@ -164,7 +158,7 @@ public class Player : MonoBehaviour, ICombat
 
     private void CheckToDeath()
     {
-        mIsDeath = (mCurHealth <= 0f);
+        mIsDeath = (mStatTable[STAT_ON_TABLE.CURHEALTH] <= 0f);
 
         if (mIsDeath)
         {

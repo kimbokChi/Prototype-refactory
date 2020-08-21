@@ -2622,7 +2622,6 @@ MonoBehaviour:
   mMoveSpeed: 4
   mEnemyDetector: {fileID: 2055968785}
   mStat: {fileID: 1250011945}
-  mMaxHealth: 10
   mDefense: 1
   mLocation9: 4
 --- !u!61 &985103578
@@ -3600,6 +3599,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BelongObject: {fileID: 985103574}
   mMoveSpeed: 4
+  mMaxHealth: 10
+  mOffensivePower: 1
 --- !u!4 &1250011946
 Transform:
   m_ObjectHideFlags: 0

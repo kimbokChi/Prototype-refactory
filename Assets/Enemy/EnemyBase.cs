@@ -22,10 +22,6 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
 
     [SerializeField] protected float mMoveSpeed;
 
-    [SerializeField]
-    protected float mMaxHealth;
-    protected float mCurHealth;
-
     protected SpriteRenderer mRenderer;
 
     protected bool  IsMoveFinish => mIsMoveFinish;

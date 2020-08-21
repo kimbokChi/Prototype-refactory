@@ -22,9 +22,9 @@ public class Scarecrow : EnemyBase
     {
         victim = gameObject;
 
-        mCurHealth -= damage;
+        mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage;
 
-        if (mCurHealth <= 0) gameObject.SetActive(false);
+        if (mStatTable[STAT_ON_TABLE.CURHEALTH] <= 0) gameObject.SetActive(false);
     }
 
     public override void IInit()
