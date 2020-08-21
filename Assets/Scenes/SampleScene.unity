@@ -2622,7 +2622,7 @@ MonoBehaviour:
   mMoveSpeed: 4
   mEnemyDetector: {fileID: 2055968785}
   mStat: {fileID: 1250011945}
-  mDefense: 1
+  mDefense: 10000
   mLocation9: 4
 --- !u!61 &985103578
 BoxCollider2D:
@@ -3599,8 +3599,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BelongObject: {fileID: 985103574}
   mMoveSpeed: 4
-  mMaxHealth: 10
-  mOffensivePower: 1
+  mMaxHealth: 10000
+  mAttackPower: 0
 --- !u!4 &1250011946
 Transform:
   m_ObjectHideFlags: 0
@@ -6597,6 +6597,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Room ZERO_ZERO_ONE
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891761831583900484, guid: feeb9b211d204a74f89f98e3150d6573,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891761831583900484, guid: feeb9b211d204a74f89f98e3150d6573,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: feeb9b211d204a74f89f98e3150d6573, type: 3}
