@@ -7,6 +7,7 @@ public class BombTotem : MonoBehaviour, IObject
     [SerializeField] private float mTriggerRadius;
 
     [SerializeField] private float mWaitForBoom;
+    [SerializeField] private float mDamage;
 
     private IEnumerator mEOnFuse;
 
@@ -27,7 +28,7 @@ public class BombTotem : MonoBehaviour, IObject
         {
             Vector2 playerPos = mPlayer.transform.position;
 
-            if (Vector2.Distance(playerPos, transform.position) <= mTriggerRadius)
+            if (OnTriggerPlayer())
             {
                 StartCoroutine(mEOnFuse = EOnFuse());
             }
@@ -48,7 +49,22 @@ public class BombTotem : MonoBehaviour, IObject
     {
         for (float i = 0; i < mWaitForBoom; i += Time.deltaTime * Time.timeScale) { yield return null; }
 
+        if (OnTriggerPlayer())
+        {
+            mPlayer.Damaged(mDamage, gameObject, out GameObject v);
+        }
         mEOnFuse = null;
+    }
+
+    private bool OnTriggerPlayer()
+    {
+        if (mPlayer != null)
+        {
+            Vector2 playerPos = mPlayer.transform.position;
+
+            return Vector2.Distance(playerPos, transform.position) <= mTriggerRadius;
+        }
+        return false;
     }
 
     public GameObject ThisObject() => gameObject;
