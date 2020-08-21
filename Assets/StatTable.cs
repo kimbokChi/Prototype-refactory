@@ -62,6 +62,10 @@ public class StatTable : MonoBehaviour
         get => mStatTable[STAT_ON_TABLE.IMOVESPEED];
         set => mStatTable[STAT_ON_TABLE.IMOVESPEED] = value;
     }
+    public float RMoveSpeed
+    {
+        get => mStatTable[STAT_ON_TABLE.MOVESPEED] + mStatTable[STAT_ON_TABLE.IMOVESPEED];
+    }
 
     public float CurHealth
     {
@@ -78,7 +82,7 @@ public class StatTable : MonoBehaviour
         get => mStatTable[STAT_ON_TABLE.MAXHEALTH];
     }
 
-    public float OffensivePower
+    public float  OffensivePower
     {
         get => mStatTable[STAT_ON_TABLE.OFFENSIVE_POWER];
     }
@@ -86,6 +90,12 @@ public class StatTable : MonoBehaviour
     {
         get => mStatTable[STAT_ON_TABLE.IOFFENSIVE_POWER];
         set => mStatTable[STAT_ON_TABLE.IOFFENSIVE_POWER] = value;
+    }
+
+    public float ROffensivePower
+    {
+        get => mStatTable[STAT_ON_TABLE.IOFFENSIVE_POWER] +
+               mStatTable[STAT_ON_TABLE.OFFENSIVE_POWER];
     }
 
     [SerializeField] private float mMoveSpeed;
