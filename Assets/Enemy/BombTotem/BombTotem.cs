@@ -6,15 +6,21 @@ public class BombTotem : MonoBehaviour, IObject
 {
     [SerializeField] private float mTriggerRadius;
 
-    [SerializeField] private float mWaitForBoom;
+    [SerializeField] private float mWaitBoom;
+    [SerializeField] private float mWaitNextFuse;
     [SerializeField] private float mDamage;
 
     private IEnumerator mEOnFuse;
+
+    private Timer mWaitForFuse;
 
     private Player mPlayer;
 
     public void IInit()
     {
+        mWaitForFuse = new Timer();
+
+        mWaitForFuse.Start(0f);
     }
 
     public bool IsActive()
@@ -30,7 +36,14 @@ public class BombTotem : MonoBehaviour, IObject
 
             if (OnTriggerPlayer())
             {
-                StartCoroutine(mEOnFuse = EOnFuse());
+                if (mWaitForFuse.IsOver())
+                {
+                    StartCoroutine(mEOnFuse = EOnFuse());
+                }          
+            }
+            if (!mWaitForFuse.IsOver())
+            {
+                mWaitForFuse.Update();
             }
         }
     }
@@ -47,12 +60,16 @@ public class BombTotem : MonoBehaviour, IObject
 
     private IEnumerator EOnFuse()
     {
-        for (float i = 0; i < mWaitForBoom; i += Time.deltaTime * Time.timeScale) { yield return null; }
+        for (float i = 0; i < mWaitBoom; i += Time.deltaTime * Time.timeScale) { yield return null; }
 
         if (OnTriggerPlayer())
         {
             mPlayer.Damaged(mDamage, gameObject, out GameObject v);
+
+            Debug.Log("BOOOOOM!!!");
         }
+        mWaitForFuse.Start(mWaitNextFuse);
+
         mEOnFuse = null;
     }
 
