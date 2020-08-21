@@ -6,7 +6,7 @@ public enum STAT_ON_TABLE
 {
     MOVESPEED, IMOVESPEED,
     CURHEALTH, MAXHEALTH,
-    OFFENSIVE_POWER, IOFFENSIVE_POWER
+    ATTACK_POWER, IATTACK_POWER
 }
 
 public class StatTable : MonoBehaviour
@@ -36,8 +36,8 @@ public class StatTable : MonoBehaviour
         mStatTable.Add(STAT_ON_TABLE.CURHEALTH, mMaxHealth);
         mStatTable.Add(STAT_ON_TABLE.MAXHEALTH, mMaxHealth);
 
-        mStatTable.Add(STAT_ON_TABLE. OFFENSIVE_POWER, mOffensivePower);
-        mStatTable.Add(STAT_ON_TABLE.IOFFENSIVE_POWER, increase);
+        mStatTable.Add(STAT_ON_TABLE. ATTACK_POWER, mAttackPower);
+        mStatTable.Add(STAT_ON_TABLE.IATTACK_POWER, increase);
     }
 
     public bool GetTable(int keyCode, out Dictionary<STAT_ON_TABLE, float> table)
@@ -82,23 +82,22 @@ public class StatTable : MonoBehaviour
         get => mStatTable[STAT_ON_TABLE.MAXHEALTH];
     }
 
-    public float  OffensivePower
+    public float  AttackPower
     {
-        get => mStatTable[STAT_ON_TABLE.OFFENSIVE_POWER];
+        get => mStatTable[STAT_ON_TABLE.ATTACK_POWER];
     }
-    public float IOffensivePower
+    public float IAttackPower
     {
-        get => mStatTable[STAT_ON_TABLE.IOFFENSIVE_POWER];
-        set => mStatTable[STAT_ON_TABLE.IOFFENSIVE_POWER] = value;
+        get => mStatTable[STAT_ON_TABLE.IATTACK_POWER];
+        set => mStatTable[STAT_ON_TABLE.IATTACK_POWER] = value;
     }
-
-    public float ROffensivePower
+    public float RAttackPower
     {
-        get => mStatTable[STAT_ON_TABLE.IOFFENSIVE_POWER] +
-               mStatTable[STAT_ON_TABLE.OFFENSIVE_POWER];
+        get => mStatTable[STAT_ON_TABLE.IATTACK_POWER] +
+               mStatTable[STAT_ON_TABLE.ATTACK_POWER];
     }
 
     [SerializeField] private float mMoveSpeed;
     [SerializeField] private float mMaxHealth;
-    [SerializeField] private float mOffensivePower;
+    [SerializeField] private float mAttackPower;
 }

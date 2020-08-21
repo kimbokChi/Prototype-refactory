@@ -48,11 +48,11 @@ public class BuffLibrary : Singleton<BuffLibrary>
 
     private IEnumerable PowerBoostBuff(float durate, uint level, StatTable statTable)
     {
-        statTable.IOffensivePower += statTable.OffensivePower * level * POWER_BOOST;
+        statTable.IAttackPower += statTable.AttackPower * level * POWER_BOOST;
 
         for (float i = 0; i < durate; i += DeltaTime) { yield return null; }
 
-        statTable.IOffensivePower -= statTable.OffensivePower * level * POWER_BOOST;
+        statTable.IAttackPower -= statTable.AttackPower * level * POWER_BOOST;
     }
     #region READ
     /// <summary>
