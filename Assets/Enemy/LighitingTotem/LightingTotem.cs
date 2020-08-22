@@ -55,9 +55,12 @@ public class LightingTotem : MonoBehaviour, IObject
         }
     }
 
-    public void PlayerExit()
+    public void PlayerExit(MESSAGE message)
     {
-        mPlayer = null;
+        if (message.Equals(MESSAGE.BELONG_FLOOR))
+        {
+            mPlayer = null;
+        }
     }
 
     public GameObject ThisObject() => gameObject;
