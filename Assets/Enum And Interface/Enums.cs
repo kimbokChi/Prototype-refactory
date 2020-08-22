@@ -57,6 +57,11 @@ public enum SLOT_TYPE
     CONTAINER, ACCESSORY, WEAPON
 }
 
+public enum MESSAGE
+{
+    THIS_ROOM, BELONG_FLOOR
+}
+
 public enum ROOM_NUMBER
 {
     ZERO_ZERO_ZERO,
