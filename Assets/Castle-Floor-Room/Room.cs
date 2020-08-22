@@ -86,6 +86,20 @@ public class Room : MonoBehaviour
             mObjects[i].PlayerExit(message);
         }
     }
+    
+    #region READ
+    /// <summary>
+    /// 해당 방에게 종속될 오브젝트를 추가합니다.
+    /// <para>주로 방 내에 있는 개체가 새로운 개체를 만들어 냈을 때에 사용됩니다.</para>
+    /// </summary>
+    /// <param name="object">해당 방에 추가될 오브젝트의 IObject인터페이스를 지정합니다</param>
+    #endregion
+    public void AddIObject(IObject @object)
+    {
+        mObjects.Add(@object);
+
+        @object.IInit();
+    }
 
     public Vector2[] GetMovePoints()
     {
