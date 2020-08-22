@@ -18,6 +18,8 @@ public class Summoner : EnemyBase, IObject, ICombat
     private Timer mWaitForSummon;
     private Timer mWaitForMove;
 
+    private Room mBelongRoom;
+
     private Dictionary<STAT_ON_TABLE, float> mStatTable;
 
     public override StatTable Stat => mStat;
@@ -35,6 +37,8 @@ public class Summoner : EnemyBase, IObject, ICombat
     public override void IInit()
     {
         Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
+
+        Debug.Assert(transform.parent.TryGetComponent(out mBelongRoom));
 
         mWaitForSummon = new Timer();
           mWaitForMove = new Timer();
@@ -70,7 +74,13 @@ public class Summoner : EnemyBase, IObject, ICombat
                 summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
                 summonPoint.y += Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY);
 
-                Instantiate(mSummonTagret, transform.parent, false).transform.localPosition = summonPoint;
+                GameObject newObject = Instantiate(mSummonTagret, transform.parent, false);
+
+                if (newObject.TryGetComponent(out IObject @object))
+                {
+                    mBelongRoom.AddIObject(@object);
+                }
+                newObject.transform.localPosition = summonPoint;
 
                 mWaitForSummon.Start(mWaitSummon);
             }
