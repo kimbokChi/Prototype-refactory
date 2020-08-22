@@ -72,11 +72,11 @@ public class Room : MonoBehaviour
         }
     }
 
-    public void EnterPlayer(Player enterPlayer)
+    public void EnterPlayer(MESSAGE message, Player enterPlayer)
     {
         for (int i = 0; i < mObjects.Count; ++i)
         {
-            mObjects[i].PlayerEnter(enterPlayer);
+            mObjects[i].PlayerEnter(message, enterPlayer);
         }
     }
     public void ExitPlayer()

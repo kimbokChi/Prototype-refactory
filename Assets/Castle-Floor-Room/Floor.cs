@@ -62,9 +62,15 @@ public class Floor : MonoBehaviour
         }
     }
 
+    public void EnterPlayer(Player player)
+    {
+        mMemberRooms[0].EnterPlayer(MESSAGE.BELONG_FLOOR, player);
+        mMemberRooms[1].EnterPlayer(MESSAGE.BELONG_FLOOR, player);
+        mMemberRooms[2].EnterPlayer(MESSAGE.BELONG_FLOOR, player);
+    }
     public void EnterPlayer(Player player, LPOSITION3 position)
     {
-        mMemberRooms[(int)position].EnterPlayer(player);
+        mMemberRooms[(int)position].EnterPlayer(MESSAGE.THIS_ROOM, player);
     }
     public void ExitPlayer(LPOSITION3 position)
     {

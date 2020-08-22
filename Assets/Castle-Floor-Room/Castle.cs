@@ -107,6 +107,8 @@ public class Castle : Singleton<Castle>
     {
         mPlayerFloor.IInit();
 
+        mPlayerFloor.EnterPlayer(mPlayer);
+
         if (mPlayer)
         {
             RenewPlayerPOS();
