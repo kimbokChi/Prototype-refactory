@@ -13,6 +13,9 @@ public class Room : MonoBehaviour
     public  bool  IsClear => mIsClear;
     private bool mIsClear;
 
+    private Player  mPlayer;
+    private MESSAGE mLastMessage;
+
     public int BelongFloorIndex
     {
         get
@@ -74,19 +77,25 @@ public class Room : MonoBehaviour
 
     public void EnterPlayer(MESSAGE message, Player enterPlayer)
     {
+        mPlayer = enterPlayer;
+
         for (int i = 0; i < mObjects.Count; ++i)
         {
-            mObjects[i].PlayerEnter(message, enterPlayer);
+            mObjects[i].PlayerEnter(message, mPlayer);
         }
+        mLastMessage = message;
     }
     public void ExitPlayer(MESSAGE message)
     {
+        mPlayer = null;
+
         for (int i = 0; i < mObjects.Count; ++i)
         {
             mObjects[i].PlayerExit(message);
         }
+        mLastMessage = message;
     }
-    
+
     #region READ
     /// <summary>
     /// 해당 방에게 종속될 오브젝트를 추가합니다.
@@ -99,6 +108,19 @@ public class Room : MonoBehaviour
         mObjects.Add(@object);
 
         @object.IInit();
+
+        if (mPlayer == null)
+        {
+            @object.PlayerExit(mLastMessage);
+
+            Debug.Log($"EXIT : {mLastMessage}");
+        }
+        else
+        {
+            @object.PlayerEnter(mLastMessage, mPlayer);
+
+            Debug.Log($"ENTER : {mLastMessage}");
+        }
     }
 
     public Vector2[] GetMovePoints()
