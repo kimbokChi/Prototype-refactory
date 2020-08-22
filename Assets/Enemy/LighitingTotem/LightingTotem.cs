@@ -8,6 +8,8 @@ public class LightingTotem : MonoBehaviour, IObject
 
     [SerializeField] private float mWaitLighting;
 
+    [SerializeField] private Vector2 mLightingOffset;
+
     private Player mPlayer;
 
     private Timer mWaitForLighting;
@@ -33,7 +35,7 @@ public class LightingTotem : MonoBehaviour, IObject
                 if (mPlayer.Position(out Vector2 playerPos))
                 {
                     // LIGHTING-!
-                    Instantiate(mLighting, playerPos, Quaternion.identity);
+                    Instantiate(mLighting, playerPos + mLightingOffset, Quaternion.identity);
 
                     mWaitForLighting.Start(mWaitLighting);
                 }
