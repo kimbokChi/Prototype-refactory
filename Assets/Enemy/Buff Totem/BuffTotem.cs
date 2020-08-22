@@ -65,7 +65,7 @@ public class BuffTotem : MonoBehaviour, IObject
         }
     }
 
-    public void PlayerEnter(Player enterPlayer) { }
+    public void PlayerEnter(MESSAGE message, Player enterPlayer) { }
     public void PlayerExit() { }
 
     public GameObject ThisObject() => gameObject;

@@ -55,9 +55,12 @@ public class Can : EnemyBase
         mWaitForMove.Start(WaitMoveTime);
     }
 
-    public override void PlayerEnter(Player enterPlayer)
+    public override void PlayerEnter(MESSAGE message, Player enterPlayer)
     {
-        mPlayer = enterPlayer;
+        if (message.Equals(MESSAGE.THIS_ROOM))
+        {
+            mPlayer = enterPlayer;
+        }
     }
 
     public override void PlayerExit()

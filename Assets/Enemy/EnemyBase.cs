@@ -297,7 +297,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
     public abstract void IInit();
     public abstract bool IsActive();
     public abstract void IUpdate();
-    public abstract void PlayerEnter(Player enterPlayer);
+    public abstract void PlayerEnter(MESSAGE message, Player enterPlayer);
     public abstract void PlayerExit();
     public abstract GameObject ThisObject();
     public abstract void Damaged(float damage, GameObject attacker, out GameObject victim);

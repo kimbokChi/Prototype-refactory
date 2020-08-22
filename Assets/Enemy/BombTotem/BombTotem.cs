@@ -48,9 +48,12 @@ public class BombTotem : MonoBehaviour, IObject
         }
     }
 
-    public void PlayerEnter(Player enterPlayer)
+    public void PlayerEnter(MESSAGE message, Player enterPlayer)
     {
-        mPlayer = enterPlayer;
+        if (message.Equals(MESSAGE.THIS_ROOM))
+        {
+            mPlayer = enterPlayer;
+        }
     }
 
     public void PlayerExit()
