@@ -108,7 +108,7 @@ public class Scarecrow : EnemyBase
         }
     }
 
-    public override void PlayerExit()
+    public override void PlayerExit(MESSAGE message)
     {
         mPlayer = null;
     }

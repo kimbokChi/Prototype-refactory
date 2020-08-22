@@ -56,7 +56,7 @@ public class BombTotem : MonoBehaviour, IObject
         }
     }
 
-    public void PlayerExit()
+    public void PlayerExit(MESSAGE message)
     {
         mPlayer = null;
     }
