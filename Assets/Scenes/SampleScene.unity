@@ -2430,9 +2430,9 @@ MonoBehaviour:
   mHalfMoveRangeY: 0
   mWaitATKTime: 0
   mRange: 0
-  mOriginPosition: {x: 0, y: 0}
-  mMoveSmooth: 0
-  mRangeOffset: 0
+  mOriginPosition: {x: 0, y: 0.85}
+  mMoveSmooth: 0.15
+  mRangeOffset: 0.16
   mMoveSpeed: 0
   mStat: {fileID: 545636103}
   mSummonTagret: {fileID: 819411838}
