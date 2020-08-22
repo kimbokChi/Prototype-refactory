@@ -79,11 +79,11 @@ public class Room : MonoBehaviour
             mObjects[i].PlayerEnter(message, enterPlayer);
         }
     }
-    public void ExitPlayer()
+    public void ExitPlayer(MESSAGE message)
     {
         for (int i = 0; i < mObjects.Count; ++i)
         {
-            mObjects[i].PlayerExit();
+            mObjects[i].PlayerExit(message);
         }
     }
 

@@ -72,9 +72,20 @@ public class Floor : MonoBehaviour
     {
         mMemberRooms[(int)position].EnterPlayer(MESSAGE.THIS_ROOM, player);
     }
-    public void ExitPlayer(LPOSITION3 position)
+    public void ExitPlayer(MESSAGE message, LPOSITION3 position)
     {
-        mMemberRooms[(int)position].ExitPlayer();
+        switch (message)
+        {
+            case MESSAGE.THIS_ROOM:
+                mMemberRooms[(int)position].ExitPlayer(MESSAGE.THIS_ROOM);
+                break;
+
+            case MESSAGE.BELONG_FLOOR:
+                mMemberRooms[0].ExitPlayer(MESSAGE.BELONG_FLOOR);
+                mMemberRooms[1].ExitPlayer(MESSAGE.BELONG_FLOOR);
+                mMemberRooms[2].ExitPlayer(MESSAGE.BELONG_FLOOR);
+                break;
+        }
     }
 
     #region READ

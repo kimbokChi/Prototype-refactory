@@ -136,7 +136,7 @@ public class Castle : Singleton<Castle>
         {
             if (mLastPlayerPOS != LPOSITION3.NONE)
             {
-                mPlayerFloor.ExitPlayer(mLastPlayerPOS);
+                mPlayerFloor.ExitPlayer(MESSAGE.THIS_ROOM, mLastPlayerPOS);
             }
             mPlayerFloor.EnterPlayer(mPlayer, mLastPlayerPOS = mPlayer.GetLPOSITION3());
         }
@@ -185,7 +185,7 @@ public class Castle : Singleton<Castle>
                 }
                 if (mPlayer.IsDeath)
                 {
-                    mPlayerFloor.ExitPlayer(mLastPlayerPOS);
+                    mPlayerFloor.ExitPlayer(MESSAGE.BELONG_FLOOR, mLastPlayerPOS);
                 }
             }
             yield return null;
