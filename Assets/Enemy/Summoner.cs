@@ -70,7 +70,7 @@ public class Summoner : EnemyBase, IObject, ICombat
                 summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
                 summonPoint.y += Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY);
 
-                Instantiate(mSummonTagret, summonPoint, Quaternion.identity);
+                Instantiate(mSummonTagret, transform.parent, false).transform.localPosition = summonPoint;
 
                 mWaitForSummon.Start(mWaitSummon);
             }
