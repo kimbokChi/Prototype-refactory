@@ -49,10 +49,7 @@ public class LightingTotem : MonoBehaviour, IObject
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
     {
-        if (message.Equals(MESSAGE.BELONG_FLOOR))
-        {
-            mPlayer = enterPlayer;
-        }
+        mPlayer = enterPlayer;
     }
 
     public void PlayerExit(MESSAGE message)
