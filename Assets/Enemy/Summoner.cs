@@ -7,6 +7,17 @@ public class Summoner : EnemyBase, IObject, ICombat
     [SerializeField]
     private StatTable mStat;
 
+    [SerializeField]
+    private GameObject mSummonTagret;
+
+    [SerializeField]
+    private Vector2 mSummonOffset;
+
+    [SerializeField]
+    private float mWaitSummon;
+    private Timer mWaitForSummon;
+    private Timer mWaitForMove;
+
     private Dictionary<STAT_ON_TABLE, float> mStatTable;
 
     public override StatTable Stat => mStat;
@@ -24,9 +35,55 @@ public class Summoner : EnemyBase, IObject, ICombat
     public override void IInit()
     {
         Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
+
+        mWaitForSummon = new Timer();
+          mWaitForMove = new Timer();
+
+        mWaitForSummon.Start(mWaitSummon);
+          mWaitForMove.Start(WaitMoveTime);
     }
     public override void IUpdate()
     {
+        if (mWaitForMove.IsOver())
+        {
+            if (IsMoveFinish)
+            {
+                Vector2 movePoint;
+
+                movePoint.x = Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX) + mOriginPosition.x;
+                movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + mOriginPosition.y;
+
+                MoveToPoint(movePoint);
+            }
+        }
+        else
+        {
+            mWaitForMove.Update();
+        }
+
+        if (mPlayer != null)
+        {
+            if (mWaitForSummon.IsOver())
+            {
+                Vector2 summonPoint = mSummonOffset;
+
+                summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+                summonPoint.y += Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY);
+
+                Instantiate(mSummonTagret, summonPoint, Quaternion.identity);
+
+                mWaitForSummon.Start(mWaitSummon);
+            }
+            else
+            {
+                mWaitForSummon.Update();
+            }
+        }      
+    }
+
+    protected override void MoveFinish()
+    {
+        mWaitForMove.Start(WaitMoveTime);
     }
 
     public override void PlayerEnter(MESSAGE message, Player enterPlayer)
