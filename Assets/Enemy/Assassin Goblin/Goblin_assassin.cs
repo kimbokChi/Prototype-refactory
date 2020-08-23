@@ -7,6 +7,9 @@ public class Goblin_assassin : EnemyBase, IObject, ICombat
     [SerializeField]
     private StatTable mStat;
 
+    [SerializeField][Range(0f, 5f)]
+    private float mMaxDashLength;
+
     private Timer mWaitForMoving;
     private Timer mWaitForATK;
 
@@ -115,7 +118,9 @@ public class Goblin_assassin : EnemyBase, IObject, ICombat
 
         float lerpAmount = 0;
 
-        while (lerpAmount < 1)
+        Vector2 initPoint = transform.localPosition;
+
+        while (lerpAmount < 1 && Vector2.Distance(initPoint, transform.localPosition) < mMaxDashLength)
         {
             lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * accel * mStat.RMoveSpeed);
 
