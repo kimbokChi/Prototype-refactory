@@ -23,9 +23,25 @@ public class Arrow : MonoBehaviour
         mCanDestroy = canDestroy;
     }
 
+    private IEnumerator EUpdate()
+    {
+        while (gameObject.activeSelf)
+        {
+            if (mCanDestroy.Invoke(mEnterCount))
+            {
+                gameObject.SetActive(false);
+
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
     private void OnEnable()
     {
         mEnterCount = 0;
+
+        StartCoroutine(EUpdate());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
