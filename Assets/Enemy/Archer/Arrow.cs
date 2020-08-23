@@ -13,14 +13,9 @@ public class Arrow : MonoBehaviour
 
     private uint mEnterCount;
 
-    public void SetTriggerAction(Action<ICombat> action)
+    public void Setting(Action<ICombat> targetHit, Func<uint, bool> canDestroy)
     {
-        mTriggerAction = action;
-    }
-
-    public void SetDestroyCondition(Func<uint, bool> canDestroy)
-    {
-        mCanDestroy = canDestroy;
+        mCanDestroy = canDestroy; mTriggerAction = targetHit;
     }
 
     private IEnumerator EUpdate()
