@@ -13,9 +13,20 @@ public class Arrow : MonoBehaviour
 
     private uint mEnterCount;
 
+    private Vector2 mDirection;
+    private float mSpeed;
+
+    private float DeltaTime
+    { get => Time.deltaTime * Time.timeScale; }
+
     public void Setting(Action<ICombat> targetHit, Func<uint, bool> canDestroy)
     {
         mCanDestroy = canDestroy; mTriggerAction = targetHit;
+    }
+
+    public void Setting(float speed, Vector2 direction)
+    {
+        mDirection = direction; mSpeed = speed;
     }
 
     private IEnumerator EUpdate()
@@ -28,6 +39,8 @@ public class Arrow : MonoBehaviour
 
                 yield break;
             }
+            transform.position += (Vector3)(DeltaTime * mDirection * mSpeed);
+
             yield return null;
         }
     }
