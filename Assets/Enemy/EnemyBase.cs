@@ -267,6 +267,8 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
 
         mIsMoveFinish = false;
 
+        movePoint = FitToMoveArea(movePoint);
+
         while (Vector2.Distance(movePoint, transform.localPosition) > mMoveSmooth)
         {
             float deltaTime = Time.deltaTime * Time.timeScale;
@@ -289,6 +291,34 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
         mIsMoveFinish = true;
 
         MoveFinish();
+    }
+
+    private Vector2 FitToMoveArea(Vector2 vector)
+    {
+        if (vector.x < -mHalfMoveRangeX + mOriginPosition.x)
+        {
+            vector.x = -mHalfMoveRangeX + mOriginPosition.x;
+        }
+        else
+        {
+            if (vector.x > mHalfMoveRangeX + mOriginPosition.x)
+            {
+                vector.x = mHalfMoveRangeX + mOriginPosition.x;
+            }
+        }
+
+        if (vector.y < -mHalfMoveRangeY + mOriginPosition.y)
+        {
+            vector.y = -mHalfMoveRangeY + mOriginPosition.y;
+        }
+        else
+        {
+            if (vector.y > mHalfMoveRangeY + mOriginPosition.y)
+            {
+                vector.y = mHalfMoveRangeY + mOriginPosition.y;
+            }
+        }
+        return vector;
     }
 
     #region interfaces : 
