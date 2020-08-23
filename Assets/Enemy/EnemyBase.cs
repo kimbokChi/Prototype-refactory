@@ -293,7 +293,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
         MoveFinish();
     }
 
-    private Vector2 FitToMoveArea(Vector2 vector)
+    public Vector2 FitToMoveArea(Vector2 vector)
     {
         if (vector.x < -mHalfMoveRangeX + mOriginPosition.x)
         {
