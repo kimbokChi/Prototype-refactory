@@ -48,7 +48,28 @@ public class Goblin_assassin : EnemyBase, IObject, ICombat
 
     public override void IUpdate()
     {
-        if (mWaitForMoving.IsOver())
+        if (IsLookAtPlayer())
+        {
+            if (mEDash == null)
+            {
+                MoveStop();
+
+                if (mWaitForATK.IsOver())
+                {
+                    if (mPlayer.Position(out Vector2 playerPos))
+                    {
+                        playerPos = PositionLocalized(playerPos);
+                        
+                        StartCoroutine(mEDash = EDash(playerPos, 1.8f));
+                    }
+                }
+                else
+                {
+                    mWaitForATK.Update();
+                }
+            }
+        }
+        else if (mWaitForMoving.IsOver())
         {
             if (IsMoveFinish && !IsInReachPlayer())
             {
@@ -57,46 +78,14 @@ public class Goblin_assassin : EnemyBase, IObject, ICombat
                 movePoint.x = Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX) + mOriginPosition.x;
                 movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + mOriginPosition.y;
 
-                if (mPlayer != null)
-                {
-                    Vector2 lookingDir = movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left;
+                // Cut
 
-                    Vector2 playerPos;
-
-                    if ((IsLookAtPlayer(lookingDir) || IsLookAtPlayer()) && mPlayer.Position(out playerPos))
-                    {
-                        movePoint = PositionLocalized(playerPos);
-
-                        if (!IsPointOnRange(movePoint))
-                        {
-                            movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * mRange;
-
-                        }
-                    }
-                }
                 MoveToPoint(movePoint);
             }
         }
         else
         {
             mWaitForMoving.Update();
-        }
-
-        if (mEDash == null && mPlayer != null)
-        {
-            if (mWaitForATK.IsOver())
-            {
-                if (mPlayer.Position(out Vector2 playerPos))
-                {
-                    playerPos = PositionLocalized(playerPos);
-
-                    StartCoroutine(mEDash = EDash(playerPos, 1.8f));
-                }
-            }
-            else
-            {
-                mWaitForATK.Update();
-            }
         }
     }
 

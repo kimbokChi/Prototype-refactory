@@ -261,6 +261,16 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
     #endregion
     protected virtual void MoveFinish() { }
 
+    protected void MoveStop()
+    {
+        if (mEMove != null)
+        {
+            StopCoroutine(mEMove);
+
+            MoveStopEvent();
+        }
+    }
+
     private IEnumerator EMove(Vector2 movePoint)
     {
         Vector2 refVelocity = Vector2.zero;
