@@ -12,6 +12,8 @@ public class Goblin_assassin : EnemyBase, IObject, ICombat
 
     private Dictionary<STAT_ON_TABLE, float> mStatTable;
 
+    private IEnumerator mEDash;
+
     public override StatTable Stat => mStat;
 
     public override void CastBuff(BUFF buffType, IEnumerator castedBuff)
@@ -77,12 +79,16 @@ public class Goblin_assassin : EnemyBase, IObject, ICombat
             mWaitForMoving.Update();
         }
 
-        if (IsInReachPlayer())
+        if (mEDash == null && mPlayer != null)
         {
             if (mWaitForATK.IsOver())
             {
+                if (mPlayer.Position(out Vector2 playerPos))
+                {
+                    playerPos = PositionLocalized(playerPos);
 
-                // To do . . .
+                    StartCoroutine(mEDash = EDash(playerPos, 1.8f));
+                }
             }
             else
             {
@@ -102,4 +108,21 @@ public class Goblin_assassin : EnemyBase, IObject, ICombat
     }
 
     public override GameObject ThisObject() => gameObject;
+
+    private IEnumerator EDash(Vector2 dashPoint, float accel = 1)
+    {
+        dashPoint = FitToMoveArea(dashPoint);
+
+        float lerpAmount = 0;
+
+        while (lerpAmount < 1)
+        {
+            lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * accel * mStat.RMoveSpeed);
+
+            transform.localPosition = Vector2.Lerp(transform.localPosition, dashPoint, lerpAmount);
+
+            yield return null;
+        }
+        mWaitForATK.Start(mWaitATKTime); mEDash = null;
+    }
 }
