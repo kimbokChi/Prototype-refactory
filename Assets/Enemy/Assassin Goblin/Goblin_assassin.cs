@@ -13,6 +13,9 @@ public class Goblin_assassin : EnemyBase, IObject, ICombat
     [SerializeField][Range(0f, 5f)]
     private float mMaxDashLength;
 
+    [SerializeField]
+    private float mDashSpeedScale;
+
     private Timer mWaitForMoving;
     private Timer mWaitForATK;
 
@@ -67,7 +70,7 @@ public class Goblin_assassin : EnemyBase, IObject, ICombat
                     {
                         playerPos = PositionLocalized(playerPos);
                         
-                        StartCoroutine(mEDash = EDash(playerPos, 1.8f));
+                        StartCoroutine(mEDash = EDash(playerPos));
                     }
                 }
                 else
@@ -108,7 +111,7 @@ public class Goblin_assassin : EnemyBase, IObject, ICombat
 
     public override GameObject ThisObject() => gameObject;
 
-    private IEnumerator EDash(Vector2 dashPoint, float accel = 1)
+    private IEnumerator EDash(Vector2 dashPoint)
     {
         dashPoint = FitToMoveArea(dashPoint);
 
@@ -120,7 +123,7 @@ public class Goblin_assassin : EnemyBase, IObject, ICombat
         {
             Attack();
 
-            lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * accel * mStat.RMoveSpeed);
+            lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * mDashSpeedScale * mStat.RMoveSpeed);
 
             transform.localPosition = Vector2.Lerp(transform.localPosition, dashPoint, lerpAmount);
 
