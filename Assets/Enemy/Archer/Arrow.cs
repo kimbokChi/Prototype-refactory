@@ -33,11 +33,15 @@ public class Arrow : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
-            if (mCanDestroy.Invoke(mEnterCount))
+            if (mCanDestroy != null)
             {
-                gameObject.SetActive(false);
+                if (mCanDestroy.Invoke(mEnterCount))
+                {
+                    gameObject.SetActive(false);
 
-                yield break;
+                    yield break;
+                }
+                
             }
             transform.position += (Vector3)(DeltaTime * mDirection * mSpeed);
 

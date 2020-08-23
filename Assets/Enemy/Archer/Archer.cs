@@ -39,9 +39,7 @@ public class Archer : EnemyBase, IObject, ICombat
         mWaitForMoving = new Timer();
         mWaitForATK    = new Timer();
 
-        mWaitForMoving.Start(WaitMoveTime);
-
-        mArrow.Setting(Arrow_targetHit, Arrow_canDistroy);
+        mWaitForATK.Start(mWaitATKTime);
     }
 
     public override void IUpdate()
@@ -82,13 +80,14 @@ public class Archer : EnemyBase, IObject, ICombat
 
         if (IsInReachPlayer())
         {
-            if (mWaitForMoving.IsOver())
+            if (mWaitForATK.IsOver())
             {
                 Arrow arrow = Instantiate(mArrow, mArrowPos + (Vector2)transform.position, Quaternion.identity);
 
                 Vector2 targetLocal = PositionLocalized(mPlayer.transform.position);
 
                 arrow.Setting(mArrowSpeed, (targetLocal - (Vector2)transform.localPosition).normalized);
+                arrow.Setting(Arrow_targetHit, Arrow_canDistroy);
 
                 mWaitForATK.Start(mWaitATKTime);
             }
@@ -101,10 +100,15 @@ public class Archer : EnemyBase, IObject, ICombat
 
     public override void PlayerEnter(MESSAGE message, Player enterPlayer)
     {
+        if (message.Equals(MESSAGE.THIS_ROOM))
+        {
+            mPlayer = enterPlayer;
+        }
     }
 
     public override void PlayerExit(MESSAGE message)
     {
+        mPlayer = null;
     }
 
     public override void CastBuff(BUFF buffType, IEnumerator castedBuff)
