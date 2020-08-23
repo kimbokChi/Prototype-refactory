@@ -10,6 +10,11 @@ public class Archer : EnemyBase, IObject, ICombat
     [SerializeField]
     private Arrow mArrow;
 
+    [SerializeField]
+    private Vector2 mArrowPos;
+    [SerializeField]
+    private float mArrowSpeed;
+
     private Timer mWaitForMoving;
     private Timer mWaitForATK;
     
@@ -79,7 +84,11 @@ public class Archer : EnemyBase, IObject, ICombat
         {
             if (mWaitForMoving.IsOver())
             {
-                // Shoot-!
+                Arrow arrow = Instantiate(mArrow, mArrowPos + (Vector2)transform.position, Quaternion.identity);
+
+                Vector2 targetLocal = PositionLocalized(mPlayer.transform.position);
+
+                arrow.Setting(mArrowSpeed, (targetLocal - (Vector2)transform.localPosition).normalized);
 
                 mWaitForATK.Start(mWaitATKTime);
             }
