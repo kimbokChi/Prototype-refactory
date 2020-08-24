@@ -10,7 +10,7 @@ public class Chief : EnemyBase, IObject, ICombat
     [SerializeField] private Vector2 mTotemSummonOffset;
     [SerializeField] private GameObject[] mTotems;
 
-    private Transform[] mFloorRoomTransforms;
+    private Room[] mFloorRooms;
 
     private Timer mWaitForSummonTotem;
     private Timer mWaitForContinuousAttack;
@@ -41,7 +41,7 @@ public class Chief : EnemyBase, IObject, ICombat
         mWaitForContinuousAttack = new Timer();
         mWaitForMove             = new Timer();
 
-        mFloorRoomTransforms = Castle.Instnace.FloorRoomTransforms();
+        mFloorRooms = Castle.Instnace.GetFloorRooms();
 
              mWaitForSummonTotem.Start(mWaitSummonTotem);
         mWaitForContinuousAttack.Start(mWaitContinuousAttack);
@@ -107,9 +107,16 @@ public class Chief : EnemyBase, IObject, ICombat
     {
         for (int i = 0; i < summonCount; i++)
         {
-            Transform parentTransform = mFloorRoomTransforms[Random.Range(0, 3)];
+            int parentIndex = Random.Range(0, mFloorRooms.Length);
 
-            GameObject totem = Instantiate(mTotems[Random.Range(0, mTotems.Length)], parentTransform, false);
+            int summonIndex = Random.Range(0, mTotems.Length);
+
+            GameObject totem = Instantiate(mTotems[summonIndex], mFloorRooms[parentIndex].transform, false);
+
+            if (mTotems[summonIndex].TryGetComponent(out IObject Iobject))
+            {
+                mFloorRooms[parentIndex].AddIObject(Iobject);
+            }
 
             totem.transform.localPosition = Vector3.left * Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
 
