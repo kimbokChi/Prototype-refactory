@@ -7,6 +7,7 @@ public class Chief : EnemyBase, IObject, ICombat
     [SerializeField] private float mWaitSummonTotem;
     [SerializeField] private float mWaitContinuousAttack;
 
+    [SerializeField] private Vector2 mTotemSummonOffset;
     [SerializeField] private GameObject[] mTotems;
 
     private Transform[] mFloorRoomTransforms;
@@ -106,7 +107,13 @@ public class Chief : EnemyBase, IObject, ICombat
     {
         for (int i = 0; i < summonCount; i++)
         {
-            GameObject totem = Instantiate(mTotems[Random.Range(0, mTotems.Length)], transform.parent, false);
+            Transform parentTransform = mFloorRoomTransforms[Random.Range(0, 3)];
+
+            GameObject totem = Instantiate(mTotems[Random.Range(0, mTotems.Length)], parentTransform, false);
+
+            totem.transform.localPosition = Vector3.left * Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+
+            totem.transform.Translate(mTotemSummonOffset);
         }
     }
     private void Skill_continuousAttack()
