@@ -79,6 +79,11 @@ public class Castle : Singleton<Castle>
 
     public void PauseDisable() => mIsPause = false;
 
+    public Transform[] FloorRoomTransforms()
+    {
+        return mPlayerFloor.GetRoomTransforms();
+    }
+
     #region _MEMBER
     /// <summary>
     /// 멤버함수 : 지정한 인덱스의 층이 존재하는지의 여부를 반환합니다.

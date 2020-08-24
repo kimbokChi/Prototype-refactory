@@ -9,6 +9,8 @@ public class Chief : EnemyBase, IObject, ICombat
 
     [SerializeField] private GameObject[] mTotems;
 
+    private Transform[] mFloorRoomTransforms;
+
     private Timer mWaitForSummonTotem;
     private Timer mWaitForContinuousAttack;
 
@@ -37,6 +39,8 @@ public class Chief : EnemyBase, IObject, ICombat
         mWaitForSummonTotem      = new Timer();
         mWaitForContinuousAttack = new Timer();
         mWaitForMove             = new Timer();
+
+        mFloorRoomTransforms = Castle.Instnace.FloorRoomTransforms();
 
              mWaitForSummonTotem.Start(mWaitSummonTotem);
         mWaitForContinuousAttack.Start(mWaitContinuousAttack);
