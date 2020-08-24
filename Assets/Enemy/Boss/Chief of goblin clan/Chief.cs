@@ -7,6 +7,8 @@ public class Chief : EnemyBase, IObject, ICombat
     [SerializeField] private float mWaitSummonTotem;
     [SerializeField] private float mWaitContinuousAttack;
 
+    [SerializeField] private GameObject[] mTotems;
+
     private Timer mWaitForSummonTotem;
     private Timer mWaitForContinuousAttack;
 
@@ -96,9 +98,12 @@ public class Chief : EnemyBase, IObject, ICombat
 
     public override GameObject ThisObject() => gameObject;
 
-    private void Skill_summonTotem()
+    private void Skill_summonTotem(int summonCount = 2)
     {
-
+        for (int i = 0; i < summonCount; i++)
+        {
+            GameObject totem = Instantiate(mTotems[Random.Range(0, mTotems.Length)], transform.parent, false);
+        }
     }
     private void Skill_continuousAttack()
     {
