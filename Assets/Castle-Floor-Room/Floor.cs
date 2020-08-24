@@ -98,8 +98,8 @@ public class Floor : MonoBehaviour
         return mMemberRooms[(int)position].GetMovePoints();
     }
 
-    public Transform[] GetRoomTransforms()
+    public Room[] GetRooms()
     {
-        return new Transform[3] { mMemberRooms[0].transform, mMemberRooms[1].transform, mMemberRooms[2].transform };
+        return new Room[3] { mMemberRooms[0], mMemberRooms[1], mMemberRooms[2] };
     }
 }

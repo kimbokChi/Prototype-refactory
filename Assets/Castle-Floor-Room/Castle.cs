@@ -79,9 +79,9 @@ public class Castle : Singleton<Castle>
 
     public void PauseDisable() => mIsPause = false;
 
-    public Transform[] FloorRoomTransforms()
+    public Room[] GetFloorRooms()
     {
-        return mPlayerFloor.GetRoomTransforms();
+        return mPlayerFloor.GetRooms();
     }
 
     #region _MEMBER
