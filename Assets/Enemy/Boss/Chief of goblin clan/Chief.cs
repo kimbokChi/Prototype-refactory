@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Chief : EnemyBase, IObject, ICombat
 {
-    private Timer mWaitForATK;
+    [SerializeField] private float mWaitSummonTotem;
+    [SerializeField] private float mWaitContinuousAttack;
+
+    private Timer mWaitForSummonTotem;
+    private Timer mWaitForContinuousAttack;
+
     private Timer mWaitForMove;
 
     [SerializeField] private StatTable mStat;
@@ -27,10 +32,12 @@ public class Chief : EnemyBase, IObject, ICombat
     {
         Debug.Assert(Stat.GetTable(gameObject.GetHashCode(), out mStatTable));
 
-        mWaitForATK  = new Timer();
-        mWaitForMove = new Timer();
+        mWaitForSummonTotem      = new Timer();
+        mWaitForContinuousAttack = new Timer();
+        mWaitForMove             = new Timer();
 
-        mWaitForATK.Start(mWaitATKTime);
+             mWaitForSummonTotem.Start(mWaitSummonTotem);
+        mWaitForContinuousAttack.Start(mWaitContinuousAttack);
     }
 
     public override bool IsActive()
@@ -40,6 +47,33 @@ public class Chief : EnemyBase, IObject, ICombat
 
     public override void IUpdate()
     {
+        if (mWaitForSummonTotem.IsOver())
+        {
+            Skill_summonTotem();
+
+            mWaitForSummonTotem.Start(mWaitSummonTotem);
+        }
+        else
+        {
+            mWaitForSummonTotem.Update();
+        }
+
+        if (mWaitForContinuousAttack.IsOver())
+        {
+            if (mPlayer != null)
+            {
+                if (IsInReachPlayer())
+                {
+                    Skill_continuousAttack();
+
+                    mWaitForContinuousAttack.Start(mWaitContinuousAttack);
+                }
+            }
+        }
+        else
+        {
+            mWaitForContinuousAttack.Update();
+        }
     }
 
     public override void PlayerEnter(MESSAGE message, Player enterPlayer)
@@ -61,4 +95,13 @@ public class Chief : EnemyBase, IObject, ICombat
     }
 
     public override GameObject ThisObject() => gameObject;
+
+    private void Skill_summonTotem()
+    {
+
+    }
+    private void Skill_continuousAttack()
+    {
+
+    }
 }
