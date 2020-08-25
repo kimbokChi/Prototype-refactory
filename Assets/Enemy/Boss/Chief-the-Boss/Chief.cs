@@ -111,13 +111,15 @@ public class Chief : EnemyBase, IObject, ICombat
 
             int summonIndex = Random.Range(0, mTotems.Length);
 
+            Debug.Log(mFloorRooms[parentIndex]);
+            Debug.Log(mTotems[summonIndex]);
+
             GameObject totem = Instantiate(mTotems[summonIndex], mFloorRooms[parentIndex].transform, false);
 
             if (mTotems[summonIndex].TryGetComponent(out IObject Iobject))
             {
                 mFloorRooms[parentIndex].AddIObject(Iobject);
             }
-
             totem.transform.localPosition = Vector3.left * Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
 
             totem.transform.Translate(mTotemSummonOffset);
