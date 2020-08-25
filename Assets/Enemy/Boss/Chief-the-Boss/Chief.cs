@@ -107,22 +107,20 @@ public class Chief : EnemyBase, IObject, ICombat
     {
         for (int i = 0; i < summonCount; i++)
         {
-            int parentIndex = Random.Range(0, mFloorRooms.Length);
+            Room parentRoom = mFloorRooms[Random.Range(0, mFloorRooms.Length)];
 
-            int summonIndex = Random.Range(0, mTotems.Length);
+            GameObject totem = Instantiate(mTotems[Random.Range(0, mTotems.Length)], parentRoom.transform, false);
 
-            Debug.Log(mFloorRooms[parentIndex]);
-            Debug.Log(mTotems[summonIndex]);
-
-            GameObject totem = Instantiate(mTotems[summonIndex], mFloorRooms[parentIndex].transform, false);
-
-            if (mTotems[summonIndex].TryGetComponent(out IObject Iobject))
+            if (totem.TryGetComponent(out IObject Iobject))
             {
-                mFloorRooms[parentIndex].AddIObject(Iobject);
+                parentRoom.AddIObject(Iobject);
             }
-            totem.transform.localPosition = Vector3.left * Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+            Vector2 summonPoint = mTotemSummonOffset;
 
-            totem.transform.Translate(mTotemSummonOffset);
+            summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+            summonPoint.y += Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY);
+
+            totem.transform.localPosition = summonPoint;
         }
     }
     private void Skill_continuousAttack()
