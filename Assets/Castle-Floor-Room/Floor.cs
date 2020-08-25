@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Floor : MonoBehaviour
 {
+    [SerializeField]
     private Room[] mMemberRooms = new Room[3];
 
     [SerializeField]
     [Tooltip("높이있는 방일수록 가장 작은 인덱스에 저장해 주세요!")]
     private Transform[] mRoomPoints = new Transform[3];
+
+    [SerializeField] private bool mIsSPECIALFloor;
 
                      public  int  FloorIndex => mFloorIndex;
     [SerializeField] private int mFloorIndex;
@@ -54,10 +57,12 @@ public class Floor : MonoBehaviour
     #endregion
     public void BuildRoom()
     {
-        mMemberRooms[0] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[0].position, Quaternion.identity);
-        mMemberRooms[1] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[1].position, Quaternion.identity);
-        mMemberRooms[2] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[2].position, Quaternion.identity);
-
+        if (!mIsSPECIALFloor)
+        {
+            mMemberRooms[0] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[0].position, Quaternion.identity);
+            mMemberRooms[1] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[1].position, Quaternion.identity);
+            mMemberRooms[2] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[2].position, Quaternion.identity);
+        }
         mMemberRooms[0].IInit(this);
         mMemberRooms[1].IInit(this);
         mMemberRooms[2].IInit(this);

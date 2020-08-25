@@ -324,10 +324,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f10ce0c8c846f44a368746d8dfa97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mMemberRooms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   mRoomPoints:
   - {fileID: 90462402}
   - {fileID: 1012885842}
   - {fileID: 411899834}
+  mIsSPECIALFloor: 0
   mFloorIndex: 2
 --- !u!4 &71019849
 Transform:
@@ -568,10 +573,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f10ce0c8c846f44a368746d8dfa97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mMemberRooms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   mRoomPoints:
   - {fileID: 1756305768}
   - {fileID: 1925756033}
   - {fileID: 1083558750}
+  mIsSPECIALFloor: 0
   mFloorIndex: 5
 --- !u!4 &182340007
 Transform:
@@ -1354,10 +1364,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f10ce0c8c846f44a368746d8dfa97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mMemberRooms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   mRoomPoints:
   - {fileID: 167684572}
   - {fileID: 1290295358}
   - {fileID: 566329368}
+  mIsSPECIALFloor: 0
   mFloorIndex: 6
 --- !u!4 &589767112
 Transform:
@@ -1435,10 +1450,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f10ce0c8c846f44a368746d8dfa97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mMemberRooms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   mRoomPoints:
   - {fileID: 43138728}
   - {fileID: 1678902211}
   - {fileID: 2110989692}
+  mIsSPECIALFloor: 0
   mFloorIndex: 9
 --- !u!4 &627834027
 Transform:
@@ -1814,10 +1834,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f10ce0c8c846f44a368746d8dfa97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mMemberRooms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   mRoomPoints:
   - {fileID: 951236182}
   - {fileID: 709539042}
   - {fileID: 106141008}
+  mIsSPECIALFloor: 0
   mFloorIndex: 7
 --- !u!4 &719591812
 Transform:
@@ -3101,10 +3126,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f10ce0c8c846f44a368746d8dfa97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mMemberRooms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   mRoomPoints:
   - {fileID: 1438309101}
   - {fileID: 1235611344}
   - {fileID: 996383012}
+  mIsSPECIALFloor: 0
   mFloorIndex: 1
 --- !u!4 &1203827880
 Transform:
@@ -4067,10 +4097,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f10ce0c8c846f44a368746d8dfa97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mMemberRooms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   mRoomPoints:
   - {fileID: 1963150499}
   - {fileID: 1204944821}
   - {fileID: 786088341}
+  mIsSPECIALFloor: 0
   mFloorIndex: 4
 --- !u!4 &1342152599
 Transform:
@@ -4260,10 +4295,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f10ce0c8c846f44a368746d8dfa97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mMemberRooms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   mRoomPoints:
   - {fileID: 369620874}
   - {fileID: 371095165}
   - {fileID: 1524936952}
+  mIsSPECIALFloor: 0
   mFloorIndex: 3
 --- !u!4 &1419833729
 Transform:
@@ -4377,10 +4417,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f10ce0c8c846f44a368746d8dfa97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mMemberRooms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   mRoomPoints:
   - {fileID: 1496936826}
   - {fileID: 1774086730}
   - {fileID: 1562498487}
+  mIsSPECIALFloor: 0
   mFloorIndex: 8
 --- !u!4 &1500721334
 Transform:
@@ -5160,10 +5205,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f10ce0c8c846f44a368746d8dfa97c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mMemberRooms:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   mRoomPoints:
   - {fileID: 2110474457}
   - {fileID: 354715021}
   - {fileID: 612940114}
+  mIsSPECIALFloor: 0
   mFloorIndex: 10
 --- !u!4 &1795668358
 Transform:
