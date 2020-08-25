@@ -50,6 +50,38 @@ public class CrossTotem : MonoBehaviour, IObject, ICombat
 
     public void IUpdate()
     {
+        if (mWaitForShoot.IsOver())
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Arrow arrow = Instantiate(mDartOrigin, transform.position, Quaternion.identity);
+
+                switch (i)
+                {
+                    case 0:
+                        arrow.Setting(mDartSpeed, Vector2.left);
+                        break;
+
+                    case 1:
+                        arrow.Setting(mDartSpeed, Vector2.right);
+                        break;
+
+                    case 2:
+                        arrow.Setting(mDartSpeed, Vector2.up);
+                        break;
+
+                    case 3:
+                        arrow.Setting(mDartSpeed, Vector2.down);
+                        break;
+                }
+                arrow.Setting(Arrow_targetHit, Arrow_canDistroy);
+            }
+            mWaitForShoot.Start(mWaitNextShoot);
+        }
+        else
+        {
+            mWaitForShoot.Update();
+        }
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
