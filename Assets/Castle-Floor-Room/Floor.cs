@@ -54,12 +54,13 @@ public class Floor : MonoBehaviour
     #endregion
     public void BuildRoom()
     {
-        for (int i = 0; i < mMemberRooms.Length; ++i)
-        {
-            mMemberRooms[i] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[i].position, Quaternion.identity);
+        mMemberRooms[0] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[0].position, Quaternion.identity);
+        mMemberRooms[1] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[1].position, Quaternion.identity);
+        mMemberRooms[2] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[2].position, Quaternion.identity);
 
-            mMemberRooms[i].IInit(this);
-        }
+        mMemberRooms[0].IInit(this);
+        mMemberRooms[1].IInit(this);
+        mMemberRooms[2].IInit(this);
     }
 
     public void EnterPlayer(Player player)
