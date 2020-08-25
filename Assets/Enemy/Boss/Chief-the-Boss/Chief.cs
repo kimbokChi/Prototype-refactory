@@ -175,7 +175,7 @@ public class Chief : EnemyBase, IObject, ICombat
             Vector2 summonPoint = mTotemSummonOffset;
 
             summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
-            summonPoint.y += Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY);
+            //summonPoint.y += Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY);
 
             totem.transform.localPosition = summonPoint;
         }
