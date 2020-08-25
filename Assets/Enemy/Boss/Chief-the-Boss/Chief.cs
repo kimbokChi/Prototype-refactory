@@ -65,7 +65,7 @@ public class Chief : EnemyBase, IObject, ICombat
     {
         if (mWaitForMove.IsOver())
         {
-            DIRECTION9 nextLocation;
+            DIRECTION9 nextLocation = DIRECTION9.END;
 
             const int MAX = 9;
             const int MIN = 0;
@@ -79,11 +79,28 @@ public class Chief : EnemyBase, IObject, ICombat
                 case MOVINGDIR.UP:
                     nextLocation = ((int)mLocation9 - 3 < MIN) ? mLocation9 : mLocation9 - 3;
                     break;
-
-                case MOVINGDIR.SIDE:
-                    // To do . . .
-                    break;
             }
+            Vector2 movePoint = Vector2.zero;
+
+            if (nextLocation != mLocation9) // 위 아래 이동
+            {
+                movePoint = mOriginPosition;
+
+                movePoint.x += transform.localPosition.x;
+
+                movePoint.y += Castle.Instnace.GetMovePoint(nextLocation).y;
+            }
+            else // 좌우 이동
+            {
+                movePoint.y += transform.localPosition.y;
+
+                movePoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+            }
+            MoveToPoint(movePoint);
+        }
+        else
+        {
+            mWaitForMove.Update();
         }
 
         if (mWaitForSummonTotem.IsOver())
@@ -112,6 +129,11 @@ public class Chief : EnemyBase, IObject, ICombat
         {
             mWaitForContinuousAttack.Update();
         }
+    }
+
+    protected override void MoveFinish()
+    {
+        mWaitForMove.Start(WaitMoveTime);
     }
 
     public override void PlayerEnter(MESSAGE message, Player enterPlayer)
