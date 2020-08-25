@@ -56,24 +56,8 @@ public class CrossTotem : MonoBehaviour, IObject, ICombat
             {
                 Arrow arrow = Instantiate(mDartOrigin, transform.position, Quaternion.identity);
 
-                switch (i)
-                {
-                    case 0:
-                        arrow.Setting(mDartSpeed, Vector2.one *  0.7071067f);
-                        break;
+                arrow.Setting(mDartSpeed, new Vector2(Mathf.Cos((45f + 90f * i) * Mathf.Deg2Rad), Mathf.Sin((45f + 90f * i) * Mathf.Deg2Rad)));
 
-                    case 1:
-                        arrow.Setting(mDartSpeed, Vector2.one * -0.7071067f);
-                        break;
-
-                    case 2:
-                        arrow.Setting(mDartSpeed, new Vector2(0.7071067f, -0.7071067f));
-                        break;
-
-                    case 3:
-                        arrow.Setting(mDartSpeed, new Vector2(-0.7071067f, 0.7071067f));
-                        break;
-                }
                 arrow.Setting(Arrow_targetHit, Arrow_canDistroy);
             }
             mWaitForShoot.Start(mWaitNextShoot);
