@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Chief : EnemyBase, IObject, ICombat
 {
+    private enum MOVINGDIR
+    {
+        DOWN, UP, SIDE
+    }
+
+    private DIRECTION9 mLocation9;
+
     [SerializeField] private float mWaitSummonTotem;
     [SerializeField] private float mWaitContinuousAttack;
 
@@ -56,6 +63,29 @@ public class Chief : EnemyBase, IObject, ICombat
 
     public override void IUpdate()
     {
+        if (mWaitForMove.IsOver())
+        {
+            DIRECTION9 nextLocation;
+
+            const int MAX = 9;
+            const int MIN = 0;
+
+            switch ((MOVINGDIR)Random.Range(0, 3))
+            {
+                case MOVINGDIR.DOWN:
+                    nextLocation = ((int)mLocation9 + 3 > MAX) ? mLocation9 : mLocation9 + 3;
+                    break;
+
+                case MOVINGDIR.UP:
+                    nextLocation = ((int)mLocation9 - 3 < MIN) ? mLocation9 : mLocation9 - 3;
+                    break;
+
+                case MOVINGDIR.SIDE:
+                    // To do . . .
+                    break;
+            }
+        }
+
         if (mWaitForSummonTotem.IsOver())
         {
             Skill_summonTotem();
