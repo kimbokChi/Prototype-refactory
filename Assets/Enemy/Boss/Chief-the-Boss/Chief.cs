@@ -17,6 +17,8 @@ public class Chief : EnemyBase, IObject, ICombat
 
     private Timer mWaitForMove;
 
+    private IEnumerator mEContinuousAttack;
+
     [SerializeField] private StatTable mStat;
 
     private Dictionary<STAT_ON_TABLE, float> mStatTable;
@@ -69,9 +71,9 @@ public class Chief : EnemyBase, IObject, ICombat
         {
             if (mPlayer != null)
             {
-                if (IsInReachPlayer())
+                if (IsInReachPlayer() && mEContinuousAttack == null)
                 {
-                    StartCoroutine(EContinuousAttack(8));
+                    StartCoroutine(mEContinuousAttack = EContinuousAttack(8));
 
                 }
             }
@@ -132,8 +134,12 @@ public class Chief : EnemyBase, IObject, ICombat
             if (IsInReachPlayer())
             {
                 mPlayer.Damaged(5f, gameObject, out GameObject v);
+
+                Debug.Log("Continuous-Attack-!");
             }
         }
+        mEContinuousAttack = null;
+
         mWaitForContinuousAttack.Start(mWaitContinuousAttack);
     }
 }

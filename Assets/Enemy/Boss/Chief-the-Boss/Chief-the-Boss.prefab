@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5982966147671128701}
   - component: {fileID: 2359955915055407551}
   m_Layer: 0
-  m_Name: Chief the Boss
+  m_Name: Chief-the-Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,8 +105,8 @@ MonoBehaviour:
   mMoveSmooth: 0.15
   mRangeOffset: 0.16
   mMoveSpeed: 0
-  mWaitSummonTotem: 0.4
-  mWaitContinuousAttack: 0
+  mWaitSummonTotem: 4.5
+  mWaitContinuousAttack: 1.5
   mTotemSummonOffset: {x: 0, y: 0.87}
   mTotems:
   - {fileID: 1309640331586953155, guid: 87394f133f2dc134ea48ee81b4ac18e2, type: 3}
