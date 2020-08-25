@@ -59,19 +59,19 @@ public class CrossTotem : MonoBehaviour, IObject, ICombat
                 switch (i)
                 {
                     case 0:
-                        arrow.Setting(mDartSpeed, Vector2.left);
+                        arrow.Setting(mDartSpeed, Vector2.one *  0.7071067f);
                         break;
 
                     case 1:
-                        arrow.Setting(mDartSpeed, Vector2.right);
+                        arrow.Setting(mDartSpeed, Vector2.one * -0.7071067f);
                         break;
 
                     case 2:
-                        arrow.Setting(mDartSpeed, Vector2.up);
+                        arrow.Setting(mDartSpeed, new Vector2(0.7071067f, -0.7071067f));
                         break;
 
                     case 3:
-                        arrow.Setting(mDartSpeed, Vector2.down);
+                        arrow.Setting(mDartSpeed, new Vector2(-0.7071067f, 0.7071067f));
                         break;
                 }
                 arrow.Setting(Arrow_targetHit, Arrow_canDistroy);
