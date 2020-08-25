@@ -71,9 +71,8 @@ public class Chief : EnemyBase, IObject, ICombat
             {
                 if (IsInReachPlayer())
                 {
-                    Skill_continuousAttack();
+                    StartCoroutine(EContinuousAttack(8));
 
-                    mWaitForContinuousAttack.Start(mWaitContinuousAttack);
                 }
             }
         }
@@ -123,8 +122,18 @@ public class Chief : EnemyBase, IObject, ICombat
             totem.transform.localPosition = summonPoint;
         }
     }
-    private void Skill_continuousAttack()
-    {
 
+    private IEnumerator EContinuousAttack(int hitCount)
+    {
+        for (int hit = 0; hit < hitCount; ++hit)
+        {
+            for (float i = 0; i < 0.15f; i += Time.deltaTime * Time.timeScale) { yield return null; }
+
+            if (IsInReachPlayer())
+            {
+                mPlayer.Damaged(5f, gameObject, out GameObject v);
+            }
+        }
+        mWaitForContinuousAttack.Start(mWaitContinuousAttack);
     }
 }
