@@ -54,6 +54,8 @@ public class Chief : EnemyBase, IObject, ICombat
 
              mWaitForSummonTotem.Start(mWaitSummonTotem);
         mWaitForContinuousAttack.Start(mWaitContinuousAttack);
+
+        mLocation9 = DIRECTION9.MID;
     }
 
     public override bool IsActive()
@@ -63,21 +65,21 @@ public class Chief : EnemyBase, IObject, ICombat
 
     public override void IUpdate()
     {
-        if (mWaitForMove.IsOver())
+        if (mWaitForMove.IsOver() && IsMoveFinish)
         {
-            DIRECTION9 nextLocation = DIRECTION9.END;
+            DIRECTION9 nextLocation = mLocation9;
 
-            const int MAX = 9;
+            const int MAX = 8;
             const int MIN = 0;
 
             switch ((MOVINGDIR)Random.Range(0, 3))
             {
                 case MOVINGDIR.DOWN:
-                    nextLocation = ((int)mLocation9 + 3 > MAX) ? mLocation9 : mLocation9 + 3;
+                    nextLocation = ((int)(mLocation9 + 3) > MAX) ? mLocation9 : mLocation9 + 3;
                     break;
 
                 case MOVINGDIR.UP:
-                    nextLocation = ((int)mLocation9 - 3 < MIN) ? mLocation9 : mLocation9 - 3;
+                    nextLocation = ((int)(mLocation9 - 3) < MIN) ? mLocation9 : mLocation9 - 3;
                     break;
             }
             Vector2 movePoint = Vector2.zero;
@@ -88,7 +90,9 @@ public class Chief : EnemyBase, IObject, ICombat
 
                 movePoint.x += transform.localPosition.x;
 
-                movePoint.y += Castle.Instnace.GetMovePoint(nextLocation).y;
+                movePoint.y += Castle.Instnace.GetMovePoint(nextLocation).y + 0.45f;
+
+                mLocation9 = nextLocation;
             }
             else // 좌우 이동
             {

@@ -98,11 +98,11 @@ MonoBehaviour:
   mWaitForMoveMin: 0.4
   mWaitForMoveMax: 0.8
   mHalfMoveRangeX: 2.5
-  mHalfMoveRangeY: 0
+  mHalfMoveRangeY: 5
   mWaitATKTime: 0
   mRange: 2
   mOriginPosition: {x: 0, y: 1.2}
-  mMoveSmooth: 0.15
+  mMoveSmooth: 0.01
   mRangeOffset: 0.16
   mMoveSpeed: 0
   mWaitSummonTotem: 4.5
@@ -157,6 +157,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BelongObject: {fileID: 5982966147671128700}
-  mMoveSpeed: 2.2
+  mMoveSpeed: 2.8
   mMaxHealth: 1000
   mAttackPower: 15
