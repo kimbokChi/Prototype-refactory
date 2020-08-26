@@ -7,46 +7,27 @@ public class Pool<T> : MonoBehaviour where T : MonoBehaviour
 {
     private T mOriginInstance;
 
-    private Stack<T> mIsntances;
+    private Stack<T> mInOfPool;
+
+    private List<T> mOutOfPool;
 
     private Action<T> InstanceResetMethod;
-    private Func<T, bool> InstanceFilter;
+    private Func<T, bool> ReturnToPoolMethod;
 
-    public void Init(T origin, Action<T> instanceResetMethod = null, Func<T, bool> instanceFilter = null)
+    public void Init(T origin, Action<T> instanceResetMethod = null, Func<T, bool> returnToPoolMethod = null)
     {
         mOriginInstance = origin;
 
-        mIsntances = new Stack<T>();
+        mInOfPool = new Stack<T>();
 
         InstanceResetMethod = instanceResetMethod;
 
-        InstanceFilter = instanceFilter;
-    }
-
-    public bool OnInstanceFilter(out T[] instances)
-    {
-        if (InstanceFilter == null)
-        {
-            instances = null; return false;
-
-        }
-        List<T> filteringThings = new List<T>();
-
-        foreach (var item in mIsntances)
-        {
-            if (InstanceFilter.Invoke(item))
-            {
-                filteringThings.Add(item);
-            }
-        }
-        instances = filteringThings.ToArray();
-
-        return instances.Length > 0;
+        ReturnToPoolMethod = returnToPoolMethod;
     }
 
     public void Add(T instance)
     {
-        mIsntances.Push(instance);
+        mInOfPool.Push(instance);
 
         if (InstanceResetMethod != null)
         {
@@ -56,7 +37,7 @@ public class Pool<T> : MonoBehaviour where T : MonoBehaviour
 
     public T Pop()
     {
-        if (mIsntances.Count == 0)
+        if (mInOfPool.Count == 0)
         {
             T instance;
 
@@ -64,6 +45,6 @@ public class Pool<T> : MonoBehaviour where T : MonoBehaviour
 
             return instance;
         }
-        return mIsntances.Pop();
+        return mInOfPool.Pop();
     }
 }
