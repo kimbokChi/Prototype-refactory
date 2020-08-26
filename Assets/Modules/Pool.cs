@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pool<T> : MonoBehaviour where T : MonoBehaviour
+public class Pool<T> where T : MonoBehaviour
 {
     private T mOriginInstance;
 
@@ -25,6 +25,24 @@ public class Pool<T> : MonoBehaviour where T : MonoBehaviour
         ReturnToPoolMethod = returnToPoolMethod;
     }
 
+    public void Update()
+    {
+        if (ReturnToPoolMethod != null)
+        {
+            int repetition = mOutOfPool.Count;
+
+            for (int i = 0; i < repetition; i++)
+            {
+                if (ReturnToPoolMethod(mOutOfPool[i]))
+                {
+                    Add(mOutOfPool[i]);
+
+                    mOutOfPool.RemoveAt(i);
+                }
+            }
+        }
+    }
+
     public void Add(T instance)
     {
         mInOfPool.Push(instance);
@@ -41,7 +59,7 @@ public class Pool<T> : MonoBehaviour where T : MonoBehaviour
         {
             T instance;
 
-            InstanceResetMethod(instance = Instantiate(mOriginInstance));
+            InstanceResetMethod(instance = MonoBehaviour.Instantiate(mOriginInstance));
 
             return instance;
         }
