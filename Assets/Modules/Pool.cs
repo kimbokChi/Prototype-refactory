@@ -3,15 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pool<T> : MonoBehaviour
+public class Pool<T> : MonoBehaviour where T : MonoBehaviour
 {
+    private T mOriginInstance;
+
     private Stack<T> mIsntances;
 
     private Action<T> InstanceResetMethod;
     private Func<T, bool> InstanceFilter;
 
-    public void Init(Action<T> instanceResetMethod = null, Func<T, bool> instanceFilter = null)
+    public void Init(T origin, Action<T> instanceResetMethod = null, Func<T, bool> instanceFilter = null)
     {
+        mOriginInstance = origin;
+
         mIsntances = new Stack<T>();
 
         InstanceResetMethod = instanceResetMethod;
@@ -48,6 +52,15 @@ public class Pool<T> : MonoBehaviour
         {
             InstanceResetMethod.Invoke(instance);
         }      
+    }
+
+    public T CreatePop()
+    {
+        mIsntances.Push(Instantiate(mOriginInstance));
+
+        InstanceResetMethod(mIsntances.Peek());
+
+        return mIsntances.Peek();
     }
 
     public bool Pop(out T instance)
