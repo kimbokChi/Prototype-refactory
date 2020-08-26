@@ -50,12 +50,14 @@ public class Pool<T> : MonoBehaviour
         }      
     }
 
-    public T Pop()
+    public bool Pop(out T instance)
     {
         if (mIsntances.Count == 0)
         {
-            return default(T);
+            instance = default(T); return false;
         }
-        return mIsntances.Pop();
+        instance = mIsntances.Pop();
+
+        return true;
     }
 }

@@ -20,6 +20,8 @@ public class CrossTotem : MonoBehaviour, IObject, ICombat
 
     private Dictionary<STAT_ON_TABLE, float> mStatTable;
 
+    private Pool<Arrow> mDartPool;
+
     private Player mPlayer;
 
     private Timer mWaitForShoot;
@@ -43,6 +45,9 @@ public class CrossTotem : MonoBehaviour, IObject, ICombat
 
     public void IInit()
     {
+        mDartPool = new Pool<Arrow>();
+        
+
         Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
 
         mWaitForShoot = new Timer();
