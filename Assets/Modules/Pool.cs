@@ -54,23 +54,16 @@ public class Pool<T> : MonoBehaviour where T : MonoBehaviour
         }      
     }
 
-    public T CreatePop()
-    {
-        mIsntances.Push(Instantiate(mOriginInstance));
-
-        InstanceResetMethod(mIsntances.Peek());
-
-        return mIsntances.Peek();
-    }
-
-    public bool Pop(out T instance)
+    public T Pop()
     {
         if (mIsntances.Count == 0)
         {
-            instance = default(T); return false;
-        }
-        instance = mIsntances.Pop();
+            T instance;
 
-        return true;
+            InstanceResetMethod(instance = Instantiate(mOriginInstance));
+
+            return instance;
+        }
+        return mIsntances.Pop();
     }
 }
