@@ -19,6 +19,7 @@ public class Pool<T> where T : MonoBehaviour
         mOriginInstance = origin;
 
         mInOfPool = new Stack<T>();
+        mOutOfPool = new List<T>();
 
         InstanceResetMethod = instanceResetMethod;
 
@@ -29,9 +30,7 @@ public class Pool<T> where T : MonoBehaviour
     {
         if (ReturnToPoolMethod != null)
         {
-            int repetition = mOutOfPool.Count;
-
-            for (int i = 0; i < repetition; i++)
+            for (int i = 0; i < mOutOfPool.Count; i++)
             {
                 if (ReturnToPoolMethod(mOutOfPool[i]))
                 {
@@ -55,14 +54,16 @@ public class Pool<T> where T : MonoBehaviour
 
     public T Pop()
     {
+        T instance;
+
         if (mInOfPool.Count == 0)
         {
-            T instance;
+            mInOfPool.Push(instance = MonoBehaviour.Instantiate(mOriginInstance));
 
-            InstanceResetMethod(instance = MonoBehaviour.Instantiate(mOriginInstance));
-
-            return instance;
+            InstanceResetMethod(instance);
         }
-        return mInOfPool.Pop();
+        mOutOfPool.Add(instance = mInOfPool.Pop());
+
+        return instance;
     }
 }
