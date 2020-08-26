@@ -11,17 +11,20 @@ public class Pool<T> where T : MonoBehaviour
 
     private List<T> mOutOfPool;
 
-    private Action<T> InstanceResetMethod;
+    private Action<T> PopMethod;
+    private Action<T> AddMethod;
+
     private Func<T, bool> ReturnToPoolMethod;
 
-    public void Init(T origin, Action<T> instanceResetMethod = null, Func<T, bool> returnToPoolMethod = null)
+    public void Init(T origin, Action<T> popMethod = null, Action<T> addMethod = null, Func<T, bool> returnToPoolMethod = null)
     {
         mOriginInstance = origin;
 
         mInOfPool = new Stack<T>();
         mOutOfPool = new List<T>();
 
-        InstanceResetMethod = instanceResetMethod;
+        PopMethod = popMethod;
+        AddMethod = addMethod;
 
         ReturnToPoolMethod = returnToPoolMethod;
     }
@@ -32,7 +35,7 @@ public class Pool<T> where T : MonoBehaviour
         {
             for (int i = 0; i < mOutOfPool.Count; i++)
             {
-                if (ReturnToPoolMethod(mOutOfPool[i]))
+                if (ReturnToPoolMethod.Invoke(mOutOfPool[i]))
                 {
                     Add(mOutOfPool[i]);
 
@@ -46,9 +49,9 @@ public class Pool<T> where T : MonoBehaviour
     {
         mInOfPool.Push(instance);
 
-        if (InstanceResetMethod != null)
+        if (AddMethod != null)
         {
-            InstanceResetMethod.Invoke(instance);
+            AddMethod.Invoke(instance);
         }      
     }
 
@@ -59,10 +62,10 @@ public class Pool<T> where T : MonoBehaviour
         if (mInOfPool.Count == 0)
         {
             mInOfPool.Push(instance = MonoBehaviour.Instantiate(mOriginInstance));
-
-            InstanceResetMethod(instance);
         }
         mOutOfPool.Add(instance = mInOfPool.Pop());
+
+        PopMethod.Invoke(instance);
 
         return instance;
     }
