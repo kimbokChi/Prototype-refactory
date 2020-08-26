@@ -9,7 +9,7 @@ public class Pool<T> : MonoBehaviour
 
     private Action<T> InstanceResetMethod;
 
-    public void Init(Action<T> instanceResetMethod)
+    public void Init(Action<T> instanceResetMethod = null)
     {
         mIsntances = new Stack<T>();
 
@@ -20,7 +20,10 @@ public class Pool<T> : MonoBehaviour
     {
         mIsntances.Push(instance);
 
-        InstanceResetMethod.Invoke(instance);
+        if (InstanceResetMethod != null)
+        {
+            InstanceResetMethod.Invoke(instance);
+        }      
     }
 
     public T Pop() => mIsntances.Pop();
