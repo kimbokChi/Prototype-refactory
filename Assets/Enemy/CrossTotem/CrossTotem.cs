@@ -46,7 +46,8 @@ public class CrossTotem : MonoBehaviour, IObject, ICombat
     public void IInit()
     {
         mDartPool = new Pool<Arrow>();
-        
+
+        mDartPool.Init(mDartOrigin, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
 
         Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
 
@@ -62,11 +63,13 @@ public class CrossTotem : MonoBehaviour, IObject, ICombat
 
     public void IUpdate()
     {
+        mDartPool.Update();
+
         if (mWaitForShoot.IsOver())
         {
             for (int i = 0; i < 4; i++)
             {
-                Arrow arrow = Instantiate(mDartOrigin, transform.position, Quaternion.identity);
+                Arrow arrow = mDartPool.Pop();
 
                 switch (mShootingType)
                 {
@@ -99,6 +102,8 @@ public class CrossTotem : MonoBehaviour, IObject, ICombat
                         arrow.Setting(mDartSpeed, new Vector2(Mathf.Cos(rotation), Mathf.Sin(rotation)));
                         break;
                 }
+                arrow.transform.position = transform.position;
+
                 arrow.Setting(Arrow_targetHit, Arrow_canDistroy);
             }
             mWaitForShoot.Start(mWaitNextShoot);
@@ -134,5 +139,20 @@ public class CrossTotem : MonoBehaviour, IObject, ICombat
         if (hitCount > 0) return true;
 
         return false;
+    }
+
+    private void Pool_popMethod(Arrow arrow)
+    {
+        arrow.transform.position = transform.position;
+
+        arrow.gameObject.SetActive(true);
+    }
+    private void Pool_addMethod(Arrow arrow)
+    {
+        arrow.gameObject.SetActive(false);
+    }
+    private bool Pool_returnToPool(Arrow arrow)
+    {
+        return Vector2.Distance(transform.position, arrow.transform.position) > 7f || !arrow.gameObject.activeSelf;
     }
 }
