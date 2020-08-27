@@ -151,16 +151,19 @@ public class Chief : EnemyBase, IObject, ICombatable
 
             switch (mCastingPATTERN)
             {
-                case PATTERN.SUMMON_TOTEM:
-                    // To do . . .
+                case PATTERN.SUMMON_TOTEM: 
+
+                    PATTERN_summonTotem();
                     break;
 
-                case PATTERN.SWING_ROD:
-                    // To do . . .
+                case PATTERN.SWING_ROD: 
+
+                    PATTERN_swingRod();
                     break;
 
-                case PATTERN.SUMMON_BOMB_TOTEM:
-                    // To do . . .
+                case PATTERN.SUMMON_BOMB_TOTEM: 
+
+                    PATTERN_summonBombTotem();
                     break;
 
                 case PATTERN.MOVING:
@@ -206,6 +209,31 @@ public class Chief : EnemyBase, IObject, ICombatable
     private PATTERN RandomPATTERN()
     {
         return (PATTERN)Random.Range(0, (int)PATTERN.END);
+    }
+
+    private void PATTERN_summonTotem()
+    {
+        Room parentRoom = mFloorRooms[Random.Range(0, mFloorRooms.Length)];
+
+        GameObject totem = Instantiate(mTotems[Random.Range(0, mTotems.Length)], parentRoom.transform, false);
+
+        if (totem.TryGetComponent(out IObject Iobject))
+        {
+            parentRoom.AddIObject(Iobject);
+        }
+        Vector2 summonPoint = mTotemSummonOffset;
+
+        summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+
+        totem.transform.localPosition = summonPoint;
+    }
+    private void PATTERN_swingRod()
+    {
+
+    }
+    private void PATTERN_summonBombTotem()
+    {
+
     }
 
     private void Skill_summonTotem(int summonCount = 2)
