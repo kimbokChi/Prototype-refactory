@@ -28,6 +28,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private Timer mWaitForSummonTotem;
     private Timer mWaitForContinuousAttack;
+    private Timer mWaitForCastPattern;
 
     private Timer mWaitForMove;
 
@@ -54,11 +55,14 @@ public class Chief : EnemyBase, IObject, ICombatable
         mWaitForSummonTotem      = new Timer();
         mWaitForContinuousAttack = new Timer();
         mWaitForMove             = new Timer();
+        mWaitForCastPattern      = new Timer();
 
         mFloorRooms = Castle.Instnace.GetFloorRooms();
 
              mWaitForSummonTotem.Start(mWaitSummonTotem);
         mWaitForContinuousAttack.Start(mWaitContinuousAttack);
+
+        mWaitForCastPattern.Start(mWaitATKTime);
 
         mLocation9 = DIRECTION9.MID;
 
@@ -139,6 +143,38 @@ public class Chief : EnemyBase, IObject, ICombatable
         else
         {
             mWaitForContinuousAttack.Update();
+        }
+
+        if (mWaitForCastPattern.IsOver())
+        {
+            mCastingPATTERN = RandomPATTERN();
+
+            switch (mCastingPATTERN)
+            {
+                case PATTERN.SUMMON_TOTEM:
+                    // To do . . .
+                    break;
+
+                case PATTERN.SWING_ROD:
+                    // To do . . .
+                    break;
+
+                case PATTERN.SUMMON_BOMB_TOTEM:
+                    // To do . . .
+                    break;
+
+                case PATTERN.MOVING:
+                    // To do . . .
+                    break;
+
+                default:
+                    Debug.Log($"{mCastingPATTERN} is undefined");
+                    break;
+            }
+        }
+        else
+        {
+            mWaitForCastPattern.Update();
         }
     }
 
