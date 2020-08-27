@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mDamage: 8
+  mDurate: 2
   mTargetTags:
   - Player
 --- !u!61 &4860985123873074461
