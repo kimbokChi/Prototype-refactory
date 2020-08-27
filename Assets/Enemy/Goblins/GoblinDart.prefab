@@ -65,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 2652715524362353820, guid: bd722090c4bf3764abcd77553806ce1b,
         type: 3}
       propertyPath: m_Name
-      value: Goblin_dart
+      value: GoblinDart
       objectReference: {fileID: 0}
     - target: {fileID: 2652715524362353823, guid: bd722090c4bf3764abcd77553806ce1b,
         type: 3}

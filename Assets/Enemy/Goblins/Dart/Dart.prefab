@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 9221226311051328735, guid: 590da96b43019814bb83719c476358bb,
         type: 3}
       propertyPath: m_Name
-      value: Arrow_goblinDart
+      value: Dart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 590da96b43019814bb83719c476358bb, type: 3}
