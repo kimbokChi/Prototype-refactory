@@ -17,6 +17,8 @@ public class Archer : EnemyBase, IObject, ICombat
 
     private Timer mWaitForMoving;
     private Timer mWaitForATK;
+
+    private Pool<Arrow> mArrowPool;
     
     private Dictionary<STAT_ON_TABLE, float> mStatTable;
 
@@ -36,6 +38,9 @@ public class Archer : EnemyBase, IObject, ICombat
     {
         Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
 
+        mArrowPool = new Pool<Arrow>();
+        mArrowPool.Init(mArrow, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
+
         mWaitForMoving = new Timer();
         mWaitForATK    = new Timer();
 
@@ -44,6 +49,8 @@ public class Archer : EnemyBase, IObject, ICombat
 
     public override void IUpdate()
     {
+        mArrowPool.Update();
+
         if (mWaitForMoving.IsOver())
         {
             if (IsMoveFinish && !IsInReachPlayer())
@@ -82,7 +89,7 @@ public class Archer : EnemyBase, IObject, ICombat
         {
             if (mWaitForATK.IsOver())
             {
-                Arrow arrow = Instantiate(mArrow, mArrowPos + (Vector2)transform.position, Quaternion.identity);
+                Arrow arrow = mArrowPool.Pop();
 
                 Vector2 targetLocal = PositionLocalized(mPlayer.transform.position);
 
@@ -131,5 +138,20 @@ public class Archer : EnemyBase, IObject, ICombat
         if (hitCount > 0) return true;
 
         return false;
+    }
+
+    private void Pool_popMethod(Arrow arrow)
+    {
+        arrow.transform.position = mArrowPos + (Vector2)transform.position;
+
+        arrow.gameObject.SetActive(true);
+    }
+    private void Pool_addMethod(Arrow arrow)
+    {
+        arrow.gameObject.SetActive(false);
+    }
+    private bool Pool_returnToPool(Arrow arrow)
+    {
+        return Vector2.Distance(transform.position, arrow.transform.position) > 7f || !arrow.gameObject.activeSelf;
     }
 }
