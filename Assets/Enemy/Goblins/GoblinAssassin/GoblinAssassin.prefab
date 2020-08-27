@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7274113786047085159}
   - component: {fileID: 7274113786047085153}
-  - component: {fileID: 7274113786047085158}
+  - component: {fileID: 7607163599574314350}
   m_Layer: 0
   m_Name: GoblinAssassin
   m_TagString: Untagged
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7274113786047085158
+--- !u!114 &7607163599574314350
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7274113786047085156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e2cb1bed6f12044bbb0a5875227a3c5, type: 3}
+  m_Script: {fileID: 11500000, guid: e5848854faa916d46a02f6349915d43e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mWaitForMoveMin: 0.2

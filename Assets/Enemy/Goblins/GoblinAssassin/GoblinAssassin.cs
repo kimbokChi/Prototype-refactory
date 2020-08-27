@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goblin_assassin : EnemyBase, IObject, ICombatable
+public class GoblinAssassin : EnemyBase, IObject, ICombatable
 {
     [SerializeField]
     private StatTable mStat;
