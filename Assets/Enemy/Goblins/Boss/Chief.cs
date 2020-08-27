@@ -9,7 +9,14 @@ public class Chief : EnemyBase, IObject, ICombatable
         DOWN, UP, SIDE
     }
 
+    private enum PATTERN
+    {
+        SUMMON_TOTEM, SWING_ROD, SUMMON_BOMB_TOTEM, MOVING, END
+    }
+
     private DIRECTION9 mLocation9;
+
+    private PATTERN mCastingPATTERN;
 
     [SerializeField] private float mWaitSummonTotem;
     [SerializeField] private float mWaitContinuousAttack;
