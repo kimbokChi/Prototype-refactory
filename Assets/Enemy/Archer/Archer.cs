@@ -24,10 +24,8 @@ public class Archer : EnemyBase, IObject, ICombatable
 
     public override StatTable Stat => mStat;
 
-    public override void Damaged(float damage, GameObject attacker, out GameObject victim)
+    public override void Damaged(float damage, GameObject attacker)
     {
-        victim = gameObject;
-
         if ((mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
         {
             gameObject.SetActive(false);
@@ -130,7 +128,7 @@ public class Archer : EnemyBase, IObject, ICombatable
 
     private void Arrow_targetHit(ICombatable combat)
     {
-        combat.Damaged(mStat.RAttackPower, gameObject, out GameObject v);
+        combat.Damaged(mStat.RAttackPower, gameObject);
     }
 
     private bool Arrow_canDistroy(uint hitCount)

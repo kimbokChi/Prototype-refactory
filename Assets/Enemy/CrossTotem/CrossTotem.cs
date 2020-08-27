@@ -33,10 +33,8 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
         StartCoroutine(castedBuff);
     }
 
-    public void Damaged(float damage, GameObject attacker, out GameObject victim)
+    public void Damaged(float damage, GameObject attacker)
     {
-        victim = gameObject;
-
         if ((mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
         {
             gameObject.SetActive(false);
@@ -131,7 +129,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     private void Arrow_targetHit(ICombatable combat)
     {
-        combat.Damaged(mStat.RAttackPower, gameObject, out GameObject v);
+        combat.Damaged(mStat.RAttackPower, gameObject);
     }
 
     private bool Arrow_canDistroy(uint hitCount)

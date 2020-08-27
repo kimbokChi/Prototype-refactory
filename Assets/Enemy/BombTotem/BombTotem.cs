@@ -67,7 +67,7 @@ public class BombTotem : MonoBehaviour, IObject
 
         if (OnTriggerPlayer())
         {
-            mPlayer.Damaged(mDamage, gameObject, out GameObject v);
+            mPlayer.Damaged(mDamage, gameObject);
 
             Debug.Log("BOOOOOM!!!");
         }

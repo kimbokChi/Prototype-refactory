@@ -32,10 +32,8 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     public override StatTable Stat => mStat;
 
-    public override void Damaged(float damage, GameObject attacker, out GameObject victim)
+    public override void Damaged(float damage, GameObject attacker)
     {
-        victim = gameObject;
-
         if ((mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
         {
             gameObject.SetActive(false);
@@ -189,7 +187,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
             if (IsInReachPlayer())
             {
-                mPlayer.Damaged(5f, gameObject, out GameObject v);
+                mPlayer.Damaged(5f, gameObject);
 
                 Debug.Log("Continuous-Attack-!");
             }

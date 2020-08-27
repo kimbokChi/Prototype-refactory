@@ -51,7 +51,7 @@ public class Sliver_Flip : Item
         {
             if (colliders[i].TryGetComponent(out ICombatable combat))
             {
-                combat.Damaged(60, FindObjectOfType(typeof(Player)) as GameObject, out GameObject v);
+                combat.Damaged(60, FindObjectOfType(typeof(Player)) as GameObject);
             }
         }
     }

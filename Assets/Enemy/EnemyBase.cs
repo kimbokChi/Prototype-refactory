@@ -340,7 +340,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     public abstract void PlayerEnter(MESSAGE message, Player enterPlayer);
     public abstract void PlayerExit (MESSAGE message);
     public abstract GameObject ThisObject();
-    public abstract void Damaged(float damage, GameObject attacker, out GameObject victim);
+    public abstract void Damaged(float damage, GameObject attacker);
     public abstract void CastBuff(BUFF buffType, IEnumerator castedBuff);
     #endregion
 }

@@ -30,7 +30,7 @@ public interface ICombatable
         get;
     }
 
-    void Damaged(float damage, GameObject attacker, out GameObject victim);
+    void Damaged(float damage, GameObject attacker);
 
     void CastBuff(BUFF buffType, IEnumerator castedBuff);
 }

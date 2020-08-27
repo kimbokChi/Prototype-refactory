@@ -59,6 +59,6 @@ public class Golden_Flip : Item
 
     private void Combat(GameObject attacker, ICombatable targetCombat)
     {
-        targetCombat.Damaged(100f, attacker, out GameObject v);
+        targetCombat.Damaged(100f, attacker);
     }
 }

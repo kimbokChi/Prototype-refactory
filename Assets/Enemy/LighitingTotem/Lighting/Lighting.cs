@@ -19,7 +19,7 @@ public class Lighting : MonoBehaviour
             {
                 if (collision.TryGetComponent(out ICombatable combat))
                 {
-                    combat.Damaged(mDamage, gameObject, out GameObject v);
+                    combat.Damaged(mDamage, gameObject);
                 }
             }
         }

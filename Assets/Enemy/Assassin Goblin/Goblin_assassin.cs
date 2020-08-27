@@ -32,10 +32,8 @@ public class Goblin_assassin : EnemyBase, IObject, ICombatable
         StartCoroutine(castedBuff);
     }
 
-    public override void Damaged(float damage, GameObject attacker, out GameObject victim)
+    public override void Damaged(float damage, GameObject attacker)
     {
-        victim = gameObject;
-
         if ((mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
         {
             gameObject.SetActive(false);
@@ -146,7 +144,7 @@ public class Goblin_assassin : EnemyBase, IObject, ICombatable
             {
                 mAttackedHashs.Add(hash, true);
 
-                combat[0].Damaged(Stat.RAttackPower, gameObject, out GameObject v);
+                combat[0].Damaged(Stat.RAttackPower, gameObject);
             }
         }
     }

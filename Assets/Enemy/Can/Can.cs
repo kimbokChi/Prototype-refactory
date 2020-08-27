@@ -13,13 +13,12 @@ public class Can : EnemyBase
 
     public override StatTable Stat => mStat;
 
-    public override void Damaged(float damage, GameObject attacker, out GameObject victim)
+    public override void Damaged(float damage, GameObject attacker)
     {
-        victim = gameObject;
-
-        mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage;
-
-        if (mStatTable[STAT_ON_TABLE.CURHEALTH] <= 0) gameObject.SetActive(false);
+        if ((mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public override void IInit()

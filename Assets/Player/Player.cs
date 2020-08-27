@@ -300,13 +300,9 @@ public class Player : MonoBehaviour, ICombatable
         return !mIsMoveToUpDown;
     }
 
-    public void Damaged(float damage, GameObject attacker, out GameObject victim)
+    public void Damaged(float damage, GameObject attacker)
     {
-        if (!mBlinkTimer.IsOver())
-        {
-            victim = null; return;
-        }
-        victim = gameObject;
+        if (!mBlinkTimer.IsOver()) { return; }
 
         Inventory.Instnace.OnDamaged(ref damage, attacker, gameObject);
 

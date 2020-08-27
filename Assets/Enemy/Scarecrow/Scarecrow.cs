@@ -18,13 +18,12 @@ public class Scarecrow : EnemyBase
         get => mStat;
     }
 
-    public override void Damaged(float damage, GameObject attacker, out GameObject victim)
+    public override void Damaged(float damage, GameObject attacker)
     {
-        victim = gameObject;
-
-        mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage;
-
-        if (mStatTable[STAT_ON_TABLE.CURHEALTH] <= 0) gameObject.SetActive(false);
+        if ((mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public override void IInit()
@@ -84,7 +83,7 @@ public class Scarecrow : EnemyBase
             {
                 float damage = mStat.AttackPower + mStat.IAttackPower;
 
-                mPlayer.Damaged(damage, gameObject, out GameObject v);
+                mPlayer.Damaged(damage, gameObject);
 
                 mWaitForATK.Start(mWaitATKTime);
             }
