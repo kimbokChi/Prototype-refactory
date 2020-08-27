@@ -23,7 +23,7 @@ public interface IObject
 
     GameObject ThisObject();
 }
-public interface ICombat
+public interface ICombatable
 {
     StatTable Stat
     {

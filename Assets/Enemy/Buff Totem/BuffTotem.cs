@@ -42,7 +42,7 @@ public class BuffTotem : MonoBehaviour, IObject
 
     private void CastBuff()
     {
-        ICombat[] combats = mSenseArae.GetEnterTypeT<ICombat>();
+        ICombatable[] combats = mSenseArae.GetEnterTypeT<ICombatable>();
 
         for (int i = 0; i < combats.Length; ++i)
         {

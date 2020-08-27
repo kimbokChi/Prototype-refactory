@@ -8,7 +8,7 @@ public class Arrow : MonoBehaviour
     [SerializeField]
     private string[] mTargetTags;
 
-    private Action<ICombat> mTriggerAction;
+    private Action<ICombatable> mTriggerAction;
     private Func<uint, bool> mCanDestroy;
 
     private uint mEnterCount;
@@ -19,7 +19,7 @@ public class Arrow : MonoBehaviour
     private float DeltaTime
     { get => Time.deltaTime * Time.timeScale; }
 
-    public void Setting(Action<ICombat> targetHit, Func<uint, bool> canDestroy)
+    public void Setting(Action<ICombatable> targetHit, Func<uint, bool> canDestroy)
     {
         mCanDestroy = canDestroy; mTriggerAction = targetHit;
     }
@@ -60,7 +60,7 @@ public class Arrow : MonoBehaviour
     {
         for (int i = 0; i < mTargetTags.Length; ++i)
         {
-            if (collision.TryGetComponent(out ICombat combat))
+            if (collision.TryGetComponent(out ICombatable combat))
             {
                 if (collision.CompareTag(mTargetTags[i]))
                 {

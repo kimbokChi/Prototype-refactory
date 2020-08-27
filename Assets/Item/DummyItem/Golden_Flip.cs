@@ -57,7 +57,7 @@ public class Golden_Flip : Item
         Debug.Log($"추충전 : {(int)(power * 100)}%");
     }
 
-    private void Combat(GameObject attacker, ICombat targetCombat)
+    private void Combat(GameObject attacker, ICombatable targetCombat)
     {
         targetCombat.Damaged(100f, attacker, out GameObject v);
     }

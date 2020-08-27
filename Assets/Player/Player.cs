@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, ICombat
+public class Player : MonoBehaviour, ICombatable
 {
     [SerializeField]
     private GameObject mGameOverWindow;
@@ -193,7 +193,7 @@ public class Player : MonoBehaviour, ICombat
 
         if (mEnemyDetector.HasChallenger(out Collider2D challenger))
         {
-            if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombat combat))
+            if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombatable combat))
             {
                 Inventory.Instnace.OnAttack(gameObject, combat);
 

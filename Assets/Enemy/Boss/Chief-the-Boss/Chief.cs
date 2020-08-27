@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chief : EnemyBase, IObject, ICombat
+public class Chief : EnemyBase, IObject, ICombatable
 {
     private enum MOVINGDIR
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrossTotem : MonoBehaviour, IObject, ICombat
+public class CrossTotem : MonoBehaviour, IObject, ICombatable
 {
     public enum SHOOTING_TYPE
     {
@@ -129,7 +129,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombat
 
     public GameObject ThisObject() => gameObject;
 
-    private void Arrow_targetHit(ICombat combat)
+    private void Arrow_targetHit(ICombatable combat)
     {
         combat.Damaged(mStat.RAttackPower, gameObject, out GameObject v);
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goblin_assassin : EnemyBase, IObject, ICombat
+public class Goblin_assassin : EnemyBase, IObject, ICombatable
 {
     [SerializeField]
     private StatTable mStat;
@@ -136,7 +136,7 @@ public class Goblin_assassin : EnemyBase, IObject, ICombat
 
     private void Attack()
     {
-        ICombat[] combat = mContactArea.GetEnterTypeT<ICombat>();
+        ICombatable[] combat = mContactArea.GetEnterTypeT<ICombatable>();
 
         for (int i = 0; i < combat.Length; ++i)
         {

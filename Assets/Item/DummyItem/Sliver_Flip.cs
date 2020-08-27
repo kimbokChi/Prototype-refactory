@@ -49,7 +49,7 @@ public class Sliver_Flip : Item
     {
         for (int i = 0; i < colliders.Length; ++i)
         {
-            if (colliders[i].TryGetComponent(out ICombat combat))
+            if (colliders[i].TryGetComponent(out ICombatable combat))
             {
                 combat.Damaged(60, FindObjectOfType(typeof(Player)) as GameObject, out GameObject v);
             }

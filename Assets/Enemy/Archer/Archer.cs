@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Archer : EnemyBase, IObject, ICombat
+public class Archer : EnemyBase, IObject, ICombatable
 {
     [SerializeField]
     private StatTable mStat;
@@ -128,7 +128,7 @@ public class Archer : EnemyBase, IObject, ICombat
     }
     public override GameObject ThisObject() => gameObject;
 
-    private void Arrow_targetHit(ICombat combat)
+    private void Arrow_targetHit(ICombatable combat)
     {
         combat.Damaged(mStat.RAttackPower, gameObject, out GameObject v);
     }

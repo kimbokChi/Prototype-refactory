@@ -16,7 +16,7 @@ public class Inventory : Singleton<Inventory>
     public delegate void MoveEnd(Collider2D[] colliders);
     public event MoveEnd MoveEndAction;
 
-    public delegate void Attack(GameObject attacker, ICombat targetCombat);
+    public delegate void Attack(GameObject attacker, ICombatable targetCombat);
     public event Attack AttackAction;
 
     public delegate void BeDamaged(ref float damage, GameObject attacker, GameObject victim);
@@ -62,7 +62,7 @@ public class Inventory : Singleton<Inventory>
         }
         if (AttackAction == null)
         {
-            AttackAction = delegate (GameObject attacker, ICombat targetCombat) { };
+            AttackAction = delegate (GameObject attacker, ICombatable targetCombat) { };
         }
         if (MoveBeginAction == null)
         {
@@ -107,7 +107,7 @@ public class Inventory : Singleton<Inventory>
         ChargeAction.Invoke(power);
     }
 
-    public void OnAttack(GameObject attacker, ICombat targetCombat)
+    public void OnAttack(GameObject attacker, ICombatable targetCombat)
     {
         AttackAction.Invoke(attacker, targetCombat);
     }

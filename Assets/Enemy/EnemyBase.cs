@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class EnemyBase : MonoBehaviour, IObject, ICombat
+public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 {
     [SerializeField] protected float mWaitForMoveMin;
     [SerializeField] protected float mWaitForMoveMax;

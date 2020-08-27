@@ -17,7 +17,7 @@ public class Lighting : MonoBehaviour
         {
             if (collision.CompareTag(mTargetTags[i]))
             {
-                if (collision.TryGetComponent(out ICombat combat))
+                if (collision.TryGetComponent(out ICombatable combat))
                 {
                     combat.Damaged(mDamage, gameObject, out GameObject v);
                 }

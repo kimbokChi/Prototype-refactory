@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Summoner : EnemyBase, IObject, ICombat
+public class Summoner : EnemyBase, IObject, ICombatable
 {
     [SerializeField]
     private StatTable mStat;
