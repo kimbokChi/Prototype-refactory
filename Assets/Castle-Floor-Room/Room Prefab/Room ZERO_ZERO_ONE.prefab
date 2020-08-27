@@ -441,7 +441,7 @@ PrefabInstance:
     - target: {fileID: 7556299908380827411, guid: b8ad36e6c99751e4ebda217d07ef7af3,
         type: 3}
       propertyPath: m_Name
-      value: Goblin_normal
+      value: Goblin
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ad36e6c99751e4ebda217d07ef7af3, type: 3}
@@ -516,7 +516,7 @@ PrefabInstance:
     - target: {fileID: 7939119612046069814, guid: 89b1a750ff069e1498b4ff1315efc0bf,
         type: 3}
       propertyPath: m_Name
-      value: Goblin_shaman
+      value: GoblinShaman
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89b1a750ff069e1498b4ff1315efc0bf, type: 3}
