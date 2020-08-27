@@ -61,6 +61,8 @@ public class Chief : EnemyBase, IObject, ICombatable
         mWaitForContinuousAttack.Start(mWaitContinuousAttack);
 
         mLocation9 = DIRECTION9.MID;
+
+        mCastingPATTERN = RandomPATTERN();
     }
 
     public override bool IsActive()
@@ -164,6 +166,11 @@ public class Chief : EnemyBase, IObject, ICombatable
     }
 
     public override GameObject ThisObject() => gameObject;
+
+    private PATTERN RandomPATTERN()
+    {
+        return (PATTERN)Random.Range(0, (int)PATTERN.END);
+    }
 
     private void Skill_summonTotem(int summonCount = 2)
     {
