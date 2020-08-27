@@ -14,11 +14,16 @@ public class LightingTotem : MonoBehaviour, IObject
 
     private Timer mWaitForLighting;
 
+    private Pool<Lighting> mPool;
+
     public void IInit()
     {
         mWaitForLighting = new Timer();
 
         mWaitForLighting.Start(mWaitLighting);
+
+        mPool = new Pool<Lighting>();
+        mPool.Init(mLighting, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
     }
 
     public bool IsActive()
@@ -28,14 +33,15 @@ public class LightingTotem : MonoBehaviour, IObject
 
     public void IUpdate()
     {
+        mPool.Update();
+
         if (mPlayer != null)
         {
             if (mWaitForLighting.IsOver())
             {
                 if (mPlayer.Position(out Vector2 playerPos))
                 {
-                    // LIGHTING-!
-                    Instantiate(mLighting, playerPos + mLightingOffset, Quaternion.identity);
+                    mPool.Pop();
 
                     mWaitForLighting.Start(mWaitLighting);
                 }
@@ -61,4 +67,23 @@ public class LightingTotem : MonoBehaviour, IObject
     }
 
     public GameObject ThisObject() => gameObject;
+
+    private void Pool_popMethod(Lighting lighting)
+    {
+        mPlayer.Position(out Vector2 playerPos);
+
+        lighting.transform.position = mLightingOffset + playerPos;
+
+        lighting.gameObject.SetActive(true);
+    }
+    private void Pool_addMethod(Lighting lighting)
+    {
+        lighting.gameObject.SetActive(false);
+    }
+    private bool Pool_returnToPool(Lighting lighting)
+    {
+        lighting.DurateCheck();
+
+        return !lighting.gameObject.activeSelf;
+    }
 }
