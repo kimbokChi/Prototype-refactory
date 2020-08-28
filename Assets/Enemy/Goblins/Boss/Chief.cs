@@ -192,7 +192,22 @@ public class Chief : EnemyBase, IObject, ICombatable
         }
         return pattern;
     }
+    private void SummonLackey(GameObject lackey)
+    {
+        Room parentRoom = mFloorRooms[Random.Range(0, mFloorRooms.Length)];
 
+        GameObject instance = Instantiate(lackey, parentRoom.transform, false);
+
+        if (instance.TryGetComponent(out IObject Iobject))
+        {
+            parentRoom.AddIObject(Iobject);
+        }
+        Vector2 summonPoint = mTotemSummonOffset;
+
+        summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+
+        instance.transform.localPosition = summonPoint;
+    }
     private void PATTERN_summonTotem()
     {
         Room parentRoom = mFloorRooms[Random.Range(0, mFloorRooms.Length)];
