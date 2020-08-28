@@ -214,20 +214,7 @@ public class Chief : EnemyBase, IObject, ICombatable
     }
     private void PATTERN_summonTotem()
     {
-        Room parentRoom = mFloorRooms[Random.Range(0, mFloorRooms.Length)];
-
-        GameObject totem = Instantiate(mTotems[Random.Range(0, mTotems.Length)], parentRoom.transform, false);
-
-        if (totem.TryGetComponent(out IObject Iobject))
-        {
-            parentRoom.AddIObject(Iobject);
-        }
-        Vector2 summonPoint = mTotemSummonOffset;
-
-        summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
-
-        totem.transform.localPosition = summonPoint;
-
+        SummonLackey(mTotems[Random.Range(0, mTotems.Length)]);
         EndOfPattern();
     }
     private void PATTERN_swingRod()
