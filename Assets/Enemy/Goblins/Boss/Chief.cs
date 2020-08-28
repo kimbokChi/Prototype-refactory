@@ -231,7 +231,20 @@ public class Chief : EnemyBase, IObject, ICombatable
 
         EndOfPattern();
     }
+    
+    private void STRUGGLE_summonTotem()
+    {
+        PATTERN_summonTotem();
+        PATTERN_summonTotem();
+        PATTERN_summonTotem();
 
+        EndOfPattern();
+    }
+
+    private void STRUGGLE_summonGoblin()
+    {
+
+    }
     private void EndOfPattern()
     {
         mWaitForCastPattern.Start(mWaitATKTime);
