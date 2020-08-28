@@ -18,17 +18,12 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private PATTERN mCastingPATTERN;
 
-    [SerializeField] private float mWaitSummonTotem;
-    [SerializeField] private float mWaitContinuousAttack;
-
     [SerializeField] private Vector2 mTotemSummonOffset;
     [SerializeField] private GameObject[]  mTotems;
     [SerializeField] private GameObject mBombTotem;
 
     private Room[] mFloorRooms;
 
-    private Timer mWaitForSummonTotem;
-    private Timer mWaitForContinuousAttack;
     private Timer mWaitForCastPattern;
 
     private Timer mWaitForMove;
@@ -53,15 +48,10 @@ public class Chief : EnemyBase, IObject, ICombatable
     {
         Debug.Assert(Stat.GetTable(gameObject.GetHashCode(), out mStatTable));
 
-        mWaitForSummonTotem      = new Timer();
-        mWaitForContinuousAttack = new Timer();
         mWaitForMove             = new Timer();
         mWaitForCastPattern      = new Timer();
 
         mFloorRooms = Castle.Instnace.GetFloorRooms();
-
-             mWaitForSummonTotem.Start(mWaitSummonTotem);
-        mWaitForContinuousAttack.Start(mWaitContinuousAttack);
 
         mWaitForCastPattern.Start(mWaitATKTime);
 
@@ -118,34 +108,6 @@ public class Chief : EnemyBase, IObject, ICombatable
         {
             mWaitForMove.Update();
         }
-
-        if (mWaitForSummonTotem.IsOver())
-        {
-            Skill_summonTotem();
-
-            mWaitForSummonTotem.Start(mWaitSummonTotem);
-        }
-        else
-        {
-            mWaitForSummonTotem.Update();
-        }
-
-        if (mWaitForContinuousAttack.IsOver())
-        {
-            if (mPlayer != null)
-            {
-                if (IsInReachPlayer() && mEContinuousAttack == null)
-                {
-                    StartCoroutine(mEContinuousAttack = EContinuousAttack(8));
-
-                }
-            }
-        }
-        else
-        {
-            mWaitForContinuousAttack.Update();
-        }
-
         if (mWaitForCastPattern.IsOver())
         {
             mCastingPATTERN = RandomPATTERN();
@@ -291,7 +253,5 @@ public class Chief : EnemyBase, IObject, ICombatable
             }
         }
         mEContinuousAttack = null;
-
-        mWaitForContinuousAttack.Start(mWaitContinuousAttack);
     }
 }
