@@ -28,7 +28,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private Timer mWaitForMove;
 
-    private IEnumerator mEContinuousAttack;
+    private IEnumerator mESwingRod;
 
     [SerializeField] private StatTable mStat;
 
@@ -194,7 +194,7 @@ public class Chief : EnemyBase, IObject, ICombatable
     }
     private void PATTERN_swingRod()
     {
-
+        StartCoroutine(mESwingRod = ESwingRod(3));
     }
     private void PATTERN_summonBombTotem()
     {
@@ -218,30 +218,9 @@ public class Chief : EnemyBase, IObject, ICombatable
         mWaitForCastPattern.Start(mWaitATKTime);
     }
 
-    private void Skill_summonTotem(int summonCount = 2)
+    private IEnumerator ESwingRod(int swingCount)
     {
-        for (int i = 0; i < summonCount; i++)
-        {
-            Room parentRoom = mFloorRooms[Random.Range(0, mFloorRooms.Length)];
-
-            GameObject totem = Instantiate(mTotems[Random.Range(0, mTotems.Length)], parentRoom.transform, false);
-
-            if (totem.TryGetComponent(out IObject Iobject))
-            {
-                parentRoom.AddIObject(Iobject);
-            }
-            Vector2 summonPoint = mTotemSummonOffset;
-
-            summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
-            //summonPoint.y += Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY);
-
-            totem.transform.localPosition = summonPoint;
-        }
-    }
-
-    private IEnumerator EContinuousAttack(int hitCount)
-    {
-        for (int hit = 0; hit < hitCount; ++hit)
+        for (int hit = 0; hit < swingCount; ++hit)
         {
             for (float i = 0; i < 0.15f; i += Time.deltaTime * Time.timeScale) { yield return null; }
 
@@ -252,6 +231,6 @@ public class Chief : EnemyBase, IObject, ICombatable
                 Debug.Log("Continuous-Attack-!");
             }
         }
-        mEContinuousAttack = null;
+        mESwingRod = null; EndOfPattern();
     }
 }
