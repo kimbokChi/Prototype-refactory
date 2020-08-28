@@ -22,6 +22,10 @@ public class Chief : EnemyBase, IObject, ICombatable
     [SerializeField] private GameObject[]  mTotems;
     [SerializeField] private GameObject mBombTotem;
 
+    [SerializeField] private GameObject mGoblinNormal;
+    [SerializeField] private GameObject mGoblinDart;
+    [SerializeField] private GameObject mGoblinAssassin;
+
     private Room[] mFloorRooms;
 
     private Timer mWaitForCastPattern;
@@ -258,7 +262,17 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private void STRUGGLE_summonGoblin()
     {
+        SummonLackey(mGoblinNormal);
+        SummonLackey(mGoblinNormal);
+        SummonLackey(mGoblinNormal);
+        SummonLackey(mGoblinNormal);
 
+        SummonLackey(mGoblinDart);
+        SummonLackey(mGoblinDart);
+        
+        SummonLackey(mGoblinAssassin);
+
+        EndOfPattern();
     }
     private void EndOfPattern()
     {
