@@ -175,8 +175,6 @@ public class Chief : EnemyBase, IObject, ICombatable
                     Debug.Log($"{mCastingPATTERN} is undefined");
                     break;
             }
-
-            mWaitForCastPattern.Start(mWaitATKTime);
         }
         else
         {
@@ -229,6 +227,8 @@ public class Chief : EnemyBase, IObject, ICombatable
         summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
 
         totem.transform.localPosition = summonPoint;
+
+        EndOfPattern();
     }
     private void PATTERN_swingRod()
     {
@@ -247,6 +247,13 @@ public class Chief : EnemyBase, IObject, ICombatable
         Debug.Assert(mPlayer.Position(out Vector2 playerPoint));
 
         totem.transform.position = playerPoint;
+
+        EndOfPattern();
+    }
+
+    private void EndOfPattern()
+    {
+        mWaitForCastPattern.Start(mWaitATKTime);
     }
 
     private void Skill_summonTotem(int summonCount = 2)
