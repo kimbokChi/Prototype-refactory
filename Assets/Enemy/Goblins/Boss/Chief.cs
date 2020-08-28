@@ -4,27 +4,40 @@ using UnityEngine;
 
 public class Chief : EnemyBase, IObject, ICombatable
 {
+    public const float  FIRST_STRUGGLE_HP_CONDITION = 0.5f;
+    public const float SECOND_STRUGGLE_HP_CONDITION = 0.3f;
     private enum MOVINGDIR
     {
         DOWN, UP, SIDE
     }
 
+    private enum PATTERN
+    {
+        SUMMON_TOTEM, SWING_ROD, SUMMON_BOMB_TOTEM, MOVING, END
+    }
+
     private DIRECTION9 mLocation9;
 
-    [SerializeField] private float mWaitSummonTotem;
-    [SerializeField] private float mWaitContinuousAttack;
+    private PATTERN mCastingPATTERN;
 
     [SerializeField] private Vector2 mTotemSummonOffset;
-    [SerializeField] private GameObject[] mTotems;
+    [SerializeField] private GameObject[]  mTotems;
+    [SerializeField] private GameObject mBombTotem;
+
+    [SerializeField] private GameObject mGoblinNormal;
+    [SerializeField] private GameObject mGoblinDart;
+    [SerializeField] private GameObject mGoblinAssassin;
 
     private Room[] mFloorRooms;
 
-    private Timer mWaitForSummonTotem;
-    private Timer mWaitForContinuousAttack;
+    private Timer mWaitForCastPattern;
 
     private Timer mWaitForMove;
 
-    private IEnumerator mEContinuousAttack;
+    private bool mHasTheFirstSTRUGGLE;
+    private bool mHasTheSecondSTRUGGLE;
+
+    private IEnumerator mESwingRod;
 
     [SerializeField] private StatTable mStat;
 
@@ -44,16 +57,19 @@ public class Chief : EnemyBase, IObject, ICombatable
     {
         Debug.Assert(Stat.GetTable(gameObject.GetHashCode(), out mStatTable));
 
-        mWaitForSummonTotem      = new Timer();
-        mWaitForContinuousAttack = new Timer();
         mWaitForMove             = new Timer();
+        mWaitForCastPattern      = new Timer();
 
         mFloorRooms = Castle.Instnace.GetFloorRooms();
 
-             mWaitForSummonTotem.Start(mWaitSummonTotem);
-        mWaitForContinuousAttack.Start(mWaitContinuousAttack);
+        mWaitForCastPattern.Start(mWaitATKTime);
 
         mLocation9 = DIRECTION9.MID;
+
+        mHasTheFirstSTRUGGLE  = false;
+        mHasTheSecondSTRUGGLE = false;
+
+        mCastingPATTERN = GetPATTERN();
     }
 
     public override bool IsActive()
@@ -104,32 +120,57 @@ public class Chief : EnemyBase, IObject, ICombatable
         {
             mWaitForMove.Update();
         }
-
-        if (mWaitForSummonTotem.IsOver())
+        if (!mHasTheFirstSTRUGGLE)
         {
-            Skill_summonTotem();
-
-            mWaitForSummonTotem.Start(mWaitSummonTotem);
-        }
-        else
-        {
-            mWaitForSummonTotem.Update();
-        }
-
-        if (mWaitForContinuousAttack.IsOver())
-        {
-            if (mPlayer != null)
+            if (mStat.CurHealth / mStat.MaxHealth <= FIRST_STRUGGLE_HP_CONDITION)
             {
-                if (IsInReachPlayer() && mEContinuousAttack == null)
-                {
-                    StartCoroutine(mEContinuousAttack = EContinuousAttack(8));
+                STRUGGLE_summonTotem();
 
-                }
+                mHasTheFirstSTRUGGLE = true;
+            }
+        }
+        if (!mHasTheSecondSTRUGGLE)
+        {
+            if (mStat.CurHealth / mStat.MaxHealth <= SECOND_STRUGGLE_HP_CONDITION)
+            {
+                STRUGGLE_summonGoblin();
+
+                mHasTheSecondSTRUGGLE = true;
+            }
+        }        
+        if (mWaitForCastPattern.IsOver())
+        {
+            mCastingPATTERN = GetPATTERN();
+
+            switch (mCastingPATTERN)
+            {
+                case PATTERN.SUMMON_TOTEM: 
+
+                    PATTERN_summonTotem();
+                    break;
+
+                case PATTERN.SWING_ROD: 
+
+                    PATTERN_swingRod();
+                    break;
+
+                case PATTERN.SUMMON_BOMB_TOTEM: 
+
+                    PATTERN_summonBombTotem();
+                    break;
+
+                case PATTERN.MOVING:
+                    // To do . . .
+                    break;
+
+                default:
+                    Debug.Log($"{mCastingPATTERN} is undefined");
+                    break;
             }
         }
         else
         {
-            mWaitForContinuousAttack.Update();
+            mWaitForCastPattern.Update();
         }
     }
 
@@ -158,30 +199,108 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     public override GameObject ThisObject() => gameObject;
 
-    private void Skill_summonTotem(int summonCount = 2)
+    private PATTERN GetPATTERN()
     {
-        for (int i = 0; i < summonCount; i++)
+        PATTERN pattern = (PATTERN)Random.Range(0, (int)PATTERN.END);
+
+        switch (pattern)
         {
-            Room parentRoom = mFloorRooms[Random.Range(0, mFloorRooms.Length)];
+            case PATTERN.SWING_ROD:
+                if (!IsInReachPlayer())
+                {
+                    pattern = (PATTERN)Random.Range(1, (int)PATTERN.END);
+                    
+                    if (pattern.Equals(PATTERN.SWING_ROD)) {
+                        pattern = PATTERN.SUMMON_TOTEM;
+                    }
+                }
+                break;
 
-            GameObject totem = Instantiate(mTotems[Random.Range(0, mTotems.Length)], parentRoom.transform, false);
-
-            if (totem.TryGetComponent(out IObject Iobject))
-            {
-                parentRoom.AddIObject(Iobject);
-            }
-            Vector2 summonPoint = mTotemSummonOffset;
-
-            summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
-            //summonPoint.y += Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY);
-
-            totem.transform.localPosition = summonPoint;
+            default:
+                Debug.Log($"{mCastingPATTERN}s throw condition is undefined");
+                break;
         }
+        return pattern;
+    }
+    private void SummonLackey(GameObject lackey)
+    {
+        Room parentRoom = mFloorRooms[Random.Range(0, mFloorRooms.Length)];
+
+        GameObject instance = Instantiate(lackey, parentRoom.transform, false);
+
+        if (instance.TryGetComponent(out IObject Iobject))
+        {
+            parentRoom.AddIObject(Iobject);
+        }
+        Vector2 summonPoint = mTotemSummonOffset;
+
+        summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+
+        instance.transform.localPosition = summonPoint;
+    }
+    private void SummonLackey(GameObject lackey, Vector2 summonPoint, int roomIndex)
+    {
+        Room parentRoom = mFloorRooms[roomIndex];
+
+        GameObject instance = Instantiate(lackey, parentRoom.transform, false);
+
+        if (instance.TryGetComponent(out IObject Iobject))
+        {
+            parentRoom.AddIObject(Iobject);
+        }
+        instance.transform.position = summonPoint;
     }
 
-    private IEnumerator EContinuousAttack(int hitCount)
+    private void PATTERN_summonTotem()
     {
-        for (int hit = 0; hit < hitCount; ++hit)
+        SummonLackey(mTotems[Random.Range(0, mTotems.Length)]);
+        EndOfPattern();
+    }
+    private void PATTERN_swingRod()
+    {
+        StartCoroutine(mESwingRod = ESwingRod(3));
+    }
+    private void PATTERN_summonBombTotem()
+    {
+        if (mPlayer.Position(out Vector2 playerPoint))
+        {
+            SummonLackey(mBombTotem, playerPoint, (int)mPlayer.GetLPOSITION3());
+
+            EndOfPattern();
+        }
+    }
+    
+    private void STRUGGLE_summonTotem()
+    {
+        PATTERN_summonTotem();
+        PATTERN_summonTotem();
+        PATTERN_summonTotem();
+
+        EndOfPattern();
+    }
+
+    private void STRUGGLE_summonGoblin()
+    {
+        SummonLackey(mGoblinNormal);
+        SummonLackey(mGoblinNormal);
+        SummonLackey(mGoblinNormal);
+        SummonLackey(mGoblinNormal);
+
+        SummonLackey(mGoblinDart);
+        SummonLackey(mGoblinDart);
+        
+        SummonLackey(mGoblinAssassin);
+
+        EndOfPattern();
+    }
+    private void EndOfPattern()
+    {
+        mWaitForCastPattern.Start(mWaitATKTime);
+    }
+
+    private IEnumerator ESwingRod(int swingCount)
+    {
+        for (int hit = 0; hit < swingCount; ++hit)
         {
             for (float i = 0; i < 0.15f; i += Time.deltaTime * Time.timeScale) { yield return null; }
 
@@ -192,8 +311,6 @@ public class Chief : EnemyBase, IObject, ICombatable
                 Debug.Log("Continuous-Attack-!");
             }
         }
-        mEContinuousAttack = null;
-
-        mWaitForContinuousAttack.Start(mWaitContinuousAttack);
+        mESwingRod = null; EndOfPattern();
     }
 }
