@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Chief : EnemyBase, IObject, ICombatable
 {
+    public const float  FIRST_STRUGGLE_HP_CONDITION = 0.5f;
+    public const float SECOND_STRUGGLE_HP_CONDITION = 0.3f;
     private enum MOVINGDIR
     {
         DOWN, UP, SIDE
@@ -31,6 +33,9 @@ public class Chief : EnemyBase, IObject, ICombatable
     private Timer mWaitForCastPattern;
 
     private Timer mWaitForMove;
+
+    private bool mHasTheFirstSTRUGGLE;
+    private bool mHasTheSecondSTRUGGLE;
 
     private IEnumerator mESwingRod;
 
@@ -60,6 +65,9 @@ public class Chief : EnemyBase, IObject, ICombatable
         mWaitForCastPattern.Start(mWaitATKTime);
 
         mLocation9 = DIRECTION9.MID;
+
+        mHasTheFirstSTRUGGLE  = false;
+        mHasTheSecondSTRUGGLE = false;
 
         mCastingPATTERN = GetPATTERN();
     }
@@ -112,6 +120,24 @@ public class Chief : EnemyBase, IObject, ICombatable
         {
             mWaitForMove.Update();
         }
+        if (!mHasTheFirstSTRUGGLE)
+        {
+            if (mStat.CurHealth / mStat.MaxHealth <= FIRST_STRUGGLE_HP_CONDITION)
+            {
+                STRUGGLE_summonTotem();
+
+                mHasTheFirstSTRUGGLE = true;
+            }
+        }
+        if (!mHasTheSecondSTRUGGLE)
+        {
+            if (mStat.CurHealth / mStat.MaxHealth <= SECOND_STRUGGLE_HP_CONDITION)
+            {
+                STRUGGLE_summonGoblin();
+
+                mHasTheSecondSTRUGGLE = true;
+            }
+        }        
         if (mWaitForCastPattern.IsOver())
         {
             mCastingPATTERN = GetPATTERN();
@@ -214,7 +240,7 @@ public class Chief : EnemyBase, IObject, ICombatable
     }
     private void SummonLackey(GameObject lackey, Vector2 summonPoint, int roomIndex)
     {
-        Room parentRoom = mFloorRooms[Random.Range(0, mFloorRooms.Length)];
+        Room parentRoom = mFloorRooms[roomIndex];
 
         GameObject instance = Instantiate(lackey, parentRoom.transform, false);
 
@@ -222,7 +248,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         {
             parentRoom.AddIObject(Iobject);
         }
-        instance.transform.localPosition = summonPoint;
+        instance.transform.position = summonPoint;
     }
 
     private void PATTERN_summonTotem()
