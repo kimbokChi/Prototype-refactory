@@ -212,6 +212,19 @@ public class Chief : EnemyBase, IObject, ICombatable
 
         instance.transform.localPosition = summonPoint;
     }
+    private void SummonLackey(GameObject lackey, Vector2 summonPoint, int roomIndex)
+    {
+        Room parentRoom = mFloorRooms[Random.Range(0, mFloorRooms.Length)];
+
+        GameObject instance = Instantiate(lackey, parentRoom.transform, false);
+
+        if (instance.TryGetComponent(out IObject Iobject))
+        {
+            parentRoom.AddIObject(Iobject);
+        }
+        instance.transform.localPosition = summonPoint;
+    }
+
     private void PATTERN_summonTotem()
     {
         SummonLackey(mTotems[Random.Range(0, mTotems.Length)]);
@@ -223,19 +236,12 @@ public class Chief : EnemyBase, IObject, ICombatable
     }
     private void PATTERN_summonBombTotem()
     {
-        Room parentRoom = mFloorRooms[(int)mPlayer.GetLPOSITION3()];
-
-        GameObject totem = Instantiate(mBombTotem, parentRoom.transform, false);
-
-        if (totem.TryGetComponent(out IObject Iobject))
+        if (mPlayer.Position(out Vector2 playerPoint))
         {
-            parentRoom.AddIObject(Iobject);
+            SummonLackey(mBombTotem, playerPoint, (int)mPlayer.GetLPOSITION3());
+
+            EndOfPattern();
         }
-        Debug.Assert(mPlayer.Position(out Vector2 playerPoint));
-
-        totem.transform.position = playerPoint;
-
-        EndOfPattern();
     }
     
     private void STRUGGLE_summonTotem()
