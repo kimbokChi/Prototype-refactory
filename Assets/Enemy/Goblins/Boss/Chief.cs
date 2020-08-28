@@ -57,7 +57,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
         mLocation9 = DIRECTION9.MID;
 
-        mCastingPATTERN = RandomPATTERN();
+        mCastingPATTERN = GetPATTERN();
     }
 
     public override bool IsActive()
@@ -110,7 +110,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         }
         if (mWaitForCastPattern.IsOver())
         {
-            mCastingPATTERN = RandomPATTERN();
+            mCastingPATTERN = GetPATTERN();
 
             switch (mCastingPATTERN)
             {
@@ -169,9 +169,28 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     public override GameObject ThisObject() => gameObject;
 
-    private PATTERN RandomPATTERN()
+    private PATTERN GetPATTERN()
     {
-        return (PATTERN)Random.Range(0, (int)PATTERN.END);
+        PATTERN pattern = (PATTERN)Random.Range(0, (int)PATTERN.END);
+
+        switch (pattern)
+        {
+            case PATTERN.SWING_ROD:
+                if (!IsInReachPlayer())
+                {
+                    pattern = (PATTERN)Random.Range(1, (int)PATTERN.END);
+                    
+                    if (pattern.Equals(PATTERN.SWING_ROD)) {
+                        pattern = PATTERN.SUMMON_TOTEM;
+                    }
+                }
+                break;
+
+            default:
+                Debug.Log($"{mCastingPATTERN}s throw condition is undefined");
+                break;
+        }
+        return pattern;
     }
 
     private void PATTERN_summonTotem()
