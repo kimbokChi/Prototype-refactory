@@ -22,7 +22,8 @@ public class Chief : EnemyBase, IObject, ICombatable
     [SerializeField] private float mWaitContinuousAttack;
 
     [SerializeField] private Vector2 mTotemSummonOffset;
-    [SerializeField] private GameObject[] mTotems;
+    [SerializeField] private GameObject[]  mTotems;
+    [SerializeField] private GameObject mBombTotem;
 
     private Room[] mFloorRooms;
 
@@ -174,6 +175,8 @@ public class Chief : EnemyBase, IObject, ICombatable
                     Debug.Log($"{mCastingPATTERN} is undefined");
                     break;
             }
+
+            mWaitForCastPattern.Start(mWaitATKTime);
         }
         else
         {
@@ -233,7 +236,17 @@ public class Chief : EnemyBase, IObject, ICombatable
     }
     private void PATTERN_summonBombTotem()
     {
+        Room parentRoom = mFloorRooms[(int)mPlayer.GetLPOSITION3()];
 
+        GameObject totem = Instantiate(mBombTotem, parentRoom.transform, false);
+
+        if (totem.TryGetComponent(out IObject Iobject))
+        {
+            parentRoom.AddIObject(Iobject);
+        }
+        Debug.Assert(mPlayer.Position(out Vector2 playerPoint));
+
+        totem.transform.position = playerPoint;
     }
 
     private void Skill_summonTotem(int summonCount = 2)
