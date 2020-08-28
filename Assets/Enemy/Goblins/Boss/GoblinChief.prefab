@@ -110,7 +110,7 @@ MonoBehaviour:
   - {fileID: 1309640331586953155, guid: 87394f133f2dc134ea48ee81b4ac18e2, type: 3}
   - {fileID: 53926453361515090, guid: 01e7e0970172df249b40d3ba02fbcfa4, type: 3}
   - {fileID: 7410228392169130876, guid: 15796869e89c64848a198f2965df521e, type: 3}
-  mBombTotem: {fileID: 1309640331586953155, guid: 87394f133f2dc134ea48ee81b4ac18e2,
+  mBombTotem: {fileID: 6690175790252115807, guid: 2de72f431109fc24f93fa92d138dafc3,
     type: 3}
   mGoblinNormal: {fileID: 7556299908380827411, guid: b8ad36e6c99751e4ebda217d07ef7af3,
     type: 3}
