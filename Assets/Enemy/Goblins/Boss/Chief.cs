@@ -176,7 +176,7 @@ public class Chief : EnemyBase, IObject, ICombatable
                 }
                 break;
             case PATTERN.MOVING:
-                if (!IsInReachPlayer()) // 일단 땜빵
+                if (!IsPlayerLocationAccord()) // 일단 땜빵
                 {
                     if (Random.value <= mMovingProbablity)
                     {
@@ -306,6 +306,31 @@ public class Chief : EnemyBase, IObject, ICombatable
     private void EndOfPattern()
     {
         mWaitForCastPattern.Start(mWaitATKTime);
+    }
+
+    private bool IsPlayerLocationAccord()
+    {
+        if (mPlayer != null)
+        {
+            switch (mLocation9)
+            {
+                case DIRECTION9.TOP_LEFT:
+                case DIRECTION9.TOP:
+                case DIRECTION9.TOP_RIGHT:
+                    return mPlayer.GetLPOSITION3().Equals(LPOSITION3.TOP);
+
+                case DIRECTION9.MID_LEFT:
+                case DIRECTION9.MID:
+                case DIRECTION9.MID_RIGHT:
+                    return mPlayer.GetLPOSITION3().Equals(LPOSITION3.MID);
+
+                case DIRECTION9.BOT_LEFT:
+                case DIRECTION9.BOT:
+                case DIRECTION9.BOT_RIGHT:
+                    return mPlayer.GetLPOSITION3().Equals(LPOSITION3.BOT);
+            }
+        }
+        return false;
     }
 
     private IEnumerator ESwingRod(int swingCount)
