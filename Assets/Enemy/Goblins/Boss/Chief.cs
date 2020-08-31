@@ -38,6 +38,8 @@ public class Chief : EnemyBase, IObject, ICombatable
     private bool mHasTheFirstSTRUGGLE;
     private bool mHasTheSecondSTRUGGLE;
 
+    private bool mCanCastPATTERN;
+
     private IEnumerator mESwingRod;
 
     [SerializeField] private StatTable mStat;
@@ -69,6 +71,8 @@ public class Chief : EnemyBase, IObject, ICombatable
         mHasTheFirstSTRUGGLE  = false;
         mHasTheSecondSTRUGGLE = false;
 
+        mCanCastPATTERN = true;
+
         mCastingPATTERN = GetPATTERN();
     }
 
@@ -97,7 +101,7 @@ public class Chief : EnemyBase, IObject, ICombatable
                 mHasTheSecondSTRUGGLE = true;
             }
         }        
-        if (mWaitForCastPattern.IsOver())
+        if (mWaitForCastPattern.IsOver() && mCanCastPATTERN)
         {
             mCastingPATTERN = GetPATTERN();
 
@@ -127,6 +131,7 @@ public class Chief : EnemyBase, IObject, ICombatable
                     Debug.Log($"{mCastingPATTERN} is undefined");
                     break;
             }
+            mCanCastPATTERN = false;
         }
         else
         {
@@ -305,6 +310,8 @@ public class Chief : EnemyBase, IObject, ICombatable
     }
     private void EndOfPattern()
     {
+        mCanCastPATTERN = true;
+
         mWaitForCastPattern.Start(mWaitATKTime);
     }
 
