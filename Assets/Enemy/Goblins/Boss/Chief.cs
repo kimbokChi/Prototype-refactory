@@ -79,7 +79,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     public override void IUpdate()
     {
-        if (mWaitForMove.IsOver() && IsMoveFinish)
+        if (false)//(mWaitForMove.IsOver() && IsMoveFinish)
         {
             DIRECTION9 nextLocation = mLocation9;
 
@@ -160,7 +160,8 @@ public class Chief : EnemyBase, IObject, ICombatable
                     break;
 
                 case PATTERN.MOVING:
-                    // To do . . .
+
+                    PATTERN_moving();
                     break;
 
                 default:
@@ -176,7 +177,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     protected override void MoveFinish()
     {
-        mWaitForMove.Start(WaitMoveTime);
+        EndOfPattern();
     }
 
     public override void PlayerEnter(MESSAGE message, Player enterPlayer)
@@ -268,6 +269,43 @@ public class Chief : EnemyBase, IObject, ICombatable
 
             EndOfPattern();
         }
+    }
+    private void PATTERN_moving()
+    {
+        DIRECTION9 nextLocation = mLocation9;
+
+        const int MAX = 8;
+        const int MIN = 0;
+
+        switch ((MOVINGDIR)Random.Range(0, 3))
+        {
+            case MOVINGDIR.DOWN:
+                nextLocation = ((int)(mLocation9 + 3) > MAX) ? mLocation9 : mLocation9 + 3;
+                break;
+
+            case MOVINGDIR.UP:
+                nextLocation = ((int)(mLocation9 - 3) < MIN) ? mLocation9 : mLocation9 - 3;
+                break;
+        }
+        Vector2 movePoint = Vector2.zero;
+
+        if (nextLocation != mLocation9) // 위 아래 이동
+        {
+            movePoint = mOriginPosition;
+
+            movePoint.x += transform.localPosition.x;
+
+            movePoint.y += Castle.Instnace.GetMovePoint(nextLocation).y + 0.45f;
+
+            mLocation9 = nextLocation;
+        }
+        else // 좌우 이동
+        {
+            movePoint.y += transform.localPosition.y;
+
+            movePoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+        }
+        MoveToPoint(movePoint);
     }
     
     private void STRUGGLE_summonTotem()
