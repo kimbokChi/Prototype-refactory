@@ -141,7 +141,9 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     protected override void MoveFinish()
     {
-        EndOfPattern();
+        mWaitForCastPattern.Start(mWaitATKTime);
+
+        mCanCastPATTERN = true;
     }
 
     public override void PlayerEnter(MESSAGE message, Player enterPlayer)
