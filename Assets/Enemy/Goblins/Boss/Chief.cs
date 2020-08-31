@@ -32,8 +32,6 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private Timer mWaitForCastPattern;
 
-    private Timer mWaitForMove;
-
     private bool mHasTheFirstSTRUGGLE;
     private bool mHasTheSecondSTRUGGLE;
 
@@ -57,8 +55,7 @@ public class Chief : EnemyBase, IObject, ICombatable
     {
         Debug.Assert(Stat.GetTable(gameObject.GetHashCode(), out mStatTable));
 
-        mWaitForMove             = new Timer();
-        mWaitForCastPattern      = new Timer();
+        mWaitForCastPattern = new Timer();
 
         mFloorRooms = Castle.Instnace.GetFloorRooms();
 
@@ -79,47 +76,6 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     public override void IUpdate()
     {
-        if (false)//(mWaitForMove.IsOver() && IsMoveFinish)
-        {
-            DIRECTION9 nextLocation = mLocation9;
-
-            const int MAX = 8;
-            const int MIN = 0;
-
-            switch ((MOVINGDIR)Random.Range(0, 3))
-            {
-                case MOVINGDIR.DOWN:
-                    nextLocation = ((int)(mLocation9 + 3) > MAX) ? mLocation9 : mLocation9 + 3;
-                    break;
-
-                case MOVINGDIR.UP:
-                    nextLocation = ((int)(mLocation9 - 3) < MIN) ? mLocation9 : mLocation9 - 3;
-                    break;
-            }
-            Vector2 movePoint = Vector2.zero;
-
-            if (nextLocation != mLocation9) // 위 아래 이동
-            {
-                movePoint = mOriginPosition;
-
-                movePoint.x += transform.localPosition.x;
-
-                movePoint.y += Castle.Instnace.GetMovePoint(nextLocation).y + 0.45f;
-
-                mLocation9 = nextLocation;
-            }
-            else // 좌우 이동
-            {
-                movePoint.y += transform.localPosition.y;
-
-                movePoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
-            }
-            MoveToPoint(movePoint);
-        }
-        else
-        {
-            mWaitForMove.Update();
-        }
         if (!mHasTheFirstSTRUGGLE)
         {
             if (mStat.CurHealth / mStat.MaxHealth <= FIRST_STRUGGLE_HP_CONDITION)
