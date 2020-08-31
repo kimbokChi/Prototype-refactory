@@ -28,6 +28,9 @@ public class Chief : EnemyBase, IObject, ICombatable
     [SerializeField] private GameObject mGoblinDart;
     [SerializeField] private GameObject mGoblinAssassin;
 
+    [Range(0f, 1f)]
+    [SerializeField] private float mMovingProbablity;
+
     private Room[] mFloorRooms;
 
     private Timer mWaitForCastPattern;
@@ -172,7 +175,20 @@ public class Chief : EnemyBase, IObject, ICombatable
                     }
                 }
                 break;
+            case PATTERN.MOVING:
+                if (!IsInReachPlayer()) // 일단 땜빵
+                {
+                    if (Random.value <= mMovingProbablity)
+                    {
+                        pattern = (PATTERN)Random.Range(1, (int)PATTERN.END);
 
+                        if (pattern.Equals(PATTERN.MOVING))
+                        {
+                            pattern = PATTERN.SUMMON_TOTEM;
+                        }
+                    }
+                }
+                break;
             default:
                 Debug.Log($"{mCastingPATTERN}s throw condition is undefined");
                 break;
