@@ -13,7 +13,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private enum PATTERN
     {
-        SUMMON_TOTEM, SWING_ROD, SUMMON_BOMB_TOTEM, MOVING, END
+        SUMMON_TOTEM, SWING_ROD, SUMMON_BOMB_TOTEM, END
     }
 
     private DIRECTION9 mLocation9;
@@ -122,11 +122,6 @@ public class Chief : EnemyBase, IObject, ICombatable
                     PATTERN_summonBombTotem();
                     break;
 
-                case PATTERN.MOVING:
-
-                    PATTERN_moving();
-                    break;
-
                 default:
                     Debug.Log($"{mCastingPATTERN} is undefined");
                     break;
@@ -182,20 +177,7 @@ public class Chief : EnemyBase, IObject, ICombatable
                     }
                 }
                 break;
-            case PATTERN.MOVING:
-                if (!IsPlayerLocationAccord()) // 일단 땜빵
-                {
-                    if (Random.value <= mMovingProbablity)
-                    {
-                        pattern = (PATTERN)Random.Range(1, (int)PATTERN.END);
 
-                        if (pattern.Equals(PATTERN.MOVING))
-                        {
-                            pattern = PATTERN.SUMMON_TOTEM;
-                        }
-                    }
-                }
-                break;
             default:
                 Debug.Log($"{mCastingPATTERN}s throw condition is undefined");
                 break;
