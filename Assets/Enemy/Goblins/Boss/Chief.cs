@@ -251,6 +251,14 @@ public class Chief : EnemyBase, IObject, ICombatable
     }
     private void PATTERN_moving()
     {
+        if (!IsPlayerLocationAccord())
+        {
+            if (Random.value < mMovingProbablity) {
+                mWaitForCastPattern.Start(mWaitATKTime); mCanCastPATTERN = true;
+
+                return;
+            }
+        }
         DIRECTION9 nextLocation = mLocation9;
 
         const int MAX = 8;
@@ -312,9 +320,7 @@ public class Chief : EnemyBase, IObject, ICombatable
     }
     private void EndOfPattern()
     {
-        mCanCastPATTERN = true;
-
-        mWaitForCastPattern.Start(mWaitATKTime);
+        PATTERN_moving();
     }
 
     private bool IsPlayerLocationAccord()
