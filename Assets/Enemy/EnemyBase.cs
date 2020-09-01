@@ -283,7 +283,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         {
             float deltaTime = Time.deltaTime * Time.timeScale;
 
-            float moveSpeed = Stat.MoveSpeed + Stat.IMoveSpeed;
+            float moveSpeed = GetAbility.MoveSpeed + GetAbility.IMoveSpeed;
 
             transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movePoint, ref refVelocity, 0.5f, moveSpeed, deltaTime);
 
@@ -332,7 +332,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     }
 
     #region interfaces : 
-    public abstract StatTable Stat { get; }
+    public abstract AbilityTable GetAbility { get; }
 
     public abstract void IInit();
     public abstract bool IsActive();

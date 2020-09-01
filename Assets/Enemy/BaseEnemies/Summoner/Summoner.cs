@@ -5,7 +5,7 @@ using UnityEngine;
 public class Summoner : EnemyBase, IObject, ICombatable
 {
     [SerializeField]
-    private StatTable mStat;
+    private AbilityTable mAbilityTable;
 
     [SerializeField]
     private GameObject mSummonTagret;
@@ -20,13 +20,13 @@ public class Summoner : EnemyBase, IObject, ICombatable
 
     private Room mBelongRoom;
 
-    private Dictionary<STAT_ON_TABLE, float> mStatTable;
+    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
 
-    public override StatTable Stat => mStat;
+    public override AbilityTable GetAbility => mAbilityTable;
 
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        if ((mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -34,7 +34,7 @@ public class Summoner : EnemyBase, IObject, ICombatable
 
     public override void IInit()
     {
-        Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
+        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
 
         Debug.Assert(transform.parent.TryGetComponent(out mBelongRoom));
 

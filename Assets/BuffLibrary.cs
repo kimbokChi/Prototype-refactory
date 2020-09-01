@@ -10,9 +10,9 @@ public class BuffLibrary : Singleton<BuffLibrary>
 
     public float DeltaTime => Time.deltaTime * Time.timeScale;
 
-    private IEnumerable HealBuff(uint level, StatTable statTable)
+    private IEnumerable HealBuff(uint level, AbilityTable ability)
     {
-        statTable.CurHealth += level * HEAL;
+        ability.CurHealth += level * HEAL;
 
         yield break;
     }
@@ -22,18 +22,18 @@ public class BuffLibrary : Singleton<BuffLibrary>
     /// <para>레벨 1당 HEAL만큼의 체력을 회복합니다.</para>
     /// </summary>
     #endregion
-    public  IEnumerator Heal    (uint level, StatTable statTable)
+    public  IEnumerator Heal    (uint level, AbilityTable ability)
     {
-        return HealBuff(level, statTable).GetEnumerator();
+        return HealBuff(level, ability).GetEnumerator();
     }
 
-    private IEnumerable SpeedUpBuff(float durate, uint level, StatTable statTable)
+    private IEnumerable SpeedUpBuff(float durate, uint level, AbilityTable ability)
     {
-        statTable.IMoveSpeed += statTable.MoveSpeed * level * SPEEDUP;
+        ability.IMoveSpeed += ability.MoveSpeed * level * SPEEDUP;
 
         for (float i = 0; i < durate; i += DeltaTime) { yield return null; }
 
-        statTable.IMoveSpeed -= statTable.MoveSpeed * level * SPEEDUP;
+        ability.IMoveSpeed -= ability.MoveSpeed * level * SPEEDUP;
     }
     #region READ
     /// <summary>
@@ -41,26 +41,26 @@ public class BuffLibrary : Singleton<BuffLibrary>
     /// <para>레벨 1당 SPEEDUP만큼의 이동속도 증가치를 반환합니다.</para>
     /// </summary>
     #endregion
-    public  IEnumerator SpeedUp    (float durate, uint level, StatTable statTable)
+    public  IEnumerator SpeedUp    (float durate, uint level, AbilityTable ability)
     {
-        return SpeedUpBuff(durate, level, statTable).GetEnumerator();
+        return SpeedUpBuff(durate, level, ability).GetEnumerator();
     }
 
-    private IEnumerable PowerBoostBuff(float durate, uint level, StatTable statTable)
+    private IEnumerable PowerBoostBuff(float durate, uint level, AbilityTable ability)
     {
-        statTable.IAttackPower += statTable.AttackPower * level * POWER_BOOST;
+        ability.IAttackPower += ability.AttackPower * level * POWER_BOOST;
 
         for (float i = 0; i < durate; i += DeltaTime) { yield return null; }
 
-        statTable.IAttackPower -= statTable.AttackPower * level * POWER_BOOST;
+        ability.IAttackPower -= ability.AttackPower * level * POWER_BOOST;
     }
     #region READ
     /// <summary>
     /// 지속 : 공격력을 증가시키는 버프입니다.
     /// </summary>
     #endregion
-    public IEnumerator PowerBoost(float durate, uint level, StatTable statTable)
+    public IEnumerator PowerBoost(float durate, uint level, AbilityTable ability)
     {
-        yield return PowerBoostBuff(durate, level, statTable);
+        yield return PowerBoostBuff(durate, level, ability);
     }
 }

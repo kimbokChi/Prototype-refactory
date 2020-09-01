@@ -9,18 +9,15 @@ public class Scarecrow : EnemyBase
 
     [SerializeField] private float mDamage;
 
-    [SerializeField] private StatTable mStat;
+    [SerializeField] private AbilityTable mAbilityTable;
 
-    private Dictionary<STAT_ON_TABLE, float> mStatTable;
+    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
 
-    public override StatTable Stat 
-    {
-        get => mStat;
-    }
+    public override AbilityTable GetAbility => mAbilityTable;
 
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        if ((mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -31,7 +28,7 @@ public class Scarecrow : EnemyBase
         mWaitForATK  = new Timer();
         mWaitForMove = new Timer();
 
-        Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
+        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
 
         mWaitForATK.Start(mWaitATKTime);
     }
@@ -81,9 +78,7 @@ public class Scarecrow : EnemyBase
         {
             if (mWaitForATK.IsOver())
             {
-                float damage = mStat.AttackPower + mStat.IAttackPower;
-
-                mPlayer.Damaged(damage, gameObject);
+                mPlayer.Damaged(mAbilityTable.RAttackPower, gameObject);
 
                 mWaitForATK.Start(mWaitATKTime);
             }

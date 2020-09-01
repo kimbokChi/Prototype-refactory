@@ -11,14 +11,14 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     [SerializeField] private SHOOTING_TYPE mShootingType;
 
-    [SerializeField] private StatTable mStat;
+    [SerializeField] private AbilityTable mAbilityTable;
 
     [SerializeField] private Arrow mDartOrigin;
 
     [SerializeField] private float mDartSpeed;
     [SerializeField] private float mWaitNextShoot;
 
-    private Dictionary<STAT_ON_TABLE, float> mStatTable;
+    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
 
     private Pool<Arrow> mDartPool;
 
@@ -26,7 +26,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     private Timer mWaitForShoot;
 
-    public StatTable Stat => mStat;
+    public AbilityTable GetAbility => mAbilityTable;
 
     public void CastBuff(BUFF buffType, IEnumerator castedBuff)
     {
@@ -35,7 +35,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if ((mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        if ((mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -47,7 +47,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
         mDartPool.Init(mDartOrigin, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
 
-        Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
+        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
 
         mWaitForShoot = new Timer();
 
@@ -129,7 +129,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     private void Arrow_targetHit(ICombatable combat)
     {
-        combat.Damaged(mStat.RAttackPower, gameObject);
+        combat.Damaged(mAbilityTable.RAttackPower, gameObject);
     }
 
     private bool Arrow_canDistroy(uint hitCount)

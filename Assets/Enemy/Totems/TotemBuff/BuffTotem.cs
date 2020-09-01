@@ -46,7 +46,7 @@ public class BuffTotem : MonoBehaviour, IObject
 
         for (int i = 0; i < combats.Length; ++i)
         {
-            StatTable stat = combats[i].Stat;
+            AbilityTable stat = combats[i].GetAbility;
 
             switch (mCastBuff)
             {

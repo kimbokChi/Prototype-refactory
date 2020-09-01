@@ -5,28 +5,27 @@ using UnityEngine;
 public class SuicideTotem : MonoBehaviour, IObject, ICombatable
 {
     [SerializeField] private Area mArea;
-    [SerializeField] private StatTable mStat;
+    [SerializeField] private AbilityTable mAbilityTable;
     [SerializeField] private float mFuseTime;
 
-    private Dictionary<STAT_ON_TABLE, float> mStatTable;
+    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
 
     private bool mIsOnFuse;
 
-    public StatTable Stat
-    { get => mStat; }
+    public AbilityTable GetAbility => mAbilityTable;
 
     public void CastBuff(BUFF buffType, IEnumerator castedBuff) => StartCoroutine(castedBuff);
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if ((mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0) {
+        if ((mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0) {
             gameObject.SetActive(false);
         }
     }
 
     public void IInit()
     {
-        Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
+        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
 
         mIsOnFuse = false;
     }
@@ -64,7 +63,7 @@ public class SuicideTotem : MonoBehaviour, IObject, ICombatable
 
         for (int i = 0; i < combats.Length; ++i)
         {
-            combats[i].Damaged(mStat.RAttackPower, gameObject);
+            combats[i].Damaged(mAbilityTable.RAttackPower, gameObject);
         }
         gameObject.SetActive(false);
     }

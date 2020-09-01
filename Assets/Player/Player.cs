@@ -23,7 +23,7 @@ public class Player : MonoBehaviour, ICombatable
     private Detector mEnemyDetector;
 
     [SerializeField]
-    private StatTable mStat;
+    private AbilityTable mAbilityTable;
 
     [SerializeField]
     private float mDefense;
@@ -31,7 +31,7 @@ public class Player : MonoBehaviour, ICombatable
     [SerializeField]
     private DIRECTION9 mLocation9;
 
-    private Dictionary<STAT_ON_TABLE, float> mStatTable;
+    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
 
     private IEnumerator mEMove;
 
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour, ICombatable
 
     public  bool IsDeath => mIsDeath;
 
-    public StatTable Stat => mStat;
+    public AbilityTable GetAbility => mAbilityTable;
 
     private bool mIsDeath;
 
@@ -114,7 +114,7 @@ public class Player : MonoBehaviour, ICombatable
 
         mCollidersOnMove = new List<Collider2D>();
 
-        Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
+        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
     }
 
     private void InputAction()
@@ -158,7 +158,7 @@ public class Player : MonoBehaviour, ICombatable
 
     private void CheckToDeath()
     {
-        mIsDeath = (mStatTable[STAT_ON_TABLE.CURHEALTH] <= 0f);
+        mIsDeath = (mPersonalTable[STAT_ON_TABLE.CURHEALTH] <= 0f);
 
         if (mIsDeath)
         {
@@ -259,9 +259,7 @@ public class Player : MonoBehaviour, ICombatable
 
         while (lerpAmount < 1)
         {
-            float moveSpeed = mStat.MoveSpeed + mStat.IMoveSpeed;
-
-            lerpAmount = Mathf.Min(1, lerpAmount + Time.deltaTime * Time.timeScale * moveSpeed);
+            lerpAmount = Mathf.Min(1, lerpAmount + Time.deltaTime * Time.timeScale * mAbilityTable.RMoveSpeed);
 
             transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
 
@@ -306,7 +304,7 @@ public class Player : MonoBehaviour, ICombatable
 
         Inventory.Instnace.OnDamaged(ref damage, attacker, gameObject);
 
-        mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage / mDefense;
+        mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage / mDefense;
 
         mBlinkTimer.Start(mBlinkTime);
     }

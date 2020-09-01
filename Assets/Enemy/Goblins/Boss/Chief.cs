@@ -42,15 +42,15 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private IEnumerator mESwingRod;
 
-    [SerializeField] private StatTable mStat;
+    [SerializeField] private AbilityTable mAbilityTable;
 
-    private Dictionary<STAT_ON_TABLE, float> mStatTable;
+    private Dictionary<STAT_ON_TABLE, float> mPersonalStatTable;
 
-    public override StatTable Stat => mStat;
+    public override AbilityTable GetAbility => mAbilityTable;
 
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        if ((mPersonalStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -58,7 +58,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     public override void IInit()
     {
-        Debug.Assert(Stat.GetTable(gameObject.GetHashCode(), out mStatTable));
+        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalStatTable));
 
         mWaitForCastPattern = new Timer();
 
@@ -85,7 +85,7 @@ public class Chief : EnemyBase, IObject, ICombatable
     {
         if (!mHasTheFirstSTRUGGLE)
         {
-            if (mStat.CurHealth / mStat.MaxHealth <= FIRST_STRUGGLE_HP_CONDITION)
+            if (mAbilityTable.CurHealth / mAbilityTable.MaxHealth <= FIRST_STRUGGLE_HP_CONDITION)
             {
                 STRUGGLE_summonTotem();
 
@@ -94,7 +94,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         }
         if (!mHasTheSecondSTRUGGLE)
         {
-            if (mStat.CurHealth / mStat.MaxHealth <= SECOND_STRUGGLE_HP_CONDITION)
+            if (mAbilityTable.CurHealth / mAbilityTable.MaxHealth <= SECOND_STRUGGLE_HP_CONDITION)
             {
                 STRUGGLE_summonGoblin();
 

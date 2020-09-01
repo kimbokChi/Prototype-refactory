@@ -5,7 +5,7 @@ using UnityEngine;
 public class Archer : EnemyBase, IObject, ICombatable
 {
     [SerializeField]
-    private StatTable mStat;
+    private AbilityTable mAbilityTable;
 
     [SerializeField]
     private Arrow mArrow;
@@ -20,13 +20,13 @@ public class Archer : EnemyBase, IObject, ICombatable
 
     private Pool<Arrow> mArrowPool;
     
-    private Dictionary<STAT_ON_TABLE, float> mStatTable;
+    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
 
-    public override StatTable Stat => mStat;
+    public override AbilityTable GetAbility => mAbilityTable;
 
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        if ((mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -34,7 +34,7 @@ public class Archer : EnemyBase, IObject, ICombatable
 
     public override void IInit()
     {
-        Debug.Assert(mStat.GetTable(gameObject.GetHashCode(), out mStatTable));
+        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
 
         mArrowPool = new Pool<Arrow>();
         mArrowPool.Init(mArrow, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
@@ -128,7 +128,7 @@ public class Archer : EnemyBase, IObject, ICombatable
 
     private void Arrow_targetHit(ICombatable combat)
     {
-        combat.Damaged(mStat.RAttackPower, gameObject);
+        combat.Damaged(mAbilityTable.RAttackPower, gameObject);
     }
 
     private bool Arrow_canDistroy(uint hitCount)

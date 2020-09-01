@@ -25,7 +25,7 @@ public interface IObject
 }
 public interface ICombatable
 {
-    StatTable Stat
+    AbilityTable GetAbility
     {
         get;
     }
