@@ -5,11 +5,17 @@ using UnityEngine;
 
 public class StageEventLibrary : Singleton<StageEventLibrary>
 {
+    #region READ
+    /// <summary>
+    /// 스테이지를(층)을 클리어한 이후에 발동할 이벤트를 저장합니다.
+    /// <para>첫번째 인자는 클리어한 층의 배열이며, 두번째 인자는 증감치를 고려한 이벤트가 발생할 확률 입니다.</para>
+    /// </summary>
+    #endregion
     public event Action<Vector2[][], float> StageClear;
 
     [SerializeField] private GameObject ItemAndItemBox;
 
-    [SerializeField][Range(-100f, 100f)] private float mIncreaseEventProbabilty;
+    [SerializeField][Range(-100f, 100f)] private float mEventProbabilty;
 
     private void Awake()
     {
@@ -40,7 +46,7 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
 
         for (int i = 0; i < stageClearEvent.Length; ++i)
         {
-            float probabilty = UnityEngine.Random.Range(0f, 100f) + mIncreaseEventProbabilty;
+            float probabilty = UnityEngine.Random.Range(0f, 100f) + mEventProbabilty;
 
             stageClearEvent[i].DynamicInvoke(LMovePoints, probabilty);
         }
