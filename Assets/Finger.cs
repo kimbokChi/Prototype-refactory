@@ -7,7 +7,7 @@ public class Finger : Singleton<Finger>
 {
     private const float PRESS_TIME = 0.8f;
 
-    private float DeltaTime => Time.deltaTime * Time.timeScale;
+    private float DeltaTime => Time.deltaTime;
 
     [SerializeField]
     private ChargeGauge mChargeGauge;

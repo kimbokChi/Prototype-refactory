@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2652715522410420986}
   - component: {fileID: 2652715522410420987}
   m_Layer: 0
-  m_Name: StatTable
+  m_Name: AbilityTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,7 +152,7 @@ MonoBehaviour:
   mMoveSmooth: 0.15
   mRangeOffset: 0.16
   mMoveSpeed: 1.5
-  mStat: {fileID: 2652715522410420987}
+  mAbilityTable: {fileID: 2652715522410420987}
   mArrow: {fileID: 0}
   mArrowPos: {x: 0, y: 0}
   mArrowSpeed: 5

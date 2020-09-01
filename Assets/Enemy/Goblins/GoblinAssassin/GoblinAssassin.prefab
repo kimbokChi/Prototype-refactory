@@ -80,7 +80,7 @@ SpriteRenderer:
   m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7607163599574314350
@@ -105,7 +105,7 @@ MonoBehaviour:
   mMoveSmooth: 0.15
   mRangeOffset: 0.16
   mMoveSpeed: 0
-  mStat: {fileID: 7274113786828326568}
+  mAbilityTable: {fileID: 7274113786828326568}
   mContactArea: {fileID: 7274113786828326571}
   mMaxDashLength: 3
   mDashSpeedScale: 1.5
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 7274113786828326570}
   - component: {fileID: 7274113786828326571}
   m_Layer: 0
-  m_Name: StatTable & Area
+  m_Name: AbilityTable & Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -118,7 +118,8 @@ MonoBehaviour:
     type: 3}
   mGoblinAssassin: {fileID: 7274113786047085156, guid: 6461d15439da6de40909f1dbcfdfd8f9,
     type: 3}
-  mStat: {fileID: 2624679047327443531}
+  mMovingProbablity: 0
+  mAbilityTable: {fileID: 2624679047327443531}
 --- !u!1 &7983194703123128385
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +131,7 @@ GameObject:
   - component: {fileID: 393238843757834733}
   - component: {fileID: 2624679047327443531}
   m_Layer: 0
-  m_Name: StatTable
+  m_Name: AbilityTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -2820,7 +2820,7 @@ MonoBehaviour:
   WaitTimeATK: 0.8
   mMoveSpeed: 4
   mEnemyDetector: {fileID: 2055968785}
-  mStat: {fileID: 1250011945}
+  mAbilityTable: {fileID: 1250011945}
   mDefense: 10000
   mLocation9: 4
 --- !u!61 &985103578
@@ -3762,7 +3762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemAndItemBox: {fileID: 208112648425833888}
-  mIncreaseEventProbabilty: 0
+  mEventProbabilty: 0
 --- !u!114 &1249284104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3786,7 +3786,7 @@ GameObject:
   - component: {fileID: 1250011946}
   - component: {fileID: 1250011945}
   m_Layer: 0
-  m_Name: StatTable
+  m_Name: AbilityTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

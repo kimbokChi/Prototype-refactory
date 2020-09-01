@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7276526106939406066}
   - component: {fileID: 4903431483732141383}
   m_Layer: 0
-  m_Name: StatTable & Area
+  m_Name: AbilityTable & Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,5 +175,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mArea: {fileID: 4903431483732141383}
-  mStat: {fileID: 7276526106939406066}
+  mAbilityTable: {fileID: 7276526106939406066}
   mFuseTime: 3

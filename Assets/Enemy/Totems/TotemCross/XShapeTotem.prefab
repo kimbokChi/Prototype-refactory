@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mShootingType: 1
-  mStat: {fileID: 4431225369216990075}
+  mAbilityTable: {fileID: 4431225369216990075}
   mDartOrigin: {fileID: 9221226311051328734, guid: 590da96b43019814bb83719c476358bb,
     type: 3}
   mDartSpeed: 6
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 4431225369216990076}
   - component: {fileID: 4431225369216990075}
   m_Layer: 0
-  m_Name: StatTable
+  m_Name: AbilityTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

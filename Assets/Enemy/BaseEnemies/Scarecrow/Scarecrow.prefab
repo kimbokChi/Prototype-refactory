@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5602418534297835582}
   - component: {fileID: 412821576838472771}
   m_Layer: 0
-  m_Name: StatTable
+  m_Name: AbilityTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -202,4 +202,4 @@ MonoBehaviour:
   mRangeOffset: 0.16
   mMoveSpeed: 2
   mDamage: 15
-  mStat: {fileID: 412821576838472771}
+  mAbilityTable: {fileID: 412821576838472771}
