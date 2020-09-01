@@ -9,7 +9,7 @@ public enum STAT_ON_TABLE
     ATTACK_POWER, IATTACK_POWER
 }
 
-public class StatTable : MonoBehaviour
+public class AbilityTable : MonoBehaviour
 {
     private int KeyCode;
     private Dictionary<STAT_ON_TABLE, float> mStatTable;
