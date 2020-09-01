@@ -12,10 +12,9 @@ public enum STAT_ON_TABLE
 public class AbilityTable : MonoBehaviour
 {
     private int KeyCode;
-    private Dictionary<STAT_ON_TABLE, float> mStatTable;
+    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
 
-    [SerializeField]
-    private GameObject BelongObject;
+    [SerializeField] private GameObject BelongObject;
 
     private void Reset() {
         BelongObject = transform.parent.gameObject;
@@ -25,24 +24,24 @@ public class AbilityTable : MonoBehaviour
     {
         KeyCode = BelongObject.GetHashCode();
 
-        mStatTable = new Dictionary<STAT_ON_TABLE, float>();
+        mPersonalTable = new Dictionary<STAT_ON_TABLE, float>();
 
         float increase = 0f;
 
-        mStatTable.Add(STAT_ON_TABLE. MOVESPEED, mMoveSpeed);
-        mStatTable.Add(STAT_ON_TABLE.IMOVESPEED, increase);
+        mPersonalTable.Add(STAT_ON_TABLE. MOVESPEED, mMoveSpeed);
+        mPersonalTable.Add(STAT_ON_TABLE.IMOVESPEED, increase);
 
-        mStatTable.Add(STAT_ON_TABLE.CURHEALTH, mMaxHealth);
-        mStatTable.Add(STAT_ON_TABLE.MAXHEALTH, mMaxHealth);
+        mPersonalTable.Add(STAT_ON_TABLE.CURHEALTH, mMaxHealth);
+        mPersonalTable.Add(STAT_ON_TABLE.MAXHEALTH, mMaxHealth);
 
-        mStatTable.Add(STAT_ON_TABLE. ATTACK_POWER, mAttackPower);
-        mStatTable.Add(STAT_ON_TABLE.IATTACK_POWER, increase);
+        mPersonalTable.Add(STAT_ON_TABLE. ATTACK_POWER, mAttackPower);
+        mPersonalTable.Add(STAT_ON_TABLE.IATTACK_POWER, increase);
     }
 
     public bool GetTable(int keyCode, out Dictionary<STAT_ON_TABLE, float> table)
     {
         if (keyCode == KeyCode) {
-            table = mStatTable; return true;
+            table = mPersonalTable; return true;
         }
         table = null;
 
@@ -52,48 +51,48 @@ public class AbilityTable : MonoBehaviour
     // MoveSpeed
     public float  MoveSpeed
     {
-        get => mStatTable[STAT_ON_TABLE.MOVESPEED];
+        get => mPersonalTable[STAT_ON_TABLE.MOVESPEED];
     }
     public float IMoveSpeed
     {
-        get => mStatTable[STAT_ON_TABLE.IMOVESPEED];
-        set => mStatTable[STAT_ON_TABLE.IMOVESPEED] = value;
+        get => mPersonalTable[STAT_ON_TABLE.IMOVESPEED];
+        set => mPersonalTable[STAT_ON_TABLE.IMOVESPEED] = value;
     }
     public float RMoveSpeed
     {
-        get => mStatTable[STAT_ON_TABLE.MOVESPEED] + mStatTable[STAT_ON_TABLE.IMOVESPEED];
+        get => mPersonalTable[STAT_ON_TABLE.MOVESPEED] + mPersonalTable[STAT_ON_TABLE.IMOVESPEED];
     }
 
     // Health
     public float CurHealth
     {
-        get => mStatTable[STAT_ON_TABLE.CURHEALTH];
+        get => mPersonalTable[STAT_ON_TABLE.CURHEALTH];
         set
         {
-            float curHealth = mStatTable[STAT_ON_TABLE.CURHEALTH];
+            float curHealth = mPersonalTable[STAT_ON_TABLE.CURHEALTH];
 
-            mStatTable[STAT_ON_TABLE.CURHEALTH] = Mathf.Min(curHealth, curHealth + value);
+            mPersonalTable[STAT_ON_TABLE.CURHEALTH] = Mathf.Min(curHealth, curHealth + value);
         }
     }
     public float MaxHealth
     {
-        get => mStatTable[STAT_ON_TABLE.MAXHEALTH];
+        get => mPersonalTable[STAT_ON_TABLE.MAXHEALTH];
     }
 
     // AttackPower
     public float  AttackPower
     {
-        get => mStatTable[STAT_ON_TABLE.ATTACK_POWER];
+        get => mPersonalTable[STAT_ON_TABLE.ATTACK_POWER];
     }
     public float IAttackPower
     {
-        get => mStatTable[STAT_ON_TABLE.IATTACK_POWER];
-        set => mStatTable[STAT_ON_TABLE.IATTACK_POWER] = value;
+        get => mPersonalTable[STAT_ON_TABLE.IATTACK_POWER];
+        set => mPersonalTable[STAT_ON_TABLE.IATTACK_POWER] = value;
     }
     public float RAttackPower
     {
-        get => mStatTable[STAT_ON_TABLE.IATTACK_POWER] +
-               mStatTable[STAT_ON_TABLE.ATTACK_POWER];
+        get => mPersonalTable[STAT_ON_TABLE.IATTACK_POWER] +
+               mPersonalTable[STAT_ON_TABLE.ATTACK_POWER];
     }
 
     [SerializeField] private float mMoveSpeed;
