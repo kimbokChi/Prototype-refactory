@@ -17,8 +17,7 @@ public class StatTable : MonoBehaviour
     [SerializeField]
     private GameObject BelongObject;
 
-    private void Reset()
-    {
+    private void Reset() {
         BelongObject = transform.parent.gameObject;
     }
 
@@ -30,8 +29,8 @@ public class StatTable : MonoBehaviour
 
         float increase = 0f;
 
-        mStatTable.Add(STAT_ON_TABLE. MOVESPEED,  mMoveSpeed);
-        mStatTable.Add(STAT_ON_TABLE.IMOVESPEED,    increase);
+        mStatTable.Add(STAT_ON_TABLE. MOVESPEED, mMoveSpeed);
+        mStatTable.Add(STAT_ON_TABLE.IMOVESPEED, increase);
 
         mStatTable.Add(STAT_ON_TABLE.CURHEALTH, mMaxHealth);
         mStatTable.Add(STAT_ON_TABLE.MAXHEALTH, mMaxHealth);
@@ -42,17 +41,15 @@ public class StatTable : MonoBehaviour
 
     public bool GetTable(int keyCode, out Dictionary<STAT_ON_TABLE, float> table)
     {
-        if (keyCode == KeyCode)
-        {
-            table = mStatTable;
-
-            return true;
+        if (keyCode == KeyCode) {
+            table = mStatTable; return true;
         }
         table = null;
 
         return false;
     }
 
+    // MoveSpeed
     public float  MoveSpeed
     {
         get => mStatTable[STAT_ON_TABLE.MOVESPEED];
@@ -67,6 +64,7 @@ public class StatTable : MonoBehaviour
         get => mStatTable[STAT_ON_TABLE.MOVESPEED] + mStatTable[STAT_ON_TABLE.IMOVESPEED];
     }
 
+    // Health
     public float CurHealth
     {
         get => mStatTable[STAT_ON_TABLE.CURHEALTH];
@@ -82,6 +80,7 @@ public class StatTable : MonoBehaviour
         get => mStatTable[STAT_ON_TABLE.MAXHEALTH];
     }
 
+    // AttackPower
     public float  AttackPower
     {
         get => mStatTable[STAT_ON_TABLE.ATTACK_POWER];
