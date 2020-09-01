@@ -12,36 +12,42 @@ public class Finger : Singleton<Finger>
     [SerializeField]
     private ChargeGauge mChargeGauge;
 
+    public  Item  CarryItem
+    {
+        get => mCarryItem;
+        set => mCarryItem = value;
+    }
     private Item mCarryItem;
 
     private float mCurPressTime;
 
-    private bool mIsGaugeBreak;
+    private bool HaveFinger
+    {
+        get
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            return Vector2.Distance(mousePos, mChargeGauge.transform.position) > mChargeGauge.Scale.x * 0.5f;
+        }
+    }
 
     private IEnumerator mEOnBulletTime;
 
-    private void Awake()
-    {
+    private void Awake() {
         mCurPressTime = 0f;
-    }
-
-    public void SetCarryItem(Item item)
-    {
-        mCarryItem = item;
-    }
-    public void GetCarryItem(out Item item)
-    {
-        item = mCarryItem;
     }
 
     private void Update()
     {
+        // Begin Touch
         if (Input.GetMouseButtonDown(0))
         {
             mChargeGauge.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             mChargeGauge.transform.Translate(0, 0, 10);
         }
+
+        // Touuuuuuuuuuuuuch
         if (Input.GetMouseButton(0))
         {
             if (mCurPressTime >= PRESS_TIME)
@@ -54,23 +60,18 @@ public class Finger : Singleton<Finger>
                 {
                     StartCoroutine(mEOnBulletTime = EOnBulletTime(1.5f, 0.45f));
                 }
-
-                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-                mIsGaugeBreak = Vector2.Distance(mousePos, mChargeGauge.transform.position) > mChargeGauge.Scale.x * 0.5f;
             }
             else
             {
                 mCurPressTime += Time.deltaTime;
             }
         }
-        if ((Input.GetMouseButtonUp(0) && mCurPressTime >= PRESS_TIME) || mIsGaugeBreak)
+        // End Touch
+        if ((Input.GetMouseButtonUp(0) && mCurPressTime >= PRESS_TIME) || HaveFinger)
         {
             mChargeGauge.gameObject.SetActive(false);
 
             Inventory.Instnace.OnCharge(mChargeGauge.Charge);
-
-            mIsGaugeBreak = false;
 
             mCurPressTime = 0;
 
