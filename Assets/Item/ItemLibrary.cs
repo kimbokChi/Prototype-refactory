@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class ItemLibrary : Singleton<ItemLibrary>
 {
-    public const float    COMMON_PROBABILITY = 40f;
-    public const float      RARE_PROBABILITY = 35f;
-    public const float      EPIC_PROBABILITY = 20f;
-    public const float LEGENDARY_PROBABILITY =  5f;
+    public const float    COMMON_PROBABILITY =  0.4f; // 40%
+    public const float      RARE_PROBABILITY = 0.35f; // 35%
+    public const float      EPIC_PROBABILITY =  0.2f; // 20%
+    public const float LEGENDARY_PROBABILITY = 0.05f; //  5%
 
     [SerializeField]
     private List<Item> mItems;
 
     private Dictionary<ITEM_RATING, List<Item>> mLibrary;
+
+    private float[] ProbabilityArray;
 
     private void Awake()
     {
@@ -26,34 +28,41 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
         for (int i = 0; i < mItems.Count; ++i)
         {
-            switch (mItems[i].RATING)
-            {
-                case ITEM_RATING.COMMON:
-                    mLibrary[ITEM_RATING.COMMON].Add(mItems[i]);
-                    break;
-
-                case ITEM_RATING.RARE:
-                    mLibrary[ITEM_RATING.RARE].Add(mItems[i]);
-                    break;
-
-                case ITEM_RATING.EPIC:
-                    mLibrary[ITEM_RATING.EPIC].Add(mItems[i]);
-                    break;
-
-                case ITEM_RATING.LEGENDARY:
-                    mLibrary[ITEM_RATING.LEGENDARY].Add(mItems[i]);
-                    break;
-            }
+            mLibrary[mItems[i].RATING].Add(mItems[i]);
         }
+        ProbabilityArray = new float[4] 
+        {
+            COMMON_PROBABILITY, RARE_PROBABILITY, EPIC_PROBABILITY, LEGENDARY_PROBABILITY 
+        };
     }
 
     public Item GetRandomItem()
     {
-        float probability = Random.Range(1f, 100f);
+        ITEM_RATING returnRATING = ITEM_RATING.COMMON;
 
-        Item returnItem = null;
+        float probability = Random.value;
 
-        if (probability <= COMMON_PROBABILITY)
+        for (int i = 3; i >= 0; i--)
+        {
+            if (probability > 1 - ProbabilityArray[i])
+            {
+                returnRATING = (ITEM_RATING)i; break;
+            }
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            if (CanGetRatingItem(returnRATING, out Item returnItem)) {
+                return returnItem;
+            }
+            else if (returnRATING.Equals(ITEM_RATING.COMMON)) {
+                returnRATING = ITEM_RATING.LEGENDARY;
+            }
+            else returnRATING--;
+        }
+        return null;
+        #region
+        /*
+            if (probability <= COMMON_PROBABILITY)
         {
             for (ITEM_RATING RATING = ITEM_RATING.COMMON; !CanGetRatingItem(RATING, out returnItem) && RATING < ITEM_RATING.LEGENDARY; RATING++) { }
         }
@@ -91,10 +100,14 @@ public class ItemLibrary : Singleton<ItemLibrary>
             for (ITEM_RATING RATING = ITEM_RATING.LEGENDARY; !CanGetRatingItem(RATING, out returnItem) && RATING > ITEM_RATING.COMMON; RATING--) { }
         }
         return returnItem;
+        */
+        #endregion
     }
 
     private bool CanGetRatingItem(ITEM_RATING RATING, out Item getItem)
     {
+        getItem = null;
+
         if (mLibrary[RATING].Count > 0)
         {
             int itemIndex = Random.Range(0, mLibrary[RATING].Count);
@@ -102,8 +115,6 @@ public class ItemLibrary : Singleton<ItemLibrary>
             getItem = mLibrary[RATING][itemIndex];
                       mLibrary[RATING].RemoveAt(itemIndex);
         }
-        else getItem = null;
-
-        return (getItem != null);
+        return getItem != null;
     }
 }
