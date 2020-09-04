@@ -8,10 +8,6 @@ public class Iron_Flip : Item
 
     public override ITEM_DATA DATA => ITEM_DATA.IRON_FLIP;
 
-    public override void Init()
-    {
-    }
-
     public override void OffEquipThis(SLOT_TYPE offSlot)
     {
     }

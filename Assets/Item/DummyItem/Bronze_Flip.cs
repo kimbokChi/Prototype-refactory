@@ -8,10 +8,6 @@ public class Bronze_Flip : Item
 
     public override ITEM_DATA DATA => ITEM_DATA.BRONZE_FLIP;
 
-    public override void Init()
-    {        
-    }
-
     public override void OffEquipThis(SLOT_TYPE offSlot)
     {        
     }

@@ -10,10 +10,6 @@ public class Golden_Flip : Item
 
     public override ITEM_DATA DATA => ITEM_DATA.GOLDEN_FLIP;
 
-    public override void Init()
-    {
-    }
-
     public override void OnEquipThis(SLOT_TYPE onSlot)
     {
         switch (onSlot)
