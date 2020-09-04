@@ -40,9 +40,18 @@ public class Area : MonoBehaviour
         }
     }
 
-    public GameObject[] EnterObjects()
+    public bool TryEnterTypeT<T>(out T enterObject) where T : class
     {
-        return mEnterObjects.ToArray();
+        enterObject = null;
+
+        if (mEnterObjects[0] != null)
+        {
+            if (mEnterObjects[0].TryGetComponent(out T instance)) {
+
+                enterObject = instance;
+            }
+        }
+        return enterObject != null;
     }
 
     public T[] GetEnterTypeT<T>() where T : class

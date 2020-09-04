@@ -16,7 +16,7 @@ public class Pool<T> where T : MonoBehaviour
 
     private Func<T, bool> ReturnToPoolMethod;
 
-    public void Init(T origin, Action<T> popMethod = null, Action<T> addMethod = null, Func<T, bool> returnToPoolMethod = null)
+    public void Init(T origin, Action<T> popMethod, Action<T> addMethod, Func<T, bool> returnToPoolMethod)
     {
         mOriginInstance = origin;
 
