@@ -20,7 +20,7 @@ public class Player : MonoBehaviour, ICombatable
     private float mMoveSpeed;
 
     [SerializeField] 
-    private Detector mEnemyDetector;
+    private Area mRangeArea;
 
     [SerializeField]
     private AbilityTable mAbilityTable;
@@ -40,6 +40,8 @@ public class Player : MonoBehaviour, ICombatable
     private bool mCanElevation;
 
     private bool mIsMoveToUpDown;
+
+    private CircleCollider2D mRnageCollider;
 
     public  bool IsDeath => mIsDeath;
 
@@ -114,6 +116,8 @@ public class Player : MonoBehaviour, ICombatable
 
         mCollidersOnMove = new List<Collider2D>();
 
+        Debug.Assert(mRangeArea.TryGetComponent(out mRnageCollider));
+
         Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
     }
 
@@ -162,7 +166,7 @@ public class Player : MonoBehaviour, ICombatable
 
         if (mIsDeath)
         {
-            mEnemyDetector.enabled = false;
+            mRangeArea.enabled = false;
 
             if (TryGetComponent(out SpriteRenderer renderer))
             {
@@ -188,10 +192,9 @@ public class Player : MonoBehaviour, ICombatable
         {
             mBlinkTimer.Update(); 
         }
+        mRnageCollider.radius = Inventory.Instnace.GetWeaponRange();
 
-        mEnemyDetector.SetRange(Inventory.Instnace.GetWeaponRange());
-
-        if (mEnemyDetector.HasChallenger(out Collider2D challenger))
+        if (mRangeArea.TryEnterTypeT(out GameObject challenger))
         {
             if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombatable combat))
             {

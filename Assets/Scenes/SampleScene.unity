@@ -2819,7 +2819,7 @@ MonoBehaviour:
   mBlinkTime: 0.2
   WaitTimeATK: 0.8
   mMoveSpeed: 4
-  mEnemyDetector: {fileID: 2055968785}
+  mRangeArea: {fileID: 2055968785}
   mAbilityTable: {fileID: 1250011945}
   mDefense: 10000
   mLocation9: 4
@@ -6177,7 +6177,7 @@ GameObject:
   - component: {fileID: 2055968783}
   - component: {fileID: 2055968785}
   m_Layer: 0
-  m_Name: Detector
+  m_Name: RangeArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6243,9 +6243,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2055968781}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 927aef57483783142aa42e37d6fedc28, type: 3}
+  m_Script: {fileID: 11500000, guid: 162e500ee18349741bd81abe711966fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mSenseTags:
+  - Enemy
 --- !u!1 &2106181549
 GameObject:
   m_ObjectHideFlags: 0
