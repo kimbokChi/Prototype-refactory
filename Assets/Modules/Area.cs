@@ -44,7 +44,7 @@ public class Area : MonoBehaviour
     {
         enterObject = null;
 
-        if (mEnterObjects[0] != null)
+        if (mEnterObjects.Count > 0)
         {
             if (mEnterObjects[0].TryGetComponent(out T instance)) {
 

@@ -31,7 +31,13 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
             }
             return mRenderer.flipX;
         }
-        set => mRenderer.flipX = value;
+        set
+        {
+            if (mRenderer == null) {
+                Debug.Assert(TryGetComponent(out mRenderer));
+            }
+            mRenderer.flipX = value;
+        }
     }
     protected SpriteRenderer mRenderer;
 
