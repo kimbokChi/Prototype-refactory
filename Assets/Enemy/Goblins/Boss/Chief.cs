@@ -246,7 +246,9 @@ public class Chief : EnemyBase, IObject, ICombatable
         const int MAX = 8;
         const int MIN = 0;
 
-        switch ((MOVINGDIR)Random.Range(0, 3))
+        MOVINGDIR movingDIR = (MOVINGDIR)Random.Range(0, 3);
+
+        switch (movingDIR)
         {
             case MOVINGDIR.DOWN:
                 nextLocation = ((int)(mLocation9 + 3) > MAX) ? mLocation9 : mLocation9 + 3;
@@ -274,7 +276,17 @@ public class Chief : EnemyBase, IObject, ICombatable
 
             movePoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
         }
-        MoveToPoint(movePoint);
+        switch (movingDIR)
+        {
+            case MOVINGDIR.UP:
+            case MOVINGDIR.DOWN:
+                MoveToPoint(movePoint, MOVING_STYLE.Lerp);
+                break;
+
+            case MOVINGDIR.SIDE:
+                MoveToPoint(movePoint, MOVING_STYLE.SmoothDamp);
+                break;
+        }        
     }
     
     private void STRUGGLE_summonTotem()
