@@ -76,11 +76,8 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         {
             playerPos = PositionLocalized(mPlayer.transform.position);
 
-            if (mRenderer == null) {
-                Debug.Assert(TryGetComponent(out mRenderer));
-            }
-            return ( mRenderer.flipX && playerPos.x < transform.position.x) ||
-                   (!mRenderer.flipX && playerPos.x > transform.position.x);
+            return ( SpriteFlipX && playerPos.x < transform.position.x) ||
+                   (!SpriteFlipX && playerPos.x > transform.position.x);
         }
         playerPos = Vector2.zero;
 
@@ -98,11 +95,8 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         {
             Vector2 playerPos = PositionLocalized(mPlayer.transform.position);
 
-            if (mRenderer == null) {
-                Debug.Assert(TryGetComponent(out mRenderer));
-            }
-            return ( mRenderer.flipX && playerPos.x < transform.position.x) ||
-                   (!mRenderer.flipX && playerPos.x > transform.position.x);
+            return (SpriteFlipX && playerPos.x < transform.position.x) ||
+                   (SpriteFlipX && playerPos.x > transform.position.x);
         }
         return false;
     }
@@ -150,11 +144,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         {
             StopCoroutine(mEMove);
         }
-        if (mRenderer == null)
-        {
-            Debug.Assert(TryGetComponent(out mRenderer));
-        }
-        mRenderer.flipX = point.x < transform.localPosition.x;
+        SpriteFlipX = point.x < transform.localPosition.x;
 
         StartCoroutine(mEMove = EMove(point));
     }
