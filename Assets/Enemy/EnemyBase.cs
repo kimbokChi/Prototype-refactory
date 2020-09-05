@@ -20,8 +20,6 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
     [SerializeField][Range(0.00f, 1f)] protected float mRangeOffset;
 
-    [SerializeField] protected float mMoveSpeed;
-
     protected SpriteRenderer mRenderer;
 
     protected bool  IsMoveFinish => mIsMoveFinish;
@@ -29,10 +27,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
     protected float WaitMoveTime
     {
-        get
-        {
-            return Random.Range(mWaitForMoveMin, mWaitForMoveMax);
-        }
+        get => Random.Range(mWaitForMoveMin, mWaitForMoveMax);
     }
 
     protected Player mPlayer;
