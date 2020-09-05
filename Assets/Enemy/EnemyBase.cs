@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MOVING_STYLE { Lerp, SmoothDamp }
+
 public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 {
     public float DeltaTime => Time.deltaTime * Time.timeScale;
@@ -146,7 +148,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     /// </para>
     /// </summary>
     #endregion
-    protected void MoveToPoint(Vector2 point)
+    protected void MoveToPoint(Vector2 point, MOVING_STYLE style = MOVING_STYLE.SmoothDamp)
     {
         if (mEMove != null)
         {
@@ -154,7 +156,16 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         }
         SpriteFlipX = point.x < transform.localPosition.x;
 
-        StartCoroutine(mEMove = EMove(point));
+        switch (style)
+        {
+            case MOVING_STYLE.Lerp:
+                StartCoroutine(mEMove = EMoveLerp(point));
+                break;
+
+            case MOVING_STYLE.SmoothDamp:
+                StartCoroutine(mEMove = EMoveSmooth(point));
+                break;
+        }
     }
     #region READ
     /// <summary>
@@ -162,7 +173,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     /// <para>플레이어가 있다면 해당 개체의 사정거리만큼 간격을 두고서, 플레이어를 향해 이동합니다.</para>
     /// </summary>
     #endregion
-    protected void MoveToPlayer(Vector2 movePoint)
+    protected void MoveToPlayer(Vector2 movePoint, MOVING_STYLE style = MOVING_STYLE.SmoothDamp)
     {
         Vector2 lookingDir = movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left;
 
@@ -177,7 +188,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
                 movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * mRange;
 
             }
-            MoveToPoint(movePoint);
+            MoveToPoint(movePoint, style);
         }
     }
 
@@ -198,7 +209,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         }
     }
 
-    private IEnumerator EMove(Vector2 movePoint)
+    private IEnumerator EMoveSmooth(Vector2 movePoint)
     {
         Vector2 refVelocity = Vector2.zero;
 
@@ -209,6 +220,27 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         while (Vector2.Distance(movePoint, transform.localPosition) > mMoveSmooth)
         {
             transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movePoint, ref refVelocity, 0.5f, GetAbility.RMoveSpeed, DeltaTime);
+
+            yield return null;
+        }
+        MoveStopEvent();
+
+        yield break;
+    }
+
+    private IEnumerator EMoveLerp(Vector2 movePoint)
+    {
+        float lerpAmount = 0f;
+
+        mIsMoveFinish = false;
+
+        movePoint = FitToMoveArea(movePoint);
+
+        while (lerpAmount < 1f)
+        {
+            lerpAmount = Mathf.Min(1f, lerpAmount + (DeltaTime * GetAbility.RMoveSpeed));
+
+            transform.localPosition = Vector2.Lerp(transform.localPosition, movePoint, lerpAmount);
 
             yield return null;
         }
