@@ -121,7 +121,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         {
             Attack();
 
-            lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * mDashSpeedScale * mAbilityTable.RMoveSpeed);
+            lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * mDashSpeedScale * mAbilityTable.RMoveSpeed);
 
             transform.localPosition = Vector2.Lerp(transform.localPosition, dashPoint, lerpAmount);
 

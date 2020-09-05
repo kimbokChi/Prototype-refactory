@@ -334,7 +334,7 @@ public class Chief : EnemyBase, IObject, ICombatable
     {
         for (int hit = 0; hit < swingCount; ++hit)
         {
-            for (float i = 0; i < 0.15f; i += Time.deltaTime * Time.timeScale) { yield return null; }
+            for (float i = 0; i < 0.15f; i += DeltaTime) { yield return null; }
 
             if (HasPlayerOnRange())
             {

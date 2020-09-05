@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 {
+    public float DeltaTime => Time.deltaTime * Time.timeScale;
+
     [SerializeField] protected float mWaitForMoveMin;
     [SerializeField] protected float mWaitForMoveMax;
 
@@ -176,11 +178,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
         while (Vector2.Distance(movePoint, transform.localPosition) > mMoveSmooth)
         {
-            float deltaTime = Time.deltaTime * Time.timeScale;
-
-            float moveSpeed = GetAbility.MoveSpeed + GetAbility.IMoveSpeed;
-
-            transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movePoint, ref refVelocity, 0.5f, moveSpeed, deltaTime);
+            transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movePoint, ref refVelocity, 0.5f, GetAbility.RMoveSpeed, DeltaTime);
 
             yield return null;
         }
