@@ -41,55 +41,10 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
     #region MEMBER
     /// <summary>
-    /// lookingDirection값을 통해서 플레이어를 바라보고 있는지의 여부를 반환합니다.
-    /// <para>
-    /// 만약 플레이어를 바라보고 있다면, 플레이어의 위치를 out메서드로 반환합니다.
-    /// </para>
+    /// lookingDirection값을 통해서 플레이어를 바라보고 있는지의 여부만을 반환합니다.
     /// </summary>
     #endregion
-    protected bool IsLookAtPlayer(out Vector2 playerPos, Vector2 lookingDirection)
-    {
-        if (mPlayer != null)
-        {
-            playerPos = PositionLocalized(mPlayer.transform.position);
-
-            if (mRenderer == null)
-            {
-                Debug.Assert(TryGetComponent(out mRenderer));
-            }
-
-            // LOOK AT THE LEFT
-            if (lookingDirection.x < 0)
-            {
-                if (playerPos.x < transform.position.x)
-                {
-                    return true;
-                }
-            }
-
-            // LOOK AT THE RIGHT
-            else if(lookingDirection.x > 0)
-            {
-                if (playerPos.x > transform.position.x)
-                {
-                    return true;
-                }
-            }
-        }
-        playerPos = Vector2.zero;
-
-        return false;
-    }
-
-    #region MEMBER
-    /// <summary>
-    /// lookingDirection값을 통해서 플레이어를 바라보고 있는지의 여부를 반환합니다.
-    /// <para>
-    /// 만약 플레이어를 바라보고 있다면, 플레이어의 위치를 out메서드로 반환합니다.
-    /// </para>
-    /// </summary>
-    #endregion
-    protected bool IsLookAtPlayer(Vector2 lookingDirection)
+    protected bool CanLookAtPlayer(Vector2 lookingDirection)
     {
         if (mPlayer != null)
         {
@@ -163,10 +118,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
     #region MEMBER
     /// <summary>
-    /// 해당 개체의 Sprite Flip값을 통해서 플레이어를 바라보고 있는지의 여부를 반환합니다.
-    /// <para>
-    /// 만약 플레이어를 바라보고 있다면, 플레이어의 위치를 out메서드로 반환합니다.
-    /// </para>
+    /// 해당 개체의 Sprite Flip값을 통해서 플레이어를 바라보고 있는지의 여부만을 반환합니다.
     /// </summary>
     #endregion
     protected bool IsLookAtPlayer()

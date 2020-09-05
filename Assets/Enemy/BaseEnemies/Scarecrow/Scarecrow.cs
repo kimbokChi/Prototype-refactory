@@ -55,7 +55,7 @@ public class Scarecrow : EnemyBase
 
                     Vector2 playerPos;
 
-                    if ((IsLookAtPlayer(lookingDir) || IsLookAtPlayer()) && mPlayer.Position(out playerPos))
+                    if ((CanLookAtPlayer(lookingDir) || IsLookAtPlayer()) && mPlayer.Position(out playerPos))
                     {
                         movePoint = PositionLocalized(playerPos);
 

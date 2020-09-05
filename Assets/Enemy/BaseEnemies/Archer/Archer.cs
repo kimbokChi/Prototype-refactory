@@ -64,7 +64,7 @@ public class Archer : EnemyBase, IObject, ICombatable
 
                     Vector2 playerPos;
 
-                    if ((IsLookAtPlayer(lookingDir) || IsLookAtPlayer()) && mPlayer.Position(out playerPos))
+                    if ((CanLookAtPlayer(lookingDir) || IsLookAtPlayer()) && mPlayer.Position(out playerPos))
                     {
                         movePoint = PositionLocalized(playerPos);
 
