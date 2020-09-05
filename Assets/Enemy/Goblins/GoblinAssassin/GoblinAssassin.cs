@@ -79,7 +79,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         }
         else if (mWaitForMoving.IsOver())
         {
-            if (IsMoveFinish && !IsInReachPlayer())
+            if (IsMoveFinish && !HasPlayerOnRange())
             {
                 Vector2 movePoint;
 

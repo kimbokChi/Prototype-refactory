@@ -42,7 +42,7 @@ public class Scarecrow : EnemyBase
     {
         if (mWaitForMove.IsOver())
         {
-            if (IsMoveFinish && !IsInReachPlayer())
+            if (IsMoveFinish && !HasPlayerOnRange())
             {
                 Vector2 movePoint;
 
@@ -59,7 +59,7 @@ public class Scarecrow : EnemyBase
                     {
                         movePoint = PositionLocalized(playerPos);
 
-                        if (!IsPointOnRange(movePoint))
+                        if (!IsInRange(movePoint))
                         {
                             movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * mRange;
 
@@ -74,7 +74,7 @@ public class Scarecrow : EnemyBase
             mWaitForMove.Update();
         }
 
-        if (IsInReachPlayer())
+        if (HasPlayerOnRange())
         {
             if (mWaitForATK.IsOver())
             {

@@ -51,7 +51,7 @@ public class Archer : EnemyBase, IObject, ICombatable
 
         if (mWaitForMoving.IsOver())
         {
-            if (IsMoveFinish && !IsInReachPlayer())
+            if (IsMoveFinish && !HasPlayerOnRange())
             {
                 Vector2 movePoint;
 
@@ -68,7 +68,7 @@ public class Archer : EnemyBase, IObject, ICombatable
                     {
                         movePoint = PositionLocalized(playerPos);
 
-                        if (!IsPointOnRange(movePoint))
+                        if (!IsInRange(movePoint))
                         {
                             movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * mRange;
 
@@ -83,7 +83,7 @@ public class Archer : EnemyBase, IObject, ICombatable
             mWaitForMoving.Update();
         }
 
-        if (IsInReachPlayer())
+        if (HasPlayerOnRange())
         {
             if (mWaitForATK.IsOver())
             {

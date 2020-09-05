@@ -168,7 +168,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         switch (pattern)
         {
             case PATTERN.SWING_ROD:
-                if (!IsInReachPlayer())
+                if (!HasPlayerOnRange())
                 {
                     pattern = (PATTERN)Random.Range(1, (int)PATTERN.END);
                     
@@ -336,7 +336,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         {
             for (float i = 0; i < 0.15f; i += Time.deltaTime * Time.timeScale) { yield return null; }
 
-            if (IsInReachPlayer())
+            if (HasPlayerOnRange())
             {
                 mPlayer.Damaged(5f, gameObject);
 

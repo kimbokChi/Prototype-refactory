@@ -111,19 +111,16 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     /// 인자로 지정한 지점이 해당 개체의 사정거리안에 들어와 있는지를 반환합니다.
     /// </summary>
     #endregion
-    protected bool IsPointOnRange(Vector2 point)
+    protected bool IsInRange(Vector2 point)
     {
-        return (Vector2.Distance(point, transform.localPosition) <= mRange + mRangeOffset);
+        return Vector2.Distance(point, transform.localPosition) <= mRange + mRangeOffset;
     }
 
-    protected bool IsInReachPlayer()
+    protected bool HasPlayerOnRange()
     {
-        if (mPlayer != null)
+        if (IsLookAtPlayer(out Vector2 playerPoint))
         {
-            if (IsLookAtPlayer(out Vector2 playerPoint))
-            {
-                return IsPointOnRange(playerPoint);
-            }
+            return IsInRange(playerPoint);
         }
         return false;
     }
