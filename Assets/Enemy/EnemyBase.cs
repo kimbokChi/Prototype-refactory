@@ -20,6 +20,17 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
     [SerializeField][Range(0.00f, 1f)] protected float mRangeOffset;
 
+    protected bool SpriteFlipX
+    {
+        get
+        {
+            if (mRenderer == null) {
+                Debug.Assert(TryGetComponent(out mRenderer));
+            }
+            return mRenderer.flipX;
+        }
+        set => mRenderer.flipX = value;
+    }
     protected SpriteRenderer mRenderer;
 
     protected bool  IsMoveFinish => mIsMoveFinish;
