@@ -43,28 +43,10 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     {
         if (mPlayer != null)
         {
-            if (mRenderer == null)
-            {
-                Debug.Assert(TryGetComponent(out mRenderer));
-            }
+            Vector2 playerPos = PositionLocalized(mPlayer.transform.position);
 
-            // LOOK AT THE LEFT
-            if (lookingDirection.x < 0)
-            {
-                if (PositionLocalized(mPlayer.transform.position).x < transform.position.x)
-                {
-                    return true;
-                }
-            }
-
-            // LOOK AT THE RIGHT
-            else if (lookingDirection.x > 0)
-            {
-                if (PositionLocalized(mPlayer.transform.position).x > transform.position.x)
-                {
-                    return true;
-                }
-            }
+            return (lookingDirection.x < 0 && playerPos.x < transform.position.x) ||
+                   (lookingDirection.x > 0 && playerPos.x > transform.position.x);
         }
         return false;
     }
@@ -83,28 +65,11 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         {
             playerPos = PositionLocalized(mPlayer.transform.position);
 
-            if (mRenderer == null)
-            {
+            if (mRenderer == null) {
                 Debug.Assert(TryGetComponent(out mRenderer));
             }
-
-            // LOOK AT THE LEFT
-            if (mRenderer.flipX)
-            {
-                if (playerPos.x < transform.position.x)
-                {
-                    return true;
-                }
-            }
-
-            // LOOK AT THE RIGHT
-            else
-            {
-                if (playerPos.x > transform.position.x)
-                {
-                    return true;
-                }
-            }
+            return ( mRenderer.flipX && playerPos.x < transform.position.x) ||
+                   (!mRenderer.flipX && playerPos.x > transform.position.x);
         }
         playerPos = Vector2.zero;
 
@@ -120,28 +85,13 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     {
         if (mPlayer != null)
         {
-            if (mRenderer == null)
-            {
+            Vector2 playerPos = PositionLocalized(mPlayer.transform.position);
+
+            if (mRenderer == null) {
                 Debug.Assert(TryGetComponent(out mRenderer));
             }
-
-            // LOOK AT THE LEFT
-            if (mRenderer.flipX)
-            {
-                if (PositionLocalized(mPlayer.transform.position).x < transform.position.x)
-                {
-                    return true;
-                }
-            }
-
-            // LOOK AT THE RIGHT
-            else
-            {
-                if (PositionLocalized(mPlayer.transform.position).x > transform.position.x)
-                {
-                    return true;
-                }
-            }
+            return ( mRenderer.flipX && playerPos.x < transform.position.x) ||
+                   (!mRenderer.flipX && playerPos.x > transform.position.x);
         }
         return false;
     }
