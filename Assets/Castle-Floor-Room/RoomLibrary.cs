@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ROOM_NUMBER
+{
+    ZERO_ZERO_ZERO,
+    ZERO_ZERO_ONE,
+    ZERO_ZERO_TWO,
+    END
+}
 public class RoomLibrary : Singleton<RoomLibrary>
 {
     [SerializeField]

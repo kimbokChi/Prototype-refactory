@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum ITEM_RATING
+{
+    COMMON, RARE, EPIC, LEGENDARY
+}
 public class ItemLibrary : Singleton<ItemLibrary>
 {
     public const float    COMMON_PROBABILITY =  0.4f; // 40%

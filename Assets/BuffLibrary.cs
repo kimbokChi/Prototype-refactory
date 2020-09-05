@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BUFF
+{
+    HEAL, SPEEDUP, POWER_BOOST
+}
 public class BuffLibrary : Singleton<BuffLibrary>
 {
     public const float HEAL = 15f;

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
+public enum SLOT_TYPE
+{
+    CONTAINER, ACCESSORY, WEAPON
+}
 public class ItemSlot : MonoBehaviour
 {
     public  Item  ContainItem => mContainItem;
