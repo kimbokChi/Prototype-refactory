@@ -51,22 +51,9 @@ public class Scarecrow : EnemyBase
 
                 if (mPlayer != null)
                 {
-                    Vector2 lookingDir = movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left;
-
-                    Vector2 playerPos;
-
-                    if ((CanLookAtPlayer(lookingDir) || IsLookAtPlayer()) && mPlayer.Position(out playerPos))
-                    {
-                        movePoint = PositionLocalized(playerPos);
-
-                        if (!IsInRange(movePoint))
-                        {
-                            movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * mRange;
-
-                        }    
-                    }
+                    MoveToPlayer(movePoint);
                 }
-                MoveToPoint(movePoint);
+                else MoveToPoint(movePoint);
             }
         }
         else

@@ -150,6 +150,30 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
         StartCoroutine(mEMove = EMove(point));
     }
+    #region READ
+    /// <summary>
+    /// 플레이어를 인지했다는 가정 하에, 이동하려는 방향이나 현재 바라보는 방향에 
+    /// <para>플레이어가 있다면 해당 개체의 사정거리만큼 간격을 두고서, 플레이어를 향해 이동합니다.</para>
+    /// </summary>
+    #endregion
+    protected void MoveToPlayer(Vector2 movePoint)
+    {
+        Vector2 lookingDir = movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left;
+
+        Vector2 playerPos;
+
+        if ((CanLookAtPlayer(lookingDir) || IsLookAtPlayer()) && mPlayer.Position(out playerPos))
+        {
+            movePoint = PositionLocalized(playerPos);
+
+            if (!IsInRange(movePoint))
+            {
+                movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * mRange;
+
+            }
+            MoveToPoint(movePoint);
+        }
+    }
 
     #region EVENT
     /// <summary>
