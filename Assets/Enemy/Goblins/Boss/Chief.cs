@@ -121,10 +121,6 @@ public class Chief : EnemyBase, IObject, ICombatable
 
                     PATTERN_summonBombTotem();
                     break;
-
-                default:
-                    Debug.Log($"{mCastingPATTERN} is undefined");
-                    break;
             }
             mCanCastPATTERN = false;
         }
@@ -176,10 +172,6 @@ public class Chief : EnemyBase, IObject, ICombatable
                         pattern = PATTERN.SUMMON_TOTEM;
                     }
                 }
-                break;
-
-            default:
-                Debug.Log($"{mCastingPATTERN}s throw condition is undefined");
                 break;
         }
         return pattern;
@@ -296,13 +288,11 @@ public class Chief : EnemyBase, IObject, ICombatable
         {
             case MOVINGDIR.UP:
             case MOVINGDIR.DOWN:
-                Debug.Log("UP/DOWN");
 
                 MoveToPoint(movePoint, MOVING_STYLE.Lerp);
                 break;
 
             case MOVINGDIR.SIDE:
-                Debug.Log("SIDE");
 
                 MoveToPoint(movePoint, MOVING_STYLE.SmoothDamp);
                 break;
@@ -372,7 +362,6 @@ public class Chief : EnemyBase, IObject, ICombatable
             {
                 mPlayer.Damaged(5f, gameObject);
 
-                Debug.Log("Continuous-Attack-!");
             }
         }
         mESwingRod = null; EndOfPattern();

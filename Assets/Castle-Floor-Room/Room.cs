@@ -112,14 +112,10 @@ public class Room : MonoBehaviour
         if (mPlayer == null)
         {
             @object.PlayerExit(mLastMessage);
-
-            Debug.Log($"EXIT : {mLastMessage}");
         }
         else
         {
             @object.PlayerEnter(mLastMessage, mPlayer);
-
-            Debug.Log($"ENTER : {mLastMessage}");
         }
     }
 

@@ -69,7 +69,6 @@ public class BombTotem : MonoBehaviour, IObject
         {
             mPlayer.Damaged(mDamage, gameObject);
 
-            Debug.Log("BOOOOOM!!!");
         }
         mWaitForFuse.Start(mWaitNextFuse);
 
