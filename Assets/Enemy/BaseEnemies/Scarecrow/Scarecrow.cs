@@ -7,8 +7,6 @@ public class Scarecrow : EnemyBase
     private Timer mWaitForATK;
     private Timer mWaitForMove;
 
-    [SerializeField] private AbilityTable mAbilityTable;
-
     private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
 
     public override AbilityTable GetAbility => mAbilityTable;

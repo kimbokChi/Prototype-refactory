@@ -22,7 +22,6 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     [Range(0f, 1f)]
     [SerializeField] private float mMovingProbablity;
-    [SerializeField] private AbilityTable mAbilityTable;
 
     [Header("Totems")]
     [SerializeField] private GameObject[]  mTotems;

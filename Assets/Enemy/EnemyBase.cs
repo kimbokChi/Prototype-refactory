@@ -25,6 +25,8 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
     [SerializeField][Range(0.00f, 1f)] protected float mRangeOffset;
 
+    [SerializeField] protected AbilityTable mAbilityTable;
+
     protected bool SpriteFlipX
     {
         get

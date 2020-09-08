@@ -5,9 +5,6 @@ using UnityEngine;
 public class Summoner : EnemyBase, IObject, ICombatable
 {
     [SerializeField]
-    private AbilityTable mAbilityTable;
-
-    [SerializeField]
     private GameObject mSummonTagret;
 
     [SerializeField]

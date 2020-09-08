@@ -5,9 +5,6 @@ using UnityEngine;
 public class GoblinAssassin : EnemyBase, IObject, ICombatable
 {
     [SerializeField]
-    private AbilityTable mAbilityTable;
-
-    [SerializeField]
     private Area mContactArea;
 
     [SerializeField][Range(0f, 5f)]

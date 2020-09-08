@@ -5,9 +5,6 @@ using UnityEngine;
 public class Archer : EnemyBase, IObject, ICombatable
 {
     [SerializeField]
-    private AbilityTable mAbilityTable;
-
-    [SerializeField]
     private Arrow mArrow;
 
     [SerializeField]
