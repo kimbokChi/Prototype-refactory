@@ -252,10 +252,24 @@ public class Chief : EnemyBase, IObject, ICombatable
         {
             case MOVINGDIR.DOWN:
                 nextLocation = ((int)(mLocation9 + 3) > MAX) ? mLocation9 : mLocation9 + 3;
+
+                // 아래로 이동할 수 없을 때에는, 위로 이동하도록 한다
+                if (nextLocation.Equals(mLocation9))
+                {
+                    movingDIR = MOVINGDIR.UP;
+                    nextLocation = mLocation9 - 3;
+                }
                 break;
 
             case MOVINGDIR.UP:
                 nextLocation = ((int)(mLocation9 - 3) < MIN) ? mLocation9 : mLocation9 - 3;
+
+                // 위로 이동할 수 없을 때에는, 아래로 이동하도록 한다
+                if (nextLocation.Equals(mLocation9))
+                {
+                    movingDIR = MOVINGDIR.DOWN;
+                    nextLocation = mLocation9 + 3;
+                }
                 break;
         }
         Vector2 movePoint = Vector2.zero;
