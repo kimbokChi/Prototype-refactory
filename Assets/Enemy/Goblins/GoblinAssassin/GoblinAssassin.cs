@@ -22,8 +22,6 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
     private IEnumerator mEDash;
 
-    public override AbilityTable GetAbility => mAbilityTable;
-
     public override void CastBuff(BUFF buffType, IEnumerator castedBuff)
     {
         StartCoroutine(castedBuff);

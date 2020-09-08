@@ -289,7 +289,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     }
 
     #region interfaces : 
-    public abstract AbilityTable GetAbility { get; }
+    public AbilityTable GetAbility { get => mAbilityTable; }
 
     public abstract void IInit();
     public abstract bool IsActive();

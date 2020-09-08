@@ -9,8 +9,6 @@ public class Scarecrow : EnemyBase
 
     private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
 
-    public override AbilityTable GetAbility => mAbilityTable;
-
     public override void Damaged(float damage, GameObject attacker)
     {
         if ((mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)

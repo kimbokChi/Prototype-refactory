@@ -48,8 +48,6 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private Dictionary<STAT_ON_TABLE, float> mPersonalStatTable;
 
-    public override AbilityTable GetAbility => mAbilityTable;
-
     public override void Damaged(float damage, GameObject attacker)
     {
         if ((mPersonalStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
