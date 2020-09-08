@@ -8,6 +8,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 {
     public float DeltaTime => Time.deltaTime * Time.timeScale;
 
+    [Header("Ability")]
     [SerializeField] protected float mWaitForMoveMin;
     [SerializeField] protected float mWaitForMoveMax;
 

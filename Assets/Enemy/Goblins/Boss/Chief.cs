@@ -20,16 +20,19 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private PATTERN mCastingPATTERN;
 
-    [SerializeField] private Vector2 mTotemSummonOffset;
+    [Range(0f, 1f)]
+    [SerializeField] private float mMovingProbablity;
+    [SerializeField] private AbilityTable mAbilityTable;
+
+    [Header("Totems")]
     [SerializeField] private GameObject[]  mTotems;
     [SerializeField] private GameObject mBombTotem;
+    [SerializeField] private Vector2 mTotemSummonOffset;
 
+    [Header("Goblins")]
     [SerializeField] private GameObject mGoblinNormal;
     [SerializeField] private GameObject mGoblinDart;
     [SerializeField] private GameObject mGoblinAssassin;
-
-    [Range(0f, 1f)]
-    [SerializeField] private float mMovingProbablity;
 
     private Room[] mFloorRooms;
 
@@ -42,7 +45,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private IEnumerator mESwingRod;
 
-    [SerializeField] private AbilityTable mAbilityTable;
+    
 
     private Dictionary<STAT_ON_TABLE, float> mPersonalStatTable;
 
