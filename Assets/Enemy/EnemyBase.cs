@@ -260,23 +260,27 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
     public Vector2 FitToMoveArea(Vector2 vector)
     {
-        for (int i = 0; i < 2; i++)
+        if (vector.x < -mHalfMoveRangeX + mOriginPosition.x)
         {
-            float element = i.Equals(0) ? vector.x : vector.y;
-
-            if (element < -mHalfMoveRangeX + mOriginPosition.x)
+            vector.x = -mHalfMoveRangeX + mOriginPosition.x;
+        }
+        else
+        {
+            if (vector.x > mHalfMoveRangeX + mOriginPosition.x)
             {
-                element = -mHalfMoveRangeX + mOriginPosition.x;
+                vector.x = mHalfMoveRangeX + mOriginPosition.x;
             }
-            else
+        }
+        if (vector.y < -mHalfMoveRangeY + mOriginPosition.y)
+        {
+            vector.y = -mHalfMoveRangeY + mOriginPosition.y;
+        }
+        else
+        {
+            if (vector.y > mHalfMoveRangeY + mOriginPosition.y)
             {
-                if (element > mHalfMoveRangeX + mOriginPosition.x)
-                {
-                    element = mHalfMoveRangeX + mOriginPosition.x;
-                }
+                vector.y = mHalfMoveRangeY + mOriginPosition.y;
             }
-            if (i.Equals(0)) vector.x = element;
-            else             vector.y = element;
         }
         return vector;
     }

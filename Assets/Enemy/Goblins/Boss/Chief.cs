@@ -252,15 +252,30 @@ public class Chief : EnemyBase, IObject, ICombatable
         {
             case MOVINGDIR.DOWN:
                 nextLocation = ((int)(mLocation9 + 3) > MAX) ? mLocation9 : mLocation9 + 3;
+
+                // 아래로 이동할 수 없을 때에는, 위로 이동하도록 한다
+                if (nextLocation.Equals(mLocation9))
+                {
+                    movingDIR = MOVINGDIR.UP;
+                    nextLocation = mLocation9 - 3;
+                }
                 break;
 
             case MOVINGDIR.UP:
                 nextLocation = ((int)(mLocation9 - 3) < MIN) ? mLocation9 : mLocation9 - 3;
+
+                // 위로 이동할 수 없을 때에는, 아래로 이동하도록 한다
+                if (nextLocation.Equals(mLocation9))
+                {
+                    movingDIR = MOVINGDIR.DOWN;
+                    nextLocation = mLocation9 + 3;
+                }
                 break;
         }
         Vector2 movePoint = Vector2.zero;
 
-        if (nextLocation != mLocation9) // 위 아래 이동
+        // 위 아래 이동
+        if (movingDIR.Equals(MOVINGDIR.DOWN) || movingDIR.Equals(MOVINGDIR.UP)) 
         {
             movePoint = mOriginPosition;
 
@@ -270,7 +285,8 @@ public class Chief : EnemyBase, IObject, ICombatable
 
             mLocation9 = nextLocation;
         }
-        else // 좌우 이동
+        // 좌우 이동
+        else if (movingDIR.Equals(MOVINGDIR.SIDE)) 
         {
             movePoint.y += transform.localPosition.y;
 
@@ -280,10 +296,14 @@ public class Chief : EnemyBase, IObject, ICombatable
         {
             case MOVINGDIR.UP:
             case MOVINGDIR.DOWN:
+                Debug.Log("UP/DOWN");
+
                 MoveToPoint(movePoint, MOVING_STYLE.Lerp);
                 break;
 
             case MOVINGDIR.SIDE:
+                Debug.Log("SIDE");
+
                 MoveToPoint(movePoint, MOVING_STYLE.SmoothDamp);
                 break;
         }        
