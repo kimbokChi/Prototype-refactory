@@ -1,23 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Timer
 {
-    private float mWaitTime;
-    private float mWaitTimeSum;
+    public float WaitTime;
+    public float WaitTimeSum;
 
-    public void Start(float waitTime)
+    public void Start(float waitTime = 0f)
     {
-        mWaitTime = waitTime;
+        WaitTime = waitTime.Equals(0f) ? WaitTime : waitTime;
 
-        mWaitTimeSum = 0.0f;
+        WaitTimeSum = 0.0f;
     }
 
     public void Update()
     {
-        mWaitTimeSum += Time.deltaTime * Time.timeScale;
+        WaitTimeSum += Time.deltaTime * Time.timeScale;
     }
 
-    public bool IsOver() => mWaitTimeSum >= mWaitTime;
+    public bool IsOver() => WaitTimeSum >= WaitTime;
 }
