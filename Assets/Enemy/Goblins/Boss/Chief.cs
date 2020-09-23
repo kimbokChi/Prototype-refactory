@@ -6,6 +6,10 @@ public class Chief : EnemyBase, IObject, ICombatable
 {
     public const float  FIRST_STRUGGLE_HP_CONDITION = 0.5f;
     public const float SECOND_STRUGGLE_HP_CONDITION = 0.3f;
+
+    public float HealthPercent
+    { get => mAbilityTable.Table[Ability.CurHealth] / mAbilityTable.Table[Ability.MaxHealth]; }
+
     private enum MOVINGDIR
     {
         DOWN, UP, SIDE
@@ -44,13 +48,9 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private IEnumerator mESwingRod;
 
-    
-
-    private Dictionary<STAT_ON_TABLE, float> mPersonalStatTable;
-
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mPersonalStatTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -58,8 +58,6 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     public override void IInit()
     {
-        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalStatTable));
-
         mWaitForCastPattern = new Timer();
 
         mFloorRooms = Castle.Instnace.GetFloorRooms();
@@ -85,7 +83,7 @@ public class Chief : EnemyBase, IObject, ICombatable
     {
         if (!mHasTheFirstSTRUGGLE)
         {
-            if (mAbilityTable.CurHealth / mAbilityTable.MaxHealth <= FIRST_STRUGGLE_HP_CONDITION)
+            if (HealthPercent <= FIRST_STRUGGLE_HP_CONDITION)
             {
                 STRUGGLE_summonTotem();
 
@@ -94,7 +92,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         }
         if (!mHasTheSecondSTRUGGLE)
         {
-            if (mAbilityTable.CurHealth / mAbilityTable.MaxHealth <= SECOND_STRUGGLE_HP_CONDITION)
+            if (HealthPercent <= SECOND_STRUGGLE_HP_CONDITION)
             {
                 STRUGGLE_summonGoblin();
 

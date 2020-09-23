@@ -18,8 +18,6 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
     private Dictionary<int, bool> mAttackedHashs;
 
-    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
-
     private IEnumerator mEDash;
 
     public override void CastBuff(BUFF buffType, IEnumerator castedBuff)
@@ -29,7 +27,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -38,8 +36,6 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
     public override void IInit()
     {
         mAttackedHashs = new Dictionary<int, bool>();
-
-        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
 
         mWaitForMoving = new Timer();
         mWaitForATK    = new Timer();
@@ -116,7 +112,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         {
             Attack();
 
-            lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * mDashSpeedScale * mAbilityTable.RMoveSpeed);
+            lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * mDashSpeedScale * mAbilityTable.MoveSpeed);
 
             transform.localPosition = Vector2.Lerp(transform.localPosition, dashPoint, lerpAmount);
 
@@ -139,7 +135,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
             {
                 mAttackedHashs.Add(hash, true);
 
-                combat[0].Damaged(mAbilityTable.RAttackPower, gameObject);
+                combat[0].Damaged(mAbilityTable.AttackPower, gameObject);
             }
         }
     }

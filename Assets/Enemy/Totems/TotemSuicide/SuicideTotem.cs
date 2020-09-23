@@ -8,8 +8,6 @@ public class SuicideTotem : MonoBehaviour, IObject, ICombatable
     [SerializeField] private AbilityTable mAbilityTable;
     [SerializeField] private float mFuseTime;
 
-    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
-
     private bool mIsOnFuse;
 
     public AbilityTable GetAbility => mAbilityTable;
@@ -18,15 +16,13 @@ public class SuicideTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if ((mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0) {
+        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0) {
             gameObject.SetActive(false);
         }
     }
 
     public void IInit()
     {
-        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
-
         mIsOnFuse = false;
     }
 
@@ -63,7 +59,7 @@ public class SuicideTotem : MonoBehaviour, IObject, ICombatable
 
         for (int i = 0; i < combats.Length; ++i)
         {
-            combats[i].Damaged(mAbilityTable.RAttackPower, gameObject);
+            combats[i].Damaged(mAbilityTable.AttackPower, gameObject);
         }
         gameObject.SetActive(false);
     }

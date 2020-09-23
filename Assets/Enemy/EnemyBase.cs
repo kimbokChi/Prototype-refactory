@@ -222,7 +222,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
         while (Vector2.Distance(movePoint, transform.localPosition) > mMoveSmooth)
         {
-            transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movePoint, ref refVelocity, 0.5f, GetAbility.RMoveSpeed, DeltaTime);
+            transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movePoint, ref refVelocity, 0.5f, GetAbility.MoveSpeed, DeltaTime);
 
             yield return null;
         }
@@ -241,7 +241,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
         while (lerpAmount < 1f)
         {
-            lerpAmount = Mathf.Min(1f, lerpAmount + (DeltaTime * GetAbility.RMoveSpeed));
+            lerpAmount = Mathf.Min(1f, lerpAmount + (DeltaTime * GetAbility.MoveSpeed));
 
             transform.localPosition = Vector2.Lerp(transform.localPosition, movePoint, lerpAmount);
 

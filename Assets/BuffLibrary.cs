@@ -16,27 +16,27 @@ public class BuffLibrary : Singleton<BuffLibrary>
 
     private IEnumerable HealBuff(uint level, AbilityTable ability)
     {
-        ability.CurHealth += level * HEAL;
+        ability.Table[Ability.CurHealth] += level * HEAL;
 
         yield break;
     }
    
     private IEnumerable SpeedUpBuff(float durate, uint level, AbilityTable ability)
     {
-        ability.IMoveSpeed += ability.MoveSpeed * level * SPEEDUP;
+        ability.Table[Ability.IMoveSpeed] += ability.MoveSpeed * level * SPEEDUP;
 
         for (float i = 0; i < durate; i += DeltaTime) { yield return null; }
 
-        ability.IMoveSpeed -= ability.MoveSpeed * level * SPEEDUP;
+        ability.Table[Ability.IMoveSpeed] -= ability.MoveSpeed * level * SPEEDUP;
     }
   
     private IEnumerable PowerBoostBuff(float durate, uint level, AbilityTable ability)
     {
-        ability.IAttackPower += ability.AttackPower * level * POWER_BOOST;
+        ability.Table[Ability.IAttackPower] += ability.AttackPower * level * POWER_BOOST;
 
         for (float i = 0; i < durate; i += DeltaTime) { yield return null; }
 
-        ability.IAttackPower -= ability.AttackPower * level * POWER_BOOST;
+        ability.Table[Ability.IAttackPower] -= ability.AttackPower * level * POWER_BOOST;
     }
     
     #region READ

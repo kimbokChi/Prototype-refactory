@@ -17,11 +17,9 @@ public class Archer : EnemyBase, IObject, ICombatable
 
     private Pool<Arrow> mArrowPool;
     
-    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
-
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -29,8 +27,6 @@ public class Archer : EnemyBase, IObject, ICombatable
 
     public override void IInit()
     {
-        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
-
         mArrowPool = new Pool<Arrow>();
         mArrowPool.Init(mArrow, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
 
@@ -110,7 +106,7 @@ public class Archer : EnemyBase, IObject, ICombatable
 
     private void Arrow_targetHit(ICombatable combat)
     {
-        combat.Damaged(mAbilityTable.RAttackPower, gameObject);
+        combat.Damaged(mAbilityTable.AttackPower, gameObject);
     }
 
     private bool Arrow_canDistroy(uint hitCount)

@@ -17,11 +17,9 @@ public class Summoner : EnemyBase, IObject, ICombatable
 
     private Room mBelongRoom;
 
-    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
-
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -29,8 +27,6 @@ public class Summoner : EnemyBase, IObject, ICombatable
 
     public override void IInit()
     {
-        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
-
         Debug.Assert(transform.parent.TryGetComponent(out mBelongRoom));
 
         mWaitForSummon = new Timer();

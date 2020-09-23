@@ -18,8 +18,6 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
     [SerializeField] private float mDartSpeed;
     [SerializeField] private float mWaitNextShoot;
 
-    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
-
     private Pool<Arrow> mDartPool;
 
     private Player mPlayer;
@@ -35,7 +33,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if ((mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -46,8 +44,6 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
         mDartPool = new Pool<Arrow>();
 
         mDartPool.Init(mDartOrigin, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
-
-        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
 
         mWaitForShoot = new Timer();
 
@@ -129,7 +125,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     private void Arrow_targetHit(ICombatable combat)
     {
-        combat.Damaged(mAbilityTable.RAttackPower, gameObject);
+        combat.Damaged(mAbilityTable.AttackPower, gameObject);
     }
 
     private bool Arrow_canDistroy(uint hitCount)

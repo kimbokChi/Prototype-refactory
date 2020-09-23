@@ -31,8 +31,6 @@ public class Player : MonoBehaviour, ICombatable
     [SerializeField]
     private DIRECTION9 mLocation9;
 
-    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
-
     private IEnumerator mEMove;
 
     private List<Collider2D> mCollidersOnMove;
@@ -117,8 +115,6 @@ public class Player : MonoBehaviour, ICombatable
         mCollidersOnMove = new List<Collider2D>();
 
         Debug.Assert(mRangeArea.TryGetComponent(out mRnageCollider));
-
-        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
     }
 
     private void InputAction()
@@ -162,7 +158,7 @@ public class Player : MonoBehaviour, ICombatable
 
     private void CheckToDeath()
     {
-        mIsDeath = (mPersonalTable[STAT_ON_TABLE.CURHEALTH] <= 0f);
+        mIsDeath = (mAbilityTable.Table[Ability.CurHealth]) <= 0f;
 
         if (mIsDeath)
         {
@@ -262,7 +258,7 @@ public class Player : MonoBehaviour, ICombatable
 
         while (lerpAmount < 1)
         {
-            lerpAmount = Mathf.Min(1, lerpAmount + Time.deltaTime * Time.timeScale * mAbilityTable.RMoveSpeed);
+            lerpAmount = Mathf.Min(1, lerpAmount + Time.deltaTime * Time.timeScale * mAbilityTable.MoveSpeed);
 
             transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
 
@@ -307,7 +303,7 @@ public class Player : MonoBehaviour, ICombatable
 
         Inventory.Instnace.OnDamaged(ref damage, attacker, gameObject);
 
-        mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage / mDefense;
+        mAbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
 
         mBlinkTimer.Start(mBlinkTime);
     }

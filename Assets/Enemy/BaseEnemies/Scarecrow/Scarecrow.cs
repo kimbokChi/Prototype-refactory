@@ -7,11 +7,9 @@ public class Scarecrow : EnemyBase
     private Timer mWaitForATK;
     private Timer mWaitForMove;
 
-    private Dictionary<STAT_ON_TABLE, float> mPersonalTable;
-
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mPersonalTable[STAT_ON_TABLE.CURHEALTH] -= damage) <= 0)
+        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -21,8 +19,6 @@ public class Scarecrow : EnemyBase
     {
         mWaitForATK  = new Timer();
         mWaitForMove = new Timer();
-
-        Debug.Assert(mAbilityTable.GetTable(gameObject.GetHashCode(), out mPersonalTable));
 
         mWaitForATK.Start(mWaitATKTime);
     }
@@ -59,7 +55,7 @@ public class Scarecrow : EnemyBase
         {
             if (mWaitForATK.IsOver())
             {
-                mPlayer.Damaged(mAbilityTable.RAttackPower, gameObject);
+                mPlayer.Damaged(mAbilityTable.AttackPower, gameObject);
 
                 mWaitForATK.Start(mWaitATKTime);
             }
