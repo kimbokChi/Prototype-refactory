@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,63 +8,55 @@ public class Pool<T> where T : MonoBehaviour
 {
     private T mOriginInstance;
 
-    private Stack<T> mInOfPool;
+    private Stack<T> mInThePool;
 
-    private List<T> mOutOfPool;
+    private List<T> mOutThePool;
 
     private Action<T> PopMethod;
     private Action<T> AddMethod;
 
-    private Func<T, bool> ReturnToPoolMethod;
+    private Func<T, bool> CanReturnOfPool;
 
-    public void Init(T origin, Action<T> popMethod, Action<T> addMethod, Func<T, bool> returnToPoolMethod)
+    public void Init(T origin, Action<T> popMethod, Action<T> addMethod, Func<T, bool> canReturnOfPool)
     {
         mOriginInstance = origin;
 
-        mInOfPool = new Stack<T>();
-        mOutOfPool = new List<T>();
+        mInThePool = new Stack<T>();
+        mOutThePool = new List<T>();
 
         PopMethod = popMethod;
         AddMethod = addMethod;
 
-        ReturnToPoolMethod = returnToPoolMethod;
+        CanReturnOfPool = canReturnOfPool;
     }
 
     public void Update()
     {
-        if (ReturnToPoolMethod != null)
+        if (CanReturnOfPool != null)
         {
-            for (int i = 0; i < mOutOfPool.Count; i++)
-            {
-                if (ReturnToPoolMethod.Invoke(mOutOfPool[i]))
-                {
-                    Add(mOutOfPool[i]);
+            var returnO = mInThePool.Where(o => CanReturnOfPool(o)).ToList();
 
-                    mOutOfPool.RemoveAt(i);
-                }
-            }
+            returnO.ForEach(o => Add(o));
+            returnO.ForEach(o => mOutThePool.Remove(o));
         }
     }
 
     public void Add(T instance)
     {
-        mInOfPool.Push(instance);
+        mInThePool.Push(instance);
 
-        if (AddMethod != null)
-        {
-            AddMethod.Invoke(instance);
-        }      
+        AddMethod?.Invoke(instance);
     }
 
     public T Pop()
     {
         T instance;
 
-        if (mInOfPool.Count == 0)
+        if (mInThePool.Count == 0)
         {
-            mInOfPool.Push(instance = MonoBehaviour.Instantiate(mOriginInstance));
+            mInThePool.Push(instance = MonoBehaviour.Instantiate(mOriginInstance));
         }
-        mOutOfPool.Add(instance = mInOfPool.Pop());
+        mOutThePool.Add(instance = mInThePool.Pop());
 
         PopMethod.Invoke(instance);
 
