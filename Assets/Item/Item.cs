@@ -20,21 +20,7 @@ public abstract class Item : MonoBehaviour
     }
     protected Sprite mSprite;
 
-    public virtual ITEM_RATING RATING
-    {
-        get
-        {
-            return ITEM_RATING.COMMON;
-        }
-    }
-    public virtual ITEM_DATA DATA
-    {
-        get
-        {
-            return ITEM_DATA.GOLDEN_FLIP;
-        }
-    }
-
+    public virtual ItemRating Rating => ItemRating.Common;
     public virtual float WeaponRange
     {
         get 

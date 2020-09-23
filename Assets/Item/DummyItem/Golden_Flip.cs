@@ -6,9 +6,7 @@ public class Golden_Flip : Item
 {
     public override float WeaponRange => 3.0f;
 
-    public override ITEM_RATING RATING => ITEM_RATING.LEGENDARY;
-
-    public override ITEM_DATA DATA => ITEM_DATA.GOLDEN_FLIP;
+    public override ItemRating Rating => ItemRating.Legendary;
 
     public override void OnEquipThis(SLOT_TYPE onSlot)
     {

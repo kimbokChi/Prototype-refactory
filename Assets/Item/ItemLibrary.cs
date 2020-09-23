@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public enum ITEM_RATING
+public enum ItemRating
 {
-    COMMON, RARE, EPIC, LEGENDARY
+    Common, Rare, Epic, Legendary
 }
 public class ItemLibrary : Singleton<ItemLibrary>
 {
@@ -17,22 +17,22 @@ public class ItemLibrary : Singleton<ItemLibrary>
     [SerializeField]
     private Item[] Items;
 
-    private Dictionary<ITEM_RATING, List<Item>> mLibrary;
+    private Dictionary<ItemRating, List<Item>> mLibrary;
 
     private float[] mProbabilityArray;
 
     private void Awake()
     {
-        mLibrary = mLibrary ?? new Dictionary<ITEM_RATING, List<Item>>();
+        mLibrary = mLibrary ?? new Dictionary<ItemRating, List<Item>>();
 
-        mLibrary.Add(ITEM_RATING.COMMON,    new List<Item>());
-        mLibrary.Add(ITEM_RATING.RARE,      new List<Item>());
-        mLibrary.Add(ITEM_RATING.EPIC,      new List<Item>());
-        mLibrary.Add(ITEM_RATING.LEGENDARY, new List<Item>());
+        mLibrary.Add(ItemRating.Common,    new List<Item>());
+        mLibrary.Add(ItemRating.Rare,      new List<Item>());
+        mLibrary.Add(ItemRating.Epic,      new List<Item>());
+        mLibrary.Add(ItemRating.Legendary, new List<Item>());
 
         for (int i = 0; i < Items.Length; ++i)
         {
-            mLibrary[Items[i].RATING].Add(Items[i]);
+            mLibrary[Items[i].Rating].Add(Items[i]);
         }
         mProbabilityArray = new float[4] 
         {
@@ -50,11 +50,11 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
         for (int i = 0; i < 4; i++)
         {
-            sum += (mLibrary[(ITEM_RATING)i].Count == 0) ? 0 : mProbabilityArray[i];
+            sum += (mLibrary[(ItemRating)i].Count == 0) ? 0 : mProbabilityArray[i];
 
             if (sum <= probability)
             {
-                ITEM_RATING rating = (ITEM_RATING)i;
+                ItemRating rating = (ItemRating)i;
 
                 int itemIndex = Random.Range(0, mLibrary[rating].Count);
 
