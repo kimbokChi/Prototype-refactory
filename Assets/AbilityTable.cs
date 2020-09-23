@@ -19,7 +19,6 @@ public class AbilityTable : MonoBehaviour
         }
     }
     private Dictionary<Ability, float> mTable;
-
     private void Init()
     {
         mTable = new Dictionary<Ability, float>();
@@ -30,10 +29,10 @@ public class AbilityTable : MonoBehaviour
             {
                 case Ability.CurHealth:
                 case Ability.MaxHealth:
-                    mTable.Add(i, MaxHealth);
+                    mTable.Add(i, _MaxHealth);
                     break;
                 case Ability.AttackPower:
-                    mTable.Add(i, AttackPower);
+                    mTable.Add(i, _AttackPower);
                     break;
                 default:
                     mTable.Add(i, default);
@@ -41,7 +40,13 @@ public class AbilityTable : MonoBehaviour
             }
         }
     }
-    [SerializeField] private float MoveSpeed;
-    [SerializeField] private float MaxHealth;
-    [SerializeField] private float AttackPower;
+
+    public float MoveSpeed
+    { get => Table[Ability.MoveSpeed] + Table[Ability.IMoveSpeed]; }
+    public float AttackPower
+    { get => Table[Ability.AttackPower] + Table[Ability.IAttackPower]; }
+
+    [SerializeField] private float _MoveSpeed;
+    [SerializeField] private float _MaxHealth;
+    [SerializeField] private float _AttackPower;
 }
