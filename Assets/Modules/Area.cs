@@ -1,17 +1,19 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Area : MonoBehaviour
 {
     [SerializeField]
     private string[] mSenseTags;
     
-    private List<GameObject> mEnterObjects;
+    private List<GameObject> mSenseList;
 
     private void Awake()
     {
-        mEnterObjects = new List<GameObject>();
+        mSenseList = mSenseList ?? new List<GameObject>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -20,33 +22,23 @@ public class Area : MonoBehaviour
         {
             if (collision.CompareTag(mSenseTags[i]))
             {
-                mEnterObjects.Add(collision.gameObject);
+                mSenseList.Add(collision.gameObject);
 
                 break;
             }
         }
     }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
-        for (int i = 0; i < mSenseTags.Length; ++i)
-        {
-            if (collision.CompareTag(mSenseTags[i]))
-            {
-                mEnterObjects.Remove(collision.gameObject);
-
-                break;
-            }
-        }
+        mSenseList.Remove(collision.gameObject);
     }
-
     public bool TryEnterTypeT<T>(out T enterObject) where T : class
     {
         enterObject = null;
 
-        if (mEnterObjects.Count > 0)
+        if (mSenseList.Count > 0)
         {
-            if (mEnterObjects[0].TryGetComponent(out T instance)) {
+            if (mSenseList[0].TryGetComponent(out T instance)) {
 
                 enterObject = instance;
             }
@@ -58,9 +50,9 @@ public class Area : MonoBehaviour
     {
         List<T> TContainer = new List<T>();
 
-        for (int i = 0; i < mEnterObjects.Count; ++i)
+        for (int i = 0; i < mSenseList.Count; ++i)
         {
-            if (mEnterObjects[i].TryGetComponent(out T Instance))
+            if (mSenseList[i].TryGetComponent(out T Instance))
             {
                 TContainer.Add(Instance);
 
