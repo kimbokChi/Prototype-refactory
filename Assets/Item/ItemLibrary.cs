@@ -15,26 +15,26 @@ public class ItemLibrary : Singleton<ItemLibrary>
     public const float LEGENDARY_PROBABILITY = 0.05f; //  5%
 
     [SerializeField]
-    private List<Item> mItems;
+    private Item[] Items;
 
     private Dictionary<ITEM_RATING, List<Item>> mLibrary;
 
-    private float[] ProbabilityArray;
+    private float[] mProbabilityArray;
 
     private void Awake()
     {
-        mLibrary = new Dictionary<ITEM_RATING, List<Item>>();
+        mLibrary = mLibrary ?? new Dictionary<ITEM_RATING, List<Item>>();
 
-        mLibrary.Add(ITEM_RATING.COMMON, new List<Item>());
-        mLibrary.Add(ITEM_RATING.RARE, new List<Item>());
-        mLibrary.Add(ITEM_RATING.EPIC, new List<Item>());
+        mLibrary.Add(ITEM_RATING.COMMON,    new List<Item>());
+        mLibrary.Add(ITEM_RATING.RARE,      new List<Item>());
+        mLibrary.Add(ITEM_RATING.EPIC,      new List<Item>());
         mLibrary.Add(ITEM_RATING.LEGENDARY, new List<Item>());
 
-        for (int i = 0; i < mItems.Count; ++i)
+        for (int i = 0; i < Items.Length; ++i)
         {
-            mLibrary[mItems[i].RATING].Add(mItems[i]);
+            mLibrary[Items[i].RATING].Add(Items[i]);
         }
-        ProbabilityArray = new float[4] 
+        mProbabilityArray = new float[4] 
         {
             COMMON_PROBABILITY, RARE_PROBABILITY, EPIC_PROBABILITY, LEGENDARY_PROBABILITY 
         };
@@ -42,83 +42,27 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     public Item GetRandomItem()
     {
-        ITEM_RATING returnRATING = ITEM_RATING.COMMON;
+        Item getItem = null;
 
         float probability = Random.value;
 
-        for (int i = 3; i >= 0; i--)
-        {
-            if (probability > 1 - ProbabilityArray[i])
-            {
-                returnRATING = (ITEM_RATING)i; break;
-            }
-        }
+        float sum = 0f;
+
         for (int i = 0; i < 4; i++)
         {
-            if (CanGetRatingItem(returnRATING, out Item returnItem)) {
-                return returnItem;
-            }
-            else if (returnRATING.Equals(ITEM_RATING.COMMON)) {
-                returnRATING = ITEM_RATING.LEGENDARY;
-            }
-            else returnRATING--;
-        }
-        return null;
-        #region
-        /*
-            if (probability <= COMMON_PROBABILITY)
-        {
-            for (ITEM_RATING RATING = ITEM_RATING.COMMON; !CanGetRatingItem(RATING, out returnItem) && RATING < ITEM_RATING.LEGENDARY; RATING++) { }
-        }
+            sum += (mLibrary[(ITEM_RATING)i].Count == 0) ? 0 : mProbabilityArray[i];
 
-        else if (probability - COMMON_PROBABILITY <= RARE_PROBABILITY)
-        {
-            if (!CanGetRatingItem(ITEM_RATING.RARE, out returnItem))
+            if (sum <= probability)
             {
-                if (!CanGetRatingItem(ITEM_RATING.EPIC, out returnItem))
-                {
-                    if (!CanGetRatingItem(ITEM_RATING.LEGENDARY, out returnItem))
-                    {
-                        CanGetRatingItem(ITEM_RATING.COMMON, out returnItem);
-                    }
-                }
+                ITEM_RATING rating = (ITEM_RATING)i;
+
+                int itemIndex = Random.Range(0, mLibrary[rating].Count);
+
+                getItem = mLibrary[rating][itemIndex];
+                          mLibrary[rating].RemoveAt(itemIndex);
+
             }
         }
-
-        else if (probability - COMMON_PROBABILITY - RARE_PROBABILITY <= EPIC_PROBABILITY)
-        {
-            if (!CanGetRatingItem(ITEM_RATING.EPIC, out returnItem))
-            {
-                if (!CanGetRatingItem(ITEM_RATING.LEGENDARY, out returnItem))
-                {
-                    if (!CanGetRatingItem(ITEM_RATING.RARE, out returnItem))
-                    {
-                        CanGetRatingItem(ITEM_RATING.COMMON, out returnItem);
-                    }
-                }
-            }
-        }
-
-        else if (probability - COMMON_PROBABILITY - RARE_PROBABILITY - EPIC_PROBABILITY <= LEGENDARY_PROBABILITY)
-        {
-            for (ITEM_RATING RATING = ITEM_RATING.LEGENDARY; !CanGetRatingItem(RATING, out returnItem) && RATING > ITEM_RATING.COMMON; RATING--) { }
-        }
-        return returnItem;
-        */
-        #endregion
-    }
-
-    private bool CanGetRatingItem(ITEM_RATING RATING, out Item getItem)
-    {
-        getItem = null;
-
-        if (mLibrary[RATING].Count > 0)
-        {
-            int itemIndex = Random.Range(0, mLibrary[RATING].Count);
-
-            getItem = mLibrary[RATING][itemIndex];
-                      mLibrary[RATING].RemoveAt(itemIndex);
-        }
-        return getItem != null;
+        return getItem;
     }
 }
