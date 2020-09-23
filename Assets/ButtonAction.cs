@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class ButtonAction : MonoBehaviour
@@ -13,7 +11,7 @@ public class ButtonAction : MonoBehaviour
         SwitchingObject.SetActive(!SwitchingObject.activeSelf);
     }
 
-    public void GamePause()
+    public void PauseSwitching()
     {
         if (Time.timeScale > 0f)
         {
@@ -27,16 +25,7 @@ public class ButtonAction : MonoBehaviour
 
             Time.timeScale = 1f;
         }
-
     }
-
-    public void Resume()
-    {
-        ActiveSwitching();
-
-        GamePause();
-    }
-
     public void ReStart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
