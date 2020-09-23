@@ -13,11 +13,11 @@ public class Sliver_Flip : Item
         switch (offSlot)
         {
             case SLOT_TYPE.ACCESSORY:
-                Inventory.Instnace.MoveEndAction -= MoveEndAction;
+                Inventory.Instance.MoveEndAction -= MoveEndAction;
                 break;
 
             case SLOT_TYPE.WEAPON:
-                Inventory.Instnace.MoveBeginAction -= MoveBeginAction;
+                Inventory.Instance.MoveBeginAction -= MoveBeginAction;
                 break;
         }
     }
@@ -27,11 +27,11 @@ public class Sliver_Flip : Item
         switch (onSlot)
         {
             case SLOT_TYPE.ACCESSORY:
-                Inventory.Instnace.MoveEndAction += MoveEndAction;
+                Inventory.Instance.MoveEndAction += MoveEndAction;
                 break;
 
             case SLOT_TYPE.WEAPON:
-                Inventory.Instnace.MoveBeginAction += MoveBeginAction;
+                Inventory.Instance.MoveBeginAction += MoveBeginAction;
                 break;
         }
     }

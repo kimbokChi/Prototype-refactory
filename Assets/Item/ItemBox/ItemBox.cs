@@ -25,7 +25,7 @@ public class ItemBox : MonoBehaviour
             mAnimator.enabled = false;
         }
 
-        mContainItem = ItemLibrary.Instnace.GetRandomItem();
+        mContainItem = ItemLibrary.Instance.GetRandomItem();
 
         if (transform.GetChild(0).TryGetComponent(out mDropItem))
         {
@@ -67,7 +67,7 @@ public class ItemBox : MonoBehaviour
             {
                 mDropItem.Catch();
 
-                Inventory.Instnace.AddItem(mContainItem);
+                Inventory.Instance.AddItem(mContainItem);
             }
         }
     }

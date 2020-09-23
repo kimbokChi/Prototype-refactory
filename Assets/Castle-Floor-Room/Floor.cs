@@ -59,9 +59,9 @@ public class Floor : MonoBehaviour
     {
         if (!mIsSPECIALFloor)
         {
-            mMemberRooms[0] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[0].position, Quaternion.identity);
-            mMemberRooms[1] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[1].position, Quaternion.identity);
-            mMemberRooms[2] = Instantiate(RoomLibrary.Instnace.Random(), mRoomPoints[2].position, Quaternion.identity);
+            mMemberRooms[0] = Instantiate(RoomLibrary.Instance.Random(), mRoomPoints[0].position, Quaternion.identity);
+            mMemberRooms[1] = Instantiate(RoomLibrary.Instance.Random(), mRoomPoints[1].position, Quaternion.identity);
+            mMemberRooms[2] = Instantiate(RoomLibrary.Instance.Random(), mRoomPoints[2].position, Quaternion.identity);
         }
         mMemberRooms[0].IInit(this);
         mMemberRooms[1].IInit(this);

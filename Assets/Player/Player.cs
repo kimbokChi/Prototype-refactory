@@ -125,7 +125,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             if (GetLPOSITION3() == LPOSITION3.TOP)
             {
-                mCanElevation = Castle.Instnace.CanNextPoint();
+                mCanElevation = Castle.Instance.CanNextPoint();
             }
             if (!mCanElevation)
             {
@@ -188,13 +188,13 @@ public class Player : MonoBehaviour, ICombatable
         {
             mBlinkTimer.Update(); 
         }
-        mRnageCollider.radius = Inventory.Instnace.GetWeaponRange();
+        mRnageCollider.radius = Inventory.Instance.GetWeaponRange();
 
         if (mRangeArea.TryEnterTypeT(out GameObject challenger))
         {
             if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombatable combat))
             {
-                Inventory.Instnace.OnAttack(gameObject, combat);
+                Inventory.Instance.OnAttack(gameObject, combat);
 
                 mWaitATK.Start(WaitTimeATK);
             }
@@ -224,7 +224,7 @@ public class Player : MonoBehaviour, ICombatable
             // Move To Next Floor
             if (mCanElevation)
             {
-                if (Castle.Instnace.CanNextPoint(out Vector2 nextPoint))
+                if (Castle.Instance.CanNextPoint(out Vector2 nextPoint))
                 {
                     switch (mLocation9)
                     {
@@ -245,14 +245,14 @@ public class Player : MonoBehaviour, ICombatable
             // Move To MovePoint
             else if (moveDIR9 != DIRECTION9.END)
             {
-                StartCoroutine(mEMove = EMove(Castle.Instnace.GetMovePoint(moveDIR9), moveDIR9));
+                StartCoroutine(mEMove = EMove(Castle.Instance.GetMovePoint(moveDIR9), moveDIR9));
             }
         }
     }
 
     private IEnumerator EMove(Vector2 movePoint, DIRECTION9 moveDIR9)
     {
-        Inventory.Instnace.OnMoveBegin(movePoint.normalized);
+        Inventory.Instance.OnMoveBegin(movePoint.normalized);
 
         float lerpAmount = 0;
 
@@ -264,13 +264,13 @@ public class Player : MonoBehaviour, ICombatable
 
             yield return null;
         }
-        Inventory.Instnace.OnMoveEnd(mCollidersOnMove.ToArray());
+        Inventory.Instance.OnMoveEnd(mCollidersOnMove.ToArray());
 
         mCollidersOnMove.Clear();
 
         if (mCanElevation)
         {
-            // Inventory.Instnace.UseItem(ITEM_KEYWORD.ENTER);
+            // Inventory.Instance.UseItem(ITEM_KEYWORD.ENTER);
 
             mCanElevation = false;
         }
@@ -301,7 +301,7 @@ public class Player : MonoBehaviour, ICombatable
     {
         if (!mBlinkTimer.IsOver()) { return; }
 
-        Inventory.Instnace.OnDamaged(ref damage, attacker, gameObject);
+        Inventory.Instance.OnDamaged(ref damage, attacker, gameObject);
 
         mAbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
 

@@ -71,7 +71,7 @@ public class Finger : Singleton<Finger>
         {
             mChargeGauge.gameObject.SetActive(false);
 
-            Inventory.Instnace.OnCharge(mChargeGauge.Charge);
+            Inventory.Instance.OnCharge(mChargeGauge.Charge);
 
             mCurPressTime = 0;
 

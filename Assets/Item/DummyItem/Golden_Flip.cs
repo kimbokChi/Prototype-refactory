@@ -15,12 +15,12 @@ public class Golden_Flip : Item
         switch (onSlot)
         {
             case SLOT_TYPE.ACCESSORY:
-                Inventory.Instnace.ChargeAction += Charge;               
+                Inventory.Instance.ChargeAction += Charge;               
                 break;
 
             case SLOT_TYPE.WEAPON:
-                Inventory.Instnace.AttackAction += Combat;
-                Inventory.Instnace.BeDamagedAction += BeDamaged;
+                Inventory.Instance.AttackAction += Combat;
+                Inventory.Instance.BeDamagedAction += BeDamaged;
                 break;
         }
     }
@@ -30,12 +30,12 @@ public class Golden_Flip : Item
         switch (offSlot)
         {
             case SLOT_TYPE.ACCESSORY:
-                Inventory.Instnace.ChargeAction -= Charge;
+                Inventory.Instance.ChargeAction -= Charge;
                 break;
 
             case SLOT_TYPE.WEAPON:
-                Inventory.Instnace.AttackAction -= Combat;
-                Inventory.Instnace.BeDamagedAction -= BeDamaged;
+                Inventory.Instance.AttackAction -= Combat;
+                Inventory.Instance.BeDamagedAction -= BeDamaged;
                 break;
         }
     }

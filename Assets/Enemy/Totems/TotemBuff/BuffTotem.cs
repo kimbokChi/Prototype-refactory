@@ -51,15 +51,15 @@ public class BuffTotem : MonoBehaviour, IObject
             switch (mCastBuff)
             {
                 case BUFF.HEAL:
-                    combats[i].CastBuff(mCastBuff, BuffLibrary.Instnace.GetBurstBUFF(BUFF.HEAL, mLevel, stat));
+                    combats[i].CastBuff(mCastBuff, BuffLibrary.Instance.GetBurstBUFF(BUFF.HEAL, mLevel, stat));
                     break;
 
                 case BUFF.SPEEDUP:
-                    combats[i].CastBuff(mCastBuff, BuffLibrary.Instnace.GetSlowBUFF(BUFF.SPEEDUP, mLevel, mDurate, stat));
+                    combats[i].CastBuff(mCastBuff, BuffLibrary.Instance.GetSlowBUFF(BUFF.SPEEDUP, mLevel, mDurate, stat));
                     break;
 
                 case BUFF.POWER_BOOST:
-                    combats[i].CastBuff(mCastBuff, BuffLibrary.Instnace.GetSlowBUFF(BUFF.POWER_BOOST, mLevel,mDurate, stat));
+                    combats[i].CastBuff(mCastBuff, BuffLibrary.Instance.GetSlowBUFF(BUFF.POWER_BOOST, mLevel,mDurate, stat));
                     break;
             }
         }

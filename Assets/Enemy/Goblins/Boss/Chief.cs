@@ -60,7 +60,7 @@ public class Chief : EnemyBase, IObject, ICombatable
     {
         mWaitForCastPattern = new Timer();
 
-        mFloorRooms = Castle.Instnace.GetFloorRooms();
+        mFloorRooms = Castle.Instance.GetFloorRooms();
 
         mWaitForCastPattern.Start(mWaitATKTime);
 
@@ -271,7 +271,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
             movePoint.x += transform.localPosition.x;
 
-            movePoint.y += Castle.Instnace.GetMovePoint(nextLocation).y + 0.45f;
+            movePoint.y += Castle.Instance.GetMovePoint(nextLocation).y + 0.45f;
 
             mLocation9 = nextLocation;
         }

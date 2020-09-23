@@ -17,13 +17,13 @@ public class ButtonAction : MonoBehaviour
     {
         if (Time.timeScale > 0f)
         {
-            Castle.Instnace.PauseEnable();
+            Castle.Instance.PauseEnable();
 
             Time.timeScale = 0f;
         }
         else
         {
-            Castle.Instnace.PauseDisable();
+            Castle.Instance.PauseDisable();
 
             Time.timeScale = 1f;
         }
@@ -43,7 +43,7 @@ public class ButtonAction : MonoBehaviour
 
         #region Release Pause
 
-        Castle.Instnace.PauseDisable();
+        Castle.Instance.PauseDisable();
 
         Time.timeScale = 1f;
 
