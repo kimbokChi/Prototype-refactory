@@ -2819,8 +2819,8 @@ MonoBehaviour:
   mBlinkTime: 0.2
   WaitTimeATK: 0.8
   mMoveSpeed: 4
-  mRangeArea: {fileID: 2055968785}
-  mAbilityTable: {fileID: 1250011945}
+  RangeArea: {fileID: 0}
+  AbilityTable: {fileID: 0}
   mDefense: 10000
   mLocation9: 4
 --- !u!61 &985103578
@@ -3701,11 +3701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5f481f23da714c4cbbdac638d94ea4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mItems:
-  - {fileID: 576382838}
-  - {fileID: 1796244253}
-  - {fileID: 1285269107}
-  - {fileID: 2046454739}
+  Items: []
 --- !u!114 &1249284101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3758,10 +3754,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1249284097}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c91485c0765695f44bac31a7fc048998, type: 3}
+  m_Script: {fileID: 11500000, guid: 0fca3110fd02347489f226dd2fa4bbb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemAndItemBox: {fileID: 208112648425833888}
+  ItemAndItemBox: {fileID: 0}
   mEventProbabilty: 0
 --- !u!114 &1249284104
 MonoBehaviour:
@@ -3804,10 +3800,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BelongObject: {fileID: 985103574}
-  mMoveSpeed: 4
-  mMaxHealth: 10000
-  mAttackPower: 0
+  _MoveSpeed: 0
+  _MaxHealth: 0
+  _AttackPower: 0
 --- !u!4 &1250011946
 Transform:
   m_ObjectHideFlags: 0
@@ -6703,12 +6698,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f35de1102ab78f94d88d3d9b1b8ecbd8, type: 3}
---- !u!1 &208112648425833888 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 208112646792821644, guid: f35de1102ab78f94d88d3d9b1b8ecbd8,
-    type: 3}
-  m_PrefabInstance: {fileID: 208112648425833887}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3930122264067720299
 PrefabInstance:
   m_ObjectHideFlags: 0
