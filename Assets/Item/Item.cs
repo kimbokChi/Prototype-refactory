@@ -29,6 +29,6 @@ public abstract class Item : MonoBehaviour
         }
     }
 
-    public abstract void  OnEquipThis(SLOT_TYPE onSlot);
-    public abstract void OffEquipThis(SLOT_TYPE offSlot);
+    public abstract void  OnEquipThis(SlotType onSlot);
+    public abstract void OffEquipThis(SlotType offSlot);
 }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public enum SLOT_TYPE
+public enum SlotType
 {
-    CONTAINER, ACCESSORY, WEAPON
+    Container, Accessory, Weapon
 }
 public class ItemSlot : MonoBehaviour
 {
@@ -14,11 +14,11 @@ public class ItemSlot : MonoBehaviour
     
     private Image mImage;
 
-    private SLOT_TYPE mSLOT_TYPE;
+    private SlotType mSlotType;
 
-    public void Init(SLOT_TYPE type)
+    public void Init(SlotType type)
     {
-        mSLOT_TYPE = type;
+        mSlotType = type;
 
         TryGetComponent(out mImage);
     }
@@ -27,7 +27,7 @@ public class ItemSlot : MonoBehaviour
     {
         if (mContainItem != null)
         {
-            mContainItem.OffEquipThis(mSLOT_TYPE);
+            mContainItem.OffEquipThis(mSlotType);
         }        
         mContainItem = item;
 
@@ -37,7 +37,7 @@ public class ItemSlot : MonoBehaviour
         }
         else
         {
-            item.OnEquipThis(mSLOT_TYPE);
+            item.OnEquipThis(mSlotType);
 
             mImage.sprite = item.Sprite;
         }

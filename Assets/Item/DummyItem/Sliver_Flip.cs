@@ -6,29 +6,29 @@ public class Sliver_Flip : Item
 {
     public override ItemRating Rating => ItemRating.Epic;
 
-    public override void OffEquipThis(SLOT_TYPE offSlot)
+    public override void OffEquipThis(SlotType offSlot)
     {
         switch (offSlot)
         {
-            case SLOT_TYPE.ACCESSORY:
+            case SlotType.Accessory:
                 Inventory.Instance.MoveEndAction -= MoveEndAction;
                 break;
 
-            case SLOT_TYPE.WEAPON:
+            case SlotType.Weapon:
                 Inventory.Instance.MoveBeginAction -= MoveBeginAction;
                 break;
         }
     }
 
-    public override void OnEquipThis(SLOT_TYPE onSlot)
+    public override void OnEquipThis(SlotType onSlot)
     {
         switch (onSlot)
         {
-            case SLOT_TYPE.ACCESSORY:
+            case SlotType.Accessory:
                 Inventory.Instance.MoveEndAction += MoveEndAction;
                 break;
 
-            case SLOT_TYPE.WEAPON:
+            case SlotType.Weapon:
                 Inventory.Instance.MoveBeginAction += MoveBeginAction;
                 break;
         }
