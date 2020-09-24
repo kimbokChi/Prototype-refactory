@@ -5,18 +5,18 @@ using UnityEngine;
 public class SuicideTotem : MonoBehaviour, IObject, ICombatable
 {
     [SerializeField] private Area mArea;
-    [SerializeField] private AbilityTable mAbilityTable;
+    [SerializeField] private AbilityTable AbilityTable;
     [SerializeField] private float mFuseTime;
 
     private bool mIsOnFuse;
 
-    public AbilityTable GetAbility => mAbilityTable;
+    public AbilityTable GetAbility => AbilityTable;
 
     public void CastBuff(BUFF buffType, IEnumerator castedBuff) => StartCoroutine(castedBuff);
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0) {
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0) {
             gameObject.SetActive(false);
         }
     }
@@ -59,7 +59,7 @@ public class SuicideTotem : MonoBehaviour, IObject, ICombatable
 
         for (int i = 0; i < combats.Length; ++i)
         {
-            combats[i].Damaged(mAbilityTable.AttackPower, gameObject);
+            combats[i].Damaged(AbilityTable.AttackPower, gameObject);
         }
         gameObject.SetActive(false);
     }

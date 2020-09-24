@@ -8,7 +8,7 @@ public class Chief : EnemyBase, IObject, ICombatable
     public const float SECOND_STRUGGLE_HP_CONDITION = 0.3f;
 
     public float HealthPercent
-    { get => mAbilityTable.Table[Ability.CurHealth] / mAbilityTable.Table[Ability.MaxHealth]; }
+    { get => AbilityTable.Table[Ability.CurHealth] / AbilityTable.Table[Ability.MaxHealth]; }
 
     private enum MOVINGDIR
     {
@@ -50,7 +50,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -62,7 +62,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
         mFloorRooms = Castle.Instance.GetFloorRooms();
 
-        mWaitForCastPattern.Start(mWaitATKTime);
+        mWaitForCastPattern.Start(WaitATKTime);
 
         mLocation9 = DIRECTION9.MID;
 
@@ -130,7 +130,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     protected override void MoveFinish()
     {
-        mWaitForCastPattern.Start(mWaitATKTime);
+        mWaitForCastPattern.Start(WaitATKTime);
 
         mCanCastPATTERN = true;
     }
@@ -186,7 +186,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         }
         Vector2 summonPoint = mTotemSummonOffset;
 
-        summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+        summonPoint.x += Random.Range(-HalfMoveRangeX, HalfMoveRangeX);
 
         instance.transform.localPosition = summonPoint;
     }
@@ -226,7 +226,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         if (!IsPlayerLocationAccord())
         {
             if (Random.value < mMovingProbablity) {
-                mWaitForCastPattern.Start(mWaitATKTime); mCanCastPATTERN = true;
+                mWaitForCastPattern.Start(WaitATKTime); mCanCastPATTERN = true;
 
                 return;
             }
@@ -267,7 +267,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         // 위 아래 이동
         if (movingDIR.Equals(MOVINGDIR.DOWN) || movingDIR.Equals(MOVINGDIR.UP)) 
         {
-            movePoint = mOriginPosition;
+            movePoint = OriginPosition;
 
             movePoint.x += transform.localPosition.x;
 
@@ -280,19 +280,19 @@ public class Chief : EnemyBase, IObject, ICombatable
         {
             movePoint.y += transform.localPosition.y;
 
-            movePoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
+            movePoint.x += Random.Range(-HalfMoveRangeX, HalfMoveRangeX);
         }
         switch (movingDIR)
         {
             case MOVINGDIR.UP:
             case MOVINGDIR.DOWN:
 
-                MoveToPoint(movePoint, MOVING_STYLE.Lerp);
+                MoveToPoint(movePoint, MovingStyle.Lerp);
                 break;
 
             case MOVINGDIR.SIDE:
 
-                MoveToPoint(movePoint, MOVING_STYLE.SmoothDamp);
+                MoveToPoint(movePoint, MovingStyle.SmoothDamp);
                 break;
         }        
     }

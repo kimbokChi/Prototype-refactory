@@ -27,7 +27,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -40,7 +40,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         mWaitForMoving = new Timer();
         mWaitForATK    = new Timer();
 
-        mWaitForATK.Start(mWaitATKTime);
+        mWaitForATK.Start(WaitATKTime);
     }
 
     public override bool IsActive() => gameObject.activeSelf;
@@ -74,8 +74,8 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
             {
                 Vector2 movePoint;
 
-                movePoint.x = Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX) + mOriginPosition.x;
-                movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + mOriginPosition.y;
+                movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
+                movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
 
                 // Cut
 
@@ -112,7 +112,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         {
             Attack();
 
-            lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * mDashSpeedScale * mAbilityTable.MoveSpeed);
+            lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * mDashSpeedScale * AbilityTable.MoveSpeed);
 
             transform.localPosition = Vector2.Lerp(transform.localPosition, dashPoint, lerpAmount);
 
@@ -120,7 +120,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         }
         mAttackedHashs.Clear();
 
-        mWaitForATK.Start(mWaitATKTime); mEDash = null;
+        mWaitForATK.Start(WaitATKTime); mEDash = null;
     }
 
     private void Attack()
@@ -135,7 +135,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
             {
                 mAttackedHashs.Add(hash, true);
 
-                combat[0].Damaged(mAbilityTable.AttackPower, gameObject);
+                combat[0].Damaged(AbilityTable.AttackPower, gameObject);
             }
         }
     }

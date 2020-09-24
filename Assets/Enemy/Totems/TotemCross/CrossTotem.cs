@@ -11,7 +11,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     [SerializeField] private SHOOTING_TYPE mShootingType;
 
-    [SerializeField] private AbilityTable mAbilityTable;
+    [SerializeField] private AbilityTable AbilityTable;
 
     [SerializeField] private Arrow mDartOrigin;
 
@@ -24,7 +24,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     private Timer mWaitForShoot;
 
-    public AbilityTable GetAbility => mAbilityTable;
+    public AbilityTable GetAbility => AbilityTable;
 
     public void CastBuff(BUFF buffType, IEnumerator castedBuff)
     {
@@ -33,7 +33,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -125,7 +125,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     private void Arrow_targetHit(ICombatable combat)
     {
-        combat.Damaged(mAbilityTable.AttackPower, gameObject);
+        combat.Damaged(AbilityTable.AttackPower, gameObject);
     }
 
     private bool Arrow_canDistroy(uint hitCount)

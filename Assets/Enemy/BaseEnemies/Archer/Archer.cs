@@ -19,7 +19,7 @@ public class Archer : EnemyBase, IObject, ICombatable
     
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -33,7 +33,7 @@ public class Archer : EnemyBase, IObject, ICombatable
         mWaitForMoving = new Timer();
         mWaitForATK    = new Timer();
 
-        mWaitForATK.Start(mWaitATKTime);
+        mWaitForATK.Start(WaitATKTime);
     }
 
     public override void IUpdate()
@@ -46,8 +46,8 @@ public class Archer : EnemyBase, IObject, ICombatable
             {
                 Vector2 movePoint;
 
-                movePoint.x = Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX) + mOriginPosition.x;
-                movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + mOriginPosition.y;
+                movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
+                movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
 
                 if (mPlayer != null)
                 {
@@ -72,7 +72,7 @@ public class Archer : EnemyBase, IObject, ICombatable
                 arrow.Setting(mArrowSpeed, (targetLocal - (Vector2)transform.localPosition).normalized);
                 arrow.Setting(Arrow_targetHit, Arrow_canDistroy);
 
-                mWaitForATK.Start(mWaitATKTime);
+                mWaitForATK.Start(WaitATKTime);
             }
             else
             {
@@ -106,7 +106,7 @@ public class Archer : EnemyBase, IObject, ICombatable
 
     private void Arrow_targetHit(ICombatable combat)
     {
-        combat.Damaged(mAbilityTable.AttackPower, gameObject);
+        combat.Damaged(AbilityTable.AttackPower, gameObject);
     }
 
     private bool Arrow_canDistroy(uint hitCount)

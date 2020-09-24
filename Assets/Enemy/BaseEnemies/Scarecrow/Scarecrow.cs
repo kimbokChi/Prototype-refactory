@@ -9,7 +9,7 @@ public class Scarecrow : EnemyBase
 
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -20,7 +20,7 @@ public class Scarecrow : EnemyBase
         mWaitForATK  = new Timer();
         mWaitForMove = new Timer();
 
-        mWaitForATK.Start(mWaitATKTime);
+        mWaitForATK.Start(WaitATKTime);
     }
 
     public override bool IsActive()
@@ -36,8 +36,8 @@ public class Scarecrow : EnemyBase
             {
                 Vector2 movePoint;
 
-                movePoint.x = Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX) + mOriginPosition.x;
-                movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + mOriginPosition.y;
+                movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
+                movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
 
                 if (mPlayer != null)
                 {
@@ -55,9 +55,9 @@ public class Scarecrow : EnemyBase
         {
             if (mWaitForATK.IsOver())
             {
-                mPlayer.Damaged(mAbilityTable.AttackPower, gameObject);
+                mPlayer.Damaged(AbilityTable.AttackPower, gameObject);
 
-                mWaitForATK.Start(mWaitATKTime);
+                mWaitForATK.Start(WaitATKTime);
             }
             else
             {

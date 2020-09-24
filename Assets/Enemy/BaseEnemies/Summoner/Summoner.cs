@@ -19,7 +19,7 @@ public class Summoner : EnemyBase, IObject, ICombatable
 
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((mAbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
         }
@@ -43,8 +43,8 @@ public class Summoner : EnemyBase, IObject, ICombatable
             {
                 Vector2 movePoint;
 
-                movePoint.x = Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX) + mOriginPosition.x;
-                movePoint.y = Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY) + mOriginPosition.y;
+                movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
+                movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
 
                 MoveToPoint(movePoint);
             }
@@ -60,8 +60,8 @@ public class Summoner : EnemyBase, IObject, ICombatable
             {
                 Vector2 summonPoint = mSummonOffset;
 
-                summonPoint.x += Random.Range(-mHalfMoveRangeX, mHalfMoveRangeX);
-                summonPoint.y += Random.Range(-mHalfMoveRangeY, mHalfMoveRangeY);
+                summonPoint.x += Random.Range(-HalfMoveRangeX, HalfMoveRangeX);
+                summonPoint.y += Random.Range(-HalfMoveRangeY, HalfMoveRangeY);
 
                 GameObject newObject = Instantiate(mSummonTagret, transform.parent, false);
 

@@ -20,10 +20,10 @@ public class Player : MonoBehaviour, ICombatable
     private float mMoveSpeed;
 
     [SerializeField] 
-    private Area mRangeArea;
+    private Area RangeArea;
 
     [SerializeField]
-    private AbilityTable mAbilityTable;
+    private AbilityTable AbilityTable;
 
     [SerializeField]
     private float mDefense;
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour, ICombatable
 
     public  bool IsDeath => mIsDeath;
 
-    public AbilityTable GetAbility => mAbilityTable;
+    public AbilityTable GetAbility => AbilityTable;
 
     private bool mIsDeath;
 
@@ -114,7 +114,7 @@ public class Player : MonoBehaviour, ICombatable
 
         mCollidersOnMove = new List<Collider2D>();
 
-        Debug.Assert(mRangeArea.TryGetComponent(out mRnageCollider));
+        Debug.Assert(RangeArea.TryGetComponent(out mRnageCollider));
     }
 
     private void InputAction()
@@ -158,11 +158,11 @@ public class Player : MonoBehaviour, ICombatable
 
     private void CheckToDeath()
     {
-        mIsDeath = (mAbilityTable.Table[Ability.CurHealth]) <= 0f;
+        mIsDeath = (AbilityTable.Table[Ability.CurHealth]) <= 0f;
 
         if (mIsDeath)
         {
-            mRangeArea.enabled = false;
+            RangeArea.enabled = false;
 
             if (TryGetComponent(out SpriteRenderer renderer))
             {
@@ -190,7 +190,7 @@ public class Player : MonoBehaviour, ICombatable
         }
         mRnageCollider.radius = Inventory.Instance.GetWeaponRange();
 
-        if (mRangeArea.TryEnterTypeT(out GameObject challenger))
+        if (RangeArea.TryEnterTypeT(out GameObject challenger))
         {
             if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombatable combat))
             {
@@ -258,7 +258,7 @@ public class Player : MonoBehaviour, ICombatable
 
         while (lerpAmount < 1)
         {
-            lerpAmount = Mathf.Min(1, lerpAmount + Time.deltaTime * Time.timeScale * mAbilityTable.MoveSpeed);
+            lerpAmount = Mathf.Min(1, lerpAmount + Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed);
 
             transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
 
@@ -303,7 +303,7 @@ public class Player : MonoBehaviour, ICombatable
 
         Inventory.Instance.OnDamaged(ref damage, attacker, gameObject);
 
-        mAbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
+        AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
 
         mBlinkTimer.Start(mBlinkTime);
     }

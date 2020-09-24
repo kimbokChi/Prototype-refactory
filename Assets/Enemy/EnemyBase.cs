@@ -2,30 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum MOVING_STYLE { Lerp, SmoothDamp }
+public enum MovingStyle { Lerp, SmoothDamp }
 
 public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 {
     public float DeltaTime => Time.deltaTime * Time.timeScale;
 
     [Header("Ability")]
-    [SerializeField] protected float mWaitForMoveMin;
-    [SerializeField] protected float mWaitForMoveMax;
+    [SerializeField] protected float WaitForMoveMin;
+    [SerializeField] protected float WaitForMoveMax;
 
-    [SerializeField] protected float mHalfMoveRangeX;
-    [SerializeField] protected float mHalfMoveRangeY;
+    [SerializeField] protected float HalfMoveRangeX;
+    [SerializeField] protected float HalfMoveRangeY;
 
-    [SerializeField] protected float mWaitATKTime;
+    [SerializeField] protected float WaitATKTime;
 
-    [SerializeField] protected float mRange;
+    [SerializeField] protected float Range;
 
-    [SerializeField] protected Vector2 mOriginPosition;
+    [SerializeField] protected Vector2 OriginPosition;
 
-    [SerializeField][Range(0.01f, 1f)] protected float mMoveSmooth;
+    [SerializeField][Range(0.01f, 1f)] protected float MoveSmooth;
 
-    [SerializeField][Range(0.00f, 1f)] protected float mRangeOffset;
+    [SerializeField][Range(0.00f, 1f)] protected float RangeOffset;
 
-    [SerializeField] protected AbilityTable mAbilityTable;
+    [SerializeField] protected AbilityTable AbilityTable;
 
     protected bool SpriteFlipX
     {
@@ -51,7 +51,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
     protected float WaitMoveTime
     {
-        get => Random.Range(mWaitForMoveMin, mWaitForMoveMax);
+        get => Random.Range(WaitForMoveMin, WaitForMoveMax);
     }
 
     protected Player mPlayer;
@@ -63,7 +63,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     /// lookingDirection값을 통해서 플레이어를 바라보고 있는지의 여부만을 반환합니다.
     /// </summary>
     #endregion
-    protected bool CanLookAtPlayer(Vector2 lookingDirection)
+    protected bool IsLookAtPlayer(Vector2 lookingDirection)
     {
         if (mPlayer != null)
         {
@@ -131,7 +131,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     #endregion
     protected bool IsInRange(Vector2 point)
     {
-        return Vector2.Distance(point, transform.localPosition) <= mRange + mRangeOffset;
+        return Vector2.Distance(point, transform.localPosition) <= Range + RangeOffset;
     }
 
     protected bool HasPlayerOnRange()
@@ -145,13 +145,13 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
     #region MEMBER
     /// <summary>
-    /// 인자로 지정한 지점을 향해 이동합니다. 그리고 이 이동이 끝나게되면 MoveFinish함수를 호출합니다.
+    /// 인자로 지정한 지점을 향해 이동합니다.
     /// <para>
     /// 만약 이동중에 이 함수가 호출되었다면, 진행중이던 이동을 중단하고 새로 호출한 값을 바탕으로 이동합니다.
     /// </para>
     /// </summary>
     #endregion
-    protected void MoveToPoint(Vector2 point, MOVING_STYLE style = MOVING_STYLE.SmoothDamp)
+    protected void MoveToPoint(Vector2 point, MovingStyle style = MovingStyle.SmoothDamp)
     {
         if (mEMove != null)
         {
@@ -161,34 +161,34 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
         switch (style)
         {
-            case MOVING_STYLE.Lerp:
+            case MovingStyle.Lerp:
                 StartCoroutine(mEMove = EMoveLerp(point));
                 break;
 
-            case MOVING_STYLE.SmoothDamp:
+            case MovingStyle.SmoothDamp:
                 StartCoroutine(mEMove = EMoveSmooth(point));
                 break;
         }
     }
     #region READ
     /// <summary>
-    /// 플레이어를 인지했다는 가정 하에, 이동하려는 방향이나 현재 바라보는 방향에 
-    /// <para>플레이어가 있다면 해당 개체의 사정거리만큼 간격을 두고서, 플레이어를 향해 이동합니다.</para>
+    /// 플레이어를 인지했다는 가정 하에 플레이어를 향해 이동합니다. 
+    /// <para>만약 이동중에 이 함수가 호출되었다면, 진행중이던 이동을 중단하고 새로 호출한 값을 바탕으로 이동합니다.</para>
     /// </summary>
     #endregion
-    protected void MoveToPlayer(Vector2 movePoint, MOVING_STYLE style = MOVING_STYLE.SmoothDamp)
+    protected void MoveToPlayer(Vector2 movePoint, MovingStyle style = MovingStyle.SmoothDamp)
     {
         Vector2 lookingDir = movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left;
 
         Vector2 playerPos;
 
-        if ((CanLookAtPlayer(lookingDir) || IsLookAtPlayer()) && mPlayer.Position(out playerPos))
+        if ((IsLookAtPlayer(lookingDir) || IsLookAtPlayer()) && mPlayer.Position(out playerPos))
         {
             movePoint = PositionLocalized(playerPos);
 
             if (!IsInRange(movePoint))
             {
-                movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * mRange;
+                movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * Range;
 
             }
             MoveToPoint(movePoint, style);
@@ -197,7 +197,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
     #region EVENT
     /// <summary>
-    /// MoveToPoint함수를 통한 해당 개체의 이동이 끝날때, 호출되는 함수입니다.
+    /// MoveTo...함수를 통한 이동이 끝날때, 호출되는 함수입니다.
     /// </summary>
     #endregion
     protected virtual void MoveFinish() { }
@@ -211,6 +211,14 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
             MoveStopEvent();
         }
     }
+    private void MoveStopEvent()
+    {
+        mEMove = null;
+
+        mIsMoveFinish = true;
+
+        MoveFinish();
+    }
 
     private IEnumerator EMoveSmooth(Vector2 movePoint)
     {
@@ -220,7 +228,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
         movePoint = FitToMoveArea(movePoint);
 
-        while (Vector2.Distance(movePoint, transform.localPosition) > mMoveSmooth)
+        while (Vector2.Distance(movePoint, transform.localPosition) > MoveSmooth)
         {
             transform.localPosition = Vector2.SmoothDamp(transform.localPosition, movePoint, ref refVelocity, 0.5f, GetAbility.MoveSpeed, DeltaTime);
 
@@ -252,44 +260,35 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         yield break;
     }
 
-    private void MoveStopEvent()
-    {
-        mEMove = null;
-
-        mIsMoveFinish = true;
-
-        MoveFinish();
-    }
-
     public Vector2 FitToMoveArea(Vector2 vector)
     {
-        if (vector.x < -mHalfMoveRangeX + mOriginPosition.x)
+        if (vector.x < -HalfMoveRangeX + OriginPosition.x)
         {
-            vector.x = -mHalfMoveRangeX + mOriginPosition.x;
+            vector.x = -HalfMoveRangeX + OriginPosition.x;
         }
         else
         {
-            if (vector.x > mHalfMoveRangeX + mOriginPosition.x)
+            if (vector.x > HalfMoveRangeX + OriginPosition.x)
             {
-                vector.x = mHalfMoveRangeX + mOriginPosition.x;
+                vector.x = HalfMoveRangeX + OriginPosition.x;
             }
         }
-        if (vector.y < -mHalfMoveRangeY + mOriginPosition.y)
+        if (vector.y < -HalfMoveRangeY + OriginPosition.y)
         {
-            vector.y = -mHalfMoveRangeY + mOriginPosition.y;
+            vector.y = -HalfMoveRangeY + OriginPosition.y;
         }
         else
         {
-            if (vector.y > mHalfMoveRangeY + mOriginPosition.y)
+            if (vector.y > HalfMoveRangeY + OriginPosition.y)
             {
-                vector.y = mHalfMoveRangeY + mOriginPosition.y;
+                vector.y = HalfMoveRangeY + OriginPosition.y;
             }
         }
         return vector;
     }
 
     #region interfaces : 
-    public AbilityTable GetAbility { get => mAbilityTable; }
+    public AbilityTable GetAbility { get => AbilityTable; }
 
     public abstract void IInit();
     public abstract bool IsActive();
