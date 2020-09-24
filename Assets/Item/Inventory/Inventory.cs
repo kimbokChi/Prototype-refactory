@@ -10,23 +10,49 @@ public class Inventory : Singleton<Inventory>
 
     #region Item Function Event
 
-    public delegate void MoveBegin(Vector2 moveDir);
-    public event MoveBegin MoveBeginAction;
+    #region COMMENT
+    /// <summary>
+    /// parameter[1] : move direction
+    /// </summary>
+    #endregion
+    public event Action<Vector2> MoveBeginAction;
 
-    public delegate void MoveEnd(Collider2D[] colliders);
-    public event MoveEnd MoveEndAction;
+    #region COMMENT
+    /// <summary>
+    /// parameter[1] : collision objects when the moving
+    /// </summary>
+    #endregion
+    public event Action<Collider2D[]> MoveEndAction;
 
-    public delegate void Attack(GameObject attacker, ICombatable targetCombat);
-    public event Attack AttackAction;
+    #region COMMENT
+    /// <summary>
+    /// parameter[1] : attacker gameobject
+    /// <br></br>
+    /// parameter[2] : attack target interface 'ICombatable'
+    /// </summary>
+    #endregion
+    public event Action<GameObject, ICombatable> AttackAction;
 
-    public delegate void BeDamaged(ref float damage, GameObject attacker, GameObject victim);
-    public event BeDamaged BeDamagedAction;
+    #region COMMENT
+    /// <summary>
+    /// parameter[1] : damage
+    /// <br></br>
+    /// parameter[2] : attacker gameobject
+    /// <br></br>
+    /// parameter[3] : target gameobject
+    /// </summary>
+    #endregion
+    public event action BeDamagedAction;
+    public delegate void action(ref float damage, GameObject attacker, GameObject victim);
 
-    public delegate void FloorEnter();
-    public event FloorEnter FloorEnterAction;
+    public event Action FloorEnterAction;
 
-    public delegate void Charge(float charge);
-    public event Charge ChargeAction;
+    #region COMMENT
+    /// <summary>
+    /// parameter[1] : charge amount
+    /// </summary>
+    #endregion
+    public event Action<float> ChargeAction;
 
     #endregion
 
@@ -36,82 +62,44 @@ public class Inventory : Singleton<Inventory>
 
     private void Awake()
     {
-        mWeaponSlot.Init(SLOT_TYPE.WEAPON);
+        mWeaponSlot.Init(SlotType.Weapon);
 
         for (int i = 0; i < mContainer.Length; ++i)
         {
-            mContainer[i].Init(SLOT_TYPE.CONTAINER);
+            mContainer[i].Init(SlotType.Container);
 
             if (i < mAccessorySlot.Length)
             {
-                mAccessorySlot[i].Init(SLOT_TYPE.ACCESSORY);
+                mAccessorySlot[i].Init(SlotType.Accessory);
             }
-        }
-        EventInit();
-    }
-
-    private void EventInit()
-    {
-        if (BeDamagedAction == null)
-        {
-            BeDamagedAction = delegate (ref float damage, GameObject attacker, GameObject victim) { };
-        }
-        if (ChargeAction == null)
-        {
-            ChargeAction = delegate (float power) { };
-        }
-        if (AttackAction == null)
-        {
-            AttackAction = delegate (GameObject attacker, ICombatable targetCombat) { };
-        }
-        if (MoveBeginAction == null)
-        {
-            MoveBeginAction = delegate (Vector2 dir) { };
-        }
-        if (MoveEndAction == null)
-        {
-            MoveEndAction = delegate (Collider2D[] colliders) { };
         }
     }
 
     public void AddItem(Item item)
     {
-        for (int i = 0; i < mContainer.Length; ++i)
-        {
-            if (mContainer[i].ContainItem == null)
-            {
-                mContainer[i].SetItem(item);
-
-                return;
-            }
-        }
-        Debug.Log("더이상 아이템을 담을수 없습니다!");
+        mContainer.Where(o => o.ContainItem == null).First()?.SetItem(item);
     }
 
     public float GetWeaponRange()
     {
-        if (mWeaponSlot.ContainItem != null)
-        {
-            return mWeaponSlot.ContainItem.WeaponRange;
-        }
-        return DEFAULT_RANGE;
+        return (mWeaponSlot.ContainItem != null) ? mWeaponSlot.ContainItem.WeaponRange : DEFAULT_RANGE;
     }
 
     public void OnDamaged(ref float damage, GameObject attacker, GameObject victim)
     {
-        BeDamagedAction.Invoke(ref damage, attacker, victim);
+        BeDamagedAction?.Invoke(ref damage, attacker, victim);
     }
 
     public void OnCharge(float power)
     {
-        ChargeAction.Invoke(power);
+        ChargeAction?.Invoke(power);
     }
 
     public void OnAttack(GameObject attacker, ICombatable targetCombat)
     {
-        AttackAction.Invoke(attacker, targetCombat);
+        AttackAction?.Invoke(attacker, targetCombat);
     }
 
-    public void OnMoveBegin(Vector2 moveDir) => MoveBeginAction.Invoke(moveDir);
-    public void OnMoveEnd(Collider2D[] colliders) => MoveEndAction.Invoke(colliders);
+    public void OnMoveBegin(Vector2 moveDir) => MoveBeginAction?.Invoke(moveDir);
+    public void OnMoveEnd(Collider2D[] colliders) => MoveEndAction?.Invoke(colliders);
 }
