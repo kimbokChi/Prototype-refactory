@@ -20,7 +20,7 @@ public class Scarecrow : EnemyBase
         mWaitForATK  = new Timer();
         mWaitForMove = new Timer();
 
-        mWaitForATK.Start(WaitATKTime);
+        mWaitForATK.Start(AbilityTable.AfterAttackDelay);
     }
 
     public override bool IsActive()
@@ -57,7 +57,7 @@ public class Scarecrow : EnemyBase
             {
                 mPlayer.Damaged(AbilityTable.AttackPower, gameObject);
 
-                mWaitForATK.Start(WaitATKTime);
+                mWaitForATK.Start(AbilityTable.AfterAttackDelay);
             }
             else
             {

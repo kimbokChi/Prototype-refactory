@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BombTotem : MonoBehaviour, IObject
+public class BombTotem : MonoBehaviour, IObject, ICombatable
 {
+    [SerializeField] private AbilityTable AbilityTable;
+
     [SerializeField] private float mTriggerRadius;
 
     [SerializeField] private float mWaitBoom;
-    [SerializeField] private float mWaitNextFuse;
     [SerializeField] private float mDamage;
 
     private IEnumerator mEOnFuse;
@@ -15,6 +16,8 @@ public class BombTotem : MonoBehaviour, IObject
     private Timer mWaitForFuse;
 
     private Player mPlayer;
+
+    public AbilityTable GetAbility => AbilityTable;
 
     public void IInit()
     {
@@ -70,7 +73,7 @@ public class BombTotem : MonoBehaviour, IObject
             mPlayer.Damaged(mDamage, gameObject);
 
         }
-        mWaitForFuse.Start(mWaitNextFuse);
+        mWaitForFuse.Start(AbilityTable.BeginAttackDelay);
 
         mEOnFuse = null;
     }
@@ -87,4 +90,17 @@ public class BombTotem : MonoBehaviour, IObject
     }
 
     public GameObject ThisObject() => gameObject;
+
+    public void Damaged(float damage, GameObject attacker)
+    {
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    {
+        StartCoroutine(castedBuff);
+    }
 }

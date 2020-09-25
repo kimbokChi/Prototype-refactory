@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Archer : EnemyBase, IObject, ICombatable
+public class Archer : EnemyBase
 {
     [SerializeField]
     private Arrow mArrow;
@@ -33,7 +33,7 @@ public class Archer : EnemyBase, IObject, ICombatable
         mWaitForMoving = new Timer();
         mWaitForATK    = new Timer();
 
-        mWaitForATK.Start(WaitATKTime);
+        mWaitForATK.Start(AbilityTable.BeginAttackDelay);
     }
 
     public override void IUpdate()
@@ -72,7 +72,7 @@ public class Archer : EnemyBase, IObject, ICombatable
                 arrow.Setting(mArrowSpeed, (targetLocal - (Vector2)transform.localPosition).normalized);
                 arrow.Setting(Arrow_targetHit, Arrow_canDistroy);
 
-                mWaitForATK.Start(WaitATKTime);
+                mWaitForATK.Start(AbilityTable.AfterAttackDelay);
             }
             else
             {
@@ -129,5 +129,19 @@ public class Archer : EnemyBase, IObject, ICombatable
     private bool Pool_returnToPool(Arrow arrow)
     {
         return Vector2.Distance(transform.position, arrow.transform.position) > 7f || !arrow.gameObject.activeSelf;
+    }
+}
+public class AAA : IEnumerator
+{
+    public object Current => throw new System.NotImplementedException();
+
+    public bool MoveNext()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Reset()
+    {
+        throw new System.NotImplementedException();
     }
 }

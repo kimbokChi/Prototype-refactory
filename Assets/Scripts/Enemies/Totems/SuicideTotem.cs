@@ -6,7 +6,6 @@ public class SuicideTotem : MonoBehaviour, IObject, ICombatable
 {
     [SerializeField] private Area mArea;
     [SerializeField] private AbilityTable AbilityTable;
-    [SerializeField] private float mFuseTime;
 
     private bool mIsOnFuse;
 
@@ -53,7 +52,7 @@ public class SuicideTotem : MonoBehaviour, IObject, ICombatable
 
     private IEnumerator EOnFuse()
     {
-        for (float i = 0; i < mFuseTime; i += Time.deltaTime * Time.timeScale) { yield return null; }
+        for (float i = 0; i < AbilityTable.BeginAttackDelay; i += Time.deltaTime * Time.timeScale) { yield return null; }
 
         ICombatable[] combats = mArea.GetEnterTypeT<ICombatable>();
 

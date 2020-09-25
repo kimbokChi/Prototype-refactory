@@ -40,7 +40,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         mWaitForMoving = new Timer();
         mWaitForATK    = new Timer();
 
-        mWaitForATK.Start(WaitATKTime);
+        mWaitForATK.Start(AbilityTable.BeginAttackDelay);
     }
 
     public override bool IsActive() => gameObject.activeSelf;
@@ -120,7 +120,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         }
         mAttackedHashs.Clear();
 
-        mWaitForATK.Start(WaitATKTime); mEDash = null;
+        mWaitForATK.Start(AbilityTable.AfterAttackDelay); mEDash = null;
     }
 
     private void Attack()

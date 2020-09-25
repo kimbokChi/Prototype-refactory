@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffTotem : MonoBehaviour, IObject
+public class BuffTotem : MonoBehaviour, IObject, ICombatable
 {
-    [SerializeField] private float mWaitCastTime;
+    [SerializeField] private AbilityTable AbilityTable;
 
     [SerializeField] private Area mSenseArae;
 
@@ -14,11 +14,13 @@ public class BuffTotem : MonoBehaviour, IObject
 
     private Timer mWaitForCastBuff;
 
+    public AbilityTable GetAbility => AbilityTable;
+
     public void IInit()
     {
         mWaitForCastBuff = new Timer();
 
-        mWaitForCastBuff.Start(mWaitCastTime);
+        mWaitForCastBuff.Start(AbilityTable.BeginAttackDelay);
     }
 
     public bool IsActive()
@@ -32,7 +34,7 @@ public class BuffTotem : MonoBehaviour, IObject
         {
             CastBuff();
 
-            mWaitForCastBuff.Start(mWaitCastTime);
+            mWaitForCastBuff.Start(AbilityTable.AfterAttackDelay);
         }
         else
         {
@@ -69,4 +71,17 @@ public class BuffTotem : MonoBehaviour, IObject
     public void PlayerExit (MESSAGE message) { }
 
     public GameObject ThisObject() => gameObject;
+
+    public void Damaged(float damage, GameObject attacker)
+    {
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    {
+        StartCoroutine(castedBuff);
+    }
 }

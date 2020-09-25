@@ -15,8 +15,6 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     [SerializeField] protected float HalfMoveRangeX;
     [SerializeField] protected float HalfMoveRangeY;
 
-    [SerializeField] protected float WaitATKTime;
-
     [SerializeField] protected float Range;
 
     [SerializeField] protected Vector2 OriginPosition;

@@ -47,7 +47,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
         mWaitForShoot = new Timer();
 
-        mWaitForShoot.Start(mWaitNextShoot);
+        mWaitForShoot.Start(AbilityTable.BeginAttackDelay);
     }
 
     public bool IsActive()
@@ -100,7 +100,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
                 arrow.Setting(Arrow_targetHit, Arrow_canDistroy);
             }
-            mWaitForShoot.Start(mWaitNextShoot);
+            mWaitForShoot.Start(AbilityTable.AfterAttackDelay);
         }
         else
         {

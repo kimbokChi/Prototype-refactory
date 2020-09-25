@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Summoner : EnemyBase, IObject, ICombatable
+public class Summoner : EnemyBase
 {
     [SerializeField]
     private GameObject mSummonTagret;
@@ -10,8 +10,6 @@ public class Summoner : EnemyBase, IObject, ICombatable
     [SerializeField]
     private Vector2 mSummonOffset;
 
-    [SerializeField]
-    private float mWaitSummon;
     private Timer mWaitForSummon;
     private Timer mWaitForMove;
 
@@ -32,7 +30,7 @@ public class Summoner : EnemyBase, IObject, ICombatable
         mWaitForSummon = new Timer();
           mWaitForMove = new Timer();
 
-        mWaitForSummon.Start(mWaitSummon);
+        mWaitForSummon.Start(AbilityTable.BeginAttackDelay);
           mWaitForMove.Start(WaitMoveTime);
     }
     public override void IUpdate()
@@ -71,7 +69,7 @@ public class Summoner : EnemyBase, IObject, ICombatable
                 }
                 newObject.transform.localPosition = summonPoint;
 
-                mWaitForSummon.Start(mWaitSummon);
+                mWaitForSummon.Start(AbilityTable.AfterAttackDelay);
             }
             else
             {

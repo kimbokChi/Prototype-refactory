@@ -62,7 +62,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
         mFloorRooms = Castle.Instance.GetFloorRooms();
 
-        mWaitForCastPattern.Start(WaitATKTime);
+        mWaitForCastPattern.Start(AbilityTable.BeginAttackDelay);
 
         mLocation9 = DIRECTION9.MID;
 
@@ -130,7 +130,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     protected override void MoveFinish()
     {
-        mWaitForCastPattern.Start(WaitATKTime);
+        mWaitForCastPattern.Start(AbilityTable.AfterAttackDelay);
 
         mCanCastPATTERN = true;
     }
@@ -226,7 +226,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         if (!IsPlayerLocationAccord())
         {
             if (Random.value < mMovingProbablity) {
-                mWaitForCastPattern.Start(WaitATKTime); mCanCastPATTERN = true;
+                mWaitForCastPattern.Start(AbilityTable.AfterAttackDelay); mCanCastPATTERN = true;
 
                 return;
             }

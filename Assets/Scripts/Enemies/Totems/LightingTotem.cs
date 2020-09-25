@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightingTotem : MonoBehaviour, IObject
+public class LightingTotem : MonoBehaviour, IObject, ICombatable
 {
-    [SerializeField] private Lighting mLighting;
+    [SerializeField] private AbilityTable AbilityTable;
 
-    [SerializeField] private float mWaitLighting;
+    [SerializeField] private Lighting mLighting;
 
     [SerializeField] private Vector2 mLightingOffset;
 
@@ -16,11 +16,13 @@ public class LightingTotem : MonoBehaviour, IObject
 
     private Pool<Lighting> mPool;
 
+    public AbilityTable GetAbility => AbilityTable;
+
     public void IInit()
     {
         mWaitForLighting = new Timer();
 
-        mWaitForLighting.Start(mWaitLighting);
+        mWaitForLighting.Start(AbilityTable.BeginAttackDelay);
 
         mPool = new Pool<Lighting>();
         mPool.Init(mLighting, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
@@ -43,7 +45,7 @@ public class LightingTotem : MonoBehaviour, IObject
                 {
                     mPool.Pop();
 
-                    mWaitForLighting.Start(mWaitLighting);
+                    mWaitForLighting.Start(AbilityTable.AfterAttackDelay);
                 }
             }
             else
@@ -85,5 +87,18 @@ public class LightingTotem : MonoBehaviour, IObject
         lighting.DurateCheck();
 
         return !lighting.gameObject.activeSelf;
+    }
+
+    public void Damaged(float damage, GameObject attacker)
+    {
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    {
+        StartCoroutine(castedBuff);
     }
 }
