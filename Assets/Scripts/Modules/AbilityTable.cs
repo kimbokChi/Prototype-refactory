@@ -5,7 +5,10 @@ using UnityEngine;
 public enum Ability
 {
     MoveSpeed, IMoveSpeed, CurHealth, MaxHealth,
-    AttackPower, IAttackPower, End
+    AttackPower, IAttackPower, 
+    BeginAttackDelay, IBeginAttackDelay,
+    AfterAttackDelay, IAfterAttackDelay,
+    End
 }
 public class AbilityTable : MonoBehaviour
 {
@@ -34,6 +37,15 @@ public class AbilityTable : MonoBehaviour
                 case Ability.AttackPower:
                     mTable.Add(i, _AttackPower);
                     break;
+                case Ability.BeginAttackDelay:
+                    mTable.Add(i, _BeginAttackDelay);
+                    break;
+                case Ability.AfterAttackDelay:
+                    mTable.Add(i, _AfterAttackDelay);
+                    break;
+                case Ability.MoveSpeed: 
+                    mTable.Add(i, _MoveSpeed);
+                    break;
                 default:
                     mTable.Add(i, default);
                     break;
@@ -45,8 +57,15 @@ public class AbilityTable : MonoBehaviour
     { get => Table[Ability.MoveSpeed] + Table[Ability.IMoveSpeed]; }
     public float AttackPower
     { get => Table[Ability.AttackPower] + Table[Ability.IAttackPower]; }
+    public float BeginAttackDelay
+    { get => Table[Ability.BeginAttackDelay] + Table[Ability.IBeginAttackDelay]; }
+    public float AfterAttackDelay
+    { get => Table[Ability.AfterAttackDelay] + Table[Ability.IAfterAttackDelay]; }
 
     [SerializeField] private float _MoveSpeed;
     [SerializeField] private float _MaxHealth;
     [SerializeField] private float _AttackPower;
+
+    [SerializeField] private float _BeginAttackDelay;
+    [SerializeField] private float _AfterAttackDelay;
 }
