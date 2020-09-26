@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEditor;
 
 public class Inventory : Singleton<Inventory>
 {
@@ -110,32 +109,4 @@ public class Inventory : Singleton<Inventory>
 
     public void OnMoveBegin(Vector2 moveDir) => MoveBeginAction?.Invoke(moveDir);
     public void OnMoveEnd(Collider2D[] colliders) => MoveEndAction?.Invoke(colliders);
-}
-
-[CustomEditor(typeof(Inventory))]
-public class AddInventory : Editor
-{
-    private Item mAddTarget;
-
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        if (Application.isPlaying)
-        {
-            GUILayout.Space(6f);
-
-            GUILayout.Label("Select Item", EditorStyles.boldLabel);
-            mAddTarget = EditorGUILayout.ObjectField(mAddTarget, typeof(Item), true) as Item;
-
-            if (GUILayout.Button("Add Item", GUILayout.Height(20f)))
-            {
-                Inventory.Instance.AddItem(mAddTarget);
-            }
-            if (GUILayout.Button("Clear Inventory", GUILayout.Height(20f)))
-            {
-                Inventory.Instance.Clear();
-            }
-        }
-    }
 }
