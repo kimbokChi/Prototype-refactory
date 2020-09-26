@@ -8,9 +8,6 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
 
     [SerializeField] private float mTriggerRadius;
 
-    [SerializeField] private float mWaitBoom;
-    [SerializeField] private float mDamage;
-
     private IEnumerator mEOnFuse;
 
     private Timer mWaitForFuse;
@@ -66,11 +63,11 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
 
     private IEnumerator EOnFuse()
     {
-        for (float i = 0; i < mWaitBoom; i += Time.deltaTime * Time.timeScale) { yield return null; }
+        for (float i = 0; i < AbilityTable.BeginAttackDelay; i += Time.deltaTime * Time.timeScale) { yield return null; }
 
         if (OnTriggerPlayer())
         {
-            mPlayer.Damaged(mDamage, gameObject);
+            mPlayer.Damaged(AbilityTable.AttackPower, gameObject);
 
         }
         mWaitForFuse.Start(AbilityTable.BeginAttackDelay);

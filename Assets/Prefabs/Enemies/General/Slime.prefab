@@ -9,58 +9,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 412821576838472771, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
-      propertyPath: mMoveSpeed
-      value: 1
+      propertyPath: _MoveSpeed
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 412821576838472771, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
-      propertyPath: mMaxHealth
-      value: 100
+      propertyPath: _MaxHealth
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 412821576838472771, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
-      propertyPath: mAttackPower
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
-        type: 3}
-      propertyPath: mWaitForMoveMin
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
-        type: 3}
-      propertyPath: mWaitForMoveMax
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
-        type: 3}
-      propertyPath: mWaitATKTime
-      value: 1.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
-        type: 3}
-      propertyPath: mMoveSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
-        type: 3}
-      propertyPath: mDamage
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6949924797478406764, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.36445352
-      objectReference: {fileID: 0}
-    - target: {fileID: 6949924797478406764, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.990566
-      objectReference: {fileID: 0}
-    - target: {fileID: 6949924797478406764, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.37241265
+      propertyPath: _AttackPower
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6949924797478406765, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}

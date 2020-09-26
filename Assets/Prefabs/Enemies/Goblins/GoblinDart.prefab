@@ -7,6 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2652715522410420987, guid: bd722090c4bf3764abcd77553806ce1b,
+        type: 3}
+      propertyPath: _MaxHealth
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2652715522410420987, guid: bd722090c4bf3764abcd77553806ce1b,
+        type: 3}
+      propertyPath: _AttackPower
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2652715522410420987, guid: bd722090c4bf3764abcd77553806ce1b,
+        type: 3}
+      propertyPath: _BeginAttackDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2652715522410420987, guid: bd722090c4bf3764abcd77553806ce1b,
+        type: 3}
+      propertyPath: _AfterAttackDelay
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2652715524362353817, guid: bd722090c4bf3764abcd77553806ce1b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -73,5 +93,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5725160384479129598, guid: b29909448ef3a29409b0d07d1f3cde09,
         type: 3}
+    - target: {fileID: 2652715524362353823, guid: bd722090c4bf3764abcd77553806ce1b,
+        type: 3}
+      propertyPath: Range
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd722090c4bf3764abcd77553806ce1b, type: 3}

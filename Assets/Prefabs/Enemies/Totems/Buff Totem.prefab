@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 53926453138816437}
   - component: {fileID: 53926453138816436}
   - component: {fileID: 53926453138816439}
+  - component: {fileID: 7971995624787853793}
   m_Layer: 0
-  m_Name: Buff Area
+  m_Name: Area&AbilityTable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,6 +73,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mSenseTags:
   - Enemy
+--- !u!114 &7971995624787853793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53926453138816442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _MoveSpeed: 0
+  _MaxHealth: 30
+  _AttackPower: 0
+  _BeginAttackDelay: 0
+  _AfterAttackDelay: 2
 --- !u!1 &53926453361515090
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1116093eb2f8aa341889ec1066767046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mWaitCastTime: 6
+  AbilityTable: {fileID: 7971995624787853793}
   mSenseArae: {fileID: 53926453138816439}
   mCastBuff: 1
   mDurate: 3

@@ -7,6 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6112597578298762011, guid: 8f64a3f39f88d504f82f46cb3a71e3d5,
+        type: 3}
+      propertyPath: _MaxHealth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112597578298762011, guid: 8f64a3f39f88d504f82f46cb3a71e3d5,
+        type: 3}
+      propertyPath: _AttackPower
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112597578298762011, guid: 8f64a3f39f88d504f82f46cb3a71e3d5,
+        type: 3}
+      propertyPath: _AfterAttackDelay
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6112597578512421604, guid: 8f64a3f39f88d504f82f46cb3a71e3d5,
         type: 3}
       propertyPath: m_Sprite
@@ -99,5 +114,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 53926453361515090, guid: 01e7e0970172df249b40d3ba02fbcfa4,
         type: 3}
+    - target: {fileID: 6112597578512421611, guid: 8f64a3f39f88d504f82f46cb3a71e3d5,
+        type: 3}
+      propertyPath: Range
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f64a3f39f88d504f82f46cb3a71e3d5, type: 3}

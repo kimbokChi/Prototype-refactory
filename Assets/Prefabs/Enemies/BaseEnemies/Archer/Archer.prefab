@@ -43,10 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BelongObject: {fileID: 2652715524362353820}
-  mMoveSpeed: 1.4
-  mMaxHealth: 80
-  mAttackPower: 10
+  _MoveSpeed: 1
+  _MaxHealth: 1
+  _AttackPower: 1
+  _BeginAttackDelay: 1
+  _AfterAttackDelay: 1
 --- !u!1 &2652715524362353820
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,17 +143,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8055661c6b84c574eae20baec720384d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mWaitForMoveMin: 0.2
-  mWaitForMoveMax: 1
-  mHalfMoveRangeX: 2.25
-  mHalfMoveRangeY: 0
-  mWaitATKTime: 0.5
-  mRange: 3
-  mOriginPosition: {x: 0, y: 0.765}
-  mMoveSmooth: 0.15
-  mRangeOffset: 0.16
-  mMoveSpeed: 1.5
-  mAbilityTable: {fileID: 2652715522410420987}
+  WaitForMoveMin: 0.5
+  WaitForMoveMax: 0.8
+  HalfMoveRangeX: 2.5
+  HalfMoveRangeY: 0
+  Range: 1
+  OriginPosition: {x: 0, y: 0}
+  MoveSmooth: 0.3
+  RangeOffset: 0.31
+  AbilityTable: {fileID: 2652715522410420987}
   mArrow: {fileID: 0}
   mArrowPos: {x: 0, y: 0}
   mArrowSpeed: 5

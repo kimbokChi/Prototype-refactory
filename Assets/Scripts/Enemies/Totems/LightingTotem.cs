@@ -43,7 +43,7 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
             {
                 if (mPlayer.Position(out Vector2 playerPos))
                 {
-                    mPool.Pop();
+                    mPool.Pop().SetDamage(AbilityTable.AttackPower);
 
                     mWaitForLighting.Start(AbilityTable.AfterAttackDelay);
                 }

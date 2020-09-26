@@ -16,7 +16,6 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
     [SerializeField] private Arrow mDartOrigin;
 
     [SerializeField] private float mDartSpeed;
-    [SerializeField] private float mWaitNextShoot;
 
     private Pool<Arrow> mDartPool;
 

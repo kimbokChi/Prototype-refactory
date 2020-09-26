@@ -72,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 432afb08ad9d0154fa118c9ea4878106, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f2e8c65896aa1684ebdf70eea7b94a38, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7607163599574314350
@@ -95,17 +95,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5848854faa916d46a02f6349915d43e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mWaitForMoveMin: 0.2
-  mWaitForMoveMax: 2
-  mHalfMoveRangeX: 2.5
-  mHalfMoveRangeY: 0
-  mWaitATKTime: 5
-  mRange: 4
-  mOriginPosition: {x: 0, y: 0.87}
-  mMoveSmooth: 0.15
-  mRangeOffset: 0.16
-  mMoveSpeed: 0
-  mAbilityTable: {fileID: 7274113786828326568}
+  WaitForMoveMin: 0.3
+  WaitForMoveMax: 0.5
+  HalfMoveRangeX: 2.5
+  HalfMoveRangeY: 0
+  Range: 5
+  OriginPosition: {x: 0, y: 0}
+  MoveSmooth: 0.3
+  RangeOffset: 0.31
+  AbilityTable: {fileID: 7274113786828326568}
   mContactArea: {fileID: 7274113786828326571}
   mMaxDashLength: 3
   mDashSpeedScale: 1.5
@@ -154,10 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BelongObject: {fileID: 7274113786047085156}
-  mMoveSpeed: 1
-  mMaxHealth: 50
-  mAttackPower: 0
+  _MoveSpeed: 1
+  _MaxHealth: 30
+  _AttackPower: 5
+  _BeginAttackDelay: 3
+  _AfterAttackDelay: 1
 --- !u!61 &7274113786828326570
 BoxCollider2D:
   m_ObjectHideFlags: 0

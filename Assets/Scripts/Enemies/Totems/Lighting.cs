@@ -11,6 +11,8 @@ public class Lighting : MonoBehaviour
 
     private Timer mTimer;
 
+    public void SetDamage(float damage) => mDamage = damage;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         for (int i = 0; i < mTargetTags.Length; ++i)

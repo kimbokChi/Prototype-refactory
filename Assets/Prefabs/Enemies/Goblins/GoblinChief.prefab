@@ -95,31 +95,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fb6b6464a8d35342b4427e16b1a3208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mWaitForMoveMin: 0.4
-  mWaitForMoveMax: 0.8
-  mHalfMoveRangeX: 2.5
-  mHalfMoveRangeY: 5
-  mWaitATKTime: 4
-  mRange: 2
-  mOriginPosition: {x: 0, y: 1.2}
-  mMoveSmooth: 0.01
-  mRangeOffset: 0.16
-  mMoveSpeed: 0
-  mTotemSummonOffset: {x: 0, y: 0.87}
+  WaitForMoveMin: 0.5
+  WaitForMoveMax: 0.5
+  HalfMoveRangeX: 2.5
+  HalfMoveRangeY: 6
+  Range: 2
+  OriginPosition: {x: 0, y: 0}
+  MoveSmooth: 0.3
+  RangeOffset: 0.31
+  AbilityTable: {fileID: 2624679047327443531}
+  mMovingProbablity: 0.5
   mTotems:
   - {fileID: 1309640331586953155, guid: 87394f133f2dc134ea48ee81b4ac18e2, type: 3}
   - {fileID: 53926453361515090, guid: 01e7e0970172df249b40d3ba02fbcfa4, type: 3}
   - {fileID: 7410228392169130876, guid: 15796869e89c64848a198f2965df521e, type: 3}
   mBombTotem: {fileID: 6690175790252115807, guid: 2de72f431109fc24f93fa92d138dafc3,
     type: 3}
+  mTotemSummonOffset: {x: 0, y: 0.87}
   mGoblinNormal: {fileID: 7556299908380827411, guid: b8ad36e6c99751e4ebda217d07ef7af3,
     type: 3}
   mGoblinDart: {fileID: 4034151817204670685, guid: 71a25ae794219df45874437a106674f8,
     type: 3}
   mGoblinAssassin: {fileID: 7274113786047085156, guid: 6461d15439da6de40909f1dbcfdfd8f9,
     type: 3}
-  mMovingProbablity: 0
-  mAbilityTable: {fileID: 2624679047327443531}
 --- !u!1 &7983194703123128385
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BelongObject: {fileID: 5982966147671128700}
-  mMoveSpeed: 2.8
-  mMaxHealth: 1000
-  mAttackPower: 15
+  _MoveSpeed: 1
+  _MaxHealth: 300
+  _AttackPower: 1
+  _BeginAttackDelay: 1
+  _AfterAttackDelay: 1

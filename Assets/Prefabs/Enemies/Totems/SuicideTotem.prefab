@@ -61,10 +61,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BelongObject: {fileID: 6690175790252115807}
-  mMoveSpeed: 0
-  mMaxHealth: 25
-  mAttackPower: 25
+  _MoveSpeed: 0
+  _MaxHealth: 0
+  _AttackPower: 0
+  _BeginAttackDelay: 0
+  _AfterAttackDelay: 0
 --- !u!114 &4903431483732141383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,5 +176,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mArea: {fileID: 4903431483732141383}
-  mAbilityTable: {fileID: 7276526106939406066}
-  mFuseTime: 3
+  AbilityTable: {fileID: 7276526106939406066}
