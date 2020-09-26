@@ -80,6 +80,13 @@ public class Inventory : Singleton<Inventory>
     {
         mContainer.Where(o => o.ContainItem == null).First()?.SetItem(item);
     }
+    public void Clear()
+    {
+        mWeaponSlot.SetItem(null);
+
+        mAccessorySlot.ToList().ForEach(o => o.SetItem(null));
+            mContainer.ToList().ForEach(o => o.SetItem(null));
+    }
 
     public float GetWeaponRange()
     {
@@ -118,12 +125,16 @@ public class AddInventory : Editor
         {
             GUILayout.Space(6f);
 
-            GUILayout.Label("Item Select");
+            GUILayout.Label("Select Item", EditorStyles.boldLabel);
             mAddTarget = EditorGUILayout.ObjectField(mAddTarget, typeof(Item), true) as Item;
 
-            if (GUILayout.Button("Add Item", GUILayout.Height(25f)))
+            if (GUILayout.Button("Add Item", GUILayout.Height(20f)))
             {
                 Inventory.Instance.AddItem(mAddTarget);
+            }
+            if (GUILayout.Button("Clear Inventory", GUILayout.Height(20f)))
+            {
+                Inventory.Instance.Clear();
             }
         }
     }
