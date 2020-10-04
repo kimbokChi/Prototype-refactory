@@ -70,7 +70,7 @@ public class Archer : EnemyBase
                 Vector2 targetLocal = PositionLocalized(mPlayer.transform.position);
 
                 arrow.Setting(mArrowSpeed, (targetLocal - (Vector2)transform.localPosition).normalized);
-                arrow.Setting(Arrow_targetHit, Arrow_canDistroy);
+                arrow.Setting(Arrow_targetHit, i => i > 0);
 
                 mWaitForATK.Start(AbilityTable.AfterAttackDelay);
             }
@@ -83,10 +83,7 @@ public class Archer : EnemyBase
 
     public override void PlayerEnter(MESSAGE message, Player enterPlayer)
     {
-        if (message.Equals(MESSAGE.THIS_ROOM))
-        {
-            mPlayer = enterPlayer;
-        }
+        if (message.Equals(MESSAGE.THIS_ROOM)) mPlayer = enterPlayer;
     }
 
     public override void PlayerExit(MESSAGE message)
@@ -98,14 +95,6 @@ public class Archer : EnemyBase
     {
         combat.Damaged(AbilityTable.AttackPower, gameObject);
     }
-
-    private bool Arrow_canDistroy(uint hitCount)
-    {
-        if (hitCount > 0) return true;
-
-        return false;
-    }
-
     private void Pool_popMethod(Arrow arrow)
     {
         arrow.transform.position = mArrowPos + (Vector2)transform.position;
