@@ -352,3 +352,52 @@ public class Chief : EnemyBase, IObject, ICombatable
         mESwingRod = null; EndOfPattern();
     }
 }
+public class AttackPeriod
+{
+    private enum Period { Begin, After };
+
+
+    private Period mWaitPeriod;
+
+    private Timer mTimer;
+
+    private System.Action mBeginOverAction;
+    private System.Action mAfterOverAction;
+
+    private AbilityTable mAbilityTable;
+
+    
+    public AttackPeriod(AbilityTable abilityTable, System.Action beginOverAction, System.Action afterOverAction)
+    {
+        mWaitPeriod = Period.Begin;
+
+        (mTimer = new Timer()).Start(abilityTable.AfterAttackDelay); 
+        
+        mAbilityTable = abilityTable; 
+
+        mBeginOverAction = beginOverAction;
+        mAfterOverAction = afterOverAction;
+    }
+    public void Update()
+    {
+        mTimer.Update();
+
+        if (mTimer.IsOver())
+        {
+            if (mWaitPeriod.Equals(Period.Begin))
+            {
+                mBeginOverAction.Invoke();
+
+                mWaitPeriod = Period.After;
+                mTimer.Start(mAbilityTable.BeginAttackDelay);
+            }
+            else
+            {
+                mAfterOverAction.Invoke();
+
+                mWaitPeriod = Period.Begin;
+                mTimer.Start(mAbilityTable.AfterAttackDelay);
+            }
+        }
+    }
+}
