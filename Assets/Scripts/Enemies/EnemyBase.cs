@@ -288,13 +288,17 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     #region interfaces : 
     public AbilityTable GetAbility { get => AbilityTable; }
 
+    public bool IsActive()
+    { return gameObject.activeSelf; }
+    public GameObject ThisObject()
+    { return gameObject; }
+
     public abstract void IInit();
-    public abstract bool IsActive();
     public abstract void IUpdate();
     public abstract void PlayerEnter(MESSAGE message, Player enterPlayer);
     public abstract void PlayerExit (MESSAGE message);
-    public abstract GameObject ThisObject();
     public abstract void Damaged(float damage, GameObject attacker);
-    public abstract void CastBuff(BUFF buffType, IEnumerator castedBuff);
+    public virtual void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    { StartCoroutine(castedBuff); }
     #endregion
 }
