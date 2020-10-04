@@ -73,12 +73,6 @@ public class Chief : EnemyBase, IObject, ICombatable
 
         mCastingPATTERN = GetPATTERN();
     }
-
-    public override bool IsActive()
-    {
-        return gameObject.activeSelf;
-    }
-
     public override void IUpdate()
     {
         if (!mHasTheFirstSTRUGGLE)
@@ -147,13 +141,6 @@ public class Chief : EnemyBase, IObject, ICombatable
             mPlayer = null;
         }
     }
-
-    public override void CastBuff(BUFF buffType, IEnumerator castedBuff)
-    {
-        StartCoroutine(castedBuff);
-    }
-
-    public override GameObject ThisObject() => gameObject;
 
     private PATTERN GetPATTERN()
     {

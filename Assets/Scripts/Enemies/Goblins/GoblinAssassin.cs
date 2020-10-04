@@ -19,12 +19,6 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
     private Dictionary<int, bool> mAttackedHashs;
 
     private IEnumerator mEDash;
-
-    public override void CastBuff(BUFF buffType, IEnumerator castedBuff)
-    {
-        StartCoroutine(castedBuff);
-    }
-
     public override void Damaged(float damage, GameObject attacker)
     {
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
@@ -42,9 +36,6 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
         mWaitForATK.Start(AbilityTable.BeginAttackDelay);
     }
-
-    public override bool IsActive() => gameObject.activeSelf;
-
     public override void IUpdate()
     {
         if (IsLookAtPlayer())
@@ -97,9 +88,6 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
     {
         mPlayer = null;
     }
-
-    public override GameObject ThisObject() => gameObject;
-
     private IEnumerator EDash(Vector2 dashPoint)
     {
         dashPoint = FitToMoveArea(dashPoint);

@@ -94,14 +94,4 @@ public class Summoner : EnemyBase
     {
         mPlayer = null;
     }
-
-    public override void CastBuff(BUFF buffType, IEnumerator castedBuff)
-    {
-        StartCoroutine(castedBuff);
-    }
-    public override bool IsActive()
-    {
-        return gameObject.activeSelf;
-    }
-    public override GameObject ThisObject() => gameObject;
 }

@@ -94,16 +94,6 @@ public class Archer : EnemyBase
         mPlayer = null;
     }
 
-    public override void CastBuff(BUFF buffType, IEnumerator castedBuff)
-    {
-        StartCoroutine(castedBuff);
-    }
-    public override bool IsActive()
-    {
-        return gameObject.activeSelf;
-    }
-    public override GameObject ThisObject() => gameObject;
-
     private void Arrow_targetHit(ICombatable combat)
     {
         combat.Damaged(AbilityTable.AttackPower, gameObject);
@@ -129,19 +119,5 @@ public class Archer : EnemyBase
     private bool Pool_returnToPool(Arrow arrow)
     {
         return Vector2.Distance(transform.position, arrow.transform.position) > 7f || !arrow.gameObject.activeSelf;
-    }
-}
-public class AAA : IEnumerator
-{
-    public object Current => throw new System.NotImplementedException();
-
-    public bool MoveNext()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Reset()
-    {
-        throw new System.NotImplementedException();
     }
 }

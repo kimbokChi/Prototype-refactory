@@ -22,12 +22,6 @@ public class Scarecrow : EnemyBase
 
         mWaitForATK.Start(AbilityTable.AfterAttackDelay);
     }
-
-    public override bool IsActive()
-    {
-        return gameObject.activeSelf;
-    }
-
     public override void IUpdate()
     {
         if (mWaitForMove.IsOver())
@@ -82,15 +76,5 @@ public class Scarecrow : EnemyBase
     public override void PlayerExit(MESSAGE message)
     {
         mPlayer = null;
-    }
-
-    public override GameObject ThisObject()
-    {
-        return gameObject;
-    }
-
-    public override void CastBuff(BUFF buffType, IEnumerator castedBuff)
-    {
-        StartCoroutine(castedBuff);
     }
 }
