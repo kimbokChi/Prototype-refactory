@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Scarecrow : EnemyBase
 {
-    private Timer mWaitForATK;
     private Timer mWaitForMove;
+
+    private AttackPeriod mAttackPeriod;
 
     public override void Damaged(float damage, GameObject attacker)
     {
@@ -17,10 +18,9 @@ public class Scarecrow : EnemyBase
 
     public override void IInit()
     {
-        mWaitForATK  = new Timer();
         mWaitForMove = new Timer();
 
-        mWaitForATK.Start(AbilityTable.AfterAttackDelay);
+        mAttackPeriod = new AttackPeriod(AbilityTable, () => Debug.Log("Attack!"));
     }
     public override void IUpdate()
     {
@@ -47,16 +47,7 @@ public class Scarecrow : EnemyBase
 
         if (HasPlayerOnRange())
         {
-            if (mWaitForATK.IsOver())
-            {
-                mPlayer.Damaged(AbilityTable.AttackPower, gameObject);
-
-                mWaitForATK.Start(AbilityTable.AfterAttackDelay);
-            }
-            else
-            {
-                mWaitForATK.Update();
-            }
+            mAttackPeriod.Update();
         }
     }
 
