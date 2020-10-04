@@ -12,7 +12,7 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
 
     private Player mPlayer;
 
-    private Timer mWaitForLighting;
+    private AttackPeriod mAttackPeriod;
 
     private Pool<Lighting> mPool;
 
@@ -20,9 +20,7 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
-        mWaitForLighting = new Timer();
-
-        mWaitForLighting.Start(AbilityTable.BeginAttackDelay);
+        mAttackPeriod = new AttackPeriod(AbilityTable, SummonLighting);
 
         mPool = new Pool<Lighting>();
         mPool.Init(mLighting, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
@@ -39,19 +37,7 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
 
         if (mPlayer != null)
         {
-            if (mWaitForLighting.IsOver())
-            {
-                if (mPlayer.Position(out Vector2 playerPos))
-                {
-                    mPool.Pop().SetDamage(AbilityTable.AttackPower);
-
-                    mWaitForLighting.Start(AbilityTable.AfterAttackDelay);
-                }
-            }
-            else
-            {
-                mWaitForLighting.Update();
-            }
+            mAttackPeriod.Update();
         }
     }
 
@@ -69,6 +55,14 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
     }
 
     public GameObject ThisObject() => gameObject;
+
+    private void SummonLighting()
+    {
+        if (mPlayer.Position(out Vector2 playerPos))
+        {
+            mPool.Pop().SetDamage(AbilityTable.AttackPower);
+        }
+    }
 
     private void Pool_popMethod(Lighting lighting)
     {
