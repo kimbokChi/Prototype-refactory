@@ -367,7 +367,9 @@ public class AttackPeriod
     private AbilityTable mAbilityTable;
 
     
-    public AttackPeriod(AbilityTable abilityTable, System.Action beginOverAction, System.Action afterOverAction)
+    public AttackPeriod(AbilityTable abilityTable, 
+        System.Action beginOverAction = null, 
+        System.Action afterOverAction = null)
     {
         mWaitPeriod = Period.Begin;
 
@@ -386,17 +388,17 @@ public class AttackPeriod
         {
             if (mWaitPeriod.Equals(Period.Begin))
             {
-                mBeginOverAction.Invoke();
+                mBeginOverAction?.Invoke();
 
                 mWaitPeriod = Period.After;
-                mTimer.Start(mAbilityTable.BeginAttackDelay);
+                mTimer.Start(mAbilityTable.AfterAttackDelay);
             }
             else
             {
-                mAfterOverAction.Invoke();
+                mAfterOverAction?.Invoke();
 
                 mWaitPeriod = Period.Begin;
-                mTimer.Start(mAbilityTable.AfterAttackDelay);
+                mTimer.Start(mAbilityTable.BeginAttackDelay);
             }
         }
     }
