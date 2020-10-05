@@ -113,20 +113,8 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
             }
             arrow.transform.position = transform.position;
 
-            arrow.Setting(Arrow_targetHit, Arrow_canDistroy);
+            arrow.Setting(o => o.Damaged(AbilityTable.AttackPower, gameObject), i => i > 0);
         }
-    }
-
-    private void Arrow_targetHit(ICombatable combat)
-    {
-        combat.Damaged(AbilityTable.AttackPower, gameObject);
-    }
-
-    private bool Arrow_canDistroy(uint hitCount)
-    {
-        if (hitCount > 0) return true;
-
-        return false;
     }
 
     private void Pool_popMethod(Arrow arrow)
@@ -141,6 +129,8 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
     }
     private bool Pool_returnToPool(Arrow arrow)
     {
-        return Vector2.Distance(transform.position, arrow.transform.position) > 7f || !arrow.gameObject.activeSelf;
+        float distance = Vector2.Distance(transform.position, arrow.transform.position);
+
+        return distance > 7f || !arrow.gameObject.activeSelf;
     }
 }
