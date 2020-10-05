@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Pool<T> where T : MonoBehaviour
 {
-    private T mOriginInstance;
+    private T mOrigin;
 
     private Stack<T> mInThePool;
 
@@ -19,7 +19,7 @@ public class Pool<T> where T : MonoBehaviour
 
     public void Init(T origin, Action<T> popMethod, Action<T> addMethod, Func<T, bool> canReturnOfPool)
     {
-        mOriginInstance = origin;
+        mOrigin = origin;
 
         mInThePool = new Stack<T>();
         mOutThePool = new List<T>();
@@ -34,10 +34,13 @@ public class Pool<T> where T : MonoBehaviour
     {
         if (CanReturnOfPool != null)
         {
-            var returnO = mInThePool.Where(o => CanReturnOfPool(o)).ToList();
-
-            returnO.ForEach(o => Add(o));
-            returnO.ForEach(o => mOutThePool.Remove(o));
+            for (int i = 0; i < mOutThePool.Count; i++)
+            {
+                if (CanReturnOfPool.Invoke(mOutThePool[i]))
+                {
+                    Add(mOutThePool[i]); mOutThePool.RemoveAt(i);
+                }
+            }
         }
     }
 
@@ -54,7 +57,7 @@ public class Pool<T> where T : MonoBehaviour
 
         if (mInThePool.Count == 0)
         {
-            mInThePool.Push(instance = MonoBehaviour.Instantiate(mOriginInstance));
+            mInThePool.Push(instance = MonoBehaviour.Instantiate(mOrigin));
         }
         mOutThePool.Add(instance = mInThePool.Pop());
 
