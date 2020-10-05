@@ -111,6 +111,8 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private void CastPattern()
     {
+        mCanCastPATTERN = false;
+
         switch (GetPATTERN())
         {
             case Pattern.SummonTotem:
@@ -128,7 +130,6 @@ public class Chief : EnemyBase, IObject, ICombatable
                 PATTERN_summonBombTotem();
                 break;
         }
-        mCanCastPATTERN = false;
     }
     private Pattern GetPATTERN()
     {
@@ -253,12 +254,10 @@ public class Chief : EnemyBase, IObject, ICombatable
         {
             case MovingDir.Up:
             case MovingDir.Down:
-
                 MoveToPoint(movePoint, MovingStyle.Lerp);
                 break;
 
             case MovingDir.Side:
-
                 MoveToPoint(movePoint, MovingStyle.SmoothDamp);
                 break;
         }        
