@@ -16,8 +16,6 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
     private AttackPeriod mAttackPeriod;
     private Timer mWaitForMoving;
 
-    private Dictionary<int, bool> mAttackedHashs;
-
     private IEnumerator mEDash;
     public override void Damaged(float damage, GameObject attacker)
     {
@@ -26,7 +24,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
     public override void IInit()
     {
-        mAttackedHashs = new Dictionary<int, bool>();
+        mContactArea.SetEnterAction(Attack);
 
         mWaitForMoving = new Timer();
          mAttackPeriod = new AttackPeriod(AbilityTable);
@@ -36,6 +34,8 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
     {
         if (IsLookAtPlayer() && mEDash == null)
         {
+            MoveStop();
+
             mAttackPeriod.Update();
         }
         else if (mWaitForMoving.IsOver())
@@ -75,41 +75,28 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
     private IEnumerator EDash(Vector2 dashPoint)
     {
-        dashPoint = FitToMoveArea(dashPoint);
+        dashPoint = FitToMoveArea(dashPoint).normalized * mMaxDashLength;
 
         float lerpAmount = 0;
 
-        Vector2 initPoint = transform.localPosition;
-
-        while (lerpAmount < 1 && Vector2.Distance(initPoint, transform.localPosition) < mMaxDashLength)
+        while (lerpAmount < 1)
         {
-            Attack();
-
             lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * mDashSpeedScale * AbilityTable.MoveSpeed);
 
             transform.localPosition = Vector2.Lerp(transform.localPosition, dashPoint, lerpAmount);
 
             yield return null;
         }
-        mAttackedHashs.Clear();
-
         mEDash = null;
     }
 
-    private void Attack()
+    private void Attack(GameObject @object)
     {
-        ICombatable[] combat = mContactArea.GetEnterTypeT<ICombatable>();
-
-        for (int i = 0; i < combat.Length; ++i)
+        if (mEDash != null)
+        if (@object.TryGetComponent(out ICombatable combatable))
         {
-            int hash = combat[i].GetHashCode();
-
-            if (!mAttackedHashs.ContainsKey(hash))
-            {
-                mAttackedHashs.Add(hash, true);
-
-                combat[0].Damaged(AbilityTable.AttackPower, gameObject);
-            }
-        }
+            Debug.Log(@object.name);
+            combatable.Damaged(AbilityTable.AttackPower, gameObject);
+        }       
     }
 }
