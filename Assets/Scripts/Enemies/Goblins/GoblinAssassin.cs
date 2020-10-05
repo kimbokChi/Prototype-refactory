@@ -13,18 +13,15 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
     [SerializeField]
     private float mDashSpeedScale;
 
+    private AttackPeriod mAttackPeriod;
     private Timer mWaitForMoving;
-    private Timer mWaitForATK;
 
     private Dictionary<int, bool> mAttackedHashs;
 
     private IEnumerator mEDash;
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
-        {
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) > 0);
     }
 
     public override void IInit()
@@ -32,32 +29,14 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         mAttackedHashs = new Dictionary<int, bool>();
 
         mWaitForMoving = new Timer();
-        mWaitForATK    = new Timer();
-
-        mWaitForATK.Start(AbilityTable.BeginAttackDelay);
+         mAttackPeriod = new AttackPeriod(AbilityTable);
+         mAttackPeriod.SetAction(Period.Attack, Dash);
     }
     public override void IUpdate()
     {
-        if (IsLookAtPlayer())
+        if (IsLookAtPlayer() && mEDash == null)
         {
-            if (mEDash == null)
-            {
-                MoveStop();
-
-                if (mWaitForATK.IsOver())
-                {
-                    if (mPlayer.Position(out Vector2 playerPos))
-                    {
-                        playerPos = PositionLocalized(playerPos);
-                        
-                        StartCoroutine(mEDash = EDash(playerPos));
-                    }
-                }
-                else
-                {
-                    mWaitForATK.Update();
-                }
-            }
+            mAttackPeriod.Update();
         }
         else if (mWaitForMoving.IsOver())
         {
@@ -67,8 +46,6 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
                 movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
                 movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
-
-                // Cut
 
                 MoveToPoint(movePoint);
             }
@@ -88,6 +65,14 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
     {
         mPlayer = null;
     }
+
+    private void Dash()
+    {
+        if (mPlayer.Position(out Vector2 playerPos)) {
+            StartCoroutine(mEDash = EDash(PositionLocalized(playerPos)));
+        }
+    }
+
     private IEnumerator EDash(Vector2 dashPoint)
     {
         dashPoint = FitToMoveArea(dashPoint);
@@ -108,7 +93,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         }
         mAttackedHashs.Clear();
 
-        mWaitForATK.Start(AbilityTable.AfterAttackDelay); mEDash = null;
+        mEDash = null;
     }
 
     private void Attack()
