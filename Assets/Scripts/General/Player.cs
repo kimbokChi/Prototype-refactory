@@ -12,10 +12,6 @@ public class Player : MonoBehaviour, ICombatable
     private float mBlinkTime;
     private Timer mBlinkTimer;
 
-    [SerializeField]
-    private float WaitTimeATK;
-    private Timer mWaitATK;
-
     [SerializeField] 
     private Area RangeArea;
 
@@ -32,6 +28,8 @@ public class Player : MonoBehaviour, ICombatable
 
     private List<Collider2D> mCollidersOnMove;
 
+    private AttackPeriod mAttackPeriod;
+
     private bool mCanElevation;
 
     private bool mIsMoveToUpDown;
@@ -41,6 +39,8 @@ public class Player : MonoBehaviour, ICombatable
     public AbilityTable GetAbility => AbilityTable;
 
     private bool mIsDeath;
+
+    private bool mCanAttack;
 
     public LPOSITION3 GetLPOSITION3()
     {
@@ -102,10 +102,13 @@ public class Player : MonoBehaviour, ICombatable
 
         mIsMoveToUpDown = false;
 
-        mWaitATK    = new Timer();
         mBlinkTimer = new Timer();
 
-        mWaitATK.Start(WaitTimeATK);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
+        mAttackPeriod.SetAction(Period.Attack, AttackAction);
+
+        RangeArea.SetEnterAction( o => mCanAttack = true);
+        RangeArea.SetEmptyAction(() => mCanAttack = false);
 
         mCollidersOnMove = new List<Collider2D>();
     }
@@ -175,25 +178,12 @@ public class Player : MonoBehaviour, ICombatable
 
     private void Update()
     {
-        mWaitATK.Update();
-
         if (!mBlinkTimer.IsOver()) 
         {
             mBlinkTimer.Update(); 
         }
-        if (RangeArea.TryEnterTypeT(out GameObject challenger))
-        {
-            if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombatable combat))
-            {
-                Inventory.Instance.OnAttack(gameObject, combat);
 
-                mWaitATK.Start(WaitTimeATK);
-            }
-            if (TryGetComponent(out SpriteRenderer renderer))
-            {
-                renderer.flipX = (challenger.transform.position.x > transform.position.x);
-            }            
-        }
+        if (mCanAttack) mAttackPeriod.Update();
 
         if (!mIsDeath)
         {
@@ -206,6 +196,21 @@ public class Player : MonoBehaviour, ICombatable
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (mEMove != null) mCollidersOnMove.Add(collision);
+    }
+
+    private void AttackAction()
+    {
+        if (RangeArea.TryEnterTypeT(out Transform transform))
+        {
+            if (transform.TryGetComponent(out ICombatable combat))
+            {
+                Inventory.Instance.OnAttack(gameObject, combat);
+            }
+            if (TryGetComponent(out SpriteRenderer renderer))
+            {
+                renderer.flipX = (transform.position.x > this.transform.position.x);
+            }
+        }
     }
 
     private void MoveAction(DIRECTION9 moveDIR9)
