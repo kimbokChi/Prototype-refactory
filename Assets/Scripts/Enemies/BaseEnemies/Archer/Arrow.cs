@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Arrow : MonoBehaviour
@@ -33,15 +34,9 @@ public class Arrow : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
-            if (mCanDestroy != null)
+            if (mCanDestroy.Invoke(mEnterCount))
             {
-                if (mCanDestroy.Invoke(mEnterCount))
-                {
-                    gameObject.SetActive(false);
-
-                    yield break;
-                }
-                
+                gameObject.SetActive(false); yield break;
             }
             transform.position += (Vector3)(DeltaTime * mDirection * mSpeed);
 
@@ -58,16 +53,11 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        for (int i = 0; i < mTargetTags.Length; ++i)
+        if (mTargetTags.Any(o => collision.CompareTag(o)))
         {
             if (collision.TryGetComponent(out ICombatable combat))
             {
-                if (collision.CompareTag(mTargetTags[i]))
-                {
-                    mTriggerAction.Invoke(combat);
-
-                    mEnterCount++;
-                }
+                mTriggerAction.Invoke(combat); mEnterCount++;
             }
         }
     }
