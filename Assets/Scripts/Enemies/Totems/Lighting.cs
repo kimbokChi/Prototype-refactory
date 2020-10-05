@@ -19,29 +19,24 @@ public class Lighting : MonoBehaviour
         {
             if (collision.CompareTag(mTargetTags[i]))
             {
-                if (collision.TryGetComponent(out ICombatable combat))
-                {
-                    combat.Damaged(mDamage, gameObject);
-                }
+                if (collision.TryGetComponent(out ICombatable combat)) combat.Damaged(mDamage, gameObject);
             }
         }
     }
 
     private void OnEnable()
     {
-        if (mTimer == null)
-        {
-            mTimer = new Timer();
-        }
-        mTimer.Start(mDurate);
+        (mTimer = mTimer ?? new Timer()).Start(mDurate);
     }
 
-    public void DurateCheck()
+    public bool CanDisable()
     {
+            mTimer.Update();
         if (mTimer.IsOver())
         {
             gameObject.SetActive(false);
+            return true;
         }
-        mTimer.Update();
+        return false;
     }
 }

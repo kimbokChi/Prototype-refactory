@@ -23,7 +23,7 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
         mAttackPeriod = new AttackPeriod(AbilityTable, SummonLighting);
 
         mPool = new Pool<Lighting>();
-        mPool.Init(mLighting, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
+        mPool.Init(mLighting, Pool_popMethod, null, o => o.CanDisable());
     }
 
     public bool IsActive()
@@ -72,23 +72,10 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
 
         lighting.gameObject.SetActive(true);
     }
-    private void Pool_addMethod(Lighting lighting)
-    {
-        lighting.gameObject.SetActive(false);
-    }
-    private bool Pool_returnToPool(Lighting lighting)
-    {
-        lighting.DurateCheck();
-
-        return !lighting.gameObject.activeSelf;
-    }
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
-        {
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) > 0f);
     }
 
     public void CastBuff(BUFF buffType, IEnumerator castedBuff)

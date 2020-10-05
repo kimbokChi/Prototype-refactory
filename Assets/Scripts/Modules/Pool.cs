@@ -61,7 +61,7 @@ public class Pool<T> where T : MonoBehaviour
         }
         mOutThePool.Add(instance = mInThePool.Pop());
 
-        PopMethod.Invoke(instance);
+        PopMethod?.Invoke(instance);
 
         return instance;
     }
