@@ -32,7 +32,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0);
+        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) > 0);
     }
 
     public void IInit()
@@ -113,7 +113,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
             }
             arrow.transform.position = transform.position;
 
-            arrow.Setting(o => o.Damaged(AbilityTable.AttackPower, gameObject), i => i > 0);
+            arrow.Setting(o => o.Damaged(AbilityTable.AttackPower, gameObject), count => count > 0);
         }
     }
 
