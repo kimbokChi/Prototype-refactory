@@ -4,21 +4,18 @@ using UnityEngine;
 
 public class Chief : EnemyBase, IObject, ICombatable
 {
+    private enum MovingDir { Down, Up, Side }
+
+    private enum Pattern
+    {
+        SummonTotem, SwingRod, SummonBombTotem, END
+    }
+
     public const float  FIRST_STRUGGLE_HP_CONDITION = 0.5f;
     public const float SECOND_STRUGGLE_HP_CONDITION = 0.3f;
 
     public float HealthPercent
     { get => AbilityTable.Table[Ability.CurHealth] / AbilityTable.Table[Ability.MaxHealth]; }
-
-    private enum MOVINGDIR
-    {
-        DOWN, UP, SIDE
-    }
-
-    private enum PATTERN
-    {
-        SUMMON_TOTEM, SWING_ROD, SUMMON_BOMB_TOTEM, END
-    }
 
     private DIRECTION9 mLocation9;
 
@@ -46,6 +43,8 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private IEnumerator mESwingRod;
 
+    private event System.Action PatternEnd;
+
     public override void Damaged(float damage, GameObject attacker)
     {
         AbilityTable.Table[Ability.CurHealth] -= damage;
@@ -71,6 +70,8 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     public override void IInit()
     {
+        PatternEnd += PATTERN_moving;
+
         mAttackPeriod = new AttackPeriod(AbilityTable);
         mAttackPeriod.SetAction(Period.Attack, CastPattern);
 
@@ -91,38 +92,10 @@ public class Chief : EnemyBase, IObject, ICombatable
         }       
     }
 
-    private void CastPattern()
-    {
-        switch (GetPATTERN())
-        {
-            case PATTERN.SUMMON_TOTEM:
-
-                PATTERN_summonTotem();
-                break;
-
-            case PATTERN.SWING_ROD:
-
-                PATTERN_swingRod();
-                break;
-
-            case PATTERN.SUMMON_BOMB_TOTEM:
-
-                PATTERN_summonBombTotem();
-                break;
-        }
-        mCanCastPATTERN = false;
-    }
-
-    protected override void MoveFinish()
-    {
-        mCanCastPATTERN = true;
-    }
-
     public override void PlayerEnter(MESSAGE message, Player enterPlayer)
     {
         mPlayer = enterPlayer;
     }
-
     public override void PlayerExit(MESSAGE message)
     {
         if (message.Equals(MESSAGE.BELONG_FLOOR))
@@ -131,40 +104,62 @@ public class Chief : EnemyBase, IObject, ICombatable
         }
     }
 
-    private PATTERN GetPATTERN()
+    protected override void MoveFinish()
     {
-        PATTERN pattern = (PATTERN)Random.Range(0, (int)PATTERN.END);
+        mCanCastPATTERN = true;
+    }
+
+    private void CastPattern()
+    {
+        switch (GetPATTERN())
+        {
+            case Pattern.SummonTotem:
+
+                PATTERN_summonTotem();
+                break;
+
+            case Pattern.SwingRod:
+
+                PATTERN_swingRod();
+                break;
+
+            case Pattern.SummonBombTotem:
+
+                PATTERN_summonBombTotem();
+                break;
+        }
+        mCanCastPATTERN = false;
+    }
+    private Pattern GetPATTERN()
+    {
+        Pattern pattern = (Pattern)Random.Range(0, (int)Pattern.END);
 
         switch (pattern)
         {
-            case PATTERN.SWING_ROD:
+            case Pattern.SwingRod:
                 if (!HasPlayerOnRange())
                 {
-                    pattern = (PATTERN)Random.Range(1, (int)PATTERN.END);
+                    pattern = (Pattern)Random.Range(1, (int)Pattern.END);
                     
-                    if (pattern.Equals(PATTERN.SWING_ROD)) {
-                        pattern = PATTERN.SUMMON_TOTEM;
+                    if (pattern.Equals(Pattern.SwingRod)) {
+                        pattern = Pattern.SummonTotem;
                     }
                 }
                 break;
         }
         return pattern;
     }
+
     private void SummonLackey(GameObject lackey)
     {
         Room parentRoom = mFloorRooms[Random.Range(0, mFloorRooms.Length)];
 
         GameObject instance = Instantiate(lackey, parentRoom.transform, false);
 
-        if (instance.TryGetComponent(out IObject Iobject))
-        {
-            parentRoom.AddIObject(Iobject);
-        }
-        Vector2 summonPoint = mTotemSummonOffset;
+        if (instance.TryGetComponent(out IObject Iobject)) parentRoom.AddIObject(Iobject);
 
-        summonPoint.x += Random.Range(-HalfMoveRangeX, HalfMoveRangeX);
-
-        instance.transform.localPosition = summonPoint;
+        instance.transform.localPosition = 
+            mTotemSummonOffset + Vector2.right * Random.Range(-HalfMoveRangeX, HalfMoveRangeX);
     }
     private void SummonLackey(GameObject lackey, Vector2 summonPoint, int roomIndex)
     {
@@ -172,17 +167,15 @@ public class Chief : EnemyBase, IObject, ICombatable
 
         GameObject instance = Instantiate(lackey, parentRoom.transform, false);
 
-        if (instance.TryGetComponent(out IObject Iobject))
-        {
-            parentRoom.AddIObject(Iobject);
-        }
+        if (instance.TryGetComponent(out IObject Iobject)) parentRoom.AddIObject(Iobject);
+
         instance.transform.position = summonPoint;
     }
 
     private void PATTERN_summonTotem()
     {
         SummonLackey(mTotems[Random.Range(0, mTotems.Length)]);
-        EndOfPattern();
+        PatternEnd.Invoke();
     }
     private void PATTERN_swingRod()
     {
@@ -194,7 +187,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         {
             SummonLackey(mBombTotem, playerPoint, (int)mPlayer.GetLPOSITION3());
 
-            EndOfPattern();
+            PatternEnd.Invoke();
         }
     }
     private void PATTERN_moving()
@@ -210,28 +203,28 @@ public class Chief : EnemyBase, IObject, ICombatable
         const int MAX = 8;
         const int MIN = 0;
 
-        MOVINGDIR movingDIR = (MOVINGDIR)Random.Range(0, 3);
+        MovingDir movingDIR = (MovingDir)Random.Range(0, 3);
 
         switch (movingDIR)
         {
-            case MOVINGDIR.DOWN:
+            case MovingDir.Down:
                 nextLocation = ((int)(mLocation9 + 3) > MAX) ? mLocation9 : mLocation9 + 3;
 
                 // 아래로 이동할 수 없을 때에는, 위로 이동하도록 한다
                 if (nextLocation.Equals(mLocation9))
                 {
-                    movingDIR = MOVINGDIR.UP;
+                    movingDIR = MovingDir.Up;
                     nextLocation = mLocation9 - 3;
                 }
                 break;
 
-            case MOVINGDIR.UP:
+            case MovingDir.Up:
                 nextLocation = ((int)(mLocation9 - 3) < MIN) ? mLocation9 : mLocation9 - 3;
 
                 // 위로 이동할 수 없을 때에는, 아래로 이동하도록 한다
                 if (nextLocation.Equals(mLocation9))
                 {
-                    movingDIR = MOVINGDIR.DOWN;
+                    movingDIR = MovingDir.Down;
                     nextLocation = mLocation9 + 3;
                 }
                 break;
@@ -239,7 +232,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         Vector2 movePoint = Vector2.zero;
 
         // 위 아래 이동
-        if (movingDIR.Equals(MOVINGDIR.DOWN) || movingDIR.Equals(MOVINGDIR.UP)) 
+        if (movingDIR.Equals(MovingDir.Down) || movingDIR.Equals(MovingDir.Up)) 
         {
             movePoint = OriginPosition;
 
@@ -250,7 +243,7 @@ public class Chief : EnemyBase, IObject, ICombatable
             mLocation9 = nextLocation;
         }
         // 좌우 이동
-        else if (movingDIR.Equals(MOVINGDIR.SIDE)) 
+        else if (movingDIR.Equals(MovingDir.Side)) 
         {
             movePoint.y += transform.localPosition.y;
 
@@ -258,13 +251,13 @@ public class Chief : EnemyBase, IObject, ICombatable
         }
         switch (movingDIR)
         {
-            case MOVINGDIR.UP:
-            case MOVINGDIR.DOWN:
+            case MovingDir.Up:
+            case MovingDir.Down:
 
                 MoveToPoint(movePoint, MovingStyle.Lerp);
                 break;
 
-            case MOVINGDIR.SIDE:
+            case MovingDir.Side:
 
                 MoveToPoint(movePoint, MovingStyle.SmoothDamp);
                 break;
@@ -277,7 +270,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         PATTERN_summonTotem();
         PATTERN_summonTotem();
 
-        EndOfPattern();
+        PatternEnd.Invoke();
     }
     private void STRUGGLE_summonGoblin()
     {
@@ -291,12 +284,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         
         SummonLackey(mGoblinAssassin);
 
-        EndOfPattern();
-    }
-    
-    private void EndOfPattern()
-    {
-        PATTERN_moving();
+        PatternEnd.Invoke();
     }
 
     private bool IsPlayerLocationAccord()
@@ -332,10 +320,10 @@ public class Chief : EnemyBase, IObject, ICombatable
 
             if (HasPlayerOnRange())
             {
-                mPlayer.Damaged(5f, gameObject);
+                mPlayer.Damaged(AbilityTable.AttackPower, gameObject);
 
             }
         }
-        mESwingRod = null; EndOfPattern();
+        mESwingRod = null; PatternEnd.Invoke();
     }
 }
