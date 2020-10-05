@@ -10,7 +10,7 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
 
     private IEnumerator mEOnFuse;
 
-    private Timer mWaitForFuse;
+    private AttackPeriod mAttackPeriod;
 
     private Player mPlayer;
 
@@ -18,9 +18,7 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
-        mWaitForFuse = new Timer();
-
-        mWaitForFuse.Start(0f);
+        mAttackPeriod = new AttackPeriod(AbilityTable, () => StartCoroutine(mEOnFuse = EOnFuse()));
     }
 
     public bool IsActive()
@@ -36,14 +34,7 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
 
             if (OnTriggerPlayer())
             {
-                if (mWaitForFuse.IsOver())
-                {
-                    StartCoroutine(mEOnFuse = EOnFuse());
-                }          
-            }
-            if (!mWaitForFuse.IsOver())
-            {
-                mWaitForFuse.Update();
+                mAttackPeriod.Update();
             }
         }
     }
@@ -70,8 +61,6 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
             mPlayer.Damaged(AbilityTable.AttackPower, gameObject);
 
         }
-        mWaitForFuse.Start(AbilityTable.BeginAttackDelay);
-
         mEOnFuse = null;
     }
 
@@ -90,10 +79,7 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
-        {
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f);
     }
 
     public void CastBuff(BUFF buffType, IEnumerator castedBuff)
