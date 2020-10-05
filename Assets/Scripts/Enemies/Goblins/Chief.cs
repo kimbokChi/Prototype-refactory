@@ -22,8 +22,6 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private DIRECTION9 mLocation9;
 
-    private PATTERN mCastingPATTERN;
-
     [Range(0f, 1f)]
     [SerializeField] private float mMovingProbablity;
 
@@ -41,8 +39,8 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private AttackPeriod mAttackPeriod;
 
-    private bool mHasTheFirstSTRUGGLE;
-    private bool mHasTheSecondSTRUGGLE;
+    private bool mHasFirstSTRUGGLE;
+    private bool mHasSecondSTRUGGLE;
 
     private bool mCanCastPATTERN;
 
@@ -50,10 +48,25 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     public override void Damaged(float damage, GameObject attacker)
     {
-        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
-        {
-            gameObject.SetActive(false);
+        AbilityTable.Table[Ability.CurHealth] -= damage;
+
+        if (!mHasFirstSTRUGGLE) {
+            if (HealthPercent <= FIRST_STRUGGLE_HP_CONDITION)
+            {
+                STRUGGLE_summonTotem();
+
+                mHasFirstSTRUGGLE = true;
+            }
         }
+        if (!mHasSecondSTRUGGLE) {
+            if (HealthPercent <= SECOND_STRUGGLE_HP_CONDITION)
+            {
+                STRUGGLE_summonGoblin();
+
+                mHasSecondSTRUGGLE = true;
+            }
+        }
+        gameObject.SetActive(HealthPercent > 0);
     }
 
     public override void IInit()
@@ -65,33 +78,13 @@ public class Chief : EnemyBase, IObject, ICombatable
 
         mLocation9 = DIRECTION9.MID;
 
-        mHasTheFirstSTRUGGLE  = false;
-        mHasTheSecondSTRUGGLE = false;
+        mHasFirstSTRUGGLE  = false;
+        mHasSecondSTRUGGLE = false;
 
         mCanCastPATTERN = true;
-
-        mCastingPATTERN = GetPATTERN();
     }
     public override void IUpdate()
-    {
-        if (!mHasTheFirstSTRUGGLE)
-        {
-            if (HealthPercent <= FIRST_STRUGGLE_HP_CONDITION)
-            {
-                STRUGGLE_summonTotem();
-
-                mHasTheFirstSTRUGGLE = true;
-            }
-        }
-        if (!mHasTheSecondSTRUGGLE)
-        {
-            if (HealthPercent <= SECOND_STRUGGLE_HP_CONDITION)
-            {
-                STRUGGLE_summonGoblin();
-
-                mHasTheSecondSTRUGGLE = true;
-            }
-        }        
+    {   
         if (mCanCastPATTERN)
         {
             mAttackPeriod.Update();
@@ -100,9 +93,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private void CastPattern()
     {
-        mCastingPATTERN = GetPATTERN();
-
-        switch (mCastingPATTERN)
+        switch (GetPATTERN())
         {
             case PATTERN.SUMMON_TOTEM:
 
@@ -119,8 +110,6 @@ public class Chief : EnemyBase, IObject, ICombatable
                 PATTERN_summonBombTotem();
                 break;
         }
-        Debug.Log($"Cast! : {mCastingPATTERN}");
-
         mCanCastPATTERN = false;
     }
 
