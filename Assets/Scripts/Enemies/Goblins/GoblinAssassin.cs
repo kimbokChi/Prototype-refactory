@@ -75,7 +75,8 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
     private IEnumerator EDash(Vector2 dashPoint)
     {
-        dashPoint = FitToMoveArea(dashPoint).normalized * mMaxDashLength;
+        dashPoint = (Vector2)transform.localPosition + 
+             ((dashPoint.x - transform.localPosition.x > 0) ? Vector2.right : Vector2.left) * mMaxDashLength;
 
         float lerpAmount = 0;
 
@@ -83,7 +84,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         {
             lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * mDashSpeedScale * AbilityTable.MoveSpeed);
 
-            transform.localPosition = Vector2.Lerp(transform.localPosition, dashPoint, lerpAmount);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, dashPoint, lerpAmount);
 
             yield return null;
         }
@@ -95,8 +96,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         if (mEDash != null)
         if (@object.TryGetComponent(out ICombatable combatable))
         {
-            Debug.Log(@object.name);
-            combatable.Damaged(AbilityTable.AttackPower, gameObject);
+                combatable.Damaged(AbilityTable.AttackPower, gameObject);
         }       
     }
 }
