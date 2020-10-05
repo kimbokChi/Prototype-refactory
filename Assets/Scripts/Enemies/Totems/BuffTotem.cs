@@ -12,15 +12,13 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
     [SerializeField] private float mDurate;
     [SerializeField] private uint  mLevel;
 
-    private Timer mWaitForCastBuff;
+    private AttackPeriod mAttackPeriod;
 
     public AbilityTable GetAbility => AbilityTable;
 
     public void IInit()
     {
-        mWaitForCastBuff = new Timer();
-
-        mWaitForCastBuff.Start(AbilityTable.BeginAttackDelay);
+        mAttackPeriod = new AttackPeriod(AbilityTable, CastBuff);
     }
 
     public bool IsActive()
@@ -30,16 +28,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
 
     public void IUpdate()
     {
-        if (mWaitForCastBuff.IsOver())
-        {
-            CastBuff();
-
-            mWaitForCastBuff.Start(AbilityTable.AfterAttackDelay);
-        }
-        else
-        {
-            mWaitForCastBuff.Update();
-        }
+        mAttackPeriod.Update();
     }
 
     private void CastBuff()
@@ -74,10 +63,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
-        {
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) > 0f);
     }
 
     public void CastBuff(BUFF buffType, IEnumerator castedBuff)
