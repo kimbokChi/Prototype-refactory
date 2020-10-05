@@ -10,12 +10,17 @@ public class Area : MonoBehaviour
     private string[] mSenseTags;
 
     private Action<GameObject> mEnterAction;
+    private Action             mEmptyAction;
 
     private List<GameObject> mSenseList;
 
     public void SetEnterAction(Action<GameObject> enterAction)
     {
         mEnterAction = enterAction;
+    }
+    public void SetEmptyAction(Action emptyAction)
+    {
+        mEmptyAction = emptyAction;
     }
 
     private void Awake()
@@ -40,6 +45,8 @@ public class Area : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         mSenseList.Remove(collision.gameObject);
+
+        if (mSenseList.Count.Equals(0)) mEmptyAction.Invoke();
     }
     public bool TryEnterTypeT<T>(out T enterObject) where T : class
     {
