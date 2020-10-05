@@ -106,8 +106,8 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         {
             Vector2 playerPos = PositionLocalized(mPlayer.transform.position);
 
-            return (SpriteFlipX && playerPos.x < transform.position.x) ||
-                   (SpriteFlipX && playerPos.x > transform.position.x);
+            return ( SpriteFlipX && playerPos.x < transform.position.x) ||
+                   (!SpriteFlipX && playerPos.x > transform.position.x);
         }
         return false;
     }
