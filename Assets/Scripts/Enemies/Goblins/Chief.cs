@@ -39,7 +39,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     private Room[] mFloorRooms;
 
-    private Timer mWaitForCastPattern;
+    private AttackPeriod mAttackPeriod;
 
     private bool mHasTheFirstSTRUGGLE;
     private bool mHasTheSecondSTRUGGLE;
@@ -58,11 +58,10 @@ public class Chief : EnemyBase, IObject, ICombatable
 
     public override void IInit()
     {
-        mWaitForCastPattern = new Timer();
+        mAttackPeriod = new AttackPeriod(AbilityTable);
+        mAttackPeriod.SetAction(Period.Attack, CastPattern);
 
         mFloorRooms = Castle.Instance.GetFloorRooms();
-
-        mWaitForCastPattern.Start(AbilityTable.BeginAttackDelay);
 
         mLocation9 = DIRECTION9.MID;
 
@@ -93,39 +92,40 @@ public class Chief : EnemyBase, IObject, ICombatable
                 mHasTheSecondSTRUGGLE = true;
             }
         }        
-        if (mWaitForCastPattern.IsOver() && mCanCastPATTERN)
+        if (mCanCastPATTERN)
         {
-            mCastingPATTERN = GetPATTERN();
+            mAttackPeriod.Update();
+        }       
+    }
 
-            switch (mCastingPATTERN)
-            {
-                case PATTERN.SUMMON_TOTEM: 
+    private void CastPattern()
+    {
+        mCastingPATTERN = GetPATTERN();
 
-                    PATTERN_summonTotem();
-                    break;
-
-                case PATTERN.SWING_ROD: 
-
-                    PATTERN_swingRod();
-                    break;
-
-                case PATTERN.SUMMON_BOMB_TOTEM: 
-
-                    PATTERN_summonBombTotem();
-                    break;
-            }
-            mCanCastPATTERN = false;
-        }
-        else
+        switch (mCastingPATTERN)
         {
-            mWaitForCastPattern.Update();
+            case PATTERN.SUMMON_TOTEM:
+
+                PATTERN_summonTotem();
+                break;
+
+            case PATTERN.SWING_ROD:
+
+                PATTERN_swingRod();
+                break;
+
+            case PATTERN.SUMMON_BOMB_TOTEM:
+
+                PATTERN_summonBombTotem();
+                break;
         }
+        Debug.Log($"Cast! : {mCastingPATTERN}");
+
+        mCanCastPATTERN = false;
     }
 
     protected override void MoveFinish()
     {
-        mWaitForCastPattern.Start(AbilityTable.AfterAttackDelay);
-
         mCanCastPATTERN = true;
     }
 
@@ -213,9 +213,7 @@ public class Chief : EnemyBase, IObject, ICombatable
         if (!IsPlayerLocationAccord())
         {
             if (Random.value < mMovingProbablity) {
-                mWaitForCastPattern.Start(AbilityTable.AfterAttackDelay); mCanCastPATTERN = true;
-
-                return;
+                mCanCastPATTERN = true; return;
             }
         }
         DIRECTION9 nextLocation = mLocation9;
@@ -292,7 +290,6 @@ public class Chief : EnemyBase, IObject, ICombatable
 
         EndOfPattern();
     }
-
     private void STRUGGLE_summonGoblin()
     {
         SummonLackey(mGoblinNormal);
@@ -307,6 +304,7 @@ public class Chief : EnemyBase, IObject, ICombatable
 
         EndOfPattern();
     }
+    
     private void EndOfPattern()
     {
         PATTERN_moving();
