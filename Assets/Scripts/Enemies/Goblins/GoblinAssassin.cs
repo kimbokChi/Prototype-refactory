@@ -32,9 +32,9 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
     }
     public override void IUpdate()
     {
-        if (IsLookAtPlayer() && mEDash == null)
+        if (IsLookAtPlayer())
         {
-            MoveStop();
+            if (mEDash == null) MoveStop();
 
             mAttackPeriod.Update();
         }
