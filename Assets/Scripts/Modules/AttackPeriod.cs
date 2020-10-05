@@ -1,22 +1,23 @@
 ﻿using System;
 public class AttackPeriod
 {
-    private enum Period { Begin, After };
+    private enum Period { Begin, Attack, After };
 
 
     private Period mWaitPeriod;
 
     private Timer mTimer;
 
-    private Action mBeginOverAction;
-    private Action mAfterOverAction;
+    private Action mEnterBeginAction;
+    private Action mEnterAfterAction;
+    private Action mEnterAttackAction;
 
     private AbilityTable mAbilityTable;
 
 
     public AttackPeriod(AbilityTable abilityTable,
-        Action beginOverAction = null,
-        Action afterOverAction = null)
+        Action enterBeginAction = null, Action enterAttackAction = null,
+        Action enterAfterAction = null)
     {
         mWaitPeriod = Period.Begin;
 
@@ -24,8 +25,10 @@ public class AttackPeriod
 
         mAbilityTable = abilityTable;
 
-        mBeginOverAction = beginOverAction;
-        mAfterOverAction = afterOverAction;
+        mEnterBeginAction = enterBeginAction;
+        mEnterAfterAction = enterAfterAction;
+
+        mEnterAttackAction = enterAttackAction;
     }
     public void Update()
     {
@@ -33,19 +36,31 @@ public class AttackPeriod
 
         if (mTimer.IsOver())
         {
-            if (mWaitPeriod.Equals(Period.Begin))
+            switch (mWaitPeriod)
             {
-                mBeginOverAction?.Invoke();
+                case Period.Begin:
 
-                mWaitPeriod = Period.After;
-                mTimer.Start(mAbilityTable.AfterAttackDelay);
-            }
-            else
-            {
-                mAfterOverAction?.Invoke();
+                    mEnterBeginAction?.Invoke();
 
-                mWaitPeriod = Period.Begin;
-                mTimer.Start(mAbilityTable.BeginAttackDelay);
+                    mWaitPeriod = Period.Attack;
+                    mTimer.Start(mAbilityTable.BeginAttackDelay);
+                    break;
+
+                case Period.Attack:
+
+                    mEnterAttackAction?.Invoke();
+
+                    mWaitPeriod = Period.After;
+                    mTimer.Start(mAbilityTable.AttackDelay);
+                    break;
+
+                case Period.After:
+
+                    mEnterAfterAction?.Invoke();
+
+                    mWaitPeriod = Period.Begin;
+                    mTimer.Start(mAbilityTable.AfterAttackDelay);
+                    break;
             }
         }
     }
