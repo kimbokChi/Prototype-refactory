@@ -41,7 +41,9 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
         mDartPool.Init(mDartOrigin, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, Attack);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
+
+        mAttackPeriod.SetAction(Period.Attack, Attack);
     }
 
     public bool IsActive()

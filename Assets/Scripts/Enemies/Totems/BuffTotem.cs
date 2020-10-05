@@ -18,7 +18,9 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
-        mAttackPeriod = new AttackPeriod(AbilityTable, CastBuff);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
+
+        mAttackPeriod.SetAction(Period.Attack, CastBuff);
     }
 
     public bool IsActive()

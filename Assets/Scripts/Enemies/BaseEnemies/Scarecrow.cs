@@ -20,7 +20,8 @@ public class Scarecrow : EnemyBase
     {
         mWaitForMove = new Timer();
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, () => Debug.Log("Attack!"));
+        mAttackPeriod = new AttackPeriod(AbilityTable);
+        mAttackPeriod.SetAction(Period.Attack, () => Debug.Log("Attack"));
     }
     public override void IUpdate()
     {

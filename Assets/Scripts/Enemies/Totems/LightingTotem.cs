@@ -20,7 +20,8 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
-        mAttackPeriod = new AttackPeriod(AbilityTable, SummonLighting);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
+        mAttackPeriod.SetAction(Period.Attack, SummonLighting);
 
         mPool = new Pool<Lighting>();
         mPool.Init(mLighting, Pool_popMethod, null, o => o.CanDisable());

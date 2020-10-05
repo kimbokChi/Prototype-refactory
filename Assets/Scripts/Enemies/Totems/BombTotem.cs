@@ -18,7 +18,9 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
-        mAttackPeriod = new AttackPeriod(AbilityTable, () => StartCoroutine(mEOnFuse = EOnFuse()));
+        mAttackPeriod = new AttackPeriod(AbilityTable);
+
+        mAttackPeriod.SetAction(Period.Attack, () => StartCoroutine(mEOnFuse = EOnFuse()));
     }
 
     public bool IsActive()
