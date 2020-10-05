@@ -21,7 +21,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     private Player mPlayer;
 
-    private Timer mWaitForShoot;
+    private AttackPeriod mAttackPeriod;
 
     public AbilityTable GetAbility => AbilityTable;
 
@@ -32,10 +32,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
-        {
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0);
     }
 
     public void IInit()
@@ -44,9 +41,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
         mDartPool.Init(mDartOrigin, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
 
-        mWaitForShoot = new Timer();
-
-        mWaitForShoot.Start(AbilityTable.BeginAttackDelay);
+        mAttackPeriod = new AttackPeriod(AbilityTable, Attack);
     }
 
     public bool IsActive()
@@ -58,52 +53,9 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
     {
         mDartPool.Update();
 
-        if (mWaitForShoot.IsOver())
+        if (mPlayer != null)
         {
-            for (int i = 0; i < 4; i++)
-            {
-                Arrow arrow = mDartPool.Pop();
-
-                switch (mShootingType)
-                {
-                    case SHOOTING_TYPE.CROSS:
-                        switch (i)
-                        {
-                            case 0:
-                                arrow.Setting(mDartSpeed, Vector2.left);
-                                break;
-
-                            case 1:
-                                arrow.Setting(mDartSpeed, Vector2.right);
-                                break;
-
-                            case 2:
-                                arrow.Setting(mDartSpeed, Vector2.down);
-                                break;
-
-                            case 3:
-                                arrow.Setting(mDartSpeed, Vector2.up);
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-
-                    case SHOOTING_TYPE.XSHAPE:
-                        float rotation = (45f + 90f * i) * Mathf.Deg2Rad;
-
-                        arrow.Setting(mDartSpeed, new Vector2(Mathf.Cos(rotation), Mathf.Sin(rotation)));
-                        break;
-                }
-                arrow.transform.position = transform.position;
-
-                arrow.Setting(Arrow_targetHit, Arrow_canDistroy);
-            }
-            mWaitForShoot.Start(AbilityTable.AfterAttackDelay);
-        }
-        else
-        {
-            mWaitForShoot.Update();
+            mAttackPeriod.Update();
         }
     }
 
@@ -121,6 +73,49 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
     }
 
     public GameObject ThisObject() => gameObject;
+
+    private void Attack()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Arrow arrow = mDartPool.Pop();
+
+            switch (mShootingType)
+            {
+                case SHOOTING_TYPE.CROSS:
+                    switch (i)
+                    {
+                        case 0:
+                            arrow.Setting(mDartSpeed, Vector2.left);
+                            break;
+
+                        case 1:
+                            arrow.Setting(mDartSpeed, Vector2.right);
+                            break;
+
+                        case 2:
+                            arrow.Setting(mDartSpeed, Vector2.down);
+                            break;
+
+                        case 3:
+                            arrow.Setting(mDartSpeed, Vector2.up);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+
+                case SHOOTING_TYPE.XSHAPE:
+                    float rotation = (45f + 90f * i) * Mathf.Deg2Rad;
+
+                    arrow.Setting(mDartSpeed, new Vector2(Mathf.Cos(rotation), Mathf.Sin(rotation)));
+                    break;
+            }
+            arrow.transform.position = transform.position;
+
+            arrow.Setting(Arrow_targetHit, Arrow_canDistroy);
+        }
+    }
 
     private void Arrow_targetHit(ICombatable combat)
     {
