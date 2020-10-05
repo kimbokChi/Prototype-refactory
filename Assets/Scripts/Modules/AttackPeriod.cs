@@ -1,9 +1,8 @@
 ﻿using System;
+public enum Period { Begin, Attack, After };
+
 public class AttackPeriod
 {
-    private enum Period { Begin, Attack, After };
-
-
     private Period mWaitPeriod;
 
     private Timer mTimer;
@@ -15,21 +14,38 @@ public class AttackPeriod
     private AbilityTable mAbilityTable;
 
 
-    public AttackPeriod(AbilityTable abilityTable,
-        Action enterBeginAction = null, Action enterAttackAction = null,
-        Action enterAfterAction = null)
+    public AttackPeriod(AbilityTable abilityTable)
     {
         mWaitPeriod = Period.Begin;
 
         (mTimer = new Timer()).Start(abilityTable.AfterAttackDelay);
 
         mAbilityTable = abilityTable;
+    }
 
+    public void SetAction
+        (Action enterBeginAction, Action enterAttackAction, Action enterAfterAction)
+    {
         mEnterBeginAction = enterBeginAction;
         mEnterAfterAction = enterAfterAction;
 
         mEnterAttackAction = enterAttackAction;
     }
+    public void SetAction(Period period, Action action)
+    {
+        switch (period)
+        {
+            case Period.Begin: mEnterBeginAction = action;
+                break;
+
+            case Period.After: mEnterAfterAction = action;
+                break;
+
+            case Period.Attack: mEnterAttackAction = action;
+                break;
+        }
+    }
+
     public void Update()
     {
         mTimer.Update();
