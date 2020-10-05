@@ -16,9 +16,6 @@ public class Player : MonoBehaviour, ICombatable
     private float WaitTimeATK;
     private Timer mWaitATK;
 
-    [SerializeField]
-    private float mMoveSpeed;
-
     [SerializeField] 
     private Area RangeArea;
 
@@ -38,8 +35,6 @@ public class Player : MonoBehaviour, ICombatable
     private bool mCanElevation;
 
     private bool mIsMoveToUpDown;
-
-    private CircleCollider2D mRnageCollider;
 
     public  bool IsDeath => mIsDeath;
 
@@ -113,8 +108,6 @@ public class Player : MonoBehaviour, ICombatable
         mWaitATK.Start(WaitTimeATK);
 
         mCollidersOnMove = new List<Collider2D>();
-
-        Debug.Assert(RangeArea.TryGetComponent(out mRnageCollider));
     }
 
     private void InputAction()
@@ -188,8 +181,6 @@ public class Player : MonoBehaviour, ICombatable
         {
             mBlinkTimer.Update(); 
         }
-        mRnageCollider.radius = Inventory.Instance.GetWeaponRange();
-
         if (RangeArea.TryEnterTypeT(out GameObject challenger))
         {
             if (mWaitATK.IsOver() && challenger.TryGetComponent(out ICombatable combat))
