@@ -8,8 +8,15 @@ public class Area : MonoBehaviour
 {
     [SerializeField]
     private string[] mSenseTags;
-    
+
+    private Action<GameObject> mEnterAction;
+
     private List<GameObject> mSenseList;
+
+    public void SetEnterAction(Action<GameObject> enterAction)
+    {
+        mEnterAction = enterAction;
+    }
 
     private void Awake()
     {
@@ -22,6 +29,8 @@ public class Area : MonoBehaviour
         {
             if (collision.CompareTag(mSenseTags[i]))
             {
+                mEnterAction?.Invoke(collision.gameObject);
+
                 mSenseList.Add(collision.gameObject);
 
                 break;
