@@ -30,6 +30,8 @@ public class Player : MonoBehaviour, ICombatable
 
     private AttackPeriod mAttackPeriod;
 
+    private event Action DeathEvent;
+
     private bool mCanElevation;
 
     private bool mIsMoveToUpDown;
@@ -111,6 +113,9 @@ public class Player : MonoBehaviour, ICombatable
         RangeArea.SetEmptyAction(() => mCanAttack = false);
 
         mCollidersOnMove = new List<Collider2D>();
+
+        DeathEvent += () => mGameOverWindow.SetActive(true);
+        DeathEvent += () => RangeArea.enabled = false;
     }
 
     private void InputAction()
@@ -151,31 +156,6 @@ public class Player : MonoBehaviour, ICombatable
 
         MoveAction(moveRIR9);
     }
-
-    private void CheckToDeath()
-    {
-        mIsDeath = (AbilityTable.Table[Ability.CurHealth]) <= 0f;
-
-        if (mIsDeath)
-        {
-            RangeArea.enabled = false;
-
-            if (TryGetComponent(out SpriteRenderer renderer))
-            {
-                renderer.color = new Color(0.7f, 0.7f, 0.7f, 0.8f);
-
-                if (renderer.flipX)
-                {
-                     transform.rotation = Quaternion.Euler(0f, 0f, 90.0f);
-                }
-                else transform.rotation = Quaternion.Euler(0f, 0f, -90.0f);
-            }
-            transform.position += (Vector3.up * -0.4f);
-
-            mGameOverWindow.SetActive(true);
-        }
-    }
-
     private void Update()
     {
         if (!mBlinkTimer.IsOver()) 
@@ -185,12 +165,7 @@ public class Player : MonoBehaviour, ICombatable
 
         if (mCanAttack) mAttackPeriod.Update();
 
-        if (!mIsDeath)
-        {
-            InputAction();
-
-            CheckToDeath();
-        }        
+        if (!mIsDeath) InputAction();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -295,13 +270,18 @@ public class Player : MonoBehaviour, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if (!mBlinkTimer.IsOver()) { return; }
+        if (mBlinkTimer.IsOver())
+        {
+            mBlinkTimer.Start(mBlinkTime);
 
-        Inventory.Instance.OnDamaged(ref damage, attacker, gameObject);
+            Inventory.Instance.OnDamaged(ref damage, attacker, gameObject);
 
-        AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
-
-        mBlinkTimer.Start(mBlinkTime);
+                           AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
+            if (mIsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
+            {
+                DeathEvent.Invoke();
+            }
+        }
     }
 
     public void CastBuff(BUFF buffType, IEnumerator castedBuff)
