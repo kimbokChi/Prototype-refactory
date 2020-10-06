@@ -142,18 +142,19 @@ public class Player : MonoBehaviour, ICombatable
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            if (mIsMoveToUpDown = GetLPOSITION3() != LPOSITION3.BOT)
-            {
+            if (mIsMoveToUpDown = 
+                GetLPOSITION3() != LPOSITION3.BOT) 
                 moveDir9 = mLocation9 + 3;
-            }
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
-            moveDir9 = (int)mLocation9 % 3 == 0 ? mLocation9 : mLocation9 - 1;
+            if (GetTPOSITION3() != TPOSITION3.LEFT) 
+                moveDir9 = mLocation9 - 1;
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            moveDir9 = (int)mLocation9 % 3 == 2 ? mLocation9 : mLocation9 + 1;
+            if (GetTPOSITION3() != TPOSITION3.RIGHT)
+                moveDir9 = mLocation9 + 1;
         }
         if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
     }
