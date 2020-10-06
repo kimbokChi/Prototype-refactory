@@ -120,41 +120,42 @@ public class Player : MonoBehaviour, ICombatable
 
     private void InputAction()
     {
-        DIRECTION9 moveRIR9 = DIRECTION9.END;
+        DIRECTION9 moveDir9 = DIRECTION9.END;
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            if (GetLPOSITION3() == LPOSITION3.TOP)
+            switch (GetLPOSITION3())
             {
-                mCanElevation = Castle.Instance.CanNextPoint();
-            }
-            if (!mCanElevation)
-            {
-                DIRECTION9 prevLocation9 = mLocation9;
+                case LPOSITION3.TOP:
+                    mCanElevation = Castle.Instance.CanNextPoint();
+                    break;
 
-                moveRIR9 = ((int)mLocation9 - 3) < 0 ? mLocation9 : mLocation9 - 3;
+                case LPOSITION3.MID:
+                case LPOSITION3.BOT:
+                    {
+                        mIsMoveToUpDown = true;
 
-                mIsMoveToUpDown = (prevLocation9 != moveRIR9);
+                        moveDir9 = mLocation9 - 3;
+                    }
+                    break;
             }
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            DIRECTION9 prevLocation9 = mLocation9;
-
-            moveRIR9 = ((int)mLocation9 + 3) > 8 ? mLocation9 : mLocation9 + 3;
-
-            mIsMoveToUpDown = (prevLocation9 != moveRIR9);
+            if (mIsMoveToUpDown = GetLPOSITION3() != LPOSITION3.BOT)
+            {
+                moveDir9 = mLocation9 + 3;
+            }
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
-            moveRIR9 = (int)mLocation9 % 3 == 0 ? mLocation9 : mLocation9 - 1;
+            moveDir9 = (int)mLocation9 % 3 == 0 ? mLocation9 : mLocation9 - 1;
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            moveRIR9 = (int)mLocation9 % 3 == 2 ? mLocation9 : mLocation9 + 1;
+            moveDir9 = (int)mLocation9 % 3 == 2 ? mLocation9 : mLocation9 + 1;
         }
-
-        MoveAction(moveRIR9);
+        if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
     }
     private void Update()
     {
