@@ -197,22 +197,17 @@ public class Player : MonoBehaviour, ICombatable
             {
                 if (Castle.Instance.CanNextPoint(out Vector2 nextPoint))
                 {
-                    switch (mLocation9)
-                    {
-                        case DIRECTION9.TOP_LEFT:
-                            moveDIR9 = DIRECTION9.BOT_LEFT;
-                            break;
-                        case DIRECTION9.TOP:
-                            moveDIR9 = DIRECTION9.BOT;
-                            break;
-                        case DIRECTION9.TOP_RIGHT:
-                            moveDIR9 = DIRECTION9.BOT_RIGHT;
-                            break;
-                    }
+                    #region comment
+                    // TOP_LEFT  -> BOT_LEFT
+                    // TOP       -> BOT
+                    // TOP_RIGHT -> BOT_RIGHT
+                    #endregion
+                    if (mLocation9 >= DIRECTION9.TOP_LEFT &&
+                        mLocation9 <= DIRECTION9.TOP_RIGHT) moveDIR9 += 6;
+
                     StartCoroutine(mEMove = EMove(nextPoint, moveDIR9));
                 }
             }
-
             // Move To MovePoint
             else if (moveDIR9 != DIRECTION9.END)
             {
