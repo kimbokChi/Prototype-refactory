@@ -180,7 +180,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
         Vector2 playerPos;
 
-        if ((IsLookAtPlayer(lookingDir) || IsLookAtPlayer()) && mPlayer.Position(out playerPos))
+        if ((IsLookAtPlayer(lookingDir) || IsLookAtPlayer()) && mPlayer.TryGetPosition(out playerPos))
         {
             movePoint = PositionLocalized(playerPos);
 

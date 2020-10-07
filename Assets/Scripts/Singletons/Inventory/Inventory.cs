@@ -107,6 +107,8 @@ public class Inventory : Singleton<Inventory>
         AttackAction?.Invoke(attacker, targetCombat);
     }
 
+    public void OnFloorEnter() => FloorEnterAction?.Invoke();
+
     public void OnMoveBegin(Vector2 moveDir) => MoveBeginAction?.Invoke(moveDir);
     public void OnMoveEnd(Collider2D[] colliders) => MoveEndAction?.Invoke(colliders);
 }

@@ -184,7 +184,7 @@ public class Chief : EnemyBase, IObject, ICombatable
     }
     private void PATTERN_summonBombTotem()
     {
-        if (mPlayer.Position(out Vector2 playerPoint))
+        if (mPlayer.TryGetPosition(out Vector2 playerPoint))
         {
             SummonLackey(mBombTotem, playerPoint, (int)mPlayer.GetLPOSITION3());
 

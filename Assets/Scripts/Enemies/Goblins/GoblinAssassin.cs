@@ -68,7 +68,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
     private void Dash()
     {
-        if (mPlayer.Position(out Vector2 playerPos)) {
+        if (mPlayer.TryGetPosition(out Vector2 playerPos)) {
             StartCoroutine(mEDash = EDash(PositionLocalized(playerPos)));
         }
     }

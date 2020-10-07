@@ -59,7 +59,7 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
 
     private void SummonLighting()
     {
-        if (mPlayer.Position(out Vector2 playerPos))
+        if (mPlayer.TryGetPosition(out Vector2 playerPos))
         {
             mPool.Pop().SetDamage(AbilityTable.AttackPower);
         }
@@ -67,7 +67,7 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
 
     private void Pool_popMethod(Lighting lighting)
     {
-        mPlayer.Position(out Vector2 playerPos);
+        mPlayer.TryGetPosition(out Vector2 playerPos);
 
         lighting.transform.position = mLightingOffset + playerPos;
 

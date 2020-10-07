@@ -38,7 +38,7 @@ public class Player : MonoBehaviour, ICombatable
 
     private bool mCanElevation;
 
-    private bool mIsMoveToUpDown;
+    private bool mIsMovingElevation;
 
     public  bool IsDeath => mIsDeath;
 
@@ -47,6 +47,9 @@ public class Player : MonoBehaviour, ICombatable
     private bool mIsDeath;
 
     private bool mCanAttack;
+
+    private float DeltaTime
+    { get => Time.deltaTime * Time.timeScale; }
 
     public LPOSITION3 GetLPOSITION3()
     {
@@ -106,7 +109,7 @@ public class Player : MonoBehaviour, ICombatable
         mCanElevation = false;
         mIsDeath      = false;
 
-        mIsMoveToUpDown = false;
+        mIsMovingElevation = false;
 
         mBlinkTimer = new Timer();
 
@@ -141,7 +144,7 @@ public class Player : MonoBehaviour, ICombatable
                 case LPOSITION3.MID:
                 case LPOSITION3.BOT:
                     {
-                        mIsMoveToUpDown = true;
+                        mIsMovingElevation = true;
 
                         moveDir9 = mLocation9 - 3;
                     }
@@ -150,7 +153,7 @@ public class Player : MonoBehaviour, ICombatable
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            if (mIsMoveToUpDown = 
+            if (mIsMovingElevation = 
                 GetLPOSITION3() != LPOSITION3.BOT) 
                 moveDir9 = mLocation9 + 3;
         }
@@ -169,13 +172,14 @@ public class Player : MonoBehaviour, ICombatable
     private void Update()
     {
         if (!mBlinkTimer.IsOver()) 
-        {
-            mBlinkTimer.Update(); 
-        }
+             mBlinkTimer.Update();
 
         if (mCanAttack) mAttackPeriod.Update();
 
-        if (!mIsDeath) InputAction();
+        if (!mIsDeath)
+        {
+            InputAction();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -216,7 +220,6 @@ public class Player : MonoBehaviour, ICombatable
             }
             else
             {
-                Debug.Log(moveDIR9.ToString());
                 Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
 
                 StartCoroutine(mEMove = EMove(movePoint, moveDIR9));
@@ -228,10 +231,10 @@ public class Player : MonoBehaviour, ICombatable
     {
         mInventory.OnMoveBegin(movePoint.normalized);
 
-        float  lerpAmount = 0; 
-        while (lerpAmount < 1)
+        float  lerpAmount = 0f; 
+        while (lerpAmount < 1f)
         {
-            lerpAmount = Mathf.Min(1, lerpAmount + Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed);
+            lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * AbilityTable.MoveSpeed);
 
             transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
 
@@ -243,14 +246,12 @@ public class Player : MonoBehaviour, ICombatable
 
         if (mCanElevation)
         {
-            // mInventory.UseItem(ITEM_KEYWORD.ENTER);
-
+            mInventory.OnFloorEnter();
             mCanElevation = false;
         }
+        mIsMovingElevation = false;
+
         mLocation9 = moveDIR9; mEMove = null;
-
-        mIsMoveToUpDown = false;
-
         yield break;
     }
 
@@ -263,11 +264,10 @@ public class Player : MonoBehaviour, ICombatable
     /// </param>
     /// <returns></returns>
     #endregion
-    public bool Position(out Vector2 playerPos)
+    public bool TryGetPosition(out Vector2 playerPos)
     {
         playerPos = transform.position;
-
-        return !mIsMoveToUpDown;
+            return !mIsMovingElevation;
     }
 
     public void Damaged(float damage, GameObject attacker)
