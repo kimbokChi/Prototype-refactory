@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class Inventory : Singleton<Inventory>
 {
-    public const float DEFAULT_RANGE = 1f;
-
     #region Item Function Event
 
     #region COMMENT
@@ -56,6 +54,12 @@ public class Inventory : Singleton<Inventory>
 
     #endregion
 
+    public event Action<Item> WeaponChangeEvent
+    {
+        add    => mWeaponSlot.ItemChangeEvent += value;
+        remove => mWeaponSlot.ItemChangeEvent -= value;
+    }
+
     [SerializeField] private ItemSlot   mWeaponSlot;
     [SerializeField] private ItemSlot[] mAccessorySlot;
     [SerializeField] private ItemSlot[] mContainer;
@@ -86,12 +90,6 @@ public class Inventory : Singleton<Inventory>
         mAccessorySlot.ToList().ForEach(o => o.SetItem(null));
             mContainer.ToList().ForEach(o => o.SetItem(null));
     }
-
-    public float GetWeaponRange()
-    {
-        return (mWeaponSlot.ContainItem != null) ? mWeaponSlot.ContainItem.WeaponRange : DEFAULT_RANGE;
-    }
-
     public void OnDamaged(ref float damage, GameObject attacker, GameObject victim)
     {
         BeDamagedAction?.Invoke(ref damage, attacker, victim);

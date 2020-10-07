@@ -48,6 +48,8 @@ public class Player : MonoBehaviour, ICombatable
 
     private bool mCanAttack;
 
+    private CircleCollider2D mRangeCollider;
+
     private float DeltaTime
     { get => Time.deltaTime * Time.timeScale; }
 
@@ -127,6 +129,12 @@ public class Player : MonoBehaviour, ICombatable
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
 
         mInventory = Inventory.Instance;
+
+        if (RangeArea.gameObject.TryGetComponent(out mRangeCollider))
+        {
+            mInventory.WeaponChangeEvent +=  
+                o => mRangeCollider.radius = o.WeaponRange;
+        }
     }
 
     private void InputAction()

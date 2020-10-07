@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using System;
 
 public enum SlotType
 {
@@ -9,6 +10,9 @@ public enum SlotType
 }
 public class ItemSlot : MonoBehaviour
 {
+    public event Action<Item> ItemChangeEvent;
+    public event Action<Item> ItemEquipEvent;
+
     public  Item  ContainItem => mContainItem;
     private Item mContainItem;
     
@@ -27,6 +31,8 @@ public class ItemSlot : MonoBehaviour
     {
         if (mContainItem != null)
         {
+            ItemChangeEvent?.Invoke(mContainItem);
+
             mContainItem.OffEquipThis(mSlotType);
         }        
         mContainItem = item;
@@ -41,6 +47,7 @@ public class ItemSlot : MonoBehaviour
 
             mImage.sprite = item.Sprite;
         }
+        ItemEquipEvent?.Invoke(mContainItem);
     }
 
     public void Select()
