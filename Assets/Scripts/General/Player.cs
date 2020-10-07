@@ -26,6 +26,10 @@ public class Player : MonoBehaviour, ICombatable
 
     private IEnumerator mEMove;
 
+    private Inventory mInventory;
+
+    private SpriteRenderer mRenderer;
+
     private List<Collider2D> mCollidersOnMove;
 
     private AttackPeriod mAttackPeriod;
@@ -116,6 +120,10 @@ public class Player : MonoBehaviour, ICombatable
 
         DeathEvent += () => mGameOverWindow.SetActive(true);
         DeathEvent += () => RangeArea.enabled = false;
+
+        Debug.Assert(gameObject.TryGetComponent(out mRenderer));
+
+        mInventory = Inventory.Instance;
     }
 
     private void InputAction()
@@ -181,12 +189,9 @@ public class Player : MonoBehaviour, ICombatable
         {
             if (transform.TryGetComponent(out ICombatable combat))
             {
-                Inventory.Instance.OnAttack(gameObject, combat);
+                mInventory.OnAttack(gameObject, combat);
             }
-            if (TryGetComponent(out SpriteRenderer renderer))
-            {
-                renderer.flipX = (transform.position.x > this.transform.position.x);
-            }
+            mRenderer.flipX = (transform.position.x > this.transform.position.x);
         }
     }
 
@@ -194,7 +199,6 @@ public class Player : MonoBehaviour, ICombatable
     {
         if (mEMove == null && moveDIR9 != mLocation9)
         {
-            // Move To Next Floor
             if (mCanElevation)
             {
                 if (Castle.Instance.CanNextPoint(out Vector2 nextPoint))
@@ -210,20 +214,21 @@ public class Player : MonoBehaviour, ICombatable
                     StartCoroutine(mEMove = EMove(nextPoint, moveDIR9));
                 }
             }
-            // Move To MovePoint
-            else if (moveDIR9 != DIRECTION9.END)
+            else
             {
-                StartCoroutine(mEMove = EMove(Castle.Instance.GetMovePoint(moveDIR9), moveDIR9));
+                Debug.Log(moveDIR9.ToString());
+                Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
+
+                StartCoroutine(mEMove = EMove(movePoint, moveDIR9));
             }
         }
     }
 
     private IEnumerator EMove(Vector2 movePoint, DIRECTION9 moveDIR9)
     {
-        Inventory.Instance.OnMoveBegin(movePoint.normalized);
+        mInventory.OnMoveBegin(movePoint.normalized);
 
-        float lerpAmount = 0;
-
+        float  lerpAmount = 0; 
         while (lerpAmount < 1)
         {
             lerpAmount = Mathf.Min(1, lerpAmount + Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed);
@@ -232,13 +237,13 @@ public class Player : MonoBehaviour, ICombatable
 
             yield return null;
         }
-        Inventory.Instance.OnMoveEnd(mCollidersOnMove.ToArray());
+        mInventory.OnMoveEnd(mCollidersOnMove.ToArray());
 
         mCollidersOnMove.Clear();
 
         if (mCanElevation)
         {
-            // Inventory.Instance.UseItem(ITEM_KEYWORD.ENTER);
+            // mInventory.UseItem(ITEM_KEYWORD.ENTER);
 
             mCanElevation = false;
         }
@@ -271,7 +276,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             mBlinkTimer.Start(mBlinkTime);
 
-            Inventory.Instance.OnDamaged(ref damage, attacker, gameObject);
+            mInventory.OnDamaged(ref damage, attacker, gameObject);
 
                            AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
             if (mIsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
