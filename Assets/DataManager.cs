@@ -35,7 +35,7 @@ public class DataManager : Singleton<DataManager>
     [SerializeField][TextArea(1, 3)]
     private string ProjectName;
     [SerializeField][TextArea(1, 3)]
-    private string TableKey;
+    private string GoogleSheetTableKey;
     //========= Inspecter Vlew =========//
 
     private DataSet mDataBase;
@@ -75,6 +75,7 @@ public class DataManager : Singleton<DataManager>
         pass.ClientSecret = ClientPW;
 
         var scopes = new string[] { SheetsService.Scope.SpreadsheetsReadonly };
+
         var credential = GoogleWebAuthorizationBroker.AuthorizeAsync(pass, scopes, ClientName, CancellationToken.None).Result;
 
         var service = new SheetsService(new BaseClientService.Initializer()
@@ -82,7 +83,7 @@ public class DataManager : Singleton<DataManager>
             ApplicationName = ProjectName, HttpClientInitializer = credential
         });
 
-        var request = service.Spreadsheets.Get(TableKey).Execute();
+        var request = service.Spreadsheets.Get(GoogleSheetTableKey).Execute();
 
         foreach (Sheet sheet in request.Sheets)
         {
@@ -96,7 +97,7 @@ public class DataManager : Singleton<DataManager>
         try
         {
             // getting A1 ~ M1
-            var request = service.Spreadsheets.Values.Get(TableKey, sheetName + "!A1:M");
+            var request = service.Spreadsheets.Values.Get(GoogleSheetTableKey, sheetName + "!A1:M");
 
             var    jsonObject = request.Execute().Values;
             string jsonString = ParseSheetData(jsonObject);
