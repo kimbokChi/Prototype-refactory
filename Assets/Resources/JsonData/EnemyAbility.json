@@ -1,0 +1,11 @@
+[
+  {
+    "ID": "TrainingOnly",
+    "MoveSpeed": "0",
+    "MaxHealth": "99999",
+    "AttackPower": "0",
+    "AttackDelay": "99999",
+    "Begin-AttackDelay": "99999",
+    "After-AttackDelay": "99999"
+  }
+]
