@@ -40,23 +40,33 @@ public class DataManager : Singleton<DataManager>
     private string GoogleSheetTableKey;
     //========= Inspecter Vlew =========//
 
+    public  DataSet  DataBase
+    { 
+        get
+        {
+            if (mDataBase == null) Init();
+
+            return mDataBase;
+        }
+    }
     private DataSet mDataBase;
 
     private void Awake() => DontDestroyOnLoad(this);
 
     public void Init()
     {
-        mDataBase = new DataSet("DataBase");
+        mDataBase = mDataBase ?? new DataSet("DataBase");
 
         JsonDataPath = $@"{Application.dataPath}/Resources/JsonData/";
 
-#if UNITY_EDITOR
-
-        MakeSheetDataSet(mDataBase);
-#else   
-
-        LoadJsonData(mDataBase);
-#endif
+        if (Application.isEditor && !Application.isPlaying)
+        {
+            MakeSheetDataSet(mDataBase);
+        }
+        else
+        {
+            LoadJsonData(mDataBase);
+        }
     }
 
     private void LoadJsonData(DataSet dataSet)
@@ -65,6 +75,8 @@ public class DataManager : Singleton<DataManager>
 
         foreach (FileInfo file in info.GetFiles())
         {
+            if (file.Name.EndsWith(".meta")) continue;
+
             dataSet.Tables.Add(DataUtil.GetDataTable(file));
         }
     }
