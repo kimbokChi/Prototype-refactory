@@ -7,8 +7,8 @@ public enum Ability
 {
     MoveSpeed, IMoveSpeed, CurHealth, MaxHealth,
     AttackPower, IAttackPower, AttackDelay,
-    BeginAttackDelay, IBeginAttackDelay,
-    AfterAttackDelay, IAfterAttackDelay, 
+    Begin_AttackDelay, IBegin_AttackDelay,
+    After_AttackDelay, IAfter_AttackDelay, 
     End
 }
 public class AbilityTable : MonoBehaviour
@@ -72,9 +72,9 @@ public class AbilityTable : MonoBehaviour
     public float AttackDelay
     { get => Table[Ability.AttackDelay]; }
     public float BeginAttackDelay
-    { get => Table[Ability.BeginAttackDelay] + Table[Ability.IBeginAttackDelay]; }
+    { get => Table[Ability.Begin_AttackDelay] + Table[Ability.IBegin_AttackDelay]; }
     public float AfterAttackDelay
-    { get => Table[Ability.AfterAttackDelay] + Table[Ability.IAfterAttackDelay]; }
+    { get => Table[Ability.After_AttackDelay] + Table[Ability.IAfter_AttackDelay]; }
 
 
     [SerializeField] private string _JsonTableName;
