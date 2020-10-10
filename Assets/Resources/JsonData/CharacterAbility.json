@@ -1,0 +1,29 @@
+[
+  {
+    "ID": "Player",
+    "MoveSpeed": "4",
+    "MaxHealth": "100",
+    "AttackPower": "1",
+    "AttackDelay": "1",
+    "Begin_AttackDelay": "1.2",
+    "After_AttackDelay": "1"
+  },
+  {
+    "ID": "TrainingOnly",
+    "MoveSpeed": "0",
+    "MaxHealth": "99999",
+    "AttackPower": "0",
+    "AttackDelay": "99999",
+    "Begin_AttackDelay": "99999",
+    "After_AttackDelay": "99999"
+  },
+  {
+    "ID": "Scarecrow",
+    "MoveSpeed": "1",
+    "MaxHealth": "1",
+    "AttackPower": "0",
+    "AttackDelay": "0",
+    "Begin_AttackDelay": "1",
+    "After_AttackDelay": "1"
+  }
+]

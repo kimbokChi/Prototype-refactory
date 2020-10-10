@@ -387,8 +387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonTableName: EnemyAbility
-  _JsonLableName: TrainingOnly
+  _JsonTableName: CharacterAbility
+  _JsonLableName: Player
   _MoveSpeed: 3.5
   _MaxHealth: 1000
   _AttackPower: 1
@@ -767,21 +767,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2076452373937219521, guid: cbeae6032480ceb48a67879a7f9a5e28,
-        type: 3}
-      propertyPath: Range
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2076452373937219521, guid: cbeae6032480ceb48a67879a7f9a5e28,
-        type: 3}
-      propertyPath: RangeOffset
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2076452373937219580, guid: cbeae6032480ceb48a67879a7f9a5e28,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8978801667650458010, guid: cbeae6032480ceb48a67879a7f9a5e28,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -24,16 +24,14 @@ public class AbilityTable : MonoBehaviour
     }
     private Dictionary<Ability, float> mTable;
 
-    private Func<string, float> GetJsonData;
-
     private void Init()
     {
         mTable = new Dictionary<Ability, float>();
 
-        GetJsonData = s =>
+        float GetJsonData(string s)
         {
             return float.Parse(DataUtil.GetDataValue(_JsonTableName, "ID", _JsonLableName, s));
-        };
+        }
 
         for (Ability i = 0; i < Ability.End; ++i)
         {
