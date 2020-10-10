@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,6 +67,11 @@ public class AbilityTable : MonoBehaviour
     { get => Table[Ability.BeginAttackDelay] + Table[Ability.IBeginAttackDelay]; }
     public float AfterAttackDelay
     { get => Table[Ability.AfterAttackDelay] + Table[Ability.IAfterAttackDelay]; }
+
+
+    [SerializeField] private string _JsonTableName;
+    [SerializeField] private string _JsonLableName;
+
 
     [SerializeField] private float _MoveSpeed;
     [SerializeField] private float _MaxHealth;
