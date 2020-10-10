@@ -387,6 +387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _JsonTableName: EnemyAbility
+  _JsonLableName: TrainingOnly
   _MoveSpeed: 3.5
   _MaxHealth: 1000
   _AttackPower: 1
@@ -599,6 +601,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _JsonTableName: 
+  _JsonLableName: 
   _MoveSpeed: 1
   _MaxHealth: 99999
   _AttackPower: 1

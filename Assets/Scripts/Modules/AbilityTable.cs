@@ -37,30 +37,19 @@ public class AbilityTable : MonoBehaviour
 
         for (Ability i = 0; i < Ability.End; ++i)
         {
-            switch (i)
+            string abilityName = i.ToString();
+
+            if (abilityName[0].Equals('I')) mTable.Add(i, default);
+
+            else
             {
-                case Ability.CurHealth:
-                case Ability.MaxHealth:
-                    mTable.Add(i, GetJsonData("MaxHealth"));
-                    break;
-                case Ability.AttackPower:
-                    mTable.Add(i, _AttackPower);
-                    break;
-                case Ability.BeginAttackDelay:
-                    mTable.Add(i, _BeginAttackDelay);
-                    break;
-                case Ability.AfterAttackDelay:
-                    mTable.Add(i, _AfterAttackDelay);
-                    break;
-                case Ability.MoveSpeed: 
-                    mTable.Add(i, _MoveSpeed);
-                    break;
-                case Ability.AttackDelay:
-                    mTable.Add(i, _AttackDelay);
-                    break;
-                default:
-                    mTable.Add(i, default);
-                    break;
+                if (abilityName.Equals("CurHealth"))
+                {
+                     mTable.Add(i, GetJsonData("MaxHealth"));
+                }
+                else mTable.Add(i, GetJsonData(i.ToString()));
+
+                Debug.Log($"{i} : {mTable[i]}");
             }
         }
     }
