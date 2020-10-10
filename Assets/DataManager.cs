@@ -10,6 +10,7 @@ using Google.Apis.Sheets.v4;
 using System.Threading;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4.Data;
+using Google.Apis.Util.Store;
 using UnityScript.Steps;
 using System.Text;
 using System;
@@ -23,18 +24,18 @@ public class DataManager : Singleton<DataManager>
     //========= Inspecter Vlew =========//
     [Space(3)][Header("QAuth Info")]
 
-    [SerializeField][TextArea(1, 3)]
+    [SerializeField][TextArea(1, 1)]
     private string ClientName;
-    [SerializeField][TextArea(1, 3)]
+    [SerializeField][TextArea(1, 1)]
     private string ClientID;
-    [SerializeField][TextArea(1, 3)]
+    [SerializeField][TextArea(1, 1)]
     private string ClientPW;
 
     [Space(3)][Header("Google Cloud Platform")]
 
-    [SerializeField][TextArea(1, 3)]
+    [SerializeField][TextArea(1, 1)]
     private string ProjectName;
-    [SerializeField][TextArea(1, 3)]
+    [SerializeField][TextArea(1, 1)]
     private string GoogleSheetTableKey;
     //========= Inspecter Vlew =========//
 
@@ -90,13 +91,12 @@ public class DataManager : Singleton<DataManager>
             dataSet.Tables.Add(SendRequest(service, sheet.Properties.Title));
         }
     }
-
     private DataTable SendRequest(SheetsService service, string sheetName)
     {
         DataTable result = null;
         try
         {
-            // getting A1 ~ M1
+            // getting A1 ~ M
             var request = service.Spreadsheets.Values.Get(GoogleSheetTableKey, sheetName + "!A1:M");
 
             var    jsonObject = request.Execute().Values;

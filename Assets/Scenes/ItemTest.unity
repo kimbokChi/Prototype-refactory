@@ -390,6 +390,7 @@ MonoBehaviour:
   _MoveSpeed: 3.5
   _MaxHealth: 1000
   _AttackPower: 1
+  _AttackDelay: 0
   _BeginAttackDelay: 1
   _AfterAttackDelay: 1
 --- !u!4 &586341724
@@ -555,6 +556,54 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1814562161
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1814562163}
+  - component: {fileID: 1814562162}
+  m_Layer: 0
+  m_Name: GoogleSheetData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1814562162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814562161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a68c8d964b7fd49459dc29abdd7bfb5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ClientName: UnityEditor
+  ClientID: 641849693165-f5g8df8u4turcup754hr2g1br335p416.apps.googleusercontent.com
+  ClientPW: nuYF7WNBFVwlXXR0DxqPsSBb
+  ProjectName: Test2
+  GoogleSheetTableKey: 18jI0ErKtqD2wj4zUqEB2jPBCIe5GkJHMPJg6KO38buo
+--- !u!4 &1814562163
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814562161}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1863483005
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,6 +650,7 @@ MonoBehaviour:
   _MoveSpeed: 1
   _MaxHealth: 99999
   _AttackPower: 1
+  _AttackDelay: 0
   _BeginAttackDelay: 1
   _AfterAttackDelay: 1
 --- !u!1 &1879967220
@@ -684,8 +734,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mGameOverWindow: {fileID: 0}
   mBlinkTime: 0.2
-  WaitTimeATK: 0.8
-  mMoveSpeed: 4
   RangeArea: {fileID: 177137548}
   AbilityTable: {fileID: 586341723}
   mDefense: 10000
