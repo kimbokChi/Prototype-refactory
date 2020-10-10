@@ -108,8 +108,6 @@ public class Player : MonoBehaviour, ICombatable
 
     private void Start()
     {
-        DataManager.Instance.Init();
-
         mCanElevation = false;
         mIsDeath      = false;
 
