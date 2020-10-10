@@ -36,9 +36,9 @@ public static class DataUtil
         return data;
     }
 
-    public static string GetDataValue(DataSet dataSet, string tableName, string primary, string value, string column)
+    public static string GetDataValue(string tableName, string primary, string value, string column)
     {
-        DataRow[] rows = dataSet.Tables[tableName].Select($@"{primary} = '{value}'");
+        DataRow[] rows = DataManager.Instance.DataBase.Tables[tableName].Select($@"{primary} = '{value}'");
 
         return rows[0][column].ToString();
     }
