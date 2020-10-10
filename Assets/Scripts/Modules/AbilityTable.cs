@@ -23,9 +23,17 @@ public class AbilityTable : MonoBehaviour
         }
     }
     private Dictionary<Ability, float> mTable;
+
+    private Func<string, float> GetJsonData;
+
     private void Init()
     {
         mTable = new Dictionary<Ability, float>();
+
+        GetJsonData = s =>
+        {
+            return float.Parse(DataUtil.GetDataValue(_JsonTableName, "ID", _JsonLableName, s));
+        };
 
         for (Ability i = 0; i < Ability.End; ++i)
         {
@@ -33,7 +41,7 @@ public class AbilityTable : MonoBehaviour
             {
                 case Ability.CurHealth:
                 case Ability.MaxHealth:
-                    mTable.Add(i, _MaxHealth);
+                    mTable.Add(i, GetJsonData("MaxHealth"));
                     break;
                 case Ability.AttackPower:
                     mTable.Add(i, _AttackPower);
