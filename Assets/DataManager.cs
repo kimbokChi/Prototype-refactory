@@ -118,7 +118,7 @@ public class DataManager : Singleton<DataManager>
 
         SaveDataToFile(result);
 
-        return null;
+        return result;
     }
 
     private void SaveDataToFile(DataTable table)
