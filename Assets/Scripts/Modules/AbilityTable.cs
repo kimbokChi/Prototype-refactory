@@ -8,7 +8,8 @@ public enum Ability
     MoveSpeed, IMoveSpeed, CurHealth, MaxHealth,
     AttackPower, IAttackPower, AttackDelay,
     Begin_AttackDelay, IBegin_AttackDelay,
-    After_AttackDelay, IAfter_AttackDelay, 
+    After_AttackDelay, IAfter_AttackDelay,
+    Range, IRange,
     End
 }
 public class AbilityTable : MonoBehaviour
@@ -24,28 +25,48 @@ public class AbilityTable : MonoBehaviour
     }
     private Dictionary<Ability, float> mTable;
 
+    public  RecognitionArea  Area
+    {
+        get
+        {
+            if (mArea.Equals(RecognitionArea.Default))
+            {
+                Init();
+            }
+            return mArea;
+        }
+    }
+    private RecognitionArea mArea;
+
     private void Init()
     {
         mTable = new Dictionary<Ability, float>();
 
-        float GetJsonData(string s)
-        {
-            return float.Parse(DataUtil.GetDataValue(_JsonTableName, "ID", _JsonLableName, s));
-        }
+        string JsonData(string s)
+            => DataUtil.GetDataValue(_JsonTableName, "ID", _JsonLableName, s);
+
+        mArea = (RecognitionArea)Enum.Parse(typeof(RecognitionArea), 
+            JsonData("RecognitionArea"));
+
+        Debug.Log($"RecognitionArea : {mArea}");
+
 
         for (Ability i = 0; i < Ability.End; ++i)
         {
+            if (i.Equals(Ability.AttackDelay)) continue;
+
             string abilityName = i.ToString();
-
-            if (abilityName[0].Equals('I')) mTable.Add(i, default);
-
+                       
+            if (abilityName[0].Equals('I')) {
+                mTable.Add(i, default); 
+            }
             else
             {
-                if (abilityName.Equals("CurHealth"))
+                if (i.Equals(Ability.CurHealth))
                 {
-                     mTable.Add(i, GetJsonData("MaxHealth"));
+                     mTable.Add(i, float.Parse(JsonData("MaxHealth")));
                 }
-                else mTable.Add(i, GetJsonData(i.ToString()));
+                else mTable.Add(i, float.Parse(JsonData(abilityName)));
 
                 Debug.Log($"{i} : {mTable[i]}");
             }
