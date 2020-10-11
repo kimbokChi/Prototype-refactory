@@ -89,6 +89,8 @@ public class AbilityTable : MonoBehaviour
     { get => Table[Ability.Begin_AttackDelay] + Table[Ability.IBegin_AttackDelay]; }
     public float AfterAttackDelay
     { get => Table[Ability.After_AttackDelay] + Table[Ability.IAfter_AttackDelay]; }
+    public float Range
+    { get => Table[Ability.Range] + Table[Ability.IRange]; }
 
     [SerializeField] private string _JsonTableName;
     [SerializeField] private string _JsonLableName;
