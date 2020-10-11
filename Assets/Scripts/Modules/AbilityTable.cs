@@ -38,6 +38,8 @@ public class AbilityTable : MonoBehaviour
     }
     private RecognitionArea mArea;
 
+    private void Reset() => _JsonTableName = "CharacterAbility";
+
     private void Init()
     {
         mTable = new Dictionary<Ability, float>();
@@ -47,9 +49,6 @@ public class AbilityTable : MonoBehaviour
 
         mArea = (RecognitionArea)Enum.Parse(typeof(RecognitionArea), 
             JsonData("RecognitionArea"));
-
-        Debug.Log($"RecognitionArea : {mArea}");
-
 
         for (Ability i = 0; i < Ability.End; ++i)
         {
@@ -67,8 +66,6 @@ public class AbilityTable : MonoBehaviour
                      mTable.Add(i, float.Parse(JsonData("MaxHealth")));
                 }
                 else mTable.Add(i, float.Parse(JsonData(abilityName)));
-
-                Debug.Log($"{i} : {mTable[i]}");
             }
         }
     }
@@ -84,16 +81,6 @@ public class AbilityTable : MonoBehaviour
     public float AfterAttackDelay
     { get => Table[Ability.After_AttackDelay] + Table[Ability.IAfter_AttackDelay]; }
 
-
     [SerializeField] private string _JsonTableName;
     [SerializeField] private string _JsonLableName;
-
-
-    [SerializeField] private float _MoveSpeed;
-    [SerializeField] private float _MaxHealth;
-    [SerializeField] private float _AttackPower;
-
-    [SerializeField] private float _AttackDelay;
-    [SerializeField] private float _BeginAttackDelay;
-    [SerializeField] private float _AfterAttackDelay;
 }
