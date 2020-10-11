@@ -6,7 +6,7 @@ using UnityEngine;
 public enum Ability
 {
     MoveSpeed, IMoveSpeed, CurHealth, MaxHealth,
-    AttackPower, IAttackPower, AttackDelay,
+    AttackPower, IAttackPower,
     Begin_AttackDelay, IBegin_AttackDelay,
     After_AttackDelay, IAfter_AttackDelay,
     Range, IRange,
@@ -52,8 +52,6 @@ public class AbilityTable : MonoBehaviour
 
         for (Ability i = 0; i < Ability.End; ++i)
         {
-            if (i.Equals(Ability.AttackDelay)) continue;
-
             string abilityName = i.ToString();
                        
             if (abilityName[0].Equals('I')) {
@@ -74,8 +72,6 @@ public class AbilityTable : MonoBehaviour
     { get => Table[Ability.MoveSpeed] + Table[Ability.IMoveSpeed]; }
     public float AttackPower
     { get => Table[Ability.AttackPower] + Table[Ability.IAttackPower]; }
-    public float AttackDelay
-    { get => Table[Ability.AttackDelay]; }
     public float BeginAttackDelay
     { get => Table[Ability.Begin_AttackDelay] + Table[Ability.IBegin_AttackDelay]; }
     public float AfterAttackDelay

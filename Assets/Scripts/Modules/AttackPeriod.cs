@@ -13,10 +13,14 @@ public class AttackPeriod
 
     private AbilityTable mAbilityTable;
 
+    private float mAttackDelayTime;
 
-    public AttackPeriod(AbilityTable abilityTable)
+
+    public AttackPeriod(AbilityTable abilityTable, float attackDelayTime = 0f)
     {
         mWaitPeriod = Period.Begin;
+
+        mAttackDelayTime = attackDelayTime;
 
         (mTimer = new Timer()).Start(abilityTable.AfterAttackDelay);
 
@@ -67,7 +71,7 @@ public class AttackPeriod
                     mEnterAttackAction?.Invoke();
 
                     mWaitPeriod = Period.After;
-                    mTimer.Start(mAbilityTable.AttackDelay);
+                    mTimer.Start(mAttackDelayTime);
                     break;
 
                 case Period.After:
