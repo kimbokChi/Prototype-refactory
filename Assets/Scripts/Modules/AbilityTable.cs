@@ -40,6 +40,19 @@ public class AbilityTable : MonoBehaviour
 
     private void Reset() => _JsonTableName = "CharacterAbility";
 
+    public bool CanRecognize(MESSAGE message)
+    {
+        switch (message)
+        {
+            case MESSAGE.THIS_ROOM:
+                return Area.Equals(RecognitionArea.Room);
+
+            case MESSAGE.BELONG_FLOOR:
+                return Area.Equals(RecognitionArea.Floor);
+        }
+        return false;
+    }
+
     private void Init()
     {
         mTable = new Dictionary<Ability, float>();
