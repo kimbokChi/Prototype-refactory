@@ -22,6 +22,16 @@ PrefabInstance:
       propertyPath: _AfterAttackDelay
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6112597578298762011, guid: 8f64a3f39f88d504f82f46cb3a71e3d5,
+        type: 3}
+      propertyPath: _JsonTableName
+      value: CharacterAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112597578298762011, guid: 8f64a3f39f88d504f82f46cb3a71e3d5,
+        type: 3}
+      propertyPath: _JsonLableName
+      value: Goblin_Shaman
+      objectReference: {fileID: 0}
     - target: {fileID: 6112597578512421604, guid: 8f64a3f39f88d504f82f46cb3a71e3d5,
         type: 3}
       propertyPath: m_Sprite

@@ -27,6 +27,16 @@ PrefabInstance:
       propertyPath: _AfterAttackDelay
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2652715522410420987, guid: bd722090c4bf3764abcd77553806ce1b,
+        type: 3}
+      propertyPath: _JsonTableName
+      value: CharacterAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 2652715522410420987, guid: bd722090c4bf3764abcd77553806ce1b,
+        type: 3}
+      propertyPath: _JsonLableName
+      value: Goblin_Dart
+      objectReference: {fileID: 0}
     - target: {fileID: 2652715524362353817, guid: bd722090c4bf3764abcd77553806ce1b,
         type: 3}
       propertyPath: m_LocalPosition.x

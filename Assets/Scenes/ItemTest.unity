@@ -389,12 +389,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _JsonTableName: CharacterAbility
   _JsonLableName: Player
-  _MoveSpeed: 3.5
-  _MaxHealth: 1000
-  _AttackPower: 1
-  _AttackDelay: 0
-  _BeginAttackDelay: 1
-  _AfterAttackDelay: 1
 --- !u!4 &586341724
 Transform:
   m_ObjectHideFlags: 0
@@ -603,12 +597,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _JsonTableName: 
   _JsonLableName: 
-  _MoveSpeed: 1
-  _MaxHealth: 99999
-  _AttackPower: 1
-  _AttackDelay: 0
-  _BeginAttackDelay: 1
-  _AfterAttackDelay: 1
 --- !u!1 &1879967220
 GameObject:
   m_ObjectHideFlags: 0
