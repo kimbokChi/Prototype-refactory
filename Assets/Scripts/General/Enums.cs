@@ -21,3 +21,8 @@ public enum MESSAGE
 {
     THIS_ROOM, BELONG_FLOOR
 }
+
+public enum RecognitionArea
+{
+    Default, Room, Floor
+}

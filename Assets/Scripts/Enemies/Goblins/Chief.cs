@@ -85,22 +85,10 @@ public class Chief : EnemyBase, IObject, ICombatable
         mCanCastPATTERN = true;
     }
     public override void IUpdate()
-    {   
+    {
         if (mCanCastPATTERN)
         {
             mAttackPeriod.Update();
-        }       
-    }
-
-    public override void PlayerEnter(MESSAGE message, Player enterPlayer)
-    {
-        mPlayer = enterPlayer;
-    }
-    public override void PlayerExit(MESSAGE message)
-    {
-        if (message.Equals(MESSAGE.BELONG_FLOOR))
-        {
-            mPlayer = null;
         }
     }
 

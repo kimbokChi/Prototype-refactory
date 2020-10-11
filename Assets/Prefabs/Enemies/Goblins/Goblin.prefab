@@ -17,6 +17,11 @@ PrefabInstance:
       propertyPath: mAttackPower
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 412821576838472771, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
+        type: 3}
+      propertyPath: _JsonLableName
+      value: Goblin_Normal
+      objectReference: {fileID: 0}
     - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
       propertyPath: mMoveSpeed
@@ -60,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 6949924797478406765, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
       propertyPath: m_Name
-      value: Goblin_normal
+      value: Goblin
       objectReference: {fileID: 0}
     - target: {fileID: 6949924797478406767, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}

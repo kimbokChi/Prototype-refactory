@@ -56,17 +56,4 @@ public class Scarecrow : EnemyBase
     {
         mWaitForMove.Start(WaitMoveTime);
     }
-
-    public override void PlayerEnter(MESSAGE message, Player enterPlayer)
-    {
-        if (message.Equals(MESSAGE.THIS_ROOM))
-        {
-            mPlayer = enterPlayer;
-        }
-    }
-
-    public override void PlayerExit(MESSAGE message)
-    {
-        mPlayer = null;
-    }
 }

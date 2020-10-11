@@ -152,11 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MoveSpeed: 1
-  _MaxHealth: 30
-  _AttackPower: 5
-  _BeginAttackDelay: 3
-  _AfterAttackDelay: 1
+  _JsonTableName: CharacterAbility
+  _JsonLableName: Goblin_Assassin
 --- !u!61 &7274113786828326570
 BoxCollider2D:
   m_ObjectHideFlags: 0

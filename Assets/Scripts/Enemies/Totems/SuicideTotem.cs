@@ -37,7 +37,7 @@ public class SuicideTotem : MonoBehaviour, IObject, ICombatable
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
     {
-        if (message.Equals(MESSAGE.THIS_ROOM) && !mIsOnFuse)
+        if (AbilityTable.CanRecognize(message) && !mIsOnFuse)
         {
             mIsOnFuse = true;
 
