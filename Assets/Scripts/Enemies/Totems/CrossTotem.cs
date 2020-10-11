@@ -63,15 +63,14 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
     {
-        if (message.Equals(MESSAGE.THIS_ROOM))
-        {
+        if (AbilityTable.CanRecognize(message))
             mPlayer = enterPlayer;
-        }
     }
 
     public void PlayerExit(MESSAGE message)
     {
-        mPlayer = null;
+        if (AbilityTable.CanRecognize(message))
+            mPlayer = null;
     }
 
     public GameObject ThisObject() => gameObject;

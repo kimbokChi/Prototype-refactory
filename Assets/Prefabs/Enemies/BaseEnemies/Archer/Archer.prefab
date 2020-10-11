@@ -43,11 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MoveSpeed: 1
-  _MaxHealth: 1
-  _AttackPower: 1
-  _BeginAttackDelay: 1
-  _AfterAttackDelay: 1
+  _JsonTableName: CharacterAbility
+  _JsonLableName: 
 --- !u!1 &2652715524362353820
 GameObject:
   m_ObjectHideFlags: 0

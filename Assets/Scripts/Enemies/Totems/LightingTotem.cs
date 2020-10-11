@@ -44,15 +44,14 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
     {
-        mPlayer = enterPlayer;
+        if (AbilityTable.CanRecognize(message))
+            mPlayer = enterPlayer;
     }
 
     public void PlayerExit(MESSAGE message)
     {
-        if (message.Equals(MESSAGE.BELONG_FLOOR))
-        {
+        if (AbilityTable.CanRecognize(message))
             mPlayer = null;
-        }
     }
 
     public GameObject ThisObject() => gameObject;

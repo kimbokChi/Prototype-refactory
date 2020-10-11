@@ -1,13 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public enum Ability
 {
     MoveSpeed, IMoveSpeed, CurHealth, MaxHealth,
-    AttackPower, IAttackPower, AttackDelay,
-    BeginAttackDelay, IBeginAttackDelay,
-    AfterAttackDelay, IAfterAttackDelay, 
+    AttackPower, IAttackPower,
+    Begin_AttackDelay, IBegin_AttackDelay,
+    After_AttackDelay, IAfter_AttackDelay,
+    Range, IRange,
     End
 }
 public class AbilityTable : MonoBehaviour
@@ -22,36 +24,59 @@ public class AbilityTable : MonoBehaviour
         }
     }
     private Dictionary<Ability, float> mTable;
+
+    public  RecognitionArea  Area
+    {
+        get
+        {
+            if (mArea.Equals(RecognitionArea.Default))
+            {
+                Init();
+            }
+            return mArea;
+        }
+    }
+    private RecognitionArea mArea;
+
+    private void Reset() => _JsonTableName = "CharacterAbility";
+
+    public bool CanRecognize(MESSAGE message)
+    {
+        switch (message)
+        {
+            case MESSAGE.THIS_ROOM:
+                return Area.Equals(RecognitionArea.Room);
+
+            case MESSAGE.BELONG_FLOOR:
+                return Area.Equals(RecognitionArea.Floor);
+        }
+        return false;
+    }
+
     private void Init()
     {
         mTable = new Dictionary<Ability, float>();
 
+        string JsonData(string s)
+            => DataUtil.GetDataValue(_JsonTableName, "ID", _JsonLableName, s);
+
+        mArea = (RecognitionArea)Enum.Parse(typeof(RecognitionArea), 
+            JsonData("RecognitionArea"));
+
         for (Ability i = 0; i < Ability.End; ++i)
         {
-            switch (i)
+            string abilityName = i.ToString();
+                       
+            if (abilityName[0].Equals('I')) {
+                mTable.Add(i, default); 
+            }
+            else
             {
-                case Ability.CurHealth:
-                case Ability.MaxHealth:
-                    mTable.Add(i, _MaxHealth);
-                    break;
-                case Ability.AttackPower:
-                    mTable.Add(i, _AttackPower);
-                    break;
-                case Ability.BeginAttackDelay:
-                    mTable.Add(i, _BeginAttackDelay);
-                    break;
-                case Ability.AfterAttackDelay:
-                    mTable.Add(i, _AfterAttackDelay);
-                    break;
-                case Ability.MoveSpeed: 
-                    mTable.Add(i, _MoveSpeed);
-                    break;
-                case Ability.AttackDelay:
-                    mTable.Add(i, _AttackDelay);
-                    break;
-                default:
-                    mTable.Add(i, default);
-                    break;
+                if (i.Equals(Ability.CurHealth))
+                {
+                     mTable.Add(i, float.Parse(JsonData("MaxHealth")));
+                }
+                else mTable.Add(i, float.Parse(JsonData(abilityName)));
             }
         }
     }
@@ -60,18 +85,13 @@ public class AbilityTable : MonoBehaviour
     { get => Table[Ability.MoveSpeed] + Table[Ability.IMoveSpeed]; }
     public float AttackPower
     { get => Table[Ability.AttackPower] + Table[Ability.IAttackPower]; }
-    public float AttackDelay
-    { get => Table[Ability.AttackDelay]; }
     public float BeginAttackDelay
-    { get => Table[Ability.BeginAttackDelay] + Table[Ability.IBeginAttackDelay]; }
+    { get => Table[Ability.Begin_AttackDelay] + Table[Ability.IBegin_AttackDelay]; }
     public float AfterAttackDelay
-    { get => Table[Ability.AfterAttackDelay] + Table[Ability.IAfterAttackDelay]; }
+    { get => Table[Ability.After_AttackDelay] + Table[Ability.IAfter_AttackDelay]; }
+    public float Range
+    { get => Table[Ability.Range] + Table[Ability.IRange]; }
 
-    [SerializeField] private float _MoveSpeed;
-    [SerializeField] private float _MaxHealth;
-    [SerializeField] private float _AttackPower;
-
-    [SerializeField] private float _AttackDelay;
-    [SerializeField] private float _BeginAttackDelay;
-    [SerializeField] private float _AfterAttackDelay;
+    [SerializeField] private string _JsonTableName;
+    [SerializeField] private string _JsonLableName;
 }

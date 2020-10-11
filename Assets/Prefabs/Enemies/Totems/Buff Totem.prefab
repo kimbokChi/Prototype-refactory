@@ -85,11 +85,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MoveSpeed: 0
-  _MaxHealth: 30
-  _AttackPower: 0
-  _BeginAttackDelay: 0
-  _AfterAttackDelay: 2
+  _JsonTableName: CharacterAbility
+  _JsonLableName: Totem_Buff
 --- !u!1 &53926453361515090
 GameObject:
   m_ObjectHideFlags: 0

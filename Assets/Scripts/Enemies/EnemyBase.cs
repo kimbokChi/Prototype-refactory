@@ -15,8 +15,6 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     [SerializeField] protected float HalfMoveRangeX;
     [SerializeField] protected float HalfMoveRangeY;
 
-    [SerializeField] protected float Range;
-
     [SerializeField] protected Vector2 OriginPosition;
 
     [SerializeField][Range(0.01f, 1f)] protected float MoveSmooth;
@@ -129,7 +127,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     #endregion
     protected bool IsInRange(Vector2 point)
     {
-        return Vector2.Distance(point, transform.localPosition) <= Range + RangeOffset;
+        return Vector2.Distance(point, transform.localPosition) <= AbilityTable.Range + RangeOffset;
     }
 
     protected bool HasPlayerOnRange()
@@ -186,7 +184,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
             if (!IsInRange(movePoint))
             {
-                movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * Range;
+                movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * AbilityTable.Range;
 
             }
             MoveToPoint(movePoint, style);
@@ -295,9 +293,18 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
     public abstract void IInit();
     public abstract void IUpdate();
-    public abstract void PlayerEnter(MESSAGE message, Player enterPlayer);
-    public abstract void PlayerExit (MESSAGE message);
     public abstract void Damaged(float damage, GameObject attacker);
+
+    public virtual void PlayerEnter(MESSAGE message, Player enterPlayer)
+    {
+        if (AbilityTable.CanRecognize(message))
+            mPlayer = enterPlayer;
+    }
+    public virtual void PlayerExit(MESSAGE message)
+    {
+        if (AbilityTable.CanRecognize(message))
+            mPlayer = null;
+    }
     public virtual void CastBuff(BUFF buffType, IEnumerator castedBuff)
     { StartCoroutine(castedBuff); }
     #endregion
