@@ -295,9 +295,18 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
 
     public abstract void IInit();
     public abstract void IUpdate();
-    public abstract void PlayerEnter(MESSAGE message, Player enterPlayer);
-    public abstract void PlayerExit (MESSAGE message);
     public abstract void Damaged(float damage, GameObject attacker);
+
+    public virtual void PlayerEnter(MESSAGE message, Player enterPlayer)
+    {
+        if (AbilityTable.CanRecognize(message))
+            mPlayer = enterPlayer;
+    }
+    public virtual void PlayerExit(MESSAGE message)
+    {
+        if (AbilityTable.CanRecognize(message))
+            mPlayer = null;
+    }
     public virtual void CastBuff(BUFF buffType, IEnumerator castedBuff)
     { StartCoroutine(castedBuff); }
     #endregion
