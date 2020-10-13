@@ -46,7 +46,7 @@ public class Area : MonoBehaviour
     {
         mSenseList.Remove(collision.gameObject);
 
-        if (mSenseList.Count.Equals(0)) mEmptyAction.Invoke();
+        if (mSenseList.Count.Equals(0)) mEmptyAction?.Invoke();
     }
     public bool TryEnterTypeT<T>(out T enterObject) where T : class
     {
