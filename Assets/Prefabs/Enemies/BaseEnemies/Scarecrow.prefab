@@ -45,12 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _JsonTableName: CharacterAbility
   _JsonLableName: Scarecrow
-  _MoveSpeed: 1
-  _MaxHealth: 1
-  _AttackPower: 1
-  _AttackDelay: 0
-  _BeginAttackDelay: 1
-  _AfterAttackDelay: 1
 --- !u!1 &6949924797478406765
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,8 +193,7 @@ MonoBehaviour:
   WaitForMoveMax: 0.8
   HalfMoveRangeX: 2.5
   HalfMoveRangeY: 0
-  Range: 0
-  OriginPosition: {x: 0, y: 0}
+  OriginPosition: {x: 0, y: 0.87}
   MoveSmooth: 0.3
   RangeOffset: 0.31
   AbilityTable: {fileID: 412821576838472771}
