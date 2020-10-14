@@ -50,6 +50,9 @@ public class Player : MonoBehaviour, ICombatable
 
     private CircleCollider2D mRangeCollider;
 
+    private GameObject  mTargetObject;
+    private ICombatable mTargetCombat;
+
     private float DeltaTime
     { get => Time.deltaTime * Time.timeScale; }
 
@@ -118,7 +121,7 @@ public class Player : MonoBehaviour, ICombatable
         mAttackPeriod = new AttackPeriod(AbilityTable);
         mAttackPeriod.SetAction(Period.Attack, AttackAction);
 
-        RangeArea.SetEnterAction( o => mCanAttack = true);
+        RangeArea.SetEnterAction(SenseTarget);
         RangeArea.SetEmptyAction(() => mCanAttack = false);
 
         mCollidersOnMove = new List<Collider2D>();
@@ -190,6 +193,17 @@ public class Player : MonoBehaviour, ICombatable
         {
             InputAction();
         }
+        if (mTargetObject != null)
+        {
+            if (RangeArea.Has(mTargetObject)) {
+                mRenderer.flipX = mTargetObject.transform.position.x > transform.position.x;
+            }
+            else
+            {
+                mTargetObject = null;
+                mTargetCombat = null;
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -197,15 +211,29 @@ public class Player : MonoBehaviour, ICombatable
         if (mEMove != null) mCollidersOnMove.Add(collision);
     }
 
+    private void SenseTarget(GameObject target)
+    {
+        if (target.CompareTag("Enemy")) {
+            mTargetObject = mTargetObject ?? target;
+        }
+    }
+
     private void AttackAction()
     {
-        if (RangeArea.TryEnterTypeT(out Transform transform))
+        if (mTargetObject != null)
         {
-            if (transform.TryGetComponent(out ICombatable combat))
+            if (RangeArea.Has(mTargetObject))
             {
-                mInventory.OnAttack(gameObject, combat);
+                if (mTargetCombat == null) {
+                    mTargetObject.TryGetComponent(out mTargetCombat);
+                }
+                mInventory.OnAttack(gameObject, mTargetCombat);
             }
-            mRenderer.flipX = (transform.position.x > this.transform.position.x);
+            else
+            {
+                mTargetObject = null;
+                mTargetCombat = null;
+            }
         }
     }
 
