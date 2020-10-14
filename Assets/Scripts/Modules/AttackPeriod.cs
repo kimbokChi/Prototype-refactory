@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections;
+using UnityEngine;
+using Mono = Inventory;
+
 public enum Period { Begin, Attack, After };
 
 public class AttackPeriod
@@ -14,6 +18,8 @@ public class AttackPeriod
     private AbilityTable mAbilityTable;
 
     private float mAttackDelayTime;
+
+    private IEnumerator mEUpdate;
 
 
     public AttackPeriod(AbilityTable abilityTable, float attackDelayTime = 0f)
@@ -50,7 +56,42 @@ public class AttackPeriod
         }
     }
 
-    public void Update()
+    public void StartPeriod()
+    {
+        if (mEUpdate == null) {
+            Mono.Instance.StartCoroutine(mEUpdate = EUpdate());
+        }
+    }
+
+    private IEnumerator EUpdate()
+    {
+        float DeltaTime() {
+            return Time.deltaTime * Time.timeScale;
+        }
+
+        Action[] enterActions = new Action[3]
+        {
+            mEnterBeginAction, mEnterAttackAction, 
+            mEnterAfterAction
+        };
+        float[] delays = new float[3]
+        {
+            mAbilityTable.BeginAttackDelay, mAttackDelayTime, 
+            mAbilityTable.AfterAttackDelay
+        };
+
+        for (int i = 0; i < 3; i++)
+        {
+            enterActions[i]?.Invoke();
+
+            for (float w = 0f; w < delays[i]; w += DeltaTime()) {
+                yield return null;
+            }
+        }
+        mEUpdate = null;
+    }
+
+    public void UpdatePeriod()
     {
         mTimer.Update();
 

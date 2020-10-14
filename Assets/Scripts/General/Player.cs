@@ -195,7 +195,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             if (RangeArea.Has(mTargetObject)) 
             {
-                mAttackPeriod.Update();
+                mAttackPeriod.StartPeriod();
 
                 if (mTargetObject.transform.position.x > transform.position.x)
                      transform.localRotation = Quaternion.Euler(0f,   0f, 0f);
