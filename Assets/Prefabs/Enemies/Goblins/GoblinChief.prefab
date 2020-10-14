@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2359955915055407551}
   m_Layer: 0
   m_Name: GoblinChief
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,8 +99,7 @@ MonoBehaviour:
   WaitForMoveMax: 0.5
   HalfMoveRangeX: 2.5
   HalfMoveRangeY: 6
-  Range: 2
-  OriginPosition: {x: 0, y: 0}
+  OriginPosition: {x: 0, y: 1.2}
   MoveSmooth: 0.3
   RangeOffset: 0.31
   AbilityTable: {fileID: 2624679047327443531}

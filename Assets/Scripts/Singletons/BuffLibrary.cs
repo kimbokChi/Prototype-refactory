@@ -23,20 +23,20 @@ public class BuffLibrary : Singleton<BuffLibrary>
    
     private IEnumerable SpeedUpBuff(float durate, uint level, AbilityTable ability)
     {
-        ability.Table[Ability.IMoveSpeed] += ability.MoveSpeed * level * SPEEDUP;
+        float increment = ability.Table[Ability.MoveSpeed] * level * SPEEDUP;
 
+        ability.Table[Ability.IMoveSpeed] += increment;
         for (float i = 0; i < durate; i += DeltaTime) { yield return null; }
-
-        ability.Table[Ability.IMoveSpeed] -= ability.MoveSpeed * level * SPEEDUP;
+        ability.Table[Ability.IMoveSpeed] -= increment;
     }
   
     private IEnumerable PowerBoostBuff(float durate, uint level, AbilityTable ability)
     {
-        ability.Table[Ability.IAttackPower] += ability.AttackPower * level * POWER_BOOST;
+        float increment = ability.Table[Ability.AttackPower] * level * SPEEDUP;
 
+        ability.Table[Ability.IAttackPower] += increment;
         for (float i = 0; i < durate; i += DeltaTime) { yield return null; }
-
-        ability.Table[Ability.IAttackPower] -= ability.AttackPower * level * POWER_BOOST;
+        ability.Table[Ability.IAttackPower] -= increment;
     }
     
     #region READ
