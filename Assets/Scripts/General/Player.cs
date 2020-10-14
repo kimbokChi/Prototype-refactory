@@ -230,6 +230,8 @@ public class Player : MonoBehaviour, ICombatable
             }
             else
             {
+                mRenderer.flipX = (mLocation9 - moveDIR9 < 0);
+
                 Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
 
                 StartCoroutine(mEMove = EMove(movePoint, moveDIR9));
@@ -241,8 +243,7 @@ public class Player : MonoBehaviour, ICombatable
     {
         mInventory.OnMoveBegin(movePoint.normalized);
 
-        float  lerpAmount = 0f; 
-        while (lerpAmount < 1f)
+        for (float lerpAmount = 0f; lerpAmount < 1f; )
         {
             lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * AbilityTable.MoveSpeed);
 
