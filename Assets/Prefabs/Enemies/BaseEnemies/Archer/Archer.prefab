@@ -144,8 +144,7 @@ MonoBehaviour:
   WaitForMoveMax: 0.8
   HalfMoveRangeX: 2.5
   HalfMoveRangeY: 0
-  Range: 1
-  OriginPosition: {x: 0, y: 0}
+  OriginPosition: {x: 0, y: 0.87}
   MoveSmooth: 0.3
   RangeOffset: 0.31
   AbilityTable: {fileID: 2652715522410420987}

@@ -80,7 +80,7 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f);
+        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) > 0f);
     }
 
     public void CastBuff(BUFF buffType, IEnumerator castedBuff)

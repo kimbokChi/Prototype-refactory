@@ -46,7 +46,8 @@ public class Arrow : MonoBehaviour
 
     private void OnEnable()
     {
-        mEnterCount = 0;
+        mEnterCount = 0; 
+        mCanDestroy = mCanDestroy ?? (o => false);
 
         StartCoroutine(EUpdate());
     }

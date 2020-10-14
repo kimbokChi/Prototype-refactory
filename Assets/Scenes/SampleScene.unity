@@ -370,8 +370,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mGameOverWindow: {fileID: 2097570444}
   mBlinkTime: 0.2
-  WaitTimeATK: 0.8
-  mMoveSpeed: 4
   RangeArea: {fileID: 2055968785}
   AbilityTable: {fileID: 1250011945}
   mDefense: 10000
@@ -423,6 +421,75 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!1001 &988303094
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3836244618479444841, guid: a7a430e2c32c33a4a90ed8cd771529d9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836244618479444841, guid: a7a430e2c32c33a4a90ed8cd771529d9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836244618479444841, guid: a7a430e2c32c33a4a90ed8cd771529d9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836244618479444841, guid: a7a430e2c32c33a4a90ed8cd771529d9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836244618479444841, guid: a7a430e2c32c33a4a90ed8cd771529d9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836244618479444841, guid: a7a430e2c32c33a4a90ed8cd771529d9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836244618479444841, guid: a7a430e2c32c33a4a90ed8cd771529d9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836244618479444841, guid: a7a430e2c32c33a4a90ed8cd771529d9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836244618479444841, guid: a7a430e2c32c33a4a90ed8cd771529d9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836244618479444841, guid: a7a430e2c32c33a4a90ed8cd771529d9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836244618479444841, guid: a7a430e2c32c33a4a90ed8cd771529d9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836244618479444843, guid: a7a430e2c32c33a4a90ed8cd771529d9,
+        type: 3}
+      propertyPath: m_Name
+      value: GoogleSheetData
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a7a430e2c32c33a4a90ed8cd771529d9, type: 3}
 --- !u!1 &1250011944
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,11 +519,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _MoveSpeed: 1
-  _MaxHealth: 1000
-  _AttackPower: 1
-  _BeginAttackDelay: 1
-  _AfterAttackDelay: 1
+  _JsonTableName: CharacterAbility
+  _JsonLableName: Player
 --- !u!4 &1250011946
 Transform:
   m_ObjectHideFlags: 0

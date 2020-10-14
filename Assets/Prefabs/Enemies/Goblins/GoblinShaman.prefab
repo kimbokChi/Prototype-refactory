@@ -58,6 +58,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoblinShaman
       objectReference: {fileID: 0}
+    - target: {fileID: 6112597578512421609, guid: 8f64a3f39f88d504f82f46cb3a71e3d5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 6112597578512421610, guid: 8f64a3f39f88d504f82f46cb3a71e3d5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -128,6 +133,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Range
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112597578512421611, guid: 8f64a3f39f88d504f82f46cb3a71e3d5,
+        type: 3}
+      propertyPath: OriginPosition.y
+      value: 0.87
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f64a3f39f88d504f82f46cb3a71e3d5, type: 3}
