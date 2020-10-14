@@ -127,7 +127,8 @@ public class Player : MonoBehaviour, ICombatable
         mCollidersOnMove = new List<Collider2D>();
 
         DeathEvent += () => mGameOverWindow.SetActive(true);
-        DeathEvent += () => RangeArea.enabled = false;
+        DeathEvent += () =>      RangeArea.enabled = false;
+        DeathEvent += () => WeaponAnimator.enabled = false;
 
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
 
@@ -324,11 +325,12 @@ public class Player : MonoBehaviour, ICombatable
 
             mInventory.OnDamaged(ref damage, attacker, gameObject);
 
-                           AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
+                          AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
             if (IsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
             {
                 DeathEvent.Invoke();
             }
+            Debug.Log($"Rest Health : {AbilityTable.Table[Ability.CurHealth]}");
         }
     }
 

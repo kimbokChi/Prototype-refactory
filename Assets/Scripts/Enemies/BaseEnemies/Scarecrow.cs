@@ -21,7 +21,7 @@ public class Scarecrow : EnemyBase
         mWaitForMove = new Timer();
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
-        mAttackPeriod.SetAction(Period.Attack, () => Debug.Log("Attack"));
+        mAttackPeriod.SetAction(Period.Attack, AttackAction);
     }
     public override void IUpdate()
     {
@@ -55,5 +55,12 @@ public class Scarecrow : EnemyBase
     protected override void MoveFinish()
     {
         mWaitForMove.Start(WaitMoveTime);
+    }
+
+    private void AttackAction()
+    {
+        if (HasPlayerOnRange()) {
+            mPlayer.Damaged(AbilityTable.AttackPower, gameObject);
+        }
     }
 }
