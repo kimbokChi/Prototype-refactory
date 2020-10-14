@@ -147,6 +147,8 @@ public class Player : MonoBehaviour, ICombatable
             {
                 case LPOSITION3.TOP:
                     mCanElevation = Castle.Instance.CanNextPoint();
+
+                    moveDir9 = mLocation9;
                     break;
 
                 case LPOSITION3.MID:
@@ -209,7 +211,7 @@ public class Player : MonoBehaviour, ICombatable
 
     private void MoveAction(DIRECTION9 moveDIR9)
     {
-        if (mEMove == null && moveDIR9 != mLocation9)
+        if (mEMove == null)
         {
             if (mCanElevation)
             {
