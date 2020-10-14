@@ -9,6 +9,9 @@ public class Player : MonoBehaviour, ICombatable
     private GameObject mGameOverWindow;
 
     [SerializeField]
+    private Animator WeaponAnimator;
+
+    [SerializeField]
     private float mBlinkTime;
     private Timer mBlinkTimer;
 
@@ -40,13 +43,9 @@ public class Player : MonoBehaviour, ICombatable
 
     private bool mIsMovingElevation;
 
-    public  bool IsDeath => mIsDeath;
+    public bool IsDeath { get; private set; }
 
     public AbilityTable GetAbility => AbilityTable;
-
-    private bool mIsDeath;
-
-    private bool mCanAttack;
 
     private CircleCollider2D mRangeCollider;
 
@@ -112,17 +111,18 @@ public class Player : MonoBehaviour, ICombatable
     private void Start()
     {
         mCanElevation = false;
-        mIsDeath      = false;
+        IsDeath       = false;
 
         mIsMovingElevation = false;
 
         mBlinkTimer = new Timer();
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
-        mAttackPeriod.SetAction(Period.Attack, AttackAction);
+        mAttackPeriod.SetAction(Period.Begin, AttackAction);
+        mAttackPeriod.SetAction(Period.After, () => WeaponAnimator.SetBool("PlayReverse", true));
 
         RangeArea.SetEnterAction(SenseTarget);
-        RangeArea.SetEmptyAction(() => mCanAttack = false);
+        RangeArea.SetEmptyAction(() => { mTargetObject = null; mTargetCombat = null; });
 
         mCollidersOnMove = new List<Collider2D>();
 
@@ -187,9 +187,7 @@ public class Player : MonoBehaviour, ICombatable
         if (!mBlinkTimer.IsOver()) 
              mBlinkTimer.Update();
 
-        if (mCanAttack) mAttackPeriod.Update();
-
-        if (!mIsDeath)
+        if (!IsDeath)
         {
             InputAction();
         }
@@ -197,6 +195,8 @@ public class Player : MonoBehaviour, ICombatable
         {
             if (RangeArea.Has(mTargetObject)) 
             {
+                mAttackPeriod.Update();
+
                 if (mTargetObject.transform.position.x > transform.position.x)
                      transform.localRotation = Quaternion.Euler(0f,   0f, 0f);
                 else transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
@@ -227,6 +227,8 @@ public class Player : MonoBehaviour, ICombatable
         {
             if (RangeArea.Has(mTargetObject))
             {
+                WeaponAnimator.SetBool("PlayReverse", false);
+
                 if (mTargetCombat == null) {
                     mTargetObject.TryGetComponent(out mTargetCombat);
                 }
@@ -323,7 +325,7 @@ public class Player : MonoBehaviour, ICombatable
             mInventory.OnDamaged(ref damage, attacker, gameObject);
 
                            AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
-            if (mIsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
+            if (IsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
             {
                 DeathEvent.Invoke();
             }

@@ -680,6 +680,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mGameOverWindow: {fileID: 0}
+  WeaponAnimator: {fileID: 841802756}
   mBlinkTime: 0.2
   RangeArea: {fileID: 609270078}
   AbilityTable: {fileID: 666984053}
