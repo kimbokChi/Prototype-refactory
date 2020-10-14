@@ -195,8 +195,11 @@ public class Player : MonoBehaviour, ICombatable
         }
         if (mTargetObject != null)
         {
-            if (RangeArea.Has(mTargetObject)) {
-                mRenderer.flipX = mTargetObject.transform.position.x > transform.position.x;
+            if (RangeArea.Has(mTargetObject)) 
+            {
+                if (mTargetObject.transform.position.x > transform.position.x)
+                     transform.localRotation = Quaternion.Euler(0f,   0f, 0f);
+                else transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
             }
             else
             {
@@ -258,7 +261,9 @@ public class Player : MonoBehaviour, ICombatable
             }
             else
             {
-                mRenderer.flipX = (mLocation9 - moveDIR9 < 0);
+                if (mLocation9 - moveDIR9 < 0)
+                     transform.localRotation = Quaternion.Euler(0f,   0f, 0f);
+                else transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
                 Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
 
