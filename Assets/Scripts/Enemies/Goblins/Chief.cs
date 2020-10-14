@@ -88,7 +88,7 @@ public class Chief : EnemyBase, IObject, ICombatable
     {
         if (mCanCastPATTERN)
         {
-            mAttackPeriod.UpdatePeriod();
+            mAttackPeriod.StartPeriod();
         }
     }
 

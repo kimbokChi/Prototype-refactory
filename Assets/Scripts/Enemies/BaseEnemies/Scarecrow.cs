@@ -48,7 +48,7 @@ public class Scarecrow : EnemyBase
 
         if (HasPlayerOnRange())
         {
-            mAttackPeriod.UpdatePeriod();
+            mAttackPeriod.StartPeriod();
         }
     }
 

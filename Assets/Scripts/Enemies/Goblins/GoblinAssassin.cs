@@ -36,7 +36,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         {
             if (mEDash == null) MoveStop();
 
-            mAttackPeriod.UpdatePeriod();
+            mAttackPeriod.StartPeriod();
         }
         else if (mWaitForMoving.IsOver())
         {

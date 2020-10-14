@@ -90,39 +90,4 @@ public class AttackPeriod
         }
         mEUpdate = null;
     }
-
-    public void UpdatePeriod()
-    {
-        mTimer.Update();
-
-        if (mTimer.IsOver())
-        {
-            switch (mWaitPeriod)
-            {
-                case Period.Begin:
-
-                    mEnterBeginAction?.Invoke();
-
-                    mWaitPeriod = Period.Attack;
-                    mTimer.Start(mAbilityTable.BeginAttackDelay);
-                    break;
-
-                case Period.Attack:
-
-                    mEnterAttackAction?.Invoke();
-
-                    mWaitPeriod = Period.After;
-                    mTimer.Start(mAttackDelayTime);
-                    break;
-
-                case Period.After:
-
-                    mEnterAfterAction?.Invoke();
-
-                    mWaitPeriod = Period.Begin;
-                    mTimer.Start(mAbilityTable.AfterAttackDelay);
-                    break;
-            }
-        }
-    }
 }

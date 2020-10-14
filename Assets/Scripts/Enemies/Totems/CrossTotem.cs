@@ -57,7 +57,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
         if (mPlayer != null)
         {
-            mAttackPeriod.UpdatePeriod();
+            mAttackPeriod.StartPeriod();
         }
     }
 
