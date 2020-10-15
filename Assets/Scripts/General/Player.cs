@@ -137,8 +137,17 @@ public class Player : MonoBehaviour, ICombatable
 
         if (RangeArea.gameObject.TryGetComponent(out mRangeCollider))
         {
-            mInventory.WeaponChangeEvent +=  
-                o => mRangeCollider.radius = o.WeaponRange;
+            mInventory.WeaponChangeEvent += o =>
+            {
+                float JsonData(string dataName) {
+                    return float.Parse(DataUtil.GetDataValue("ItemData", "ID", o.gameObject.name, dataName));
+                }
+
+                AbilityTable.Table[Ability.After_AttackDelay] = JsonData("Begin-AttackDelay");
+                AbilityTable.Table[Ability.Begin_AttackDelay] = JsonData("After-AttackDelay");
+
+                mRangeCollider.radius = o.WeaponRange;
+            };
         }
     }
 
