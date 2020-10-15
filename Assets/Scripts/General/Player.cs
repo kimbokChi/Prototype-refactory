@@ -118,7 +118,8 @@ public class Player : MonoBehaviour, ICombatable
         mBlinkTimer = new Timer();
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
-        mAttackPeriod.SetAction(Period.Begin, AttackAction);
+        mAttackPeriod.SetAction(Period.Begin, () => WeaponAnimator.SetBool("PlayReverse", false));
+        mAttackPeriod.SetAction(Period.Attack, AttackAction);
         mAttackPeriod.SetAction(Period.After, () => WeaponAnimator.SetBool("PlayReverse", true));
 
         RangeArea.SetEnterAction(SenseTarget);
@@ -194,13 +195,13 @@ public class Player : MonoBehaviour, ICombatable
         }
         if (mTargetObject != null)
         {
+            if (mTargetObject.transform.position.x > transform.position.x)
+                 transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            else transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+
             if (RangeArea.Has(mTargetObject)) 
             {
                 mAttackPeriod.StartPeriod();
-
-                if (mTargetObject.transform.position.x > transform.position.x)
-                     transform.localRotation = Quaternion.Euler(0f,   0f, 0f);
-                else transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
             }
             else
             {
@@ -228,8 +229,6 @@ public class Player : MonoBehaviour, ICombatable
         {
             if (RangeArea.Has(mTargetObject))
             {
-                WeaponAnimator.SetBool("PlayReverse", false);
-
                 if (mTargetCombat == null) {
                     mTargetObject.TryGetComponent(out mTargetCombat);
                 }
