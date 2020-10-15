@@ -10,6 +10,8 @@ public class Player : MonoBehaviour, ICombatable
 
     [SerializeField]
     private Animator WeaponAnimator;
+    [SerializeField]
+    private SpriteRenderer WeaponRenderer;
 
     [SerializeField]
     private float mBlinkTime;
@@ -147,6 +149,8 @@ public class Player : MonoBehaviour, ICombatable
                 AbilityTable.Table[Ability.Begin_AttackDelay] = JsonData("After-AttackDelay");
 
                 mRangeCollider.radius = o.WeaponRange;
+
+                WeaponRenderer.sprite = o.Sprite;
             };
         }
     }
