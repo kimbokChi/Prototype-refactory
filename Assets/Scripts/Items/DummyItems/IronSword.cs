@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class IronSword : Item
 {
-    public override ItemRating Rating => ItemRating.Epic;
+    public override ItemRating Rating
+        => (ItemRating)Enum.Parse(typeof(ItemRating), JsonString("Rating"));
 
-    public override float WeaponRange => 1.5f;
+    public override float WeaponRange
+        => float.Parse(JsonString("Range"));
 
     public override void OffEquipThis(SlotType offSlot)
     {
@@ -53,6 +56,10 @@ public class IronSword : Item
 
     private void AttackAction(GameObject attacker, ICombatable combat)
     {
-        combat.Damaged(5f, attacker);
+        combat.Damaged(float.Parse(JsonString("AttackPower")), attacker);
+    }
+
+    private string JsonString(string dataName) {
+        return DataUtil.GetDataValue("ItemData", "ID", "IronSword", dataName);
     }
 }
