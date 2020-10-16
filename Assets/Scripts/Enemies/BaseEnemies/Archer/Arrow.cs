@@ -58,7 +58,7 @@ public class Arrow : MonoBehaviour
         {
             if (collision.TryGetComponent(out ICombatable combat))
             {
-                mTriggerAction.Invoke(combat); mEnterCount++;
+                mTriggerAction?.Invoke(combat); mEnterCount++;
             }
         }
     }

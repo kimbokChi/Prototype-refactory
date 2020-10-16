@@ -139,18 +139,34 @@ public class Player : MonoBehaviour, ICombatable
 
         if (RangeArea.gameObject.TryGetComponent(out mRangeCollider))
         {
-            mInventory.WeaponChangeEvent += o =>
-            {
-                float JsonData(string dataName) {
-                    return float.Parse(DataUtil.GetDataValue("ItemData", "ID", o.gameObject.name, dataName));
+            mInventory.WeaponEquipEvent += o =>
+            {               
+                if (o == null)
+                {
+                    float PlayerData(string dataName) {
+                        return float.Parse(DataUtil.GetDataValue("CharacterAbility", "ID", "Player", dataName));
+                    }
+
+                    mRangeCollider.radius = PlayerData("Range");
+
+                    AbilityTable.Table[Ability.After_AttackDelay] = PlayerData("After_AttackDelay");
+                    AbilityTable.Table[Ability.Begin_AttackDelay] = PlayerData("Begin_AttackDelay");
+
+                    WeaponRenderer.sprite = null;
                 }
+                else
+                {
+                    float ItemData(string dataName) {
+                        return float.Parse(DataUtil.GetDataValue("ItemData", "ID", o.gameObject.name, dataName));
+                    }
 
-                AbilityTable.Table[Ability.After_AttackDelay] = JsonData("Begin-AttackDelay");
-                AbilityTable.Table[Ability.Begin_AttackDelay] = JsonData("After-AttackDelay");
+                    mRangeCollider.radius = o.WeaponRange;
 
-                mRangeCollider.radius = o.WeaponRange;
+                    AbilityTable.Table[Ability.After_AttackDelay] = ItemData("Begin-AttackDelay");
+                    AbilityTable.Table[Ability.Begin_AttackDelay] = ItemData("After-AttackDelay");
 
-                WeaponRenderer.sprite = o.Sprite;
+                    WeaponRenderer.sprite = o.Sprite;
+                }
             };
         }
     }
