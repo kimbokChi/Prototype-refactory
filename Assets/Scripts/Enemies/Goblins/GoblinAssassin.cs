@@ -13,6 +13,9 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
     [SerializeField]
     private float mDashSpeedScale;
 
+    [SerializeField]
+    private GameObject AfterImage;
+
     private AttackPeriod mAttackPeriod;
     private Timer mWaitForMoving;
 
@@ -58,6 +61,7 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
     private void Dash()
     {
+        if (mPlayer)
         if (mPlayer.TryGetPosition(out Vector2 playerPos)) {
             StartCoroutine(mEDash = EDash(PositionLocalized(playerPos)));
         }
@@ -65,6 +69,8 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
     private IEnumerator EDash(Vector2 dashPoint)
     {
+        AfterImage.SetActive(true);
+
         dashPoint = (Vector2)transform.localPosition + 
              ((dashPoint.x - transform.localPosition.x > 0) ? Vector2.right : Vector2.left) * mMaxDashLength;
 
@@ -79,6 +85,8 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
             yield return null;
         }
         mEDash = null;
+
+        AfterImage.SetActive(false);
     }
 
     private void Attack(GameObject @object)

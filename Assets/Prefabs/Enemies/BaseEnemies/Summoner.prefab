@@ -142,9 +142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WaitForMoveMin: 0.5
   WaitForMoveMax: 0.8
-  HalfMoveRangeX: 2.5
+  HalfMoveRangeX: 3.5
   HalfMoveRangeY: 0
-  Range: 0
   OriginPosition: {x: 0, y: 0}
   MoveSmooth: 0.3
   RangeOffset: 0.31
