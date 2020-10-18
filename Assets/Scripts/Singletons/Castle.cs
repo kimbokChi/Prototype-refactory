@@ -184,9 +184,7 @@ public class Castle : Singleton<Castle>
                 {
                     mIsCastClearEvent = true;
 
-                    StageEventLibrary.Instance.StageClearEvent(mPlayerFloor.GetMovePoints(LPOSITION3.TOP), 
-                                                               mPlayerFloor.GetMovePoints(LPOSITION3.MID), 
-                                                               mPlayerFloor.GetMovePoints(LPOSITION3.BOT));
+                    StageEventLibrary.Instance.NotifyStageClear();
                 }
                 if (mPlayer.IsDeath)
                 {
