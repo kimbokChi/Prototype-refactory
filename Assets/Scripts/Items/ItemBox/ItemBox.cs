@@ -5,8 +5,6 @@ using UnityEngine;
 public class ItemBox : MonoBehaviour
 {
     public const string TRIGGER_TAG = "Player";
-
-    [SerializeField] private Sprite mOpenBox;
     
     private Animator mAnimator;
 
@@ -82,8 +80,6 @@ public class ItemBox : MonoBehaviour
         if (TryGetComponent(out SpriteRenderer renderer))
         {
             mIsOpen = true;
-
-            renderer.sprite = mOpenBox;
 
             mDropItem.gameObject.SetActive(true);
         }
