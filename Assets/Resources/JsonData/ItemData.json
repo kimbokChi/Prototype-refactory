@@ -1,0 +1,10 @@
+[
+  {
+    "ID": "IronSword",
+    "AttackPower": "15.0",
+    "Range": "1.5",
+    "Begin-AttackDelay": "1.0",
+    "After-AttackDelay": "1.0",
+    "Rating": "Epic"
+  }
+]

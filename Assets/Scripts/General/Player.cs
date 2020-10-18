@@ -9,6 +9,11 @@ public class Player : MonoBehaviour, ICombatable
     private GameObject mGameOverWindow;
 
     [SerializeField]
+    private Animator WeaponAnimator;
+    [SerializeField]
+    private SpriteRenderer WeaponRenderer;
+
+    [SerializeField]
     private float mBlinkTime;
     private Timer mBlinkTimer;
 
@@ -40,15 +45,14 @@ public class Player : MonoBehaviour, ICombatable
 
     private bool mIsMovingElevation;
 
-    public  bool IsDeath => mIsDeath;
+    public bool IsDeath { get; private set; }
 
     public AbilityTable GetAbility => AbilityTable;
 
-    private bool mIsDeath;
-
-    private bool mCanAttack;
-
     private CircleCollider2D mRangeCollider;
+
+    private GameObject  mTargetObject;
+    private ICombatable mTargetCombat;
 
     private float DeltaTime
     { get => Time.deltaTime * Time.timeScale; }
@@ -109,22 +113,25 @@ public class Player : MonoBehaviour, ICombatable
     private void Start()
     {
         mCanElevation = false;
-        mIsDeath      = false;
+        IsDeath       = false;
 
         mIsMovingElevation = false;
 
         mBlinkTimer = new Timer();
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
+        mAttackPeriod.SetAction(Period.Begin, () => WeaponAnimator.SetBool("PlayReverse", false));
         mAttackPeriod.SetAction(Period.Attack, AttackAction);
+        mAttackPeriod.SetAction(Period.After, () => WeaponAnimator.SetBool("PlayReverse", true));
 
-        RangeArea.SetEnterAction( o => mCanAttack = true);
-        RangeArea.SetEmptyAction(() => mCanAttack = false);
+        RangeArea.SetEnterAction(SenseTarget);
+        RangeArea.SetEmptyAction(() => { mTargetObject = null; mTargetCombat = null; });
 
         mCollidersOnMove = new List<Collider2D>();
 
         DeathEvent += () => mGameOverWindow.SetActive(true);
-        DeathEvent += () => RangeArea.enabled = false;
+        DeathEvent += () =>      RangeArea.enabled = false;
+        DeathEvent += () => WeaponAnimator.enabled = false;
 
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
 
@@ -132,8 +139,35 @@ public class Player : MonoBehaviour, ICombatable
 
         if (RangeArea.gameObject.TryGetComponent(out mRangeCollider))
         {
-            mInventory.WeaponChangeEvent +=  
-                o => mRangeCollider.radius = o.WeaponRange;
+            mInventory.WeaponEquipEvent += o =>
+            {               
+                if (o == null)
+                {
+                    float PlayerData(string dataName) {
+                        return float.Parse(DataUtil.GetDataValue("CharacterAbility", "ID", "Player", dataName));
+                    }
+
+                    mRangeCollider.radius = PlayerData("Range");
+
+                    AbilityTable.Table[Ability.After_AttackDelay] = PlayerData("After_AttackDelay");
+                    AbilityTable.Table[Ability.Begin_AttackDelay] = PlayerData("Begin_AttackDelay");
+
+                    WeaponRenderer.sprite = null;
+                }
+                else
+                {
+                    float ItemData(string dataName) {
+                        return float.Parse(DataUtil.GetDataValue("ItemData", "ID", o.gameObject.name, dataName));
+                    }
+
+                    mRangeCollider.radius = o.WeaponRange;
+
+                    AbilityTable.Table[Ability.After_AttackDelay] = ItemData("Begin-AttackDelay");
+                    AbilityTable.Table[Ability.Begin_AttackDelay] = ItemData("After-AttackDelay");
+
+                    WeaponRenderer.sprite = o.Sprite;
+                }
+            };
         }
     }
 
@@ -184,11 +218,25 @@ public class Player : MonoBehaviour, ICombatable
         if (!mBlinkTimer.IsOver()) 
              mBlinkTimer.Update();
 
-        if (mCanAttack) mAttackPeriod.Update();
-
-        if (!mIsDeath)
+        if (!IsDeath)
         {
             InputAction();
+        }
+        if (mTargetObject != null)
+        {
+            if (mTargetObject.transform.position.x > transform.position.x)
+                 transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            else transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+
+            if (RangeArea.Has(mTargetObject)) 
+            {
+                mAttackPeriod.StartPeriod();
+            }
+            else
+            {
+                mTargetObject = null;
+                mTargetCombat = null;
+            }
         }
     }
 
@@ -197,15 +245,29 @@ public class Player : MonoBehaviour, ICombatable
         if (mEMove != null) mCollidersOnMove.Add(collision);
     }
 
+    private void SenseTarget(GameObject target)
+    {
+        if (target.CompareTag("Enemy")) {
+            mTargetObject = mTargetObject ?? target;
+        }
+    }
+
     private void AttackAction()
     {
-        if (RangeArea.TryEnterTypeT(out Transform transform))
+        if (mTargetObject != null)
         {
-            if (transform.TryGetComponent(out ICombatable combat))
+            if (RangeArea.Has(mTargetObject))
             {
-                mInventory.OnAttack(gameObject, combat);
+                if (mTargetCombat == null) {
+                    mTargetObject.TryGetComponent(out mTargetCombat);
+                }
+                mInventory.OnAttack(gameObject, mTargetCombat);
             }
-            mRenderer.flipX = (transform.position.x > this.transform.position.x);
+            else
+            {
+                mTargetObject = null;
+                mTargetCombat = null;
+            }
         }
     }
 
@@ -230,6 +292,10 @@ public class Player : MonoBehaviour, ICombatable
             }
             else
             {
+                if (mLocation9 - moveDIR9 < 0)
+                     transform.localRotation = Quaternion.Euler(0f,   0f, 0f);
+                else transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+
                 Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
 
                 StartCoroutine(mEMove = EMove(movePoint, moveDIR9));
@@ -241,8 +307,7 @@ public class Player : MonoBehaviour, ICombatable
     {
         mInventory.OnMoveBegin(movePoint.normalized);
 
-        float  lerpAmount = 0f; 
-        while (lerpAmount < 1f)
+        for (float lerpAmount = 0f; lerpAmount < 1f; )
         {
             lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * AbilityTable.MoveSpeed);
 
@@ -288,8 +353,8 @@ public class Player : MonoBehaviour, ICombatable
 
             mInventory.OnDamaged(ref damage, attacker, gameObject);
 
-                           AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
-            if (mIsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
+                          AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
+            if (IsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
             {
                 DeathEvent.Invoke();
             }

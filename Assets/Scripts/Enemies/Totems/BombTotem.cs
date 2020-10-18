@@ -36,7 +36,7 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
 
             if (OnTriggerPlayer())
             {
-                mAttackPeriod.Update();
+                mAttackPeriod.StartPeriod();
             }
         }
     }
