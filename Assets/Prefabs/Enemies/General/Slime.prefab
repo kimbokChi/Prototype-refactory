@@ -27,10 +27,31 @@ PrefabInstance:
       propertyPath: _JsonLableName
       value: Slime_Normal
       objectReference: {fileID: 0}
+    - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
+        type: 3}
+      propertyPath: OriginPosition.y
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6949924797478406764, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f77994136ff0a404f8adfcc5fcc18dcb,
+        type: 3}
     - target: {fileID: 6949924797478406765, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
       propertyPath: m_Name
       value: Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 6949924797478406766, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6949924797478406766, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6949924797478406767, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}

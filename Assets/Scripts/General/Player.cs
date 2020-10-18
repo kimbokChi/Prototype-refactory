@@ -358,7 +358,6 @@ public class Player : MonoBehaviour, ICombatable
             {
                 DeathEvent.Invoke();
             }
-            Debug.Log($"Rest Health : {AbilityTable.Table[Ability.CurHealth]}");
         }
     }
 
