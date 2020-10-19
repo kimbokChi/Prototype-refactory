@@ -6,11 +6,9 @@ public class ItemBox : MonoBehaviour
 {
     public const string TRIGGER_TAG = "Player";
 
-    [SerializeField] private Sprite mOpenBox;
-    
-    private Animator mAnimator;
+    [SerializeField] private GameObject ShowItem;
+    [SerializeField] private Animator   Animator;
 
-    private bool mIsOpen;
     private bool mIsPlayerEnter;
 
     private Item mContainItem;
@@ -18,43 +16,27 @@ public class ItemBox : MonoBehaviour
 
     private void OnEnable()
     {
-        mIsOpen = false;
-
-        if (TryGetComponent(out mAnimator))
+        if (ShowItem.transform.GetChild(0).TryGetComponent(out mDropItem))
         {
-            mAnimator.enabled = false;
-        }
-
-        mContainItem = ItemLibrary.Instance.GetRandomItem();
-
-        if (transform.GetChild(0).TryGetComponent(out mDropItem))
-        {
-            if (mContainItem != null)
+            if (mDropItem.gameObject.TryGetComponent(out SpriteRenderer render))
             {
-                if (mDropItem.gameObject.TryGetComponent(out SpriteRenderer render))
-                {
-                    render.sprite = mContainItem.Sprite;
-                }
+                 mContainItem = ItemLibrary.Instance.GetRandomItem();
+                render.sprite = mContainItem?.Sprite;
             }
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(TRIGGER_TAG) && !mIsOpen)
-        {
-            mAnimator.enabled = true;
-
-            StartCoroutine(CR_openBox());
-
-            mIsPlayerEnter = true;
+        if (collision.CompareTag(TRIGGER_TAG) && !ShowItem.activeSelf) {
+            mIsPlayerEnter   = true;
+            Animator.enabled = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag(TRIGGER_TAG))
-        {
+        if (other.CompareTag(TRIGGER_TAG)) {
             mIsPlayerEnter = false;
         }
     }
@@ -63,30 +45,11 @@ public class ItemBox : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            if (mIsPlayerEnter && mIsOpen && !mDropItem.IsCatch)
+            if (mIsPlayerEnter && !mDropItem.IsCatch)
             {
                 mDropItem.Catch();
-
                 Inventory.Instance.AddItem(mContainItem);
             }
         }
-    }
-
-    private IEnumerator CR_openBox()
-    {
-        for (float i = 0; i < 0.333f; i += Time.deltaTime * Time.timeScale)
-        {
-            yield return null;
-        }
-
-        if (TryGetComponent(out SpriteRenderer renderer))
-        {
-            mIsOpen = true;
-
-            renderer.sprite = mOpenBox;
-
-            mDropItem.gameObject.SetActive(true);
-        }
-        yield break;
     }
 }
