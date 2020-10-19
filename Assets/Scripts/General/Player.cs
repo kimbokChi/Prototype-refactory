@@ -6,6 +6,9 @@ using UnityEngine;
 public class Player : MonoBehaviour, ICombatable
 {
     [SerializeField]
+    private bool CanMoveDown;
+    
+    [SerializeField]
     private GameObject mGameOverWindow;
 
     [SerializeField]
@@ -197,9 +200,24 @@ public class Player : MonoBehaviour, ICombatable
         }
         else if (Input.GetKey(KeyCode.DownArrow))
         {
-            if (mIsMovingElevation = 
-                GetLPOSITION3() != LPOSITION3.BOT) 
-                moveDir9 = mLocation9 + 3;
+            switch (GetLPOSITION3())
+            {
+                case LPOSITION3.TOP:
+                case LPOSITION3.MID:
+                    {
+                        mIsMovingElevation = true;
+
+                        moveDir9 = mLocation9 + 3;
+                    }                    
+                    break;
+                case LPOSITION3.BOT:
+                    {
+                        mCanElevation = Castle.Instance.CanPrevPoint();
+
+                        moveDir9 = mLocation9;
+                    }
+                    break;
+            }
         }
         else if (Input.GetKey(KeyCode.LeftArrow))
         {
@@ -277,18 +295,25 @@ public class Player : MonoBehaviour, ICombatable
         {
             if (mCanElevation)
             {
-                if (Castle.Instance.CanNextPoint(out Vector2 nextPoint))
+                switch (moveDIR9)
                 {
-                    #region comment
-                    // TOP_LEFT  -> BOT_LEFT
-                    // TOP       -> BOT
-                    // TOP_RIGHT -> BOT_RIGHT
-                    #endregion
-                    if (mLocation9 >= DIRECTION9.TOP_LEFT &&
-                        mLocation9 <= DIRECTION9.TOP_RIGHT) moveDIR9 += 6;
+                    case DIRECTION9.TOP_LEFT:
+                    case DIRECTION9.TOP:
+                    case DIRECTION9.TOP_RIGHT:
+                        if (Castle.Instance.CanNextPoint(out Vector2 nextPoint)) {
+                            StartCoroutine(mEMove = EMove(nextPoint, moveDIR9 + 6));
+                        }
+                        break;
 
-                    StartCoroutine(mEMove = EMove(nextPoint, moveDIR9));
+                    case DIRECTION9.BOT_LEFT:
+                    case DIRECTION9.BOT:
+                    case DIRECTION9.BOT_RIGHT:
+                        if (Castle.Instance.CanPrevPoint(out Vector2 prevPoint)) {
+                            StartCoroutine(mEMove = EMove(prevPoint, moveDIR9 - 6));
+                        }
+                        break;
                 }
+                
             }
             else
             {

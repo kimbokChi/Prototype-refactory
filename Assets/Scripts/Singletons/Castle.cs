@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class Castle : Singleton<Castle>
 {
+    [SerializeField]
+    private bool DisableStageEvent;
+
     [SerializeField][Range(0.1f, 2f)]
-    private float mCamaraMoveAccel;
+    private float CameraMoveAccel;
 
     private bool mIsCastClearEvent;
     private bool mIsActivation = true;
@@ -16,6 +19,7 @@ public class Castle : Singleton<Castle>
 
     private LPOSITION3 mLastPlayerPOS = LPOSITION3.NONE;
 
+    [Header("Floor")]
     [SerializeField] private   Floor[] mFloors;
     [SerializeField] private   Floor   mPlayerFloor;
                      private Vector2[] mMovePoints;
@@ -39,7 +43,7 @@ public class Castle : Singleton<Castle>
     #endregion 
     public bool CanNextPoint()
     {
-        return !(IsIndexOutFloor(mPlayerFloor.FloorIndex)) && mPlayerFloor.IsClear;
+        return (!IsIndexOutFloor(mPlayerFloor.FloorIndex)) && mPlayerFloor.IsClear;
     }
 
     #region READ
@@ -75,6 +79,36 @@ public class Castle : Singleton<Castle>
         }
     }
 
+    public bool CanPrevPoint()
+    {
+        return (!IsIndexOutFloor(mPlayerFloor.FloorIndex - 2)) && mPlayerFloor.IsClear;
+    }
+    public bool CanPrevPoint(out Vector2 point)
+    {
+        if (IsIndexOutFloor(mPlayerFloor.FloorIndex - 2))
+        {
+            point = Vector2.zero; return false;
+        }
+        else
+        {
+            mPlayerFloor = mFloors[mPlayerFloor.FloorIndex - 2];
+
+            int playerPOS = (int)mPlayer.GetTPOSITION3();
+
+            point = mPlayerFloor.GetMovePoints(LPOSITION3.TOP)[playerPOS];
+
+            RenewPlayerFloor();
+
+            if (mECamaraMove != null)
+            {
+                StopCoroutine(mECamaraMove);
+            }
+            StartCoroutine(mECamaraMove = ECamaraMove(mPlayerFloor.transform.position, Camera.main));
+
+            return true;
+        }
+    }
+
     public void PauseEnable() => mIsPause = true;
 
     public void PauseDisable() => mIsPause = false;
@@ -91,7 +125,7 @@ public class Castle : Singleton<Castle>
     #endregion 
     private bool IsIndexOutFloor(int floorNumber)
     {
-        return (mFloors.Length <= floorNumber);
+        return (mFloors.Length <= floorNumber || floorNumber < 0);
     }
 
     private void BuildCastle()
@@ -153,7 +187,7 @@ public class Castle : Singleton<Castle>
 
         while (lerpAmount < 1f)
         {
-            lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * mCamaraMoveAccel);
+            lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * CameraMoveAccel);
 
             camera.transform.position = Vector2.Lerp(camera.transform.position, movePoint, lerpAmount);
 
@@ -184,7 +218,9 @@ public class Castle : Singleton<Castle>
                 {
                     mIsCastClearEvent = true;
 
-                    StageEventLibrary.Instance.NotifyStageClear();
+                    if (!DisableStageEvent) {
+                        StageEventLibrary.Instance.NotifyStageClear();
+                    }
                 }
                 if (mPlayer.IsDeath)
                 {

@@ -6,6 +6,9 @@ public class ChargeGauge : MonoBehaviour
 {
     public readonly Vector3 MAX_SCALE = new Vector3(1.8f, 1.8f, 1.8f);
 
+    public event System.Action  OnChargeEvent;
+    public event System.Action DisChargeEvent;
+
     public float Charge
     {
         get
@@ -31,7 +34,17 @@ public class ChargeGauge : MonoBehaviour
         transform.localScale = Vector3.Lerp(Vector3.zero, MAX_SCALE, mLerpAmount);
     }
 
-    private void OnEnable() => mLerpAmount = 0.0f;
+    private void OnEnable()
+    {
+        OnChargeEvent?.Invoke();
 
-    private void OnDisable() => transform.localScale = Vector3.zero;
+        mLerpAmount = 0.0f;
+    }
+
+    private void OnDisable()
+    {
+        DisChargeEvent?.Invoke();
+
+        transform.localScale = Vector3.zero;
+    }
 }
