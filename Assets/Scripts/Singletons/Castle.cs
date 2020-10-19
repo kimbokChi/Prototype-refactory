@@ -5,8 +5,11 @@ using UnityEngine;
 
 public class Castle : Singleton<Castle>
 {
+    [SerializeField]
+    private bool DisableStageEvent;
+
     [SerializeField][Range(0.1f, 2f)]
-    private float mCamaraMoveAccel;
+    private float CameraMoveAccel;
 
     private bool mIsCastClearEvent;
     private bool mIsActivation = true;
@@ -16,6 +19,7 @@ public class Castle : Singleton<Castle>
 
     private LPOSITION3 mLastPlayerPOS = LPOSITION3.NONE;
 
+    [Header("Floor")]
     [SerializeField] private   Floor[] mFloors;
     [SerializeField] private   Floor   mPlayerFloor;
                      private Vector2[] mMovePoints;
@@ -153,7 +157,7 @@ public class Castle : Singleton<Castle>
 
         while (lerpAmount < 1f)
         {
-            lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * mCamaraMoveAccel);
+            lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * CameraMoveAccel);
 
             camera.transform.position = Vector2.Lerp(camera.transform.position, movePoint, lerpAmount);
 
@@ -184,7 +188,9 @@ public class Castle : Singleton<Castle>
                 {
                     mIsCastClearEvent = true;
 
-                    StageEventLibrary.Instance.NotifyStageClear();
+                    if (!DisableStageEvent) {
+                        StageEventLibrary.Instance.NotifyStageClear();
+                    }
                 }
                 if (mPlayer.IsDeath)
                 {

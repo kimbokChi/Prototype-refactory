@@ -439,7 +439,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcbba22ee03113e40a7d7c88a99f77b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mCamaraMoveAccel: 0.6
+  DisableStageEvent: 0
+  CameraMoveAccel: 0.6
   mFloors:
   - {fileID: 5768596560899073513}
   - {fileID: 5768596559861562374}
