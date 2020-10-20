@@ -38,7 +38,7 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
 
         if (mPlayer != null)
         {
-            mAttackPeriod.Update();
+            mAttackPeriod.StartPeriod();
         }
     }
 
