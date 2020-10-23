@@ -94,9 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fca3110fd02347489f226dd2fa4bbb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemAndItemBox: {fileID: 208112646792821644, guid: f35de1102ab78f94d88d3d9b1b8ecbd8,
-    type: 3}
-  mEventProbabilty: 0
+  ItemBox: {fileID: 208112646792821644, guid: f35de1102ab78f94d88d3d9b1b8ecbd8, type: 3}
 --- !u!114 &2518353896841765207
 MonoBehaviour:
   m_ObjectHideFlags: 0

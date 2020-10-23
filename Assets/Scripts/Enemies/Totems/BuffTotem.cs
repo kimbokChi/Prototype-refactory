@@ -30,7 +30,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
 
     public void IUpdate()
     {
-        mAttackPeriod.Update();
+        mAttackPeriod.StartPeriod();
     }
 
     private void CastBuff()

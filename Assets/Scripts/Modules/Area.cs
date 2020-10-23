@@ -76,4 +76,9 @@ public class Area : MonoBehaviour
         }
         return TContainer.ToArray();
     }
+
+    public bool Has(GameObject gameObject)
+    {
+        return mSenseList.Any(o => o.Equals(gameObject));
+    }
 }

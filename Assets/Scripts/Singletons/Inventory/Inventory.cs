@@ -59,6 +59,11 @@ public class Inventory : Singleton<Inventory>
         add    => mWeaponSlot.ItemChangeEvent += value;
         remove => mWeaponSlot.ItemChangeEvent -= value;
     }
+    public event Action<Item> WeaponEquipEvent
+    {
+        add    => mWeaponSlot.ItemEquipEvent += value;
+        remove => mWeaponSlot.ItemEquipEvent -= value;
+    }
 
     [SerializeField] private ItemSlot   mWeaponSlot;
     [SerializeField] private ItemSlot[] mAccessorySlot;
