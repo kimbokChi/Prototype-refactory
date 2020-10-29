@@ -32,6 +32,10 @@ public class Player : MonoBehaviour, ICombatable
     [SerializeField]
     private DIRECTION9 mLocation9;
 
+    [Space()]
+    [SerializeField]
+    private HealthBarGenerator HealthBarGenerator;
+
     private IEnumerator mEMove;
 
     private Inventory mInventory;
@@ -115,6 +119,8 @@ public class Player : MonoBehaviour, ICombatable
 
     private void Start()
     {
+        HealthBarGenerator.Generate();
+
         mCanElevation = false;
         IsDeath       = false;
 

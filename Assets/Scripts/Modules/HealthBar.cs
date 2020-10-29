@@ -1,6 +1,28 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public struct HealthBarGenerator
+{
+    [SerializeField]
+    private HealthBar OriginHealthBar;
+
+    [SerializeField] private Vector3 Offset;
+    [SerializeField] private Transform CanvasTransform;
+
+    [Header("Master Info")]
+    [SerializeField] private Transform MasterTransform;
+    [SerializeField] private AbilityTable AbilityTable;
+
+    public void Generate()
+    {
+        HealthBar healthBar =
+            Object.Instantiate(OriginHealthBar, CanvasTransform);
+
+        healthBar.Init(Offset, MasterTransform, AbilityTable);
+    }
+}
+
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Vector3 Offset;
@@ -9,6 +31,11 @@ public class HealthBar : MonoBehaviour
     [Header("Master Info")]
     [SerializeField] private Transform MasterTransform;
     [SerializeField] private AbilityTable AbilityTable;
+
+    public void Init(Vector3 offset, Transform master, AbilityTable abilityTable)
+    {
+        Offset = offset; MasterTransform = master; AbilityTable = abilityTable;
+    }
 
     private void LateUpdate()
     {
