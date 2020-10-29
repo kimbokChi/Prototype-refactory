@@ -13,11 +13,15 @@ public class Scarecrow : EnemyBase
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
+
+            HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
     }
 
     public override void IInit()
     {
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+
         mWaitForMove = new Timer();
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
