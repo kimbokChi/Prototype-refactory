@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 5810549494006058208}
   - component: {fileID: 5810549494006058015}
   - component: {fileID: 5810549494006058014}
+  - component: {fileID: 6242916743501542565}
   - component: {fileID: 5810549494006058013}
   - component: {fileID: 5810549494006058012}
   - component: {fileID: 2441175701001870715}
@@ -159,8 +160,22 @@ MonoBehaviour:
   mBlinkTime: 0.2
   RangeArea: {fileID: 5810549494338724702}
   AbilityTable: {fileID: 5810549494281094165}
+  PlayerAnimator: {fileID: 6242916743501542565}
   mDefense: 100
   mLocation9: 4
+--- !u!114 &6242916743501542565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5810549494006058011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e32930225ebeef479b052eaa598bc89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 2441175701001870715}
 --- !u!61 &5810549494006058013
 BoxCollider2D:
   m_ObjectHideFlags: 0

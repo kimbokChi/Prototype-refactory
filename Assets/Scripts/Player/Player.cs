@@ -27,6 +27,9 @@ public class Player : MonoBehaviour, ICombatable
     private AbilityTable AbilityTable;
 
     [SerializeField]
+    private PlayerAnimator PlayerAnimator;
+
+    [SerializeField]
     private float mDefense;
 
     [SerializeField]
@@ -115,6 +118,8 @@ public class Player : MonoBehaviour, ICombatable
 
     private void Start()
     {
+        PlayerAnimator.Init();
+
         HealthBarPool.Instance?.UsingHealthBar(1.1f, transform, AbilityTable);
 
         mCanElevation = false;
@@ -333,6 +338,7 @@ public class Player : MonoBehaviour, ICombatable
 
     private IEnumerator EMove(Vector2 movePoint, DIRECTION9 moveDIR9)
     {
+        PlayerAnimator.ChangeState(PlayerAnim.Move);
         mInventory.OnMoveBegin(movePoint.normalized);
 
         for (float lerpAmount = 0f; lerpAmount < 1f; )
@@ -343,6 +349,7 @@ public class Player : MonoBehaviour, ICombatable
 
             yield return null;
         }
+        PlayerAnimator.ChangeState(PlayerAnim.Idle);
         mInventory.OnMoveEnd(mCollidersOnMove.ToArray());
 
         mCollidersOnMove.Clear();

@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerAnim
+{
+    Idle, Move, Jump, Landing, Death
+}
+
 public class PlayerAnimator : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] 
+    private Animator Animator;
+
+    private int mControlKey;
+
+    public void Init()
     {
-        
+        mControlKey = Animator.GetParameter(0).nameHash;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ChangeState(PlayerAnim anim)
     {
-        
+        Animator.SetInteger(mControlKey, (int)anim);
     }
 }
