@@ -41,11 +41,15 @@ public class Room : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; ++i)
         {
-            if (transform.GetChild(i).TryGetComponent(out IObject Object))
-            {
-                mObjects.Add(Object);
+            GameObject childObject = transform.GetChild(i).gameObject;
 
-                Object.IInit();
+            if (childObject.activeSelf) {
+                if (childObject.TryGetComponent(out IObject Object))
+                {
+                    mObjects.Add(Object);
+
+                    Object.IInit();
+                }
             }
         }
         gameObject.SetActive(false);

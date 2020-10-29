@@ -27,6 +27,8 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
 
     public override void IInit()
     {
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+
         mContactArea.SetEnterAction(Attack);
 
         mWaitForMoving = new Timer();

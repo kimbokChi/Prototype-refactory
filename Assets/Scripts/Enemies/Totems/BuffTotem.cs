@@ -18,6 +18,8 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+
         mAttackPeriod = new AttackPeriod(AbilityTable);
 
         mAttackPeriod.SetAction(Period.Attack, CastBuff);
@@ -65,7 +67,12 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) > 0f);
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        {
+            gameObject.SetActive(false);
+
+            HealthBarPool.Instance.UnUsingHealthBar(transform);
+        }
     }
 
     public void CastBuff(BUFF buffType, IEnumerator castedBuff)

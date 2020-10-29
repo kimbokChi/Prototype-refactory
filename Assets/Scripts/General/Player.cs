@@ -31,7 +31,7 @@ public class Player : MonoBehaviour, ICombatable
 
     [SerializeField]
     private DIRECTION9 mLocation9;
-
+    
     private IEnumerator mEMove;
 
     private Inventory mInventory;
@@ -115,6 +115,8 @@ public class Player : MonoBehaviour, ICombatable
 
     private void Start()
     {
+        HealthBarPool.Instance?.UsingHealthBar(1.1f, transform, AbilityTable);
+
         mCanElevation = false;
         IsDeath       = false;
 
@@ -135,6 +137,7 @@ public class Player : MonoBehaviour, ICombatable
         DeathEvent += () => mGameOverWindow.SetActive(true);
         DeathEvent += () =>      RangeArea.enabled = false;
         DeathEvent += () => WeaponAnimator.enabled = false;
+        DeathEvent += () => HealthBarPool.Instance?.UnUsingHealthBar(transform);
 
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
 

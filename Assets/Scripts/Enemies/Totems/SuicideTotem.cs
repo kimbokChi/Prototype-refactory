@@ -15,13 +15,18 @@ public class SuicideTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0) {
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        {
             gameObject.SetActive(false);
+
+            HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
     }
 
     public void IInit()
     {
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+
         mIsOnFuse = false;
     }
 

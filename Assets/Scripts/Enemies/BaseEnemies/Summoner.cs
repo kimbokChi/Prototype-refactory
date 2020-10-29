@@ -20,11 +20,15 @@ public class Summoner : EnemyBase
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
+
+            HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
     }
 
     public override void IInit()
     {
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+
         Debug.Assert(transform.parent.TryGetComponent(out mBelongRoom));
 
         mWaitForSummon = new Timer();
