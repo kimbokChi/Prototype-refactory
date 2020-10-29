@@ -11,9 +11,13 @@ public class HealthBarPool : Singleton<HealthBarPool>
 
     private Queue<HealthBar> mPool;
 
+    private Dictionary<Transform, HealthBar> mUserList;
+
     private void Awake()
     {
         mPool = new Queue<HealthBar>();
+
+        mUserList = new Dictionary<Transform, HealthBar>();
 
         for (int i = 0; i < HoldingCount; i++)
         {
@@ -28,12 +32,24 @@ public class HealthBarPool : Singleton<HealthBarPool>
             mPool.Enqueue(Instantiate(OrignHealthBar, WorldCanvasTransform));
         }
         HealthBar healthBar = mPool.Dequeue();
+        mUserList.Add(master, healthBar);
 
         healthBar.Init(Vector3.up * offsetY, master, abilityTable);
         healthBar.gameObject.SetActive(true);
     }
 
-    public void UnUsingHealthBar(HealthBar healthBar)
+    public void UnUsingHealthBar(Transform master)
+    {
+        if (mUserList.ContainsKey(master))
+        {
+            HealthBar healthBar = mUserList[master];
+                                  mUserList.Remove(master);
+
+            UnUsingHealthBar(healthBar);
+        }
+    }
+
+    private void UnUsingHealthBar(HealthBar healthBar)
     {
         mPool.Enqueue(healthBar);
                       healthBar.gameObject.SetActive(false);
