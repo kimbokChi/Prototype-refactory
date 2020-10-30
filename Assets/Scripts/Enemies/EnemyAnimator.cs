@@ -2,11 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EnemyAnim
-{
-    Idle, Move, Attack, Damaged, Death
-}
-
 public class EnemyAnimator : MonoBehaviour
 {
     [SerializeField]
@@ -24,7 +19,7 @@ public class EnemyAnimator : MonoBehaviour
         mControlKey = Animator.GetParameter(0).nameHash;
     }
 
-    public void ChangeState(EnemyAnim anim)
+    public void ChangeState(AnimState anim)
     {
         Animator.SetInteger(mControlKey, (int)anim);
     }

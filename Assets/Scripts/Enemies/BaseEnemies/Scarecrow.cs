@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scarecrow : EnemyBase
+public class Scarecrow : EnemyBase, IAnimEventReceiver
 {
     [SerializeField]
     private EnemyAnimator EnemyAnimator;
@@ -15,7 +15,7 @@ public class Scarecrow : EnemyBase
     {
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
-            EnemyAnimator.ChangeState(EnemyAnim.Death);
+            EnemyAnimator.ChangeState(AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
@@ -43,7 +43,7 @@ public class Scarecrow : EnemyBase
                 movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
                 movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
 
-                EnemyAnimator.ChangeState(EnemyAnim.Move);
+                EnemyAnimator.ChangeState(AnimState.Move);
 
                 if (mPlayer != null)
                 {
@@ -67,29 +67,29 @@ public class Scarecrow : EnemyBase
     {
         mWaitForMove.Start(WaitMoveTime);
 
-        EnemyAnimator.ChangeState(EnemyAnim.Idle);
+        EnemyAnimator.ChangeState(AnimState.Idle);
     }
 
     private void AttackAction()
     {
         MoveStop();
-        EnemyAnimator.ChangeState(EnemyAnim.Attack);
+        EnemyAnimator.ChangeState(AnimState.Attack);
 
         if (HasPlayerOnRange() && IsLookAtPlayer()) {
             mPlayer.Damaged(AbilityTable.AttackPower, gameObject);
         }
     }
 
-    private void PlayOverAnimation(EnemyAnim anim)
+    public void AnimationPlayOver(AnimState anim)
     {
         switch (anim)
         {
-            case EnemyAnim.Attack:
-            case EnemyAnim.Damaged:
-                EnemyAnimator.ChangeState(EnemyAnim.Idle);
+            case AnimState.Attack:
+            case AnimState.Damaged:
+                EnemyAnimator.ChangeState(AnimState.Idle);
                 break;
 
-            case EnemyAnim.Death:
+            case AnimState.Death:
                 gameObject.SetActive(false);
                 break;
         }

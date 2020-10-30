@@ -34,3 +34,13 @@ public interface ICombatable
 
     void CastBuff(BUFF buffType, IEnumerator castedBuff);
 }
+
+public enum AnimState
+{
+    Idle, Move, Attack, Damaged, Death
+}
+
+public interface IAnimEventReceiver
+{
+    void AnimationPlayOver(AnimState anim);
+}
