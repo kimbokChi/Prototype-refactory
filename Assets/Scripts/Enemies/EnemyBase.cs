@@ -85,8 +85,8 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         {
             playerPos = PositionLocalized(mPlayer.transform.position);
 
-            return ( SpriteFlipX && playerPos.x < transform.position.x) ||
-                   (!SpriteFlipX && playerPos.x > transform.position.x);
+            return ( SpriteFlipX && playerPos.x > transform.position.x) ||
+                   (!SpriteFlipX && playerPos.x < transform.position.x);
         }
         playerPos = Vector2.zero;
 
@@ -104,8 +104,8 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         {
             Vector2 playerPos = PositionLocalized(mPlayer.transform.position);
 
-            return ( SpriteFlipX && playerPos.x < transform.position.x) ||
-                   (!SpriteFlipX && playerPos.x > transform.position.x);
+            return ( SpriteFlipX && playerPos.x > transform.position.x) ||
+                   (!SpriteFlipX && playerPos.x < transform.position.x);
         }
         return false;
     }
@@ -127,7 +127,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     #endregion
     protected bool IsInRange(Vector2 point)
     {
-        return Vector2.Distance(point, transform.localPosition) <= AbilityTable.Range + RangeOffset;
+        return Mathf.Abs(point.x - transform.position.x) <= AbilityTable.Range + RangeOffset;
     }
 
     protected bool HasPlayerOnRange()
@@ -174,21 +174,24 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     #endregion
     protected void MoveToPlayer(Vector2 movePoint, MovingStyle style = MovingStyle.SmoothDamp)
     {
-        Vector2 lookingDir = movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left;
+        Vector2 lookingDir;
+
+        if (movePoint.x > transform.localPosition.x)
+        {
+            lookingDir = Vector2.right;
+        }
+        else 
+            lookingDir = Vector2.left;
 
         Vector2 playerPos;
 
-        if ((IsLookAtPlayer(lookingDir) || IsLookAtPlayer()) && mPlayer.TryGetPosition(out playerPos))
+        if (IsLookAtPlayer(lookingDir) || IsLookAtPlayer())
         {
-            movePoint = PositionLocalized(playerPos);
-
-            if (!IsInRange(movePoint))
-            {
-                movePoint -= (movePoint.x > transform.localPosition.x ? Vector2.right : Vector2.left) * AbilityTable.Range;
-
+            if (mPlayer.TryGetPosition(out playerPos)) {
+                movePoint = PositionLocalized(playerPos);
             }
-            MoveToPoint(movePoint, style);
         }
+        MoveToPoint(movePoint, style);
     }
 
     #region EVENT
