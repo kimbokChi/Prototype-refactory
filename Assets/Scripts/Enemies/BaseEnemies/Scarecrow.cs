@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Scarecrow : EnemyBase
 {
+    [SerializeField]
+    private EnemyAnimator EnemyAnimator;
+
     private Timer mWaitForMove;
 
     private AttackPeriod mAttackPeriod;
@@ -20,6 +23,8 @@ public class Scarecrow : EnemyBase
 
     public override void IInit()
     {
+        EnemyAnimator?.Init();
+
         HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
         mWaitForMove = new Timer();
@@ -37,6 +42,8 @@ public class Scarecrow : EnemyBase
 
                 movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
                 movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
+
+                EnemyAnimator.ChangeState(EnemyAnim.Move);
 
                 if (mPlayer != null)
                 {
@@ -63,8 +70,26 @@ public class Scarecrow : EnemyBase
 
     private void AttackAction()
     {
+        EnemyAnimator.ChangeState(EnemyAnim.Attack);
+
         if (HasPlayerOnRange()) {
             mPlayer.Damaged(AbilityTable.AttackPower, gameObject);
+        }
+    }
+
+    private void PlayOverAnimation(EnemyAnim anim)
+    {
+        switch (anim)
+        {
+            case EnemyAnim.Move:
+            case EnemyAnim.Attack:
+            case EnemyAnim.Damaged:
+                EnemyAnimator.ChangeState(EnemyAnim.Idle);
+                break;
+
+            case EnemyAnim.Death:
+                gameObject.SetActive(false);
+                break;
         }
     }
 }
