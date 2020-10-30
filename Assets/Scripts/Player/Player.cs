@@ -120,7 +120,7 @@ public class Player : MonoBehaviour, ICombatable
     {
         PlayerAnimator.Init();
 
-        HealthBarPool.Instance?.UsingHealthBar(1.1f, transform, AbilityTable);
+        HealthBarPool.Instance?.UsingHealthBar(-0.8f, transform, AbilityTable);
 
         mCanElevation = false;
         IsDeath       = false;
@@ -143,6 +143,7 @@ public class Player : MonoBehaviour, ICombatable
         DeathEvent += () =>      RangeArea.enabled = false;
         DeathEvent += () => WeaponAnimator.enabled = false;
         DeathEvent += () => HealthBarPool.Instance?.UnUsingHealthBar(transform);
+        DeathEvent += () => PlayerAnimator.ChangeState(PlayerAnim.Death);
 
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
 
@@ -338,7 +339,17 @@ public class Player : MonoBehaviour, ICombatable
 
     private IEnumerator EMove(Vector2 movePoint, DIRECTION9 moveDIR9)
     {
-        PlayerAnimator.ChangeState(PlayerAnim.Move);
+        bool a = false;
+
+        if (mIsMovingElevation)
+        {
+            PlayerAnimator.ChangeState(PlayerAnim.Jump);
+
+            a = true;
+        }
+        else 
+            PlayerAnimator.ChangeState(PlayerAnim.Move);
+
         mInventory.OnMoveBegin(movePoint.normalized);
 
         for (float lerpAmount = 0f; lerpAmount < 1f; )
@@ -347,9 +358,17 @@ public class Player : MonoBehaviour, ICombatable
 
             transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
 
+            if (a) {
+                if (mIsMovingElevation && lerpAmount >= 0.1f)
+                {
+                    a = false;
+                    PlayerAnimator.ChangeState(PlayerAnim.Landing);
+                }
+            }
             yield return null;
         }
         PlayerAnimator.ChangeState(PlayerAnim.Idle);
+
         mInventory.OnMoveEnd(mCollidersOnMove.ToArray());
 
         mCollidersOnMove.Clear();
