@@ -300,7 +300,7 @@ PrefabInstance:
     - target: {fileID: 5810549494006058014, guid: 01325a20e41267a488041a24730ae7f6,
         type: 3}
       propertyPath: mDefense
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5810549494006058014, guid: 01325a20e41267a488041a24730ae7f6,
         type: 3}
@@ -855,6 +855,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 585914129}
     m_Modifications:
+    - target: {fileID: 2715965995255622248, guid: b8ad36e6c99751e4ebda217d07ef7af3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7556299908380827409, guid: b8ad36e6c99751e4ebda217d07ef7af3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -920,5 +925,10 @@ PrefabInstance:
       propertyPath: EnemyAnimator
       value: 
       objectReference: {fileID: 1974968560}
+    - target: {fileID: 7556299908380827438, guid: b8ad36e6c99751e4ebda217d07ef7af3,
+        type: 3}
+      propertyPath: WaitForMoveMin
+      value: 0.7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ad36e6c99751e4ebda217d07ef7af3, type: 3}

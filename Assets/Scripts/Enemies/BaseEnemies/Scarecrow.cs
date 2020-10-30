@@ -15,7 +15,7 @@ public class Scarecrow : EnemyBase
     {
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
-            gameObject.SetActive(false);
+            EnemyAnimator.ChangeState(EnemyAnim.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
@@ -57,7 +57,7 @@ public class Scarecrow : EnemyBase
             mWaitForMove.Update();
         }
 
-        if (HasPlayerOnRange())
+        if (HasPlayerOnRange() && IsLookAtPlayer())
         {
             mAttackPeriod.StartPeriod();
         }
@@ -66,13 +66,16 @@ public class Scarecrow : EnemyBase
     protected override void MoveFinish()
     {
         mWaitForMove.Start(WaitMoveTime);
+
+        EnemyAnimator.ChangeState(EnemyAnim.Idle);
     }
 
     private void AttackAction()
     {
+        MoveStop();
         EnemyAnimator.ChangeState(EnemyAnim.Attack);
 
-        if (HasPlayerOnRange()) {
+        if (HasPlayerOnRange() && IsLookAtPlayer()) {
             mPlayer.Damaged(AbilityTable.AttackPower, gameObject);
         }
     }
@@ -81,7 +84,6 @@ public class Scarecrow : EnemyBase
     {
         switch (anim)
         {
-            case EnemyAnim.Move:
             case EnemyAnim.Attack:
             case EnemyAnim.Damaged:
                 EnemyAnimator.ChangeState(EnemyAnim.Idle);
