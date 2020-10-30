@@ -153,7 +153,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         {
             StopCoroutine(mEMove);
         }
-        SpriteFlipX = point.x < transform.localPosition.x;
+        SpriteFlipX = point.x > transform.localPosition.x;
 
         switch (style)
         {
