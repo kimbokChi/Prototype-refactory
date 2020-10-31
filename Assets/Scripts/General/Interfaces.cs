@@ -37,7 +37,7 @@ public interface ICombatable
 
 public enum AnimState
 {
-    Idle, Move, Attack, Damaged, Death
+    Idle, Move, Attack, Damaged, Death, AttackBegin, AttackAfter
 }
 
 public interface IAnimEventReceiver
