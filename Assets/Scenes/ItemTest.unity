@@ -755,12 +755,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoblinDart
       objectReference: {fileID: 0}
-    - target: {fileID: 4034151817204670687, guid: 71a25ae794219df45874437a106674f8,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 7d7f23f8695894c4d9d0c9b6413c29ae,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71a25ae794219df45874437a106674f8, type: 3}
 --- !u!1001 &3052194864027295312
@@ -773,7 +767,7 @@ PrefabInstance:
     - target: {fileID: 2076452373395464385, guid: cbeae6032480ceb48a67879a7f9a5e28,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2076452373937219580, guid: cbeae6032480ceb48a67879a7f9a5e28,
         type: 3}
