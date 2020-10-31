@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Summoner : EnemyBase
+public class Summoner : EnemyBase, IAnimEventReceiver
 {
     [SerializeField]
     private GameObject mSummonTagret;
@@ -10,16 +10,20 @@ public class Summoner : EnemyBase
     [SerializeField]
     private Vector2 mSummonOffset;
 
-    private Timer mWaitForSummon;
+    [SerializeField]
+    private EnemyAnimator EnemyAnimator;
+
     private Timer mWaitForMove;
 
     private Room mBelongRoom;
+
+    private AttackPeriod mAttackPeriod;
 
     public override void Damaged(float damage, GameObject attacker)
     {
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
-            gameObject.SetActive(false);
+            EnemyAnimator.ChangeState(AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
@@ -27,19 +31,26 @@ public class Summoner : EnemyBase
 
     public override void IInit()
     {
+        EnemyAnimator.Init();
         HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
         Debug.Assert(transform.parent.TryGetComponent(out mBelongRoom));
 
-        mWaitForSummon = new Timer();
-          mWaitForMove = new Timer();
+        mAttackPeriod = new AttackPeriod(AbilityTable, 0.667f);
 
-        mWaitForSummon.Start(AbilityTable.BeginAttackDelay);
-          mWaitForMove.Start(WaitMoveTime);
+        mAttackPeriod.SetAction(Period.Attack, () =>
+        {
+            MoveStop();
+            EnemyAnimator.ChangeState(AnimState.Attack);
+        });
+        mAttackPeriod.SetAction(Period.After, AttackAction);
+
+        mWaitForMove = new Timer();
+        mWaitForMove.Start(WaitMoveTime);
     }
     public override void IUpdate()
     {
-        if (mWaitForMove.IsOver())
+        if (mWaitForMove.IsOver() && !HasPlayerOnRange())
         {
             if (IsMoveFinish)
             {
@@ -47,6 +58,8 @@ public class Summoner : EnemyBase
 
                 movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
                 movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
+
+                EnemyAnimator.ChangeState(AnimState.Move);
 
                 MoveToPoint(movePoint);
             }
@@ -56,34 +69,47 @@ public class Summoner : EnemyBase
             mWaitForMove.Update();
         }
 
-        if (mPlayer != null)
+        if (HasPlayerOnRange() && IsLookAtPlayer())
         {
-            if (mWaitForSummon.IsOver())
-            {
-                Vector2 summonPoint = mSummonOffset;
-
-                summonPoint.x += Random.Range(-HalfMoveRangeX, HalfMoveRangeX);
-                summonPoint.y += Random.Range(-HalfMoveRangeY, HalfMoveRangeY);
-
-                GameObject newObject = Instantiate(mSummonTagret, transform.parent, false);
-
-                if (newObject.TryGetComponent(out IObject @object))
-                {
-                    mBelongRoom.AddIObject(@object);
-                }
-                newObject.transform.localPosition = summonPoint;
-
-                mWaitForSummon.Start(AbilityTable.AfterAttackDelay);
-            }
-            else
-            {
-                mWaitForSummon.Update();
-            }
-        }      
+            mAttackPeriod.StartPeriod();
+        }    
     }
 
     protected override void MoveFinish()
     {
+        EnemyAnimator.ChangeState(AnimState.Idle);
+
         mWaitForMove.Start(WaitMoveTime);
+    }
+
+    private void AttackAction()
+    {
+        Vector2 summonPoint = mSummonOffset;
+
+        summonPoint.x += Random.Range(-HalfMoveRangeX, HalfMoveRangeX);
+        summonPoint.y += Random.Range(-HalfMoveRangeY, HalfMoveRangeY);
+
+        GameObject newObject = Instantiate(mSummonTagret, transform.parent, false);
+
+        if (newObject.TryGetComponent(out IObject @object))
+        {
+            mBelongRoom.AddIObject(@object);
+        }
+        newObject.transform.localPosition = summonPoint;
+    }
+
+    public void AnimationPlayOver(AnimState anim)
+    {
+        switch (anim)
+        {
+            case AnimState.Attack:
+            case AnimState.Damaged:
+                EnemyAnimator.ChangeState(AnimState.Idle);
+                break;
+
+            case AnimState.Death:
+                gameObject.SetActive(false);
+                break;
+        }
     }
 }
