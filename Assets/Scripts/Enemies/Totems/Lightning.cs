@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lighting : MonoBehaviour
+public class Lightning : MonoBehaviour
 {
     [SerializeField] private float mDamage;
     [SerializeField] private float mDurate;

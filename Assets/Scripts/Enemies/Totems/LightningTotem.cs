@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightingTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
+public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
     [SerializeField] private AbilityTable AbilityTable;
 
     [SerializeField] private EnemyAnimator EnemyAnimator;
 
-    [SerializeField] private Lighting mLighting;
+    [SerializeField] private Lightning mLighting;
 
     [SerializeField] private Vector2 mLightingOffset;
 
@@ -16,7 +16,7 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRece
 
     private AttackPeriod mAttackPeriod;
 
-    private Pool<Lighting> mPool;
+    private Pool<Lightning> mPool;
 
     public AbilityTable GetAbility => AbilityTable;
 
@@ -31,7 +31,7 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRece
             EnemyAnimator.ChangeState(AnimState.Attack);
         });
 
-        mPool = new Pool<Lighting>();
+        mPool = new Pool<Lightning>();
         mPool.Init(mLighting, Pool_popMethod, null, o => o.CanDisable());
     }
 
@@ -73,7 +73,7 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRece
         }
     }
 
-    private void Pool_popMethod(Lighting lighting)
+    private void Pool_popMethod(Lightning lighting)
     {
         mPlayer.TryGetPosition(out Vector2 playerPos);
 

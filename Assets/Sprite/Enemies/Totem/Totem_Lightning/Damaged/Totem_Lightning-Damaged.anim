@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Totem_Lighting-Attack
+  m_Name: Totem_Lightning-Damaged
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,22 +20,14 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 4dea54f73b745d144a669787799a8596, type: 3}
-    - time: 0.083333336
-      value: {fileID: 21300000, guid: 610e91ca48d4a1a468154541b178f707, type: 3}
-    - time: 0.16666667
-      value: {fileID: 21300000, guid: 931cfd57990b0c24ea30abd5bbd74f4a, type: 3}
-    - time: 0.25
-      value: {fileID: 21300000, guid: 3c46c2f934b3b534abf6a7d6da71a744, type: 3}
-    - time: 0.33333334
-      value: {fileID: 21300000, guid: ed97a53fb5e0f77438e3d0bcb6da01b5, type: 3}
-    - time: 0.41666666
-      value: {fileID: 21300000, guid: ee8e649cab497a04b927e6900b5f025a, type: 3}
+      value: {fileID: 21300000, guid: 7769a724b658a11429aaca5d0d11502a, type: 3}
+    - time: 0.016666668
+      value: {fileID: 21300000, guid: 49a5269c85394ba468a93210c5f7aae7, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
     script: {fileID: 0}
-  m_SampleRate: 12
+  m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -50,18 +42,14 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 4dea54f73b745d144a669787799a8596, type: 3}
-    - {fileID: 21300000, guid: 610e91ca48d4a1a468154541b178f707, type: 3}
-    - {fileID: 21300000, guid: 931cfd57990b0c24ea30abd5bbd74f4a, type: 3}
-    - {fileID: 21300000, guid: 3c46c2f934b3b534abf6a7d6da71a744, type: 3}
-    - {fileID: 21300000, guid: ed97a53fb5e0f77438e3d0bcb6da01b5, type: 3}
-    - {fileID: 21300000, guid: ee8e649cab497a04b927e6900b5f025a, type: 3}
+    - {fileID: 21300000, guid: 7769a724b658a11429aaca5d0d11502a, type: 3}
+    - {fileID: 21300000, guid: 49a5269c85394ba468a93210c5f7aae7, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5
+    m_StopTime: 0.033333335
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -81,17 +69,10 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.083333336
-    functionName: AttackAction
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.5
+  - time: 0.033333335
     functionName: AnimationPlayOver
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 2
+    intParameter: 3
     messageOptions: 0
