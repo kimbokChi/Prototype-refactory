@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BombTotem : MonoBehaviour, IObject, ICombatable
+public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
-    [SerializeField] private AbilityTable AbilityTable;
+    [Header("Range Info")]
+    [SerializeField] private Area Range;
+    [SerializeField] private CircleCollider2D RangeCollider;
 
-    [SerializeField] private float mTriggerRadius;
+    [Header("Another Info")]
+    [SerializeField] private AbilityTable AbilityTable;
+    [SerializeField] private EnemyAnimator EnemyAnimator;
 
     private IEnumerator mEOnFuse;
 
@@ -18,11 +22,27 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
+        EnemyAnimator.Init();
         HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
 
-        mAttackPeriod.SetAction(Period.Attack, () => StartCoroutine(mEOnFuse = EOnFuse()));
+        mAttackPeriod.SetAction(Period.Attack, () => {
+            EnemyAnimator.ChangeState(AnimState.Attack);
+        });
+
+        Range.SetEnterAction(o =>
+        {
+            if (o.CompareTag("Player")) {
+                mAttackPeriod.StartPeriod();
+            }
+        });
+    }
+
+    [ContextMenu("Range Setting")]
+    private void SetRange()
+    {
+        RangeCollider.radius = AbilityTable.Range;
     }
 
     public bool IsActive()
@@ -30,61 +50,38 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
         return gameObject.activeSelf;
     }
 
-    public void IUpdate()
-    {
-        if (mPlayer != null && mEOnFuse == null)
-        {
-            Vector2 playerPos = mPlayer.transform.position;
-
-            if (OnTriggerPlayer())
-            {
-                mAttackPeriod.StartPeriod();
-            }
-        }
-    }
+    public void IUpdate() 
+    { }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
-    {
-        if (AbilityTable.CanRecognize(message))
-            mPlayer = enterPlayer;
-    }
+    { }
 
     public void PlayerExit(MESSAGE message)
+    { }
+
+    private void OnFuse()
     {
-        if (AbilityTable.CanRecognize(message))
-            mPlayer = null;
+        MainCamera.Instance.Shake(0.1f, 0.3f, true);
     }
 
-    private IEnumerator EOnFuse()
+    private void AttackAction()
     {
-        for (float i = 0; i < AbilityTable.BeginAttackDelay; i += Time.deltaTime * Time.timeScale) { yield return null; }
+        MainCamera.Instance.Shake(0.4f, 1.2f, true);
 
-        if (OnTriggerPlayer())
+        if (Range.TryEnterTypeT(out Player player))
         {
-            mPlayer.Damaged(AbilityTable.AttackPower, gameObject);
-
+            player.Damaged(AbilityTable.AttackPower, gameObject);
         }
-        mEOnFuse = null;
-    }
-
-    private bool OnTriggerPlayer()
-    {
-        if (mPlayer != null)
-        {
-            Vector2 playerPos = mPlayer.transform.position;
-
-            return Vector2.Distance(playerPos, transform.position) <= mTriggerRadius;
-        }
-        return false;
     }
 
     public GameObject ThisObject() => gameObject;
 
     public void Damaged(float damage, GameObject attacker)
     {
+        EnemyAnimator.ChangeState(AnimState.Damaged);
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
-            gameObject.SetActive(false);
+            EnemyAnimator.ChangeState(AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
@@ -93,5 +90,20 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable
     public void CastBuff(BUFF buffType, IEnumerator castedBuff)
     {
         StartCoroutine(castedBuff);
+    }
+
+    public void AnimationPlayOver(AnimState anim)
+    {
+        switch (anim)
+        {
+            case AnimState.Attack:
+            case AnimState.Damaged:
+                EnemyAnimator.ChangeState(AnimState.Idle);
+                break;
+
+            case AnimState.Death:
+                gameObject.SetActive(false);
+                break;
+        }
     }
 }

@@ -421,6 +421,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 8965357237548355518, guid: e54334662f2d0b847996c6a1be96a17f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e54334662f2d0b847996c6a1be96a17f, type: 3}
 --- !u!1001 &448634040
@@ -710,6 +715,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Golem_stoneMini
       objectReference: {fileID: 0}
+    - target: {fileID: 1927945669150814535, guid: 48cdcb78a20f41e49898af1425466ace,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48cdcb78a20f41e49898af1425466ace, type: 3}
 --- !u!4 &1451795520 stripped
@@ -971,6 +981,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Goblin
       objectReference: {fileID: 0}
+    - target: {fileID: 7556299908380827411, guid: b8ad36e6c99751e4ebda217d07ef7af3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ad36e6c99751e4ebda217d07ef7af3, type: 3}
 --- !u!1001 &3052194864027295312
@@ -993,7 +1008,7 @@ PrefabInstance:
     - target: {fileID: 3111184540045626920, guid: cbeae6032480ceb48a67879a7f9a5e28,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3985368459424866591, guid: cbeae6032480ceb48a67879a7f9a5e28,
         type: 3}
