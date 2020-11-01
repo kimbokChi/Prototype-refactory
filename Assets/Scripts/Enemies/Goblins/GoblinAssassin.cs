@@ -25,7 +25,12 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
     private IEnumerator mEDash;
     public override void Damaged(float damage, GameObject attacker)
     {
-        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) > 0);
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        {
+            EnemyAnimator.ChangeState(AnimState.Death);
+
+            HealthBarPool.Instance.UnUsingHealthBar(transform);
+        }
     }
 
     public override void IInit()
