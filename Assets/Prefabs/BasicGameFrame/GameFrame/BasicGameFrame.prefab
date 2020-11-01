@@ -1837,6 +1837,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1559719482037878436}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &8748476505803508257 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7840179387820110981, guid: 1a47817b04330964183977f8df563060,
+    type: 3}
+  m_PrefabInstance: {fileID: 1559719482037878436}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9041555015418871990
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1844,6 +1850,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5768596560125403965}
     m_Modifications:
+    - target: {fileID: 2518353896841765208, guid: 3c1729b631f74b9468e5f587dd8e7da1,
+        type: 3}
+      propertyPath: InventoryButton
+      value: 
+      objectReference: {fileID: 8748476505803508257}
     - target: {fileID: 2518353896841765213, guid: 3c1729b631f74b9468e5f587dd8e7da1,
         type: 3}
       propertyPath: m_RootOrder
