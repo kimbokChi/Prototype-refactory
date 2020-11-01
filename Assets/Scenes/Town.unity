@@ -238,6 +238,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bakcground
       objectReference: {fileID: 0}
+    - target: {fileID: 4652862531955245512, guid: 22a0312503237e047b2c1d2bf490e1a0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22a0312503237e047b2c1d2bf490e1a0, type: 3}
 --- !u!4 &272028888 stripped

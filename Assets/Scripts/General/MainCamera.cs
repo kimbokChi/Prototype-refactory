@@ -67,9 +67,22 @@ public class MainCamera : Singleton<MainCamera>
         }
         float targetScale = OriginCameraScale * percent;
 
-        StartCoroutine(mCameraZoom = CameraZoomIn(point, time, targetScale, usingTimeScale));
+        //
+        float range = 8 - targetScale;
 
-        Move(point, speed);
+        if (point.x < 0) {
+            point.x = Mathf.Max(point.x, range * -0.5625f);
+        }
+        else 
+            point.x = Mathf.Min(point.x, range * +0.5625f);
+        
+        if (point.y < 0) {
+            point.y = Mathf.Max(point.y, -range);
+        }
+        else 
+            point.y = Mathf.Min(point.y, +range);
+        //
+        StartCoroutine(mCameraZoom = CameraZoomIn(point, time, targetScale, usingTimeScale));
     }
 
     private IEnumerator CameraShake(float time, float power, bool usingTimeScale)
@@ -122,7 +135,12 @@ public class MainCamera : Singleton<MainCamera>
             {
                 deltaTime *= Time.timeScale;
             }
-            ThisCamera.orthographicSize = Mathf.Lerp(ThisCamera.orthographicSize, targetScale, i / time);
+            float lerp = i / time;
+
+            transform.position = Vector2.Lerp(transform.position, point, lerp);
+            transform.Translate(0, 0, -10f);
+
+            ThisCamera.orthographicSize = Mathf.Lerp(ThisCamera.orthographicSize, targetScale, lerp);
 
             yield return null;
         }
