@@ -61,6 +61,11 @@ public class MainCamera : Singleton<MainCamera>
         StartCoroutine(mCameraMove = CameraMove(point, speed));
     }
 
+    public void ZoomIn(float time, float percent, bool usingTimeScale)
+    {
+        ZoomIn(mOriginPosition, time, percent, usingTimeScale);
+    }
+
     public void ZoomIn(Vector2 point, float time, float percent, bool usingTimeScale)
     {
         if (mCameraZoom != null)

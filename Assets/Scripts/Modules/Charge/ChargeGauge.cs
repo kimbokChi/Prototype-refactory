@@ -44,7 +44,7 @@ public class ChargeGauge : MonoBehaviour
             GameObject.FindGameObjectWithTag("Player").TryGetComponent(out mPlayer);
         }
         mPlayer.InputLock(true);
-        MainCamera.Instance.ZoomIn(mPlayer.transform.position, 4.5f, 0.9f, true);
+        MainCamera.Instance.ZoomIn(4.5f, 0.9f, true);
 
         mLerpAmount = 0.0f;
     }
