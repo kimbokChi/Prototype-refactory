@@ -51,6 +51,8 @@ public class Player : MonoBehaviour, ICombatable
 
     private bool mIsMovingElevation;
 
+    private bool mIsInputLock;
+
     public bool IsDeath { get; private set; }
 
     public AbilityTable GetAbility => AbilityTable;
@@ -122,6 +124,7 @@ public class Player : MonoBehaviour, ICombatable
 
         HealthBarPool.Instance?.UsingHealthBar(-0.8f, transform, AbilityTable);
 
+        mIsInputLock  = false;
         mCanElevation = false;
         IsDeath       = false;
 
@@ -185,60 +188,63 @@ public class Player : MonoBehaviour, ICombatable
 
     private void InputAction()
     {
-        DIRECTION9 moveDir9 = DIRECTION9.END;
-
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (!mIsInputLock)
         {
-            switch (GetLPOSITION3())
+            DIRECTION9 moveDir9 = DIRECTION9.END;
+
+            if (Input.GetKey(KeyCode.UpArrow))
             {
-                case LPOSITION3.TOP:
-                    mCanElevation = Castle.Instance.CanNextPoint();
-
-                    moveDir9 = mLocation9;
-                    break;
-
-                case LPOSITION3.MID:
-                case LPOSITION3.BOT:
-                    {
-                        mIsMovingElevation = true;
-
-                        moveDir9 = mLocation9 - 3;
-                    }
-                    break;
-            }
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {
-            switch (GetLPOSITION3())
-            {
-                case LPOSITION3.TOP:
-                case LPOSITION3.MID:
-                    {
-                        mIsMovingElevation = true;
-
-                        moveDir9 = mLocation9 + 3;
-                    }                    
-                    break;
-                case LPOSITION3.BOT:
-                    {
-                        mCanElevation = Castle.Instance.CanPrevPoint();
+                switch (GetLPOSITION3())
+                {
+                    case LPOSITION3.TOP:
+                        mCanElevation = Castle.Instance.CanNextPoint();
 
                         moveDir9 = mLocation9;
-                    }
-                    break;
+                        break;
+
+                    case LPOSITION3.MID:
+                    case LPOSITION3.BOT:
+                        {
+                            mIsMovingElevation = true;
+
+                            moveDir9 = mLocation9 - 3;
+                        }
+                        break;
+                }
             }
+            else if (Input.GetKey(KeyCode.DownArrow))
+            {
+                switch (GetLPOSITION3())
+                {
+                    case LPOSITION3.TOP:
+                    case LPOSITION3.MID:
+                        {
+                            mIsMovingElevation = true;
+
+                            moveDir9 = mLocation9 + 3;
+                        }
+                        break;
+                    case LPOSITION3.BOT:
+                        {
+                            mCanElevation = Castle.Instance.CanPrevPoint();
+
+                            moveDir9 = mLocation9;
+                        }
+                        break;
+                }
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                if (GetTPOSITION3() != TPOSITION3.LEFT)
+                    moveDir9 = mLocation9 - 1;
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                if (GetTPOSITION3() != TPOSITION3.RIGHT)
+                    moveDir9 = mLocation9 + 1;
+            }
+            if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
         }
-        else if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            if (GetTPOSITION3() != TPOSITION3.LEFT) 
-                moveDir9 = mLocation9 - 1;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            if (GetTPOSITION3() != TPOSITION3.RIGHT)
-                moveDir9 = mLocation9 + 1;
-        }
-        if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
     }
     private void Update()
     {
@@ -383,6 +389,10 @@ public class Player : MonoBehaviour, ICombatable
 
         mLocation9 = moveDIR9; mEMove = null;
         yield break;
+    }
+
+    public void InputLock(bool isLock) {
+        mIsInputLock = isLock;
     }
 
     #region READ
