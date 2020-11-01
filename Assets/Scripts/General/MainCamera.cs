@@ -12,6 +12,8 @@ public class MainCamera : Singleton<MainCamera>
 
     private Vector3 mOriginPosition;
 
+    private bool mIsZoomIn;
+
     private void Reset()
     {
         if (TryGetComponent(out ThisCamera))
@@ -22,6 +24,7 @@ public class MainCamera : Singleton<MainCamera>
 
     private void Start()
     {
+        mIsZoomIn = false;
         mOriginPosition = transform.position;
     }
 
@@ -29,9 +32,16 @@ public class MainCamera : Singleton<MainCamera>
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Vector2 point = ThisCamera.ScreenToWorldPoint(Input.mousePosition);
+            if (mIsZoomIn)
+            {
+                ZoomOut(5f, true);
+            }
+            else
+            {
+                Vector2 point = ThisCamera.ScreenToWorldPoint(Input.mousePosition);
 
-            ZoomIn(point, 5f, 0.45f, 1f, true);
+                ZoomIn(point, 5f, 0.45f, true);
+            }
         }
     }
 
@@ -59,7 +69,7 @@ public class MainCamera : Singleton<MainCamera>
         StartCoroutine(mCameraMove = CameraMove(point, speed));
     }
 
-    public void ZoomIn(Vector2 point, float time, float percent, float speed, bool usingTimeScale)
+    public void ZoomIn(Vector2 point, float time, float percent, bool usingTimeScale)
     {
         if (mCameraZoom != null)
         {
@@ -82,7 +92,18 @@ public class MainCamera : Singleton<MainCamera>
         else 
             point.y = Mathf.Min(point.y, +range);
         //
+        mIsZoomIn = true;
         StartCoroutine(mCameraZoom = CameraZoomIn(point, time, targetScale, usingTimeScale));
+    }
+
+    public void ZoomOut(float time, bool usingTimeScale)
+    {
+        if (mCameraZoom != null)
+        {
+            StopCoroutine(mCameraZoom);
+        }
+        mIsZoomIn = false;
+        StartCoroutine(mCameraZoom = CameraZoomOut(time, usingTimeScale));
     }
 
     private IEnumerator CameraShake(float time, float power, bool usingTimeScale)
@@ -141,6 +162,30 @@ public class MainCamera : Singleton<MainCamera>
             transform.Translate(0, 0, -10f);
 
             ThisCamera.orthographicSize = Mathf.Lerp(ThisCamera.orthographicSize, targetScale, lerp);
+
+            yield return null;
+        }
+        mCameraZoom = null;
+    }
+
+    private IEnumerator CameraZoomOut(float time, bool usingTimeScale)
+    {
+        float deltaTime = 0f;
+
+        for (float i = 0; i < time; i += deltaTime)
+        {
+            deltaTime = Time.deltaTime;
+
+            if (usingTimeScale)
+            {
+                deltaTime *= Time.timeScale;
+            }
+            float lerp = i / time;
+
+            transform.position = Vector2.Lerp(transform.position, mOriginPosition, lerp);
+            transform.Translate(0, 0, -10f);
+
+            ThisCamera.orthographicSize = Mathf.Lerp(ThisCamera.orthographicSize, OriginCameraScale, lerp);
 
             yield return null;
         }
