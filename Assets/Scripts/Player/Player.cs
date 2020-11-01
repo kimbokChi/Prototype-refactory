@@ -288,6 +288,7 @@ public class Player : MonoBehaviour, ICombatable
                 if (mTargetCombat == null) {
                     mTargetObject.TryGetComponent(out mTargetCombat);
                 }
+                MainCamera.Instance.Shake();
                 mInventory.OnAttack(gameObject, mTargetCombat);
             }
             else
@@ -404,6 +405,8 @@ public class Player : MonoBehaviour, ICombatable
         if (mBlinkTimer.IsOver())
         {
             mBlinkTimer.Start(mBlinkTime);
+
+            MainCamera.Instance.Shake();
 
             mInventory.OnDamaged(ref damage, attacker, gameObject);
 
