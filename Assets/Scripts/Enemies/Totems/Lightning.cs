@@ -19,7 +19,7 @@ public class Lightning : MonoBehaviour
     }
 
     private void Thundering() {
-        MainCamera.Instance.Shake(0.3f, 1.2f, true);
+        MainCamera.Instance.Shake(0.3f, 1f, true);
     }
 
     private void Disabe() {

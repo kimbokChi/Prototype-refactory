@@ -65,7 +65,7 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
 
     private void AttackAction()
     {
-        MainCamera.Instance.Shake(0.2f, 0.6f, true);
+        MainCamera.Instance.Shake(0.1f, 0.3f, true);
 
         if (mPlayer.TryGetPosition(out Vector2 playerPos)) {
             mPool.Pop().SetAttackPower(AbilityTable.AttackPower);
