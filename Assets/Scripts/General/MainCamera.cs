@@ -1,6 +1,15 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+public static class MathExtension
+{
+    public static void Range(this ref float value, float min, float max)
+    {
+        if (value < min) value = min;
+        if (value > max) value = max;
+    }
+}
+
 public class MainCamera : Singleton<MainCamera>
 {
     [SerializeField] private Camera ThisCamera;
@@ -34,13 +43,13 @@ public class MainCamera : Singleton<MainCamera>
         {
             if (mIsZoomIn)
             {
-                ZoomOut(5f, true);
+                ZoomOut(2.5f, true);
             }
             else
             {
                 Vector2 point = ThisCamera.ScreenToWorldPoint(Input.mousePosition);
-
-                ZoomIn(point, 5f, 0.45f, true);
+        
+                ZoomIn(point, 2.5f, 0.45f, true);
             }
         }
     }
@@ -80,17 +89,11 @@ public class MainCamera : Singleton<MainCamera>
         //
         float range = 8 - targetScale;
 
-        if (point.x < 0) {
-            point.x = Mathf.Max(point.x, range * -0.5625f);
-        }
-        else 
-            point.x = Mathf.Min(point.x, range * +0.5625f);
-        
-        if (point.y < 0) {
-            point.y = Mathf.Max(point.y, -range);
-        }
-        else 
-            point.y = Mathf.Min(point.y, +range);
+        point.x.Range(
+            mOriginPosition.x + range * -0.5625f, mOriginPosition.x + range * 0.5625f);
+
+        point.y.Range(
+            mOriginPosition.y - range, mOriginPosition.y + range);
         //
         mIsZoomIn = true;
         StartCoroutine(mCameraZoom = CameraZoomIn(point, time, targetScale, usingTimeScale));
