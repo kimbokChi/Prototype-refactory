@@ -37,23 +37,6 @@ public class MainCamera : Singleton<MainCamera>
         mOriginPosition = transform.position;
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (mIsZoomIn)
-            {
-                ZoomOut(2.5f, true);
-            }
-            else
-            {
-                Vector2 point = ThisCamera.ScreenToWorldPoint(Input.mousePosition);
-        
-                ZoomIn(point, 2.5f, 0.45f, true);
-            }
-        }
-    }
-
     public void Shake()
     {
         Shake(0.25f, 0.8f, true);
