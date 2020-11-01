@@ -161,6 +161,14 @@ public class MainCamera : Singleton<MainCamera>
             }
             float lerp = i / time;
 
+            if (Mathf.Abs(targetScale - ThisCamera.orthographicSize) < 0.02f)
+            {
+                transform.position = point;
+                transform.Translate(0, 0, -10f);
+
+                ThisCamera.orthographicSize = targetScale;
+                yield break;
+            }
             transform.position = Vector2.Lerp(transform.position, point, lerp);
             transform.Translate(0, 0, -10f);
 
@@ -185,6 +193,14 @@ public class MainCamera : Singleton<MainCamera>
             }
             float lerp = i / time;
 
+            if (Mathf.Abs(OriginCameraScale - ThisCamera.orthographicSize) < 0.02f)
+            {
+                transform.position = mOriginPosition;
+                transform.Translate(0, 0, -10f);
+
+                ThisCamera.orthographicSize = OriginCameraScale;
+                yield break;
+            }
             transform.position = Vector2.Lerp(transform.position, mOriginPosition, lerp);
             transform.Translate(0, 0, -10f);
 
