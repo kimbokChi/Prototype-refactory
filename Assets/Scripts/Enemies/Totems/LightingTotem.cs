@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightingTotem : MonoBehaviour, IObject, ICombatable
+public class LightingTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
     [SerializeField] private AbilityTable AbilityTable;
+
+    [SerializeField] private EnemyAnimator EnemyAnimator;
 
     [SerializeField] private Lighting mLighting;
 
@@ -20,10 +22,14 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
+        EnemyAnimator.Init();
         HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
-        mAttackPeriod = new AttackPeriod(AbilityTable);
-        mAttackPeriod.SetAction(Period.Attack, SummonLighting);
+        mAttackPeriod = new AttackPeriod(AbilityTable, 0.5f);
+
+        mAttackPeriod.SetAction(Period.Attack, () => {
+            EnemyAnimator.ChangeState(AnimState.Attack);
+        });
 
         mPool = new Pool<Lighting>();
         mPool.Init(mLighting, Pool_popMethod, null, o => o.CanDisable());
@@ -38,8 +44,7 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
     {
         mPool.Update();
 
-        if (mPlayer != null)
-        {
+        if (mPlayer != null) {
             mAttackPeriod.StartPeriod();
         }
     }
@@ -58,8 +63,10 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
 
     public GameObject ThisObject() => gameObject;
 
-    private void SummonLighting()
+    private void AttackAction()
     {
+        MainCamera.Instance.Shake(0.2f, 0.6f, true);
+
         if (mPlayer.TryGetPosition(out Vector2 playerPos))
         {
             mPool.Pop().SetDamage(AbilityTable.AttackPower);
@@ -71,15 +78,16 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
         mPlayer.TryGetPosition(out Vector2 playerPos);
 
         lighting.transform.position = mLightingOffset + playerPos;
-
         lighting.gameObject.SetActive(true);
     }
 
     public void Damaged(float damage, GameObject attacker)
     {
+        EnemyAnimator.ChangeState(AnimState.Damaged);
+
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
-            gameObject.SetActive(false);
+            EnemyAnimator.ChangeState(AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
@@ -88,5 +96,19 @@ public class LightingTotem : MonoBehaviour, IObject, ICombatable
     public void CastBuff(BUFF buffType, IEnumerator castedBuff)
     {
         StartCoroutine(castedBuff);
+    }
+
+    public void AnimationPlayOver(AnimState anim)
+    {
+        switch (anim)
+        {
+            case AnimState.Attack:
+            case AnimState.Damaged:
+                EnemyAnimator.ChangeState(AnimState.Idle);
+                break;
+            case AnimState.Death:
+                gameObject.SetActive(false);
+                break;
+        }
     }
 }

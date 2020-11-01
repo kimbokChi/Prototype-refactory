@@ -11,7 +11,10 @@ GameObject:
   - component: {fileID: 3804019094347833281}
   - component: {fileID: 6935420009217040912}
   - component: {fileID: 2384636422650176517}
+  - component: {fileID: 8933881720809119529}
   - component: {fileID: 3179360225215724666}
+  - component: {fileID: 8226094158166802672}
+  - component: {fileID: 425384193673338200}
   m_Layer: 0
   m_Name: LightingTotem
   m_TagString: Enemy
@@ -97,9 +100,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AbilityTable: {fileID: 958710597669009595}
+  EnemyAnimator: {fileID: 8933881720809119529}
   mLighting: {fileID: 4549945440606657599, guid: 884f76396095edc4e9a29001cf595ce6,
     type: 3}
   mLightingOffset: {x: 0, y: 4.5}
+--- !u!114 &8933881720809119529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7410228392169130876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a76731f15c0ea4b845a49015caa8db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 3179360225215724666}
 --- !u!95 &3179360225215724666
 Animator:
   serializedVersion: 3
@@ -110,7 +127,7 @@ Animator:
   m_GameObject: {fileID: 7410228392169130876}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a72390d2f72287c4ca65d4b7a85d406b, type: 2}
+  m_Controller: {fileID: 9100000, guid: b8d140e92f892af47bcac179627228d3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -119,6 +136,53 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!50 &8226094158166802672
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7410228392169130876}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!61 &425384193673338200
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7410228392169130876}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.5, y: 2.5}
+    newSize: {x: 1.28, y: 1.28}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.9, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &7778066798918100485
 GameObject:
   m_ObjectHideFlags: 0
