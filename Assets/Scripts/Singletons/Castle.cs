@@ -24,8 +24,6 @@ public class Castle : Singleton<Castle>
     [SerializeField] private   Floor   mPlayerFloor;
                      private Vector2[] mMovePoints;
 
-    private IEnumerator mECamaraMove;
-
     #region READ
     /// <summary>
     /// 현재 층안에 존재하는 이동 지점의 위치를 반한합니다.
@@ -69,11 +67,7 @@ public class Castle : Singleton<Castle>
 
             RenewPlayerFloor();
 
-            if (mECamaraMove != null)
-            {
-                StopCoroutine(mECamaraMove);
-            }
-            StartCoroutine(mECamaraMove = ECamaraMove(mPlayerFloor.transform.position, Camera.main));
+            MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
 
             return true;
         }
@@ -99,11 +93,7 @@ public class Castle : Singleton<Castle>
 
             RenewPlayerFloor();
 
-            if (mECamaraMove != null)
-            {
-                StopCoroutine(mECamaraMove);
-            }
-            StartCoroutine(mECamaraMove = ECamaraMove(mPlayerFloor.transform.position, Camera.main));
+            MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
 
             return true;
         }
@@ -180,25 +170,6 @@ public class Castle : Singleton<Castle>
             }
             mPlayerFloor.EnterPlayer(mPlayer, mLastPlayerPOS = mPlayer.GetLPOSITION3());
         }
-    }
-
-    private IEnumerator ECamaraMove(Vector2 movePoint, Camera camera)
-    {
-        float lerpAmount = 0f;
-
-        while (lerpAmount < 1f)
-        {
-            lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * CameraMoveAccel);
-
-            camera.transform.position = Vector2.Lerp(camera.transform.position, movePoint, lerpAmount);
-
-            camera.transform.Translate(0, 0, -10f);
-
-            yield return null;
-        }
-        mECamaraMove = null;
-
-        yield break;
     }
 
     private IEnumerator EUpdate()

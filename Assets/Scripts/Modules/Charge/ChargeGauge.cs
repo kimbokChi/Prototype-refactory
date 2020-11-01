@@ -9,6 +9,8 @@ public class ChargeGauge : MonoBehaviour
     public event System.Action  OnChargeEvent;
     public event System.Action DisChargeEvent;
 
+    private Transform mPlayerTransform;
+
     public float Charge
     {
         get
@@ -38,12 +40,19 @@ public class ChargeGauge : MonoBehaviour
     {
         OnChargeEvent?.Invoke();
 
+        if (mPlayerTransform == null) {
+            mPlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+        MainCamera.Instance.ZoomIn(mPlayerTransform.position, 4.5f, 0.7f, true);
+
         mLerpAmount = 0.0f;
     }
 
     private void OnDisable()
     {
         DisChargeEvent?.Invoke();
+
+        MainCamera.Instance.ZoomOut(2.5f, true);
 
         transform.localScale = Vector3.zero;
     }
