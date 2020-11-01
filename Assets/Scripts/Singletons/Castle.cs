@@ -162,6 +162,7 @@ public class Castle : Singleton<Castle>
             midMovePoint[0], midMovePoint[1], midMovePoint[2],
             botMovePoint[0], botMovePoint[1], botMovePoint[2]
         };
+        StageEventLibrary.Instance?.NotifyEvent(NotifyMessage.StageEnter);
     }
     #region _MEMBER
     /// <summary>
@@ -219,7 +220,7 @@ public class Castle : Singleton<Castle>
                     mIsCastClearEvent = true;
 
                     if (!DisableStageEvent) {
-                        StageEventLibrary.Instance.NotifyStageClear();
+                        StageEventLibrary.Instance.NotifyEvent(NotifyMessage.StageClear);
                     }
                 }
                 if (mPlayer.IsDeath)

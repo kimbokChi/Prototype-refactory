@@ -3,21 +3,42 @@ using System.Collections.Generic;
 using UnityEditor.U2D.Path;
 using UnityEngine;
 
+public enum NotifyMessage
+{
+    StageClear, StageEnter
+}
+
 public class StageEventLibrary : Singleton<StageEventLibrary>
 {
     [SerializeField]
     private GameObject ItemBox;
 
+    [SerializeField]
+    private Animator InventoryButton;
+
     public event System.Action StageClearEvent;
+    public event System.Action StageEnterEvent;
 
     private void Awake()
     {
         StageClearEvent += CreateItemBox;
+        StageClearEvent += () => SetActiveInventoryButton(true);
+
+        StageEnterEvent += () => SetActiveInventoryButton(false);
     }
 
-    public void NotifyStageClear()
+    public void NotifyEvent(NotifyMessage message)
     {
-        StageClearEvent?.Invoke();
+        switch (message)
+        {
+            case NotifyMessage.StageClear:
+                StageClearEvent?.Invoke();
+                break;
+
+            case NotifyMessage.StageEnter:
+                StageEnterEvent?.Invoke();
+                break;
+        }
     }
 
     private void CreateItemBox()
@@ -32,5 +53,12 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
             (Random.Range(createPointMin.x, createPointMax.x), createPointMin.y + 0.5f);
 
         Instantiate(ItemBox, createPoint, Quaternion.identity);
+    }
+
+    private void SetActiveInventoryButton(bool isActive)
+    {
+        int controlKey = InventoryButton.GetParameter(0).nameHash;
+
+        InventoryButton.SetInteger(controlKey, isActive ? 1 : 0);
     }
 }
