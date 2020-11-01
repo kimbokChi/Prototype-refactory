@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Goblin_Normal-Attack
+  m_Name: Slime_Normal-Idle
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,15 +20,17 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 3b6dd96bae60c3a479e8854fa8a58495, type: 3}
+      value: {fileID: 21300000, guid: d8f25a82c1c675541836524f5dd55cfd, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: 6bcdc2d82ad775f4f930ada19c43ea56, type: 3}
+      value: {fileID: 21300000, guid: 681f17bdc1ef2434a9b4008e3c2fdfc6, type: 3}
     - time: 0.16666667
-      value: {fileID: 21300000, guid: cc71dc37acb6bb04abc9fdf92f74fbfb, type: 3}
+      value: {fileID: 21300000, guid: 662751a22084e024d8eedc3224f4ec0b, type: 3}
     - time: 0.25
-      value: {fileID: 21300000, guid: 0168d1e480429b04c8d058e200fda1d4, type: 3}
+      value: {fileID: 21300000, guid: f98faedf10899404c8a07bc49e09ab55, type: 3}
     - time: 0.33333334
-      value: {fileID: 21300000, guid: d1a5f8aae5c716146955c8eaf5b855c1, type: 3}
+      value: {fileID: 21300000, guid: 920a9c48ed86cfc40866a50784dbed0b, type: 3}
+    - time: 0.41666666
+      value: {fileID: 21300000, guid: 3f3b4e859d1cf7143a435385ef2a2cbb, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -48,22 +50,23 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 3b6dd96bae60c3a479e8854fa8a58495, type: 3}
-    - {fileID: 21300000, guid: 6bcdc2d82ad775f4f930ada19c43ea56, type: 3}
-    - {fileID: 21300000, guid: cc71dc37acb6bb04abc9fdf92f74fbfb, type: 3}
-    - {fileID: 21300000, guid: 0168d1e480429b04c8d058e200fda1d4, type: 3}
-    - {fileID: 21300000, guid: d1a5f8aae5c716146955c8eaf5b855c1, type: 3}
+    - {fileID: 21300000, guid: d8f25a82c1c675541836524f5dd55cfd, type: 3}
+    - {fileID: 21300000, guid: 681f17bdc1ef2434a9b4008e3c2fdfc6, type: 3}
+    - {fileID: 21300000, guid: 662751a22084e024d8eedc3224f4ec0b, type: 3}
+    - {fileID: 21300000, guid: f98faedf10899404c8a07bc49e09ab55, type: 3}
+    - {fileID: 21300000, guid: 920a9c48ed86cfc40866a50784dbed0b, type: 3}
+    - {fileID: 21300000, guid: 3f3b4e859d1cf7143a435385ef2a2cbb, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.4166667
+    m_StopTime: 0.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 0
+    m_LoopTime: 1
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
@@ -77,18 +80,4 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.16666667
-    functionName: AttackAction
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.41666666
-    functionName: AnimationPlayOver
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 2
-    messageOptions: 0
+  m_Events: []
