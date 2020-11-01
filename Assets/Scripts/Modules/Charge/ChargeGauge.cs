@@ -9,7 +9,7 @@ public class ChargeGauge : MonoBehaviour
     public event System.Action  OnChargeEvent;
     public event System.Action DisChargeEvent;
 
-    private Transform mPlayerTransform;
+    private Player mPlayer;
 
     public float Charge
     {
@@ -40,10 +40,11 @@ public class ChargeGauge : MonoBehaviour
     {
         OnChargeEvent?.Invoke();
 
-        if (mPlayerTransform == null) {
-            mPlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        if (mPlayer == null) {
+            GameObject.FindGameObjectWithTag("Player").TryGetComponent(out mPlayer);
         }
-        MainCamera.Instance.ZoomIn(mPlayerTransform.position, 4.5f, 0.7f, true);
+        mPlayer.InputLock(true);
+        MainCamera.Instance.ZoomIn(mPlayer.transform.position, 4.5f, 0.9f, true);
 
         mLerpAmount = 0.0f;
     }
@@ -52,6 +53,7 @@ public class ChargeGauge : MonoBehaviour
     {
         DisChargeEvent?.Invoke();
 
+        mPlayer.InputLock(false);
         MainCamera.Instance.ZoomOut(2.5f, true);
 
         transform.localScale = Vector3.zero;
