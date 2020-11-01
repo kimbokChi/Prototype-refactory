@@ -65,12 +65,12 @@ PrefabInstance:
     - target: {fileID: 9221226311051328732, guid: 590da96b43019814bb83719c476358bb,
         type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9221226311051328732, guid: 590da96b43019814bb83719c476358bb,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.44352484
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9221226311051328732, guid: 590da96b43019814bb83719c476358bb,
         type: 3}
@@ -82,6 +82,32 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9221226311051328732, guid: 590da96b43019814bb83719c476358bb,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d8ec2cb72c6203a448cabb538d122021,
+        type: 3}
+    - target: {fileID: 9221226311051328732, guid: 590da96b43019814bb83719c476358bb,
+        type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9221226311051328733, guid: 590da96b43019814bb83719c476358bb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9221226311051328733, guid: 590da96b43019814bb83719c476358bb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9221226311051328734, guid: 590da96b43019814bb83719c476358bb,
+        type: 3}
+      propertyPath: SpriteRenderer
+      value: 
+      objectReference: {fileID: 5725160384479129596}
     - target: {fileID: 9221226311051328735, guid: 590da96b43019814bb83719c476358bb,
         type: 3}
       propertyPath: m_Name
@@ -94,3 +120,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 590da96b43019814bb83719c476358bb, type: 3}
+--- !u!212 &5725160384479129596 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 9221226311051328732, guid: 590da96b43019814bb83719c476358bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 3498095625574503200}
+  m_PrefabAsset: {fileID: 0}

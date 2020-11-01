@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!95 &2715965995255622248
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7556299908380827411}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 45abad403d371974bbdb724ba7da87f0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3606766752876329852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7556299908380827411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a76731f15c0ea4b845a49015caa8db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 2715965995255622248}
 --- !u!1001 &625518198367327614
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50,7 +82,22 @@ PrefabInstance:
     - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
       propertyPath: OriginPosition.y
-      value: 1.2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
+        type: 3}
+      propertyPath: WaitForMoveMin
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
+        type: 3}
+      propertyPath: EnemyAnimator
+      value: 
+      objectReference: {fileID: 3606766752876329852}
+    - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
+        type: 3}
+      propertyPath: AttackTime
+      value: 0.417
       objectReference: {fileID: 0}
     - target: {fileID: 6949924797478406764, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
@@ -76,7 +123,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: c32a813a5860d0c4b953e0ca465b44ba,
+      objectReference: {fileID: 21300000, guid: ba2efb301c1c05d4fbffad094fc63515,
         type: 3}
     - target: {fileID: 6949924797478406765, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
@@ -91,12 +138,12 @@ PrefabInstance:
     - target: {fileID: 6949924797478406766, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1.6
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6949924797478406766, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.65
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6949924797478406767, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
@@ -106,7 +153,7 @@ PrefabInstance:
     - target: {fileID: 6949924797478406767, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6949924797478406767, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
@@ -163,5 +210,16 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 9141807533902079170, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
+        type: 3}
+      propertyPath: Animator
+      value: 
+      objectReference: {fileID: 2715965995255622248}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a5c4cb44c7c4f84caae8c93a28361e5, type: 3}
+--- !u!1 &7556299908380827411 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6949924797478406765, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
+    type: 3}
+  m_PrefabInstance: {fileID: 625518198367327614}
+  m_PrefabAsset: {fileID: 0}
