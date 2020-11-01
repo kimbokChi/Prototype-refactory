@@ -94,6 +94,11 @@ PrefabInstance:
       propertyPath: EnemyAnimator
       value: 
       objectReference: {fileID: 3606766752876329852}
+    - target: {fileID: 6949924797478406736, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
+        type: 3}
+      propertyPath: AttackTime
+      value: 0.417
+      objectReference: {fileID: 0}
     - target: {fileID: 6949924797478406764, guid: 7a5c4cb44c7c4f84caae8c93a28361e5,
         type: 3}
       propertyPath: m_Color.r

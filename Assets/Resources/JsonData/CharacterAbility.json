@@ -77,7 +77,7 @@
     "Begin_AttackDelay": "1.0",
     "After_AttackDelay": "1.0",
     "RecognitionArea": "Room",
-    "Range": "1.0"
+    "Range": "2.0"
   },
   {
     "ID": "Totem_Bomb",

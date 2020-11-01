@@ -95,12 +95,16 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
         AfterImage.transform.position = transform.position;
         EnemyAnimator.ChangeState(AnimState.Attack);
 
-        if (mPlayer) {
-            if (mPlayer.TryGetPosition(out Vector2 playerPos))
-            {
-                StartCoroutine(mEDash = EDash(PositionLocalized(playerPos)));
-            }
+        Vector2 force;
+
+        if (SpriteFlipX)
+        {
+            force = Vector2.right * mMaxDashLength;
         }
+        else
+            force = Vector2.left * mMaxDashLength;
+
+        StartCoroutine(mEDash = EDash((Vector2)transform.localPosition + force));
     }
 
     private IEnumerator EDash(Vector2 dashPoint)
