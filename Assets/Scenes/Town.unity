@@ -469,6 +469,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f91a07fcf87889e499e843debb585507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ThisCamera: {fileID: 863157979}
+  OriginCameraScale: 8
 --- !u!1001 &992760271
 PrefabInstance:
   m_ObjectHideFlags: 0
