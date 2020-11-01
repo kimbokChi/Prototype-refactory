@@ -96,10 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c781b447b9566c4c8e79afe4934b1f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mDamage: 8
-  mDurate: 2
-  mTargetTags:
-  - Player
+  TargetTag: Player
 --- !u!61 &4860985123873074461
 BoxCollider2D:
   m_ObjectHideFlags: 0

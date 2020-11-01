@@ -4,39 +4,29 @@ using UnityEngine;
 
 public class Lightning : MonoBehaviour
 {
-    [SerializeField] private float mDamage;
-    [SerializeField] private float mDurate;
+    [SerializeField] 
+    private string TargetTag;
 
-    [SerializeField] private string[] mTargetTags;
-
-    private Timer mTimer;
-
-    public void SetDamage(float damage) => mDamage = damage;
+    private float AttackPower;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        for (int i = 0; i < mTargetTags.Length; ++i)
+        if (collision.CompareTag(TargetTag))
         {
-            if (collision.CompareTag(mTargetTags[i]))
-            {
-                if (collision.TryGetComponent(out ICombatable combat)) combat.Damaged(mDamage, gameObject);
-            }
+            if (collision.TryGetComponent(out ICombatable combat))
+                combat.Damaged(AttackPower, gameObject);
         }
     }
 
-    private void OnEnable()
-    {
-        (mTimer = mTimer ?? new Timer()).Start(mDurate);
+    private void Thundering() {
+        MainCamera.Instance.Shake(0.3f, 1.2f, true);
     }
 
-    public bool CanDisable()
-    {
-            mTimer.Update();
-        if (mTimer.IsOver())
-        {
-            gameObject.SetActive(false);
-            return true;
-        }
-        return false;
+    private void Disabe() {
+        gameObject.SetActive(false);
+    }
+
+    public void SetAttackPower(float damage) {
+        AttackPower = damage;
     }
 }

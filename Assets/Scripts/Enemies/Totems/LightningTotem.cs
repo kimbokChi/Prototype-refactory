@@ -32,7 +32,7 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         });
 
         mPool = new Pool<Lightning>();
-        mPool.Init(mLighting, Pool_popMethod, null, o => o.CanDisable());
+        mPool.Init(mLighting, Pool_popMethod, null, o => o.gameObject.activeSelf);
     }
 
     public bool IsActive()
@@ -67,9 +67,8 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     {
         MainCamera.Instance.Shake(0.2f, 0.6f, true);
 
-        if (mPlayer.TryGetPosition(out Vector2 playerPos))
-        {
-            mPool.Pop().SetDamage(AbilityTable.AttackPower);
+        if (mPlayer.TryGetPosition(out Vector2 playerPos)) {
+            mPool.Pop().SetAttackPower(AbilityTable.AttackPower);
         }
     }
 
