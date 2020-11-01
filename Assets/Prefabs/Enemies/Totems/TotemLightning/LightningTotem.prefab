@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 8226094158166802672}
   - component: {fileID: 425384193673338200}
   m_Layer: 0
-  m_Name: LightingTotem
+  m_Name: LightningTotem
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,7 +103,7 @@ MonoBehaviour:
   EnemyAnimator: {fileID: 8933881720809119529}
   mLighting: {fileID: 4549945440606657599, guid: 884f76396095edc4e9a29001cf595ce6,
     type: 3}
-  mLightingOffset: {x: 0, y: 4.5}
+  mLightingOffset: {x: 0, y: 0.9}
 --- !u!114 &8933881720809119529
 MonoBehaviour:
   m_ObjectHideFlags: 0
