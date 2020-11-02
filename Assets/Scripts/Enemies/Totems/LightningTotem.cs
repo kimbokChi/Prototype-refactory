@@ -57,7 +57,7 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
 
     public void PlayerExit(MESSAGE message)
     {
-        if (AbilityTable.CanRecognize(message))
+        if (AbilityTable.CantRecognize(message))
             mPlayer = null;
     }
 

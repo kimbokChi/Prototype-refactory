@@ -45,6 +45,20 @@ public class AbilityTable : MonoBehaviour
         switch (message)
         {
             case MESSAGE.THIS_ROOM:
+                return Area.Equals(RecognitionArea.Room) || 
+                       Area.Equals(RecognitionArea.Floor);
+
+            case MESSAGE.BELONG_FLOOR:
+                return Area.Equals(RecognitionArea.Floor);
+        }
+        return false;
+    }
+
+    public bool CantRecognize(MESSAGE message)
+    {
+        switch (message)
+        {
+            case MESSAGE.THIS_ROOM:
                 return Area.Equals(RecognitionArea.Room);
 
             case MESSAGE.BELONG_FLOOR:
