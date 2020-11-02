@@ -10,8 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5280243655584907634}
   - component: {fileID: 7447130978180794834}
+  - component: {fileID: 1080074601151004900}
+  - component: {fileID: 901497636886740779}
+  - component: {fileID: 6186253912153091605}
   m_Layer: 0
-  m_Name: AbilityTable
+  m_Name: AbilityTable & Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,6 +48,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _JsonTableName: CharacterAbility
   _JsonLableName: Totem_Bomb
+--- !u!114 &1080074601151004900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544651226204257176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 162e500ee18349741bd81abe711966fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mSenseTags:
+  - Player
+--- !u!58 &901497636886740779
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544651226204257176}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
+--- !u!50 &6186253912153091605
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544651226204257176}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1309640331586953155
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,6 +110,8 @@ GameObject:
   - component: {fileID: 1309640331586953152}
   - component: {fileID: 1309640331586953022}
   - component: {fileID: 1309640331586953153}
+  - component: {fileID: 4570571353432608866}
+  - component: {fileID: 8727877944927416976}
   m_Layer: 0
   m_Name: BombTotem
   m_TagString: Enemy
@@ -71,7 +127,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309640331586953155}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.87, z: 0}
+  m_LocalPosition: {x: 0, y: 0.75, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_Children:
   - {fileID: 5280243655584907634}
@@ -117,7 +173,7 @@ SpriteRenderer:
   m_SortingLayerID: 1704071513
   m_SortingLayer: 6
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: ae8c7b57509597d458342efb06741bec, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 100aa291d2e08ce4c830c862075b9250, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -140,5 +196,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60f7571350f76f84ea5a8472cb82609f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Range: {fileID: 1080074601151004900}
+  RangeCollider: {fileID: 901497636886740779}
   AbilityTable: {fileID: 7447130978180794834}
-  mTriggerRadius: 1.75
+  EnemyAnimator: {fileID: 8727877944927416976}
+--- !u!95 &4570571353432608866
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309640331586953155}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ed59f8ac3894add45b4680ab21897c2d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8727877944927416976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309640331586953155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a76731f15c0ea4b845a49015caa8db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 4570571353432608866}

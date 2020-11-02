@@ -305,7 +305,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     }
     public virtual void PlayerExit(MESSAGE message)
     {
-        if (AbilityTable.CanRecognize(message))
+        if (AbilityTable.CantRecognize(message))
             mPlayer = null;
     }
     public virtual void CastBuff(BUFF buffType, IEnumerator castedBuff)

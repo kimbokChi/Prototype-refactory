@@ -76,7 +76,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     public void PlayerExit(MESSAGE message)
     {
-        if (AbilityTable.CanRecognize(message))
+        if (AbilityTable.CantRecognize(message))
             mPlayer = null;
     }
 
