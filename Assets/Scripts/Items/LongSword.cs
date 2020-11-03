@@ -44,6 +44,7 @@ public class LongSword : Item
     {
         mCanAttack = true;
         CollisionArea.enabled = true;
+        CollisionArea.GetCollider.enabled = true;
 
         Animator.SetBool(mAnimPlayKey, true);
         Animator.SetBool(mAnimControlKey, !Animator.GetBool(mAnimControlKey));
@@ -58,6 +59,8 @@ public class LongSword : Item
             {
                 combatable.Damaged(1f, mPlayer);
 
+                MainCamera.Instance.Shake(0.3f, 0.55f, true);
+
                 Inventory.Instance.OnAttackEvent(mPlayer, combatable);
             }
         }
@@ -67,5 +70,6 @@ public class LongSword : Item
     {
         mCanAttack = false;
         CollisionArea.enabled = false;
+        CollisionArea.GetCollider.enabled = false;
     }
 }

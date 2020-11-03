@@ -373,5 +373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162e500ee18349741bd81abe711966fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AreaCollider: {fileID: 6202769102569731555}
   mSenseTags:
   - Enemy
