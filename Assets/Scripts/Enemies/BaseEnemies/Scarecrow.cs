@@ -18,6 +18,8 @@ public class Scarecrow : EnemyBase, IAnimEventReceiver
 
     public override void Damaged(float damage, GameObject attacker)
     {
+        EnemyAnimator.ChangeState(AnimState.Damaged);
+
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             EnemyAnimator.ChangeState(AnimState.Death);
