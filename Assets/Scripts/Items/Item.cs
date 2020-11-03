@@ -22,12 +22,9 @@ public abstract class Item : MonoBehaviour
 
     public virtual ItemRating Rating => ItemRating.Common;
     public virtual float WeaponRange
-    {
-        get 
-        {
-            return 1.0f; 
-        }
-    }
+    { get => 1f; }
+    public virtual float AttackTime
+    { get => 1f; }
 
     public abstract void  OnEquipThis(SlotType onSlot);
     public abstract void OffEquipThis(SlotType offSlot);
