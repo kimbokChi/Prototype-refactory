@@ -1190,6 +1190,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6196361061460473990, guid: cbeae6032480ceb48a67879a7f9a5e28,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8295000968205134176, guid: cbeae6032480ceb48a67879a7f9a5e28,
         type: 3}
       propertyPath: mPlayerTransform
@@ -1353,12 +1358,12 @@ PrefabInstance:
     - target: {fileID: 6202769102915456821, guid: eb249a6a7a67b1a4d9260bb0803c9f1c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.4
+      value: 0.40000004
       objectReference: {fileID: 0}
     - target: {fileID: 6202769102915456821, guid: eb249a6a7a67b1a4d9260bb0803c9f1c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.15000004
+      value: -0.15000002
       objectReference: {fileID: 0}
     - target: {fileID: 6202769102915456821, guid: eb249a6a7a67b1a4d9260bb0803c9f1c,
         type: 3}
@@ -1404,16 +1409,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6202769102915456821, guid: eb249a6a7a67b1a4d9260bb0803c9f1c,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6202769102915456821, guid: eb249a6a7a67b1a4d9260bb0803c9f1c,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6202769102915456826, guid: eb249a6a7a67b1a4d9260bb0803c9f1c,
         type: 3}
