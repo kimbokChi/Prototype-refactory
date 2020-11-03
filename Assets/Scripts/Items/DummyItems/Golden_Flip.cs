@@ -17,7 +17,7 @@ public class Golden_Flip : Item
                 break;
 
             case SlotType.Weapon:
-                Inventory.Instance.AttackAction += Combat;
+                Inventory.Instance.AttackEvent += Combat;
                 Inventory.Instance.BeDamagedAction += BeDamaged;
                 break;
         }
@@ -32,7 +32,7 @@ public class Golden_Flip : Item
                 break;
 
             case SlotType.Weapon:
-                Inventory.Instance.AttackAction -= Combat;
+                Inventory.Instance.AttackEvent -= Combat;
                 Inventory.Instance.BeDamagedAction -= BeDamaged;
                 break;
         }

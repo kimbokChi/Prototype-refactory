@@ -28,4 +28,8 @@ public abstract class Item : MonoBehaviour
 
     public abstract void  OnEquipThis(SlotType onSlot);
     public abstract void OffEquipThis(SlotType offSlot);
+
+    public virtual void AttackAction(GameObject attacker, ICombatable combatable)
+    { 
+        Inventory.Instance.OnAttackEvent(attacker, combatable); }
 }

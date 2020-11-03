@@ -299,7 +299,7 @@ public class Player : MonoBehaviour, ICombatable
                     mTargetObject.TryGetComponent(out mTargetCombat);
                 }
                 MainCamera.Instance.Shake();
-                mInventory.OnAttack(gameObject, mTargetCombat);
+                mInventory.AttackAction(gameObject, mTargetCombat);
             }
             else
             {
