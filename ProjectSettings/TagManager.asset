@@ -51,14 +51,17 @@ TagManager:
   - name: Tile
     uniqueID: 4262568291
     locked: 0
-  - name: Particle
+  - name: Particle_Back
     uniqueID: 3406774125
+    locked: 0
+  - name: Character
+    uniqueID: 1704071513
     locked: 0
   - name: Weapon
     uniqueID: 3503119889
     locked: 0
-  - name: Character
-    uniqueID: 1704071513
+  - name: Particle_Front
+    uniqueID: 2800481633
     locked: 0
   - name: Frontground
     uniqueID: 43458809
