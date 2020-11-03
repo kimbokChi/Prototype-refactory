@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffTotem : MonoBehaviour, IObject, ICombatable
+public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    [Header("Effect Animation Info")]
+    [SerializeField] private float AnimLength;
+    [SerializeField] private GameObject Anim;
+
+    [Header("BuffTotem Info")]
+    [SerializeField] private Animator Animator;
     [SerializeField] private AbilityTable AbilityTable;
 
     [SerializeField] private Area mSenseArae;
@@ -13,14 +19,17 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
     [SerializeField] private uint  mLevel;
 
     private AttackPeriod mAttackPeriod;
+    private int mAnimControlKey;
 
     public AbilityTable GetAbility => AbilityTable;
 
     public void IInit()
     {
+        mAnimControlKey = Animator.GetParameter(0).nameHash;
+
         HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
-        mAttackPeriod = new AttackPeriod(AbilityTable);
+        mAttackPeriod = new AttackPeriod(AbilityTable, AnimLength);
 
         mAttackPeriod.SetAction(Period.Attack, CastBuff);
     }
@@ -38,6 +47,8 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
     private void CastBuff()
     {
         ICombatable[] combats = mSenseArae.GetEnterTypeT<ICombatable>();
+
+        Anim.SetActive(true);
 
         for (int i = 0; i < combats.Length; ++i)
         {
@@ -58,6 +69,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
                     break;
             }
         }
+        StartCoroutine(EffectAnimPlayOver());
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer) { }
@@ -67,9 +79,11 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
+        Animator.SetInteger(mAnimControlKey, (int)AnimState.Damaged);
+
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
-            gameObject.SetActive(false);
+            Animator.SetInteger(mAnimControlKey, (int)AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
@@ -78,5 +92,32 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
     public void CastBuff(BUFF buffType, IEnumerator castedBuff)
     {
         StartCoroutine(castedBuff);
+    }
+
+    public void AnimationPlayOver(AnimState anim)
+    {
+        switch (anim)
+        {
+            case AnimState.Attack:
+                Anim.SetActive(false);
+                break;
+
+            case AnimState.Damaged:
+                Animator.SetInteger(mAnimControlKey, (int)AnimState.Idle);
+                break;
+
+            case AnimState.Death:
+                gameObject.SetActive(false);
+                break;
+        }
+    }
+
+    private IEnumerator EffectAnimPlayOver()
+    {
+        for (float i = 0f; i <= AnimLength; i += Time.deltaTime * Time.timeScale)
+        {
+            yield return null;
+        }
+        Anim.SetActive(false);
     }
 }
