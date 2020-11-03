@@ -13,9 +13,9 @@ public class LongSword : Item
     private GameObject mPlayer;
 
     public override float AttackTime
-    { get => 0.245f; }
+    { get => 0.35f; }
     public override float WeaponRange
-    { get => 1.5f; }
+    { get => 1.2f; }
     public override ItemRating Rating
     { 
         get => ItemRating.Rare; 
@@ -59,7 +59,7 @@ public class LongSword : Item
             {
                 combatable.Damaged(1f, mPlayer);
 
-                MainCamera.Instance.Shake(0.3f, 0.55f, true);
+                MainCamera.Instance.Shake(0.15f, 0.55f, true);
 
                 Inventory.Instance.OnAttackEvent(mPlayer, combatable);
             }
