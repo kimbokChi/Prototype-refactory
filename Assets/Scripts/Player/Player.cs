@@ -167,6 +167,8 @@ public class Player : MonoBehaviour, ICombatable
                 else
                 {
                     o.transform.parent = EquipWeaponSlot.transform;
+
+                    o.transform.localRotation = Quaternion.Euler(Vector3.zero);
                     o.transform.localScale    = Vector3.one;
                     o.transform.localPosition = Vector3.zero;
 

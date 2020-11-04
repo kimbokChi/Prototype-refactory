@@ -11,8 +11,8 @@
     "ID": "LongSword",
     "AttackPower": "1.0",
     "Range": "1.5",
-    "Begin-AttackDelay": "0.5",
-    "After-AttackDelay": "0.5",
+    "Begin-AttackDelay": "0.2",
+    "After-AttackDelay": "0.2",
     "Rating": "Rare"
   }
 ]

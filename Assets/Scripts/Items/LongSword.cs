@@ -52,14 +52,16 @@ public class LongSword : Item
         mPlayer = attacker;
     }
 
+    private void CameraShake() {
+        MainCamera.Instance.Shake();
+    }
+
     private void HitAction(GameObject hitObject)
     {
         if (mCanAttack) {
             if (hitObject.TryGetComponent(out ICombatable combatable))
             {
                 combatable.Damaged(1f, mPlayer);
-
-                MainCamera.Instance.Shake(0.15f, 0.55f, true);
 
                 Inventory.Instance.OnAttackEvent(mPlayer, combatable);
             }
