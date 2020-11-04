@@ -1166,11 +1166,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LongSword
       objectReference: {fileID: 0}
-    - target: {fileID: 6202769103183093726, guid: eb249a6a7a67b1a4d9260bb0803c9f1c,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb249a6a7a67b1a4d9260bb0803c9f1c, type: 3}
 --- !u!1001 &1902198302
