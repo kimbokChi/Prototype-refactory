@@ -79,6 +79,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
     public void Damaged(float damage, GameObject attacker)
     {
+        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
         Animator.SetInteger(mAnimControlKey, (int)AnimState.Damaged);
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)

@@ -24,6 +24,8 @@ public class Archer : EnemyBase, IAnimEventReceiver
     
     public override void Damaged(float damage, GameObject attacker)
     {
+        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             EnemyAnimator.ChangeState(AnimState.Death);

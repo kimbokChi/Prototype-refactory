@@ -78,7 +78,9 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
     public void Damaged(float damage, GameObject attacker)
     {
+        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
         EnemyAnimator.ChangeState(AnimState.Damaged);
+
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             EnemyAnimator.ChangeState(AnimState.Death);
