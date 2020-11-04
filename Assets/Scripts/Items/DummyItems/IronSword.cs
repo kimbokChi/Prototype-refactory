@@ -18,7 +18,7 @@ public class IronSword : Item
                 break;
 
             case SlotType.Weapon:
-                Inventory.Instance.AttackAction -= AttackAction;
+                Inventory.Instance.AttackEvent -= AttackAction;
                 break;
         }
     }
@@ -32,7 +32,7 @@ public class IronSword : Item
                 break;
 
             case SlotType.Weapon:
-                Inventory.Instance.AttackAction += AttackAction;
+                Inventory.Instance.AttackEvent += AttackAction;
                 break;
         }
     }

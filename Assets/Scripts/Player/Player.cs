@@ -12,9 +12,7 @@ public class Player : MonoBehaviour, ICombatable
     private GameObject mGameOverWindow;
 
     [SerializeField]
-    private Animator WeaponAnimator;
-    [SerializeField]
-    private SpriteRenderer WeaponRenderer;
+    private GameObject EquipWeaponSlot;
 
     [SerializeField]
     private float mBlinkTime;
@@ -133,9 +131,7 @@ public class Player : MonoBehaviour, ICombatable
         mBlinkTimer = new Timer();
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
-        mAttackPeriod.SetAction(Period.Begin, () => WeaponAnimator.SetBool("PlayReverse", false));
         mAttackPeriod.SetAction(Period.Attack, AttackAction);
-        mAttackPeriod.SetAction(Period.After, () => WeaponAnimator.SetBool("PlayReverse", true));
 
         RangeArea.SetEnterAction(SenseTarget);
         RangeArea.SetEmptyAction(() => { mTargetObject = null; mTargetCombat = null; });
@@ -144,7 +140,6 @@ public class Player : MonoBehaviour, ICombatable
 
         DeathEvent += () => mGameOverWindow.SetActive(true);
         DeathEvent += () =>      RangeArea.enabled = false;
-        DeathEvent += () => WeaponAnimator.enabled = false;
         DeathEvent += () => HealthBarPool.Instance?.UnUsingHealthBar(transform);
         DeathEvent += () => PlayerAnimator.ChangeState(PlayerAnim.Death);
 
@@ -167,12 +162,18 @@ public class Player : MonoBehaviour, ICombatable
                     AbilityTable.Table[Ability.After_AttackDelay] = PlayerData("After_AttackDelay");
                     AbilityTable.Table[Ability.Begin_AttackDelay] = PlayerData("Begin_AttackDelay");
 
-                    WeaponRenderer.sprite = null;
+                    mAttackPeriod.SetAttackTime(1f);
                 }
                 else
                 {
+                    o.transform.parent = EquipWeaponSlot.transform;
+
+                    o.transform.localRotation = Quaternion.Euler(Vector3.zero);
+                    o.transform.localScale    = Vector3.one;
+                    o.transform.localPosition = Vector3.zero;
+
                     float ItemData(string dataName) {
-                        return float.Parse(DataUtil.GetDataValue("ItemData", "ID", o.gameObject.name, dataName));
+                        return float.Parse(DataUtil.GetDataValue("ItemData", "ID", o.GetType().ToString(), dataName));
                     }
 
                     mRangeCollider.radius = o.WeaponRange;
@@ -180,7 +181,7 @@ public class Player : MonoBehaviour, ICombatable
                     AbilityTable.Table[Ability.After_AttackDelay] = ItemData("Begin-AttackDelay");
                     AbilityTable.Table[Ability.Begin_AttackDelay] = ItemData("After-AttackDelay");
 
-                    WeaponRenderer.sprite = o.Sprite;
+                    mAttackPeriod.SetAttackTime(o.AttackTime);
                 }
             };
         }
@@ -294,8 +295,7 @@ public class Player : MonoBehaviour, ICombatable
                 if (mTargetCombat == null) {
                     mTargetObject.TryGetComponent(out mTargetCombat);
                 }
-                MainCamera.Instance.Shake();
-                mInventory.OnAttack(gameObject, mTargetCombat);
+                mInventory.AttackAction(gameObject, mTargetCombat);
             }
             else
             {
@@ -416,7 +416,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             mBlinkTimer.Start(mBlinkTime);
 
-            MainCamera.Instance.Shake();
+            MainCamera.Instance.Shake(0.16f, 0.5f, true);
 
             mInventory.OnDamaged(ref damage, attacker, gameObject);
 

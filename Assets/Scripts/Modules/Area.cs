@@ -7,7 +7,13 @@ using System;
 public class Area : MonoBehaviour
 {
     [SerializeField]
+    private Collider2D AreaCollider;
+
+    [SerializeField]
     private string[] mSenseTags;
+
+    public Collider2D GetCollider
+    { get => AreaCollider; }
 
     private Action<GameObject> mEnterAction;
     private Action             mEmptyAction;
@@ -21,6 +27,11 @@ public class Area : MonoBehaviour
     public void SetEmptyAction(Action emptyAction)
     {
         mEmptyAction = emptyAction;
+    }
+
+    private void Reset()
+    {
+        TryGetComponent(out AreaCollider);
     }
 
     private void Awake()

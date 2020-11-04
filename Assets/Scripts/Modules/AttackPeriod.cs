@@ -33,6 +33,11 @@ public class AttackPeriod
         mAbilityTable = abilityTable;
     }
 
+    public void SetAttackTime(float time) 
+    {
+        mAttackDelayTime = time;
+    }
+
     public void SetAction
         (Action enterBeginAction, Action enterAttackAction, Action enterAfterAction)
     {
