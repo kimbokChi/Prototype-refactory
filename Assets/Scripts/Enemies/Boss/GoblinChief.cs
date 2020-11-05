@@ -170,18 +170,23 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
         Vector2 castPoint = mPlayer.transform.position + Vector3.up * 1.1f;
 
-        switch (random)
-        {
+        SpecialTotem totem = null;
+
+        switch (random) {
             case 0:
-                BombTotem.CastSkill(castPoint);
+                totem = BombTotem;
                 break;
+
             case 1:
-                BuffTotem.CastSkill(castPoint);
+                totem = BuffTotem;
                 break;
+
             case 2:
-                LightningTotem.CastSkill(castPoint);
+                totem = LightningTotem;              
                 break;
         }
+        totem.CastSkill(castPoint);
+        mAttackPeriod.SetAttackTime(totem.PlayTime - 0.5f);
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)

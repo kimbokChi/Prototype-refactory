@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class SpecialTotem : MonoBehaviour
 {
+    public float PlayTime {
+        get => TotemPlayTime + TotemEffectPlayTime;
+    }
     [SerializeField] private float TotemPlayTime;
     [SerializeField] private float TotemEffectPlayPoint;
     [SerializeField] private float TotemEffectPlayTime;
