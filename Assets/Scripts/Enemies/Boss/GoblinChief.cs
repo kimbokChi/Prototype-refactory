@@ -37,7 +37,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                 break;
 
             case AnimState.Attack:  // Swing
-            case AnimState.Damaged: // Skill
+            case AnimState.Damaged: // SummonTotem
                 Animator.SetInteger(mControlKey, (int)Anim.Idle);
                 break;
         }
@@ -57,7 +57,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
             switch (random)
             {
                 case 0:
-                    SummonTotem();
+                    Animator.SetInteger(mControlKey, (int)Anim.Skill);
                     break;
 
                 case 1:
