@@ -5,20 +5,56 @@ using UnityEngine;
 
 public class SpecialTotem : MonoBehaviour
 {
-    private Action mSkill;
+    [SerializeField] private float TotemPlayTime;
+    [SerializeField] private float TotemEffectPlayPoint;
+    [SerializeField] private float TotemEffectPlayTime;
 
-    public void SetSkill(Action skill)
+    [SerializeField] private GameObject Totem;
+    [SerializeField] private GameObject TotemEffect;
+    [SerializeField] private Area TotemSkillArea;
+
+    private float DeltaTime
     {
-        mSkill = skill;
+        get => Time.deltaTime * Time.timeScale;
     }
 
-    public void CastSkill()
+    public void SetAreaEnterAction(Action<GameObject> action)
     {
-        mSkill?.Invoke();
+        TotemSkillArea?.SetEnterAction(action);
     }
 
-    public void Disable()
+    public void CastSkill(Vector2 castPoint)
     {
-        gameObject.SetActive(false);
+        transform.position = castPoint;
+        
+        gameObject.SetActive(true);
+        StartCoroutine(SkillAction());
+    }
+
+    private IEnumerator SkillAction()
+    {
+        bool isPlayingTotemEffect = false;
+
+        Totem.SetActive(true);
+
+        for (float i = 0f; i < TotemPlayTime; i += DeltaTime)
+        {
+            if (!isPlayingTotemEffect) {
+                if (i >= TotemEffectPlayPoint)
+                {
+                    isPlayingTotemEffect = true;
+
+                    TotemEffect.SetActive(true);
+                }
+            }
+            yield return null;
+        }
+        Totem.SetActive(false);
+
+        for (float i = 0f; i < TotemEffectPlayTime; i += DeltaTime)
+        {
+            yield return null;
+        }
+        TotemEffect.SetActive(false);
     }
 }

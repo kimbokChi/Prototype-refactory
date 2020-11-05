@@ -11,11 +11,10 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
     [SerializeField] private SpecialTotem BuffTotem;
     [SerializeField] private SpecialTotem BombTotem;
     [SerializeField] private SpecialTotem LightningTotem;
-    [SerializeField] private Lightning    Lightning;
 
     private Player mPlayer;
 
-    public AbilityTable GetAbility => throw new System.NotImplementedException();
+    public AbilityTable GetAbility => AbilityTable;
 
     public void AnimationPlayOver(AnimState anim)
     {
@@ -29,18 +28,36 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     public void IInit()
     {
-        LightningTotem.SetSkill(() =>
+        BuffTotem.SetAreaEnterAction(o =>
         {
-            Lightning.gameObject.SetActive(true);
+            if (o.TryGetComponent(out ICombatable combatable))
+            {
+                var ability = combatable.GetAbility;
+                var buffLib = BuffLibrary.Instance;
 
-            Lightning.SetAttackPower(15f);
-            Lightning.transform.position += mPlayer.transform.position + (Vector3.up * 5f);
+                combatable.CastBuff(BUFF.POWER_BOOST, 
+                    buffLib.GetSlowBUFF(BUFF.POWER_BOOST, 3, 5f, ability));
+
+                combatable.CastBuff(BUFF.SPEEDUP, 
+                    buffLib.GetSlowBUFF(BUFF.SPEEDUP, 3, 5f, ability));
+            }
+        });
+
+        BombTotem.SetAreaEnterAction(o =>
+        {
+            if (o.TryGetComponent(out ICombatable combatable))
+            {
+                combatable.Damaged(20f, gameObject);
+            }
         });
     }
 
     public void IUpdate()
     {
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            BuffTotem.CastSkill(Vector2.right * 2f);
+        }
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
