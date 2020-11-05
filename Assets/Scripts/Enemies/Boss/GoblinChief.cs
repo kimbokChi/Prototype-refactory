@@ -6,7 +6,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 {
     public enum Anim
     {
-        Idle, Jump, Swing, Skill
+        Idle, Jump, Swing, Skill, Landing, End
     }
     [SerializeField] private LPOSITION3 LPosition3;
 
@@ -25,6 +25,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
     private Player mPlayer;
     private int mControlKey;
 
+    private Anim mNextPattern;
+
     private AttackPeriod mAttackPeriod;
 
     public AbilityTable GetAbility => AbilityTable;
@@ -34,8 +36,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
         switch (anim)
         {
             case AnimState.Move: // Jump
-                break;
-
             case AnimState.Attack:  // Swing
             case AnimState.Damaged: // SummonTotem
                 Animator.SetInteger(mControlKey, (int)Anim.Idle);
@@ -50,22 +50,33 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     public void IInit()
     {
+        mNextPattern = (Anim)Random.Range(1, (int)Anim.End);
+
         mAttackPeriod = new AttackPeriod(AbilityTable, 1.5f);
         mAttackPeriod.SetAction(Period.Attack, () =>
         {
-            int random = Random.Range(0, 2);
-            switch (random)
+            switch (mNextPattern)
             {
-                case 0:
+                case Anim.Skill:
+                    mAttackPeriod.SetAttackTime(1.083f);
                     Animator.SetInteger(mControlKey, (int)Anim.Skill);
                     break;
 
-                case 1:
-                    if (mPlayer.GetLPOSITION3() == LPosition3) {
+                case Anim.Jump:
+                case Anim.Swing:
+                    if (mPlayer.GetLPOSITION3() == LPosition3) 
+                    {
                         DashSwing();
+                        mAttackPeriod.SetAttackTime(1.3f);
+                    }
+                    else
+                    {
+                        mAttackPeriod.SetAttackTime(2.4f);
+                        Animator.SetInteger(mControlKey, (int)Anim.Jump);
                     }
                     break;
             }
+            mNextPattern = (Anim)Random.Range(0, (int)Anim.End);
         });
         BuffTotem.SetAreaEnterAction(o =>
         {
@@ -104,6 +115,23 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
         mAttackPeriod.StartPeriod();
     }
 
+    private void Jumping()
+    {
+        var point = mPlayer.transform.position + Vector3.up * 1.05f;
+            point.x = transform.localPosition.x;
+
+        if (point.x > transform.position.x)
+        {
+            transform.rotation = Quaternion.Euler(Vector3.up * 180);
+        }
+        else
+            transform.rotation = Quaternion.Euler(Vector3.zero);
+
+        LPosition3 = mPlayer.GetLPOSITION3();
+
+        StartCoroutine(Move(point, () => Animator.SetInteger(mControlKey, (int)Anim.Landing)));
+    }
+
     private void DashSwing()
     {
         var point = mPlayer.transform.position + Vector3.up * 1.05f;
@@ -115,9 +143,9 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
         else
             transform.rotation = Quaternion.Euler(Vector3.zero);
 
-        StartCoroutine(Dash(point));
+        StartCoroutine(Move(point, () => Animator.SetInteger(mControlKey, (int)Anim.Swing)));
     }
-    private IEnumerator Dash(Vector2 point)
+    private IEnumerator Move(Vector2 point, System.Action moveOverAction)
     {
         float lerp = 0f;
 
@@ -133,7 +161,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
             yield return null;
         }
-        Animator.SetInteger(mControlKey, (int)Anim.Swing);
+        moveOverAction.Invoke();
     }
 
     private void SummonTotem()
