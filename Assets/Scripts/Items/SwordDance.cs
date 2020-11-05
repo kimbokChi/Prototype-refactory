@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class SwordDance : MonoBehaviour
 {
+    [Header("Status")]
     [SerializeField] private float Damage;
     [SerializeField] private float LifeTime;
     [SerializeField] private float Speed;
 
+    [Header("Traget")]
     [SerializeField] private string TargetTag;
 
     private float DeltaTime {
