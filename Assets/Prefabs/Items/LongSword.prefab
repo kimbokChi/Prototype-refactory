@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Animator: {fileID: 6202769102915456820}
   CollisionArea: {fileID: 6202769102569731556}
+  SwordDance: {fileID: 0}
 --- !u!212 &6202769102569731551
 SpriteRenderer:
   m_ObjectHideFlags: 0
