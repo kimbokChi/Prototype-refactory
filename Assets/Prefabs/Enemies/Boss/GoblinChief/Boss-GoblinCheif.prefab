@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AbilityTable: {fileID: 6103993616405179631}
+  Animator: {fileID: 3348873940667493074}
   BuffTotem: {fileID: 7814858912834753310}
   BombTotem: {fileID: 2038076205681641599}
   LightningTotem: {fileID: 6037136734025714218}
@@ -265,7 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TotemPlayTime: 1.5
   TotemEffectPlayPoint: 1.163
-  TotemEffectPlayTime: 0.75
+  TotemEffectPlayTime: 0.833
   Totem: {fileID: 3348873940660738733}
   TotemEffect: {fileID: 5744302149157510347}
   TotemSkillArea: {fileID: 8282870482350299623}
@@ -365,7 +366,7 @@ PrefabInstance:
     - target: {fileID: 1857420248894728084, guid: 054a7df892c9b4f4f8ebc3196b14e39d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.88
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1857420248894728084, guid: 054a7df892c9b4f4f8ebc3196b14e39d,
         type: 3}
@@ -629,6 +630,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpecialTotem-Bomb
       objectReference: {fileID: 0}
+    - target: {fileID: 4854108033352606495, guid: fc414ba90a8591f428815883befa6220,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc414ba90a8591f428815883befa6220, type: 3}
 --- !u!1 &3348873940660738733 stripped
@@ -658,7 +664,7 @@ PrefabInstance:
     - target: {fileID: 4415065367250870137, guid: fca10bb003edcee45984e9fe39b25b6c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.2
+      value: -1.1
       objectReference: {fileID: 0}
     - target: {fileID: 4415065367250870137, guid: fca10bb003edcee45984e9fe39b25b6c,
         type: 3}

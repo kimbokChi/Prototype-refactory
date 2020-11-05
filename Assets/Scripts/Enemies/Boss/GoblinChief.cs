@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    public enum Anim
+    {
+        Idle, Jump, Swing, Skill
+    }
     [Header("Ability")]
     [SerializeField] private AbilityTable AbilityTable;
+    [SerializeField] private Animator Animator;
 
     [Header("Skill Info")]
     [SerializeField] private SpecialTotem BuffTotem;
@@ -13,12 +18,24 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
     [SerializeField] private SpecialTotem LightningTotem;
 
     private Player mPlayer;
+    private int mControlKey;
+
+    private AttackPeriod mAttackPeriod;
 
     public AbilityTable GetAbility => AbilityTable;
 
     public void AnimationPlayOver(AnimState anim)
     {
-        
+        switch (anim)
+        {
+            case AnimState.Move: // Jump
+                break;
+
+            case AnimState.Attack:  // Swing
+            case AnimState.Damaged: // Skill
+                Animator.SetInteger(mControlKey, (int)Anim.Idle);
+                break;
+        }
     }
 
     public void Damaged(float damage, GameObject attacker)
@@ -28,6 +45,11 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     public void IInit()
     {
+        mAttackPeriod = new AttackPeriod(AbilityTable, 1.5f);
+        mAttackPeriod.SetAction(Period.Attack, () =>
+        {
+            SummonTotem();
+        });
         BuffTotem.SetAreaEnterAction(o =>
         {
             if (o.TryGetComponent(out ICombatable combatable))
@@ -50,13 +72,32 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                 combatable.Damaged(20f, gameObject);
             }
         });
+
+        mControlKey = Animator.GetParameter(0).nameHash;
     }
 
     public void IUpdate()
     {
-        if (Input.GetMouseButtonDown(0))
+        mAttackPeriod.StartPeriod();
+    }
+
+    private void SummonTotem()
+    {
+        int random = Random.Range(0, 3);
+
+        Vector2 castPoint = mPlayer.transform.position + Vector3.up * 1.1f;
+
+        switch (random)
         {
-            BuffTotem.CastSkill(Vector2.right * 2f);
+            case 0:
+                BombTotem.CastSkill(castPoint);
+                break;
+            case 1:
+                BuffTotem.CastSkill(castPoint);
+                break;
+            case 2:
+                LightningTotem.CastSkill(castPoint);
+                break;
         }
     }
 
