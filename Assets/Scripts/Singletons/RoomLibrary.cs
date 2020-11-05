@@ -10,6 +10,7 @@ public enum ROOM_NUMBER
     ZERO_ZERO_TWO,
     Room_003, Room_004,
     Room_005, Room_006,
+    Room_007, Room_008,
     END
 }
 public class RoomLibrary : Singleton<RoomLibrary>
