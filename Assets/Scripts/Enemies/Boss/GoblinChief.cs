@@ -12,10 +12,13 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
     [SerializeField] private AbilityTable AbilityTable;
     [SerializeField] private Animator Animator;
 
-    [Header("Skill Info")]
+    [Header("Totem Skill Info")]
     [SerializeField] private SpecialTotem BuffTotem;
     [SerializeField] private SpecialTotem BombTotem;
     [SerializeField] private SpecialTotem LightningTotem;
+
+    [Header("Swing Skill Info")]
+    [SerializeField] private Area SwingArea;
 
     private Player mPlayer;
     private int mControlKey;
@@ -48,7 +51,17 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
         mAttackPeriod = new AttackPeriod(AbilityTable, 1.5f);
         mAttackPeriod.SetAction(Period.Attack, () =>
         {
-            SummonTotem();
+            int random = Random.Range(0, 2);
+            switch (random)
+            {
+                case 0:
+                    SummonTotem();
+                    break;
+
+                case 1:
+                    DashSwing();
+                    break;
+            }
         });
         BuffTotem.SetAreaEnterAction(o =>
         {
@@ -64,7 +77,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                     buffLib.GetSlowBUFF(BUFF.SPEEDUP, 3, 5f, ability));
             }
         });
-
         BombTotem.SetAreaEnterAction(o =>
         {
             if (o.TryGetComponent(out ICombatable combatable))
@@ -73,12 +85,51 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
             }
         });
 
+        SwingArea.SetEnterAction(o =>
+        {
+            if (o.TryGetComponent(out ICombatable combatable))
+            {
+                combatable.Damaged(20f, gameObject);
+            }
+        });
         mControlKey = Animator.GetParameter(0).nameHash;
     }
 
     public void IUpdate()
     {
         mAttackPeriod.StartPeriod();
+    }
+
+    private void DashSwing()
+    {
+        var point = mPlayer.transform.position + Vector3.up * 1.05f;
+
+        if (point.x > transform.position.x)
+        {
+            transform.rotation = Quaternion.Euler(Vector3.up * 180);
+        }
+        else
+            transform.rotation = Quaternion.Euler(Vector3.zero);
+
+        StartCoroutine(Dash(point));
+    }
+    private IEnumerator Dash(Vector2 point)
+    {
+        float lerp = 0f;
+
+        float DeltaTime()
+        {
+            return Time.deltaTime * Time.timeScale;
+        }
+        while (lerp < 1f)
+        {
+            lerp = Mathf.Min(1, lerp + AbilityTable.MoveSpeed * DeltaTime());
+
+            transform.position = Vector2.Lerp(transform.position, point, lerp);
+
+            yield return null;
+        }
+        Animator.SetInteger(mControlKey, (int)Anim.Swing);
     }
 
     private void SummonTotem()
