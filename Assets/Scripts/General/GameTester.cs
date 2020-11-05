@@ -55,7 +55,7 @@ public class AddItem : Editor
             {
                 var player  = FindObjectOfType(typeof(Player)) as GameObject;
 
-                var enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+                var enemies = GameObject.FindGameObjectsWithTag("Enemy").Where(o => o.activeSelf).ToList();
 
 
                 foreach (var enemy in enemies)

@@ -37,6 +37,8 @@ public class ItemSlot : MonoBehaviour
         }        
         mContainItem = item;
 
+        ItemEquipEvent?.Invoke(mContainItem);
+
         if (item == null)
         {
             mImage.sprite = null;
@@ -47,7 +49,6 @@ public class ItemSlot : MonoBehaviour
 
             mImage.sprite = item.Sprite;
         }
-        ItemEquipEvent?.Invoke(mContainItem);
     }
 
     public void Select()

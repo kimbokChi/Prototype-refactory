@@ -53,8 +53,6 @@ public class Room : MonoBehaviour
                 }
             }
         }
-        gameObject.SetActive(false);
-
         mIsClear = false;
     }
 
