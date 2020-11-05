@@ -8,6 +8,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
     {
         Idle, Jump, Swing, Skill
     }
+    [SerializeField] private LPOSITION3 LPosition3;
+
     [Header("Ability")]
     [SerializeField] private AbilityTable AbilityTable;
     [SerializeField] private Animator Animator;
@@ -59,7 +61,9 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                     break;
 
                 case 1:
-                    DashSwing();
+                    if (mPlayer.GetLPOSITION3() == LPosition3) {
+                        DashSwing();
+                    }
                     break;
             }
         });
