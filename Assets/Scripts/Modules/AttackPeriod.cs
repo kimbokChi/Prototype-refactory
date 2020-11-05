@@ -67,6 +67,12 @@ public class AttackPeriod
             Mono.Instance.StartCoroutine(mEUpdate = EUpdate());
         }
     }
+    public void StopPeriod()
+    {
+        if (mEUpdate != null) {
+            Mono.Instance.StopCoroutine(mEUpdate);
+        }
+    }
 
     private IEnumerator EUpdate()
     {

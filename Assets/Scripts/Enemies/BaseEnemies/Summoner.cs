@@ -26,6 +26,8 @@ public class Summoner : EnemyBase, IAnimEventReceiver
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
+            mAttackPeriod.StopPeriod();
+
             EnemyAnimator.ChangeState(AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
