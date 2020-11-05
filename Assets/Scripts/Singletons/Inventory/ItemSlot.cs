@@ -10,6 +10,9 @@ public enum SlotType
 }
 public class ItemSlot : MonoBehaviour
 {
+    [SerializeField]
+    private Sprite EmptySprite;
+
     public event Action<Item> ItemChangeEvent;
     public event Action<Item> ItemEquipEvent;
 
@@ -41,7 +44,7 @@ public class ItemSlot : MonoBehaviour
 
         if (item == null)
         {
-            mImage.sprite = null;
+            mImage.sprite = EmptySprite;
         }
         else
         {
