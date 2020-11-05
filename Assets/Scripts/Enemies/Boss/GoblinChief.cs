@@ -50,11 +50,20 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     public void Damaged(float damage, GameObject attacker)
     {
-        
+        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        {
+            gameObject.SetActive(false);
+
+            HealthBarPool.Instance.UnUsingHealthBar(transform);
+        }
     }
 
     public void IInit()
     {
+        HealthBarPool.Instance.UsingHealthBar(-2.2f, transform, AbilityTable);
+
         mNextPattern = (Anim)Random.Range(1, (int)Anim.End);
 
         mAttackPeriod = new AttackPeriod(AbilityTable, 1.5f);
@@ -142,8 +151,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     private void DashSwing()
     {
-        DashCollider.enabled = true;
-        Debug.Log(DashCollider.enabled);
         var point = mPlayer.transform.position + Vector3.up * 1.05f;
 
         if (point.x > transform.position.x)
@@ -155,9 +162,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
         StartCoroutine(Move(point, () =>
         {
-            DashCollider.enabled = false;
-            Debug.Log(DashCollider.enabled);
-
             Animator.SetInteger(mControlKey, (int)Anim.Swing);
 
         }));
