@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Castle : Singleton<Castle>
@@ -106,6 +107,11 @@ public class Castle : Singleton<Castle>
     public Room[] GetFloorRooms()
     {
         return mPlayerFloor.GetRooms();
+    }
+
+    public Room GetPlayerRoom()
+    {
+        return mPlayerFloor.GetRooms()[(int)mPlayer.GetLPOSITION3()];
     }
 
     #region _MEMBER

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
@@ -20,7 +21,11 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
     [SerializeField] private SpecialTotem LightningTotem;
 
     [Header("Swing Skill Info")]
+    [SerializeField] private Collider2D DashCollider;
     [SerializeField] private Area SwingArea;
+
+    [Header("Summon Goblins")]
+    [SerializeField] private GameObject[] Goblins;
 
     private Player mPlayer;
     private int mControlKey;
@@ -67,7 +72,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                     if (mPlayer.GetLPOSITION3() == LPosition3) 
                     {
                         DashSwing();
-                        mAttackPeriod.SetAttackTime(1.3f);
+                        mAttackPeriod.SetAttackTime(1.4f);
                     }
                     else
                     {
@@ -129,11 +134,16 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
         LPosition3 = mPlayer.GetLPOSITION3();
 
-        StartCoroutine(Move(point, () => Animator.SetInteger(mControlKey, (int)Anim.Landing)));
+        StartCoroutine(Move(point, () =>
+        {
+            Animator.SetInteger(mControlKey, (int)Anim.Landing);
+        }));
     }
 
     private void DashSwing()
     {
+        DashCollider.enabled = true;
+        Debug.Log(DashCollider.enabled);
         var point = mPlayer.transform.position + Vector3.up * 1.05f;
 
         if (point.x > transform.position.x)
@@ -143,7 +153,14 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
         else
             transform.rotation = Quaternion.Euler(Vector3.zero);
 
-        StartCoroutine(Move(point, () => Animator.SetInteger(mControlKey, (int)Anim.Swing)));
+        StartCoroutine(Move(point, () =>
+        {
+            DashCollider.enabled = false;
+            Debug.Log(DashCollider.enabled);
+
+            Animator.SetInteger(mControlKey, (int)Anim.Swing);
+
+        }));
     }
     private IEnumerator Move(Vector2 point, System.Action moveOverAction)
     {
@@ -179,6 +196,19 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
             case 1:
                 totem = BuffTotem;
+                {
+                    Room room = Castle.Instance.GetPlayerRoom();
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        var goblin = Instantiate(Goblins[Random.Range(0, Goblins.Length)], room.transform);
+
+                        if (goblin.TryGetComponent(out IObject iobject)) 
+                        {
+                            room.AddIObject(iobject);
+                        }
+                    }
+                }
                 break;
 
             case 2:
@@ -211,5 +241,18 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     public GameObject ThisObject() {
         return gameObject;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            if (collision.TryGetComponent(out ICombatable combatable))
+            {
+                combatable.Damaged(8f, gameObject);
+
+                MainCamera.Instance.Shake(0.5f, 0.5f, true);
+            }
+        }
     }
 }
