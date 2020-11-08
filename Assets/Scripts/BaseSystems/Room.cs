@@ -29,9 +29,6 @@ public class Room : MonoBehaviour
         }
     }
 
-                     public  ROOM_NUMBER  RoomNumber => mRoomNumber;
-    [SerializeField] private ROOM_NUMBER mRoomNumber;
-
     private List<IObject> mObjects;
 
     public void IInit(Floor parentFloor)
