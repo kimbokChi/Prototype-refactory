@@ -63,13 +63,21 @@ public class Floor : MonoBehaviour
             mMemberRooms[1] = Instantiate(RoomLibrary.Instance.Random(), mRoomPoints[1].position, Quaternion.identity);
             mMemberRooms[2] = Instantiate(RoomLibrary.Instance.Random(), mRoomPoints[2].position, Quaternion.identity);
         }
-        mMemberRooms[0].IInit(this);
-        mMemberRooms[1].IInit(this);
-        mMemberRooms[2].IInit(this);
+        mMemberRooms[0].gameObject.SetActive(false);
+        mMemberRooms[1].gameObject.SetActive(false);
+        mMemberRooms[2].gameObject.SetActive(false);
     }
 
     public void EnterPlayer(Player player)
     {
+        mMemberRooms[0].IInit(this);
+        mMemberRooms[1].IInit(this);
+        mMemberRooms[2].IInit(this);
+
+        mMemberRooms[0].gameObject.SetActive(true);
+        mMemberRooms[1].gameObject.SetActive(true);
+        mMemberRooms[2].gameObject.SetActive(true);
+
         mMemberRooms[0].EnterPlayer(MESSAGE.BELONG_FLOOR, player);
         mMemberRooms[1].EnterPlayer(MESSAGE.BELONG_FLOOR, player);
         mMemberRooms[2].EnterPlayer(MESSAGE.BELONG_FLOOR, player);

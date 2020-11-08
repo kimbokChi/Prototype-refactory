@@ -30,6 +30,9 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
+            AfterImage.SetActive(false);
+
+            mAttackPeriod.StopPeriod();
             EnemyAnimator.ChangeState(AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);

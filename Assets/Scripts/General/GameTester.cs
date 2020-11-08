@@ -26,6 +26,10 @@ public class AddItem : Editor
             GUILayout.Label("Target Item");
             mAddTarget = EditorGUILayout.ObjectField(mAddTarget, typeof(Item), true) as Item;
 
+            if (GUILayout.Button("Set Weapon Item", GUILayout.Height(20f)))
+            {
+                Inventory.Instance.SetWeaponSlot(mAddTarget);
+            }
             if (GUILayout.Button("Add Item", GUILayout.Height(20f)))
             {
                 Inventory.Instance.AddItem(mAddTarget);
@@ -51,7 +55,7 @@ public class AddItem : Editor
             {
                 var player  = FindObjectOfType(typeof(Player)) as GameObject;
 
-                var enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+                var enemies = GameObject.FindGameObjectsWithTag("Enemy").Where(o => o.activeSelf).ToList();
 
 
                 foreach (var enemy in enemies)

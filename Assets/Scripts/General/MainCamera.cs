@@ -122,6 +122,8 @@ public class MainCamera : Singleton<MainCamera>
     {
         float lerpAmount = 0f;
 
+        mOriginPosition = (Vector3)point + Vector3.back * 10f;
+
         while (lerpAmount < 1f)
         {
             lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * speed);
@@ -132,7 +134,6 @@ public class MainCamera : Singleton<MainCamera>
 
             yield return null;
         }
-        mOriginPosition = transform.position;
     }
 
     private IEnumerator CameraZoomIn(Vector2 point, float time, float targetScale, bool usingTimeScale)

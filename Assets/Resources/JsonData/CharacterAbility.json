@@ -24,8 +24,8 @@
     "MoveSpeed": "2.0",
     "MaxHealth": "300.0",
     "AttackPower": "8.0",
-    "Begin_AttackDelay": "0.2",
-    "After_AttackDelay": "0.2",
+    "Begin_AttackDelay": "1.2",
+    "After_AttackDelay": "1.2",
     "RecognitionArea": "Floor",
     "Range": "10.0"
   },
@@ -47,7 +47,7 @@
     "Begin_AttackDelay": "0.7",
     "After_AttackDelay": "0.7",
     "RecognitionArea": "Room",
-    "Range": "1.5"
+    "Range": "1.0"
   },
   {
     "ID": "Goblin_Shaman",
@@ -57,7 +57,7 @@
     "Begin_AttackDelay": "1.0",
     "After_AttackDelay": "2.0",
     "RecognitionArea": "Room",
-    "Range": "1.5"
+    "Range": "1.0"
   },
   {
     "ID": "Golem_StoneMini",

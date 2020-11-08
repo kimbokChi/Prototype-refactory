@@ -93,7 +93,10 @@ public class Inventory : Singleton<Inventory>
             }
         }
     }
-
+    public void SetWeaponSlot(Item item)
+    {
+        mWeaponSlot.SetItem(item);
+    }
     public void AddItem(Item item)
     {
         mContainer.Where(o => o.ContainItem == null).First()?.SetItem(item);

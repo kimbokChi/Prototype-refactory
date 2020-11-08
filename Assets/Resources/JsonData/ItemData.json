@@ -3,16 +3,16 @@
     "ID": "IronSword",
     "AttackPower": "15.0",
     "Range": "1.5",
-    "Begin-AttackDelay": "1.0",
-    "After-AttackDelay": "1.0",
-    "Rating": "Epic"
+    "Begin-AttackDelay": "0.5",
+    "After-AttackDelay": "0.5",
+    "Rating": "Common"
   },
   {
     "ID": "LongSword",
-    "AttackPower": "1.0",
-    "Range": "1.5",
-    "Begin-AttackDelay": "0.2",
-    "After-AttackDelay": "0.2",
+    "AttackPower": "15.0",
+    "Range": "1.25",
+    "Begin-AttackDelay": "0.05",
+    "After-AttackDelay": "0.05",
     "Rating": "Rare"
   }
 ]
