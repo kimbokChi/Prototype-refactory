@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class GameTester : MonoBehaviour { }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(GameTester))]
 public class AddItem : Editor
 {
@@ -71,3 +72,4 @@ public class AddItem : Editor
         }
     }
 }
+#endif
