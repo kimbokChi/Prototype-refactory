@@ -9,8 +9,6 @@ public class LongSword : Item
     private int mAnimPlayKey;
     private int mAnimControlKey;
 
-    private bool mCanAttack;
-
     private GameObject mPlayer;
 
     public override float AttackTime
@@ -49,7 +47,6 @@ public class LongSword : Item
 
     public override void AttackAction(GameObject attacker, ICombatable combatable)
     {
-        mCanAttack = true;
         CollisionArea.enabled = true;
         CollisionArea.GetCollider.enabled = true;
 
@@ -79,19 +76,16 @@ public class LongSword : Item
 
     private void HitAction(GameObject hitObject)
     {
-        if (mCanAttack) {
-            if (hitObject.TryGetComponent(out ICombatable combatable))
-            {
-                combatable.Damaged(1f, mPlayer);
+        if (hitObject.TryGetComponent(out ICombatable combatable))
+        {
+            combatable.Damaged(1f, mPlayer);
 
-                Inventory.Instance.OnAttackEvent(mPlayer, combatable);
-            }
+            Inventory.Instance.OnAttackEvent(mPlayer, combatable);
         }
     }
 
     private void AnimationPlayOver()
     {
-        mCanAttack = false;
         CollisionArea.enabled = false;
         CollisionArea.GetCollider.enabled = false;
     }
