@@ -11,13 +11,14 @@ GameObject:
   - component: {fileID: 1486823148}
   - component: {fileID: 1486823149}
   - component: {fileID: 1486823150}
+  - component: {fileID: 2456545181967370194}
   m_Layer: 0
   m_Name: Goblin_Assassin-Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1486823148
 Transform:
   m_ObjectHideFlags: 0
@@ -101,6 +102,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2456545181967370194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486823147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f266e01a59839e04dad468d6ee4cf16d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7274113786047085156
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +189,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1704071513
-  m_SortingLayer: 6
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 48811847ff8f6ce4ca129f8ad3504b66, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -378,5 +391,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162e500ee18349741bd81abe711966fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AreaCollider: {fileID: 0}
   mSenseTags:
   - Player

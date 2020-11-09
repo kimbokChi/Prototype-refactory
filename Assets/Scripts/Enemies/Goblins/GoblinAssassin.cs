@@ -125,6 +125,7 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
             force = Vector2.left * mMaxDashLength;
 
         dashPoint = (Vector2)transform.localPosition + force;
+        dashPoint.x.Range(-HalfMoveRangeX, HalfMoveRangeX);
 
         float lerpAmount = 0;
 
@@ -154,7 +155,6 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
         {
             case AnimState.Attack:
                 {
-                    AfterImage.SetActive(false);
                     AfterImage.transform.parent = transform;
 
                     EnemyAnimator.ChangeState(AnimState.Idle);

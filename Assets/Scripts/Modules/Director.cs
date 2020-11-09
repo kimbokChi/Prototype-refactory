@@ -14,4 +14,8 @@ public class Director : MonoBehaviour
     {
         MainCamera.Instance.ZoomOut(1.5f, true);
     }
+    public void SetDisable()
+    {
+        gameObject.SetActive(false);
+    }
 }
