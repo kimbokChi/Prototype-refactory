@@ -38,13 +38,9 @@ public class AttackPeriod
         mAttackDelayTime = time;
     }
 
-    public void SetAction
-        (Action enterBeginAction, Action enterAttackAction, Action enterAfterAction)
+    public bool IsProgressing()
     {
-        mEnterBeginAction = enterBeginAction;
-        mEnterAfterAction = enterAfterAction;
-
-        mEnterAttackAction = enterAttackAction;
+        return mEUpdate != null;
     }
     public void SetAction(Period period, Action action)
     {

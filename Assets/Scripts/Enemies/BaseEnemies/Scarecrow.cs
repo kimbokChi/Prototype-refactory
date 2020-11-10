@@ -14,8 +14,6 @@ public class Scarecrow : EnemyBase, IAnimEventReceiver
 
     private AttackPeriod mAttackPeriod;
 
-    private bool mCanMoving;
-
     public override void Damaged(float damage, GameObject attacker)
     {
         EnemyAnimator.ChangeState(AnimState.Damaged);
@@ -31,52 +29,45 @@ public class Scarecrow : EnemyBase, IAnimEventReceiver
 
     public override void IInit()
     {
-        EnemyAnimator?.Init();
-
+        EnemyAnimator.Init();
         HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
         mWaitForMove = new Timer();
 
         mAttackPeriod = new AttackPeriod(AbilityTable, AttackTime);
-        mAttackPeriod.SetAction(Period.Attack,() =>
-        {
-            MoveStop(); mCanMoving = false;
+
+        mAttackPeriod.SetAction(Period.Begin,  () => MoveStop()); 
+        mAttackPeriod.SetAction(Period.Attack, () => {
             EnemyAnimator.ChangeState(AnimState.Attack);
-        });
-        mCanMoving = true;
+        }); 
     }
     public override void IUpdate()
     {
-        if (mWaitForMove.IsOver())
+        if (!mAttackPeriod.IsProgressing())
         {
-            if (mCanMoving)
+            if (HasPlayerOnRange() && IsLookAtPlayer())
             {
-
-                if (IsMoveFinish && !HasPlayerOnRange())
-                {
-                    Vector2 movePoint;
-
-                    movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
-                    movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
-
-                    EnemyAnimator.ChangeState(AnimState.Move);
-
-                    if (mPlayer != null)
-                    {
-                        MoveToPlayer(movePoint);
-                    }
-                    else MoveToPoint(movePoint);
-                }
+                mAttackPeriod.StartPeriod();
             }
-        }
-        else
-        {
-            mWaitForMove.Update();
-        }
+            else if (mWaitForMove.IsOver() && IsMoveFinish)
+            {
+                Vector2 movePoint;
 
-        if (HasPlayerOnRange() && IsLookAtPlayer())
-        {
-            mAttackPeriod.StartPeriod();
+                movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
+                movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
+
+                EnemyAnimator.ChangeState(AnimState.Move);
+
+                if (mPlayer != null)
+                {
+                    MoveToPlayer(movePoint);
+                }
+                else MoveToPoint(movePoint);
+            }
+            else
+            {
+                mWaitForMove.Update();
+            }
         }
     }
 
@@ -99,12 +90,6 @@ public class Scarecrow : EnemyBase, IAnimEventReceiver
         switch (anim)
         {
             case AnimState.Attack:
-                {
-                    EnemyAnimator.ChangeState(AnimState.Idle);
-
-                    mCanMoving = true;
-                }
-                break;
             case AnimState.Damaged:
                 EnemyAnimator.ChangeState(AnimState.Idle);
                 break;
