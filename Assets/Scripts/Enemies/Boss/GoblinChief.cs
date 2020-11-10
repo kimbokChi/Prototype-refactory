@@ -203,7 +203,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                 {
                     Room room = Castle.Instance.GetPlayerRoom();
 
-                    for (int i = 0; i < 3; i++)
+                    for (int i = -1; i < 2; i++)
                     {
                         var goblin = Instantiate(Goblins[Random.Range(0, Goblins.Length)], room.transform);
 
@@ -211,6 +211,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                         {
                             room.AddIObject(iobject);
                         }
+                        goblin.transform.localPosition += Vector3.right * castPoint.x;
+                        goblin.transform.localPosition += Vector3.left  * i;
                     }
                 }
                 break;
