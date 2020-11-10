@@ -11,8 +11,8 @@ public class Room : MonoBehaviour
 
     private Floor mBelongFloor;
 
-    public  bool  IsClear => mIsClear;
-    private bool mIsClear;
+    public  bool  IsClear
+    { get => mObjects.Count == 0; }
 
     private Player  mPlayer;
     private MESSAGE mLastMessage;
@@ -50,27 +50,22 @@ public class Room : MonoBehaviour
                 }
             }
         }
-        mIsClear = false;
     }
 
     public void IUpdate()
     {
-        if (!mIsClear)
+        if (mObjects.Count > 0)
         {
-            int activeCount = 0;
-
             for (int i = 0; i < mObjects.Count; ++i)
-            {
+            {                
                 if (mObjects[i].IsActive())
                 {
                     mObjects[i].IUpdate();
-
-                    activeCount++;
                 }
-            }
-            if (activeCount == 0)
-            {
-                mIsClear = true;
+                else
+                {
+                    mObjects.RemoveAt(i);
+                }
             }
         }
     }
