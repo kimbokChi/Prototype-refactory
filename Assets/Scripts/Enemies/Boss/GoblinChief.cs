@@ -43,7 +43,9 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
             case AnimState.Move: // Jump
             case AnimState.Attack:  // Swing
             case AnimState.Damaged: // SummonTotem
-                Animator.SetInteger(mControlKey, (int)Anim.Idle);
+                {
+                    Animator.SetInteger(mControlKey, (int)Anim.Idle);
+                }
                 break;
         }
     }
@@ -71,8 +73,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
         {
             switch (mNextPattern)
             {
-                case Anim.Skill:
-                    mAttackPeriod.SetAttackTime(1.083f);
+                case Anim.Skill:          
                     Animator.SetInteger(mControlKey, (int)Anim.Skill);
                     break;
 
@@ -80,14 +81,12 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                 case Anim.Swing:
                     if (mPlayer.GetLPOSITION3() == LPosition3) 
                     {
-                        DashSwing();
-                        mAttackPeriod.SetAttackTime(1.4f);
+                        DashSwing();                        
                     }
                     else
                     {
                         mJumpDIR9 = mPlayer.GetDIRECTION9();
 
-                        mAttackPeriod.SetAttackTime(2.4f);
                         Animator.SetInteger(mControlKey, (int)Anim.Jump);
                     }
                     break;
@@ -128,7 +127,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     public void IUpdate()
     {
-        if (!mAttackPeriod.IsProgressing()) {
+        if (!mAttackPeriod.IsProgressing()) 
+        {
             mAttackPeriod.StartPeriod();
         }
     }
@@ -254,7 +254,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                 break;
         }
         totem.CastSkill(castPoint);
-        mAttackPeriod.SetAttackTime(totem.PlayTime - 0.5f);
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
