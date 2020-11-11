@@ -63,6 +63,11 @@ public class Player : MonoBehaviour, ICombatable
     private float DeltaTime
     { get => Time.deltaTime * Time.timeScale; }
 
+    public DIRECTION9 GetDIRECTION9()
+    {
+        return mLocation9;
+    }
+
     public LPOSITION3 GetLPOSITION3()
     {
         switch (mLocation9)

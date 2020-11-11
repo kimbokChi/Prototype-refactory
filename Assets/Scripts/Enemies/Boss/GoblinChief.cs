@@ -126,13 +126,16 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     public void IUpdate()
     {
-        mAttackPeriod.StartPeriod();
+        if (!mAttackPeriod.IsProgressing()) {
+            mAttackPeriod.StartPeriod();
+        }
     }
 
     private void Jumping()
     {
-        var point = mPlayer.transform.position + Vector3.up * 1.05f;
-            point.x = transform.localPosition.x;
+        float moveY = Castle.Instance.GetMovePoint(mPlayer.GetDIRECTION9()).y;
+
+        Vector2 point = new Vector2(transform.position.x, moveY + 1.05f);
 
         if (point.x > transform.position.x)
         {
@@ -151,7 +154,9 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     private void DashSwing()
     {
-        var point = mPlayer.transform.position + Vector3.up * 1.05f;
+        float moveX = Castle.Instance.GetMovePoint(mPlayer.GetDIRECTION9()).x;
+
+        Vector2 point = new Vector2(moveX, transform.position.y);
 
         if (point.x > transform.position.x)
         {
