@@ -166,8 +166,6 @@ public class Player : MonoBehaviour, ICombatable
 
                     AbilityTable.Table[Ability.After_AttackDelay] = PlayerData("After_AttackDelay");
                     AbilityTable.Table[Ability.Begin_AttackDelay] = PlayerData("Begin_AttackDelay");
-
-                    mAttackPeriod.SetAttackTime(1f);
                 }
                 else
                 {
@@ -186,7 +184,7 @@ public class Player : MonoBehaviour, ICombatable
                     AbilityTable.Table[Ability.After_AttackDelay] = ItemData("Begin-AttackDelay");
                     AbilityTable.Table[Ability.Begin_AttackDelay] = ItemData("After-AttackDelay");
 
-                    mAttackPeriod.SetAttackTime(o.AttackTime);
+                    o.AttackOverAction = () => mAttackPeriod.AttackActionOver();
                 }
             };
         }

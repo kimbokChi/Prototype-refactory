@@ -21,12 +21,6 @@ public class AttackPeriod
     {
         mAbilityTable = abilityTable;
     }
-
-    public void SetAttackTime(float time) 
-    {
-
-    }
-
     public void AttackActionOver()
     {
         mIsAttackOver = true;

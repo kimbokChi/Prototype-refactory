@@ -10,9 +10,6 @@ public class LongSword : Item
     private int mAnimControlKey;
 
     private GameObject mPlayer;
-
-    public override float AttackTime
-    { get => 0.35f; }
     public override float WeaponRange
     { get => 1.2f; }
     public override ItemRating Rating
@@ -27,7 +24,11 @@ public class LongSword : Item
     public override void OffEquipThis(SlotType offSlot)
     {
         if (offSlot.Equals(SlotType.Weapon))
+        {
             Inventory.Instance.ChargeAction -= ChargeAction;
+
+            AttackOverAction = null;
+        }
     }
 
     public override void OnEquipThis(SlotType onSlot)
@@ -88,5 +89,7 @@ public class LongSword : Item
     {
         CollisionArea.enabled = false;
         CollisionArea.GetCollider.enabled = false;
+
+        AttackOverAction?.Invoke();
     }
 }

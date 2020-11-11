@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour
 {
+    public System.Action AttackOverAction;
+
     public    Sprite  Sprite
     {
         get
@@ -22,8 +24,6 @@ public abstract class Item : MonoBehaviour
 
     public virtual ItemRating Rating => ItemRating.Common;
     public virtual float WeaponRange
-    { get => 1f; }
-    public virtual float AttackTime
     { get => 1f; }
 
     public abstract void  OnEquipThis(SlotType onSlot);
