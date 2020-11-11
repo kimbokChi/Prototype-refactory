@@ -31,7 +31,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
     private int mControlKey;
 
     private Anim mNextPattern;
-
+    private DIRECTION9 mJumpDIR9;
     private AttackPeriod mAttackPeriod;
 
     public AbilityTable GetAbility => AbilityTable;
@@ -85,6 +85,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                     }
                     else
                     {
+                        mJumpDIR9 = mPlayer.GetDIRECTION9();
+
                         mAttackPeriod.SetAttackTime(2.4f);
                         Animator.SetInteger(mControlKey, (int)Anim.Jump);
                     }
@@ -133,7 +135,29 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     private void Jumping()
     {
-        float moveY = Castle.Instance.GetMovePoint(mPlayer.GetDIRECTION9()).y;
+        LPOSITION3 Dir2LPos(DIRECTION9 dir)
+        {
+            switch (dir)
+            {
+                case DIRECTION9.TOP_LEFT:
+                case DIRECTION9.TOP:
+                case DIRECTION9.TOP_RIGHT:
+                    return LPOSITION3.TOP;
+
+                case DIRECTION9.MID_LEFT:
+                case DIRECTION9.MID:
+                case DIRECTION9.MID_RIGHT:
+                    return LPOSITION3.MID;
+
+                case DIRECTION9.BOT_LEFT:
+                case DIRECTION9.BOT:
+                case DIRECTION9.BOT_RIGHT:
+                    return LPOSITION3.BOT;
+            }
+            return LPOSITION3.NONE;
+        }
+
+        float moveY = Castle.Instance.GetMovePoint(mJumpDIR9).y;
 
         Vector2 point = new Vector2(transform.position.x, moveY + 1.05f);
 
@@ -144,7 +168,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
         else
             transform.rotation = Quaternion.Euler(Vector3.zero);
 
-        LPosition3 = mPlayer.GetLPOSITION3();
+        LPosition3 = Dir2LPos(mJumpDIR9);
 
         StartCoroutine(Move(point, () =>
         {
