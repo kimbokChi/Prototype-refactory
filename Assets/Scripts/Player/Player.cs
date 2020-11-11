@@ -57,9 +57,6 @@ public class Player : MonoBehaviour, ICombatable
 
     private CircleCollider2D mRangeCollider;
 
-    private GameObject  mTargetObject;
-    private ICombatable mTargetCombat;
-
     private float DeltaTime
     { get => Time.deltaTime * Time.timeScale; }
 
@@ -137,9 +134,6 @@ public class Player : MonoBehaviour, ICombatable
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
         mAttackPeriod.SetAction(Period.Attack, AttackAction);
-
-        RangeArea.SetEnterAction(SenseTarget);
-        RangeArea.SetEmptyAction(() => { mTargetObject = null; mTargetCombat = null; });
 
         mCollidersOnMove = new List<Collider2D>();
 
@@ -261,23 +255,15 @@ public class Player : MonoBehaviour, ICombatable
         {
             InputAction();
         }
-        if (mTargetObject != null)
-        {
-            if (mTargetObject.transform.position.x > transform.position.x)
-                 transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-            else transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+        if (RangeArea.CloestTargetPos().x > transform.position.x)
+             transform.localRotation = Quaternion.Euler(Vector3.zero);
+        else transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
 
-            if (mInventory.IsEquipWeapon())
+        if (mInventory.IsEquipWeapon())
+        {
+            if (RangeArea.HasAny())
             {
-                if (RangeArea.Has(mTargetObject))
-                {
-                    mAttackPeriod.StartPeriod();
-                }
-                else
-                {
-                    mTargetObject = null;
-                    mTargetCombat = null;
-                }
+                mAttackPeriod.StartPeriod();
             }
         }
     }
@@ -287,30 +273,9 @@ public class Player : MonoBehaviour, ICombatable
         if (mEMove != null) mCollidersOnMove.Add(collision);
     }
 
-    private void SenseTarget(GameObject target)
-    {
-        if (target.CompareTag("Enemy")) {
-            mTargetObject = mTargetObject ?? target;
-        }
-    }
-
     private void AttackAction()
     {
-        if (mTargetObject != null)
-        {
-            if (RangeArea.Has(mTargetObject))
-            {
-                if (mTargetCombat == null) {
-                    mTargetObject.TryGetComponent(out mTargetCombat);
-                }
-                mInventory.AttackAction(gameObject, mTargetCombat);
-            }
-            else
-            {
-                mTargetObject = null;
-                mTargetCombat = null;
-            }
-        }
+        mInventory.AttackAction(gameObject, null);
     }
 
     private void MoveAction(DIRECTION9 moveDIR9)

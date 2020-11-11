@@ -88,8 +88,25 @@ public class Area : MonoBehaviour
         return TContainer.ToArray();
     }
 
-    public bool Has(GameObject gameObject)
+    public bool HasAny()
     {
-        return mSenseList.Any(o => o.Equals(gameObject));
+        return mSenseList.Count > 0;
+    }
+    public Vector2 CloestTargetPos()
+    {
+        if (mSenseList.Count == 0)
+        {
+            return transform.position;
+        }
+        else
+        {
+            float Distance(Transform a)
+            {
+                return Mathf.Abs(a.position.x - transform.position.x);
+            }
+            GameObject cloestTarget = mSenseList.OrderBy(o => Distance(o.transform)).First();
+
+            return cloestTarget.transform.position;
+        }
     }
 }

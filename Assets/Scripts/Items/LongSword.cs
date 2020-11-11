@@ -87,9 +87,6 @@ public class LongSword : Item
 
     private void AnimationPlayOver()
     {
-        CollisionArea.enabled = false;
-        CollisionArea.GetCollider.enabled = false;
-
         AttackOverAction?.Invoke();
     }
 }
