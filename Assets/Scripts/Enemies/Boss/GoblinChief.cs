@@ -194,7 +194,10 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
     {
         int random = Random.Range(0, 3);
 
-        Vector2 castPoint = mPlayer.transform.position + Vector3.up * 1.1f;
+        DIRECTION9 playerDIR9 = mPlayer.GetDIRECTION9();
+
+        Vector2 castPoint = new Vector2
+            (mPlayer.transform.position.x, Castle.Instance.GetMovePoint(playerDIR9).y + 1.1f);
 
         SpecialTotem totem = null;
 
