@@ -166,6 +166,8 @@ public class Player : MonoBehaviour, ICombatable
 
                     AbilityTable.Table[Ability.After_AttackDelay] = PlayerData("After_AttackDelay");
                     AbilityTable.Table[Ability.Begin_AttackDelay] = PlayerData("Begin_AttackDelay");
+
+                    mAttackPeriod.StopPeriod();
                 }
                 else
                 {
@@ -265,14 +267,17 @@ public class Player : MonoBehaviour, ICombatable
                  transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             else transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
 
-            if (RangeArea.Has(mTargetObject)) 
+            if (mInventory.IsEquipWeapon())
             {
-                mAttackPeriod.StartPeriod();
-            }
-            else
-            {
-                mTargetObject = null;
-                mTargetCombat = null;
+                if (RangeArea.Has(mTargetObject))
+                {
+                    mAttackPeriod.StartPeriod();
+                }
+                else
+                {
+                    mTargetObject = null;
+                    mTargetCombat = null;
+                }
             }
         }
     }
