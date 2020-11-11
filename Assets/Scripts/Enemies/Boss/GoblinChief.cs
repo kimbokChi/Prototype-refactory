@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
+public class GoblinChief : MonoBehaviour, IObject, ICombatable
 {
     public enum Anim
     {
@@ -36,20 +36,11 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     public AbilityTable GetAbility => AbilityTable;
 
-    public void AnimationPlayOver(AnimState anim)
+    private void PatternActionOver()
     {
-        switch (anim)
-        {
-            case AnimState.Move: // Jump
-            case AnimState.Attack:  // Swing
-            case AnimState.Damaged: // SummonTotem
-                {
-                    mAttackPeriod.AttackActionOver();
+        mAttackPeriod.AttackActionOver();
 
-                    Animator.SetInteger(mControlKey, (int)Anim.Idle);
-                }
-                break;
-        }
+        Animator.SetInteger(mControlKey, (int)Anim.Idle);
     }
 
     public void Damaged(float damage, GameObject attacker)
@@ -68,7 +59,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
     {
         HealthBarPool.Instance.UsingHealthBar(-2.2f, transform, AbilityTable);
 
-        mNextPattern = (Anim)Random.Range(1, (int)Anim.End);
+        mNextPattern = (Anim)Random.Range(1, 4);
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
         mAttackPeriod.SetAction(Period.Attack, () =>
@@ -91,8 +82,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                     }
                     break;
             }
-            mNextPattern = (Anim)Random.Range(0, (int)Anim.End);
-        });
+            mNextPattern = (Anim)Random.Range(1, 4);
+        });      
         BuffTotem.SetAreaEnterAction(o =>
         {
             if (o.TryGetComponent(out ICombatable combatable))
