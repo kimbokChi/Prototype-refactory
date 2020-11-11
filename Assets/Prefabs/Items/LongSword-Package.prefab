@@ -149,8 +149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 15
-  LifeTime: 3
-  Speed: 0.2
+  LifeTime: 1.5
+  Speed: 0.09
   TargetTag: Enemy
 --- !u!61 &4412075116079254310
 BoxCollider2D:
