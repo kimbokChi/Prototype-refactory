@@ -48,7 +48,7 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
 
         mWaitForMoving = new Timer();
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, 0.25f);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
 
         mAttackPeriod.SetAction(Period.Begin, () => {
             EnemyAnimator.ChangeState(AnimState.AttackBegin);
@@ -157,14 +157,17 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
                 {
                     AfterImage.transform.parent = transform;
 
+                    mAttackPeriod.AttackActionOver();
+
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
+                break;
+            case AnimState.Damaged:
+                {
                     EnemyAnimator.ChangeState(AnimState.Idle);
                 }
                 break;
 
-            case AnimState.Damaged:
-                EnemyAnimator.ChangeState(AnimState.Idle);
-                break;
-            
             case AnimState.Death:
                 gameObject.SetActive(false);
                 break;

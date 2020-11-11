@@ -33,7 +33,7 @@ public class GolemStoneMini : EnemyBase, IAnimEventReceiver
 
         mWaitForMove = new Timer();
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, 0.417f);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
 
         mAttackPeriod.SetAction(Period.Begin, () => {
             mCanMoving = false;
@@ -101,12 +101,16 @@ public class GolemStoneMini : EnemyBase, IAnimEventReceiver
         {
             case AnimState.Attack:
                 {
+                    mAttackPeriod.AttackActionOver();
+
                     EnemyAnimator.ChangeState(AnimState.Idle);
                     mCanMoving = true;
                 }
                 break;
             case AnimState.Damaged:
-                EnemyAnimator.ChangeState(AnimState.Idle);
+                {
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
                 break;
 
             case AnimState.Death:

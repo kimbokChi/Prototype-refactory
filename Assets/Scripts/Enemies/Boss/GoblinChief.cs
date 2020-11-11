@@ -44,6 +44,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
             case AnimState.Attack:  // Swing
             case AnimState.Damaged: // SummonTotem
                 {
+                    mAttackPeriod.AttackActionOver();
+
                     Animator.SetInteger(mControlKey, (int)Anim.Idle);
                 }
                 break;
@@ -68,7 +70,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
         mNextPattern = (Anim)Random.Range(1, (int)Anim.End);
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, 1.5f);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
         mAttackPeriod.SetAction(Period.Attack, () =>
         {
             switch (mNextPattern)
@@ -85,8 +87,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                     }
                     else
                     {
-                        mJumpDIR9 = mPlayer.GetDIRECTION9();
-
                         Animator.SetInteger(mControlKey, (int)Anim.Jump);
                     }
                     break;
@@ -135,6 +135,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     private void Jumping()
     {
+        mJumpDIR9 = mPlayer.GetDIRECTION9();
+
         LPOSITION3 Dir2LPos(DIRECTION9 dir)
         {
             switch (dir)

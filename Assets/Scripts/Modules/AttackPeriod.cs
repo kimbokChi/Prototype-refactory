@@ -7,35 +7,29 @@ public enum Period { Begin, Attack, After };
 
 public class AttackPeriod
 {
-    private Period mWaitPeriod;
-
-    private Timer mTimer;
-
     private Action mEnterBeginAction;
     private Action mEnterAfterAction;
     private Action mEnterAttackAction;
 
     private AbilityTable mAbilityTable;
 
-    private float mAttackDelayTime;
-
     private IEnumerator mEUpdate;
+    private bool mIsAttackOver;
 
 
-    public AttackPeriod(AbilityTable abilityTable, float attackDelayTime = 0f)
+    public AttackPeriod(AbilityTable abilityTable)
     {
-        mWaitPeriod = Period.Begin;
-
-        mAttackDelayTime = attackDelayTime;
-
-        (mTimer = new Timer()).Start(abilityTable.AfterAttackDelay);
-
         mAbilityTable = abilityTable;
     }
 
     public void SetAttackTime(float time) 
     {
-        mAttackDelayTime = time;
+
+    }
+
+    public void AttackActionOver()
+    {
+        mIsAttackOver = true;
     }
 
     public bool IsProgressing()
@@ -72,29 +66,26 @@ public class AttackPeriod
 
     private IEnumerator EUpdate()
     {
+        mIsAttackOver = false;
+
         float DeltaTime() {
             return Time.deltaTime * Time.timeScale;
         }
+        float BeginAttack = mAbilityTable.BeginAttackDelay;
+        float AfterAttack = mAbilityTable.AfterAttackDelay;
 
-        Action[] enterActions = new Action[3]
-        {
-            mEnterBeginAction, mEnterAttackAction, 
-            mEnterAfterAction
-        };
-        float[] delays = new float[3]
-        {
-            mAbilityTable.BeginAttackDelay, mAttackDelayTime, 
-            mAbilityTable.AfterAttackDelay
-        };
+        mEnterBeginAction?.Invoke();
+        for (float w = 0f; w < BeginAttack; w += DeltaTime())
+            yield return null;
 
-        for (int i = 0; i < 3; i++)
-        {
-            enterActions[i]?.Invoke();
+        mEnterAttackAction?.Invoke();
+        yield return new WaitUntil(() => mIsAttackOver);
 
-            for (float w = 0f; w < delays[i]; w += DeltaTime()) {
-                yield return null;
-            }
-        }
+        mEnterAfterAction?.Invoke();
+        for (float w = 0f; w < AfterAttack; w += DeltaTime())
+            yield return null;
+
         mEUpdate = null;
+        mIsAttackOver = false;
     }
 }

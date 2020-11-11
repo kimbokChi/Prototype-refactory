@@ -31,7 +31,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
         HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, AnimLength);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
 
         mAttackPeriod.SetAction(Period.Attack, CastBuff);
         mCanTranslateDmg = true;
@@ -114,6 +114,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         switch (anim)
         {
             case AnimState.Attack:
+                mAttackPeriod.AttackActionOver();
                 Anim.SetActive(false);
                 break;
 

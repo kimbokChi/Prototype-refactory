@@ -41,7 +41,7 @@ public class Summoner : EnemyBase, IAnimEventReceiver
 
         Debug.Assert(transform.parent.TryGetComponent(out mBelongRoom));
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, 0.667f);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
 
         mAttackPeriod.SetAction(Period.Attack, () =>
         {
@@ -108,8 +108,16 @@ public class Summoner : EnemyBase, IAnimEventReceiver
         switch (anim)
         {
             case AnimState.Attack:
+                {
+                    mAttackPeriod.AttackActionOver();
+
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
+                break;
             case AnimState.Damaged:
-                EnemyAnimator.ChangeState(AnimState.Idle);
+                {
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
                 break;
 
             case AnimState.Death:

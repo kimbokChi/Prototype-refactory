@@ -34,7 +34,7 @@ public class Scarecrow : EnemyBase, IAnimEventReceiver
 
         mWaitForMove = new Timer();
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, AttackTime);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
 
         mAttackPeriod.SetAction(Period.Begin,  () => MoveStop()); 
         mAttackPeriod.SetAction(Period.Attack, () => {
@@ -90,8 +90,16 @@ public class Scarecrow : EnemyBase, IAnimEventReceiver
         switch (anim)
         {
             case AnimState.Attack:
+                {
+                    mAttackPeriod.AttackActionOver();
+
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
+                break;
             case AnimState.Damaged:
-                EnemyAnimator.ChangeState(AnimState.Idle);
+                {
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
                 break;
 
             case AnimState.Death:

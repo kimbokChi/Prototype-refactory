@@ -46,7 +46,7 @@ public class Archer : EnemyBase, IAnimEventReceiver
         mWaitForMoving = new Timer();
         mWaitForATK    = new Timer();
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, 0.583f);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
 
         mAttackPeriod.SetAction(Period.Attack, () => 
         {
@@ -139,8 +139,16 @@ public class Archer : EnemyBase, IAnimEventReceiver
         switch (anim)
         {
             case AnimState.Attack:
+                {
+                    mAttackPeriod.AttackActionOver();
+
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
+                break;
             case AnimState.Damaged:
-                EnemyAnimator.ChangeState(AnimState.Idle);
+                {
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
                 break;
 
             case AnimState.Death:

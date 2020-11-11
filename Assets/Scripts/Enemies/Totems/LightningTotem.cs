@@ -25,7 +25,7 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         EnemyAnimator.Init();
         HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, 0.5f);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
 
         mAttackPeriod.SetAction(Period.Attack, () => {
             EnemyAnimator.ChangeState(AnimState.Attack);
@@ -103,8 +103,16 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         switch (anim)
         {
             case AnimState.Attack:
+                {
+                    mAttackPeriod.AttackActionOver();
+
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
+                break;
             case AnimState.Damaged:
-                EnemyAnimator.ChangeState(AnimState.Idle);
+                {
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
                 break;
             case AnimState.Death:
                 gameObject.SetActive(false);
