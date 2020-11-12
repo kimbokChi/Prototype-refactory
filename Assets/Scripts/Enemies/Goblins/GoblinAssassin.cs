@@ -32,6 +32,11 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
         {
             AfterImage.SetActive(false);
 
+            if (mEDash != null) 
+            {
+                StopCoroutine(mEDash); 
+                              mEDash = null;
+            }
             mAttackPeriod.StopPeriod();
             EnemyAnimator.ChangeState(AnimState.Death);
 
