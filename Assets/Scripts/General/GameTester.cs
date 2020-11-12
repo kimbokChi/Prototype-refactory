@@ -13,6 +13,8 @@ public class AddItem : Editor
 
     private string mKillAllEnemyExpectionName = "Scarecrow";
 
+    private float mGameSpeed = 1f;
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -69,6 +71,19 @@ public class AddItem : Editor
                    }
                 }
             }
+            //==================================================================
+            GUILayout.Space(6f);
+
+            GUILayout.Label("Game Control", EditorStyles.boldLabel);
+            GUILayout.Label("Game Speed");
+            mGameSpeed = GUILayout.HorizontalSlider(mGameSpeed, 0.1f, 2f);
+            GUILayout.Space(14f);
+
+            if (GUILayout.Button("Speed Reset", GUILayout.Height(20f))) {
+                mGameSpeed = 1f;
+            }
+            Time.timeScale = mGameSpeed;
+            GUILayout.Space(6f);
         }
     }
 }
