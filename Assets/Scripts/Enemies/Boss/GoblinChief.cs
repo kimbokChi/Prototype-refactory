@@ -59,6 +59,10 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     {
         HealthBarPool.Instance.UsingHealthBar(-2.2f, transform, AbilityTable);
 
+        LightningTotem.transform.parent = null;
+             BombTotem.transform.parent = null;
+             BuffTotem.transform.parent = null;
+
         mNextPattern = (Anim)Random.Range(1, 4);
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
