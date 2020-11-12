@@ -20,9 +20,9 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     [Header("Totem Skill Info")]
     [SerializeField] private SpecialTotem BuffTotem;
     [SerializeField] private SpecialTotem BombTotem;
-    [SerializeField] private SpecialTotem LightningTotem;
+    [SerializeField] private SLightningTotem LightningTotem;
 
-    private SpecialTotem[] mLightningTotems;
+    private SLightningTotem[] mLightningTotems;
 
     [Header("Swing Skill Info")]
     [SerializeField] private Collider2D DashCollider;
@@ -125,12 +125,12 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         });
 
         //
-        mLightningTotems = new SpecialTotem[LIGHTNING_CNT];
+        mLightningTotems = new SLightningTotem[LIGHTNING_CNT];
 
         for (int i = 0; i < LIGHTNING_CNT; i++)
         {
             mLightningTotems[i] = Instantiate(LightningTotem);
-            mLightningTotems[i].SetAreaEnterAction(o => GiveDmg(o, 20f));
+            mLightningTotems[i].Init();
         }
         //
 
@@ -248,7 +248,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
             {
                 direction *= -1;
             }
-            mLightningTotems[i].CastSkill(Castle.Instance.GetMovePoint(startDIR + direction));
+            mLightningTotems[i].Cast(Castle.Instance.GetMovePoint(startDIR + direction));
 
             yield return new WaitForSeconds(1f);
         }
