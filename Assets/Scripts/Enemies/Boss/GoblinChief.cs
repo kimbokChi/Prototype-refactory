@@ -237,9 +237,23 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         }
     }
 
+    private IEnumerator SummonBomb(Vector2 castPoint)
+    {
+        BombTotem.CastSkill(castPoint);
+        yield return new WaitForSeconds(BombTotem.PlayTime);
+
+        for (int i = 0; i < 4; i++)
+        {
+            yield return new WaitForSeconds(0.1f);
+            BombTotem.Effect.SetActive(true);
+
+            yield return new WaitForSeconds(BombTotem.EffectPlayTime);
+        }
+    }
+
     private void SummonTotem()
     {
-        int random = 2;
+        int random = 0;
 
         DIRECTION9 playerDIR9 = mPlayer.GetDIRECTION9();
 
@@ -250,7 +264,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
         switch (random) {
             case 0:
-                totem = BombTotem;
+                StartCoroutine(mESummonBomb = SummonBomb(castPoint));
                 break;
 
             case 1:
