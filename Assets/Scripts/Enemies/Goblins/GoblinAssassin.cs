@@ -57,16 +57,15 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
     }
     public override void IUpdate()
     {
-        if (IsLookAtPlayer())
+        if (!mAttackPeriod.IsProgressing())
         {
-            if (mEDash == null)
+            if (IsLookAtPlayer())
+            {
                 MoveStop();
 
-            mAttackPeriod.StartPeriod();
-        }
-        else if (mWaitForMoving.IsOver())
-        {
-            if (mEDash == null)
+                mAttackPeriod.StartPeriod();
+            }
+            else if (mWaitForMoving.IsOver())
             {
                 if (IsMoveFinish && !HasPlayerOnRange())
                 {
@@ -80,10 +79,10 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
                     MoveToPoint(movePoint);
                 }
             }
-        }
-        else
-        {
-            mWaitForMoving.Update();
+            else
+            {
+                mWaitForMoving.Update();
+            }
         }
     }
     protected override void MoveFinish()
@@ -158,7 +157,6 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
                     AfterImage.transform.parent = transform;
 
                     mAttackPeriod.AttackActionOver();
-
                     EnemyAnimator.ChangeState(AnimState.Idle);
                 }
                 break;
