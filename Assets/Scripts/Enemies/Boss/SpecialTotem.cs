@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class SpecialTotem : MonoBehaviour
 {
-    public float PlayTime {
-        get => TotemPlayTime + TotemEffectPlayTime;
-    }
+    public float PlayTime 
+    { get => TotemEffectPlayPoint + TotemEffectPlayTime; }
+    public float EffectPlayTime 
+    { get => TotemEffectPlayTime; }
+    public GameObject Effect
+    { get => TotemEffect; }
+
     [SerializeField] private float TotemPlayTime;
     [SerializeField] private float TotemEffectPlayPoint;
     [SerializeField] private float TotemEffectPlayTime;
@@ -53,11 +57,5 @@ public class SpecialTotem : MonoBehaviour
             yield return null;
         }
         Totem.SetActive(false);
-
-        for (float i = 0f; i < TotemEffectPlayTime; i += DeltaTime)
-        {
-            yield return null;
-        }
-        TotemEffect.SetActive(false);
     }
 }
