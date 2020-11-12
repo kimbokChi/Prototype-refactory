@@ -162,7 +162,11 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
                 break;
             case AnimState.Damaged:
                 {
-                    EnemyAnimator.ChangeState(AnimState.Idle);
+                    if (IsMoving)
+                        EnemyAnimator.ChangeState(AnimState.Move);
+
+                    else
+                        EnemyAnimator.ChangeState(AnimState.Idle);
                 }
                 break;
 
