@@ -62,33 +62,38 @@ public class Archer : EnemyBase, IAnimEventReceiver
     {
         mArrowPool.Update();
 
-        if (mWaitForMoving.IsOver())
+        if (!mAttackPeriod.IsProgressing())
         {
-            if (IsMoveFinish && !HasPlayerOnRange())
+            if (HasPlayerOnRange() && IsLookAtPlayer())
             {
-                Vector2 movePoint;
+                MoveStop();
 
-                movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
-                movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
-
-                EnemyAnimator.ChangeState(AnimState.Move);
-
-                if (mPlayer != null)
+                mAttackPeriod.StartPeriod();
+            }
+            else if (mWaitForMoving.IsOver())
+            {
+                if (IsMoveFinish && !HasPlayerOnRange())
                 {
-                    MoveToPlayer(movePoint);
+                    Vector2 movePoint;
+
+                    movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
+                    movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
+
+                    EnemyAnimator.ChangeState(AnimState.Move);
+
+                    if (mPlayer != null)
+                    {
+                        MoveToPlayer(movePoint);
+                    }
+                    else MoveToPoint(movePoint);
                 }
-                else MoveToPoint(movePoint);
+            }
+            else
+            {
+                mWaitForMoving.Update();
             }
         }
-        else
-        {
-            mWaitForMoving.Update();
-        }
-
-        if (HasPlayerOnRange() && IsLookAtPlayer())
-        {
-            mAttackPeriod.StartPeriod();            
-        }
+        
     }
 
     protected override void MoveFinish()
