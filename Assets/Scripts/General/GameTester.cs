@@ -15,6 +15,8 @@ public class AddItem : Editor
 
     private float mGameSpeed = 1f;
 
+    private int mJumpFloor = 0;
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -83,6 +85,15 @@ public class AddItem : Editor
                 mGameSpeed = 1f;
             }
             Time.timeScale = mGameSpeed;
+            GUILayout.Space(6f);
+
+            GUILayout.Label("Floor Jump");
+            mJumpFloor = EditorGUILayout.IntField(mJumpFloor);
+
+            if (GUILayout.Button("Jump!", GUILayout.Height(20f)))
+            {
+                Castle.Instance.SetPlayerFloor(mJumpFloor);
+            }
             GUILayout.Space(6f);
         }
     }

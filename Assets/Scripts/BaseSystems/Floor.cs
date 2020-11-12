@@ -19,6 +19,19 @@ public class Floor : MonoBehaviour
     public  bool  IsClear => mIsClear;
     private bool mIsClear;
 
+    // === Cheat ===
+    public void Disable()
+    {
+        mIsClear = true;
+
+        for (int i = 0; i < 3; i++)
+        {
+            mMemberRooms[i].ExitPlayer(MESSAGE.BELONG_FLOOR);
+            mMemberRooms[i].gameObject.SetActive(false);
+        }
+    }
+    // === Cheat ===
+
     public void IInit()
     {
         mMemberRooms[0].gameObject.SetActive(true);
