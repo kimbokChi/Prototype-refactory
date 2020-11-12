@@ -113,11 +113,6 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     {
         switch (anim)
         {
-            case AnimState.Attack:
-                mAttackPeriod.AttackActionOver();
-                Anim.SetActive(false);
-                break;
-
             case AnimState.Damaged:
                 Animator.SetInteger(mAnimControlKey, (int)AnimState.Idle);
                 mCanTranslateDmg = true;
@@ -135,6 +130,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         {
             yield return null;
         }
+        mAttackPeriod.AttackActionOver();
         Anim.SetActive(false);
     }
 }

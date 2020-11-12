@@ -30,13 +30,6 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         mAttackPeriod.SetAction(Period.Attack, () => {
             EnemyAnimator.ChangeState(AnimState.Attack);
         });
-
-        Range.SetEnterAction(o =>
-        {
-            if (o.CompareTag("Player")) {
-                mAttackPeriod.StartPeriod();
-            }
-        });
     }
 
     [ContextMenu("Range Setting")]
@@ -51,7 +44,12 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     }
 
     public void IUpdate() 
-    { }
+    {
+        if (Range.HasAny() && !mAttackPeriod.IsProgressing())
+        {
+            mAttackPeriod.StartPeriod();
+        }
+    }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
     { }
@@ -99,6 +97,12 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         switch (anim)
         {
             case AnimState.Attack:
+                {
+                    mAttackPeriod.AttackActionOver();
+
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
+                break;
             case AnimState.Damaged:
                 EnemyAnimator.ChangeState(AnimState.Idle);
                 break;
