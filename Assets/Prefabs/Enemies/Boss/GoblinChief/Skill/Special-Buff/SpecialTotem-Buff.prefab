@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TotemPlayTime: 1.5
-  TotemEffectPlayPoint: 1.5
+  TotemEffectPlayPoint: 0.917
   TotemEffectPlayTime: 0
   Totem: {fileID: 0}
   TotemEffect: {fileID: 0}

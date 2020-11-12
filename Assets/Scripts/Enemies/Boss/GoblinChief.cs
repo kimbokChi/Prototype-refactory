@@ -22,9 +22,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     [SerializeField] private SpecialTotem BombTotem;
     [SerializeField] private SpecialTotem LightningTotem;
 
-    private IEnumerator mESummonLightning;
-    private IEnumerator mESummonBomb;
-
     private SpecialTotem[] mLightningTotems;
 
     [Header("Swing Skill Info")]
@@ -43,6 +40,10 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     public AbilityTable GetAbility => AbilityTable;
 
+    private void ChangeIdleState()
+    {
+        Animator.SetInteger(mControlKey, (int)Anim.Idle);
+    }
     private void PatternActionOver()
     {
         mAttackPeriod.AttackActionOver();
@@ -76,13 +77,29 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         BombTotem.transform.parent = null;
         BuffTotem.transform.parent = null;
 
-        mNextPattern = (Anim)Random.Range(1, 4);
+        mNextPattern = (Anim)Random.Range(2, 4);
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
         mAttackPeriod.SetAction(Period.Attack, () =>
         {
-            Animator.SetInteger(mControlKey, (int)Anim.Skill);
-            mNextPattern = (Anim)Random.Range(1, 4);
+            switch (mNextPattern)
+            {
+                case Anim.Skill:
+                    Animator.SetInteger(mControlKey, (int)Anim.Skill);
+                    break;
+
+                case Anim.Swing:
+                    if (mPlayer.GetLPOSITION3() == LPosition3)
+                    {
+                        DashSwing();
+                    }
+                    else
+                    {
+                        Animator.SetInteger(mControlKey, (int)Anim.Jump);
+                    }
+                    break;
+            }
+            mNextPattern = (Anim)Random.Range(2, 4);
         });
 
         BuffTotem.SetAreaEnterAction(o =>
@@ -235,8 +252,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
             yield return new WaitForSeconds(1f);
         }
+        mAttackPeriod.AttackActionOver();
     }
-
     private IEnumerator SummonBomb(Vector2 castPoint)
     {
         BombTotem.CastSkill(castPoint);
@@ -249,11 +266,32 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
             yield return new WaitForSeconds(BombTotem.EffectPlayTime);
         }
+        mAttackPeriod.AttackActionOver();
+    }
+    private IEnumerator SummonBuff(Vector2 castPoint)
+    {
+        yield return new WaitForSeconds(BuffTotem.EffectPlayTime);
+
+        Room room = Castle.Instance.GetPlayerRoom();
+
+        for (int i = -1; i < 2; i++)
+        {
+            var goblin = Instantiate(Goblins[Random.Range(0, Goblins.Length)], room.transform);
+
+            if (goblin.TryGetComponent(out IObject iobject))
+            {
+                room.AddIObject(iobject);
+            }
+            goblin.transform.localPosition += Vector3.right * castPoint.x;
+            goblin.transform.localPosition += Vector3.left * i;
+        }
+        yield return new WaitForSeconds(0.583f);
+        mAttackPeriod.AttackActionOver();
     }
 
     private void SummonTotem()
     {
-        int random = 0;
+        int random = Random.Range(0, 3);
 
         DIRECTION9 playerDIR9 = mPlayer.GetDIRECTION9();
 
@@ -264,7 +302,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
         switch (random) {
             case 0:
-                StartCoroutine(mESummonBomb = SummonBomb(castPoint));
+                StartCoroutine(SummonBomb(castPoint));
                 break;
 
             case 1:
@@ -283,11 +321,12 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
                         goblin.transform.localPosition += Vector3.right * castPoint.x;
                         goblin.transform.localPosition += Vector3.left  * i;
                     }
+                    mAttackPeriod.AttackActionOver();
                 }
                 break;
 
             case 2:
-                StartCoroutine(mESummonLightning = SummonLightning());              
+                StartCoroutine(SummonLightning());              
                 break;
         }
         totem?.CastSkill(castPoint);
