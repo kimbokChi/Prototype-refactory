@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class GoblinChief : MonoBehaviour, IObject, ICombatable
 {
+    private const int LIGHTNING_CNT = 3;
+
     public enum Anim
     {
         Idle, Jump, Swing, Skill, Landing, End
@@ -19,6 +21,11 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     [SerializeField] private SpecialTotem BuffTotem;
     [SerializeField] private SpecialTotem BombTotem;
     [SerializeField] private SpecialTotem LightningTotem;
+
+    private IEnumerator mESummonLightning;
+    private IEnumerator mESummonBomb;
+
+    private SpecialTotem[] mLightningTotems;
 
     [Header("Swing Skill Info")]
     [SerializeField] private Collider2D DashCollider;
@@ -57,37 +64,27 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
+        void GiveDmg(GameObject target, float damage) 
+        {
+            if (target.TryGetComponent(out ICombatable combatable))
+            {
+                combatable.Damaged(damage, gameObject);
+            }
+        }
         HealthBarPool.Instance.UsingHealthBar(-2.2f, transform, AbilityTable);
 
-        LightningTotem.transform.parent = null;
-             BombTotem.transform.parent = null;
-             BuffTotem.transform.parent = null;
+        BombTotem.transform.parent = null;
+        BuffTotem.transform.parent = null;
 
         mNextPattern = (Anim)Random.Range(1, 4);
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
         mAttackPeriod.SetAction(Period.Attack, () =>
         {
-            switch (mNextPattern)
-            {
-                case Anim.Skill:          
-                    Animator.SetInteger(mControlKey, (int)Anim.Skill);
-                    break;
-
-                case Anim.Jump:
-                case Anim.Swing:
-                    if (mPlayer.GetLPOSITION3() == LPosition3) 
-                    {
-                        DashSwing();                        
-                    }
-                    else
-                    {
-                        Animator.SetInteger(mControlKey, (int)Anim.Jump);
-                    }
-                    break;
-            }
+            Animator.SetInteger(mControlKey, (int)Anim.Skill);
             mNextPattern = (Anim)Random.Range(1, 4);
-        });      
+        });
+
         BuffTotem.SetAreaEnterAction(o =>
         {
             if (o.TryGetComponent(out ICombatable combatable))
@@ -109,6 +106,16 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
                 combatable.Damaged(20f, gameObject);
             }
         });
+
+        //
+        mLightningTotems = new SpecialTotem[LIGHTNING_CNT];
+
+        for (int i = 0; i < LIGHTNING_CNT; i++)
+        {
+            mLightningTotems[i] = Instantiate(LightningTotem);
+            mLightningTotems[i].SetAreaEnterAction(o => GiveDmg(o, 20f));
+        }
+        //
 
         SwingArea.SetEnterAction(o =>
         {
@@ -211,9 +218,28 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         moveOverAction.Invoke();
     }
 
+    private IEnumerator SummonLightning()
+    {
+        DIRECTION9 startDIR = 
+            DIRECTION9.BOT_LEFT + Kimbokchi.Utility.LuckyNumber(0.5f, 0f, 0.5f);
+
+        for (int i = 0; i < 3; i++)
+        {
+            int direction = i;
+
+            if (startDIR.Equals(DIRECTION9.BOT_RIGHT))
+            {
+                direction *= -1;
+            }
+            mLightningTotems[i].CastSkill(Castle.Instance.GetMovePoint(startDIR + direction));
+
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
     private void SummonTotem()
     {
-        int random = Random.Range(0, 3);
+        int random = 2;
 
         DIRECTION9 playerDIR9 = mPlayer.GetDIRECTION9();
 
@@ -247,10 +273,10 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
                 break;
 
             case 2:
-                totem = LightningTotem;              
+                StartCoroutine(mESummonLightning = SummonLightning());              
                 break;
         }
-        totem.CastSkill(castPoint);
+        totem?.CastSkill(castPoint);
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
