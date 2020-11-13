@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SLightningTotem : MonoBehaviour
 {
+    public bool IsOver
+    { get; private set; }
+
     [SerializeField] private GameObject TotemUser;
     [SerializeField] private GameObject SpecialTotem;
 
@@ -15,6 +18,8 @@ public class SLightningTotem : MonoBehaviour
 
     public void Init()
     {
+        IsOver = false;
+
         void GiveDamage(GameObject target)
         {
             if (target.TryGetComponent(out ICombatable combatable)) {
@@ -25,6 +30,8 @@ public class SLightningTotem : MonoBehaviour
     }
     public void Cast(Vector2 castPoint)
     {
+        IsOver = false;
+
         transform.position = castPoint;
         SpecialTotem.SetActive(true);
 
@@ -33,7 +40,9 @@ public class SLightningTotem : MonoBehaviour
     private IEnumerator WaitSkillCasting()
     {
         yield return new WaitForSeconds(SkillCastingPoint);
-
         Lightning.gameObject.SetActive(true);
+
+        yield return new WaitWhile(() => Lightning.gameObject.activeSelf);
+        IsOver = true;
     }
 }

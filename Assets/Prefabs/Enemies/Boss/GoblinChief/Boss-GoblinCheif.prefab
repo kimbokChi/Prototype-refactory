@@ -81,7 +81,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3348873940667493075}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &6799819317604449100
 BoxCollider2D:
@@ -194,6 +194,7 @@ Transform:
   - {fileID: 3348873941434647165}
   - {fileID: 8294423898542774757}
   - {fileID: 6739724913507682519}
+  - {fileID: 144322923042772220}
   - {fileID: 7431083977539583740}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -284,7 +285,7 @@ MonoBehaviour:
   Animator: {fileID: 3348873940667493074}
   BuffTotem: {fileID: 7814858912834753310}
   BombTotem: {fileID: 7140778956539723621}
-  LightningTotem: {fileID: 8860151316184848217}
+  LightningTotemSkill: {fileID: 8777042241813127792}
   DashCollider: {fileID: 3764260241588451071}
   SwingArea: {fileID: 4257588120642184678}
   Goblins:
@@ -351,6 +352,50 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1 &6703213330863355055
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 144322923042772220}
+  - component: {fileID: 8777042241813127792}
+  m_Layer: 0
+  m_Name: SpecialTotem-Lightning-Skill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &144322923042772220
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6703213330863355055}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3348873940667493075}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8777042241813127792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6703213330863355055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1ea27f3c880b0e44a23636d8c250b17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SLightningTotem: {fileID: 8860151316184848217}
 --- !u!1 &8688207286930749963
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,15 +659,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 054a7df892c9b4f4f8ebc3196b14e39d, type: 3}
---- !u!1 &3348873940504864158 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1857420248894728106, guid: 054a7df892c9b4f4f8ebc3196b14e39d,
-    type: 3}
-  m_PrefabInstance: {fileID: 4017060213057520180}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3348873940504864160 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1857420248894728084, guid: 054a7df892c9b4f4f8ebc3196b14e39d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4017060213057520180}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3348873940504864158 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1857420248894728106, guid: 054a7df892c9b4f4f8ebc3196b14e39d,
     type: 3}
   m_PrefabInstance: {fileID: 4017060213057520180}
   m_PrefabAsset: {fileID: 0}
@@ -711,12 +756,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 968101930594537488674a602fbbcdad, type: 3}
---- !u!1 &3348873941434647163 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4758725759963155998, guid: 968101930594537488674a602fbbcdad,
-    type: 3}
-  m_PrefabInstance: {fileID: 7814858913531858021}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6323124978121557440 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4301980446789028261, guid: 968101930594537488674a602fbbcdad,
@@ -744,6 +783,12 @@ MonoBehaviour:
 --- !u!4 &3348873941434647165 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4758725759963155992, guid: 968101930594537488674a602fbbcdad,
+    type: 3}
+  m_PrefabInstance: {fileID: 7814858913531858021}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3348873941434647163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4758725759963155998, guid: 968101930594537488674a602fbbcdad,
     type: 3}
   m_PrefabInstance: {fileID: 7814858913531858021}
   m_PrefabAsset: {fileID: 0}
@@ -912,12 +957,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fca10bb003edcee45984e9fe39b25b6c, type: 3}
---- !u!4 &5744302149157510345 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4415065367250870137, guid: fca10bb003edcee45984e9fe39b25b6c,
-    type: 3}
-  m_PrefabInstance: {fileID: 8282870481461560240}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8282870482350299623 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 890968663, guid: fca10bb003edcee45984e9fe39b25b6c,
@@ -930,3 +969,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162e500ee18349741bd81abe711966fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &5744302149157510345 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4415065367250870137, guid: fca10bb003edcee45984e9fe39b25b6c,
+    type: 3}
+  m_PrefabInstance: {fileID: 8282870481461560240}
+  m_PrefabAsset: {fileID: 0}

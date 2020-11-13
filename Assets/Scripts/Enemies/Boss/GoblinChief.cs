@@ -20,10 +20,10 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     [Header("Totem Skill Info")]
     [SerializeField] private SpecialTotem BuffTotem;
     [SerializeField] private SBombTotem BombTotem;
-    [SerializeField] private SLightningTotem LightningTotem;
+    [SerializeField] private SLightningTotemSkill LightningTotemSkill;
 
     private Queue<SBombTotem> mBombTotems;
-    private SLightningTotem[] mLightningTotems;
+    private Queue<SLightningTotemSkill> mLightningSkills;
 
     [Header("Swing Skill Info")]
     [SerializeField] private Collider2D DashCollider;
@@ -66,13 +66,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
-        void GiveDmg(GameObject target, float damage) 
-        {
-            if (target.TryGetComponent(out ICombatable combatable))
-            {
-                combatable.Damaged(damage, gameObject);
-            }
-        }
         HealthBarPool.Instance.UsingHealthBar(-2.2f, transform, AbilityTable);
 
         BombTotem.transform.parent = null;
@@ -119,20 +112,20 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
                     buffLib.GetSlowBUFF(BUFF.SPEEDUP, 3, 5f, ability));
             }
         });
-        //
-        mLightningTotems = new SLightningTotem[LIGHTNING_CNT];
 
-        for (int i = 0; i < LIGHTNING_CNT; i++)
-        {
-            mLightningTotems[i] = Instantiate(LightningTotem);
-            mLightningTotems[i].Init();
-        }
-        //
-        mBombTotems = new Queue<SBombTotem>();
+        #region Totem Skill Init
+        mLightningSkills 
+            = new Queue<SLightningTotemSkill>();
+
+        for (int i = 0; i < 2; i++)
+            AddLightningSkill();
+
+        mBombTotems 
+            = new Queue<SBombTotem>();
 
         for (int i = 0; i < 2; i++)
             AddBombTotem();
-        //
+        #endregion
 
         SwingArea.SetEnterAction(o =>
         {
@@ -234,26 +227,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         }
         moveOverAction.Invoke();
     }
-
-    private IEnumerator SummonLightning()
-    {
-        DIRECTION9 startDIR = 
-            DIRECTION9.BOT_LEFT + Kimbokchi.Utility.LuckyNumber(0.5f, 0f, 0.5f);
-
-        for (int i = 0; i < 3; i++)
-        {
-            int direction = i;
-
-            if (startDIR.Equals(DIRECTION9.BOT_RIGHT))
-            {
-                direction *= -1;
-            }
-            mLightningTotems[i].Cast(Castle.Instance.GetMovePoint(startDIR + direction));
-
-            yield return new WaitForSeconds(1f);
-        }
-        mAttackPeriod.AttackActionOver();
-    }
     private IEnumerator SummonBuff(Vector2 castPoint)
     {
         yield return new WaitForSeconds(BuffTotem.EffectPlayTime);
@@ -316,7 +289,11 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
                 break;
 
             case 2:
-                StartCoroutine(SummonLightning());              
+                if (mLightningSkills.Count == 0)
+                {
+                    AddLightningSkill();
+                }
+                mLightningSkills.Dequeue().Cast();
                 break;
         }
         totem?.CastSkill(castPoint);
@@ -368,5 +345,16 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
             mBombTotems.Enqueue(o);
         };
         mBombTotems.Enqueue(bombTotem);
+    }
+    private void AddLightningSkill()
+    {
+        var lightning = Instantiate(LightningTotemSkill);
+
+        lightning.Init();
+        lightning.CastOverAction = o =>
+        {
+            mLightningSkills.Enqueue(o);
+        };
+        mLightningSkills.Enqueue(lightning);
     }
 }
