@@ -120,9 +120,9 @@ MonoBehaviour:
   TotemPlayTime: 1.5
   TotemEffectPlayPoint: 0.917
   TotemEffectPlayTime: 0
-  Totem: {fileID: 0}
-  TotemEffect: {fileID: 0}
-  TotemSkillArea: {fileID: 0}
+  Totem: {fileID: 4758725759963155998}
+  TotemEffect: {fileID: 4758725759963155998}
+  TotemSkillArea: {fileID: 4301980446789028261}
 --- !u!114 &4301980446789028261
 MonoBehaviour:
   m_ObjectHideFlags: 0
