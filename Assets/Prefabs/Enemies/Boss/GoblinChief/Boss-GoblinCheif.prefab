@@ -145,13 +145,13 @@ MonoBehaviour:
   AreaCollider: {fileID: 6799819317604449100}
   mSenseTags:
   - Player
---- !u!114 &4610980246292817532
+--- !u!114 &489727293874272768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3348873940504864158}
+  m_GameObject: {fileID: 3348873940660738733}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f266e01a59839e04dad468d6ee4cf16d, type: 3}
@@ -283,7 +283,7 @@ MonoBehaviour:
   AbilityTable: {fileID: 6103993616405179631}
   Animator: {fileID: 3348873940667493074}
   BuffTotem: {fileID: 7814858912834753310}
-  BombTotem: {fileID: 2038076205681641599}
+  BombTotem: {fileID: 7140778956539723621}
   LightningTotem: {fileID: 8860151316184848217}
   DashCollider: {fileID: 3764260241588451071}
   SwingArea: {fileID: 4257588120642184678}
@@ -405,7 +405,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8294423898542774757}
-  - component: {fileID: 2038076205681641599}
+  - component: {fileID: 7140778956539723621}
   m_Layer: 0
   m_Name: SpecialTotem-Bomb
   m_TagString: Untagged
@@ -429,7 +429,7 @@ Transform:
   m_Father: {fileID: 3348873940667493075}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2038076205681641599
+--- !u!114 &7140778956539723621
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -438,15 +438,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8747299141162099484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d613bffe19fd3304291b9e6bc684fb66, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d394f71e8cbc734f8b55fb5fd04b369, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TotemPlayTime: 1.5
-  TotemEffectPlayPoint: 1.163
-  TotemEffectPlayTime: 0.833
-  Totem: {fileID: 3348873940660738733}
-  TotemEffect: {fileID: 5744302149157510347}
-  TotemSkillArea: {fileID: 8282870482350299623}
+  TotemUser: {fileID: 3348873940667493073}
+  SpecialTotem: {fileID: 3348873940660738733}
+  SkillCastingPoint: 1.163
+  SkillCastingOffset: 0.1
+  SkillAnimationTime: 0.833
+  Damage: 15
+  BombArea: {fileID: 8282870482350299623}
 --- !u!1001 &2306550635745348798
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -611,11 +612,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpecialTotem-Lightning
       objectReference: {fileID: 0}
-    - target: {fileID: 1857420248894728106, guid: 054a7df892c9b4f4f8ebc3196b14e39d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 054a7df892c9b4f4f8ebc3196b14e39d, type: 3}
 --- !u!1 &3348873940504864158 stripped
@@ -715,6 +711,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 968101930594537488674a602fbbcdad, type: 3}
+--- !u!1 &3348873941434647163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4758725759963155998, guid: 968101930594537488674a602fbbcdad,
+    type: 3}
+  m_PrefabInstance: {fileID: 7814858913531858021}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6323124978121557440 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4301980446789028261, guid: 968101930594537488674a602fbbcdad,
@@ -742,12 +744,6 @@ MonoBehaviour:
 --- !u!4 &3348873941434647165 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4758725759963155992, guid: 968101930594537488674a602fbbcdad,
-    type: 3}
-  m_PrefabInstance: {fileID: 7814858913531858021}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3348873941434647163 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4758725759963155998, guid: 968101930594537488674a602fbbcdad,
     type: 3}
   m_PrefabInstance: {fileID: 7814858913531858021}
   m_PrefabAsset: {fileID: 0}
@@ -825,15 +821,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc414ba90a8591f428815883befa6220, type: 3}
---- !u!1 &3348873940660738733 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4854108033352606495, guid: fc414ba90a8591f428815883befa6220,
-    type: 3}
-  m_PrefabInstance: {fileID: 7864646775540251058}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3348873940660738735 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4854108033352606493, guid: fc414ba90a8591f428815883befa6220,
+    type: 3}
+  m_PrefabInstance: {fileID: 7864646775540251058}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3348873940660738733 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4854108033352606495, guid: fc414ba90a8591f428815883befa6220,
     type: 3}
   m_PrefabInstance: {fileID: 7864646775540251058}
   m_PrefabAsset: {fileID: 0}
@@ -928,15 +924,9 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 8282870481461560240}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5744302149157510347}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 162e500ee18349741bd81abe711966fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &5744302149157510347 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4415065367250870139, guid: fca10bb003edcee45984e9fe39b25b6c,
-    type: 3}
-  m_PrefabInstance: {fileID: 8282870481461560240}
-  m_PrefabAsset: {fileID: 0}

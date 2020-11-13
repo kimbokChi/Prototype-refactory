@@ -19,7 +19,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     [Header("Totem Skill Info")]
     [SerializeField] private SpecialTotem BuffTotem;
-    [SerializeField] private SpecialTotem BombTotem;
+    [SerializeField] private SBombTotem BombTotem;
     [SerializeField] private SLightningTotem LightningTotem;
 
     private SLightningTotem[] mLightningTotems;
@@ -77,6 +77,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         BombTotem.transform.parent = null;
         BuffTotem.transform.parent = null;
 
+        BombTotem.Init();
+
         mNextPattern = (Anim)Random.Range(2, 4);
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
@@ -116,14 +118,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
                     buffLib.GetSlowBUFF(BUFF.SPEEDUP, 3, 5f, ability));
             }
         });
-        BombTotem.SetAreaEnterAction(o =>
-        {
-            if (o.TryGetComponent(out ICombatable combatable))
-            {
-                combatable.Damaged(20f, gameObject);
-            }
-        });
-
         //
         mLightningTotems = new SLightningTotem[LIGHTNING_CNT];
 
@@ -254,20 +248,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         }
         mAttackPeriod.AttackActionOver();
     }
-    private IEnumerator SummonBomb(Vector2 castPoint)
-    {
-        BombTotem.CastSkill(castPoint);
-        yield return new WaitForSeconds(BombTotem.PlayTime);
-
-        for (int i = 0; i < 4; i++)
-        {
-            yield return new WaitForSeconds(0.1f);
-            BombTotem.Effect.SetActive(true);
-
-            yield return new WaitForSeconds(BombTotem.EffectPlayTime);
-        }
-        mAttackPeriod.AttackActionOver();
-    }
     private IEnumerator SummonBuff(Vector2 castPoint)
     {
         yield return new WaitForSeconds(BuffTotem.EffectPlayTime);
@@ -302,7 +282,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
         switch (random) {
             case 0:
-                StartCoroutine(SummonBomb(castPoint));
+                BombTotem.Cast(castPoint);
                 break;
 
             case 1:
