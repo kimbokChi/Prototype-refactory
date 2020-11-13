@@ -19,10 +19,10 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     [Header("Totem Skill Info")]
     [SerializeField] private SBuffTotem BuffTotem;
-    [SerializeField] private SBombTotem BombTotem;
+    [SerializeField] private SBombTotemSkill BombTotemSkill;
     [SerializeField] private SLightningTotemSkill LightningTotemSkill;
 
-    private Queue<SBombTotem> mBombTotems;
+    private Queue<SBombTotemSkill> mBombTotemSkills;
     private Queue<SBuffTotem> mBuffTotems;
     private Queue<SLightningTotemSkill> mLightningSkills;
 
@@ -69,17 +69,11 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     {
         HealthBarPool.Instance.UsingHealthBar(-2.2f, transform, AbilityTable);
 
-        BombTotem.transform.parent = null;
-        BuffTotem.transform.parent = null;
-
-        BombTotem.Init();
-
         mNextPattern = (Anim)Random.Range(2, 4);
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
         mAttackPeriod.SetAction(Period.Attack, () =>
         {
-            Animator.SetInteger(mControlKey, (int)Anim.Skill);
             switch (mNextPattern)
             {
                 case Anim.Skill:
@@ -102,7 +96,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
         // ~~~ Totem Skill Init ~~~
 
-        mBombTotems = new Queue<SBombTotem>();
+        mBombTotemSkills = new Queue<SBombTotemSkill>();
         mBuffTotems = new Queue<SBuffTotem>();
 
         mLightningSkills = new Queue<SLightningTotemSkill>();
@@ -110,7 +104,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         for (int i = 0; i < 2; i++)
         {
             AddBuffTotem();
-            AddBombTotem();
 
             AddLightningSkill();
         }
@@ -229,11 +222,11 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
         switch (random) {
             case 0:
-                if (mBombTotems.Count == 0) 
+                if (mBombTotemSkills.Count == 0) 
                 {
-                    AddBombTotem();
+                    AddBombSkill();
                 }
-                mBombTotems.Dequeue().Cast(castPoint);
+                mBombTotemSkills.Dequeue().Cast();
                 break;
 
             case 1:
@@ -291,16 +284,16 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
             }
         }
     }
-    private void AddBombTotem()
+    private void AddBombSkill()
     {
-        var bombTotem = Instantiate(BombTotem);
+        var bombTotem = Instantiate(BombTotemSkill);
 
-        bombTotem.Init();
+        bombTotem.Init(mPlayer);
         bombTotem.CastOverAction = o =>
         { 
-            mBombTotems.Enqueue(o);
+            mBombTotemSkills.Enqueue(o);
         };
-        mBombTotems.Enqueue(bombTotem);
+        mBombTotemSkills.Enqueue(bombTotem);
     }
     private void AddBuffTotem()
     {

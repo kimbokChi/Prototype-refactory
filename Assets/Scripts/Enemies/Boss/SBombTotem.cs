@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class SBombTotem : MonoBehaviour
 {
-    public Action<SBombTotem> CastOverAction;
+    public bool IsOver
+    { get; private set; }
 
     [SerializeField] private GameObject TotemUser;
     [SerializeField] private GameObject SpecialTotem;
@@ -21,6 +22,8 @@ public class SBombTotem : MonoBehaviour
 
     public void Init()
     {
+        IsOver = false;
+
         void GiveDamage(GameObject target)
         {
             if (target.TryGetComponent(out ICombatable combatable))
@@ -32,6 +35,8 @@ public class SBombTotem : MonoBehaviour
     }
     public void Cast(Vector2 castPoint)
     {
+        IsOver = false;
+
         transform.position = castPoint;
         SpecialTotem.SetActive(true);
 
@@ -39,16 +44,10 @@ public class SBombTotem : MonoBehaviour
     }
     private IEnumerator SkillCasting()
     {
-        yield return new 
-            WaitForSeconds(SkillCastingPoint);
+        yield return new WaitForSeconds(SkillCastingPoint);
+        BombArea.gameObject.SetActive(true);
 
-        for (int i = 0; i < 5; i++)
-        {
-            yield return new WaitForSeconds(SkillCastingOffset);
-
-            BombArea.gameObject.SetActive(true);
-            yield return new WaitForSeconds(SkillAnimationTime);
-        }
-        CastOverAction?.Invoke(this);
+        yield return new WaitForSeconds(SkillAnimationTime);
+        IsOver = true;
     }
 }
