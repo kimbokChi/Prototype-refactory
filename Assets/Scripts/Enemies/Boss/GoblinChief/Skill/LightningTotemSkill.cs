@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SLightningTotemSkill : MonoBehaviour
+public class LightningTotemSkill : MonoBehaviour
 {
-    public Action<SLightningTotemSkill> CastOverAction;
+    public Action<LightningTotemSkill> CastOverAction;
 
     [SerializeField] 
-    private SLightningTotem   SLightningTotem;
-    private SLightningTotem[] mLightningTotems;
+    private SpecialLightningTotem   SLightningTotem;
+    private SpecialLightningTotem[] mLightningTotems;
 
     private IEnumerator mESkillCasting;
 
     public void Init()
     {
-        mLightningTotems = new SLightningTotem[3];
+        mLightningTotems = new SpecialLightningTotem[3];
 
         for (int i = 0; i < 3; i++)
         {

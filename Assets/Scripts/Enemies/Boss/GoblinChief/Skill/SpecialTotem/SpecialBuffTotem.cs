@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SBuffTotem : MonoBehaviour
+public class SpecialBuffTotem : MonoBehaviour
 {
-    public Action<SBuffTotem> CastOverAction;
+    public Action<SpecialBuffTotem> CastOverAction;
 
     [SerializeField] private Area BuffArea;
 

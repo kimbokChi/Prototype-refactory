@@ -3,19 +3,19 @@ using System.Linq;
 using System.Collections;
 using UnityEngine;
 
-public class SBombTotemSkill : MonoBehaviour
+public class BombTotemSkill : MonoBehaviour
 {
-    public Action<SBombTotemSkill> CastOverAction;
+    public Action<BombTotemSkill> CastOverAction;
 
     [SerializeField] 
-    private SBombTotem   SBombTotem;
-    private SBombTotem[] SBombTotems;
+    private SpecialBombTotem   SBombTotem;
+    private SpecialBombTotem[] SBombTotems;
 
     private Player mPlayer;
 
     public void Init(Player player)
     {
-        SBombTotems = new SBombTotem[3];
+        SBombTotems = new SpecialBombTotem[3];
 
         for (int i = 0; i < SBombTotems.Length; i++)
         {

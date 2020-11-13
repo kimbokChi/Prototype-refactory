@@ -18,13 +18,13 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     [SerializeField] private Animator Animator;
 
     [Header("Totem Skill Info")]
-    [SerializeField] private SBuffTotem BuffTotem;
-    [SerializeField] private SBombTotemSkill BombTotemSkill;
-    [SerializeField] private SLightningTotemSkill LightningTotemSkill;
+    [SerializeField] private SpecialBuffTotem BuffTotem;
+    [SerializeField] private BombTotemSkill BombTotemSkill;
+    [SerializeField] private LightningTotemSkill LightningTotemSkill;
 
-    private Queue<SBombTotemSkill> mBombTotemSkills;
-    private Queue<SBuffTotem> mBuffTotems;
-    private Queue<SLightningTotemSkill> mLightningSkills;
+    private Queue <SpecialBuffTotem> mBuffTotemPool;
+    private Queue<BombTotemSkill> mBombSkillPool;
+    private Queue<LightningTotemSkill> mLightningSkillPool;
 
     [Header("Swing Skill Info")]
     [SerializeField] private Collider2D DashCollider;
@@ -96,10 +96,10 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
         // ~~~ Totem Skill Init ~~~
 
-        mBombTotemSkills = new Queue<SBombTotemSkill>();
-        mBuffTotems = new Queue<SBuffTotem>();
+        mBombSkillPool = new Queue<BombTotemSkill>();
+        mBuffTotemPool = new Queue<SpecialBuffTotem>();
 
-        mLightningSkills = new Queue<SLightningTotemSkill>();
+        mLightningSkillPool = new Queue<LightningTotemSkill>();
 
         for (int i = 0; i < 2; i++)
         {
@@ -218,34 +218,31 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         Vector2 castPoint = new Vector2
             (mPlayer.transform.position.x, Castle.Instance.GetMovePoint(playerDIR9).y + 1.1f);
 
-        SpecialTotem totem = null;
-
         switch (random) {
             case 0:
-                if (mBombTotemSkills.Count == 0) 
+                if (mBombSkillPool.Count == 0) 
                 {
                     AddBombSkill();
                 }
-                mBombTotemSkills.Dequeue().Cast();
+                mBombSkillPool.Dequeue().Cast();
                 break;
 
             case 1:
-                if (mBuffTotems.Count == 0)
+                if (mBuffTotemPool.Count == 0)
                 {
                     AddBuffTotem();
                 }
-                mBuffTotems.Dequeue().Cast(Castle.Instance.GetPlayerRoom(), castPoint);
+                mBuffTotemPool.Dequeue().Cast(Castle.Instance.GetPlayerRoom(), castPoint);
                 break;
 
             case 2:
-                if (mLightningSkills.Count == 0)
+                if (mLightningSkillPool.Count == 0)
                 {
                     AddLightningSkill();
                 }
-                mLightningSkills.Dequeue().Cast();
+                mLightningSkillPool.Dequeue().Cast();
                 break;
         }
-        totem?.CastSkill(castPoint);
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
@@ -291,9 +288,9 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         bombTotem.Init(mPlayer);
         bombTotem.CastOverAction = o =>
         { 
-            mBombTotemSkills.Enqueue(o);
+            mBombSkillPool.Enqueue(o);
         };
-        mBombTotemSkills.Enqueue(bombTotem);
+        mBombSkillPool.Enqueue(bombTotem);
     }
     private void AddBuffTotem()
     {
@@ -302,9 +299,9 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         buffTotem.Init();
         buffTotem.CastOverAction = o =>
         {
-            mBuffTotems.Enqueue(o);
+            mBuffTotemPool.Enqueue(o);
         };
-        mBuffTotems.Enqueue(buffTotem);
+        mBuffTotemPool.Enqueue(buffTotem);
     }
     private void AddLightningSkill()
     {
@@ -313,8 +310,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         lightning.Init();
         lightning.CastOverAction = o =>
         {
-            mLightningSkills.Enqueue(o);
+            mLightningSkillPool.Enqueue(o);
         };
-        mLightningSkills.Enqueue(lightning);
+        mLightningSkillPool.Enqueue(lightning);
     }
 }

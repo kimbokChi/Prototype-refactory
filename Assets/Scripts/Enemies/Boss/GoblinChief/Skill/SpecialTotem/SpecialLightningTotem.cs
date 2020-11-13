@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SLightningTotem : MonoBehaviour
+public class SpecialLightningTotem : MonoBehaviour
 {
     public bool IsOver
     { get; private set; }

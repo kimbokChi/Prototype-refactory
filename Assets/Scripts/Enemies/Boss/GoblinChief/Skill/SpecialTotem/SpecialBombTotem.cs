@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SBombTotem : MonoBehaviour
+public class SpecialBombTotem : MonoBehaviour
 {
     public bool IsOver
     { get; private set; }
