@@ -16,6 +16,8 @@ public class SBuffTotem : MonoBehaviour
     [Header("Summon Enemy Info")]
     [SerializeField] private GameObject[] SummonEnemies;
 
+    private Room mSummonRoom;
+
     public void Init()
     {
         BuffArea.SetEnterAction(o => {
@@ -33,25 +35,25 @@ public class SBuffTotem : MonoBehaviour
             }
         });
     }
-    public void Cast(Vector2 castPoint)
+    public void Cast(Room summonRoom, Vector2 castPoint)
     {
+        mSummonRoom = summonRoom;
         transform.position = castPoint;
+
         gameObject.SetActive(true);
     }
 
     // 애니메이션 이벤트로 실행될 함수
     private void SummonEnemy()
     {
-        Room room = Castle.Instance.GetPlayerRoom();
-
         for (int i = -1; i < 2; i++)
         {
             int index = UnityEngine.Random.Range(0, SummonEnemies.Length);
-            var enemy = Instantiate(SummonEnemies[index], room.transform);
+            var enemy = Instantiate(SummonEnemies[index], mSummonRoom.transform);
 
             if (enemy.TryGetComponent(out IObject iobject))
             {
-                room.AddIObject(iobject);
+                mSummonRoom.AddIObject(iobject);
             }
             enemy.transform.localPosition += Vector3.right * transform.position.x;
             enemy.transform.localPosition += Vector3.left  * i;
@@ -61,6 +63,8 @@ public class SBuffTotem : MonoBehaviour
     // (애니메이션이 끝나는 타이밍에)
     private void AnimationPlayOver()
     {
+        gameObject.SetActive(false);
+
         CastOverAction?.Invoke(this);
     }
 }

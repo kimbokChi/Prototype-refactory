@@ -232,7 +232,7 @@ MonoBehaviour:
   LPosition3: 0
   AbilityTable: {fileID: 6103993616405179631}
   Animator: {fileID: 3348873940667493074}
-  BuffTotem: {fileID: 7814858912834753310}
+  BuffTotem: {fileID: 7790324935899168979}
   BombTotem: {fileID: 7140778956539723621}
   LightningTotemSkill: {fileID: 8777042241813127792}
   DashCollider: {fileID: 3764260241588451071}
@@ -534,16 +534,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162e500ee18349741bd81abe711966fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7814858912834753310 stripped
+--- !u!114 &7790324935899168979 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1536368507, guid: 968101930594537488674a602fbbcdad,
+  m_CorrespondingSourceObject: {fileID: 31313575762971830, guid: 968101930594537488674a602fbbcdad,
     type: 3}
   m_PrefabInstance: {fileID: 7814858913531858021}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d613bffe19fd3304291b9e6bc684fb66, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a57423d17c6ca04b8a629da4936db74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &7864646775540251058

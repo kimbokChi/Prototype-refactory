@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4758725759963155992}
   - component: {fileID: 4758725759963155999}
   - component: {fileID: 4758725759963155993}
-  - component: {fileID: 1536368507}
+  - component: {fileID: 31313575762971830}
   - component: {fileID: 4301980446789028261}
   - component: {fileID: 296569607505595602}
   - component: {fileID: 6461712062319932136}
@@ -105,7 +105,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1536368507
+--- !u!114 &31313575762971830
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -114,15 +114,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 4758725759963155998}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d613bffe19fd3304291b9e6bc684fb66, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a57423d17c6ca04b8a629da4936db74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TotemPlayTime: 1.5
-  TotemEffectPlayPoint: 0.917
-  TotemEffectPlayTime: 0
-  Totem: {fileID: 4758725759963155998}
-  TotemEffect: {fileID: 4758725759963155998}
-  TotemSkillArea: {fileID: 4301980446789028261}
+  BuffArea: {fileID: 4301980446789028261}
+  BuffLevel: 3
+  BuffDurate: 5
+  SummonEnemies:
+  - {fileID: 4034151817204670685, guid: 71a25ae794219df45874437a106674f8, type: 3}
+  - {fileID: 7274113786047085156, guid: 6461d15439da6de40909f1dbcfdfd8f9, type: 3}
+  - {fileID: 7556299908380827411, guid: b8ad36e6c99751e4ebda217d07ef7af3, type: 3}
+  - {fileID: 7939119612046069814, guid: 89b1a750ff069e1498b4ff1315efc0bf, type: 3}
 --- !u!114 &4301980446789028261
 MonoBehaviour:
   m_ObjectHideFlags: 0
