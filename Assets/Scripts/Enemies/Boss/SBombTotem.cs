@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SBombTotem : MonoBehaviour
 {
+    public Action<SBombTotem> CastOverAction;
+
     [SerializeField] private GameObject TotemUser;
     [SerializeField] private GameObject SpecialTotem;
 
@@ -46,5 +49,6 @@ public class SBombTotem : MonoBehaviour
             BombArea.gameObject.SetActive(true);
             yield return new WaitForSeconds(SkillAnimationTime);
         }
+        CastOverAction?.Invoke(this);
     }
 }

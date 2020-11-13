@@ -22,6 +22,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     [SerializeField] private SBombTotem BombTotem;
     [SerializeField] private SLightningTotem LightningTotem;
 
+    private Queue<SBombTotem> mBombTotems;
     private SLightningTotem[] mLightningTotems;
 
     [Header("Swing Skill Info")]
@@ -126,6 +127,11 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
             mLightningTotems[i] = Instantiate(LightningTotem);
             mLightningTotems[i].Init();
         }
+        //
+        mBombTotems = new Queue<SBombTotem>();
+
+        for (int i = 0; i < 2; i++)
+            AddBombTotem();
         //
 
         SwingArea.SetEnterAction(o =>
@@ -282,7 +288,11 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
         switch (random) {
             case 0:
-                BombTotem.Cast(castPoint);
+                if (mBombTotems.Count == 0) 
+                {
+                    AddBombTotem();
+                }
+                mBombTotems.Dequeue().Cast(castPoint);
                 break;
 
             case 1:
@@ -347,5 +357,16 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
                 MainCamera.Instance.Shake(0.5f, 0.5f, true);
             }
         }
+    }
+    private void AddBombTotem()
+    {
+        var bombTotem = Instantiate(BombTotem);
+
+        bombTotem.Init();
+        bombTotem.CastOverAction = o =>
+        { 
+            mBombTotems.Enqueue(o);
+        };
+        mBombTotems.Enqueue(bombTotem);
     }
 }
