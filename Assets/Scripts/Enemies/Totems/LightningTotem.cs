@@ -44,7 +44,7 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     {
         mPool.Update();
 
-        if (mAttackPeriod.IsProgressing())
+        if (!mAttackPeriod.IsProgressing())
         {
             if (mPlayer != null)
             {
