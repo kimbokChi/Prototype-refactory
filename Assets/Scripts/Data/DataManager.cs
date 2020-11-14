@@ -11,7 +11,6 @@ using System.Threading;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4.Data;
 using Google.Apis.Util.Store;
-using UnityScript.Steps;
 using System.Text;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -206,6 +205,7 @@ public class DataManager : Singleton<DataManager>
     }
 }
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(DataManager))]
 public class DataManagerInit : Editor
 {
@@ -224,3 +224,4 @@ public class DataManagerInit : Editor
         }
     }
 }
+#endif

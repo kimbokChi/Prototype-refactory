@@ -73,6 +73,20 @@ public class Castle : Singleton<Castle>
             return true;
         }
     }
+    // === Cheat ===
+    public void SetPlayerFloor(int floor)
+    {
+        mPlayerFloor.Disable();
+        mPlayerFloor = mFloors[floor - 1];
+
+        mPlayer.transform.position = 
+            mPlayerFloor.GetMovePoints(mPlayer.GetLPOSITION3())[(int)mPlayer.GetTPOSITION3()];
+
+        RenewPlayerFloor();
+
+        MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
+    }
+    // === Cheat ===
 
     public bool CanPrevPoint()
     {

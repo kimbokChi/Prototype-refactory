@@ -13,14 +13,15 @@ GameObject:
   - component: {fileID: 2775186007123875758}
   - component: {fileID: 1609840868}
   - component: {fileID: 1609840867}
-  - component: {fileID: 1609840869}
+  - component: {fileID: 3674725614881504723}
+  - component: {fileID: 1639159849003166112}
   m_Layer: 0
   m_Name: SpecialTotem-Lightning-Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2775186007123875759
 Transform:
   m_ObjectHideFlags: 0
@@ -29,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2775186007123875753}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.7, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 4.75, z: 0}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -151,7 +152,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 12}
   m_EdgeRadius: 0
---- !u!114 &1609840869
+--- !u!114 &3674725614881504723
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,7 +161,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 2775186007123875753}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c781b447b9566c4c8e79afe4934b1f7, type: 3}
+  m_Script: {fileID: 11500000, guid: 162e500ee18349741bd81abe711966fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetTag: Player
+  AreaCollider: {fileID: 1609840867}
+  mSenseTags:
+  - Player
+--- !u!114 &1639159849003166112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2775186007123875753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f266e01a59839e04dad468d6ee4cf16d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

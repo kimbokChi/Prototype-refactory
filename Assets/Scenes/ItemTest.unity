@@ -188,6 +188,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BombTotem
       objectReference: {fileID: 0}
+    - target: {fileID: 1309640331586953155, guid: 87394f133f2dc134ea48ee81b4ac18e2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87394f133f2dc134ea48ee81b4ac18e2, type: 3}
 --- !u!1 &240699245
@@ -578,6 +583,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoblinShaman
       objectReference: {fileID: 0}
+    - target: {fileID: 7939119612046069814, guid: 89b1a750ff069e1498b4ff1315efc0bf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89b1a750ff069e1498b4ff1315efc0bf, type: 3}
 --- !u!1001 &628433357
@@ -646,6 +656,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5193492846020794352, guid: 8437aee243bc2e14fa012bedac0bfb41,
+        type: 3}
+      propertyPath: mNextPattern
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8437aee243bc2e14fa012bedac0bfb41, type: 3}
@@ -725,7 +740,7 @@ PrefabInstance:
     - target: {fileID: 7556299908380827411, guid: b8ad36e6c99751e4ebda217d07ef7af3,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ad36e6c99751e4ebda217d07ef7af3, type: 3}
@@ -1047,7 +1062,7 @@ PrefabInstance:
     - target: {fileID: 7556299908380827411, guid: b8ad36e6c99751e4ebda217d07ef7af3,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ad36e6c99751e4ebda217d07ef7af3, type: 3}
@@ -1307,7 +1322,7 @@ PrefabInstance:
     - target: {fileID: 7556299908380827411, guid: b8ad36e6c99751e4ebda217d07ef7af3,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8ad36e6c99751e4ebda217d07ef7af3, type: 3}
@@ -1322,6 +1337,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BuffTotem
+      objectReference: {fileID: 0}
+    - target: {fileID: 53926453361515090, guid: 01e7e0970172df249b40d3ba02fbcfa4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 53926453361515180, guid: 01e7e0970172df249b40d3ba02fbcfa4,
         type: 3}
@@ -1397,6 +1417,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2076452373395464385, guid: cbeae6032480ceb48a67879a7f9a5e28,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2076452373395464386, guid: cbeae6032480ceb48a67879a7f9a5e28,
         type: 3}
       propertyPath: m_LocalPosition.y

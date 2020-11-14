@@ -32,6 +32,11 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
         {
             AfterImage.SetActive(false);
 
+            if (mEDash != null) 
+            {
+                StopCoroutine(mEDash); 
+                              mEDash = null;
+            }
             mAttackPeriod.StopPeriod();
             EnemyAnimator.ChangeState(AnimState.Death);
 
@@ -48,7 +53,7 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
 
         mWaitForMoving = new Timer();
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, 0.25f);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
 
         mAttackPeriod.SetAction(Period.Begin, () => {
             EnemyAnimator.ChangeState(AnimState.AttackBegin);
@@ -57,16 +62,15 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
     }
     public override void IUpdate()
     {
-        if (IsLookAtPlayer())
+        if (!mAttackPeriod.IsProgressing())
         {
-            if (mEDash == null)
+            if (IsLookAtPlayer())
+            {
                 MoveStop();
 
-            mAttackPeriod.StartPeriod();
-        }
-        else if (mWaitForMoving.IsOver())
-        {
-            if (mEDash == null)
+                mAttackPeriod.StartPeriod();
+            }
+            else if (mWaitForMoving.IsOver())
             {
                 if (IsMoveFinish && !HasPlayerOnRange())
                 {
@@ -80,10 +84,10 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
                     MoveToPoint(movePoint);
                 }
             }
-        }
-        else
-        {
-            mWaitForMoving.Update();
+            else
+            {
+                mWaitForMoving.Update();
+            }
         }
     }
     protected override void MoveFinish()
@@ -125,6 +129,7 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
             force = Vector2.left * mMaxDashLength;
 
         dashPoint = (Vector2)transform.localPosition + force;
+        dashPoint.x.Range(-HalfMoveRangeX, HalfMoveRangeX);
 
         float lerpAmount = 0;
 
@@ -154,17 +159,22 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
         {
             case AnimState.Attack:
                 {
-                    AfterImage.SetActive(false);
                     AfterImage.transform.parent = transform;
 
+                    mAttackPeriod.AttackActionOver();
                     EnemyAnimator.ChangeState(AnimState.Idle);
                 }
                 break;
-
             case AnimState.Damaged:
-                EnemyAnimator.ChangeState(AnimState.Idle);
+                {
+                    if (IsMoving)
+                        EnemyAnimator.ChangeState(AnimState.Move);
+
+                    else
+                        EnemyAnimator.ChangeState(AnimState.Idle);
+                }
                 break;
-            
+
             case AnimState.Death:
                 gameObject.SetActive(false);
                 break;

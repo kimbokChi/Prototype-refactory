@@ -45,6 +45,9 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
     protected bool  IsMoveFinish => mIsMoveFinish;
     private   bool mIsMoveFinish = true;
 
+    protected bool IsMoving 
+    { get => mEMove != null; }
+
     protected float WaitMoveTime
     {
         get => Random.Range(WaitForMoveMin, WaitForMoveMax);

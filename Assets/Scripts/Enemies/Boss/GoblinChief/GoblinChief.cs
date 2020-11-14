@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
+public class GoblinChief : MonoBehaviour, IObject, ICombatable
 {
+    private const int LIGHTNING_CNT = 3;
+
     public enum Anim
     {
         Idle, Jump, Swing, Skill, Landing, End
@@ -16,9 +18,13 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
     [SerializeField] private Animator Animator;
 
     [Header("Totem Skill Info")]
-    [SerializeField] private SpecialTotem BuffTotem;
-    [SerializeField] private SpecialTotem BombTotem;
-    [SerializeField] private SpecialTotem LightningTotem;
+    [SerializeField] private SpecialBuffTotem BuffTotem;
+    [SerializeField] private BombTotemSkill BombTotemSkill;
+    [SerializeField] private LightningTotemSkill LightningTotemSkill;
+
+    private Queue <SpecialBuffTotem> mBuffTotemPool;
+    private Queue<BombTotemSkill> mBombSkillPool;
+    private Queue<LightningTotemSkill> mLightningSkillPool;
 
     [Header("Swing Skill Info")]
     [SerializeField] private Collider2D DashCollider;
@@ -31,21 +37,20 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
     private int mControlKey;
 
     private Anim mNextPattern;
-
+    private DIRECTION9 mJumpDIR9;
     private AttackPeriod mAttackPeriod;
 
     public AbilityTable GetAbility => AbilityTable;
 
-    public void AnimationPlayOver(AnimState anim)
+    private void ChangeIdleState()
     {
-        switch (anim)
-        {
-            case AnimState.Move: // Jump
-            case AnimState.Attack:  // Swing
-            case AnimState.Damaged: // SummonTotem
-                Animator.SetInteger(mControlKey, (int)Anim.Idle);
-                break;
-        }
+        Animator.SetInteger(mControlKey, (int)Anim.Idle);
+    }
+    private void PatternActionOver()
+    {
+        mAttackPeriod.AttackActionOver();
+
+        Animator.SetInteger(mControlKey, (int)Anim.Idle);
     }
 
     public void Damaged(float damage, GameObject attacker)
@@ -64,55 +69,45 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
     {
         HealthBarPool.Instance.UsingHealthBar(-2.2f, transform, AbilityTable);
 
-        mNextPattern = (Anim)Random.Range(1, (int)Anim.End);
+        mNextPattern = (Anim)Random.Range(2, 4);
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, 1.5f);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
         mAttackPeriod.SetAction(Period.Attack, () =>
         {
             switch (mNextPattern)
             {
                 case Anim.Skill:
-                    mAttackPeriod.SetAttackTime(1.083f);
                     Animator.SetInteger(mControlKey, (int)Anim.Skill);
                     break;
-
-                case Anim.Jump:
+            
                 case Anim.Swing:
-                    if (mPlayer.GetLPOSITION3() == LPosition3) 
+                    if (mPlayer.GetLPOSITION3() == LPosition3)
                     {
                         DashSwing();
-                        mAttackPeriod.SetAttackTime(1.4f);
                     }
                     else
                     {
-                        mAttackPeriod.SetAttackTime(2.4f);
                         Animator.SetInteger(mControlKey, (int)Anim.Jump);
                     }
                     break;
             }
-            mNextPattern = (Anim)Random.Range(0, (int)Anim.End);
+            mNextPattern = (Anim)Random.Range(2, 4);
         });
-        BuffTotem.SetAreaEnterAction(o =>
-        {
-            if (o.TryGetComponent(out ICombatable combatable))
-            {
-                var ability = combatable.GetAbility;
-                var buffLib = BuffLibrary.Instance;
 
-                combatable.CastBuff(BUFF.POWER_BOOST, 
-                    buffLib.GetSlowBUFF(BUFF.POWER_BOOST, 3, 5f, ability));
+        // ~~~ Totem Skill Init ~~~
 
-                combatable.CastBuff(BUFF.SPEEDUP, 
-                    buffLib.GetSlowBUFF(BUFF.SPEEDUP, 3, 5f, ability));
-            }
-        });
-        BombTotem.SetAreaEnterAction(o =>
+        mBombSkillPool = new Queue<BombTotemSkill>();
+        mBuffTotemPool = new Queue<SpecialBuffTotem>();
+
+        mLightningSkillPool = new Queue<LightningTotemSkill>();
+
+        for (int i = 0; i < 2; i++)
         {
-            if (o.TryGetComponent(out ICombatable combatable))
-            {
-                combatable.Damaged(20f, gameObject);
-            }
-        });
+            AddBuffTotem();
+
+            AddLightningSkill();
+        }
+        // ~~~ Totem Skill Init ~~~
 
         SwingArea.SetEnterAction(o =>
         {
@@ -126,13 +121,41 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     public void IUpdate()
     {
-        mAttackPeriod.StartPeriod();
+        if (!mAttackPeriod.IsProgressing()) 
+        {
+            mAttackPeriod.StartPeriod();
+        }
     }
 
     private void Jumping()
     {
-        var point = mPlayer.transform.position + Vector3.up * 1.05f;
-            point.x = transform.localPosition.x;
+        mJumpDIR9 = mPlayer.GetDIRECTION9();
+
+        LPOSITION3 Dir2LPos(DIRECTION9 dir)
+        {
+            switch (dir)
+            {
+                case DIRECTION9.TOP_LEFT:
+                case DIRECTION9.TOP:
+                case DIRECTION9.TOP_RIGHT:
+                    return LPOSITION3.TOP;
+
+                case DIRECTION9.MID_LEFT:
+                case DIRECTION9.MID:
+                case DIRECTION9.MID_RIGHT:
+                    return LPOSITION3.MID;
+
+                case DIRECTION9.BOT_LEFT:
+                case DIRECTION9.BOT:
+                case DIRECTION9.BOT_RIGHT:
+                    return LPOSITION3.BOT;
+            }
+            return LPOSITION3.NONE;
+        }
+
+        float moveY = Castle.Instance.GetMovePoint(mJumpDIR9).y;
+
+        Vector2 point = new Vector2(transform.position.x, moveY + 1.05f);
 
         if (point.x > transform.position.x)
         {
@@ -141,7 +164,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
         else
             transform.rotation = Quaternion.Euler(Vector3.zero);
 
-        LPosition3 = mPlayer.GetLPOSITION3();
+        LPosition3 = Dir2LPos(mJumpDIR9);
 
         StartCoroutine(Move(point, () =>
         {
@@ -151,7 +174,9 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
 
     private void DashSwing()
     {
-        var point = mPlayer.transform.position + Vector3.up * 1.05f;
+        float moveX = Castle.Instance.GetMovePoint(mPlayer.GetDIRECTION9()).x;
+
+        Vector2 point = new Vector2(moveX, transform.position.y);
 
         if (point.x > transform.position.x)
         {
@@ -184,43 +209,40 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
         }
         moveOverAction.Invoke();
     }
-
     private void SummonTotem()
     {
         int random = Random.Range(0, 3);
 
-        Vector2 castPoint = mPlayer.transform.position + Vector3.up * 1.1f;
+        DIRECTION9 playerDIR9 = mPlayer.GetDIRECTION9();
 
-        SpecialTotem totem = null;
+        Vector2 castPoint = new Vector2
+            (mPlayer.transform.position.x, Castle.Instance.GetMovePoint(playerDIR9).y + 1.1f);
 
         switch (random) {
             case 0:
-                totem = BombTotem;
+                if (mBombSkillPool.Count == 0) 
+                {
+                    AddBombSkill();
+                }
+                mBombSkillPool.Dequeue().Cast();
                 break;
 
             case 1:
-                totem = BuffTotem;
+                if (mBuffTotemPool.Count == 0)
                 {
-                    Room room = Castle.Instance.GetPlayerRoom();
-
-                    for (int i = 0; i < 3; i++)
-                    {
-                        var goblin = Instantiate(Goblins[Random.Range(0, Goblins.Length)], room.transform);
-
-                        if (goblin.TryGetComponent(out IObject iobject)) 
-                        {
-                            room.AddIObject(iobject);
-                        }
-                    }
+                    AddBuffTotem();
                 }
+                mBuffTotemPool.Dequeue().Cast(Castle.Instance.GetPlayerRoom(), castPoint);
                 break;
 
             case 2:
-                totem = LightningTotem;              
+                if (mLightningSkillPool.Count == 0)
+                {
+                    AddLightningSkill();
+                }
+                mLightningSkillPool.Dequeue().Cast();
                 break;
         }
-        totem.CastSkill(castPoint);
-        mAttackPeriod.SetAttackTime(totem.PlayTime - 0.5f);
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
@@ -258,5 +280,38 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable, IAnimEventReceiv
                 MainCamera.Instance.Shake(0.5f, 0.5f, true);
             }
         }
+    }
+    private void AddBombSkill()
+    {
+        var bombTotem = Instantiate(BombTotemSkill);
+
+        bombTotem.Init(mPlayer);
+        bombTotem.CastOverAction = o =>
+        { 
+            mBombSkillPool.Enqueue(o);
+        };
+        mBombSkillPool.Enqueue(bombTotem);
+    }
+    private void AddBuffTotem()
+    {
+        var buffTotem = Instantiate(BuffTotem);
+
+        buffTotem.Init();
+        buffTotem.CastOverAction = o =>
+        {
+            mBuffTotemPool.Enqueue(o);
+        };
+        mBuffTotemPool.Enqueue(buffTotem);
+    }
+    private void AddLightningSkill()
+    {
+        var lightning = Instantiate(LightningTotemSkill);
+
+        lightning.Init();
+        lightning.CastOverAction = o =>
+        {
+            mLightningSkillPool.Enqueue(o);
+        };
+        mLightningSkillPool.Enqueue(lightning);
     }
 }

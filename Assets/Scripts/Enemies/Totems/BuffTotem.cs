@@ -21,6 +21,8 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     private AttackPeriod mAttackPeriod;
     private int mAnimControlKey;
 
+    private bool mCanTranslateDmg;
+
     public AbilityTable GetAbility => AbilityTable;
 
     public void IInit()
@@ -29,9 +31,10 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
         HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
-        mAttackPeriod = new AttackPeriod(AbilityTable, AnimLength);
+        mAttackPeriod = new AttackPeriod(AbilityTable);
 
         mAttackPeriod.SetAction(Period.Attack, CastBuff);
+        mCanTranslateDmg = true;
     }
 
     public bool IsActive()
@@ -52,22 +55,26 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
         for (int i = 0; i < combats.Length; ++i)
         {
-            AbilityTable stat = combats[i].GetAbility;
+            IEnumerator buffEnumator = null;
 
+            AbilityTable stat = combats[i].GetAbility;
+            
             switch (mCastBuff)
             {
                 case BUFF.HEAL:
-                    combats[i].CastBuff(mCastBuff, BuffLibrary.Instance.GetBurstBUFF(BUFF.HEAL, mLevel, stat));
+                    {
+                        buffEnumator = BuffLibrary.Instance.GetBurstBUFF(mCastBuff, mLevel, stat);
+                    }
                     break;
 
                 case BUFF.SPEEDUP:
-                    combats[i].CastBuff(mCastBuff, BuffLibrary.Instance.GetSlowBUFF(BUFF.SPEEDUP, mLevel, mDurate, stat));
-                    break;
-
                 case BUFF.POWER_BOOST:
-                    combats[i].CastBuff(mCastBuff, BuffLibrary.Instance.GetSlowBUFF(BUFF.POWER_BOOST, mLevel,mDurate, stat));
+                    {
+                        buffEnumator = BuffLibrary.Instance.GetSlowBUFF(mCastBuff, mLevel, mDurate, stat);
+                    }
                     break;
             }
+            combats[i].CastBuff(mCastBuff, buffEnumator);
         }
         StartCoroutine(EffectAnimPlayOver());
     }
@@ -80,7 +87,14 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     public void Damaged(float damage, GameObject attacker)
     {
         EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
-        Animator.SetInteger(mAnimControlKey, (int)AnimState.Damaged);
+
+        int damaged = (int)AnimState.Damaged;
+
+        if (mCanTranslateDmg)
+        {
+            Animator.SetInteger(mAnimControlKey, damaged);
+            mCanTranslateDmg = false;
+        }
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
@@ -99,12 +113,9 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     {
         switch (anim)
         {
-            case AnimState.Attack:
-                Anim.SetActive(false);
-                break;
-
             case AnimState.Damaged:
                 Animator.SetInteger(mAnimControlKey, (int)AnimState.Idle);
+                mCanTranslateDmg = true;
                 break;
 
             case AnimState.Death:
@@ -119,6 +130,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         {
             yield return null;
         }
+        mAttackPeriod.AttackActionOver();
         Anim.SetActive(false);
     }
 }

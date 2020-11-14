@@ -93,6 +93,10 @@ public class Inventory : Singleton<Inventory>
             }
         }
     }
+    public bool IsEquipWeapon()
+    {
+        return mWeaponSlot.ContainItem != null;
+    }
     public void SetWeaponSlot(Item item)
     {
         mWeaponSlot.SetItem(item);

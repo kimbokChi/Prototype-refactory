@@ -257,6 +257,21 @@ PrefabInstance:
       propertyPath: LPosition3
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5713447322509287534, guid: 5a5e1061fe11dc54bb7be9da7377649b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5713447322509287535, guid: 5a5e1061fe11dc54bb7be9da7377649b,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7472134134081855207, guid: 5a5e1061fe11dc54bb7be9da7377649b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8680912197157835161, guid: 5a5e1061fe11dc54bb7be9da7377649b,
         type: 3}
       propertyPath: m_Name
@@ -447,6 +462,11 @@ PrefabInstance:
       propertyPath: mGameOverWindow
       value: 
       objectReference: {fileID: 254027282}
+    - target: {fileID: 5810549494006058014, guid: 01325a20e41267a488041a24730ae7f6,
+        type: 3}
+      propertyPath: mDefense
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 5810549494006058208, guid: 01325a20e41267a488041a24730ae7f6,
         type: 3}
       propertyPath: m_LocalPosition.x
