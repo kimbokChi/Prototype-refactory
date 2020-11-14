@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Archer : EnemyBase
+public class Archer : EnemyBase, IAnimEventReceiver
 {
     [SerializeField]
     private Arrow mArrow;
@@ -12,26 +12,48 @@ public class Archer : EnemyBase
     [SerializeField]
     private float mArrowSpeed;
 
+    [SerializeField]
+    private EnemyAnimator EnemyAnimator;
+
     private Timer mWaitForMoving;
     private Timer mWaitForATK;
 
     private Pool<Arrow> mArrowPool;
+
+    private AttackPeriod mAttackPeriod;
     
     public override void Damaged(float damage, GameObject attacker)
     {
+        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
-            gameObject.SetActive(false);
+            mAttackPeriod.StopPeriod();
+            EnemyAnimator.ChangeState(AnimState.Death);
+
+            HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
     }
 
     public override void IInit()
     {
+        EnemyAnimator.Init();
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+
         mArrowPool = new Pool<Arrow>();
         mArrowPool.Init(mArrow, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
 
         mWaitForMoving = new Timer();
         mWaitForATK    = new Timer();
+
+        mAttackPeriod = new AttackPeriod(AbilityTable);
+
+        mAttackPeriod.SetAction(Period.Attack, () => 
+        {
+            MoveStop();
+            EnemyAnimator.ChangeState(AnimState.Attack);
+        });
+        mAttackPeriod.SetAction(Period.After, AttackAction);
 
         mWaitForATK.Start(AbilityTable.BeginAttackDelay);
     }
@@ -40,46 +62,64 @@ public class Archer : EnemyBase
     {
         mArrowPool.Update();
 
-        if (mWaitForMoving.IsOver())
+        if (!mAttackPeriod.IsProgressing())
         {
-            if (IsMoveFinish && !HasPlayerOnRange())
+            if (HasPlayerOnRange() && IsLookAtPlayer())
             {
-                Vector2 movePoint;
+                MoveStop();
 
-                movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
-                movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
-
-                if (mPlayer != null)
-                {
-                    MoveToPlayer(movePoint);
-                }
-                else MoveToPoint(movePoint);
+                mAttackPeriod.StartPeriod();
             }
-        }
-        else
-        {
-            mWaitForMoving.Update();
-        }
-
-        if (HasPlayerOnRange())
-        {
-            if (mWaitForATK.IsOver())
+            else if (mWaitForMoving.IsOver())
             {
-                Arrow arrow = mArrowPool.Pop();
+                if (IsMoveFinish && !HasPlayerOnRange())
+                {
+                    Vector2 movePoint;
 
-                Vector2 targetLocal = PositionLocalized(mPlayer.transform.position);
+                    movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
+                    movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
 
-                arrow.Setting(mArrowSpeed, (targetLocal - (Vector2)transform.localPosition).normalized);
-                arrow.Setting(Arrow_targetHit, i => i > 0);
+                    EnemyAnimator.ChangeState(AnimState.Move);
 
-                mWaitForATK.Start(AbilityTable.AfterAttackDelay);
+                    if (mPlayer != null)
+                    {
+                        MoveToPlayer(movePoint);
+                    }
+                    else MoveToPoint(movePoint);
+                }
             }
             else
             {
-                mWaitForATK.Update();
+                mWaitForMoving.Update();
             }
         }
+        
     }
+
+    protected override void MoveFinish()
+    {
+        mWaitForMoving.Start(WaitMoveTime);
+
+        EnemyAnimator.ChangeState(AnimState.Idle);
+    }
+
+    private void AttackAction()
+    {
+        Arrow arrow = mArrowPool.Pop();
+
+        Vector2 direction;
+
+        if (SpriteFlipX)
+        {
+            direction = Vector2.right;
+        }
+        else
+            direction = Vector2.left;
+
+        arrow.Setting(mArrowSpeed, direction);
+        arrow.Setting(Arrow_targetHit, i => i > 0);
+    }
+
     private void Arrow_targetHit(ICombatable combat)
     {
         combat.Damaged(AbilityTable.AttackPower, gameObject);
@@ -97,5 +137,32 @@ public class Archer : EnemyBase
     private bool Pool_returnToPool(Arrow arrow)
     {
         return Vector2.Distance(transform.position, arrow.transform.position) > 7f || !arrow.gameObject.activeSelf;
+    }
+
+    public void AnimationPlayOver(AnimState anim)
+    {
+        switch (anim)
+        {
+            case AnimState.Attack:
+                {
+                    mAttackPeriod.AttackActionOver();
+
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
+                break;
+            case AnimState.Damaged:
+                {
+                    if (IsMoving)
+                        EnemyAnimator.ChangeState(AnimState.Move);
+
+                    else
+                        EnemyAnimator.ChangeState(AnimState.Idle);
+                }
+                break;
+
+            case AnimState.Death:
+                gameObject.SetActive(false);
+                break;
+        }
     }
 }

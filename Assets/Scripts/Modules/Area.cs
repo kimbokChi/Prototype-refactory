@@ -7,7 +7,13 @@ using System;
 public class Area : MonoBehaviour
 {
     [SerializeField]
+    private Collider2D AreaCollider;
+
+    [SerializeField]
     private string[] mSenseTags;
+
+    public Collider2D GetCollider
+    { get => AreaCollider; }
 
     private Action<GameObject> mEnterAction;
     private Action             mEmptyAction;
@@ -21,6 +27,11 @@ public class Area : MonoBehaviour
     public void SetEmptyAction(Action emptyAction)
     {
         mEmptyAction = emptyAction;
+    }
+
+    private void Reset()
+    {
+        TryGetComponent(out AreaCollider);
     }
 
     private void Awake()
@@ -77,8 +88,25 @@ public class Area : MonoBehaviour
         return TContainer.ToArray();
     }
 
-    public bool Has(GameObject gameObject)
+    public bool HasAny()
     {
-        return mSenseList.Any(o => o.Equals(gameObject));
+        return mSenseList.Count > 0;
+    }
+    public Vector2 CloestTargetPos()
+    {
+        if (mSenseList.Count == 0)
+        {
+            return transform.position;
+        }
+        else
+        {
+            float Distance(Transform a)
+            {
+                return Mathf.Abs(a.position.x - transform.position.x);
+            }
+            GameObject cloestTarget = mSenseList.OrderBy(o => Distance(o.transform)).First();
+
+            return cloestTarget.transform.position;
+        }
     }
 }

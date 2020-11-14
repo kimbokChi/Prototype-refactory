@@ -10,6 +10,9 @@ public enum SlotType
 }
 public class ItemSlot : MonoBehaviour
 {
+    [SerializeField]
+    private Sprite EmptySprite;
+
     public event Action<Item> ItemChangeEvent;
     public event Action<Item> ItemEquipEvent;
 
@@ -37,9 +40,11 @@ public class ItemSlot : MonoBehaviour
         }        
         mContainItem = item;
 
+        ItemEquipEvent?.Invoke(mContainItem);
+
         if (item == null)
         {
-            mImage.sprite = null;
+            mImage.sprite = EmptySprite;
         }
         else
         {
@@ -47,7 +52,6 @@ public class ItemSlot : MonoBehaviour
 
             mImage.sprite = item.Sprite;
         }
-        ItemEquipEvent?.Invoke(mContainItem);
     }
 
     public void Select()

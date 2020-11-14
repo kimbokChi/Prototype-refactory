@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Castle : Singleton<Castle>
@@ -23,8 +24,6 @@ public class Castle : Singleton<Castle>
     [SerializeField] private   Floor[] mFloors;
     [SerializeField] private   Floor   mPlayerFloor;
                      private Vector2[] mMovePoints;
-
-    private IEnumerator mECamaraMove;
 
     #region READ
     /// <summary>
@@ -69,15 +68,25 @@ public class Castle : Singleton<Castle>
 
             RenewPlayerFloor();
 
-            if (mECamaraMove != null)
-            {
-                StopCoroutine(mECamaraMove);
-            }
-            StartCoroutine(mECamaraMove = ECamaraMove(mPlayerFloor.transform.position, Camera.main));
+            MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
 
             return true;
         }
     }
+    // === Cheat ===
+    public void SetPlayerFloor(int floor)
+    {
+        mPlayerFloor.Disable();
+        mPlayerFloor = mFloors[floor - 1];
+
+        mPlayer.transform.position = 
+            mPlayerFloor.GetMovePoints(mPlayer.GetLPOSITION3())[(int)mPlayer.GetTPOSITION3()];
+
+        RenewPlayerFloor();
+
+        MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
+    }
+    // === Cheat ===
 
     public bool CanPrevPoint()
     {
@@ -99,11 +108,7 @@ public class Castle : Singleton<Castle>
 
             RenewPlayerFloor();
 
-            if (mECamaraMove != null)
-            {
-                StopCoroutine(mECamaraMove);
-            }
-            StartCoroutine(mECamaraMove = ECamaraMove(mPlayerFloor.transform.position, Camera.main));
+            MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
 
             return true;
         }
@@ -116,6 +121,11 @@ public class Castle : Singleton<Castle>
     public Room[] GetFloorRooms()
     {
         return mPlayerFloor.GetRooms();
+    }
+
+    public Room GetPlayerRoom()
+    {
+        return mPlayerFloor.GetRooms()[(int)mPlayer.GetLPOSITION3()];
     }
 
     #region _MEMBER
@@ -162,6 +172,8 @@ public class Castle : Singleton<Castle>
             midMovePoint[0], midMovePoint[1], midMovePoint[2],
             botMovePoint[0], botMovePoint[1], botMovePoint[2]
         };
+        StageEventLibrary.Instance?.NotifyEvent(NotifyMessage.StageEnter);
+        mIsCastClearEvent = false;
     }
     #region _MEMBER
     /// <summary>
@@ -179,25 +191,6 @@ public class Castle : Singleton<Castle>
             }
             mPlayerFloor.EnterPlayer(mPlayer, mLastPlayerPOS = mPlayer.GetLPOSITION3());
         }
-    }
-
-    private IEnumerator ECamaraMove(Vector2 movePoint, Camera camera)
-    {
-        float lerpAmount = 0f;
-
-        while (lerpAmount < 1f)
-        {
-            lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * CameraMoveAccel);
-
-            camera.transform.position = Vector2.Lerp(camera.transform.position, movePoint, lerpAmount);
-
-            camera.transform.Translate(0, 0, -10f);
-
-            yield return null;
-        }
-        mECamaraMove = null;
-
-        yield break;
     }
 
     private IEnumerator EUpdate()
@@ -219,7 +212,7 @@ public class Castle : Singleton<Castle>
                     mIsCastClearEvent = true;
 
                     if (!DisableStageEvent) {
-                        StageEventLibrary.Instance.NotifyStageClear();
+                        StageEventLibrary.Instance.NotifyEvent(NotifyMessage.StageClear);
                     }
                 }
                 if (mPlayer.IsDeath)

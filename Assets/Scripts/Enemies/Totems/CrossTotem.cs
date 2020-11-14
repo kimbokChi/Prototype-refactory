@@ -32,11 +32,20 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) > 0);
+        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        {
+            gameObject.SetActive(false);
+
+            HealthBarPool.Instance.UnUsingHealthBar(transform);
+        }
     }
 
     public void IInit()
     {
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+
         mDartPool = new Pool<Arrow>();
 
         mDartPool.Init(mDartOrigin, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
@@ -69,7 +78,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     public void PlayerExit(MESSAGE message)
     {
-        if (AbilityTable.CanRecognize(message))
+        if (AbilityTable.CantRecognize(message))
             mPlayer = null;
     }
 

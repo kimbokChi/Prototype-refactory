@@ -9,6 +9,9 @@ public class Arrow : MonoBehaviour
     [SerializeField]
     private string[] mTargetTags;
 
+    [SerializeField]
+    private SpriteRenderer SpriteRenderer;
+
     private Action<ICombatable> mTriggerAction;
     private Func<uint, bool> mCanDestroy;
 
@@ -28,6 +31,13 @@ public class Arrow : MonoBehaviour
     public void Setting(float speed, Vector2 direction)
     {
         mDirection = direction; mSpeed = speed;
+
+        if (direction.x < 0) {
+            SpriteRenderer.flipX = false;
+        }
+        else if (direction.x > 0) {
+            SpriteRenderer.flipX = true;
+        }
     }
 
     private IEnumerator EUpdate()
@@ -42,6 +52,11 @@ public class Arrow : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private void Reset()
+    {
+        Debug.Assert(TryGetComponent(out SpriteRenderer));
     }
 
     private void OnEnable()

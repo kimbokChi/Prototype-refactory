@@ -56,11 +56,13 @@ public class ItemLibrary : Singleton<ItemLibrary>
             {
                 ItemRating rating = (ItemRating)i;
 
-                int itemIndex = Random.Range(0, mLibrary[rating].Count);
+                if (mLibrary[rating].Count != 0)
+                {
+                    int itemIndex = Random.Range(0, mLibrary[rating].Count);
 
-                getItem = mLibrary[rating][itemIndex];
-                          mLibrary[rating].RemoveAt(itemIndex);
-
+                    getItem = mLibrary[rating][itemIndex];
+                              mLibrary[rating].RemoveAt(itemIndex);
+                }
             }
         }
         return getItem;

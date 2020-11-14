@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuffTotem : MonoBehaviour, IObject, ICombatable
+public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    [Header("Effect Animation Info")]
+    [SerializeField] private float AnimLength;
+    [SerializeField] private GameObject Anim;
+
+    [Header("BuffTotem Info")]
+    [SerializeField] private Animator Animator;
     [SerializeField] private AbilityTable AbilityTable;
 
     [SerializeField] private Area mSenseArae;
@@ -13,14 +19,22 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
     [SerializeField] private uint  mLevel;
 
     private AttackPeriod mAttackPeriod;
+    private int mAnimControlKey;
+
+    private bool mCanTranslateDmg;
 
     public AbilityTable GetAbility => AbilityTable;
 
     public void IInit()
     {
+        mAnimControlKey = Animator.GetParameter(0).nameHash;
+
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+
         mAttackPeriod = new AttackPeriod(AbilityTable);
 
         mAttackPeriod.SetAction(Period.Attack, CastBuff);
+        mCanTranslateDmg = true;
     }
 
     public bool IsActive()
@@ -37,25 +51,32 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
     {
         ICombatable[] combats = mSenseArae.GetEnterTypeT<ICombatable>();
 
+        Anim.SetActive(true);
+
         for (int i = 0; i < combats.Length; ++i)
         {
-            AbilityTable stat = combats[i].GetAbility;
+            IEnumerator buffEnumator = null;
 
+            AbilityTable stat = combats[i].GetAbility;
+            
             switch (mCastBuff)
             {
                 case BUFF.HEAL:
-                    combats[i].CastBuff(mCastBuff, BuffLibrary.Instance.GetBurstBUFF(BUFF.HEAL, mLevel, stat));
+                    {
+                        buffEnumator = BuffLibrary.Instance.GetBurstBUFF(mCastBuff, mLevel, stat);
+                    }
                     break;
 
                 case BUFF.SPEEDUP:
-                    combats[i].CastBuff(mCastBuff, BuffLibrary.Instance.GetSlowBUFF(BUFF.SPEEDUP, mLevel, mDurate, stat));
-                    break;
-
                 case BUFF.POWER_BOOST:
-                    combats[i].CastBuff(mCastBuff, BuffLibrary.Instance.GetSlowBUFF(BUFF.POWER_BOOST, mLevel,mDurate, stat));
+                    {
+                        buffEnumator = BuffLibrary.Instance.GetSlowBUFF(mCastBuff, mLevel, mDurate, stat);
+                    }
                     break;
             }
+            combats[i].CastBuff(mCastBuff, buffEnumator);
         }
+        StartCoroutine(EffectAnimPlayOver());
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer) { }
@@ -65,11 +86,51 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) > 0f);
+        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+
+        int damaged = (int)AnimState.Damaged;
+
+        if (mCanTranslateDmg)
+        {
+            Animator.SetInteger(mAnimControlKey, damaged);
+            mCanTranslateDmg = false;
+        }
+
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        {
+            Animator.SetInteger(mAnimControlKey, (int)AnimState.Death);
+
+            HealthBarPool.Instance.UnUsingHealthBar(transform);
+        }
     }
 
     public void CastBuff(BUFF buffType, IEnumerator castedBuff)
     {
         StartCoroutine(castedBuff);
+    }
+
+    public void AnimationPlayOver(AnimState anim)
+    {
+        switch (anim)
+        {
+            case AnimState.Damaged:
+                Animator.SetInteger(mAnimControlKey, (int)AnimState.Idle);
+                mCanTranslateDmg = true;
+                break;
+
+            case AnimState.Death:
+                gameObject.SetActive(false);
+                break;
+        }
+    }
+
+    private IEnumerator EffectAnimPlayOver()
+    {
+        for (float i = 0f; i <= AnimLength; i += Time.deltaTime * Time.timeScale)
+        {
+            yield return null;
+        }
+        mAttackPeriod.AttackActionOver();
+        Anim.SetActive(false);
     }
 }

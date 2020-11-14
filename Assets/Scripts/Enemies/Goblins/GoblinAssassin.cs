@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoblinAssassin : EnemyBase, IObject, ICombatable
+public class GoblinAssassin : EnemyBase, IAnimEventReceiver
 {
     [SerializeField]
     private Area mContactArea;
@@ -16,63 +16,120 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
     [SerializeField]
     private GameObject AfterImage;
 
+    [SerializeField]
+    private EnemyAnimator EnemyAnimator;
+
     private AttackPeriod mAttackPeriod;
     private Timer mWaitForMoving;
 
     private IEnumerator mEDash;
     public override void Damaged(float damage, GameObject attacker)
     {
-        gameObject.SetActive((AbilityTable.Table[Ability.CurHealth] -= damage) > 0);
+        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+        EnemyAnimator.ChangeState(AnimState.Damaged);
+
+        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        {
+            AfterImage.SetActive(false);
+
+            if (mEDash != null) 
+            {
+                StopCoroutine(mEDash); 
+                              mEDash = null;
+            }
+            mAttackPeriod.StopPeriod();
+            EnemyAnimator.ChangeState(AnimState.Death);
+
+            HealthBarPool.Instance.UnUsingHealthBar(transform);
+        }
     }
 
     public override void IInit()
     {
+        EnemyAnimator.Init();
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+
         mContactArea.SetEnterAction(Attack);
 
         mWaitForMoving = new Timer();
-         mAttackPeriod = new AttackPeriod(AbilityTable);
-         mAttackPeriod.SetAction(Period.Attack, Dash);
+
+        mAttackPeriod = new AttackPeriod(AbilityTable);
+
+        mAttackPeriod.SetAction(Period.Begin, () => {
+            EnemyAnimator.ChangeState(AnimState.AttackBegin);
+        });
+        mAttackPeriod.SetAction(Period.Attack, AttackAction);
     }
     public override void IUpdate()
     {
-        if (IsLookAtPlayer())
+        if (!mAttackPeriod.IsProgressing())
         {
-            if (mEDash == null) MoveStop();
-
-            mAttackPeriod.StartPeriod();
-        }
-        else if (mWaitForMoving.IsOver())
-        {
-            if (IsMoveFinish && !HasPlayerOnRange())
+            if (IsLookAtPlayer())
             {
-                Vector2 movePoint;
+                MoveStop();
 
-                movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
-                movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
+                mAttackPeriod.StartPeriod();
+            }
+            else if (mWaitForMoving.IsOver())
+            {
+                if (IsMoveFinish && !HasPlayerOnRange())
+                {
+                    Vector2 movePoint;
 
-                MoveToPoint(movePoint);
+                    EnemyAnimator.ChangeState(AnimState.Move);
+
+                    movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
+                    movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
+
+                    MoveToPoint(movePoint);
+                }
+            }
+            else
+            {
+                mWaitForMoving.Update();
             }
         }
-        else
-        {
-            mWaitForMoving.Update();
-        }
+    }
+    protected override void MoveFinish()
+    {
+        EnemyAnimator.ChangeState(AnimState.Idle);
+
+        mWaitForMoving.Start(WaitMoveTime);
     }
 
-    private void Dash()
+    private void AttackAction()
     {
-        if (mPlayer)
-        if (mPlayer.TryGetPosition(out Vector2 playerPos)) {
-            StartCoroutine(mEDash = EDash(PositionLocalized(playerPos)));
+        AfterImage.SetActive(true);
+        AfterImage.transform.parent = null;
+
+        AfterImage.transform.position = transform.position;
+        EnemyAnimator.ChangeState(AnimState.Attack);
+
+        Vector2 force;
+
+        if (SpriteFlipX)
+        {
+            force = Vector2.right * mMaxDashLength;
         }
+        else
+            force = Vector2.left * mMaxDashLength;
+
+        StartCoroutine(mEDash = EDash((Vector2)transform.localPosition + force));
     }
 
     private IEnumerator EDash(Vector2 dashPoint)
     {
-        AfterImage.SetActive(true);
+        Vector2 force;
 
-        dashPoint = (Vector2)transform.localPosition + 
-             ((dashPoint.x - transform.localPosition.x > 0) ? Vector2.right : Vector2.left) * mMaxDashLength;
+        if (dashPoint.x - transform.localPosition.x > 0)
+        {
+            force = Vector2.right * mMaxDashLength;
+        }
+        else
+            force = Vector2.left * mMaxDashLength;
+
+        dashPoint = (Vector2)transform.localPosition + force;
+        dashPoint.x.Range(-HalfMoveRangeX, HalfMoveRangeX);
 
         float lerpAmount = 0;
 
@@ -85,8 +142,6 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
             yield return null;
         }
         mEDash = null;
-
-        AfterImage.SetActive(false);
     }
 
     private void Attack(GameObject @object)
@@ -94,7 +149,35 @@ public class GoblinAssassin : EnemyBase, IObject, ICombatable
         if (mEDash != null)
         if (@object.TryGetComponent(out ICombatable combatable))
         {
-                combatable.Damaged(AbilityTable.AttackPower, gameObject);
-        }       
+            combatable.Damaged(AbilityTable.AttackPower, gameObject);
+        }
+    }
+
+    public void AnimationPlayOver(AnimState anim)
+    {
+        switch (anim)
+        {
+            case AnimState.Attack:
+                {
+                    AfterImage.transform.parent = transform;
+
+                    mAttackPeriod.AttackActionOver();
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+                }
+                break;
+            case AnimState.Damaged:
+                {
+                    if (IsMoving)
+                        EnemyAnimator.ChangeState(AnimState.Move);
+
+                    else
+                        EnemyAnimator.ChangeState(AnimState.Idle);
+                }
+                break;
+
+            case AnimState.Death:
+                gameObject.SetActive(false);
+                break;
+        }
     }
 }

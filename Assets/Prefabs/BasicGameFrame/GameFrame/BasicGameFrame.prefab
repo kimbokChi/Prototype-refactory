@@ -1,5 +1,120 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2028110602116769614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7569350683836757468}
+  - component: {fileID: 8412404976814547407}
+  - component: {fileID: 6421993585316037134}
+  - component: {fileID: 21118637645087382}
+  - component: {fileID: 6578187632634567257}
+  m_Layer: 5
+  m_Name: HealthBarCanvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7569350683836757468
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028110602116769614}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 81}
+  m_LocalScale: {x: 0.018, y: 0.018, z: 0.009}
+  m_Children: []
+  m_Father: {fileID: 5768596560125403965}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 900, y: 1600}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &8412404976814547407
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028110602116769614}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 43458809
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &6421993585316037134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028110602116769614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+--- !u!114 &21118637645087382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028110602116769614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &6578187632634567257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028110602116769614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55952c8d20093f04b9cff7e53ecc6810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HoldingCount: 3
+  OrignHealthBar: {fileID: 275377653571138392, guid: cf78eb99eb596654982210226c84c935,
+    type: 3}
+  WorldCanvasTransform: {fileID: 7569350683836757468}
 --- !u!1 &2047627914765532146
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +508,7 @@ Transform:
   - {fileID: 7752026750518944700}
   - {fileID: 6884020205522575851}
   - {fileID: 7677788242943604976}
+  - {fileID: 7569350683836757468}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1721,6 +1837,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1559719482037878436}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &8748476505803508257 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7840179387820110981, guid: 1a47817b04330964183977f8df563060,
+    type: 3}
+  m_PrefabInstance: {fileID: 1559719482037878436}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9041555015418871990
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1728,6 +1850,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5768596560125403965}
     m_Modifications:
+    - target: {fileID: 2518353896841765208, guid: 3c1729b631f74b9468e5f587dd8e7da1,
+        type: 3}
+      propertyPath: InventoryButton
+      value: 
+      objectReference: {fileID: 8748476505803508257}
     - target: {fileID: 2518353896841765213, guid: 3c1729b631f74b9468e5f587dd8e7da1,
         type: 3}
       propertyPath: m_RootOrder

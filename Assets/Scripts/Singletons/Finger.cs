@@ -21,16 +21,6 @@ public class Finger : Singleton<Finger>
 
     private float mCurPressTime;
 
-    private bool HaveFinger
-    {
-        get
-        {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            return Vector2.Distance(mousePos, mChargeGauge.transform.position) > mChargeGauge.Scale.x * 0.5f;
-        }
-    }
-
     private IEnumerator mEOnBulletTime;
 
     private void Awake() {
@@ -67,7 +57,7 @@ public class Finger : Singleton<Finger>
             }
         }
         // End Touch
-        if ((Input.GetMouseButtonUp(0) && mCurPressTime >= PRESS_TIME) || HaveFinger)
+        if ((Input.GetMouseButtonUp(0) && mCurPressTime >= PRESS_TIME))
         {
             mChargeGauge.gameObject.SetActive(false);
 

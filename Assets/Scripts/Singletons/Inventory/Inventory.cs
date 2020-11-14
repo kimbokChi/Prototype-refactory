@@ -29,7 +29,7 @@ public class Inventory : Singleton<Inventory>
     /// parameter[2] : attack target interface 'ICombatable'
     /// </summary>
     #endregion
-    public event Action<GameObject, ICombatable> AttackAction;
+    public event Action<GameObject, ICombatable> AttackEvent;
 
     #region COMMENT
     /// <summary>
@@ -69,8 +69,18 @@ public class Inventory : Singleton<Inventory>
     [SerializeField] private ItemSlot[] mAccessorySlot;
     [SerializeField] private ItemSlot[] mContainer;
 
+    private Player mPlayer;
+
     private void Awake()
     {
+        if (mPlayer == null) 
+        {
+            var @object = 
+                GameObject.FindGameObjectWithTag("Player");
+
+            Debug.Assert(@object.TryGetComponent(out mPlayer));
+        }
+
         mWeaponSlot.Init(SlotType.Weapon);
 
         for (int i = 0; i < mContainer.Length; ++i)
@@ -83,7 +93,14 @@ public class Inventory : Singleton<Inventory>
             }
         }
     }
-
+    public bool IsEquipWeapon()
+    {
+        return mWeaponSlot.ContainItem != null;
+    }
+    public void SetWeaponSlot(Item item)
+    {
+        mWeaponSlot.SetItem(item);
+    }
     public void AddItem(Item item)
     {
         mContainer.Where(o => o.ContainItem == null).First()?.SetItem(item);
@@ -105,9 +122,14 @@ public class Inventory : Singleton<Inventory>
         ChargeAction?.Invoke(power);
     }
 
-    public void OnAttack(GameObject attacker, ICombatable targetCombat)
+    public void AttackAction(GameObject attacker, ICombatable targetCombat)
     {
-        AttackAction?.Invoke(attacker, targetCombat);
+        mWeaponSlot.ContainItem?.AttackAction(attacker, targetCombat);
+    }
+
+    public void OnAttackEvent(GameObject attacker, ICombatable targetCombat)
+    {
+        AttackEvent?.Invoke(attacker, targetCombat);
     }
 
     public void OnFloorEnter() => FloorEnterAction?.Invoke();
