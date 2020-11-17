@@ -48,13 +48,13 @@ public class AttackPeriod
     public void StartPeriod()
     {
         if (mEUpdate == null) {
-            Mono.Instance.StartCoroutine(mEUpdate = EUpdate());
+            Inventory.Instance.StartCoroutine(mEUpdate = EUpdate());
         }
     }
     public void StopPeriod()
     {
         if (mEUpdate != null) {
-            Mono.Instance.StopCoroutine(mEUpdate);
+            Inventory.Instance.StopCoroutine(mEUpdate);
         }
     }
 

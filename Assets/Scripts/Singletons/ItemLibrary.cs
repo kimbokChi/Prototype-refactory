@@ -36,7 +36,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
         }
         mProbabilityArray = new float[4] 
         {
-            COMMON_PROBABILITY, RARE_PROBABILITY, EPIC_PROBABILITY, LEGENDARY_PROBABILITY 
+            COMMON_PROBABILITY, RARE_PROBABILITY, EPIC_PROBABILITY, LEGENDARY_PROBABILITY
         };
     }
 
