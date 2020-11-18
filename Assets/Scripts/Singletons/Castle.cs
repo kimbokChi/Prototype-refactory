@@ -172,7 +172,10 @@ public class Castle : Singleton<Castle>
             midMovePoint[0], midMovePoint[1], midMovePoint[2],
             botMovePoint[0], botMovePoint[1], botMovePoint[2]
         };
-        StageEventLibrary.Instance?.NotifyEvent(NotifyMessage.StageEnter);
+        if (!DisableStageEvent)
+        {
+            StageEventLibrary.Instance?.NotifyEvent(NotifyMessage.StageEnter);
+        }
         mIsCastClearEvent = false;
     }
     #region _MEMBER
