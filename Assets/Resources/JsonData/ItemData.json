@@ -1,18 +1,26 @@
 [
   {
     "ID": "IronSword",
-    "AttackPower": "15.0",
-    "Range": "1.5",
-    "Begin-AttackDelay": "0.5",
-    "After-AttackDelay": "0.5",
+    "AttackPower": "15.00",
+    "Range": "1.50",
+    "Begin_AttackDelay": "0.50",
+    "After_AttackDelay": "0.50",
     "Rating": "Common"
   },
   {
     "ID": "LongSword",
-    "AttackPower": "15.0",
+    "AttackPower": "15.00",
     "Range": "1.25",
-    "Begin-AttackDelay": "0.05",
-    "After-AttackDelay": "0.05",
+    "Begin_AttackDelay": "0.05",
+    "After_AttackDelay": "0.05",
+    "Rating": "Rare"
+  },
+  {
+    "ID": "MysteriousMace",
+    "AttackPower": "20.00",
+    "Range": "1.00",
+    "Begin_AttackDelay": "0.40",
+    "After_AttackDelay": "0.40",
     "Rating": "Rare"
   }
 ]
