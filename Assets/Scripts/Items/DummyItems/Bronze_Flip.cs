@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Bronze_Flip : Item
 {
-    public override ItemRating Rating => ItemRating.Rare;
-
     public override void OffEquipThis(SlotType offSlot)
     {        
     }

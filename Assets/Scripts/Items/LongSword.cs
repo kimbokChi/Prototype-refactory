@@ -10,12 +10,6 @@ public class LongSword : Item
     private int mAnimControlKey;
 
     private GameObject mPlayer;
-    public override float WeaponRange
-    { get => 1.2f; }
-    public override ItemRating Rating
-    { 
-        get => ItemRating.Rare; 
-    }
 
     private void Reset()
     {
@@ -79,7 +73,7 @@ public class LongSword : Item
     {
         if (hitObject.TryGetComponent(out ICombatable combatable))
         {
-            combatable.Damaged(1f, mPlayer);
+            combatable.Damaged(StatTable.Table[ItemStat.AttackPower], mPlayer);
 
             Inventory.Instance.OnAttackEvent(mPlayer, combatable);
         }
