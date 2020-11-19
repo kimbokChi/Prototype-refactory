@@ -99,6 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StatTable: {fileID: 6026546337754659799}
+  TracerBullet: {fileID: 8231255372746500744, guid: 11495c2e1b2f9314785a4ba230e7ccf4,
+    type: 3}
   Animator: {fileID: 6202769102915456820}
   CollisionArea: {fileID: 6202769102569731556}
 --- !u!114 &6026546337754659799
