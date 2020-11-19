@@ -52,4 +52,14 @@ public abstract class Item : MonoBehaviour
     { 
         Inventory.Instance.OnAttackEvent(attacker, combatable); 
     }
+
+    // 애니메이션 이벤트 함수
+    protected virtual void CameraShake()
+    {
+        MainCamera.Instance.Shake();
+    }
+    protected virtual void AttackAnimationPlayOver()
+    {
+        AttackOverAction?.Invoke();
+    }
 }

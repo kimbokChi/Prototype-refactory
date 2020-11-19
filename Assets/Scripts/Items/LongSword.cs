@@ -65,10 +65,6 @@ public class LongSword : Item
         SwordDance.Launch(direction);
     }
 
-    private void CameraShake() {
-        MainCamera.Instance.Shake();
-    }
-
     private void HitAction(GameObject hitObject)
     {
         if (hitObject.TryGetComponent(out ICombatable combatable))
@@ -77,10 +73,5 @@ public class LongSword : Item
 
             Inventory.Instance.OnAttackEvent(mPlayer, combatable);
         }
-    }
-
-    private void AnimationPlayOver()
-    {
-        AttackOverAction?.Invoke();
     }
 }
