@@ -192,7 +192,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             DIRECTION9 moveDir9 = DIRECTION9.END;
 
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.UpArrow) || Finger.Instance.Swipe(SwipeDirection.up))
             {
                 switch (GetLPOSITION3())
                 {
@@ -212,7 +212,7 @@ public class Player : MonoBehaviour, ICombatable
                         break;
                 }
             }
-            else if (Input.GetKey(KeyCode.DownArrow))
+            else if (Input.GetKey(KeyCode.DownArrow) || Finger.Instance.Swipe(SwipeDirection.down))
             {
                 switch (GetLPOSITION3())
                 {
@@ -233,12 +233,12 @@ public class Player : MonoBehaviour, ICombatable
                         break;
                 }
             }
-            else if (Input.GetKey(KeyCode.LeftArrow))
+            else if (Input.GetKey(KeyCode.LeftArrow) || Finger.Instance.Swipe(SwipeDirection.left))
             {
                 if (GetTPOSITION3() != TPOSITION3.LEFT)
                     moveDir9 = mLocation9 - 1;
             }
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (Input.GetKey(KeyCode.RightArrow) || Finger.Instance.Swipe(SwipeDirection.right))
             {
                 if (GetTPOSITION3() != TPOSITION3.RIGHT)
                     moveDir9 = mLocation9 + 1;

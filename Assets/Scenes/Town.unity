@@ -676,5 +676,10 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2509464518941036977, guid: 596ca2a92ccf6fe47bc909af532aec22,
+        type: 3}
+      propertyPath: SwipeLength
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 596ca2a92ccf6fe47bc909af532aec22, type: 3}
