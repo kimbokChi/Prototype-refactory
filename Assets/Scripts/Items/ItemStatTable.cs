@@ -11,21 +11,22 @@ public enum ItemStat
 }
 public class ItemStatTable : MonoBehaviour
 {
-    private const string JsonTableName = "ItemData";
-    public ItemRating Rating
-    { get; private set; }
-
-    public  Dictionary<ItemStat, float>  Table
+    public float this[ItemStat stat]
     {
-        get
-        {
+        get {
             if (_Table == null)
             {
                 Init();
             }
-            return _Table;
+            return _Table[stat];
         }
     }
+    public ItemRating Rating
+    { get; private set; }
+
+
+    private const string JsonTableName = "ItemData";
+
     private Dictionary<ItemStat, float> _Table;
 
     [TextArea(1, 1)]

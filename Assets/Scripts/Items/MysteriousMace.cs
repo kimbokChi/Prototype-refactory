@@ -49,7 +49,7 @@ public class MysteriousMace : Item
     {
         if (target.TryGetComponent(out ICombatable combatable))
         {
-            combatable.Damaged(StatTable.Table[ItemStat.AttackPower], mPlayer);
+            combatable.Damaged(StatTable[ItemStat.AttackPower], mPlayer);
 
             Inventory.Instance.OnAttackEvent(mPlayer, combatable);
 
@@ -68,7 +68,7 @@ public class MysteriousMace : Item
         if (target.TryGetComponent(out ICombatable combat))
         {
             // 2/3의 피해
-            combat.Damaged(StatTable.Table[ItemStat.AttackPower] * 0.666f, mPlayer);
+            combat.Damaged(StatTable[ItemStat.AttackPower] * 0.666f, mPlayer);
         }
     }
 

@@ -32,15 +32,15 @@ public abstract class Item : MonoBehaviour
     }
     public float WeaponRange
     { 
-        get => StatTable.Table[ItemStat.Range]; 
+        get => StatTable[ItemStat.Range]; 
     }
     public float Begin_AttackDelay
     {
-        get => StatTable.Table[ItemStat.Begin_AttackDelay];
+        get => StatTable[ItemStat.Begin_AttackDelay];
     }
     public float After_AttackDelay
     {
-        get => StatTable.Table[ItemStat.After_AttackDelay];
+        get => StatTable[ItemStat.After_AttackDelay];
     }
 
     // *********************************** //

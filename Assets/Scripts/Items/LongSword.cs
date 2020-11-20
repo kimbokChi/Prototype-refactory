@@ -69,7 +69,7 @@ public class LongSword : Item
     {
         if (hitObject.TryGetComponent(out ICombatable combatable))
         {
-            combatable.Damaged(StatTable.Table[ItemStat.AttackPower], mPlayer);
+            combatable.Damaged(StatTable[ItemStat.AttackPower], mPlayer);
 
             Inventory.Instance.OnAttackEvent(mPlayer, combatable);
         }
