@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 6202769102915456821}
   - component: {fileID: 6202769102915456820}
   - component: {fileID: 6202769102569731552}
+  - component: {fileID: 6026546337754659799}
   - component: {fileID: 6202769102569731551}
   m_Layer: 0
   m_Name: LongSword
@@ -97,9 +98,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06fd53a1a997a5c46a9a84c8c726d47f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StatTable: {fileID: 6026546337754659799}
   Animator: {fileID: 6202769102915456820}
   CollisionArea: {fileID: 6202769102569731556}
   SwordDance: {fileID: 0}
+--- !u!114 &6026546337754659799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202769102915456826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f78c79a89d77534c9dbe8c437363c25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  JsonLabelName: LongSword
 --- !u!212 &6202769102569731551
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class Golden_Flip : Item
 {
-    public override float WeaponRange => 3.0f;
-
-    public override ItemRating Rating => ItemRating.Legendary;
-
     public override void OnEquipThis(SlotType onSlot)
     {
         switch (onSlot)

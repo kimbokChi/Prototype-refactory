@@ -65,11 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5f481f23da714c4cbbdac638d94ea4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Items:
-  - {fileID: 9087210693910706570, guid: 71f7ffd6502e0774ab8621bbd2176067, type: 3}
-  - {fileID: 4108713237193914713, guid: e1f6ac44130165d43875fbf2db47783f, type: 3}
-  - {fileID: 926255134150608801, guid: a7401a2edcdcc244ebfde018d5d85ff9, type: 3}
-  - {fileID: 1865572682512597168, guid: 506f9c057e877f0449d9df8cf25f8ac3, type: 3}
+  Items: []
 --- !u!114 &2518353896841765212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,6 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ItemBox: {fileID: 208112646792821644, guid: f35de1102ab78f94d88d3d9b1b8ecbd8, type: 3}
+  DungeonNPC: {fileID: 0}
   InventoryButton: {fileID: 0}
 --- !u!114 &2518353896841765207
 MonoBehaviour:

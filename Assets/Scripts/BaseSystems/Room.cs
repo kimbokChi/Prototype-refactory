@@ -114,6 +114,11 @@ public class Room : MonoBehaviour
         }
     }
 
+    public List<IObject> GetIObjects()
+    {
+        return mObjects;
+    }
+
     public bool IsBelongThis(IObject iobject)
     {
         return mObjects.Any(o => o == iobject);

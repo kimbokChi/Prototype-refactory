@@ -10,12 +10,6 @@ public class LongSword : Item
     private int mAnimControlKey;
 
     private GameObject mPlayer;
-    public override float WeaponRange
-    { get => 1.2f; }
-    public override ItemRating Rating
-    { 
-        get => ItemRating.Rare; 
-    }
 
     private void Reset()
     {
@@ -71,22 +65,13 @@ public class LongSword : Item
         SwordDance.Launch(direction);
     }
 
-    private void CameraShake() {
-        MainCamera.Instance.Shake();
-    }
-
     private void HitAction(GameObject hitObject)
     {
         if (hitObject.TryGetComponent(out ICombatable combatable))
         {
-            combatable.Damaged(1f, mPlayer);
+            combatable.Damaged(StatTable[ItemStat.AttackPower], mPlayer);
 
             Inventory.Instance.OnAttackEvent(mPlayer, combatable);
         }
-    }
-
-    private void AnimationPlayOver()
-    {
-        AttackOverAction?.Invoke();
     }
 }
