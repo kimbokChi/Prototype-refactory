@@ -5,6 +5,8 @@ using Kimbokchi;
 
 public class TracerBullet : MonoBehaviour
 {
+    public Action<TracerBullet> DisableAction;
+
     [SerializeField] private float LifeTime;
     [SerializeField] private float Speed;
 
@@ -60,6 +62,8 @@ public class TracerBullet : MonoBehaviour
             yield return null;
         }
         ETarceTarget = null;
+        
+        gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -76,5 +80,10 @@ public class TracerBullet : MonoBehaviour
             }
             gameObject.SetActive(false);
         }
+    }
+
+    private void OnDisable()
+    {
+        DisableAction?.Invoke(this);
     }
 }

@@ -1,13 +1,16 @@
 ﻿using System.Linq;
 using UnityEngine;
 
-// 코드가 매우 비효율적으로 작성되어있음!
 public class MysteriousMace : Item
 {
+    [Range(0f, 1f)]
+    [SerializeField] private float Probablity;
     [SerializeField] private TracerBullet TracerBullet;
 
     [SerializeField] private Animator Animator;
     [SerializeField] private Area CollisionArea;
+
+    private Pool<TracerBullet> mPool;
 
     private int mAnimPlayKey;
     private int mAnimControlKey;
@@ -36,6 +39,11 @@ public class MysteriousMace : Item
     {
         if (onSlot.Equals(SlotType.Weapon))
         {
+            if (mPool == null)
+            {
+                mPool = new Pool<TracerBullet>();
+                mPool.Init(2, TracerBullet, o => o.DisableAction = b => mPool.Add(b));
+            }
             CollisionArea.SetEnterAction(HitAction);
 
             mAnimPlayKey    = Animator.GetParameter(0).nameHash;
@@ -53,8 +61,7 @@ public class MysteriousMace : Item
 
             Inventory.Instance.OnAttackEvent(mPlayer, combatable);
 
-            // 30%
-            if (Random.value <= 0.3f)
+            if (Random.value <= Probablity)
             {
                 Vector2 playerPos = mPlayer.transform.position;
 
@@ -62,8 +69,10 @@ public class MysteriousMace : Item
 
                 if (targetIObject != null)
                 {
-                    Instantiate(TracerBullet, playerPos, Quaternion.identity)
-                        .Shoot(targetIObject.ThisObject().transform, TargetHitAction);
+                    var bullet = mPool.Get();
+
+                    bullet.transform.position = playerPos;
+                    bullet.Shoot(targetIObject.ThisObject().transform, TargetHitAction);
                 }
             }
         }
