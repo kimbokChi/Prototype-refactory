@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using Kimbokchi;
 
 public class TracerBullet : MonoBehaviour
 {
@@ -27,16 +28,34 @@ public class TracerBullet : MonoBehaviour
 
     private IEnumerator TarceTarget()
     {
+        Vector2 pointA = transform.position;
+        Vector2 pointB = transform.position;
+
+        Vector3 offset = Vector2.left;
+
+        if (TargetTransform.position.y < transform.position.y)
+        {
+            offset += Vector3.up * 1.5f;
+
+            pointB += new Vector2(1.5f, -3);
+        }
+        else
+        {
+            offset -= Vector3.up * 1.5f;
+
+            pointB += new Vector2(1.5f, +3);
+        }
+
         float DeltaTime()
         {
             return Time.deltaTime * Time.timeScale;
         }
         for (float i = 0f; i < LifeTime; i += DeltaTime())
         {
-            Vector3 direction
-                = TargetTransform.position - transform.position;
+            var targetPoint = TargetTransform.position;
 
-            transform.position += direction.normalized * Speed;
+            transform.BezierCurve3
+                (pointA, pointB, targetPoint + offset, targetPoint, i / LifeTime);
 
             yield return null;
         }
