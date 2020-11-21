@@ -58,7 +58,13 @@ public class MysteriousMace : Item
             {
                 Vector2 playerPos = mPlayer.transform.position;
 
-                Instantiate(TracerBullet, playerPos, Quaternion.identity).Shoot(FindCloestEnemy(), TargetHitAction);
+                var targetIObject = Castle.Instance.GetLongestIObject(playerPos);
+
+                if (targetIObject != null)
+                {
+                    Instantiate(TracerBullet, playerPos, Quaternion.identity)
+                        .Shoot(targetIObject.ThisObject().transform, TargetHitAction);
+                }
             }
         }
     }
@@ -71,22 +77,6 @@ public class MysteriousMace : Item
             combat.Damaged(StatTable[ItemStat.AttackPower] * 0.666f, mPlayer);
         }
     }
-
-    private Transform FindCloestEnemy()
-    {
-        float Distance(GameObject o)
-        {
-            return Vector2.Distance(o.transform.position, mPlayer.transform.position);
-        }
-        var enemies = GameObject.FindGameObjectsWithTag("Enemy")
-            .Where(o => o.activeSelf)
-            .Where(o => Distance(o) > WeaponRange);
-
-        var enemy = enemies.OrderBy(o => Distance(o)).FirstOrDefault();
-
-        return enemy?.transform;
-    }
-
     protected override void CameraShake()
     {
         MainCamera.Instance.Shake(0.25f, 1.5f, true);

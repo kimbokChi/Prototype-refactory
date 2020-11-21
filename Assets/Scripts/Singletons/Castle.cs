@@ -128,6 +128,41 @@ public class Castle : Singleton<Castle>
         return mPlayerFloor.GetRooms()[(int)mPlayer.GetLPOSITION3()];
     }
 
+    public IObject GetLongestIObject(Vector2 comparePos)
+    {
+        float Distance(IObject o)
+        {
+            return Vector2.Distance(o.ThisObject().transform.position, comparePos);
+        }
+        float longestDistance = 0f;
+
+        IObject selected = null;
+
+        for (int i = 0; i < 3; i++)
+        {
+            var list = mPlayerFloor.GetRooms()[i].GetIObjects();
+
+            if (list.Count > 0) {
+
+                var select = list.OrderBy(o => -Distance(o)).FirstOrDefault();
+
+                if (select != null)
+                {
+                    float selectDistance 
+                        = Distance(select);
+
+                    if (selectDistance > longestDistance)
+                    {
+                        selected = select;
+
+                        longestDistance = selectDistance;
+                    }
+                }
+            }
+        }
+        return selected;
+    }
+
     #region _MEMBER
     /// <summary>
     /// 멤버함수 : 지정한 인덱스의 층이 존재하는지의 여부를 반환합니다.
