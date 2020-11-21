@@ -8,7 +8,6 @@ public class TracerBullet : MonoBehaviour
     public Action<TracerBullet> DisableAction;
 
     [SerializeField] private float LifeTime;
-    [SerializeField] private float Speed;
 
     private Transform TargetTransform;
     private IEnumerator ETarceTarget;
