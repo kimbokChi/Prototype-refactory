@@ -251,10 +251,12 @@ public class Player : MonoBehaviour, ICombatable
         {
             InputAction();
         }
-        if (RangeArea.CloestTargetPos().x > transform.position.x)
-             transform.localRotation = Quaternion.Euler(Vector3.zero);
-        else transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
-
+        if (RangeArea.HasAny())
+        {
+            if (RangeArea.CloestTargetPos().x > transform.position.x)
+                 transform.localRotation = Quaternion.Euler(Vector3.zero);
+            else transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+        }
         if (mInventory.IsEquipWeapon())
         {
             if (RangeArea.HasAny())
