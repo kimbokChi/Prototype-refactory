@@ -5,12 +5,12 @@ public class MysteriousMace : Item
 {
     [Range(0f, 1f)]
     [SerializeField] private float Probablity;
-    [SerializeField] private TracerBullet TracerBullet;
+    [SerializeField] private MysteriousBullet TracerBullet;
 
     [SerializeField] private Animator Animator;
     [SerializeField] private Area CollisionArea;
 
-    private Pool<TracerBullet> mPool;
+    private Pool<MysteriousBullet> mPool;
 
     private int mAnimPlayKey;
     private int mAnimControlKey;
@@ -41,7 +41,7 @@ public class MysteriousMace : Item
         {
             if (mPool == null)
             {
-                mPool = new Pool<TracerBullet>();
+                mPool = new Pool<MysteriousBullet>();
                 mPool.Init(2, TracerBullet, o => o.DisableAction = b => mPool.Add(b));
             }
             CollisionArea.SetEnterAction(HitAction);
@@ -57,6 +57,10 @@ public class MysteriousMace : Item
     {
         if (target.TryGetComponent(out ICombatable combatable))
         {
+            if (combatable.GetAbility.Table[Ability.CurHealth] <= 0)
+            {
+                return;
+            }
             combatable.Damaged(StatTable[ItemStat.AttackPower], mPlayer);
 
             Inventory.Instance.OnAttackEvent(mPlayer, combatable);

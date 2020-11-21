@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using Kimbokchi;
 
-public class TracerBullet : MonoBehaviour
+public class MysteriousBullet : MonoBehaviour
 {
-    public Action<TracerBullet> DisableAction;
+    public System.Action<MysteriousBullet> DisableAction;
 
     [SerializeField] private float LifeTime;
 
     private Transform TargetTransform;
     private IEnumerator ETarceTarget;
-    private Action<GameObject> TargetHitAction;
 
-    public bool Shoot(Transform target, Action<GameObject> hitAction)
+    private System.Action<GameObject> TargetHitAction;
+
+    public bool Shoot(Transform target, System.Action<GameObject> hitAction)
     {
         bool canShoot = ETarceTarget == null;
 
@@ -29,23 +29,20 @@ public class TracerBullet : MonoBehaviour
 
     private IEnumerator TarceTarget()
     {
+        Vector2 RandomVector(float minX, float maxX, float minY, float maxY)
+        {
+            return new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
+        }
         Vector2 pointA = transform.position;
-        Vector2 pointB = transform.position;
-
-        Vector3 offset = Vector2.left;
+        Vector2 pointB = Castle.Instance.PointToFloorPoint(RandomVector(-4, 4, -7, 7));
+        Vector2 pointC = Castle.Instance.PointToFloorPoint(RandomVector(-4, 4, -7, 7));
 
         if (TargetTransform.position.y < transform.position.y)
         {
-            offset += Vector3.up * 1.5f;
-
-            pointB += new Vector2(1.5f, -3);
+            pointB += new Vector2(2, -3);
         }
         else
-        {
-            offset -= Vector3.up * 1.5f;
-
-            pointB += new Vector2(1.5f, +3);
-        }
+            pointB += new Vector2(2, +3);
 
         float DeltaTime()
         {
@@ -53,10 +50,14 @@ public class TracerBullet : MonoBehaviour
         }
         for (float i = 0f; i < LifeTime; i += DeltaTime())
         {
+            if (!TargetTransform.gameObject.activeSelf)
+            {
+                break;
+            }
             var targetPoint = TargetTransform.position;
 
             transform.BezierCurve3
-                (pointA, pointB, targetPoint + offset, targetPoint, i / LifeTime);
+                (pointA, pointB, pointC, targetPoint, i / LifeTime);
 
             yield return null;
         }
