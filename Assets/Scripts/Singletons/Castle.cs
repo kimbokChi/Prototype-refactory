@@ -163,6 +163,12 @@ public class Castle : Singleton<Castle>
         return selected;
     }
 
+    // 입력한 월드좌표를 현재 활성화된 층 상의 좌표로 변환한 값을 반환합니다
+    public Vector2 PointToFloorPoint(Vector2 point)
+    {
+        return (Vector2)mPlayerFloor.transform.position + point;
+    }
+
     #region _MEMBER
     /// <summary>
     /// 멤버함수 : 지정한 인덱스의 층이 존재하는지의 여부를 반환합니다.
