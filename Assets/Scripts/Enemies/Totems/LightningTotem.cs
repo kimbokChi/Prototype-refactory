@@ -16,8 +16,6 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
 
     private AttackPeriod mAttackPeriod;
 
-    private Pool<Lightning> mPool;
-
     public AbilityTable GetAbility => AbilityTable;
 
     public void IInit()
@@ -30,9 +28,7 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         mAttackPeriod.SetAction(Period.Attack, () => {
             EnemyAnimator.ChangeState(AnimState.Attack);
         });
-
-        mPool = new Pool<Lightning>();
-        mPool.Init(mLighting, Pool_popMethod, null, o => o.gameObject.activeSelf);
+        mLighting = Instantiate(mLighting);
     }
 
     public bool IsActive()
@@ -42,8 +38,6 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
 
     public void IUpdate()
     {
-        mPool.Update();
-
         if (!mAttackPeriod.IsProgressing())
         {
             if (mPlayer != null)
@@ -71,8 +65,12 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     {
         MainCamera.Instance.Shake(0.1f, 0.3f, true);
 
-        if (mPlayer.TryGetPosition(out Vector2 playerPos)) {
-            mPool.Pop().SetAttackPower(AbilityTable.AttackPower);
+        if (mPlayer.TryGetPosition(out Vector2 playerPos)) 
+        {
+            mLighting.transform.position = mLightingOffset + playerPos;
+            mLighting.gameObject.SetActive(true);
+
+            mLighting.SetAttackPower(AbilityTable.AttackPower);
         }
     }
 
