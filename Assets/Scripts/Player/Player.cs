@@ -171,14 +171,10 @@ public class Player : MonoBehaviour, ICombatable
                     o.transform.localScale    = Vector3.one;
                     o.transform.localPosition = Vector3.zero;
 
-                    float ItemData(string dataName) {
-                        return float.Parse(DataUtil.GetDataValue("ItemData", "ID", o.GetType().ToString(), dataName));
-                    }
-
                     mRangeCollider.radius = o.WeaponRange;
 
-                    AbilityTable.Table[Ability.After_AttackDelay] = ItemData("Begin-AttackDelay");
-                    AbilityTable.Table[Ability.Begin_AttackDelay] = ItemData("After-AttackDelay");
+                    AbilityTable.Table[Ability.After_AttackDelay] = o.After_AttackDelay;
+                    AbilityTable.Table[Ability.Begin_AttackDelay] = o.Begin_AttackDelay;
 
                     o.AttackOverAction = () => mAttackPeriod.AttackActionOver();
                 }
@@ -255,10 +251,12 @@ public class Player : MonoBehaviour, ICombatable
         {
             InputAction();
         }
-        if (RangeArea.CloestTargetPos().x > transform.position.x)
-             transform.localRotation = Quaternion.Euler(Vector3.zero);
-        else transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
-
+        if (RangeArea.HasAny())
+        {
+            if (RangeArea.CloestTargetPos().x > transform.position.x)
+                 transform.localRotation = Quaternion.Euler(Vector3.zero);
+            else transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+        }
         if (mInventory.IsEquipWeapon())
         {
             if (RangeArea.HasAny())

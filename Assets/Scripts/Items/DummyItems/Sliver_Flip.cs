@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Sliver_Flip : Item
 {
-    public override ItemRating Rating => ItemRating.Epic;
-
     public override void OffEquipThis(SlotType offSlot)
     {
         switch (offSlot)

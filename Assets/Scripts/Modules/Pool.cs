@@ -1,68 +1,55 @@
 ﻿using System;
-using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Pool<T> where T : MonoBehaviour
 {
-    private T mOrigin;
+    private  Stack<T> _Pool;
+    private Action<T> _ObjectInitAction;
 
-    private Stack<T> mInThePool;
+    private T _OriginalObject;
 
-    private List<T> mOutThePool;
-
-    private Action<T> PopMethod;
-    private Action<T> AddMethod;
-
-    private Func<T, bool> CanReturnOfPool;
-
-    public void Init(T origin, Action<T> popMethod, Action<T> addMethod, Func<T, bool> canReturnOfPool)
+    public void Init(int hold, T origin, Action<T> objectInitAction = null)
     {
-        mOrigin = origin;
+        _OriginalObject = origin;
 
-        mInThePool = new Stack<T>();
-        mOutThePool = new List<T>();
+        _ObjectInitAction = objectInitAction;
 
-        PopMethod = popMethod;
-        AddMethod = addMethod;
-
-        CanReturnOfPool = canReturnOfPool;
-    }
-
-    public void Update()
-    {
-        if (CanReturnOfPool != null)
+        if (_Pool == null)
         {
-            for (int i = 0; i < mOutThePool.Count; i++)
-            {
-                if (CanReturnOfPool.Invoke(mOutThePool[i]))
-                {
-                    Add(mOutThePool[i]); mOutThePool.RemoveAt(i);
-                }
-            }
+            _Pool = new Stack<T>();
         }
+        CreatePoolObject(hold);
     }
 
-    public void Add(T instance)
+    public void Add(T obj)
     {
-        mInThePool.Push(instance);
+        obj.gameObject.SetActive(false);
 
-        AddMethod?.Invoke(instance);
+        _Pool.Push(obj);
     }
 
-    public T Pop()
+    public T Get()
     {
-        T instance;
-
-        if (mInThePool.Count == 0)
+        if (_Pool.Count == 0)
         {
-            mInThePool.Push(instance = MonoBehaviour.Instantiate(mOrigin));
+            CreatePoolObject();
         }
-        mOutThePool.Add(instance = mInThePool.Pop());
+        _Pool.Peek().gameObject.SetActive(true);
 
-        PopMethod?.Invoke(instance);
+        return _Pool.Pop();
+    }
 
-        return instance;
+    private void CreatePoolObject(int count = 1)
+    {
+        for (int i = 0; i < count; ++i)
+        {
+            var _object = UnityEngine.Object.Instantiate(_OriginalObject);
+
+            _object.gameObject.SetActive(false);
+            _ObjectInitAction?.Invoke(_object);
+
+            _Pool.Push(_object);
+        }
     }
 }

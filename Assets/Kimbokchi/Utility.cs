@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using UnityEngine;
 
 namespace Kimbokchi
 {
@@ -26,7 +26,7 @@ namespace Kimbokchi
         {
             float sum = 0f;
 
-            float lucky = (float)new Random().NextDouble();
+            float lucky = (float)new System.Random().NextDouble();
 
             for (int i = 0; i < probablities.Length; ++i)
             {
@@ -35,6 +35,18 @@ namespace Kimbokchi
                 if (lucky <= sum) return i;
             }
             return -1;
+        }
+
+        public static void BezierCurve3(this Transform transform, Vector2 pointA, Vector2 pointB, Vector2 pointC, Vector2 pointD, float ratio)
+        {
+            Vector2 a = Vector2.Lerp(pointA, pointB, ratio);
+            Vector2 b = Vector2.Lerp(pointB, pointC, ratio);
+            Vector2 c = Vector2.Lerp(pointC, pointD, ratio);
+
+            Vector2 _a = Vector2.Lerp(a, b, ratio);
+            Vector2 _b = Vector2.Lerp(b, c, ratio);
+
+            transform.position = Vector2.Lerp(_a, _b, ratio);
         }
     }
 
@@ -47,7 +59,7 @@ namespace Kimbokchi
 
         private float mComplement;
 
-        private Random mRandom;
+        private System.Random mRandom;
 
         public LuckyBox(Action<LuckyBox<T>> emptyItemListAction = null)
         {
@@ -58,7 +70,7 @@ namespace Kimbokchi
             mItemTableOrigin = new Dictionary<float, List<T>>();
             mItemTable       = new Dictionary<float, List<T>>();
 
-            mRandom = new Random();
+            mRandom = new System.Random();
         }
         public void AddItem(float probablity, params T[] itemList)
         {

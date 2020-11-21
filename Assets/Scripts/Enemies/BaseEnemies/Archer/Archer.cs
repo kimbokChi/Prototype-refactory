@@ -41,7 +41,13 @@ public class Archer : EnemyBase, IAnimEventReceiver
         HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
         mArrowPool = new Pool<Arrow>();
-        mArrowPool.Init(mArrow, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
+        mArrowPool.Init(3, mArrow, o =>
+        {
+            o.Setting(
+                a => { a.Damaged(AbilityTable.AttackPower, gameObject); },
+                i => { return i > 0; },
+                a => { mArrowPool.Add(a); });
+        });
 
         mWaitForMoving = new Timer();
         mWaitForATK    = new Timer();
@@ -60,8 +66,6 @@ public class Archer : EnemyBase, IAnimEventReceiver
 
     public override void IUpdate()
     {
-        mArrowPool.Update();
-
         if (!mAttackPeriod.IsProgressing())
         {
             if (HasPlayerOnRange() && IsLookAtPlayer())
@@ -105,7 +109,7 @@ public class Archer : EnemyBase, IAnimEventReceiver
 
     private void AttackAction()
     {
-        Arrow arrow = mArrowPool.Pop();
+        Arrow arrow = mArrowPool.Get();
 
         Vector2 direction;
 
@@ -116,29 +120,11 @@ public class Archer : EnemyBase, IAnimEventReceiver
         else
             direction = Vector2.left;
 
-        arrow.Setting(mArrowSpeed, direction);
-        arrow.Setting(Arrow_targetHit, i => i > 0);
-    }
-
-    private void Arrow_targetHit(ICombatable combat)
-    {
-        combat.Damaged(AbilityTable.AttackPower, gameObject);
-    }
-    private void Pool_popMethod(Arrow arrow)
-    {
         arrow.transform.position = mArrowPos + (Vector2)transform.position;
 
-        arrow.gameObject.SetActive(true);
+        arrow.Setting(mArrowSpeed, direction);
+        arrow.transform.position = transform.position;
     }
-    private void Pool_addMethod(Arrow arrow)
-    {
-        arrow.gameObject.SetActive(false);
-    }
-    private bool Pool_returnToPool(Arrow arrow)
-    {
-        return Vector2.Distance(transform.position, arrow.transform.position) > 7f || !arrow.gameObject.activeSelf;
-    }
-
     public void AnimationPlayOver(AnimState anim)
     {
         switch (anim)

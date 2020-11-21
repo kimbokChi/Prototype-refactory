@@ -47,8 +47,13 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
         HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
         mDartPool = new Pool<Arrow>();
-
-        mDartPool.Init(mDartOrigin, Pool_popMethod, Pool_addMethod, Pool_returnToPool);
+        mDartPool.Init(4, mDartOrigin, o => 
+        {
+            o.Setting(
+                a => { a.Damaged(AbilityTable.AttackPower, gameObject); },
+                i => { return i > 0; },
+                a => { mDartPool.Add(a); });
+        });
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
 
@@ -62,8 +67,6 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     public void IUpdate()
     {
-        mDartPool.Update();
-
         if (mPlayer != null)
         {
             mAttackPeriod.StartPeriod();
@@ -88,7 +91,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
     {
         for (int i = 0; i < 4; i++)
         {
-            Arrow arrow = mDartPool.Pop();
+            Arrow arrow = mDartPool.Get();
 
             switch (mShootingType)
             {
@@ -119,28 +122,9 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
                     float rotation = (45f + 90f * i) * Mathf.Deg2Rad;
 
                     arrow.Setting(mDartSpeed, new Vector2(Mathf.Cos(rotation), Mathf.Sin(rotation)));
+                    arrow.transform.position = transform.position;
                     break;
             }
-            arrow.transform.position = transform.position;
-
-            arrow.Setting(o => o.Damaged(AbilityTable.AttackPower, gameObject), count => count > 0);
         }
-    }
-
-    private void Pool_popMethod(Arrow arrow)
-    {
-        arrow.transform.position = transform.position;
-
-        arrow.gameObject.SetActive(true);
-    }
-    private void Pool_addMethod(Arrow arrow)
-    {
-        arrow.gameObject.SetActive(false);
-    }
-    private bool Pool_returnToPool(Arrow arrow)
-    {
-        float distance = Vector2.Distance(transform.position, arrow.transform.position);
-
-        return distance > 7f || !arrow.gameObject.activeSelf;
     }
 }
