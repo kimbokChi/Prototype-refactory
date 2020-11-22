@@ -121,6 +121,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &106242566 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3298357209763340453, guid: 8e205fe484875fc4d8d12f5d428575fe,
+    type: 3}
+  m_PrefabInstance: {fileID: 7809349178236799547}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e6d4495ac544c4fbd63dbea02da9cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &254027281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -242,6 +254,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8680912197157835156, guid: 98331778b79e70341ac4b8b058341323,
         type: 3}
+    - target: {fileID: 6884020205522575853, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+        type: 3}
+      propertyPath: Items.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6884020205522575853, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+        type: 3}
+      propertyPath: Items.Array.data[0]
+      value: 
+      objectReference: {fileID: 1681161428}
+    - target: {fileID: 6884020205522575853, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+        type: 3}
+      propertyPath: Items.Array.data[1]
+      value: 
+      objectReference: {fileID: 106242566}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51e73a3e3f1d2b947bbbed0df04f4304, type: 3}
 --- !u!1 &254027282 stripped
@@ -934,6 +961,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1652176066}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1681161428 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7723250408782408541, guid: 578a6d98256900e499ab99ead2b47762,
+    type: 3}
+  m_PrefabInstance: {fileID: 411659893}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06fd53a1a997a5c46a9a84c8c726d47f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2002145648 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5768596560112358595, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
