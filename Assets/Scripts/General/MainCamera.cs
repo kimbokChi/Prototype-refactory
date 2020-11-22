@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+
+public enum FadeType { In, Out }
 
 public static class MathExtension
 {
@@ -12,9 +16,13 @@ public static class MathExtension
 
 public class MainCamera : Singleton<MainCamera>
 {
+    [SerializeField] private Image FadeFilter;
     [SerializeField] private Camera ThisCamera;
     [SerializeField] private float OriginCameraScale;
 
+    private Action mFadeOverAction;
+
+    private IEnumerator mCameraFade;
     private IEnumerator mCameraShake;
     private IEnumerator mCameraMove;
     private IEnumerator mCameraZoom;
@@ -61,6 +69,33 @@ public class MainCamera : Singleton<MainCamera>
         StartCoroutine(mCameraMove = CameraMove(point, speed));
     }
 
+    public void Fade(float time, FadeType fadeType)
+    {
+        Color fadeColor = Color.white;
+
+        switch (fadeType)
+        {
+            case FadeType.In:
+                fadeColor = Color.black;
+                break;
+
+            case FadeType.Out:
+                fadeColor = Color.clear;
+                break;
+        }
+        if (mCameraFade != null)
+        {
+            StopCoroutine(mCameraFade);
+        }
+        StartCoroutine(mCameraFade = CameraFade(time, fadeColor));
+    }
+    public void Fade(float time, FadeType fadeType, Action fadeOverAction)
+    {
+        mFadeOverAction = fadeOverAction;
+
+        Fade(time, fadeType);
+    }
+
     public void ZoomIn(float time, float percent, bool usingTimeScale)
     {
         ZoomIn(mOriginPosition, time, percent, usingTimeScale);
@@ -97,6 +132,22 @@ public class MainCamera : Singleton<MainCamera>
         StartCoroutine(mCameraZoom = CameraZoomOut(time, usingTimeScale));
     }
 
+    private IEnumerator CameraFade(float time, Color fadeColor)
+    {
+        var initColor = FadeFilter.color;
+
+        for (float i = 0f; i < time; i += Time.deltaTime * Time.timeScale)
+        {
+            FadeFilter.color = Color.Lerp(initColor, fadeColor, i / time);
+
+            yield return null;
+        }
+        mCameraFade = null;
+
+        mFadeOverAction?.Invoke();
+        mFadeOverAction = null;
+    }
+
     private IEnumerator CameraShake(float time, float power, bool usingTimeScale)
     {
         float deltaTime = 0f;
@@ -105,7 +156,7 @@ public class MainCamera : Singleton<MainCamera>
 
         for (float i = 0; i < time; i += deltaTime)
         {
-            transform.position = mOriginPosition + (Vector3)(Random.insideUnitCircle * power);
+            transform.position = mOriginPosition + (Vector3)(UnityEngine.Random.insideUnitCircle * power);
 
             deltaTime = Time.deltaTime;
 

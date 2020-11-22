@@ -251,7 +251,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             InputAction();
         }
-        if (RangeArea.HasAny())
+        if (RangeArea.HasAny() && mEMove == null)
         {
             if (RangeArea.CloestTargetPos().x > transform.position.x)
                  transform.localRotation = Quaternion.Euler(Vector3.zero);

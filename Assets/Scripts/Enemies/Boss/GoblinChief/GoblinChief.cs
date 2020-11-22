@@ -33,6 +33,10 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     [Header("Summon Goblins")]
     [SerializeField] private GameObject[] Goblins;
 
+    [Header("Death rattle")]
+    [SerializeField] private float FadeTime;
+    [SerializeField] private SceneLoader TownLoader;
+
     private Player mPlayer;
     private int mControlKey;
 
@@ -62,6 +66,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
             gameObject.SetActive(false);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            DeathRattle();
         }
     }
 
@@ -267,6 +273,12 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     public GameObject ThisObject() {
         return gameObject;
+    }
+
+    // 죽을때 사용하는 그런 머시기
+    private void DeathRattle()
+    {
+        MainCamera.Instance.Fade(FadeTime, FadeType.In, () => TownLoader.SceneLoad());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
