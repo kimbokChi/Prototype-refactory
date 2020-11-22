@@ -27,10 +27,12 @@ public class ItemLibrary : Singleton<ItemLibrary>
     {
         float sum = Common + Rare + Epic + Legendary;
 
-        Debug.Log($"Probablity Sum : {sum}");
-
-        if (sum != 1f)
-            Debug.LogError($"아이템 등장 확률의 총합은 1이 될 것을 권장합니다.");
+        if (sum == 1)
+        {
+            Debug.Log($"Probablity Sum : {sum}");
+        }
+        else
+            Debug.LogError($"Probablity Sum : {sum}");
     }
 
     private void Awake()
