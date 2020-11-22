@@ -19,7 +19,7 @@ public class DungeonNPC : MonoBehaviour
     {
         mHasPlayer = false;
 
-        Charge.DisChargeEvent += Interact;
+        Charge.DisChargeEvent += Interact; 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -33,7 +33,8 @@ public class DungeonNPC : MonoBehaviour
 
     private void Interact()
     {
-        if (mHasPlayer) {
+        if (mHasPlayer)
+        {
             DungeonSelectWindow.SetActive(true);
         }
     }

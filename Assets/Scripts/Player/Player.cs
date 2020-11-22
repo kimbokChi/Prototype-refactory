@@ -171,14 +171,10 @@ public class Player : MonoBehaviour, ICombatable
                     o.transform.localScale    = Vector3.one;
                     o.transform.localPosition = Vector3.zero;
 
-                    float ItemData(string dataName) {
-                        return float.Parse(DataUtil.GetDataValue("ItemData", "ID", o.GetType().ToString(), dataName));
-                    }
-
                     mRangeCollider.radius = o.WeaponRange;
 
-                    AbilityTable.Table[Ability.After_AttackDelay] = ItemData("Begin-AttackDelay");
-                    AbilityTable.Table[Ability.Begin_AttackDelay] = ItemData("After-AttackDelay");
+                    AbilityTable.Table[Ability.After_AttackDelay] = o.After_AttackDelay;
+                    AbilityTable.Table[Ability.Begin_AttackDelay] = o.Begin_AttackDelay;
 
                     o.AttackOverAction = () => mAttackPeriod.AttackActionOver();
                 }
@@ -192,7 +188,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             DIRECTION9 moveDir9 = DIRECTION9.END;
 
-            if (Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKey(KeyCode.UpArrow) || Finger.Instance.Swipe(SwipeDirection.up))
             {
                 switch (GetLPOSITION3())
                 {
@@ -212,7 +208,7 @@ public class Player : MonoBehaviour, ICombatable
                         break;
                 }
             }
-            else if (Input.GetKey(KeyCode.DownArrow))
+            else if (Input.GetKey(KeyCode.DownArrow) || Finger.Instance.Swipe(SwipeDirection.down))
             {
                 switch (GetLPOSITION3())
                 {
@@ -233,12 +229,12 @@ public class Player : MonoBehaviour, ICombatable
                         break;
                 }
             }
-            else if (Input.GetKey(KeyCode.LeftArrow))
+            else if (Input.GetKey(KeyCode.LeftArrow) || Finger.Instance.Swipe(SwipeDirection.left))
             {
                 if (GetTPOSITION3() != TPOSITION3.LEFT)
                     moveDir9 = mLocation9 - 1;
             }
-            else if (Input.GetKey(KeyCode.RightArrow))
+            else if (Input.GetKey(KeyCode.RightArrow) || Finger.Instance.Swipe(SwipeDirection.right))
             {
                 if (GetTPOSITION3() != TPOSITION3.RIGHT)
                     moveDir9 = mLocation9 + 1;
@@ -255,10 +251,12 @@ public class Player : MonoBehaviour, ICombatable
         {
             InputAction();
         }
-        if (RangeArea.CloestTargetPos().x > transform.position.x)
-             transform.localRotation = Quaternion.Euler(Vector3.zero);
-        else transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
-
+        if (RangeArea.HasAny())
+        {
+            if (RangeArea.CloestTargetPos().x > transform.position.x)
+                 transform.localRotation = Quaternion.Euler(Vector3.zero);
+            else transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+        }
         if (mInventory.IsEquipWeapon())
         {
             if (RangeArea.HasAny())

@@ -1,0 +1,97 @@
+﻿using System.Linq;
+using UnityEngine;
+
+public class MysteriousMace : Item
+{
+    [Range(0f, 1f)]
+    [SerializeField] private float Probablity;
+    [SerializeField] private MysteriousBullet TracerBullet;
+
+    [SerializeField] private Animator Animator;
+    [SerializeField] private Area CollisionArea;
+
+    private Pool<MysteriousBullet> mPool;
+
+    private int mAnimPlayKey;
+    private int mAnimControlKey;
+
+    private GameObject mPlayer;
+
+    private void Reset()
+    {
+        Debug.Assert(TryGetComponent(out Animator));
+    }
+
+    public override void AttackAction(GameObject attacker, ICombatable combatable)
+    {
+        Animator.SetBool(mAnimPlayKey, true);
+        Animator.SetBool(mAnimControlKey, !Animator.GetBool(mAnimControlKey));
+
+        mPlayer = attacker;
+    }
+
+    public override void OffEquipThis(SlotType offSlot)
+    {
+        
+    }
+
+    public override void OnEquipThis(SlotType onSlot)
+    {
+        if (onSlot.Equals(SlotType.Weapon))
+        {
+            if (mPool == null)
+            {
+                mPool = new Pool<MysteriousBullet>();
+                mPool.Init(2, TracerBullet, o => o.DisableAction = b => mPool.Add(b));
+            }
+            CollisionArea.SetEnterAction(HitAction);
+
+            mAnimPlayKey    = Animator.GetParameter(0).nameHash;
+            mAnimControlKey = Animator.GetParameter(1).nameHash;
+
+            mPlayer = transform.parent.parent.gameObject;
+        }
+    }
+
+    private void HitAction(GameObject target)
+    {
+        if (target.TryGetComponent(out ICombatable combatable))
+        {
+            if (combatable.GetAbility.Table[Ability.CurHealth] <= 0)
+            {
+                return;
+            }
+            combatable.Damaged(StatTable[ItemStat.AttackPower], mPlayer);
+
+            Inventory.Instance.OnAttackEvent(mPlayer, combatable);
+
+            if (Random.value <= Probablity)
+            {
+                Vector2 playerPos = mPlayer.transform.position;
+
+                var targetIObject = Castle.Instance.GetLongestIObject(playerPos);
+
+                if (targetIObject != null)
+                {
+                    var bullet = mPool.Get();
+
+                    bullet.transform.position = playerPos;
+                    bullet.Shoot(targetIObject.ThisObject().transform, TargetHitAction);
+                }
+            }
+        }
+    }
+
+    private void TargetHitAction(GameObject target)
+    {
+        if (target.TryGetComponent(out ICombatable combat))
+        {
+            // 2/3의 피해
+            combat.Damaged(StatTable[ItemStat.AttackPower] * 0.666f, mPlayer);
+        }
+    }
+    protected override void CameraShake()
+    {
+        MainCamera.Instance.Shake(0.25f, 1.5f, true);
+    }
+}

@@ -128,6 +128,47 @@ public class Castle : Singleton<Castle>
         return mPlayerFloor.GetRooms()[(int)mPlayer.GetLPOSITION3()];
     }
 
+    public IObject GetLongestIObject(Vector2 comparePos)
+    {
+        float Distance(IObject o)
+        {
+            return Vector2.Distance(o.ThisObject().transform.position, comparePos);
+        }
+        float longestDistance = 0f;
+
+        IObject selected = null;
+
+        for (int i = 0; i < 3; i++)
+        {
+            var list = mPlayerFloor.GetRooms()[i].GetIObjects();
+
+            if (list.Count > 0) {
+
+                var select = list.OrderBy(o => -Distance(o)).FirstOrDefault();
+
+                if (select != null)
+                {
+                    float selectDistance 
+                        = Distance(select);
+
+                    if (selectDistance > longestDistance)
+                    {
+                        selected = select;
+
+                        longestDistance = selectDistance;
+                    }
+                }
+            }
+        }
+        return selected;
+    }
+
+    // 입력한 월드좌표를 현재 활성화된 층 상의 좌표로 변환한 값을 반환합니다
+    public Vector2 PointToFloorPoint(Vector2 point)
+    {
+        return (Vector2)mPlayerFloor.transform.position + point;
+    }
+
     #region _MEMBER
     /// <summary>
     /// 멤버함수 : 지정한 인덱스의 층이 존재하는지의 여부를 반환합니다.
@@ -172,7 +213,10 @@ public class Castle : Singleton<Castle>
             midMovePoint[0], midMovePoint[1], midMovePoint[2],
             botMovePoint[0], botMovePoint[1], botMovePoint[2]
         };
-        StageEventLibrary.Instance?.NotifyEvent(NotifyMessage.StageEnter);
+        if (!DisableStageEvent)
+        {
+            StageEventLibrary.Instance?.NotifyEvent(NotifyMessage.StageEnter);
+        }
         mIsCastClearEvent = false;
     }
     #region _MEMBER

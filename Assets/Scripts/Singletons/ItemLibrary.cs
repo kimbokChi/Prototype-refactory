@@ -36,7 +36,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
         }
         mProbabilityArray = new float[4] 
         {
-            COMMON_PROBABILITY, RARE_PROBABILITY, EPIC_PROBABILITY, LEGENDARY_PROBABILITY 
+            COMMON_PROBABILITY, RARE_PROBABILITY, EPIC_PROBABILITY, LEGENDARY_PROBABILITY
         };
     }
 
@@ -65,6 +65,21 @@ public class ItemLibrary : Singleton<ItemLibrary>
                 }
             }
         }
+        return getItem;
+    }
+
+    public Item GetRandomItem(ItemRating rating)
+    {
+        Item getItem = null;
+
+        if (mLibrary[rating].Count != 0)
+        {
+            int itemIndex = Random.Range(0, mLibrary[rating].Count);
+
+            getItem = mLibrary[rating][itemIndex];
+            mLibrary[rating].RemoveAt(itemIndex);
+        }
+
         return getItem;
     }
 }

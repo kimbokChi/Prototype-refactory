@@ -12,6 +12,8 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
 {
     [SerializeField]
     private GameObject ItemBox;
+    [SerializeField]
+    private GameObject DungeonNPC;
 
     [SerializeField]
     private Animator InventoryButton;
@@ -22,6 +24,7 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
     private void Awake()
     {
         StageClearEvent += CreateItemBox;
+        StageClearEvent += CreateNPC;
         StageClearEvent += () => SetActiveInventoryButton(true);
 
         StageEnterEvent += () => SetActiveInventoryButton(false);
@@ -43,16 +46,22 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
 
     private void CreateItemBox()
     {
+        Instantiate(ItemBox, RandomRoomPoint(), Quaternion.identity);
+    }
+
+    private void CreateNPC()
+    {
+    }
+
+    private Vector2 RandomRoomPoint()
+    {
         // 0 or 3 or 6
         int floorIndex = Random.Range(0, 3) * 3;
 
         Vector2 createPointMin = Castle.Instance.GetMovePoint((DIRECTION9)floorIndex);
         Vector2 createPointMax = Castle.Instance.GetMovePoint((DIRECTION9)floorIndex + 2);
 
-        Vector2 createPoint = new Vector2
-            (Random.Range(createPointMin.x, createPointMax.x), createPointMin.y + 0.5f);
-
-        Instantiate(ItemBox, createPoint, Quaternion.identity);
+        return new Vector2(Random.Range(createPointMin.x, createPointMax.x), createPointMin.y + 0.5f);
     }
 
     private void SetActiveInventoryButton(bool isActive)

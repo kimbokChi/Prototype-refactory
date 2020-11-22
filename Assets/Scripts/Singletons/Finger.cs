@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+public enum SwipeDirection
+{
+    up, down, right, left
+}
+
 public class Finger : Singleton<Finger>
 {
     private const float PRESS_TIME = 0.8f;
@@ -23,8 +28,15 @@ public class Finger : Singleton<Finger>
 
     private IEnumerator mEOnBulletTime;
 
+    [SerializeField] private float SwipeLength;
+
+    private Vector2 mTouchBeganPos;
+    private Vector2 mTouchEndedPos;
+    private Vector2 mCurrentSwipe;
+
     private void Awake() {
         mCurPressTime = 0f;
+        mTouchBeganPos = mTouchEndedPos = mCurrentSwipe = Vector2.zero;
     }
 
     private void Update()
@@ -99,5 +111,43 @@ public class Finger : Singleton<Finger>
             yield return null;
         }
         yield break;
+    }
+
+    public bool Swipe(SwipeDirection inputDriection)
+    {
+        if (Input.touches.Length > 0)
+        {
+            Touch t = Input.GetTouch(0);
+            if (t.phase == TouchPhase.Began)
+            {
+                mTouchBeganPos = t.position;
+            }
+            if (t.phase == TouchPhase.Ended)
+            {
+                mTouchEndedPos = t.position;
+
+                mCurrentSwipe = mTouchEndedPos - mTouchBeganPos;
+
+                mCurrentSwipe.Normalize();
+
+                if (mCurrentSwipe.x > 0 && mCurrentSwipe.y > -0.5f && mCurrentSwipe.y < 0.5f)
+                {
+                    return SwipeDirection.right == inputDriection;
+                }
+                if (mCurrentSwipe.x < 0 && mCurrentSwipe.y > -0.5f && mCurrentSwipe.y < 0.5f)
+                {
+                    return SwipeDirection.left == inputDriection;
+                }
+                if (mCurrentSwipe.y > 0 && mCurrentSwipe.x > -0.5f && mCurrentSwipe.x < 0.5f)
+                {
+                    return SwipeDirection.up == inputDriection;
+                }
+                if (mCurrentSwipe.y < 0 && mCurrentSwipe.x > -0.5f && mCurrentSwipe.x < 0.5f)
+                {
+                    return SwipeDirection.down == inputDriection;
+                }
+            }
+        }
+        return false;
     }
 }

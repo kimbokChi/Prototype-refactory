@@ -3,12 +3,6 @@ using UnityEngine;
 
 public class IronSword : Item
 {
-    public override ItemRating Rating
-        => (ItemRating)Enum.Parse(typeof(ItemRating), JsonString("Rating"));
-
-    public override float WeaponRange
-        => float.Parse(JsonString("Range"));
-
     public override void OffEquipThis(SlotType offSlot)
     {
         switch (offSlot)
