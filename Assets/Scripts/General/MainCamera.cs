@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,8 @@ public class MainCamera : Singleton<MainCamera>
     [SerializeField] private Image FadeFilter;
     [SerializeField] private Camera ThisCamera;
     [SerializeField] private float OriginCameraScale;
+
+    private Action mFadeOverAction;
 
     private IEnumerator mCameraFade;
     private IEnumerator mCameraShake;
@@ -86,6 +89,12 @@ public class MainCamera : Singleton<MainCamera>
         }
         StartCoroutine(mCameraFade = CameraFade(time, fadeColor));
     }
+    public void Fade(float time, FadeType fadeType, Action fadeOverAction)
+    {
+        mFadeOverAction = fadeOverAction;
+
+        Fade(time, fadeType);
+    }
 
     public void ZoomIn(float time, float percent, bool usingTimeScale)
     {
@@ -134,6 +143,9 @@ public class MainCamera : Singleton<MainCamera>
             yield return null;
         }
         mCameraFade = null;
+
+        mFadeOverAction?.Invoke();
+        mFadeOverAction = null;
     }
 
     private IEnumerator CameraShake(float time, float power, bool usingTimeScale)
@@ -144,7 +156,7 @@ public class MainCamera : Singleton<MainCamera>
 
         for (float i = 0; i < time; i += deltaTime)
         {
-            transform.position = mOriginPosition + (Vector3)(Random.insideUnitCircle * power);
+            transform.position = mOriginPosition + (Vector3)(UnityEngine.Random.insideUnitCircle * power);
 
             deltaTime = Time.deltaTime;
 
