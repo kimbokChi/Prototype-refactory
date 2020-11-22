@@ -65,6 +65,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5f481f23da714c4cbbdac638d94ea4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Common: 0.5
+  Rare: 0.3
+  Epic: 0.15
+  Legendary: 0.05
   Items: []
 --- !u!114 &2518353896841765212
 MonoBehaviour:
