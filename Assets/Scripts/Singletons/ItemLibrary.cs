@@ -66,20 +66,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
             // 현재 등급의 아이템에서 반환할 수 있는 아이템이 없다면
             if (mLibrary[currentRating].Count == 0)
             {
-                int division = 
-                    mLibrary.ToList().Count(o => o.Value.Count > 0);
-
-                float additive =
-                    mProbabilityArray[invokeCount] / division;
-
-                for (int i = 0; i < 4; i++)
-                {
-                    // 반환할 수 있는 나머지 등급들의 확률을 보정한다
-                    if (mLibrary[(ItemRating)i].Count > 0)
-                    {
-                        mProbabilityArray[i] += additive;
-                    }
-                }
+                // 반복 중단
                 continue;
             }
             sum += mProbabilityArray[invokeCount];
@@ -89,13 +76,30 @@ public class ItemLibrary : Singleton<ItemLibrary>
             {
                 int index = Random.Range(0, mLibrary[currentRating].Count);
 
+                // 그 등급의 아이템 중 무작위 아이템 반환
                 var item = mLibrary[currentRating][index];
                            mLibrary[currentRating].RemoveAt(index);
 
-                // 그 등급의 아이템 중 무작위 아이템 반환
+                // 반환하기 전에, 리스트가 비어있다면
+                if (mLibrary[currentRating].Count == 0)
+                {
+                    int division =
+                        mLibrary.ToList().Count(o => o.Value.Count > 0);
+
+                    float additive =
+                        mProbabilityArray[invokeCount] / division;
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        // 반환할 수 있는 나머지 등급들의 확률을 보정한다
+                        if (mLibrary[(ItemRating)i].Count > 0)
+                        {
+                            mProbabilityArray[i] += additive;
+                        }
+                    }
+                }
                 return item;
             }
-            invokeCount++;
         }
         return null;
     }
