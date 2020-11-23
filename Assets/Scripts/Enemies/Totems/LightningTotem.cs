@@ -95,7 +95,7 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         }
     }
 
-    public void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    public void CastBuff(Buff buffType, IEnumerator castedBuff)
     {
         StartCoroutine(castedBuff);
     }

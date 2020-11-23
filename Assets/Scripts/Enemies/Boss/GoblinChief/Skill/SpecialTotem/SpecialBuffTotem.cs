@@ -27,11 +27,11 @@ public class SpecialBuffTotem : MonoBehaviour
                 var buffLib = BuffLibrary.Instance;
                 var ability = combatable.GetAbility;
 
-                combatable.CastBuff(BUFF.POWER_BOOST, 
-                    buffLib.GetSlowBUFF(BUFF.POWER_BOOST, BuffLevel, BuffDurate, ability));
+                combatable.CastBuff(Buff.PowerBoost, 
+                    buffLib.GetBuff(Buff.PowerBoost, BuffLevel, BuffDurate, ability));
 
-                combatable.CastBuff(BUFF.SPEEDUP,
-                    buffLib.GetSlowBUFF(BUFF.SPEEDUP, BuffLevel, BuffDurate, ability));
+                combatable.CastBuff(Buff.SpeedUp,
+                    buffLib.GetBuff(Buff.SpeedUp, BuffLevel, BuffDurate, ability));
             }
         });
     }

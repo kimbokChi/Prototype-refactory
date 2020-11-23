@@ -96,7 +96,7 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
 
         if (Range.TryEnterTypeT(out Player player) && _Player != null)
         {
-            _Player.CastBuff(BUFF.SPEEDUP, BuffLibrary.Instance.GetSlowBUFF(BUFF.SPEEDUP, 3, 15f, _Player.GetAbility));
+            _Player.CastBuff(Buff.SpeedUp, BuffLibrary.Instance.GetBuff(Buff.SpeedUp, 3, 15f, _Player.GetAbility));
         }
     }
 
@@ -219,7 +219,7 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
     {
         return gameObject.activeSelf;
     }
-    public void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    public void CastBuff(Buff buffType, IEnumerator castedBuff)
     {
         StartCoroutine(castedBuff);
     }

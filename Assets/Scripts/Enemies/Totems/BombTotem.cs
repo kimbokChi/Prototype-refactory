@@ -87,7 +87,7 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         }
     }
 
-    public void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    public void CastBuff(Buff buffType, IEnumerator castedBuff)
     {
         StartCoroutine(castedBuff);
     }
