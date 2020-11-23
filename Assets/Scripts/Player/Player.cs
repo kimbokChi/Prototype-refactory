@@ -387,7 +387,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             mBlinkTimer.Start(mBlinkTime);
 
-            MainCamera.Instance.Shake(0.16f, 0.5f, true);
+            MainCamera.Instance.Shake(0.3f, 1.0f, true);
 
             mInventory.OnDamaged(ref damage, attacker, gameObject);
 
@@ -396,6 +396,7 @@ public class Player : MonoBehaviour, ICombatable
             {
                 DeathEvent.Invoke();
             }
+            EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
         }
     }
 
