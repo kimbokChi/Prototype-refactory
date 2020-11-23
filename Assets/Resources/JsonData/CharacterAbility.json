@@ -130,16 +130,6 @@
     "Range": "10.0"
   },
   {
-    "ID": "Sea_SharkTheSpearman",
-    "MoveSpeed": "1.5",
-    "MaxHealth": "50.0",
-    "AttackPower": "10.0",
-    "Begin_AttackDelay": "1.0",
-    "After_AttackDelay": "2.0",
-    "RecognitionArea": "Room",
-    "Range": "5.0"
-  },
-  {
     "ID": "TrainingOnly",
     "MoveSpeed": "0.0",
     "MaxHealth": "999.0",
@@ -154,6 +144,36 @@
     "MoveSpeed": "1.0",
     "MaxHealth": "1.0",
     "AttackPower": "1.0",
+    "Begin_AttackDelay": "1.0",
+    "After_AttackDelay": "1.0",
+    "RecognitionArea": "Room",
+    "Range": "1.0"
+  },
+  {
+    "ID": "Sea_SharkTheSpearman",
+    "MoveSpeed": "1.5",
+    "MaxHealth": "50.0",
+    "AttackPower": "10.0",
+    "Begin_AttackDelay": "1.0",
+    "After_AttackDelay": "1.5",
+    "RecognitionArea": "Room",
+    "Range": "4.0"
+  },
+  {
+    "ID": "Sea_PufferFish",
+    "MoveSpeed": "1.0",
+    "MaxHealth": "30.0",
+    "AttackPower": "2.0",
+    "Begin_AttackDelay": "0.5",
+    "After_AttackDelay": "0.0",
+    "RecognitionArea": "Room",
+    "Range": "0.5"
+  },
+  {
+    "ID": "Sea_LatentMonkfish",
+    "MoveSpeed": "1.2",
+    "MaxHealth": "50.0",
+    "AttackPower": "5.0",
     "Begin_AttackDelay": "1.0",
     "After_AttackDelay": "1.0",
     "RecognitionArea": "Room",
