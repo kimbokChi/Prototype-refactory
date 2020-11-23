@@ -47,11 +47,17 @@ public class BuffLibrary : Singleton<BuffLibrary>
         for (float i = 0; i < duration; i += DeltaTime) 
         {
             ability.Table[Ability.IMoveSpeed] = -ability.Table[Ability.MoveSpeed];
+            ability.Table[Ability.IBegin_AttackDelay] = 99999f;
+            ability.Table[Ability.IAfter_AttackDelay] = 99999f;
             yield return null;
 
             ability.Table[Ability.IMoveSpeed] = -ability.Table[Ability.MoveSpeed];
+            ability.Table[Ability.IBegin_AttackDelay] = 99999f;
+            ability.Table[Ability.IAfter_AttackDelay] = 99999f;
         }
         ability.Table[Ability.IMoveSpeed] = 0f;
+        ability.Table[Ability.IBegin_AttackDelay] = 0f;
+        ability.Table[Ability.IAfter_AttackDelay] = 0f;
     }
 
     public IEnumerator GetBuff(Buff buff, uint level, float duration, AbilityTable ability)

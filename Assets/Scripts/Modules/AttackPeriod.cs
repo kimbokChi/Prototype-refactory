@@ -65,18 +65,15 @@ public class AttackPeriod
         float DeltaTime() {
             return Time.deltaTime * Time.timeScale;
         }
-        float BeginAttack = mAbilityTable.BeginAttackDelay;
-        float AfterAttack = mAbilityTable.AfterAttackDelay;
-
         mEnterBeginAction?.Invoke();
-        for (float w = 0f; w < BeginAttack; w += DeltaTime())
+        for (float w = 0f; w < mAbilityTable.BeginAttackDelay; w += DeltaTime())
             yield return null;
 
         mEnterAttackAction?.Invoke();
         yield return new WaitUntil(() => mIsAttackOver);
 
         mEnterAfterAction?.Invoke();
-        for (float w = 0f; w < AfterAttack; w += DeltaTime())
+        for (float w = 0f; w < mAbilityTable.AfterAttackDelay; w += DeltaTime())
             yield return null;
 
         mEUpdate = null;
