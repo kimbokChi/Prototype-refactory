@@ -51,6 +51,7 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
     public void Damaged(float damage, GameObject attacker)
     {
         EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+        EnemyAnimator.ChangeState(AnimState.Damaged);
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
