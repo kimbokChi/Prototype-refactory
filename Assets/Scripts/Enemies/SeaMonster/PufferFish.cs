@@ -96,7 +96,8 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
 
         if (Range.TryEnterTypeT(out Player player) && _Player != null)
         {
-            _Player.CastBuff(Buff.SpeedUp, BuffLibrary.Instance.GetBuff(Buff.SpeedUp, 3, 15f, _Player.GetAbility));
+
+            _Player.CastBuff(Buff.Stun, BuffLibrary.Instance.Stun(3f, _Player.GetAbility));
         }
     }
 

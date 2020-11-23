@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum Buff
 {
-    Heal, SpeedUp, PowerBoost
+    Heal, SpeedUp, PowerBoost, Stun
 }
 public class BuffLibrary : Singleton<BuffLibrary>
 {
@@ -37,6 +37,21 @@ public class BuffLibrary : Singleton<BuffLibrary>
         ability.Table[Ability.IAttackPower] += increment;
         for (float i = 0; i < durate; i += DeltaTime) { yield return null; }
         ability.Table[Ability.IAttackPower] -= increment;
+    }
+    public IEnumerator Stun(float duration, AbilityTable ability)
+    {
+        return StunBuff(duration, ability).GetEnumerator();
+    }
+    private IEnumerable StunBuff(float duration, AbilityTable ability)
+    {
+        for (float i = 0; i < duration; i += DeltaTime) 
+        {
+            ability.Table[Ability.IMoveSpeed] = -ability.Table[Ability.MoveSpeed];
+            yield return null;
+
+            ability.Table[Ability.IMoveSpeed] = -ability.Table[Ability.MoveSpeed];
+        }
+        ability.Table[Ability.IMoveSpeed] = 0f;
     }
 
     public IEnumerator GetBuff(Buff buff, uint level, float duration, AbilityTable ability)
