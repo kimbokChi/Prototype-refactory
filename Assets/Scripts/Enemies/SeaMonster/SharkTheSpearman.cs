@@ -10,21 +10,32 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
     [SerializeField] private Vector2 ShootPos;
 
     [Header("Ability")]
+    [SerializeField] private bool IsLookAtLeft;
     [SerializeField] private AbilityTable AbilityTable;
     [SerializeField] private EnemyAnimator EnemyAnimator;
+    [SerializeField] private Area Range;
+
+    [Header("Movement Info")]
+    [SerializeField] private float WaitMoveTimeMin;
+    [SerializeField] private float WaitMoveTimeMax;
+    [SerializeField] private Vector2 InitPosition;
 
     private AttackPeriod _AttackPeriod;
 
-    private IEnumerator _EMove;
+    private IEnumerator _Move;
 
-    private Player mPlayer;
+    private Player _Player;
 
     public void AnimationPlayOver(AnimState anim)
     {
         switch (anim)
         {
             case AnimState.Attack:
-                
+                {
+                    EnemyAnimator.ChangeState(AnimState.Idle);
+
+                    _AttackPeriod.AttackActionOver();
+                }
                 break;
 
             case AnimState.Damaged:
@@ -33,10 +44,6 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
 
             case AnimState.Death:
                 gameObject.SetActive(false);
-                break;
-
-            case AnimState.AttackBegin:
-
                 break;
         }
     }
@@ -61,22 +68,146 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
 
         _AttackPeriod = new AttackPeriod(AbilityTable);
 
-        _AttackPeriod.SetAction(Period.Attack, () =>
+        _AttackPeriod.SetAction(Period.Begin, () =>
         {
-            if (_EMove != null)
-            {
-                StopCoroutine(_EMove);
-                _EMove = null;
-            }
+            MoveStop();
 
             EnemyAnimator.ChangeState(AnimState.AttackBegin);
         });
-        Spear = Instantiate(Spear);
+        _AttackPeriod.SetAction(Period.Attack, AttackAction);
+
+        Spear = Instantiate(Spear, transform);
+
+        Spear.gameObject.SetActive(false);
+        Spear.Setting(
+                a => { a.Damaged(AbilityTable.AttackPower, gameObject); },
+                i => { return i > 0; },
+                a => { a.gameObject.SetActive(false); });
+
+        Range.SetScale(AbilityTable[Ability.Range]);
+        StartCoroutine(MoveRoutine());
     }
 
-    public void IUpdate()
+    public void IUpdate() 
     {
+        if (!_AttackPeriod.IsProgressing())
+        {
+            if (Range.HasAny() && IsLookAtPlayer())
+            {
+                MoveStop();
 
+                _AttackPeriod.StartPeriod();
+            }
+        }
+    }
+
+    private void AttackAction()
+    {
+        EnemyAnimator.ChangeState(AnimState.Attack);
+
+        Spear.gameObject.SetActive(true);
+        Spear.transform.localPosition = ShootPos;
+
+        if (IsLookAtLeft)
+        {
+            Spear.Setting(ShootSpeed, Vector2.left);
+        }
+        else
+            Spear.Setting(ShootSpeed, Vector2.right);
+    }
+
+    private bool IsLookAtPlayer()
+    {
+        if (_Player != null)
+        {
+            return (_Player.transform.position.x < transform.position.x &&  IsLookAtLeft ||
+                    _Player.transform.position.x > transform.position.x && !IsLookAtLeft);
+        }
+        return false;
+    }
+    private void SetLookingLeft(bool lookingLeft)
+    {
+        IsLookAtLeft = lookingLeft;
+
+        if (IsLookAtLeft)
+        {
+            transform.rotation = Quaternion.Euler(Vector3.zero);
+        }
+        else
+            transform.rotation = Quaternion.Euler(Vector3.up * 180);
+    }
+
+    private void MoveStop()
+    {
+        if (_Move != null)
+        {
+            StopCoroutine(_Move);
+            _Move = null;
+        }
+    }
+
+    private IEnumerator MoveRoutine()
+    {
+        bool CanMovement()
+        {
+            return EnemyAnimator.CurrentState() == AnimState.Idle 
+                && !_AttackPeriod.IsProgressing();
+        }
+        while (AbilityTable[Ability.CurHealth] > 0)
+        {
+            yield return new WaitUntil(CanMovement);
+            float waitTime = Random.Range(WaitMoveTimeMin, WaitMoveTimeMax);
+
+            yield return new WaitForSeconds(waitTime);
+            yield return new WaitUntil(CanMovement);
+
+            Vector2 movePoint = InitPosition;
+
+            if (IsLookAtPlayer())
+            {
+                if (IsLookAtLeft) {
+                    movePoint.x = -3.5f;
+                }
+                else
+                    movePoint.x = +3.5f;
+            }
+            else
+            {
+                movePoint.x += Random.Range(-3.5f, 3.5f);
+            }
+            SetLookingLeft(movePoint.x < transform.localPosition.x);
+            StartCoroutine(_Move = Move(movePoint));
+
+            EnemyAnimator.ChangeState(AnimState.Move);
+        }
+    }
+
+    private IEnumerator Move(Vector2 movePoint)
+    {
+        Vector3 direction = (movePoint.x > transform.localPosition.x) 
+            ? Vector3.right : Vector3.left;
+
+        float DeltaTime()
+        {
+            return Time.deltaTime * Time.timeScale;
+        }
+        bool CanMoving()
+        {
+            return direction.x > 0 && transform.localPosition.x < movePoint.x ||
+                   direction.x < 0 && transform.localPosition.x > movePoint.x;
+        }
+        do
+        {
+            transform.localPosition += direction * AbilityTable.MoveSpeed * DeltaTime();
+
+            yield return null;
+
+        } while (CanMoving());
+        
+        transform.localPosition = movePoint;
+
+        EnemyAnimator.ChangeState(AnimState.Idle);
+        _Move = null;
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
@@ -84,7 +215,7 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
         if (AbilityTable.CanRecognize(message))
         {
 
-            mPlayer = enterPlayer;
+            _Player = enterPlayer;
         }
     }
 
@@ -92,7 +223,7 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
     {
         if (AbilityTable.CantRecognize(message)) {
 
-            mPlayer = null;
+            _Player = null;
         }
     }
 

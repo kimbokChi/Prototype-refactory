@@ -130,6 +130,16 @@
     "Range": "10.0"
   },
   {
+    "ID": "Sea_SharkTheSpearman",
+    "MoveSpeed": "1.5",
+    "MaxHealth": "50.0",
+    "AttackPower": "10.0",
+    "Begin_AttackDelay": "1.0",
+    "After_AttackDelay": "2.0",
+    "RecognitionArea": "Room",
+    "Range": "5.0"
+  },
+  {
     "ID": "TrainingOnly",
     "MoveSpeed": "0.0",
     "MaxHealth": "999.0",
