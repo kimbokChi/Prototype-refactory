@@ -94,9 +94,14 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         {
             if (o.CompareTag("Player"))
             {
-                MoveStop();
-
-                EnemyAnimator.ChangeState(AnimState.AttackAfter);
+                if (EnemyAnimator.CurrentState() == AnimState.AttackBegin)
+                {
+                    EnemyAnimator.ChangeState(AnimState.AttackAfter);
+                }
+                else
+                {
+                    MoveStop();
+                }
             }
         });
         BurrowAttackArea.SetEnterAction(o => 
