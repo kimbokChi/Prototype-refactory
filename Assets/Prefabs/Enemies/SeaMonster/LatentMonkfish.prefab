@@ -210,6 +210,7 @@ MonoBehaviour:
   EnemyAnimator: {fileID: 4033230348203486468}
   Range: {fileID: 4033230347408640472}
   BurrowAttackScale: 1.5
+  BurrowSpeedScale: 0.65
   BurrowAttackArea: {fileID: 4634101534063590850}
   WaitMoveTimeMin: 0.4
   WaitMoveTimeMax: 0.7

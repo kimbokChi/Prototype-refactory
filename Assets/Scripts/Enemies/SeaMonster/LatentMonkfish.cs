@@ -10,8 +10,9 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     [SerializeField] private EnemyAnimator EnemyAnimator;
     [SerializeField] private Area Range;
 
-    [Header("Burrow Attack")]
+    [Header("Burrow Info")]
     [SerializeField] private float BurrowAttackScale;
+    [SerializeField] private float BurrowSpeedScale;
     [SerializeField] private Area BurrowAttackArea;
 
     [Header("Movement Info")]
@@ -53,8 +54,6 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
                 {
                     _IsBurrowOver = true;
                     EnemyAnimator.ChangeState(AnimState.Idle);
-
-                    StartCoroutine(MoveRoutine());
                 }
                 break;
 
@@ -95,6 +94,8 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         {
             if (o.CompareTag("Player"))
             {
+                MoveStop();
+
                 EnemyAnimator.ChangeState(AnimState.AttackAfter);
             }
         });
@@ -109,6 +110,8 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
             }
         });
         _IsBurrowOver = false;
+
+        StartCoroutine(MoveRoutine());
     }
 
     public void IUpdate()
@@ -184,8 +187,9 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     {
         bool CanMovement()
         {
-            return EnemyAnimator.CurrentState() == AnimState.Idle
-                && !_AttackPeriod.IsProgressing();
+            return (EnemyAnimator.CurrentState() == AnimState.Idle 
+                ||  EnemyAnimator.CurrentState() == AnimState.AttackBegin)
+                && !_AttackPeriod.IsProgressing() && _Move == null;
         }
         while (AbilityTable[Ability.CurHealth] > 0)
         {
@@ -213,7 +217,10 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
             SetLookingLeft(movePoint.x < transform.localPosition.x);
             StartCoroutine(_Move = Move(movePoint));
 
-            EnemyAnimator.ChangeState(AnimState.Move);
+            if (EnemyAnimator.CurrentState() == AnimState.Idle)
+            {
+                EnemyAnimator.ChangeState(AnimState.Move);
+            }            
         }
     }
 
@@ -233,7 +240,13 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         }
         do
         {
-            transform.localPosition += direction * AbilityTable.MoveSpeed * DeltaTime();
+            float speed = AbilityTable.MoveSpeed;
+
+            if (!_IsBurrowOver)
+            {
+                speed *= BurrowSpeedScale;
+            }
+            transform.localPosition += direction * speed * DeltaTime();
 
             yield return null;
 
@@ -241,7 +254,10 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
 
         transform.localPosition = movePoint;
 
-        EnemyAnimator.ChangeState(AnimState.Idle);
+        if (EnemyAnimator.CurrentState() == AnimState.Move)
+        {
+            EnemyAnimator.ChangeState(AnimState.Idle);
+        }
         _Move = null;
     }
 
