@@ -53,7 +53,13 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
             case AnimState.AttackAfter:
                 {
                     _IsBurrowOver = true;
-                    EnemyAnimator.ChangeState(AnimState.Idle);
+
+                    if (IsMoving())
+                    {
+                        EnemyAnimator.ChangeState(AnimState.Move);
+                    }
+                    else
+                        EnemyAnimator.ChangeState(AnimState.Idle);
                 }
                 break;
 
@@ -92,21 +98,18 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         Range.SetScale(AbilityTable[Ability.Range]);
         Range.SetEnterAction(o => 
         {
-            if (o.CompareTag("Player"))
+            if (o.CompareTag("Player") && !_IsBurrowOver)
             {
-                if (EnemyAnimator.CurrentState() == AnimState.AttackBegin)
+                if (_Move != null)
                 {
-                    EnemyAnimator.ChangeState(AnimState.AttackAfter);
+                    StopCoroutine(_Move);
+                    _Move = null;
                 }
-                else
-                {
-                    MoveStop();
-                }
+                EnemyAnimator.ChangeState(AnimState.AttackAfter);
             }
         });
         BurrowAttackArea.SetEnterAction(o => 
         {
-
             if (o.TryGetComponent(out ICombatable combatable))
             {
                 float atk = BurrowAttackScale * AbilityTable.AttackPower;
@@ -193,7 +196,7 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         bool CanMovement()
         {
             return (EnemyAnimator.CurrentState() == AnimState.Idle 
-                ||  EnemyAnimator.CurrentState() == AnimState.AttackBegin)
+                || (EnemyAnimator.CurrentState() != AnimState.AttackAfter && !_IsBurrowOver))
                 && !_AttackPeriod.IsProgressing() && _Move == null;
         }
         while (AbilityTable[Ability.CurHealth] > 0)
@@ -222,10 +225,10 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
             SetLookingLeft(movePoint.x < transform.localPosition.x);
             StartCoroutine(_Move = Move(movePoint));
 
-            if (EnemyAnimator.CurrentState() == AnimState.Idle)
+            if (_IsBurrowOver)
             {
                 EnemyAnimator.ChangeState(AnimState.Move);
-            }            
+            }
         }
     }
 
@@ -259,7 +262,7 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
 
         transform.localPosition = movePoint;
 
-        if (EnemyAnimator.CurrentState() == AnimState.Move)
+        if (_IsBurrowOver)
         {
             EnemyAnimator.ChangeState(AnimState.Idle);
         }
