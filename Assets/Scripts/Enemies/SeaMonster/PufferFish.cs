@@ -71,7 +71,7 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
     public void IInit()
     {
         EnemyAnimator.Init();
-        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+        HealthBarPool.Instance.UsingHealthBar(-2f, transform, AbilityTable);
 
         _AttackPeriod = new AttackPeriod(AbilityTable);
 
