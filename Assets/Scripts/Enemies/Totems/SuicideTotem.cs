@@ -11,7 +11,7 @@ public class SuicideTotem : MonoBehaviour, IObject, ICombatable
 
     public AbilityTable GetAbility => AbilityTable;
 
-    public void CastBuff(BUFF buffType, IEnumerator castedBuff) => StartCoroutine(castedBuff);
+    public void CastBuff(Buff buffType, IEnumerator castedBuff) => StartCoroutine(castedBuff);
 
     public void Damaged(float damage, GameObject attacker)
     {

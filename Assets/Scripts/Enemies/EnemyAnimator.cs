@@ -23,4 +23,9 @@ public class EnemyAnimator : MonoBehaviour
     {
         Animator.SetInteger(mControlKey, (int)anim);
     }
+
+    public AnimState CurrentState()
+    {
+        return (AnimState)Animator.GetInteger(mControlKey);
+    }
 }

@@ -20,6 +20,18 @@ public class Area : MonoBehaviour
 
     private List<GameObject> mSenseList;
 
+    public void SetScale(float halfScale)
+    {
+        if (AreaCollider.TryGetComponent(out CircleCollider2D circle))
+        {
+            circle.radius = halfScale;
+        }
+        else if(AreaCollider.TryGetComponent(out BoxCollider2D box))
+        {
+            box.size = Vector2.one * halfScale * 2;
+        }
+    }
+
     public void SetEnterAction(Action<GameObject> enterAction)
     {
         mEnterAction = enterAction;
@@ -91,6 +103,10 @@ public class Area : MonoBehaviour
     public bool HasAny()
     {
         return mSenseList.Count > 0;
+    }
+    public bool HasThis(GameObject _this)
+    {
+        return mSenseList.Any(o => o.Equals(_this));
     }
     public Vector2 CloestTargetPos()
     {

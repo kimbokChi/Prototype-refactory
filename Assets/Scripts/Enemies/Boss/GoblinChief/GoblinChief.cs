@@ -263,7 +263,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         }
     }
 
-    public void CastBuff(BUFF buffType, IEnumerator castedBuff) {
+    public void CastBuff(Buff buffType, IEnumerator castedBuff) {
         StartCoroutine(castedBuff);
     }
 
