@@ -10,6 +10,11 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
     [SerializeField] private EnemyAnimator EnemyAnimator;
     [SerializeField] private Area Range;
 
+    [Header("Effect Info")]
+    [SerializeField] private  Area StunArea;
+    [SerializeField] private float StunAreaScale;
+    [SerializeField] private float StunDuration;
+
     [Header("Movement Info")]
     [SerializeField] private float WaitMoveTimeMin;
     [SerializeField] private float WaitMoveTimeMax;
@@ -72,7 +77,19 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
             EnemyAnimator.ChangeState(AnimState.Attack);
         });
 
-        Range.SetScale(AbilityTable[Ability.Range]);
+        float range = AbilityTable.Range;
+
+        StunArea.SetEnterAction(o => 
+        {
+            if (o.TryGetComponent(out ICombatable c))
+            {
+
+                c.CastBuff(Buff.Stun, BuffLibrary.Instance.Stun(StunDuration, c.GetAbility));
+            }
+        });
+        StunArea.SetScale(range * StunAreaScale);
+             Range.SetScale(range);
+
         StartCoroutine(MoveRoutine());
     }
 
@@ -94,11 +111,7 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
     {
         MainCamera.Instance.Shake(0.8f, 1.1f, true);
 
-        if (Range.TryEnterTypeT(out Player player) && _Player != null)
-        {
-
-            _Player.CastBuff(Buff.Stun, BuffLibrary.Instance.Stun(3f, _Player.GetAbility));
-        }
+        StunArea.gameObject.SetActive(true);
     }
 
     private bool IsLookAtPlayer()

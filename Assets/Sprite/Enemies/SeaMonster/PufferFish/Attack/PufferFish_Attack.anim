@@ -65,19 +65,19 @@ AnimationClip:
       value: {fileID: 21300000, guid: c6a7fb57382ab28478648a5b93c48507, type: 3}
     - time: 0.41666666
       value: {fileID: 21300000, guid: 64e72b906e38a194ea48c8051962f803, type: 3}
-    - time: 0.5
-      value: {fileID: 21300000, guid: 3da890d2049761f41a83a7f4fc3dc467, type: 3}
     - time: 0.5833333
-      value: {fileID: 21300000, guid: fe70ee40384f11f48996bfd387381184, type: 3}
+      value: {fileID: 21300000, guid: 3da890d2049761f41a83a7f4fc3dc467, type: 3}
     - time: 0.6666667
-      value: {fileID: 21300000, guid: 68597f3973a18524c8fe46b1721f94a2, type: 3}
+      value: {fileID: 21300000, guid: fe70ee40384f11f48996bfd387381184, type: 3}
     - time: 0.75
-      value: {fileID: 21300000, guid: d19082377eca3cf4c9b42a7443eb2807, type: 3}
+      value: {fileID: 21300000, guid: 68597f3973a18524c8fe46b1721f94a2, type: 3}
     - time: 0.8333333
-      value: {fileID: 21300000, guid: b23342d39643672478d0277c803bd7b4, type: 3}
+      value: {fileID: 21300000, guid: d19082377eca3cf4c9b42a7443eb2807, type: 3}
     - time: 0.9166667
-      value: {fileID: 21300000, guid: 949b1192bfbd3a249bd8b140eaf67615, type: 3}
+      value: {fileID: 21300000, guid: b23342d39643672478d0277c803bd7b4, type: 3}
     - time: 1
+      value: {fileID: 21300000, guid: 949b1192bfbd3a249bd8b140eaf67615, type: 3}
+    - time: 1.0833334
       value: {fileID: 21300000, guid: b0823eaa7280c8e4d87de80a1ef38da8, type: 3}
     attribute: m_Sprite
     path: 
@@ -123,7 +123,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.0833334
+    m_StopTime: 1.1666667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -254,14 +254,14 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.5833333
+  - time: 0.6666667
     functionName: AttackAction
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.0833334
+  - time: 1.1666666
     functionName: AnimationPlayOver
     data: 
     objectReferenceParameter: {fileID: 0}
