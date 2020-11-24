@@ -104,6 +104,10 @@ public class Area : MonoBehaviour
     {
         return mSenseList.Count > 0;
     }
+    public bool HasThis(GameObject _this)
+    {
+        return mSenseList.Any(o => o.Equals(_this));
+    }
     public Vector2 CloestTargetPos()
     {
         if (mSenseList.Count == 0)
