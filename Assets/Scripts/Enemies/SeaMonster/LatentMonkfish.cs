@@ -39,7 +39,14 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
                 break;
 
             case AnimState.Damaged:
-                EnemyAnimator.ChangeState(AnimState.Idle);
+                {
+                    if (IsMoving())
+                    {
+                        EnemyAnimator.ChangeState(AnimState.Move);
+                    }
+                    else
+                        EnemyAnimator.ChangeState(AnimState.Idle);
+                }
                 break;
 
             case AnimState.AttackAfter:
@@ -159,7 +166,10 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         else
             transform.rotation = Quaternion.Euler(Vector3.up * 180);
     }
-
+    private bool IsMoving()
+    {
+        return _Move != null;
+    }
     private void MoveStop()
     {
         if (_Move != null)

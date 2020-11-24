@@ -40,7 +40,12 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
                 break;
 
             case AnimState.Damaged:
-                EnemyAnimator.ChangeState(AnimState.Idle);
+                if (IsMoving())
+                {
+                    EnemyAnimator.ChangeState(AnimState.Move);
+                }
+                else
+                    EnemyAnimator.ChangeState(AnimState.Idle);
                 break;
 
             case AnimState.Death:
@@ -134,7 +139,10 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
         else
             transform.rotation = Quaternion.Euler(Vector3.up * 180);
     }
-
+    private bool IsMoving()
+    {
+        return _Move != null;
+    }
     private void MoveStop()
     {
         if (_Move != null)
