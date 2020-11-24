@@ -23,7 +23,7 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     public void IInit()
     {
         EnemyAnimator.Init();
-        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+        HealthBarPool.Instance.UsingHealthBar(-0.75f, transform, AbilityTable);
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
 

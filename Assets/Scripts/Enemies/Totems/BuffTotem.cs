@@ -29,7 +29,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     {
         mAnimControlKey = Animator.GetParameter(0).nameHash;
 
-        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+        HealthBarPool.Instance.UsingHealthBar(-0.75f, transform, AbilityTable);
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
 
