@@ -594,24 +594,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1496218828 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5768596560125403964, guid: 68e5a6717d378a845b2c729da242cfdf,
-    type: 3}
-  m_PrefabInstance: {fileID: 1841897586}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1496218829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496218828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18497b37ed9983d469d34d2b9947d64f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1500402186
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -748,67 +730,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5768596560203772238, guid: 68e5a6717d378a845b2c729da242cfdf,
-        type: 3}
-      propertyPath: mFloors.Array.size
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5768596560203772238, guid: 68e5a6717d378a845b2c729da242cfdf,
-        type: 3}
-      propertyPath: mFloors.Array.data[10]
-      value: 
-      objectReference: {fileID: 1841897587}
-    - target: {fileID: 5768596560203772238, guid: 68e5a6717d378a845b2c729da242cfdf,
-        type: 3}
-      propertyPath: mFloors.Array.data[11]
-      value: 
-      objectReference: {fileID: 1841897587}
-    - target: {fileID: 5768596560203772238, guid: 68e5a6717d378a845b2c729da242cfdf,
-        type: 3}
-      propertyPath: mFloors.Array.data[12]
-      value: 
-      objectReference: {fileID: 1841897587}
-    - target: {fileID: 5768596560203772238, guid: 68e5a6717d378a845b2c729da242cfdf,
-        type: 3}
-      propertyPath: mFloors.Array.data[13]
-      value: 
-      objectReference: {fileID: 1841897587}
-    - target: {fileID: 5768596560203772238, guid: 68e5a6717d378a845b2c729da242cfdf,
-        type: 3}
-      propertyPath: mFloors.Array.data[14]
-      value: 
-      objectReference: {fileID: 1841897587}
-    - target: {fileID: 6884020205522575852, guid: 68e5a6717d378a845b2c729da242cfdf,
-        type: 3}
-      propertyPath: mRooms.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6884020205522575852, guid: 68e5a6717d378a845b2c729da242cfdf,
-        type: 3}
-      propertyPath: mRooms.Array.data[1]
-      value: 
-      objectReference: {fileID: 8680912197157835156, guid: d8b447fc40ed1fe45a1ab5eb19bc1274,
-        type: 3}
-    - target: {fileID: 6884020205522575852, guid: 68e5a6717d378a845b2c729da242cfdf,
-        type: 3}
-      propertyPath: mRooms.Array.data[2]
-      value: 
-      objectReference: {fileID: 8680912197157835156, guid: 25bdb65137f543546a781b1dbbf626a9,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68e5a6717d378a845b2c729da242cfdf, type: 3}
---- !u!114 &1841897587 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5768596561624475851, guid: 68e5a6717d378a845b2c729da242cfdf,
-    type: 3}
-  m_PrefabInstance: {fileID: 1841897586}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83f10ce0c8c846f44a368746d8dfa97c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1841897588 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7677788242333209183, guid: 68e5a6717d378a845b2c729da242cfdf,

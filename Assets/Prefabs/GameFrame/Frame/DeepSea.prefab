@@ -1015,6 +1015,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5768596560125403965}
+  - component: {fileID: 1496218829}
   m_Layer: 0
   m_Name: DeepSea
   m_TagString: Untagged
@@ -1041,6 +1042,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1496218829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5768596560125403964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18497b37ed9983d469d34d2b9947d64f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5768596560203763376
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,11 +1110,11 @@ MonoBehaviour:
   - {fileID: 5768596561392968187}
   - {fileID: 5768596560384814564}
   - {fileID: 5768596561624475851}
-  - {fileID: 5345477042613718384}
-  - {fileID: 8245569251296239120}
-  - {fileID: 2535614384993016441}
-  - {fileID: 5303130579273262845}
-  - {fileID: 2481029229261537122}
+  - {fileID: 5768596561624475851}
+  - {fileID: 5768596561624475851}
+  - {fileID: 5768596561624475851}
+  - {fileID: 5768596561624475851}
+  - {fileID: 5768596561624475851}
   mPlayerFloor: {fileID: 5768596560899073513}
 --- !u!1 &5768596560340322039
 GameObject:
@@ -2598,13 +2611,25 @@ PrefabInstance:
     - target: {fileID: 2518353896841765210, guid: 3c1729b631f74b9468e5f587dd8e7da1,
         type: 3}
       propertyPath: mRooms.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2518353896841765210, guid: 3c1729b631f74b9468e5f587dd8e7da1,
         type: 3}
       propertyPath: mRooms.Array.data[0]
       value: 
       objectReference: {fileID: 8680912197157835156, guid: f439c88e0daf22546b8ebed59659d635,
+        type: 3}
+    - target: {fileID: 2518353896841765210, guid: 3c1729b631f74b9468e5f587dd8e7da1,
+        type: 3}
+      propertyPath: mRooms.Array.data[1]
+      value: 
+      objectReference: {fileID: 8680912197157835156, guid: d8b447fc40ed1fe45a1ab5eb19bc1274,
+        type: 3}
+    - target: {fileID: 2518353896841765210, guid: 3c1729b631f74b9468e5f587dd8e7da1,
+        type: 3}
+      propertyPath: mRooms.Array.data[2]
+      value: 
+      objectReference: {fileID: 8680912197157835156, guid: 25bdb65137f543546a781b1dbbf626a9,
         type: 3}
     - target: {fileID: 2518353896841765213, guid: 3c1729b631f74b9468e5f587dd8e7da1,
         type: 3}
