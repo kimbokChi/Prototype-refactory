@@ -10,7 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5574478621864937557}
   - component: {fileID: 5574478621864937558}
+  - component: {fileID: 3178538087536712672}
   - component: {fileID: 2661327481395936385}
+  - component: {fileID: 9005012320216118399}
+  - component: {fileID: 6635541276537662843}
   m_Layer: 0
   m_Name: Kraken
   m_TagString: Untagged
@@ -82,6 +85,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &3178538087536712672
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5574478621864937559}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &2661327481395936385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,3 +116,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3965f467d6154f243bb67f6cd84aecb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AbilityTable: {fileID: 9005012320216118399}
+  EnemyAnimator: {fileID: 6635541276537662843}
+  SeaMonsters: []
+  ArtilleryShell: {fileID: -5142557603943978492, guid: fbb3a7fcc74616846970d88ee43b0324,
+    type: 3}
+  ArtilleryShellSpeed: 11
+  ArtilleryFireTime: 6
+  ArtilleryFireDelay: 0.1
+  RotationSpeed: 3.6
+--- !u!114 &9005012320216118399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5574478621864937559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _JsonLableName: Sea_Kraken
+--- !u!114 &6635541276537662843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5574478621864937559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a76731f15c0ea4b845a49015caa8db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 3178538087536712672}
