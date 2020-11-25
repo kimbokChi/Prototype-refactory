@@ -67,6 +67,25 @@ public class Kraken : MonoBehaviour, IObject
             {
                 _NextPattern = (Pattern)Random.Range(0, 3);
             }
+            switch (_NextPattern)
+            {
+                case Pattern.FallingTentacle:
+                    break;
+
+                case Pattern.StrikeTentacle:
+                    break;
+
+                case Pattern.ArtilleryFire:
+                    StartCoroutine(ArtilleryFire());
+                    break;
+
+                case Pattern.SummonTentacle:
+                    SummonTentacle();
+                    break;
+
+                case Pattern.SummonSeaMonster:
+                    break;
+            }
         });
         // _AttackPeriod.StartPeriod();
     }
@@ -97,6 +116,13 @@ public class Kraken : MonoBehaviour, IObject
     public void PlayerExit(MESSAGE message)
     {
         
+    }
+
+    private void SummonTentacle()
+    {
+
+
+        _AttackPeriod.AttackActionOver();
     }
 
     private IEnumerator ArtilleryFire()
