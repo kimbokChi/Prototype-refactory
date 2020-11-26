@@ -9,7 +9,6 @@ public class Kraken : MonoBehaviour, IObject
         FallingTentacle, StrikeTentacle, ArtilleryFire, SummonTentacle, SummonSeaMonster
     }
     [SerializeField] private AbilityTable AbilityTable;
-    [SerializeField] private EnemyAnimator EnemyAnimator;
 
     [Header("ArtilleryFire Info")]
     [SerializeField] private Projection ArtilleryShell;
@@ -45,7 +44,6 @@ public class Kraken : MonoBehaviour, IObject
     public void IInit()
     {
         _PatternInvokeCount = 0;
-        //EnemyAnimator.Init();
 
         _FallingTentacle = Instantiate(_FallingTentacle);
         _FallingTentacle.gameObject.SetActive(false);
@@ -133,9 +131,11 @@ public class Kraken : MonoBehaviour, IObject
             switch (_NextPattern)
             {
                 case Pattern.FallingTentacle:
+                    StartCoroutine(FallingTentacle());
                     break;
 
                 case Pattern.StrikeTentacle:
+                    StartCoroutine(StrikeTentacle());
                     break;
 
                 case Pattern.ArtilleryFire:
@@ -147,10 +147,11 @@ public class Kraken : MonoBehaviour, IObject
                     break;
 
                 case Pattern.SummonSeaMonster:
+                    SummonSeaMonster();
                     break;
             }
         });
-        // _AttackPeriod.StartPeriod();
+        _AttackPeriod.StartPeriod();
     }
 
     public void IUpdate()
@@ -165,17 +166,9 @@ public class Kraken : MonoBehaviour, IObject
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (!_AttackPeriod.IsProgressing())
         {
-            StartCoroutine(StrikeTentacle());
-
-            // StartCoroutine(FallingTentacle());
-
-            // SummonSeaMonster();
-
-            // SummonTentacle();
-
-            // StartCoroutine(ArtilleryFire());
+            _AttackPeriod.StartPeriod();
         }
     }
 

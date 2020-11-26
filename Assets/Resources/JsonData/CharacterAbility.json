@@ -197,6 +197,6 @@
     "Begin_AttackDelay": "1.0",
     "After_AttackDelay": "0.5",
     "RecognitionArea": "Room",
-    "Range": "1.2"
+    "Range": "2.2"
   }
 ]
