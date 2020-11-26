@@ -18,6 +18,11 @@ public class Kraken : MonoBehaviour, IObject
     [SerializeField] private float ArtilleryFireDelay;
     [SerializeField] private float RotationSpeed;
 
+    [Header("Strike Tentacle")]
+    [SerializeField] private GameObject _StrikeTentacle;
+    [SerializeField] private float StrikeTime;
+    [SerializeField] private int StrikeAreaChildIndex;
+
     [Header("Summon Tentacle")]
     [SerializeField] private Tentacle Tentacle;
     [SerializeField] private int TentacleCount;
@@ -29,8 +34,7 @@ public class Kraken : MonoBehaviour, IObject
     [Header("Falling Tentacle")]
     [SerializeField] private GameObject _FallingTentacle;
     [SerializeField] private float FallingTime;
-    [SerializeField] private int TentacleAreaChildIndex;
-    private Area _FallingTentacleArea;
+    [SerializeField] private int FallingAreaChildIndex;
 
     private Pattern _NextPattern;
     private int _PatternInvokeCount;
@@ -46,11 +50,30 @@ public class Kraken : MonoBehaviour, IObject
         _FallingTentacle = Instantiate(_FallingTentacle);
         _FallingTentacle.gameObject.SetActive(false);
 
-        var child = _FallingTentacle.transform.GetChild(TentacleAreaChildIndex);
+        Area _Area;
 
-        if (child.TryGetComponent(out _FallingTentacleArea))
+        var fallingChild = _FallingTentacle.transform.GetChild(FallingAreaChildIndex);
+
+        if (fallingChild.TryGetComponent(out _Area))
         {
-            _FallingTentacleArea.SetEnterAction(o =>
+            _Area.SetEnterAction(o =>
+            {
+                if (o.TryGetComponent(out ICombatable combatable))
+                {
+
+                    combatable.Damaged(AbilityTable.AttackPower, gameObject);
+                }
+            });
+        }
+
+        _StrikeTentacle = Instantiate(_StrikeTentacle);
+        _StrikeTentacle.SetActive(false);
+
+        var strikeChild = _StrikeTentacle.transform.GetChild(StrikeAreaChildIndex);
+
+        if (strikeChild.TryGetComponent(out _Area))
+        {
+            _Area.SetEnterAction(o =>
             {
                 if (o.TryGetComponent(out ICombatable combatable))
                 {
@@ -144,11 +167,13 @@ public class Kraken : MonoBehaviour, IObject
     {
         if (Input.GetMouseButtonDown(0))
         {
-            StartCoroutine(FallingTentacle());
+            StartCoroutine(StrikeTentacle());
+
+            // StartCoroutine(FallingTentacle());
 
             // SummonSeaMonster();
 
-            //SummonTentacle();
+            // SummonTentacle();
 
             // StartCoroutine(ArtilleryFire());
         }
@@ -230,6 +255,30 @@ public class Kraken : MonoBehaviour, IObject
         yield return new WaitForSeconds(FallingTime);
 
         _FallingTentacle.SetActive(false);
+        _AttackPeriod.AttackActionOver();
+    }
+
+    private IEnumerator StrikeTentacle()
+    {
+        bool isLeft = Random.value > 0.5f;
+
+        _StrikeTentacle.SetActive(true);
+        _StrikeTentacle.transform.position = transform.position + Vector3.up;
+        _StrikeTentacle.transform.position += Vector3.up * Random.Range(-1, 2) * 5f;
+
+        MainCamera.Instance.Shake();
+
+        if (isLeft)
+        {
+            _StrikeTentacle.transform.rotation = Quaternion.Euler(Vector3.up * 180);
+        }
+        else
+        {
+            _StrikeTentacle.transform.rotation = Quaternion.Euler(Vector3.zero);
+        }
+        yield return new WaitForSeconds(StrikeTime);
+
+        _StrikeTentacle.SetActive(false);
         _AttackPeriod.AttackActionOver();
     }
 

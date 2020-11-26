@@ -124,6 +124,10 @@ MonoBehaviour:
   ArtilleryFireTime: 6
   ArtilleryFireDelay: 0.1
   RotationSpeed: 3.6
+  _StrikeTentacle: {fileID: 832868102578047555, guid: a187fc2f76afffb4a8cf7e4397734ca7,
+    type: 3}
+  StrikeTime: 1.333
+  StrikeAreaChildIndex: 0
   Tentacle: {fileID: 3128065438771008248, guid: 61a44bcf14985914c803f87195ea77f6,
     type: 3}
   TentacleCount: 0
@@ -134,7 +138,7 @@ MonoBehaviour:
   _FallingTentacle: {fileID: 2125676067769183554, guid: d884762a0c7ae574e8e16603761a2cd8,
     type: 3}
   FallingTime: 4
-  TentacleAreaChildIndex: 1
+  FallingAreaChildIndex: 1
 --- !u!114 &9005012320216118399
 MonoBehaviour:
   m_ObjectHideFlags: 0
