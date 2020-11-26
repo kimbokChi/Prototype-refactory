@@ -114,6 +114,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7809349177713194203}
     m_Modifications:
+    - target: {fileID: 6202769102569731555, guid: 13238fb19fcf9264a95ec5f4617d7b8c,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6202769102569731555, guid: 13238fb19fcf9264a95ec5f4617d7b8c,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6202769102915456821, guid: 13238fb19fcf9264a95ec5f4617d7b8c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -174,6 +184,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: MysteriousMace
       objectReference: {fileID: 0}
+    - target: {fileID: 6202769103187889878, guid: 13238fb19fcf9264a95ec5f4617d7b8c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7fa32bfec3617194196c31bb7548592e,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13238fb19fcf9264a95ec5f4617d7b8c, type: 3}
 --- !u!4 &4212211528222445216 stripped
