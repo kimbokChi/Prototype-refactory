@@ -118,7 +118,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityTable: {fileID: 9005012320216118399}
   EnemyAnimator: {fileID: 6635541276537662843}
-  SeaMonsters: []
   ArtilleryShell: {fileID: -5142557603943978492, guid: fbb3a7fcc74616846970d88ee43b0324,
     type: 3}
   ArtilleryShellSpeed: 11
@@ -128,6 +127,10 @@ MonoBehaviour:
   Tentacle: {fileID: 3128065438771008248, guid: 61a44bcf14985914c803f87195ea77f6,
     type: 3}
   TentacleCount: 0
+  SeaMonsters:
+  - {fileID: 3014745951218843213, guid: a82f12ab783edf349870bba811ef01a6, type: 3}
+  - {fileID: 4033230348203486490, guid: 4557c8c9835337541bfc0c09e34623f4, type: 3}
+  - {fileID: 1293722670195797993, guid: f24b45b783956e548b047678f39a0348, type: 3}
 --- !u!114 &9005012320216118399
 MonoBehaviour:
   m_ObjectHideFlags: 0

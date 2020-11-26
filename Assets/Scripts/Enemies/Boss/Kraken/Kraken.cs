@@ -11,8 +11,6 @@ public class Kraken : MonoBehaviour, IObject
     [SerializeField] private AbilityTable AbilityTable;
     [SerializeField] private EnemyAnimator EnemyAnimator;
 
-    [SerializeField] private GameObject[] SeaMonsters;
-
     [Header("ArtilleryFire Info")]
     [SerializeField] private Projection ArtilleryShell;
     [SerializeField] private float ArtilleryShellSpeed;
@@ -20,10 +18,13 @@ public class Kraken : MonoBehaviour, IObject
     [SerializeField] private float ArtilleryFireDelay;
     [SerializeField] private float RotationSpeed;
 
-    [Header("SummonTentacle")]
+    [Header("Summon Tentacle")]
     [SerializeField] private Tentacle Tentacle;
     [SerializeField] private int TentacleCount;
     private Pool<Tentacle> _TentaclePool;
+
+    [Header("Summon SeaMonster")]
+    [SerializeField] private GameObject[] SeaMonsters;
 
     private Pattern _NextPattern;
     private int _PatternInvokeCount;
@@ -120,7 +121,9 @@ public class Kraken : MonoBehaviour, IObject
     {
         if (Input.GetMouseButtonDown(0))
         {
-            SummonTentacle();
+            SummonSeaMonster();
+
+            //SummonTentacle();
 
             // StartCoroutine(ArtilleryFire());
         }
@@ -156,6 +159,29 @@ public class Kraken : MonoBehaviour, IObject
 
         TentacleCount++;
         _AttackPeriod.AttackActionOver();
+    }
+
+    private void SummonSeaMonster()
+    {
+        int floorIndex = Random.Range(0, 3);
+
+        var room = Castle.Instance.GetFloorRooms()[floorIndex];
+
+        float summonPointMinX = Castle.Instance.GetMovePoint((DIRECTION9)(floorIndex * 3)).x;
+        float summonPointMaxX = Castle.Instance.GetMovePoint((DIRECTION9)(floorIndex * 3) + 2).x;
+
+        for (int i = 0; i < 3; i++)
+        {
+            Vector3 summonPoint = new Vector2(Random.Range(summonPointMinX, summonPointMaxX), 0f);
+
+            var monster = Instantiate(SeaMonsters[Random.Range(0, SeaMonsters.Length)], room.transform);
+                monster.transform.localPosition += summonPoint;
+
+            if (monster.TryGetComponent(out IObject _object))
+            {
+                room.AddIObject(_object);
+            }
+        }
     }
 
     private IEnumerator ArtilleryFire()
