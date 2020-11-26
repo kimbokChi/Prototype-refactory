@@ -67,6 +67,8 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         _AttackPeriod = new AttackPeriod(AbilityTable);
         _AttackPeriod.SetAction(Period.Attack, () => EnemyAnimator.ChangeState(AnimState.Attack));
 
+        AbilityTable.Table[Ability.CurHealth] = AbilityTable[Ability.MaxHealth];
+
         AttackArea.SetEnterAction(o => 
         {
             if (o.TryGetComponent(out ICombatable combatable))
@@ -74,7 +76,6 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
                 combatable.Damaged(AbilityTable.AttackPower, gameObject);
             }
         });
-
         Range.SetScale(AbilityTable.Range);
     }
 

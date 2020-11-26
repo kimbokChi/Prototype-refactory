@@ -9,7 +9,7 @@
   },
   {
     "ID": "LongSword",
-    "AttackPower": "15.00",
+    "AttackPower": "4.00",
     "Range": "1.25",
     "Begin_AttackDelay": "0.05",
     "After_AttackDelay": "0.05",
@@ -17,7 +17,7 @@
   },
   {
     "ID": "MysteriousMace",
-    "AttackPower": "20.00",
+    "AttackPower": "8.00",
     "Range": "1.00",
     "Begin_AttackDelay": "0.40",
     "After_AttackDelay": "0.40",
