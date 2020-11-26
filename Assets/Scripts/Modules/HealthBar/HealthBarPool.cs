@@ -6,6 +6,7 @@ public class HealthBarPool : Singleton<HealthBarPool>
 {
     [SerializeField] private uint HoldingCount; [Space()]
 
+    [SerializeField] private HealthBar PlayerHealthBar;
     [SerializeField] private HealthBar OrignHealthBar;
     [SerializeField] private Transform WorldCanvasTransform;
 
@@ -24,6 +25,8 @@ public class HealthBarPool : Singleton<HealthBarPool>
             HealthBar healthBar = Instantiate(OrignHealthBar, WorldCanvasTransform);
             UnUsingHealthBar(healthBar);
         }
+        PlayerHealthBar = Instantiate(PlayerHealthBar, WorldCanvasTransform);
+        PlayerHealthBar.gameObject.SetActive(false);
     }
 
     public void UsingHealthBar(float offsetY, Transform master, AbilityTable abilityTable)
@@ -36,6 +39,12 @@ public class HealthBarPool : Singleton<HealthBarPool>
 
         healthBar.Init(Vector3.up * offsetY, master, abilityTable);
         healthBar.gameObject.SetActive(true);
+    }
+
+    public void UsingPlayerHealthBar(float offsetY, Transform master, AbilityTable abilityTable)
+    {
+        PlayerHealthBar.Init(Vector3.up * offsetY, master, abilityTable);
+        PlayerHealthBar.gameObject.SetActive(true);
     }
 
     public void UnUsingHealthBar(Transform master)

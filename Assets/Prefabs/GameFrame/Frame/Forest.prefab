@@ -112,6 +112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HoldingCount: 3
+  PlayerHealthBar: {fileID: 275377653571138392, guid: 89d87058e9acc714fafa564585007b50,
+    type: 3}
   OrignHealthBar: {fileID: 275377653571138392, guid: cf78eb99eb596654982210226c84c935,
     type: 3}
   WorldCanvasTransform: {fileID: 7569350683836757468}
@@ -487,7 +489,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5768596560125403965}
   m_Layer: 0
-  m_Name: BasicGameFrame
+  m_Name: Forest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

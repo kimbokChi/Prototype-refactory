@@ -122,7 +122,7 @@ public class Player : MonoBehaviour, ICombatable
     {
         PlayerAnimator.Init();
 
-        HealthBarPool.Instance?.UsingHealthBar(-1f, transform, AbilityTable);
+        HealthBarPool.Instance?.UsingPlayerHealthBar(-1f, transform, AbilityTable);
 
         mIsInputLock  = false;
         mCanElevation = false;
