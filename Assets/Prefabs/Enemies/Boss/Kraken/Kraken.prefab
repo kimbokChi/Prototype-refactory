@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5574478621864937559}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1.35, y: 1.35, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -117,7 +117,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AbilityTable: {fileID: 9005012320216118399}
-  EnemyAnimator: {fileID: 6635541276537662843}
   ArtilleryShell: {fileID: -5142557603943978492, guid: fbb3a7fcc74616846970d88ee43b0324,
     type: 3}
   ArtilleryShellSpeed: 11

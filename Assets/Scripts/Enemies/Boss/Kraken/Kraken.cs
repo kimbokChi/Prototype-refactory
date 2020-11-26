@@ -156,16 +156,6 @@ public class Kraken : MonoBehaviour, IObject
 
     public void IUpdate()
     {
-        
-    }
-
-    private void Start()
-    {
-        IInit();
-    }
-
-    private void Update()
-    {
         if (!_AttackPeriod.IsProgressing())
         {
             _AttackPeriod.StartPeriod();
@@ -173,14 +163,10 @@ public class Kraken : MonoBehaviour, IObject
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
-    {
-        
-    }
+    { }
 
     public void PlayerExit(MESSAGE message)
-    {
-        
-    }
+    { }
 
     private void SummonTentacle()
     {
