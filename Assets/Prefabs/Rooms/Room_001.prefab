@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 8891761829736217500}
   - component: {fileID: 8891761829736217490}
   m_Layer: 0
-  m_Name: Room ZERO_ZERO_ONE
+  m_Name: Room_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,7 +131,6 @@ MonoBehaviour:
   LMovePoint: {fileID: 8891761830451351153}
   CMovePoint: {fileID: 8891761831593984455}
   RMovePoint: {fileID: 8891761829596008120}
-  mRoomNumber: 1
 --- !u!1 &8891761830097729835
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +239,7 @@ PrefabInstance:
     - target: {fileID: 1309640331586953152, guid: 87394f133f2dc134ea48ee81b4ac18e2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.87
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1309640331586953152, guid: 87394f133f2dc134ea48ee81b4ac18e2,
         type: 3}
@@ -315,7 +314,7 @@ PrefabInstance:
     - target: {fileID: 7556299908380827409, guid: b8ad36e6c99751e4ebda217d07ef7af3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7556299908380827409, guid: b8ad36e6c99751e4ebda217d07ef7af3,
         type: 3}

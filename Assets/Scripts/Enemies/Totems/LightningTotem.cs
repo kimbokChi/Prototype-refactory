@@ -21,7 +21,7 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     public void IInit()
     {
         EnemyAnimator.Init();
-        HealthBarPool.Instance.UsingHealthBar(-0.8f, transform, AbilityTable);
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
 

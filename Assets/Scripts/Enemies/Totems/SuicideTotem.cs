@@ -25,7 +25,7 @@ public class SuicideTotem : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
-        HealthBarPool.Instance.UsingHealthBar(-0.8f, transform, AbilityTable);
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
         mIsOnFuse = false;
     }

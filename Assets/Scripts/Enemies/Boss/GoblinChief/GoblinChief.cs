@@ -22,7 +22,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     [SerializeField] private BombTotemSkill BombTotemSkill;
     [SerializeField] private LightningTotemSkill LightningTotemSkill;
 
-    private Queue <SpecialBuffTotem> mBuffTotemPool;
+    private Queue<SpecialBuffTotem> mBuffTotemPool;
     private Queue<BombTotemSkill> mBombSkillPool;
     private Queue<LightningTotemSkill> mLightningSkillPool;
 
@@ -222,7 +222,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         DIRECTION9 playerDIR9 = mPlayer.GetDIRECTION9();
 
         Vector2 castPoint = new Vector2
-            (mPlayer.transform.position.x, Castle.Instance.GetMovePoint(playerDIR9).y + 1.1f);
+            (mPlayer.transform.position.x, Castle.Instance.GetMovePoint(playerDIR9).y + 1.2f);
 
         switch (random) {
             case 0:

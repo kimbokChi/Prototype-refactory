@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 8680912197157835162}
   - component: {fileID: 8680912197157835156}
   m_Layer: 0
-  m_Name: Room_003
+  m_Name: Room_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -318,7 +318,7 @@ PrefabInstance:
     - target: {fileID: 53926453361515180, guid: 01e7e0970172df249b40d3ba02fbcfa4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.75
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 53926453361515180, guid: 01e7e0970172df249b40d3ba02fbcfa4,
         type: 3}

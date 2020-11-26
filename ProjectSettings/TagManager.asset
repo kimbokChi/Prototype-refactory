@@ -54,6 +54,15 @@ TagManager:
   - name: Particle_Back
     uniqueID: 3406774125
     locked: 0
+  - name: Boss
+    uniqueID: 3802024755
+    locked: 0
+  - name: Behind_Enemy
+    uniqueID: 3373495191
+    locked: 0
+  - name: Front_Enemy
+    uniqueID: 771312113
+    locked: 0
   - name: Character
     uniqueID: 1704071513
     locked: 0

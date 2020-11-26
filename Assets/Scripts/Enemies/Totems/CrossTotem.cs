@@ -44,7 +44,7 @@ public class CrossTotem : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
-        HealthBarPool.Instance.UsingHealthBar(-0.8f, transform, AbilityTable);
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
 
         mDartPool = new Pool<Arrow>();
         mDartPool.Init(4, mDartOrigin, o => 
