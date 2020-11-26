@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    public Action<Tentacle> DeathrattleAction;
+
     [SerializeField] private AbilityTable AbilityTable;
     [SerializeField] private EnemyAnimator EnemyAnimator;
 
@@ -34,6 +37,8 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
         {
+            DeathrattleAction?.Invoke(this);
+
             EnemyAnimator.ChangeState(AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
@@ -42,7 +47,7 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
     public void IInit()
     {
-        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
+        // HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
     }
 
     public void IUpdate()

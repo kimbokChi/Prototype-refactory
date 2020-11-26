@@ -125,6 +125,9 @@ MonoBehaviour:
   ArtilleryFireTime: 6
   ArtilleryFireDelay: 0.1
   RotationSpeed: 3.6
+  Tentacle: {fileID: 3128065438771008248, guid: 61a44bcf14985914c803f87195ea77f6,
+    type: 3}
+  TentacleCount: 0
 --- !u!114 &9005012320216118399
 MonoBehaviour:
   m_ObjectHideFlags: 0

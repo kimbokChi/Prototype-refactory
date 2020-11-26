@@ -20,6 +20,11 @@ public class Kraken : MonoBehaviour, IObject
     [SerializeField] private float ArtilleryFireDelay;
     [SerializeField] private float RotationSpeed;
 
+    [Header("SummonTentacle")]
+    [SerializeField] private Tentacle Tentacle;
+    [SerializeField] private int TentacleCount;
+    private Pool<Tentacle> _TentaclePool;
+
     private Pattern _NextPattern;
     private int _PatternInvokeCount;
 
@@ -48,6 +53,17 @@ public class Kraken : MonoBehaviour, IObject
                 });
         });
 
+        _TentaclePool = new Pool<Tentacle>();
+        _TentaclePool.Init(4, Tentacle, o => 
+        {
+            o.DeathrattleAction = tentacle =>
+            {
+                TentacleCount--;
+
+                _TentaclePool.Add(tentacle);
+            };
+        });
+
         _AttackPeriod = new AttackPeriod(AbilityTable);
         _AttackPeriod.SetAction(Period.Attack, () => 
         {
@@ -59,7 +75,7 @@ public class Kraken : MonoBehaviour, IObject
 
                 _PatternInvokeCount = 0;
             }
-            else if (_PatternInvokeCount <= 3)
+            else if (TentacleCount <= 3)
             {
                 _NextPattern = Pattern.SummonTentacle;
             }
@@ -104,7 +120,9 @@ public class Kraken : MonoBehaviour, IObject
     {
         if (Input.GetMouseButtonDown(0))
         {
-            StartCoroutine(ArtilleryFire());
+            SummonTentacle();
+
+            // StartCoroutine(ArtilleryFire());
         }
     }
 
@@ -120,8 +138,23 @@ public class Kraken : MonoBehaviour, IObject
 
     private void SummonTentacle()
     {
+        int floorIndex = Random.Range(0, 3);
 
+        var tentacle = _TentaclePool.Get();
 
+        var room = Castle.Instance.GetFloorRooms()[floorIndex];
+            room.AddIObject(tentacle);
+
+        tentacle.transform.parent = room.transform;
+
+        floorIndex *= 3;
+        float summonPointMinX = Castle.Instance.GetMovePoint((DIRECTION9)floorIndex).x;
+        float summonPointMaxX = Castle.Instance.GetMovePoint((DIRECTION9)floorIndex + 2).x;
+
+        Vector2 summonPoint = new Vector2(Random.Range(summonPointMinX, summonPointMaxX), 2.3f);
+        tentacle.transform.localPosition = summonPoint;
+
+        TentacleCount++;
         _AttackPeriod.AttackActionOver();
     }
 
