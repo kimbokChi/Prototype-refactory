@@ -35,6 +35,7 @@ public class Kraken : MonoBehaviour, IObject
     [SerializeField] private float FallingTime;
     [SerializeField] private int FallingAreaChildIndex;
 
+    private IEnumerator _AwakeRoutine;
     private Pattern _NextPattern;
     private int _PatternInvokeCount;
 
@@ -151,14 +152,17 @@ public class Kraken : MonoBehaviour, IObject
                     break;
             }
         });
-        _AttackPeriod.StartPeriod();
+        StartCoroutine(_AwakeRoutine = AwakeRoutine());
     }
 
     public void IUpdate()
     {
-        if (!_AttackPeriod.IsProgressing())
+        if (_AwakeRoutine == null)
         {
-            _AttackPeriod.StartPeriod();
+            if (!_AttackPeriod.IsProgressing())
+            {
+                _AttackPeriod.StartPeriod();
+            }
         }
     }
 
@@ -170,19 +174,20 @@ public class Kraken : MonoBehaviour, IObject
 
     private void SummonTentacle()
     {
-        int floorIndex = Random.Range(0, 3);
+        int roomIndex = Random.Range(0, 3);
 
         var tentacle = _TentaclePool.Get();
 
-        var room = Castle.Instance.GetFloorRooms()[floorIndex];
+        var room = Castle.Instance.GetFloorRooms()[roomIndex];
             room.AddIObject(tentacle);
 
         tentacle.transform.parent = room.transform;
 
-        floorIndex *= 3;
-        float summonPointMinX = Castle.Instance.GetMovePoint((DIRECTION9)floorIndex).x;
-        float summonPointMaxX = Castle.Instance.GetMovePoint((DIRECTION9)floorIndex + 2).x;
+        roomIndex *= 3;
+        float summonPointMinX = Castle.Instance.GetMovePoint((DIRECTION9)roomIndex).x;
+        float summonPointMaxX = Castle.Instance.GetMovePoint((DIRECTION9)roomIndex + 2).x;
 
+        MainCamera.Instance.Shake(0.6f, 1f, true);
         Vector2 summonPoint = new Vector2(Random.Range(summonPointMinX, summonPointMaxX), 2.3f);
         tentacle.transform.localPosition = summonPoint;
 
@@ -212,6 +217,18 @@ public class Kraken : MonoBehaviour, IObject
             }
         }
         _AttackPeriod.AttackActionOver();
+    }
+
+    private IEnumerator AwakeRoutine()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            yield return new WaitForSeconds(1f);
+
+            SummonTentacle();
+        }
+        _AttackPeriod.StartPeriod();
+        _AwakeRoutine = null;
     }
 
     private IEnumerator FallingTentacle()
