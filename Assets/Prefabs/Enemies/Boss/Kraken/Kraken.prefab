@@ -131,6 +131,10 @@ MonoBehaviour:
   - {fileID: 3014745951218843213, guid: a82f12ab783edf349870bba811ef01a6, type: 3}
   - {fileID: 4033230348203486490, guid: 4557c8c9835337541bfc0c09e34623f4, type: 3}
   - {fileID: 1293722670195797993, guid: f24b45b783956e548b047678f39a0348, type: 3}
+  _FallingTentacle: {fileID: 2125676067769183554, guid: d884762a0c7ae574e8e16603761a2cd8,
+    type: 3}
+  FallingTime: 4
+  TentacleAreaChildIndex: 1
 --- !u!114 &9005012320216118399
 MonoBehaviour:
   m_ObjectHideFlags: 0

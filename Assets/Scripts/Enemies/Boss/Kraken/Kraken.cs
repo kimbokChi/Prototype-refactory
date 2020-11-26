@@ -26,6 +26,12 @@ public class Kraken : MonoBehaviour, IObject
     [Header("Summon SeaMonster")]
     [SerializeField] private GameObject[] SeaMonsters;
 
+    [Header("Falling Tentacle")]
+    [SerializeField] private GameObject _FallingTentacle;
+    [SerializeField] private float FallingTime;
+    [SerializeField] private int TentacleAreaChildIndex;
+    private Area _FallingTentacleArea;
+
     private Pattern _NextPattern;
     private int _PatternInvokeCount;
 
@@ -36,6 +42,23 @@ public class Kraken : MonoBehaviour, IObject
     {
         _PatternInvokeCount = 0;
         //EnemyAnimator.Init();
+
+        _FallingTentacle = Instantiate(_FallingTentacle);
+        _FallingTentacle.gameObject.SetActive(false);
+
+        var child = _FallingTentacle.transform.GetChild(TentacleAreaChildIndex);
+
+        if (child.TryGetComponent(out _FallingTentacleArea))
+        {
+            _FallingTentacleArea.SetEnterAction(o =>
+            {
+                if (o.TryGetComponent(out ICombatable combatable))
+                {
+
+                    combatable.Damaged(AbilityTable.AttackPower, gameObject);
+                }
+            });
+        }
 
         _ArtilleryShellPool = new Pool<Projection>();
         _ArtilleryShellPool.Init(16, ArtilleryShell, o => 
@@ -121,7 +144,9 @@ public class Kraken : MonoBehaviour, IObject
     {
         if (Input.GetMouseButtonDown(0))
         {
-            SummonSeaMonster();
+            StartCoroutine(FallingTentacle());
+
+            // SummonSeaMonster();
 
             //SummonTentacle();
 
@@ -182,6 +207,30 @@ public class Kraken : MonoBehaviour, IObject
                 room.AddIObject(_object);
             }
         }
+        _AttackPeriod.AttackActionOver();
+    }
+
+    private IEnumerator FallingTentacle()
+    {
+        bool isLeft = Random.value > 0.5f;
+
+        _FallingTentacle.SetActive(true);
+        _FallingTentacle.transform.position = transform.position + Vector3.up;
+
+        if (isLeft)
+        {
+            _FallingTentacle.transform.position += Vector3.left * 3.5f;
+            _FallingTentacle.transform.rotation = Quaternion.Euler(Vector3.up * 180);
+        }
+        else
+        {
+            _FallingTentacle.transform.position += Vector3.right * 3.5f;
+            _FallingTentacle.transform.rotation = Quaternion.Euler(Vector3.zero);
+        }
+        yield return new WaitForSeconds(FallingTime);
+
+        _FallingTentacle.SetActive(false);
+        _AttackPeriod.AttackActionOver();
     }
 
     private IEnumerator ArtilleryFire()
