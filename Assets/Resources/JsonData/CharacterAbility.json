@@ -178,5 +178,25 @@
     "After_AttackDelay": "1.0",
     "RecognitionArea": "Room",
     "Range": "1.0"
+  },
+  {
+    "ID": "Sea_Kraken",
+    "MoveSpeed": "0.0",
+    "MaxHealth": "450.0",
+    "AttackPower": "10.0",
+    "Begin_AttackDelay": "2.5",
+    "After_AttackDelay": "2.5",
+    "RecognitionArea": "Floor",
+    "Range": "10.0"
+  },
+  {
+    "ID": "Sea_Tentacle",
+    "MoveSpeed": "0.0",
+    "MaxHealth": "30.0",
+    "AttackPower": "5.0",
+    "Begin_AttackDelay": "1.0",
+    "After_AttackDelay": "0.5",
+    "RecognitionArea": "Room",
+    "Range": "2.2"
   }
 ]
