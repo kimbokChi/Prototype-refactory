@@ -14,6 +14,7 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     [SerializeField] private Area Range;
     [SerializeField] private Area AttackArea;
 
+    private Kraken MasterKraken;
     private AttackPeriod _AttackPeriod;
     private Player _Player;
 
@@ -48,6 +49,7 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     public void Damaged(float damage, GameObject attacker)
     {
         EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+        MasterKraken?.Damaged(damage, attacker);
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
         {
@@ -57,6 +59,11 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
+    }
+
+    public void Init(Kraken master)
+    {
+        MasterKraken = master;
     }
 
     public void IInit()
