@@ -179,6 +179,11 @@ public class Player : MonoBehaviour, ICombatable
                     o.AttackOverAction = () => mAttackPeriod.AttackActionOver();
                 }
             };
+            mInventory.WeaponChangeEvent += o =>
+            {
+                o.transform.parent   = null;
+                o.transform.position = new Vector3(-10, 0, 0);
+            };
         }
     }
 

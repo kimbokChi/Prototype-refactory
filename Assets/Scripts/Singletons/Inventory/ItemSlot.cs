@@ -56,11 +56,9 @@ public class ItemSlot : MonoBehaviour
 
     public void Select()
     {
-        Item fingerCarryItem = Finger.Instance.CarryItem;
+        var containItem = mContainItem;
 
-        Finger.Instance.CarryItem = mContainItem;
-        mContainItem = fingerCarryItem;
-
-        SetItem(mContainItem);
+        SetItem(Finger.Instance.CarryItem);
+                Finger.Instance.CarryItem = containItem;
     }
 }
