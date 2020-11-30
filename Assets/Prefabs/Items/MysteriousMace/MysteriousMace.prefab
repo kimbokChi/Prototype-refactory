@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StatTable: {fileID: 6026546337754659799}
-  Probablity: 0.3
+  Probablity: 0.7
   TracerBullet: {fileID: 8741865518583681042, guid: 2a0575ef97bfd1a4198addda82caa7fc,
     type: 3}
   Animator: {fileID: 6202769102915456820}
