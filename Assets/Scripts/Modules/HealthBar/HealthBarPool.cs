@@ -33,6 +33,8 @@ public class HealthBarPool : Singleton<HealthBarPool>
     {
         if (mPool.Count == 0) {
             mPool.Enqueue(Instantiate(OrignHealthBar, WorldCanvasTransform));
+
+            PlayerHealthBar.transform.SetAsLastSibling();
         }
         HealthBar healthBar = mPool.Dequeue();
         mUserList.Add(master, healthBar);
