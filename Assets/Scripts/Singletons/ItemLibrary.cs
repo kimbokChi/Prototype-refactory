@@ -52,6 +52,26 @@ public class ItemLibrary : Singleton<ItemLibrary>
         {
             Common, Rare, Epic, Legendary
         };
+        for (int invokeCount = 0; invokeCount < 4; invokeCount++)
+        {
+            if (mLibrary[(ItemRating)invokeCount].Count == 0)
+            {
+                int division =
+                    mLibrary.ToList().Count(o => o.Value.Count > 0);
+
+                float additive =
+                    mProbabilityArray[invokeCount] / division;
+
+                for (int i = 0; i < 4; i++)
+                {
+                    // 반환할 수 있는 나머지 등급들의 확률을 보정한다
+                    if (mLibrary[(ItemRating)i].Count > 0)
+                    {
+                        mProbabilityArray[i] += additive;
+                    }
+                }
+            }
+        }
     }
 
     public Item GetRandomItem()
