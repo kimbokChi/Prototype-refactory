@@ -63,7 +63,7 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
 
     private void AttackAction()
     {
-        MainCamera.Instance.Shake(0.1f, 0.3f, true);
+        MainCamera.Instance.Shake(0.1f, 0.3f);
 
         if (mPlayer.TryGetPosition(out Vector2 playerPos)) 
         {
@@ -95,7 +95,7 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         }
     }
 
-    public void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    public void CastBuff(Buff buffType, IEnumerator castedBuff)
     {
         StartCoroutine(castedBuff);
     }

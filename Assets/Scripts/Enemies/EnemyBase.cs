@@ -311,7 +311,7 @@ public abstract class EnemyBase : MonoBehaviour, IObject, ICombatable
         if (AbilityTable.CantRecognize(message))
             mPlayer = null;
     }
-    public virtual void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    public virtual void CastBuff(Buff buffType, IEnumerator castedBuff)
     { StartCoroutine(castedBuff); }
     #endregion
 }

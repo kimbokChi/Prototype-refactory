@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BUFF
+public enum Buff
 {
-    HEAL, SPEEDUP, POWER_BOOST
+    Heal, SpeedUp, PowerBoost, Stun
 }
 public class BuffLibrary : Singleton<BuffLibrary>
 {
@@ -38,41 +38,43 @@ public class BuffLibrary : Singleton<BuffLibrary>
         for (float i = 0; i < durate; i += DeltaTime) { yield return null; }
         ability.Table[Ability.IAttackPower] -= increment;
     }
-    
-    #region READ
-    /// <summary>
-    /// 즉발 : 지속시간 없이, 시전된 즉시 효과를 발휘하는 버프를 반환합니다.
-    /// </summary>
-    #endregion
-    public IEnumerator GetBurstBUFF(BUFF buff,uint level, AbilityTable ability)
+    public IEnumerator Stun(float duration, AbilityTable ability)
+    {
+        return StunBuff(duration, ability).GetEnumerator();
+    }
+    private IEnumerable StunBuff(float duration, AbilityTable ability)
+    {
+        for (float i = 0; i < duration; i += DeltaTime) 
+        {
+            ability.Table[Ability.IMoveSpeed] = -ability.Table[Ability.MoveSpeed];
+            ability.Table[Ability.IBegin_AttackDelay] = 99999f;
+            ability.Table[Ability.IAfter_AttackDelay] = 99999f;
+            yield return null;
+
+            ability.Table[Ability.IMoveSpeed] = -ability.Table[Ability.MoveSpeed];
+            ability.Table[Ability.IBegin_AttackDelay] = 99999f;
+            ability.Table[Ability.IAfter_AttackDelay] = 99999f;
+        }
+        ability.Table[Ability.IMoveSpeed] = 0f;
+        ability.Table[Ability.IBegin_AttackDelay] = 0f;
+        ability.Table[Ability.IAfter_AttackDelay] = 0f;
+    }
+
+    public IEnumerator GetBuff(Buff buff, uint level, float duration, AbilityTable ability)
     {
         switch (buff)
         {
-            case BUFF.HEAL:
+            case Buff.Heal:
                 return HealBuff(level, ability).GetEnumerator();
 
-            default:
-                Debug.Log($"The {buff} is not burst BUFF");
-                return null;
-        }
-    }
-    #region READ
-    /// <summary>
-    /// 지속 : 지속시간동안 효과를 발휘하는 버프를 반환합니다.
-    /// </summary>
-    #endregion
-    public IEnumerator GetSlowBUFF(BUFF buff, uint level, float durateTime, AbilityTable ability)
-    {
-        switch (buff)
-        {
-            case BUFF.POWER_BOOST:
-                return PowerBoostBuff(durateTime, level, ability).GetEnumerator();
+            case Buff.SpeedUp:
+                return SpeedUpBuff(duration, level, ability).GetEnumerator();
 
-            case BUFF.SPEEDUP:
-                return SpeedUpBuff(durateTime, level, ability).GetEnumerator();
+            case Buff.PowerBoost:
+                return PowerBoostBuff(duration, level, ability).GetEnumerator();
 
             default:
-                Debug.Log($"The {buff} is not slow BUFF");
+                Debug.LogError("Undefined");
                 return null;
         }
     }

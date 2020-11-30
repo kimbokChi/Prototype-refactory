@@ -126,25 +126,28 @@ public class Finger : Singleton<Finger>
             {
                 mTouchEndedPos = t.position;
 
-                mCurrentSwipe = mTouchEndedPos - mTouchBeganPos;
+                if (Vector2.Distance(mTouchBeganPos, mTouchEndedPos) >= SwipeLength)
+                {
+                    mCurrentSwipe = mTouchEndedPos - mTouchBeganPos;
 
-                mCurrentSwipe.Normalize();
+                    mCurrentSwipe.Normalize();
 
-                if (mCurrentSwipe.x > 0 && mCurrentSwipe.y > -0.5f && mCurrentSwipe.y < 0.5f)
-                {
-                    return SwipeDirection.right == inputDriection;
-                }
-                if (mCurrentSwipe.x < 0 && mCurrentSwipe.y > -0.5f && mCurrentSwipe.y < 0.5f)
-                {
-                    return SwipeDirection.left == inputDriection;
-                }
-                if (mCurrentSwipe.y > 0 && mCurrentSwipe.x > -0.5f && mCurrentSwipe.x < 0.5f)
-                {
-                    return SwipeDirection.up == inputDriection;
-                }
-                if (mCurrentSwipe.y < 0 && mCurrentSwipe.x > -0.5f && mCurrentSwipe.x < 0.5f)
-                {
-                    return SwipeDirection.down == inputDriection;
+                    if (mCurrentSwipe.x > 0 && mCurrentSwipe.y > -0.5f && mCurrentSwipe.y < 0.5f)
+                    {
+                        return SwipeDirection.right == inputDriection;
+                    }
+                    if (mCurrentSwipe.x < 0 && mCurrentSwipe.y > -0.5f && mCurrentSwipe.y < 0.5f)
+                    {
+                        return SwipeDirection.left == inputDriection;
+                    }
+                    if (mCurrentSwipe.y > 0 && mCurrentSwipe.x > -0.5f && mCurrentSwipe.x < 0.5f)
+                    {
+                        return SwipeDirection.up == inputDriection;
+                    }
+                    if (mCurrentSwipe.y < 0 && mCurrentSwipe.x > -0.5f && mCurrentSwipe.x < 0.5f)
+                    {
+                        return SwipeDirection.down == inputDriection;
+                    }
                 }
             }
         }

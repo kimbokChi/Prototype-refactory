@@ -14,7 +14,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
     [SerializeField] private Area mSenseArae;
 
-    [SerializeField] private BUFF  mCastBuff;
+    [SerializeField] private Buff  mCastBuff;
     [SerializeField] private float mDurate;
     [SerializeField] private uint  mLevel;
 
@@ -55,25 +55,11 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
         for (int i = 0; i < combats.Length; ++i)
         {
-            IEnumerator buffEnumator = null;
-
             AbilityTable stat = combats[i].GetAbility;
-            
-            switch (mCastBuff)
-            {
-                case BUFF.HEAL:
-                    {
-                        buffEnumator = BuffLibrary.Instance.GetBurstBUFF(mCastBuff, mLevel, stat);
-                    }
-                    break;
 
-                case BUFF.SPEEDUP:
-                case BUFF.POWER_BOOST:
-                    {
-                        buffEnumator = BuffLibrary.Instance.GetSlowBUFF(mCastBuff, mLevel, mDurate, stat);
-                    }
-                    break;
-            }
+            IEnumerator buffEnumator 
+                = BuffLibrary.Instance.GetBuff(mCastBuff, mLevel, mDurate, stat);
+
             combats[i].CastBuff(mCastBuff, buffEnumator);
         }
         StartCoroutine(EffectAnimPlayOver());
@@ -104,7 +90,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         }
     }
 
-    public void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    public void CastBuff(Buff buffType, IEnumerator castedBuff)
     {
         StartCoroutine(castedBuff);
     }

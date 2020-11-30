@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+
+public enum FadeType { In, Out }
 
 public static class MathExtension
 {
@@ -12,9 +16,13 @@ public static class MathExtension
 
 public class MainCamera : Singleton<MainCamera>
 {
+    [SerializeField] private Image FadeFilter;
     [SerializeField] private Camera ThisCamera;
     [SerializeField] private float OriginCameraScale;
 
+    private Action mFadeOverAction;
+
+    private IEnumerator mCameraFade;
     private IEnumerator mCameraShake;
     private IEnumerator mCameraMove;
     private IEnumerator mCameraZoom;
@@ -35,21 +43,27 @@ public class MainCamera : Singleton<MainCamera>
     {
         mIsZoomIn = false;
         mOriginPosition = transform.position;
+
+        // -- 화면이 서서히 밝아지게 --
+        FadeFilter.color = Color.black;
+
+        Fade(1f, FadeType.Out);
+        // -- 화면이 서서히 밝아지게 --
     }
 
     public void Shake()
     {
-        Shake(0.25f, 0.8f, true);
+        Shake(0.25f, 0.8f);
     }
 
-    public void Shake(float time, float power, bool usingTimeScale)
+    public void Shake(float time, float power)
     {
         if (mCameraShake != null)
         {
             transform.position = mOriginPosition;
             StopCoroutine(mCameraShake);
         }
-        StartCoroutine(mCameraShake = CameraShake(time, power, usingTimeScale));
+        StartCoroutine(mCameraShake = CameraShake(time, power));
     }
 
     public void Move(Vector2 point, float speed = 1f)
@@ -59,6 +73,33 @@ public class MainCamera : Singleton<MainCamera>
             StopCoroutine(mCameraMove);
         }
         StartCoroutine(mCameraMove = CameraMove(point, speed));
+    }
+
+    public void Fade(float time, FadeType fadeType)
+    {
+        Color fadeColor = Color.white;
+
+        switch (fadeType)
+        {
+            case FadeType.In:
+                fadeColor = Color.black;
+                break;
+
+            case FadeType.Out:
+                fadeColor = Color.clear;
+                break;
+        }
+        if (mCameraFade != null)
+        {
+            StopCoroutine(mCameraFade);
+        }
+        StartCoroutine(mCameraFade = CameraFade(time, fadeColor));
+    }
+    public void Fade(float time, FadeType fadeType, Action fadeOverAction)
+    {
+        mFadeOverAction = fadeOverAction;
+
+        Fade(time, fadeType);
     }
 
     public void ZoomIn(float time, float percent, bool usingTimeScale)
@@ -97,7 +138,23 @@ public class MainCamera : Singleton<MainCamera>
         StartCoroutine(mCameraZoom = CameraZoomOut(time, usingTimeScale));
     }
 
-    private IEnumerator CameraShake(float time, float power, bool usingTimeScale)
+    private IEnumerator CameraFade(float time, Color fadeColor)
+    {
+        var initColor = FadeFilter.color;
+
+        for (float i = 0f; i < time; i += Time.deltaTime * Time.timeScale)
+        {
+            FadeFilter.color = Color.Lerp(initColor, fadeColor, i / time);
+
+            yield return null;
+        }
+        mCameraFade = null;
+
+        mFadeOverAction?.Invoke();
+        mFadeOverAction = null;
+    }
+
+    private IEnumerator CameraShake(float time, float power)
     {
         float deltaTime = 0f;
 
@@ -105,14 +162,10 @@ public class MainCamera : Singleton<MainCamera>
 
         for (float i = 0; i < time; i += deltaTime)
         {
-            transform.position = mOriginPosition + (Vector3)(Random.insideUnitCircle * power);
+            transform.position = mOriginPosition + (Vector3)(UnityEngine.Random.insideUnitCircle * power);
 
             deltaTime = Time.deltaTime;
 
-            if (usingTimeScale)
-            {
-                deltaTime *= Time.timeScale;
-            }
             yield return null;
         }
         transform.position = mOriginPosition;

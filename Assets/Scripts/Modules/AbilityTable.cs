@@ -14,6 +14,19 @@ public enum Ability
 }
 public class AbilityTable : MonoBehaviour
 {
+    private const string JsonTableName = "CharacterAbility";
+
+    public float this[Ability ability]
+    {
+        get
+        {
+            if (mTable == null)
+            {
+                Init();
+            }
+            return mTable[ability];
+        }
+    }
     public  Dictionary<Ability, float>  Table
     {
         get
@@ -37,8 +50,6 @@ public class AbilityTable : MonoBehaviour
         }
     }
     private RecognitionArea mArea;
-
-    private void Reset() => _JsonTableName = "CharacterAbility";
 
     public bool CanRecognize(MESSAGE message)
     {
@@ -72,7 +83,7 @@ public class AbilityTable : MonoBehaviour
         mTable = new Dictionary<Ability, float>();
 
         string JsonData(string s)
-            => DataUtil.GetDataValue(_JsonTableName, "ID", _JsonLableName, s);
+            => DataUtil.GetDataValue(JsonTableName, "ID", _JsonLableName, s);
 
         mArea = (RecognitionArea)Enum.Parse(typeof(RecognitionArea), 
             JsonData("RecognitionArea"));
@@ -106,6 +117,5 @@ public class AbilityTable : MonoBehaviour
     public float Range
     { get => Table[Ability.Range] + Table[Ability.IRange]; }
 
-    [SerializeField] private string _JsonTableName;
     [SerializeField] private string _JsonLableName;
 }

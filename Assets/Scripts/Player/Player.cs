@@ -122,7 +122,7 @@ public class Player : MonoBehaviour, ICombatable
     {
         PlayerAnimator.Init();
 
-        HealthBarPool.Instance?.UsingHealthBar(-0.8f, transform, AbilityTable);
+        HealthBarPool.Instance?.UsingPlayerHealthBar(-1f, transform, AbilityTable);
 
         mIsInputLock  = false;
         mCanElevation = false;
@@ -178,6 +178,11 @@ public class Player : MonoBehaviour, ICombatable
 
                     o.AttackOverAction = () => mAttackPeriod.AttackActionOver();
                 }
+            };
+            mInventory.WeaponChangeEvent += o =>
+            {
+                o.transform.parent   = null;
+                o.transform.position = new Vector3(-10, 0, 0);
             };
         }
     }
@@ -251,7 +256,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             InputAction();
         }
-        if (RangeArea.HasAny())
+        if (RangeArea.HasAny() && mEMove == null)
         {
             if (RangeArea.CloestTargetPos().x > transform.position.x)
                  transform.localRotation = Quaternion.Euler(Vector3.zero);
@@ -387,7 +392,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             mBlinkTimer.Start(mBlinkTime);
 
-            MainCamera.Instance.Shake(0.16f, 0.5f, true);
+            MainCamera.Instance.Shake(0.3f, 1.0f);
 
             mInventory.OnDamaged(ref damage, attacker, gameObject);
 
@@ -396,10 +401,11 @@ public class Player : MonoBehaviour, ICombatable
             {
                 DeathEvent.Invoke();
             }
+            EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
         }
     }
 
-    public void CastBuff(BUFF buffType, IEnumerator castedBuff)
+    public void CastBuff(Buff buffType, IEnumerator castedBuff)
     {
         StartCoroutine(castedBuff);
     }

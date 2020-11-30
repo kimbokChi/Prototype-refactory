@@ -32,7 +32,7 @@ public interface ICombatable
 
     void Damaged(float damage, GameObject attacker);
 
-    void CastBuff(BUFF buffType, IEnumerator castedBuff);
+    void CastBuff(Buff buffType, IEnumerator castedBuff);
 }
 
 public enum AnimState

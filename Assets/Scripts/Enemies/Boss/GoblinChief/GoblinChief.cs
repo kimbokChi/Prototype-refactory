@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GoblinChief : MonoBehaviour, IObject, ICombatable
 {
@@ -16,13 +17,15 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     [Header("Ability")]
     [SerializeField] private AbilityTable AbilityTable;
     [SerializeField] private Animator Animator;
+    [SerializeField] private GameObject HealthBar;
+    [SerializeField] private Image HealthBarImage;
 
     [Header("Totem Skill Info")]
     [SerializeField] private SpecialBuffTotem BuffTotem;
     [SerializeField] private BombTotemSkill BombTotemSkill;
     [SerializeField] private LightningTotemSkill LightningTotemSkill;
 
-    private Queue <SpecialBuffTotem> mBuffTotemPool;
+    private Queue<SpecialBuffTotem> mBuffTotemPool;
     private Queue<BombTotemSkill> mBombSkillPool;
     private Queue<LightningTotemSkill> mLightningSkillPool;
 
@@ -32,6 +35,10 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     [Header("Summon Goblins")]
     [SerializeField] private GameObject[] Goblins;
+
+    [Header("Death rattle")]
+    [SerializeField] private float FadeTime;
+    [SerializeField] private SceneLoader TownLoader;
 
     private Player mPlayer;
     private int mControlKey;
@@ -56,19 +63,19 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     public void Damaged(float damage, GameObject attacker)
     {
         EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+        HealthBarImage.fillAmount = AbilityTable[Ability.CurHealth] / AbilityTable[Ability.MaxHealth];
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
 
-            HealthBarPool.Instance.UnUsingHealthBar(transform);
+            DeathRattle();
         }
     }
 
     public void IInit()
     {
-        HealthBarPool.Instance.UsingHealthBar(-2.2f, transform, AbilityTable);
-
+        HealthBar.SetActive(true);
         mNextPattern = (Anim)Random.Range(2, 4);
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
@@ -216,7 +223,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         DIRECTION9 playerDIR9 = mPlayer.GetDIRECTION9();
 
         Vector2 castPoint = new Vector2
-            (mPlayer.transform.position.x, Castle.Instance.GetMovePoint(playerDIR9).y + 1.1f);
+            (mPlayer.transform.position.x, Castle.Instance.GetMovePoint(playerDIR9).y + 1.2f);
 
         switch (random) {
             case 0:
@@ -257,7 +264,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         }
     }
 
-    public void CastBuff(BUFF buffType, IEnumerator castedBuff) {
+    public void CastBuff(Buff buffType, IEnumerator castedBuff) {
         StartCoroutine(castedBuff);
     }
 
@@ -269,6 +276,12 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         return gameObject;
     }
 
+    // 죽을때 사용하는 그런 머시기
+    private void DeathRattle()
+    {
+        MainCamera.Instance.Fade(FadeTime, FadeType.In, () => TownLoader.SceneLoad());
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -277,7 +290,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
             {
                 combatable.Damaged(8f, gameObject);
 
-                MainCamera.Instance.Shake(0.5f, 0.5f, true);
+                MainCamera.Instance.Shake(0.5f, 0.5f);
             }
         }
     }

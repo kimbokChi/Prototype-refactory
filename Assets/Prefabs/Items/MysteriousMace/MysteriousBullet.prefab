@@ -67,6 +67,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: MysteriousBullet
       objectReference: {fileID: 0}
+    - target: {fileID: 2393903901732592167, guid: 11495c2e1b2f9314785a4ba230e7ccf4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 84302e5149beed346832212e13dcad81,
+        type: 3}
     - target: {fileID: 8231255372746500744, guid: 11495c2e1b2f9314785a4ba230e7ccf4,
         type: 3}
       propertyPath: LifeTime
