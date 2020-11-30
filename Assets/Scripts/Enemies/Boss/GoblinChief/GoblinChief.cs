@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GoblinChief : MonoBehaviour, IObject, ICombatable
 {
@@ -16,6 +17,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     [Header("Ability")]
     [SerializeField] private AbilityTable AbilityTable;
     [SerializeField] private Animator Animator;
+    [SerializeField] private GameObject HealthBar;
+    [SerializeField] private Image HealthBarImage;
 
     [Header("Totem Skill Info")]
     [SerializeField] private SpecialBuffTotem BuffTotem;
@@ -60,12 +63,11 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     public void Damaged(float damage, GameObject attacker)
     {
         EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+        HealthBarImage.fillAmount = AbilityTable[Ability.CurHealth] / AbilityTable[Ability.MaxHealth];
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
             gameObject.SetActive(false);
-
-            HealthBarPool.Instance.UnUsingHealthBar(transform);
 
             DeathRattle();
         }
@@ -73,8 +75,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
-        HealthBarPool.Instance.UsingHealthBar(-2.2f, transform, AbilityTable);
-
+        HealthBar.SetActive(true);
         mNextPattern = (Anim)Random.Range(2, 4);
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
