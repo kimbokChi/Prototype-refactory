@@ -1,14 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Kraken : MonoBehaviour, IObject
+public class Kraken : MonoBehaviour, IObject, ICombatable
 {
     private enum Pattern
     {
         FallingTentacle, StrikeTentacle, ArtilleryFire, SummonTentacle, SummonSeaMonster
     }
     [SerializeField] private AbilityTable AbilityTable;
+    [SerializeField] private GameObject HealthBar;
+    [SerializeField] private Image HealthBarImage;
+    [SerializeField] private SceneLoader TownLoader;
 
     [Header("ArtilleryFire Info")]
     [SerializeField] private Projection ArtilleryShell;
@@ -35,12 +39,15 @@ public class Kraken : MonoBehaviour, IObject
     [SerializeField] private float FallingTime;
     [SerializeField] private int FallingAreaChildIndex;
 
-    private IEnumerator _AwakeRoutine;
+    private Coroutine _Coroutine;
     private Pattern _NextPattern;
+
     private int _PatternInvokeCount;
 
     private AttackPeriod _AttackPeriod;
     private Pool<Projection> _ArtilleryShellPool;
+
+    public AbilityTable GetAbility => AbilityTable;
 
     public void IInit()
     {
@@ -102,6 +109,8 @@ public class Kraken : MonoBehaviour, IObject
         _TentaclePool = new Pool<Tentacle>();
         _TentaclePool.Init(4, Tentacle, o => 
         {
+            o.Init(this);
+
             o.DeathrattleAction = tentacle =>
             {
                 TentacleCount--;
@@ -132,15 +141,15 @@ public class Kraken : MonoBehaviour, IObject
             switch (_NextPattern)
             {
                 case Pattern.FallingTentacle:
-                    StartCoroutine(FallingTentacle());
+                    _Coroutine.StartRoutine(FallingTentacle());
                     break;
 
                 case Pattern.StrikeTentacle:
-                    StartCoroutine(StrikeTentacle());
+                    _Coroutine.StartRoutine(StrikeTentacle());
                     break;
 
                 case Pattern.ArtilleryFire:
-                    StartCoroutine(ArtilleryFire());
+                    _Coroutine.StartRoutine(ArtilleryFire());
                     break;
 
                 case Pattern.SummonTentacle:
@@ -152,12 +161,15 @@ public class Kraken : MonoBehaviour, IObject
                     break;
             }
         });
-        StartCoroutine(_AwakeRoutine = AwakeRoutine());
+        HealthBar.SetActive(true);
+
+        _Coroutine = new Coroutine(this);
+        _Coroutine.StartRoutine(AwakeRoutine());
     }
 
     public void IUpdate()
     {
-        if (_AwakeRoutine == null)
+        if (_Coroutine.IsFinished())
         {
             if (!_AttackPeriod.IsProgressing())
             {
@@ -187,7 +199,7 @@ public class Kraken : MonoBehaviour, IObject
         float summonPointMinX = Castle.Instance.GetMovePoint((DIRECTION9)roomIndex).x;
         float summonPointMaxX = Castle.Instance.GetMovePoint((DIRECTION9)roomIndex + 2).x;
 
-        MainCamera.Instance.Shake(0.6f, 1f, true);
+        MainCamera.Instance.Shake(0.6f, 1f);
         Vector2 summonPoint = new Vector2(Random.Range(summonPointMinX, summonPointMaxX), 2.3f);
         tentacle.transform.localPosition = summonPoint;
 
@@ -228,7 +240,7 @@ public class Kraken : MonoBehaviour, IObject
             SummonTentacle();
         }
         _AttackPeriod.StartPeriod();
-        _AwakeRoutine = null;
+        _Coroutine.Finish();
     }
 
     private IEnumerator FallingTentacle()
@@ -252,6 +264,8 @@ public class Kraken : MonoBehaviour, IObject
 
         _FallingTentacle.SetActive(false);
         _AttackPeriod.AttackActionOver();
+
+        _Coroutine.Finish();
     }
 
     private IEnumerator StrikeTentacle()
@@ -276,6 +290,8 @@ public class Kraken : MonoBehaviour, IObject
 
         _StrikeTentacle.SetActive(false);
         _AttackPeriod.AttackActionOver();
+
+        _Coroutine.Finish();
     }
 
     private IEnumerator ArtilleryFire()
@@ -304,8 +320,34 @@ public class Kraken : MonoBehaviour, IObject
             if (theta >= 360f) theta = 0f;
         }
         _AttackPeriod.AttackActionOver();
+
+        _Coroutine.Finish();
     }
 
     public GameObject ThisObject() => gameObject;
     public bool IsActive() => gameObject.activeSelf;
+
+    public void Damaged(float damage, GameObject attacker)
+    {
+        AbilityTable.Table[Ability.CurHealth] -= damage;
+        HealthBarImage.fillAmount = AbilityTable[Ability.CurHealth] / AbilityTable[Ability.MaxHealth];
+
+        if (AbilityTable[Ability.CurHealth] <= 0f)
+        {
+            _AttackPeriod.StopPeriod();
+
+            _Coroutine.StopRoutine();
+
+            if (TryGetComponent(out Animator animator))
+            {
+                animator.SetBool(animator.GetParameter(0).nameHash, true);
+            }
+            MainCamera.Instance.Shake(1.8f, 1.2f);
+
+            MainCamera.Instance.Fade(2.25f, FadeType.In, () => TownLoader.SceneLoad());
+        }
+    }
+
+    public void CastBuff(Buff buffType, IEnumerator castedBuff)
+    { }
 }

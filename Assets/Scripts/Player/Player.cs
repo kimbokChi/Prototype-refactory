@@ -122,7 +122,7 @@ public class Player : MonoBehaviour, ICombatable
     {
         PlayerAnimator.Init();
 
-        HealthBarPool.Instance?.UsingHealthBar(-1f, transform, AbilityTable);
+        HealthBarPool.Instance?.UsingPlayerHealthBar(-1f, transform, AbilityTable);
 
         mIsInputLock  = false;
         mCanElevation = false;
@@ -178,6 +178,11 @@ public class Player : MonoBehaviour, ICombatable
 
                     o.AttackOverAction = () => mAttackPeriod.AttackActionOver();
                 }
+            };
+            mInventory.WeaponChangeEvent += o =>
+            {
+                o.transform.parent   = null;
+                o.transform.position = new Vector3(-10, 0, 0);
             };
         }
     }
@@ -387,7 +392,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             mBlinkTimer.Start(mBlinkTime);
 
-            MainCamera.Instance.Shake(0.3f, 1.0f, true);
+            MainCamera.Instance.Shake(0.3f, 1.0f);
 
             mInventory.OnDamaged(ref damage, attacker, gameObject);
 
