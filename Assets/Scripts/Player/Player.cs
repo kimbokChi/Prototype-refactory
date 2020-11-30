@@ -387,7 +387,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             mBlinkTimer.Start(mBlinkTime);
 
-            MainCamera.Instance.Shake(0.3f, 1.0f, true);
+            MainCamera.Instance.Shake(0.3f, 1.0f);
 
             mInventory.OnDamaged(ref damage, attacker, gameObject);
 

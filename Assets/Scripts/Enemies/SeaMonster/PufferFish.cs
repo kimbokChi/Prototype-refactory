@@ -117,7 +117,7 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
     // 애니메이션 이벤트로 실행됨!
     private void AttackAction()
     {
-        MainCamera.Instance.Shake(0.8f, 1.1f, true);
+        MainCamera.Instance.Shake(0.8f, 1.1f);
 
         StunArea.gameObject.SetActive(true);
     }

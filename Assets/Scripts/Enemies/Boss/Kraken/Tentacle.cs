@@ -100,7 +100,7 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
     private void CameraShake()
     {
-        MainCamera.Instance.Shake(0.3f, 0.9f, true);
+        MainCamera.Instance.Shake(0.3f, 0.9f);
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)

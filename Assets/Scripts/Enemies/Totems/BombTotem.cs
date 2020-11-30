@@ -59,12 +59,12 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
     private void OnFuse()
     {
-        MainCamera.Instance.Shake(0.1f, 0.3f, true);
+        MainCamera.Instance.Shake(0.1f, 0.3f);
     }
 
     private void AttackAction()
     {
-        MainCamera.Instance.Shake(0.4f, 1.2f, true);
+        MainCamera.Instance.Shake(0.4f, 1.2f);
 
         if (Range.TryEnterTypeT(out Player player))
         {

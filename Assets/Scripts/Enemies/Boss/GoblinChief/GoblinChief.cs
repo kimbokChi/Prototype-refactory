@@ -289,7 +289,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
             {
                 combatable.Damaged(8f, gameObject);
 
-                MainCamera.Instance.Shake(0.5f, 0.5f, true);
+                MainCamera.Instance.Shake(0.5f, 0.5f);
             }
         }
     }

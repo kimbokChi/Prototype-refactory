@@ -187,7 +187,7 @@ public class Kraken : MonoBehaviour, IObject
         float summonPointMinX = Castle.Instance.GetMovePoint((DIRECTION9)roomIndex).x;
         float summonPointMaxX = Castle.Instance.GetMovePoint((DIRECTION9)roomIndex + 2).x;
 
-        MainCamera.Instance.Shake(0.6f, 1f, true);
+        MainCamera.Instance.Shake(0.6f, 1f);
         Vector2 summonPoint = new Vector2(Random.Range(summonPointMinX, summonPointMaxX), 2.3f);
         tentacle.transform.localPosition = summonPoint;
 
