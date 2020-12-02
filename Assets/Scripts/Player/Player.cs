@@ -256,23 +256,21 @@ public class Player : MonoBehaviour, ICombatable
         {
             InputAction();
         }
-        if (RangeArea.HasAny() && mEMove == null)
+        if (Application.platform == RuntimePlatform.Android)
         {
-            bool lookAtLeft = 
-                RangeArea.CloestTargetPos().x < transform.position.x;
-
-            SetLookAtLeft(lookAtLeft);
-        }
-        if (mInventory.IsEquipWeapon())
-        {
-            if (Application.platform == RuntimePlatform.Android)
+            if (Input.touchCount > 0)
             {
-                if (Input.touchCount > 0)
-                {
-                    // To do...
-                }
+                // To do...
             }
-            else if (RangeArea.HasAny())
+        }
+        else if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 mousePoint =
+                Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            SetLookAtLeft(mousePoint.x < 0);
+
+            if (mInventory.IsEquipWeapon())
             {
                 mAttackPeriod.StartPeriod();
             }
