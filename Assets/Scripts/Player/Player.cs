@@ -307,6 +307,8 @@ public class Player : MonoBehaviour, ICombatable
     {
         if (mEMove == null && mAttackPeriod.CurrentPeriod == Period.Begin)
         {
+            mAttackPeriod.StopPeriod();
+
             if (mCanElevation)
             {
                 switch (moveDIR9)

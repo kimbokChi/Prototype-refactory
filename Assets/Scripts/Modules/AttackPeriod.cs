@@ -62,6 +62,8 @@ public class AttackPeriod
     {
         if (mEUpdate != null) {
             Inventory.Instance.StopCoroutine(mEUpdate);
+
+            mEUpdate = null;
         }
     }
 
