@@ -305,7 +305,7 @@ public class Player : MonoBehaviour, ICombatable
 
     private void MoveAction(DIRECTION9 moveDIR9)
     {
-        if (mEMove == null)
+        if (mEMove == null && mAttackPeriod.CurrentPeriod == Period.Begin)
         {
             if (mCanElevation)
             {
