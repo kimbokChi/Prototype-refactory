@@ -53,16 +53,19 @@ public class LongSword : Item
 
     private void ChargeAction(float charge)
     {
-        Vector2 direction = Vector2.right;
-        SwordDance.transform.localRotation = Quaternion.Euler(Vector3.zero);
-
-        if (mPlayer.transform.localRotation.y == -1)
+        if (charge >= 0.15f)
         {
-            SwordDance.transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
-            direction = Vector2.left;
+            Vector2 direction = Vector2.right;
+            SwordDance.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+            if (mPlayer.transform.localRotation.y == -1)
+            {
+                SwordDance.transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+                direction = Vector2.left;
+            }
+            SwordDance.transform.position = transform.position;
+            SwordDance.Launch(direction);
         }
-        SwordDance.transform.position = transform.position;
-        SwordDance.Launch(direction);
     }
 
     private void HitAction(GameObject hitObject)
