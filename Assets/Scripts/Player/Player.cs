@@ -258,17 +258,35 @@ public class Player : MonoBehaviour, ICombatable
         }
         if (RangeArea.HasAny() && mEMove == null)
         {
-            if (RangeArea.CloestTargetPos().x > transform.position.x)
-                 transform.localRotation = Quaternion.Euler(Vector3.zero);
-            else transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+            bool lookAtLeft = 
+                RangeArea.CloestTargetPos().x < transform.position.x;
+
+            SetLookAtLeft(lookAtLeft);
         }
         if (mInventory.IsEquipWeapon())
         {
-            if (RangeArea.HasAny())
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                if (Input.touchCount > 0)
+                {
+                    // To do...
+                }
+            }
+            else if (RangeArea.HasAny())
             {
                 mAttackPeriod.StartPeriod();
             }
         }
+    }
+
+    private void SetLookAtLeft(bool lookLeft)
+    {
+        if (lookLeft)
+        {
+            transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+        }
+        else 
+            transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -309,9 +327,8 @@ public class Player : MonoBehaviour, ICombatable
             }
             else
             {
-                if (mLocation9 - moveDIR9 < 0)
-                     transform.localRotation = Quaternion.Euler(0f,   0f, 0f);
-                else transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                         bool lookAtLeft = mLocation9 - moveDIR9 > 0;
+                SetLookAtLeft(lookAtLeft);
 
                 Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
 
