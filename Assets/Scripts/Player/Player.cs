@@ -256,19 +256,41 @@ public class Player : MonoBehaviour, ICombatable
         {
             InputAction();
         }
-        if (RangeArea.HasAny() && mEMove == null)
+
+        if (mEMove == null)
         {
-            if (RangeArea.CloestTargetPos().x > transform.position.x)
-                 transform.localRotation = Quaternion.Euler(Vector3.zero);
-            else transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
-        }
-        if (mInventory.IsEquipWeapon())
-        {
-            if (RangeArea.HasAny())
+            Vector2 interactionPoint = Vector2.zero;
+
+            if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
             {
-                mAttackPeriod.StartPeriod();
+                if (Input.touchCount > 0)
+                {
+                    interactionPoint =
+                        Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+                }
+                else if (Input.GetMouseButtonDown(0))
+                {
+                    interactionPoint =
+                        Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                }
+                SetLookAtLeft(interactionPoint.x < 0);
+
+                if (mInventory.IsEquipWeapon())
+                {
+                    mAttackPeriod.StartPeriod();
+                }
             }
         }
+    }
+
+    private void SetLookAtLeft(bool lookLeft)
+    {
+        if (lookLeft)
+        {
+            transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+        }
+        else 
+            transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -283,8 +305,10 @@ public class Player : MonoBehaviour, ICombatable
 
     private void MoveAction(DIRECTION9 moveDIR9)
     {
-        if (mEMove == null)
+        if (mEMove == null && mAttackPeriod.CurrentPeriod == Period.Begin)
         {
+            mAttackPeriod.StopPeriod();
+
             if (mCanElevation)
             {
                 switch (moveDIR9)
@@ -309,9 +333,8 @@ public class Player : MonoBehaviour, ICombatable
             }
             else
             {
-                if (mLocation9 - moveDIR9 < 0)
-                     transform.localRotation = Quaternion.Euler(0f,   0f, 0f);
-                else transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                         bool lookAtLeft = mLocation9 - moveDIR9 > 0;
+                SetLookAtLeft(lookAtLeft);
 
                 Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
 
