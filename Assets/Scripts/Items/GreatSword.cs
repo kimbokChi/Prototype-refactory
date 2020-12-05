@@ -54,6 +54,8 @@ public class GreatSword : Item
                         SwordDancePool = new Pool<Projection>();
                         SwordDancePool.Init(2, SwordDance, p =>
                         {
+                            p.transform.localScale = Vector2.one * 1.5f;
+
                             p.SetAction(
                             o =>
                             {
