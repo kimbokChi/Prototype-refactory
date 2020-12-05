@@ -22,5 +22,21 @@
     "Begin_AttackDelay": "0.40",
     "After_AttackDelay": "0.40",
     "Rating": "Rare"
+  },
+  {
+    "ID": "GreatSword",
+    "AttackPower": "10.00",
+    "Range": "1.00",
+    "Begin_AttackDelay": "0.05",
+    "After_AttackDelay": "0.10",
+    "Rating": "Epic"
+  },
+  {
+    "ID": "OrdinaryBow",
+    "AttackPower": "8.00",
+    "Range": "2.50",
+    "Begin_AttackDelay": "0.20",
+    "After_AttackDelay": "0.10",
+    "Rating": "Rare"
   }
 ]
