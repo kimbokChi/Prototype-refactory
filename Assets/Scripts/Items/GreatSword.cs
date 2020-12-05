@@ -9,6 +9,8 @@ public class GreatSword : Item
     [SerializeField] private Projection SwordDance;
     [Range(0f, 1f)]
     [SerializeField] private float DemandCharge;
+    [Range(1f, 20f)]
+    [SerializeField] private float SwordDanceSpeed;
 
     private Pool<Projection> SwordDancePool;
 
@@ -44,7 +46,7 @@ public class GreatSword : Item
 
                     if (!mIsAlreadyInit)
                     {
-                        mAnimPlayKey = Animator.GetParameter(0).nameHash;
+                        mAnimPlayKey    = Animator.GetParameter(0).nameHash;
                         mAnimControlKey = Animator.GetParameter(1).nameHash;
 
                         AttackArea.SetEnterAction(HitAction);
@@ -52,13 +54,15 @@ public class GreatSword : Item
                         SwordDancePool = new Pool<Projection>();
                         SwordDancePool.Init(2, SwordDance, p =>
                         {
-                            p.HitAction = o =>
+                            p.SetAction(
+                            o =>
                             {
                                 if (o.TryGetComponent(out ICombatable combatable))
                                 {
                                     combatable.Damaged(StatTable[ItemStat.AttackPower], mPlayer);
                                 }
-                            };
+                            }, 
+                            o => SwordDancePool.Add(o));
                         });
 
                         mIsAlreadyInit = true;
@@ -72,11 +76,23 @@ public class GreatSword : Item
     {
         if (charge >= DemandCharge)
         {
-            SwordDancePool.Get().Shoot(mPlayer.transform.position, Vector2.left, 2f);
-
             Animator.SetBool(mAnimPlayKey, true);
             Animator.SetBool(mAnimControlKey, !Animator.GetBool(mAnimControlKey));
         }
+    }
+
+    private void SwordDanceShoot()
+    {
+        var direction = Vector2.right;
+        
+        if (mPlayer.transform.localRotation.eulerAngles.y > 0f)
+        {
+            direction = Vector2.left;
+        }
+        var swordDance = SwordDancePool.Get();
+
+        swordDance.Shoot(transform.position, direction, SwordDanceSpeed);
+        swordDance.transform.rotation = mPlayer.transform.localRotation;
     }
 
     private void HitAction(GameObject hitTarget)
@@ -91,6 +107,6 @@ public class GreatSword : Item
 
     protected override void CameraShake()
     {
-        MainCamera.Instance.Shake(0.27f, 1.1f);
+        MainCamera.Instance.Shake(0.3f, 3.5f);
     }
 }
