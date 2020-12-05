@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GreatSword : Item
 {
@@ -12,14 +10,18 @@ public class GreatSword : Item
     [Range(0f, 1f)]
     [SerializeField] private float DemandCharge;
 
+    private Pool<Projection> SwordDancePool;
+
     private int mAnimControlKey;
     private int mAnimPlayKey;
+
+    private bool mIsAlreadyInit = false;
 
     private GameObject mPlayer;
 
     public override void AttackAction(GameObject attacker, ICombatable combatable)
     {
-        base.AttackAction(attacker, combatable);
+        mPlayer = attacker;
     }
 
     public override void OffEquipThis(SlotType offSlot)
@@ -37,18 +39,58 @@ public class GreatSword : Item
         switch (onSlot)
         {
             case SlotType.Weapon:
-                Inventory.Instance.ChargeAction += ChargeAction;
+                {
+                    Inventory.Instance.ChargeAction += ChargeAction;
+
+                    if (!mIsAlreadyInit)
+                    {
+                        mAnimPlayKey = Animator.GetParameter(0).nameHash;
+                        mAnimControlKey = Animator.GetParameter(1).nameHash;
+
+                        AttackArea.SetEnterAction(HitAction);
+
+                        SwordDancePool = new Pool<Projection>();
+                        SwordDancePool.Init(2, SwordDance, p =>
+                        {
+                            p.HitAction = o =>
+                            {
+                                if (o.TryGetComponent(out ICombatable combatable))
+                                {
+                                    combatable.Damaged(StatTable[ItemStat.AttackPower], mPlayer);
+                                }
+                            };
+                        });
+
+                        mIsAlreadyInit = true;
+                    }
+                }
                 break;
         }
     }
 
     private void ChargeAction(float charge)
     {
+        if (charge >= DemandCharge)
+        {
+            SwordDancePool.Get().Shoot(mPlayer.transform.position, Vector2.left, 2f);
 
+            Animator.SetBool(mAnimPlayKey, true);
+            Animator.SetBool(mAnimControlKey, !Animator.GetBool(mAnimControlKey));
+        }
+    }
+
+    private void HitAction(GameObject hitTarget)
+    {
+        if (hitTarget.TryGetComponent(out ICombatable combatable))
+        {
+            combatable.Damaged(StatTable[ItemStat.AttackPower], mPlayer);
+
+            Inventory.Instance.OnAttackEvent(mPlayer, combatable);
+        }
     }
 
     protected override void CameraShake()
     {
-        
+        MainCamera.Instance.Shake(0.27f, 1.1f);
     }
 }
