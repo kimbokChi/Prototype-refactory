@@ -109,6 +109,6 @@ public class GreatSword : Item
 
     protected override void CameraShake()
     {
-        MainCamera.Instance.Shake(0.3f, 3.5f);
+        MainCamera.Instance.Shake(0.29f, 3.5f);
     }
 }
