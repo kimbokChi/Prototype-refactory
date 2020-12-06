@@ -66,7 +66,9 @@ public class OrdinaryBow : Item
         {
             direction = Vector2.left;
         }
-        var arrow = mArrowPool.Get();
+        Projection arrow = mArrowPool.Get();
+
+        MainCamera.Instance.Shake();
 
         arrow.transform.rotation = mPlayer.transform.localRotation;
         arrow.Shoot(transform.position, direction, 11.5f);
