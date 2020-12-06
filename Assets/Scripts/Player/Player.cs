@@ -184,6 +184,7 @@ public class Player : MonoBehaviour, ICombatable
                 o.transform.parent   = null;
                 o.transform.position = new Vector3(-10, 0, 0);
             };
+            Finger.Instance.Gauge.DisChargeEvent += AttackOrder;
         }
     }
 
@@ -275,10 +276,7 @@ public class Player : MonoBehaviour, ICombatable
                 }
                 SetLookAtLeft(interactionPoint.x < 0);
 
-                if (mInventory.IsEquipWeapon())
-                {
-                    mAttackPeriod.StartPeriod();
-                }
+                AttackOrder();
             }
         }
     }
@@ -296,6 +294,17 @@ public class Player : MonoBehaviour, ICombatable
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (mEMove != null) mCollidersOnMove.Add(collision);
+    }
+
+    private void AttackOrder()
+    {
+        if (mInventory.IsEquipWeapon() && !mAttackPeriod.IsProgressing())
+        {
+            if (mInventory.GetWeaponItem.CanAttackState)
+            {
+                mAttackPeriod.StartPeriod();
+            }
+        }
     }
 
     private void AttackAction()
