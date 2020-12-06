@@ -26,6 +26,22 @@ public abstract class Item : MonoBehaviour
     protected Sprite mSprite;
 
     // *********************************** //
+    public virtual bool CanAttackState
+    {
+        get
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.WindowsEditor:
+                    return Input.GetMouseButtonDown(0);
+
+                case RuntimePlatform.Android:
+                    return Input.touchCount > 0;
+            }
+            return false;
+        }
+    }
     public ItemRating Rating
     {
         get => StatTable.Rating;
