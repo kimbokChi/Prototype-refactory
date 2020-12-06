@@ -47,6 +47,7 @@ public class OrdinaryBow : Item
                                 {
                                     combatable.Damaged(StatTable[ItemStat.AttackPower], mPlayer);
 
+                                    Inventory.Instance.OnAttackEvent(mPlayer, combatable);
                                     MainCamera.Instance.Shake();
                                 }
                             },
