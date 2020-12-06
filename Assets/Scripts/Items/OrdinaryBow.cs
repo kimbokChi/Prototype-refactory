@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class OrdinaryBow : Item
 {
-    [SerializeField] private Projection Arrow;
-
     [SerializeField] private Animator Animator;
+
+    [Header("Arrow Info")]
+    [SerializeField] private Projection Arrow;
+    [SerializeField] private float ShootSpeed;
+    [SerializeField] private Vector3 ShootOffset;
 
     private int mAnimPlayKey;
 
@@ -71,7 +74,7 @@ public class OrdinaryBow : Item
         MainCamera.Instance.Shake();
 
         arrow.transform.rotation = mPlayer.transform.localRotation;
-        arrow.Shoot(transform.position, direction, 11.5f);
+        arrow.Shoot(transform.position + ShootOffset, direction, ShootSpeed);
     }
 
     protected override void AttackAnimationPlayOver()
