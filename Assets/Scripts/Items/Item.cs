@@ -26,6 +26,22 @@ public abstract class Item : MonoBehaviour
     protected Sprite mSprite;
 
     // *********************************** //
+    public virtual bool CanAttackState
+    {
+        get
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.WindowsEditor:
+                    return Input.GetMouseButtonDown(0);
+
+                case RuntimePlatform.Android:
+                    return Input.touchCount > 0;
+            }
+            return false;
+        }
+    }
     public ItemRating Rating
     {
         get => StatTable.Rating;
@@ -49,9 +65,7 @@ public abstract class Item : MonoBehaviour
     public abstract void OffEquipThis(SlotType offSlot);
 
     public virtual void AttackAction(GameObject attacker, ICombatable combatable)
-    { 
-        Inventory.Instance.OnAttackEvent(attacker, combatable); 
-    }
+    { }
 
     // 애니메이션 이벤트 함수
     protected virtual void CameraShake()

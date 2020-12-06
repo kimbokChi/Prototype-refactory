@@ -16,8 +16,10 @@ public class Finger : Singleton<Finger>
 
     [SerializeField]
     private ChargeGauge mChargeGauge;
+    public  ChargeGauge Gauge
+    { get => mChargeGauge; }
 
-    public  Item  CarryItem
+    public Item  CarryItem
     {
         get => mCarryItem;
         set => mCarryItem = value;
@@ -71,10 +73,9 @@ public class Finger : Singleton<Finger>
         // End Touch
         if ((Input.GetMouseButtonUp(0) && mCurPressTime >= PRESS_TIME))
         {
-            mChargeGauge.gameObject.SetActive(false);
-
             Inventory.Instance.OnCharge(mChargeGauge.Charge);
 
+            mChargeGauge.gameObject.SetActive(false);
             mCurPressTime = 0;
 
             StartCoroutine(EDisBulletTime(1.75f));
