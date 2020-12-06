@@ -35,8 +35,8 @@
     "ID": "OrdinaryBow",
     "AttackPower": "8.00",
     "Range": "2.50",
-    "Begin_AttackDelay": "0.20",
-    "After_AttackDelay": "0.10",
+    "Begin_AttackDelay": "0.00",
+    "After_AttackDelay": "0.00",
     "Rating": "Rare"
   }
 ]
