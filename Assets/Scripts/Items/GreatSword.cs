@@ -21,9 +21,9 @@ public class GreatSword : Item
 
     private GameObject mPlayer;
 
-    public override void AttackAction(GameObject attacker, ICombatable combatable)
+    public override bool CanAttackState
     {
-        mPlayer = attacker;
+        get => Finger.Instance.Gauge.Charge >= DemandCharge;
     }
 
     public override void OffEquipThis(SlotType offSlot)
@@ -66,6 +66,7 @@ public class GreatSword : Item
                             }, 
                             o => SwordDancePool.Add(o));
                         });
+                        mPlayer = transform.parent.parent.gameObject;
 
                         mIsAlreadyInit = true;
                     }

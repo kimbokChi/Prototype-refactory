@@ -65,9 +65,7 @@ public abstract class Item : MonoBehaviour
     public abstract void OffEquipThis(SlotType offSlot);
 
     public virtual void AttackAction(GameObject attacker, ICombatable combatable)
-    { 
-        Inventory.Instance.OnAttackEvent(attacker, combatable); 
-    }
+    { }
 
     // 애니메이션 이벤트 함수
     protected virtual void CameraShake()

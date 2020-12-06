@@ -27,8 +27,8 @@
     "ID": "GreatSword",
     "AttackPower": "10.00",
     "Range": "1.00",
-    "Begin_AttackDelay": "0.05",
-    "After_AttackDelay": "0.10",
+    "Begin_AttackDelay": "0.00",
+    "After_AttackDelay": "0.15",
     "Rating": "Epic"
   },
   {
