@@ -17,7 +17,7 @@ public class DungeonHelper : MonoBehaviour
 
     private bool mHasPlayer;
 
-    private void OnEnable()
+    private void Start()
     {
         DropItem.Init(ItemLibrary.Instance.GetRandomItem());
 
