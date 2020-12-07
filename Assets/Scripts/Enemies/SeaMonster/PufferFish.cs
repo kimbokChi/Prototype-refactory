@@ -103,13 +103,17 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
 
     public void IUpdate()
     {
-        if (!_AttackPeriod.IsProgressing())
+        if (AbilityTable[Ability.CurHealth] > 0)
         {
-            if (Range.HasAny() && IsLookAtPlayer())
-            {
-                MoveStop();
 
-                _AttackPeriod.StartPeriod();
+            if (!_AttackPeriod.IsProgressing())
+            {
+                if (Range.HasAny() && IsLookAtPlayer())
+                {
+
+                    MoveStop();
+                    _AttackPeriod.StartPeriod();
+                }
             }
         }
     }

@@ -12,6 +12,13 @@ public static class MathExtension
         if (value < min) value = min;
         if (value > max) value = max;
     }
+
+    public static void SetZ(this Transform transform, float newZ)
+    {
+        float offsetZ = newZ - transform.position.z;
+
+        transform.position += new Vector3(0, 0, offsetZ);
+    }
 }
 
 public class MainCamera : Singleton<MainCamera>
@@ -182,8 +189,7 @@ public class MainCamera : Singleton<MainCamera>
             lerpAmount = Mathf.Min(1f, lerpAmount + Time.deltaTime * Time.timeScale * speed);
 
             transform.position = Vector2.Lerp(transform.position, point, lerpAmount);
-
-            transform.Translate(0, 0, -10f);
+            transform.SetZ(-10f);
 
             yield return null;
         }
@@ -206,13 +212,13 @@ public class MainCamera : Singleton<MainCamera>
             if (Mathf.Abs(targetScale - ThisCamera.orthographicSize) < 0.02f)
             {
                 transform.position = point;
-                transform.Translate(0, 0, -10f);
+                transform.SetZ(-10f);
 
                 ThisCamera.orthographicSize = targetScale;
                 yield break;
             }
             transform.position = Vector2.Lerp(transform.position, point, lerp);
-            transform.Translate(0, 0, -10f);
+            transform.SetZ(-10f);
 
             ThisCamera.orthographicSize = Mathf.Lerp(ThisCamera.orthographicSize, targetScale, lerp);
 
@@ -238,13 +244,13 @@ public class MainCamera : Singleton<MainCamera>
             if (Mathf.Abs(OriginCameraScale - ThisCamera.orthographicSize) < 0.02f)
             {
                 transform.position = mOriginPosition;
-                transform.Translate(0, 0, -10f);
+                transform.SetZ(-10f);
 
                 ThisCamera.orthographicSize = OriginCameraScale;
                 yield break;
             }
             transform.position = Vector2.Lerp(transform.position, mOriginPosition, lerp);
-            transform.Translate(0, 0, -10f);
+            transform.SetZ(-10f);
 
             ThisCamera.orthographicSize = Mathf.Lerp(ThisCamera.orthographicSize, OriginCameraScale, lerp);
 
