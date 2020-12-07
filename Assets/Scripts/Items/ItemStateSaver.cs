@@ -21,13 +21,19 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         _ItemLibDictionary = itemLibDictionary;
     }
 
-    public void LoadLibDictionary(out Dictionary<ItemRating, List<Item>> itemLibDictionary)
+    public bool LoadLibDictionary(out Dictionary<ItemRating, List<Item>> itemLibDictionary)
     {
         if (_ItemLibDictionary == null)
         {
             itemLibDictionary = new Dictionary<ItemRating, List<Item>>();
+
+            return false;
         }
         else
+        {
             itemLibDictionary = _ItemLibDictionary;
+
+            return true;
+        }
     }
 }
