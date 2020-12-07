@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 208112647978358894}
   - component: {fileID: 208112647978358893}
   - component: {fileID: 208112647978358892}
+  - component: {fileID: 309408070731324573}
   m_Layer: 0
   m_Name: DropItem
   m_TagString: Untagged
@@ -101,7 +102,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1704071513
-  m_SortingLayer: 6
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 5816c6151d735844190c8dd127e1567b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -145,6 +146,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2238a4bb6ecc65d46ac687b5a67cbfd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Animator: {fileID: 208112647978358893}
+  Renderer: {fileID: 208112647978358894}
+--- !u!61 &309408070731324573
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208112647978358896}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.28, y: 1.28}
+    newSize: {x: 1.28, y: 1.28}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.5, y: 1.28}
+  m_EdgeRadius: 0
 --- !u!1 &208112648032775474
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +246,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1704071513
-  m_SortingLayer: 6
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 5b602cf859bd50a4db41c4da5251ee43, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -261,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e12c46c687e1dd641944efaa1c9bf8a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowItem: {fileID: 2823514082654274786}
+  DropItem: {fileID: 208112647978358892}
   Animator: {fileID: 208112648032775469}
 --- !u!61 &208112648032775471
 BoxCollider2D:
@@ -287,7 +316,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 1.3}
+  m_Size: {x: 3, y: 1.3}
   m_EdgeRadius: 0
 --- !u!1 &2823514082654274786
 GameObject:
