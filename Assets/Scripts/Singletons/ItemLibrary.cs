@@ -46,7 +46,10 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
         for (int i = 0; i < Items.Length; ++i)
         {
-            mLibrary[Items[i].Rating].Add(Items[i]);
+            var item = Instantiate(Items[i]);
+                item.transform.position = new Vector2(-10f, 0);
+
+            mLibrary[item.Rating].Add(item);
         }
         mProbabilityArray = new float[4] 
         {
