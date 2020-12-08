@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 
     private Item[] _AccessoryCollection;
     private Item[] _ContainerCollection;
+
+    private Type _WeaponItemType;
 
     private void Awake()
     {
@@ -23,6 +26,12 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
     {
         switch (slotType)
         {
+            case SlotType.Weapon:
+                {
+                    _WeaponItemType = item.GetType();
+                }
+                break;
+
             case SlotType.Container:
                 if (_ContainerCollection == null)
                 {
@@ -44,6 +53,15 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
     {
         switch (slotType)
         {
+            case SlotType.Weapon:
+                {
+                    if (_WeaponItemType != null)
+                    {
+                        return Instantiate(ItemLibrary.Instance.GetOriginalItem(_WeaponItemType));
+                    }
+                }
+                return null;
+
             case SlotType.Container:
                 if (_ContainerCollection != null)
                 {

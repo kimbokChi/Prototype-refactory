@@ -85,6 +85,11 @@ public class ItemLibrary : Singleton<ItemLibrary>
         }
     }
 
+    public Item GetOriginalItem(System.Type itemType)
+    {
+        return Items.First(o => o.GetType().Equals(itemType));
+    }
+
     public Item GetRandomItem()
     {
         float sum = 0f;

@@ -177,6 +177,8 @@ public class Player : MonoBehaviour, ICombatable
                     AbilityTable.Table[Ability.Begin_AttackDelay] = o.Begin_AttackDelay;
 
                     o.AttackOverAction = () => mAttackPeriod.AttackActionOver();
+
+                    ItemStateSaver.Instance.SaveSlotItem(SlotType.Weapon, o, 0);
                 }
             };
             mInventory.WeaponChangeEvent += o =>
@@ -186,6 +188,7 @@ public class Player : MonoBehaviour, ICombatable
             };
             Finger.Instance.Gauge.DisChargeEvent += AttackOrder;
         }
+        mInventory.SetWeaponSlot(ItemStateSaver.Instance.LoadSlotItem(SlotType.Weapon, 0));
     }
 
     private void InputAction()
