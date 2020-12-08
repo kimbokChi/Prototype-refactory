@@ -6,7 +6,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 {
     private Dictionary<ItemRating, List<Item>> _ItemLibDictionary;
 
-    private Dictionary<int, Item> _AccessoryCollection;
+    private Item[] _AccessoryCollection;
 
     private void Awake()
     {
@@ -20,23 +20,18 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 
     public void SaveAccessoryItem(Item item, int index)
     {
-        _AccessoryCollection = _AccessoryCollection ?? new Dictionary<int, Item>();
-
-        if (_AccessoryCollection.ContainsKey(index))
+        if (_AccessoryCollection == null)
         {
-            _AccessoryCollection.Remove(index);
+            _AccessoryCollection = new Item[Inventory.AccessorySlotCount];
         }
-        _AccessoryCollection.Add(index, item);
+        _AccessoryCollection[index] = item;
     }
 
     public Item LoadAccessoryItem(int index)
     {
         if (_AccessoryCollection != null)
         {
-            if (_AccessoryCollection.ContainsKey(index))
-            {
-                return _AccessoryCollection[index];
-            }
+            return _AccessoryCollection[index];
         }
         return null;
     }

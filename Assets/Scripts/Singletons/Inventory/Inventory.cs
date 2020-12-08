@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 
 public class Inventory : Singleton<Inventory>
 {
+    public static int AccessorySlotCount = 3;
+    public static int ContainerSlotCount = 6;
+
     #region Item Function Event
 
     #region COMMENT
@@ -109,7 +112,6 @@ public class Inventory : Singleton<Inventory>
             ItemStateSaver.Instance.SaveAccessoryItem(mAccessorySlot[i].ContainItem, i);
         }
     }
-
     public bool IsEquipWeapon()
     {
         return mWeaponSlot.ContainItem != null;
