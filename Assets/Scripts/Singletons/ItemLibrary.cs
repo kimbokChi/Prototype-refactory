@@ -60,27 +60,12 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
                 mLibrary[item.Rating].Add(item);
             }
-
-            for (int invokeCount = 0; invokeCount < 4; invokeCount++)
+        }
+        for (int invokeCount = 0; invokeCount < 4; invokeCount++)
+        {
+            if (mLibrary[(ItemRating)invokeCount].Count == 0)
             {
-                if (mLibrary[(ItemRating)invokeCount].Count == 0)
-                {
-                    int division =
-                        mLibrary.ToList().Count(o => o.Value.Count > 0);
-
-                    float additive =
-                        mProbabilityArray[invokeCount] / division;
-
-                    for (int i = 0; i < 4; i++)
-                    {
-                        // 반환할 수 있는 나머지 등급들의 확률을 보정한다
-                        if (mLibrary[(ItemRating)i].Count > 0)
-                        {
-                            mProbabilityArray[i] += additive;
-                        }
-                    }
-                }
-
+                RevisionProbablity(mProbabilityArray[invokeCount]);
             }
         }
     }
@@ -119,20 +104,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
                 // 반환하기 전에, 리스트가 비어있다면
                 if (mLibrary[currentRating].Count == 0)
                 {
-                    int division =
-                        mLibrary.ToList().Count(o => o.Value.Count > 0);
-
-                    float additive =
-                        mProbabilityArray[invokeCount] / division;
-
-                    for (int i = 0; i < 4; i++)
-                    {
-                        // 반환할 수 있는 나머지 등급들의 확률을 보정한다
-                        if (mLibrary[(ItemRating)i].Count > 0)
-                        {
-                            mProbabilityArray[i] += additive;
-                        }
-                    }
+                    RevisionProbablity(mProbabilityArray[invokeCount]);
                 }
                 return item;
             }
@@ -152,5 +124,23 @@ public class ItemLibrary : Singleton<ItemLibrary>
             mLibrary[rating].RemoveAt(itemIndex);
         }
         return getItem;
+    }
+
+    private void RevisionProbablity(float selectedProbablity)
+    {
+        int division =
+            mLibrary.ToList().Count(o => o.Value.Count > 0);
+
+        float additive =
+            selectedProbablity / division;
+
+        for (int i = 0; i < 4; i++)
+        {
+            // 반환할 수 있는 나머지 등급들의 확률을 보정한다
+            if (mLibrary[(ItemRating)i].Count > 0)
+            {
+                mProbabilityArray[i] += additive;
+            }
+        }
     }
 }
