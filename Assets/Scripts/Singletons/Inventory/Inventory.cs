@@ -7,8 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class Inventory : Singleton<Inventory>
 {
-    public static int AccessorySlotCount = 3;
-    public static int ContainerSlotCount = 6;
+    public const int AccessorySlotCount = 3;
+    public const int ContainerSlotCount = 6;
 
     #region Item Function Event
 
@@ -95,11 +95,13 @@ public class Inventory : Singleton<Inventory>
         {
             mContainer[i].Init(SlotType.Container);
 
+            mContainer[i].SetItem(ItemStateSaver.Instance.LoadSlotItem(SlotType.Container, i));
+
             if (i < mAccessorySlot.Length)
             {
                 mAccessorySlot[i].Init(SlotType.Accessory);
 
-                mAccessorySlot[i].SetItem(ItemStateSaver.Instance.LoadAccessoryItem(i));
+                mAccessorySlot[i].SetItem(ItemStateSaver.Instance.LoadSlotItem(SlotType.Accessory, i));
             }
         }
         SceneManager.sceneUnloaded += PreventionItem;
@@ -109,7 +111,11 @@ public class Inventory : Singleton<Inventory>
     {
         for (int i = 0; i < mAccessorySlot.Length; ++i)
         {
-            ItemStateSaver.Instance.SaveAccessoryItem(mAccessorySlot[i].ContainItem, i);
+            ItemStateSaver.Instance.SaveSlotItem(SlotType.Accessory, mAccessorySlot[i].ContainItem, i);
+        }
+        for (int i = 0; i < mContainer.Length; ++i)
+        {
+            ItemStateSaver.Instance.SaveSlotItem(SlotType.Container, mContainer[i].ContainItem, i);
         }
     }
     public bool IsEquipWeapon()
