@@ -19,8 +19,6 @@ public class DungeonHelper : MonoBehaviour
 
     private void Start()
     {
-        DropItem.Init(ItemLibrary.Instance.GetRandomItem());
-
         Finger.Instance.Gauge.DisChargeEvent += Interaction;
     }
 
@@ -28,6 +26,7 @@ public class DungeonHelper : MonoBehaviour
     {
         if (mHasPlayer)
         {
+            DropItem.Init(ItemLibrary.Instance.GetRandomItem());
             DropItem.gameObject.SetActive(true);
 
             StartCoroutine(ItemDrop());
