@@ -101,7 +101,8 @@ MonoBehaviour:
   StatTable: {fileID: 6026546337754659799}
   Animator: {fileID: 6202769102915456820}
   CollisionArea: {fileID: 6202769102569731556}
-  SwordDance: {fileID: 0}
+  SwordDance: {fileID: 6542455125956781471, guid: bbf5bd88bc7684f4db4f4c896458334d,
+    type: 3}
 --- !u!114 &6026546337754659799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,7 +234,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1494485663
-  m_SortingLayer: 7
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -317,7 +318,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -791847407
-  m_SortingLayer: 6
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 552d69f7b4f249646ae21ee8aab66343, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

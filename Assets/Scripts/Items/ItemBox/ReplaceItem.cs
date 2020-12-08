@@ -9,11 +9,17 @@ public class ReplaceItem : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
+        
+        GUILayout.Space(15f);
 
-        ItemBox itemBox = (ItemBox)target;
-        if (GUILayout.Button("Replace Item"))
+        if (GUILayout.Button("Replace Item", GUILayout.Height(25f)))
         {
-            itemBox.ReplaceItem();
+            if (Application.isEditor)
+            {
+                var itemBox = target as ItemBox;
+
+                itemBox.SendMessage("OnEnable");
+            }
         }
     }
 }

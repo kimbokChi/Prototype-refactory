@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum ItemRating
 {
@@ -37,41 +38,41 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     private void Awake()
     {
-        mLibrary = new Dictionary<ItemRating, List<Item>>();
-
-        mLibrary.Add(ItemRating.Common,    new List<Item>());
-        mLibrary.Add(ItemRating.Rare,      new List<Item>());
-        mLibrary.Add(ItemRating.Epic,      new List<Item>());
-        mLibrary.Add(ItemRating.Legendary, new List<Item>());
-
-        for (int i = 0; i < Items.Length; ++i)
+        SceneManager.sceneUnloaded += scene =>
         {
-            mLibrary[Items[i].Rating].Add(Items[i]);
-        }
-        mProbabilityArray = new float[4] 
+            ItemStateSaver.Instance.SaveLibDictionary(mLibrary);
+        };
+        mProbabilityArray = new float[4]
         {
             Common, Rare, Epic, Legendary
         };
+        if (!ItemStateSaver.Instance.LoadLibDictionary(out mLibrary))
+        {
+            mLibrary.Add(ItemRating.Common,    new List<Item>());
+            mLibrary.Add(ItemRating.Rare,      new List<Item>());
+            mLibrary.Add(ItemRating.Epic,      new List<Item>());
+            mLibrary.Add(ItemRating.Legendary, new List<Item>());
+
+            for (int i = 0; i < Items.Length; ++i)
+            {
+                var item = Instantiate(Items[i], ItemStateSaver.Instance.transform);
+                    item.transform.position = new Vector2(-10f, 0);
+
+                mLibrary[item.Rating].Add(item);
+            }
+        }
         for (int invokeCount = 0; invokeCount < 4; invokeCount++)
         {
             if (mLibrary[(ItemRating)invokeCount].Count == 0)
             {
-                int division =
-                    mLibrary.ToList().Count(o => o.Value.Count > 0);
-
-                float additive =
-                    mProbabilityArray[invokeCount] / division;
-
-                for (int i = 0; i < 4; i++)
-                {
-                    // 반환할 수 있는 나머지 등급들의 확률을 보정한다
-                    if (mLibrary[(ItemRating)i].Count > 0)
-                    {
-                        mProbabilityArray[i] += additive;
-                    }
-                }
+                RevisionProbablity(mProbabilityArray[invokeCount]);
             }
         }
+    }
+
+    public Item GetOriginalItem(System.Type itemType)
+    {
+        return Items.First(o => o.GetType().Equals(itemType));
     }
 
     public Item GetRandomItem()
@@ -103,20 +104,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
                 // 반환하기 전에, 리스트가 비어있다면
                 if (mLibrary[currentRating].Count == 0)
                 {
-                    int division =
-                        mLibrary.ToList().Count(o => o.Value.Count > 0);
-
-                    float additive =
-                        mProbabilityArray[invokeCount] / division;
-
-                    for (int i = 0; i < 4; i++)
-                    {
-                        // 반환할 수 있는 나머지 등급들의 확률을 보정한다
-                        if (mLibrary[(ItemRating)i].Count > 0)
-                        {
-                            mProbabilityArray[i] += additive;
-                        }
-                    }
+                    RevisionProbablity(mProbabilityArray[invokeCount]);
                 }
                 return item;
             }
@@ -135,7 +123,24 @@ public class ItemLibrary : Singleton<ItemLibrary>
             getItem = mLibrary[rating][itemIndex];
             mLibrary[rating].RemoveAt(itemIndex);
         }
-
         return getItem;
+    }
+
+    private void RevisionProbablity(float selectedProbablity)
+    {
+        int division =
+            mLibrary.ToList().Count(o => o.Value.Count > 0);
+
+        float additive =
+            selectedProbablity / division;
+
+        for (int i = 0; i < 4; i++)
+        {
+            // 반환할 수 있는 나머지 등급들의 확률을 보정한다
+            if (mLibrary[(ItemRating)i].Count > 0)
+            {
+                mProbabilityArray[i] += additive;
+            }
+        }
     }
 }

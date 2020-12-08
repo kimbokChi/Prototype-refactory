@@ -48,6 +48,18 @@ namespace Kimbokchi
 
             transform.position = Vector2.Lerp(_a, _b, ratio);
         }
+
+        public static Vector2 BezierCurve3(Vector2 pointA, Vector2 pointB, Vector2 pointC, Vector2 pointD, float ratio)
+        {
+            Vector2 a = Vector2.Lerp(pointA, pointB, ratio);
+            Vector2 b = Vector2.Lerp(pointB, pointC, ratio);
+            Vector2 c = Vector2.Lerp(pointC, pointD, ratio);
+
+            Vector2 _a = Vector2.Lerp(a, b, ratio);
+            Vector2 _b = Vector2.Lerp(b, c, ratio);
+
+            return Vector2.Lerp(_a, _b, ratio);
+        }
     }
 
     public class LuckyBox<T>

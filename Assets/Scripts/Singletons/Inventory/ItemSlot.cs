@@ -52,6 +52,10 @@ public class ItemSlot : MonoBehaviour
 
             mImage.sprite = item.Sprite;
         }
+        if (mSlotType == SlotType.Weapon && mContainItem != null)
+        {
+            // ItemStateSaver.Instance.SaveWeaponItem(mContainItem);
+        }
     }
 
     public void Select()

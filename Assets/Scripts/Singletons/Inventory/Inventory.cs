@@ -3,9 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Inventory : Singleton<Inventory>
 {
+    public const int AccessorySlotCount = 3;
+    public const int ContainerSlotCount = 6;
+
     #region Item Function Event
 
     #region COMMENT
@@ -91,10 +95,27 @@ public class Inventory : Singleton<Inventory>
         {
             mContainer[i].Init(SlotType.Container);
 
+            mContainer[i].SetItem(ItemStateSaver.Instance.LoadSlotItem(SlotType.Container, i));
+
             if (i < mAccessorySlot.Length)
             {
                 mAccessorySlot[i].Init(SlotType.Accessory);
+
+                mAccessorySlot[i].SetItem(ItemStateSaver.Instance.LoadSlotItem(SlotType.Accessory, i));
             }
+        }
+        SceneManager.sceneUnloaded += PreventionItem;
+    }
+
+    private void PreventionItem(Scene scene)
+    {
+        for (int i = 0; i < mAccessorySlot.Length; ++i)
+        {
+            ItemStateSaver.Instance.SaveSlotItem(SlotType.Accessory, mAccessorySlot[i].ContainItem, i);
+        }
+        for (int i = 0; i < mContainer.Length; ++i)
+        {
+            ItemStateSaver.Instance.SaveSlotItem(SlotType.Container, mContainer[i].ContainItem, i);
         }
     }
     public bool IsEquipWeapon()

@@ -4,7 +4,7 @@ public class LongSword : Item
 {
     [SerializeField] private Animator Animator;
     [SerializeField] private Area CollisionArea;
-    [SerializeField] private SwordDance SwordDance;
+    [SerializeField] private Projection SwordDance;
 
     private int mAnimPlayKey;
     private int mAnimControlKey;
@@ -29,6 +29,9 @@ public class LongSword : Item
     {
         if (onSlot.Equals(SlotType.Weapon))
         {
+            SwordDance = Instantiate(SwordDance);
+            SwordDance.gameObject.SetActive(false);
+
             CollisionArea.SetEnterAction(HitAction);
 
             mAnimPlayKey    = Animator.GetParameter(0).nameHash;
@@ -56,6 +59,8 @@ public class LongSword : Item
         if (charge >= 0.15f)
         {
             Vector2 direction = Vector2.right;
+
+            SwordDance.gameObject.SetActive(true);
             SwordDance.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
             if (mPlayer.transform.localRotation.y == -1)
@@ -64,7 +69,7 @@ public class LongSword : Item
                 direction = Vector2.left;
             }
             SwordDance.transform.position = transform.position;
-            SwordDance.Launch(direction);
+            SwordDance.Shoot(transform.position, direction, 8f);
         }
     }
 

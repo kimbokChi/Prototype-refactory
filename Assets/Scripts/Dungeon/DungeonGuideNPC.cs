@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DungeonNPC : MonoBehaviour
+public class DungeonGuideNPC : MonoBehaviour
 {
     [SerializeField]
     private ChargeGauge Charge;
