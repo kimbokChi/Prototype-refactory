@@ -6,6 +6,8 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 {
     private Dictionary<ItemRating, List<Item>> _ItemLibDictionary;
 
+    private Dictionary<int, Item> _AccessoryCollection;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -14,6 +16,29 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
     public void Discard()
     {
         Destroy(gameObject);
+    }
+
+    public void SaveAccessoryItem(Item item, int index)
+    {
+        _AccessoryCollection = _AccessoryCollection ?? new Dictionary<int, Item>();
+
+        if (_AccessoryCollection.ContainsKey(index))
+        {
+            _AccessoryCollection.Remove(index);
+        }
+        _AccessoryCollection.Add(index, item);
+    }
+
+    public Item LoadAccessoryItem(int index)
+    {
+        if (_AccessoryCollection != null)
+        {
+            if (_AccessoryCollection.ContainsKey(index))
+            {
+                return _AccessoryCollection[index];
+            }
+        }
+        return null;
     }
 
     public void SaveLibDictionary(Dictionary<ItemRating, List<Item>> itemLibDictionary)

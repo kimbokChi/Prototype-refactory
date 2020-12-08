@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Inventory : Singleton<Inventory>
 {
@@ -94,9 +95,21 @@ public class Inventory : Singleton<Inventory>
             if (i < mAccessorySlot.Length)
             {
                 mAccessorySlot[i].Init(SlotType.Accessory);
+
+                mAccessorySlot[i].SetItem(ItemStateSaver.Instance.LoadAccessoryItem(i));
             }
         }
+        SceneManager.sceneUnloaded += PreventionItem;
     }
+
+    private void PreventionItem(Scene scene)
+    {
+        for (int i = 0; i < mAccessorySlot.Length; ++i)
+        {
+            ItemStateSaver.Instance.SaveAccessoryItem(mAccessorySlot[i].ContainItem, i);
+        }
+    }
+
     public bool IsEquipWeapon()
     {
         return mWeaponSlot.ContainItem != null;
