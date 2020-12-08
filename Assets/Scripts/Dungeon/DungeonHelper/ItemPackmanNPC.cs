@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Kimbokchi;
 
-public class DungeonHelper : MonoBehaviour
+public class ItemPackmanNPC : MonoBehaviour
 {
     [SerializeField] private DropItem DropItem;
     [SerializeField] private Transform DropItemHolder;
