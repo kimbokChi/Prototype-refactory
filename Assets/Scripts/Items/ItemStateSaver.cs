@@ -14,7 +14,14 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (FindObjectsOfType(typeof(ItemStateSaver)).Length > 1)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     public void Discard()
