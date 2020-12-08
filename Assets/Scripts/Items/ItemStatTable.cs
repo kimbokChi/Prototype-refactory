@@ -14,20 +14,31 @@ public class ItemStatTable : MonoBehaviour
     public float this[ItemStat stat]
     {
         get {
-            if (_Table == null)
+            if (!_IsAlreadyInit)
             {
                 Init();
             }
             return _Table[stat];
         }
     }
-    public ItemRating Rating
-    { get; private set; }
-
+    public  ItemRating  Rating
+    {
+        get
+        {
+            if (!_IsAlreadyInit)
+            {
+                Init();
+            }
+            return _Rating;
+        }
+    }
+    private ItemRating _Rating;
 
     private const string JsonTableName = "ItemData";
 
     private Dictionary<ItemStat, float> _Table;
+
+    private bool _IsAlreadyInit = false;
 
     [TextArea(1, 1)]
     [SerializeField] private string JsonLabelName;
@@ -45,6 +56,8 @@ public class ItemStatTable : MonoBehaviour
         {
             _Table[i] = float.Parse(JsonString(i.ToString()));
         }
-        Rating = (ItemRating)Enum.Parse(typeof(ItemRating), JsonString("Rating"));
+        _Rating = (ItemRating)Enum.Parse(typeof(ItemRating), JsonString("Rating"));
+
+        _IsAlreadyInit = true;
     }
 }
