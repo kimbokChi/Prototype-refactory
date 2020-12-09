@@ -62,7 +62,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
         HealthBarImage.fillAmount = AbilityTable[Ability.CurHealth] / AbilityTable[Ability.MaxHealth];
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)

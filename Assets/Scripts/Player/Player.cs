@@ -436,7 +436,7 @@ public class Player : MonoBehaviour, ICombatable
             {
                 DeathEvent.Invoke();
             }
-            EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+            EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
         }
     }
 

@@ -56,7 +56,7 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
 
     public void Damaged(float damage, GameObject attacker)
     {
-        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
         
         if(EnemyAnimator.CurrentState() <= AnimState.Move)
         {
