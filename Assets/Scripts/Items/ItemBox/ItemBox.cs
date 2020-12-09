@@ -5,7 +5,10 @@ using UnityEngine;
 public class ItemBox : MonoBehaviour
 {
     [SerializeField] private DropItem DropItem;
+
+    [Header("Animation")]
     [SerializeField] private Animator Animator;
+    [SerializeField] private Sprite ChestOpenSprite;
 
     private void OnEnable()
     {
@@ -17,6 +20,14 @@ public class ItemBox : MonoBehaviour
         if (collision.CompareTag("Player")) {
 
             Animator.enabled = true;
+        }
+    }
+
+    private void ChestOpen()
+    {
+        if (TryGetComponent(out SpriteRenderer renderer)) {
+
+            renderer.sprite = ChestOpenSprite;
         }
     }
 }

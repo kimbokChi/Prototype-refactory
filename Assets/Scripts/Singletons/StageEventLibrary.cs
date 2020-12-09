@@ -48,7 +48,7 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
     {
         Vector2 createPoint = Castle.Instance.GetMovePoint(DIRECTION9.MID);
 
-        Instantiate(ItemBox, createPoint + new Vector2(0, 0.5f), Quaternion.identity);
+        Instantiate(ItemBox, createPoint, Quaternion.identity);
     }
 
     private void CreateNPC()
