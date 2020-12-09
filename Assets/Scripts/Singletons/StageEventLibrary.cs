@@ -10,13 +10,14 @@ public enum NotifyMessage
 
 public class StageEventLibrary : Singleton<StageEventLibrary>
 {
-    [SerializeField]
-    private GameObject ItemBox;
-    [SerializeField]
-    private GameObject DungeonNPC;
+    [Header("ItemBox Section")]
+    [SerializeField] private ItemBox ItemBox;
+    [SerializeField] private ItemBoxSprite WoodenSprite;
+    [SerializeField] private ItemBoxSprite GoldenSprite;
 
-    [SerializeField]
-    private Animator InventoryButton;
+    [SerializeField] private GameObject DungeonNPC;
+
+    [SerializeField] private Animator InventoryButton;
 
     public event System.Action StageClearEvent;
     public event System.Action StageEnterEvent;
@@ -48,7 +49,26 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
     {
         Vector2 createPoint = Castle.Instance.GetMovePoint(DIRECTION9.MID);
 
-        Instantiate(ItemBox, createPoint, Quaternion.identity);
+        var boxSprite = WoodenSprite;
+        var boxContainItem = ItemLibrary.Instance.GetRandomItem();
+
+        if (boxContainItem != null)
+        {
+            switch (boxContainItem.Rating)
+            {
+                case ItemRating.Common:
+                case ItemRating.Rare:
+                    boxSprite = WoodenSprite;
+                    break;
+
+                case ItemRating.Epic:
+                case ItemRating.Legendary:
+                    boxSprite = GoldenSprite;
+                    break;
+            }
+        }
+        var box = Instantiate(ItemBox, createPoint, Quaternion.identity);
+            box.Init(boxContainItem, boxSprite);
     }
 
     private void CreateNPC()

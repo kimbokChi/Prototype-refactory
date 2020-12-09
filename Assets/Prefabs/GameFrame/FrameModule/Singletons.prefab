@@ -100,7 +100,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fca3110fd02347489f226dd2fa4bbb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemBox: {fileID: 208112646792821644, guid: f35de1102ab78f94d88d3d9b1b8ecbd8, type: 3}
+  ItemBox: {fileID: 196091700370449653, guid: 27d97bfb7ead9bf4db84b4d10e77fde0, type: 3}
+  WoodenSprite: {fileID: 11400000, guid: fc94f87e70b154841bf91a06030f5cb0, type: 2}
+  GoldenSprite: {fileID: 11400000, guid: 21e45ce82839c5a43964f220aae0767a, type: 2}
   DungeonNPC: {fileID: 0}
   InventoryButton: {fileID: 0}
 --- !u!114 &2518353896841765207

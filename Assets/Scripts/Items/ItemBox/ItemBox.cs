@@ -11,11 +11,12 @@ public class ItemBox : MonoBehaviour
     [SerializeField] private Animator Animator;
     [SerializeField] private SpriteRenderer Renderer;
 
-    private void OnEnable()
+    public void Init(Item containItem, ItemBoxSprite boxSprite)
     {
-        Renderer.sprite = ItemBoxSprite.ClosedSprite;
+        ItemBoxSprite = boxSprite;
+        Renderer.sprite = boxSprite.ClosedSprite;
 
-        DropItem.Init(ItemLibrary.Instance.GetRandomItem());
+        DropItem.Init(containItem);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
