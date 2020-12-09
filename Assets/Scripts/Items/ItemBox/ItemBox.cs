@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class ItemBox : MonoBehaviour
 {
-    [SerializeField] private DropItem DropItem;
+    [SerializeField] private ItemBoxSprite ItemBoxSprite;
 
-    [Header("Animation")]
+    [Space()]
+    [SerializeField] private DropItem DropItem;
     [SerializeField] private Animator Animator;
-    [SerializeField] private Sprite ChestOpenSprite;
+    [SerializeField] private SpriteRenderer Renderer;
 
     private void OnEnable()
     {
+        Renderer.sprite = ItemBoxSprite.ClosedSprite;
+
         DropItem.Init(ItemLibrary.Instance.GetRandomItem());
     }
 
@@ -25,12 +28,9 @@ public class ItemBox : MonoBehaviour
 
     private void ChestOpen()
     {
-        if (TryGetComponent(out SpriteRenderer renderer)) {
+        Renderer.sprite = ItemBoxSprite.OpenSprite;
 
-            renderer.sprite = ChestOpenSprite;
-
-            Vector2 twinklePoint = transform.position + new Vector3(0f, 0.4f, 0f);
-            EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, twinklePoint);
-        }
+        Vector2 twinklePoint = transform.position + new Vector3(0f, 0.4f, 0f);
+        EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, twinklePoint);
     }
 }
