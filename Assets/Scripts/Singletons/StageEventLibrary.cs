@@ -11,7 +11,7 @@ public enum NotifyMessage
 public class StageEventLibrary : Singleton<StageEventLibrary>
 {
     [Header("ItemBox Section")]
-    [SerializeField] private ItemBox ItemBox;
+    [SerializeField] private ItemBoxHolder ItemBox;
     [SerializeField] private ItemBoxSprite WoodenSprite;
     [SerializeField] private ItemBoxSprite GoldenSprite;
 
@@ -68,7 +68,7 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
             }
         }
         var box = Instantiate(ItemBox, createPoint, Quaternion.identity);
-            box.Init(boxContainItem, boxSprite);
+            box.HoldingItemBox.Init(boxContainItem, boxSprite);
     }
 
     private void CreateNPC()

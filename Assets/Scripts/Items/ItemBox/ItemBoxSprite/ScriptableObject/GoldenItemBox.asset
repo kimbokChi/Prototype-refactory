@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fdbe19813f808b42ab089a0e717410c, type: 3}
   m_Name: GoldenItemBox
   m_EditorClassIdentifier: 
-  _ClosedSprite: {fileID: 4751018836630378178, guid: 3ecda87145cc3494f8826c7bda3bf5e5,
+  _ClosedSprite: {fileID: -2449109871443933174, guid: 3ecda87145cc3494f8826c7bda3bf5e5,
     type: 3}
-  _OpenSprite: {fileID: -4053942768373185649, guid: 3ecda87145cc3494f8826c7bda3bf5e5,
+  _OpenSprite: {fileID: 5974344645129229820, guid: 3ecda87145cc3494f8826c7bda3bf5e5,
     type: 3}
