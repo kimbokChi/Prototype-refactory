@@ -72,7 +72,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
     public void Damaged(float damage, GameObject attacker)
     {
-        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
 
         int damaged = (int)AnimState.Damaged;
 

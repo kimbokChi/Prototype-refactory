@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EffectKind
 {
-    EnemyDmgEffect
+    Damage, Twinkle
 }
 
 [System.Serializable]

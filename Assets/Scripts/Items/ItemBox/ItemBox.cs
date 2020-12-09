@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class ItemBox : MonoBehaviour
 {
+    [SerializeField] private ItemBoxSprite ItemBoxSprite;
+
+    [Space()]
     [SerializeField] private DropItem DropItem;
     [SerializeField] private Animator Animator;
+    [SerializeField] private SpriteRenderer Renderer;
 
-    private void OnEnable()
+    public void Init(Item containItem, ItemBoxSprite boxSprite)
     {
-        DropItem.Init(ItemLibrary.Instance.GetRandomItem());
+        ItemBoxSprite = boxSprite;
+        Renderer.sprite = boxSprite.ClosedSprite;
+
+        DropItem.Init(containItem);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -18,5 +25,13 @@ public class ItemBox : MonoBehaviour
 
             Animator.enabled = true;
         }
+    }
+
+    private void ChestOpen()
+    {
+        Renderer.sprite = ItemBoxSprite.OpenSprite;
+
+        Vector2 twinklePoint = transform.position + new Vector3(0f, 0.4f, 0f);
+        EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, twinklePoint);
     }
 }

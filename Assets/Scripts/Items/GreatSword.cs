@@ -93,8 +93,9 @@ public class GreatSword : Item
             direction = Vector2.left;
         }
         var swordDance = SwordDancePool.Get();
+        var shootPosition = transform.position + new Vector3(0, 0.655f, 0);
 
-        swordDance.Shoot(transform.position, direction, SwordDanceSpeed);
+        swordDance.Shoot(shootPosition, direction, SwordDanceSpeed);
         swordDance.transform.rotation = mPlayer.transform.localRotation;
     }
 

@@ -18,7 +18,7 @@ public class Scarecrow : EnemyBase, IAnimEventReceiver
     {
         EnemyAnimator.ChangeState(AnimState.Damaged);
 
-        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {

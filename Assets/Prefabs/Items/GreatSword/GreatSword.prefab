@@ -296,10 +296,10 @@ MonoBehaviour:
   StatTable: {fileID: 7820123583157055775}
   Animator: {fileID: 7820123583157055773}
   AttackArea: {fileID: 7820123582670454288}
-  SwordDance: {fileID: 6542455125956781471, guid: bbf5bd88bc7684f4db4f4c896458334d,
+  SwordDance: {fileID: 8797531632521363491, guid: 0c04070f64d3e864ba4d6450389c6abf,
     type: 3}
   DemandCharge: 0.3
-  SwordDanceSpeed: 10
+  SwordDanceSpeed: 9
 --- !u!114 &7820123583157055775
 MonoBehaviour:
   m_ObjectHideFlags: 0
