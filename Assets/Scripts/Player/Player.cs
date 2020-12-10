@@ -231,9 +231,12 @@ public class Player : MonoBehaviour, ICombatable
                         break;
                     case LPOSITION3.BOT:
                         {
-                            mCanElevation = Castle.Instance.CanPrevPoint();
+                            if (CanMoveDown)
+                            {
+                                mCanElevation = Castle.Instance.CanPrevPoint();
 
-                            moveDir9 = mLocation9;
+                                moveDir9 = mLocation9;
+                            }
                         }
                         break;
                 }
