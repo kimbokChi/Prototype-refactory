@@ -17,8 +17,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
     [SerializeField][Range(0f, 1f)] private float Legendary;
 
     [Header("Registered Items")]
-    [SerializeField] private ItemCollection ItemCollection;
-    [SerializeField] private List<Item> Items;
+    [SerializeField] private RegisteredItem RegisteredItem;
 
     private Dictionary<ItemRating, List<Item>> mLibrary;
 
@@ -49,14 +48,12 @@ public class ItemLibrary : Singleton<ItemLibrary>
         };
         if (!ItemStateSaver.Instance.LoadLibDictionary(out mLibrary))
         {
-            if (ItemCollection != null)
-            {
-                Items = ItemCollection.UnlockedItemList();
-            }
             mLibrary.Add(ItemRating.Common,    new List<Item>());
             mLibrary.Add(ItemRating.Rare,      new List<Item>());
             mLibrary.Add(ItemRating.Epic,      new List<Item>());
             mLibrary.Add(ItemRating.Legendary, new List<Item>());
+
+            var Items = RegisteredItem.UnlockedItemList;
 
             for (int i = 0; i < Items.Count; ++i)
             {
@@ -73,11 +70,6 @@ public class ItemLibrary : Singleton<ItemLibrary>
                 RevisionProbablity(mProbabilityArray[invokeCount]);
             }
         }
-    }
-
-    public Item GetOriginalItem(System.Type itemType)
-    {
-        return Items.First(o => o.GetType().Equals(itemType));
     }
 
     public Item GetRandomItem()

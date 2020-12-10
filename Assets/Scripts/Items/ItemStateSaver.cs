@@ -1,11 +1,15 @@
 ﻿using System;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemStateSaver : Singleton<ItemStateSaver>
 {
+    [SerializeField] private RegisteredItem RegisteredItem;
+
     private Dictionary<ItemRating, List<Item>> _ItemLibDictionary;
+
+    private List<Item> _UnlockedItemList;
 
     private Item[] _AccessoryCollection;
     private Item[] _ContainerCollection;
@@ -14,6 +18,8 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 
     private void Awake()
     {
+        _UnlockedItemList = RegisteredItem.UnlockedItemList;
+
         if (FindObjectsOfType(typeof(ItemStateSaver)).Length > 1)
         {
             Destroy(gameObject);
@@ -64,7 +70,8 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
                 {
                     if (_WeaponItemType != null)
                     {
-                        return Instantiate(ItemLibrary.Instance.GetOriginalItem(_WeaponItemType));
+
+                        return Instantiate(_UnlockedItemList.First(o => o.GetType().Equals(_WeaponItemType)));
                     }
                 }
                 return null;

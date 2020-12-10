@@ -5,39 +5,39 @@ using UnityEngine.UI;
 
 public class ItemCollection : MonoBehaviour
 {
+    [SerializeField] private Transform UnlockedSection;
+    [SerializeField] private Transform LockedSection;
+
     [Header("CollectionBox Section")]
     [SerializeField] private GameObject CollectionBox;
     [SerializeField] private float IntervalY;
     [SerializeField] private float IntervalX;
 
-    [Header("Unlocked Section")]
-    [SerializeField] private Transform  Unlocked;
-    [SerializeField] private List<Item> UnlockedItems;
-
-    [Header("Locked Section")]
-    [SerializeField] private Transform  Locked;
-    [SerializeField] private List<Item> LockedItems;
+    [Header("Registered Items")]
+    [SerializeField] private RegisteredItem RegisteredItem;
 
     private void Awake()
     {
-        var collection = CreateCollectionBox(LockedItems.Count, Locked);
+        var lockedList = RegisteredItem.LockedItemList;
+        var collection = CreateCollectionBox(lockedList.Count, LockedSection);
 
-        for (int i = 0; i < LockedItems.Count; i++)
+        for (int i = 0; i < lockedList.Count; i++)
         {
             if (collection[i].GetChild(0).TryGetComponent(out Image image))
             {
 
-                image.sprite = LockedItems[i].Sprite;
+                image.sprite = lockedList[i].Sprite;
             }
         }
-        collection = CreateCollectionBox(UnlockedItems.Count, Unlocked);
+        var unlockedList = RegisteredItem.UnlockedItemList;
+        collection = CreateCollectionBox(unlockedList.Count, UnlockedSection);
 
-        for (int i = 0; i < UnlockedItems.Count; i++)
+        for (int i = 0; i < unlockedList.Count; i++)
         {
             if (collection[i].GetChild(0).TryGetComponent(out Image image))
             {
 
-                image.sprite = UnlockedItems[i].Sprite;
+                image.sprite = unlockedList[i].Sprite;
             }
         }
     }
@@ -59,11 +59,6 @@ public class ItemCollection : MonoBehaviour
             }
         }
         return list;
-    }
-
-    public List<Item> UnlockedItemList() {
-
-        return UnlockedItems;
     }
 }
 
