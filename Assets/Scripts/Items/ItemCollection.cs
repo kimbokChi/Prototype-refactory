@@ -16,9 +16,9 @@ public class ItemCollection : MonoBehaviour
     [Header("Registered Items")]
     [SerializeField] private RegisteredItem RegisteredItem;
 
-    private void Awake()
+    private void Start()
     {
-        var lockedList = RegisteredItem.LockedItemList;
+        var lockedList = ItemLibrary.Instance.GetLockedItemListForTest();
         var collection = CreateCollectionBox(lockedList.Count, LockedSection);
 
         for (int i = 0; i < lockedList.Count; i++)
@@ -29,7 +29,7 @@ public class ItemCollection : MonoBehaviour
                 image.sprite = lockedList[i].Sprite;
             }
         }
-        var unlockedList = RegisteredItem.UnlockedItemList;
+        var unlockedList = ItemLibrary.Instance.GetUnlockedItemListForTest();
         collection = CreateCollectionBox(unlockedList.Count, UnlockedSection);
 
         for (int i = 0; i < unlockedList.Count; i++)

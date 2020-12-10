@@ -10,6 +10,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
     private Dictionary<ItemRating, List<Item>> _ItemLibDictionary;
 
     private List<Item> _UnlockedItemList;
+    private List<Item>   _LockedItemList;
 
     private Item[] _AccessoryCollection;
     private Item[] _ContainerCollection;
@@ -18,8 +19,6 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 
     private void Awake()
     {
-        _UnlockedItemList = RegisteredItem.UnlockedItemList;
-
         if (FindObjectsOfType(typeof(ItemStateSaver)).Length > 1)
         {
             Destroy(gameObject);
@@ -111,5 +110,36 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 
             return true;
         }
+    }
+
+
+    public void SaveUnlockedItemListForTest(List<Item> unlockedList)
+    {
+        _UnlockedItemList = unlockedList;
+    }
+    public bool LoadUnlockedItemListForTest(out List<Item> unlockedList)
+    {
+        if (_UnlockedItemList == null)
+        {
+            unlockedList = new List<Item>();
+            return false;
+        }
+        unlockedList = _UnlockedItemList;
+        return true;
+    }
+
+    public void SaveLockedItemListForTest(List<Item> lockedList)
+    {
+        _LockedItemList = lockedList;
+    }
+    public bool LoadLockedItemListForTest(out List<Item> lockedList)
+    {
+        if (_LockedItemList == null)
+        {
+            lockedList = new List<Item>();
+            return false;
+        }
+        lockedList = _LockedItemList;
+        return true;
     }
 }

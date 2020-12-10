@@ -21,6 +21,8 @@ public class ItemLibrary : Singleton<ItemLibrary>
     [SerializeField] private RegisteredItem RegisteredItem;
 
     private Dictionary<ItemRating, List<Item>> mLibrary;
+    private List<Item>   _LockedItemListForTest;
+    private List<Item> _UnlockedItemListForTest;
 
     private float[] mProbabilityArray;
 
@@ -42,6 +44,9 @@ public class ItemLibrary : Singleton<ItemLibrary>
         SceneManager.sceneUnloaded += scene =>
         {
             ItemStateSaver.Instance.SaveLibDictionary(mLibrary);
+
+            ItemStateSaver.Instance.SaveUnlockedItemListForTest(_UnlockedItemListForTest);
+            ItemStateSaver.Instance.SaveLockedItemListForTest(_LockedItemListForTest);
         };
         mProbabilityArray = new float[4]
         {
@@ -71,6 +76,12 @@ public class ItemLibrary : Singleton<ItemLibrary>
                 RevisionProbablity(mProbabilityArray[invokeCount]);
             }
         }
+        LoadItemListForTest();
+    }
+    [ContextMenu("AAA")]
+    private void AAA()
+    {
+        ItemUnlock(RegisteredItem.LockedItemList[0]);
     }
 
     public Item GetRandomItem()
@@ -126,11 +137,9 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     public void ItemUnlock(params Item[] unlockItems)
     {
-        var lockedList = RegisteredItem.LockedItemList;
-
         for (int i = 0; i < unlockItems.Length; i++)
         {
-            Item item = lockedList.FirstOrDefault(o => o.GetType().Equals(unlockItems[i].GetType()));
+            Item item = _LockedItemListForTest.FirstOrDefault(o => o.GetType().Equals(unlockItems[i].GetType()));
 
             if (item != null)
             {
@@ -139,11 +148,28 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
                 mLibrary[item.Rating].Add(item);
 
+                _UnlockedItemListForTest.Add(item);
+                
+                for (int j = 0; j < _LockedItemListForTest.Count; j++)
+                {
+                    if (_LockedItemListForTest[i].GetType().Equals(item.GetType()))
+                    {
+                        _LockedItemListForTest.RemoveAt(i); break;
+                    }
+                }
                 ItemUnlockEvent?.Invoke(item);
             }
         }
     }
 
+    public List<Item> GetUnlockedItemListForTest()
+    {
+        return _UnlockedItemListForTest;
+    }
+    public List<Item> GetLockedItemListForTest()
+    {
+        return _LockedItemListForTest;
+    }
     private void RevisionProbablity(float selectedProbablity)
     {
         int division =
@@ -159,6 +185,18 @@ public class ItemLibrary : Singleton<ItemLibrary>
             {
                 mProbabilityArray[i] += additive;
             }
+        }
+    }
+
+    private void LoadItemListForTest()
+    {
+        if (!ItemStateSaver.Instance.LoadUnlockedItemListForTest(out _UnlockedItemListForTest))
+        {
+            _UnlockedItemListForTest = RegisteredItem.UnlockedItemList;
+        }
+        if (!ItemStateSaver.Instance.LoadLockedItemListForTest(out _LockedItemListForTest))
+        {
+            _LockedItemListForTest = RegisteredItem.LockedItemList;
         }
     }
 }
