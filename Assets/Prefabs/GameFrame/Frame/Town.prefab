@@ -1964,6 +1964,7 @@ MonoBehaviour:
   Rare: 0.3
   Epic: 0.15
   Legendary: 0.05
+  ItemCollection: {fileID: 264100346670319676}
   Items:
   - {fileID: 6202769102569731552, guid: eb249a6a7a67b1a4d9260bb0803c9f1c, type: 3}
   - {fileID: 4730609040927793456, guid: 13238fb19fcf9264a95ec5f4617d7b8c, type: 3}

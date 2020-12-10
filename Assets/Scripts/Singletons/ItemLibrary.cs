@@ -17,7 +17,8 @@ public class ItemLibrary : Singleton<ItemLibrary>
     [SerializeField][Range(0f, 1f)] private float Legendary;
 
     [Header("Registered Items")]
-    [SerializeField] private Item[] Items;
+    [SerializeField] private ItemCollection ItemCollection;
+    [SerializeField] private List<Item> Items;
 
     private Dictionary<ItemRating, List<Item>> mLibrary;
 
@@ -48,12 +49,16 @@ public class ItemLibrary : Singleton<ItemLibrary>
         };
         if (!ItemStateSaver.Instance.LoadLibDictionary(out mLibrary))
         {
+            if (ItemCollection != null)
+            {
+                Items = ItemCollection.UnlockedItemList();
+            }
             mLibrary.Add(ItemRating.Common,    new List<Item>());
             mLibrary.Add(ItemRating.Rare,      new List<Item>());
             mLibrary.Add(ItemRating.Epic,      new List<Item>());
             mLibrary.Add(ItemRating.Legendary, new List<Item>());
 
-            for (int i = 0; i < Items.Length; ++i)
+            for (int i = 0; i < Items.Count; ++i)
             {
                 var item = Instantiate(Items[i], ItemStateSaver.Instance.transform);
                     item.transform.position = new Vector2(-10f, 0);
