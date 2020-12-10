@@ -10,18 +10,18 @@ public class ItemCollection : MonoBehaviour
     [SerializeField] private float IntervalX;
 
     [Header("Unlocked Section")]
-    [SerializeField] private Transform Unlocked;
-    [SerializeField] private Item[] UnlockedItems;
+    [SerializeField] private Transform  Unlocked;
+    [SerializeField] private List<Item> UnlockedItems;
 
     [Header("Locked Section")]
-    [SerializeField] private Transform Locked;
-    [SerializeField] private Item[] LockedItems;
+    [SerializeField] private Transform  Locked;
+    [SerializeField] private List<Item> LockedItems;
 
     private void Awake()
     {
-        var collection = CreateCollectionBox(LockedItems.Length, Locked);
+        var collection = CreateCollectionBox(LockedItems.Count, Locked);
 
-        for (int i = 0; i < LockedItems.Length; i++)
+        for (int i = 0; i < LockedItems.Count; i++)
         {
             if (collection[i].GetChild(0).TryGetComponent(out Image image))
             {
@@ -29,9 +29,9 @@ public class ItemCollection : MonoBehaviour
                 image.sprite = LockedItems[i].Sprite;
             }
         }
-        collection = CreateCollectionBox(UnlockedItems.Length, Unlocked);
+        collection = CreateCollectionBox(UnlockedItems.Count, Unlocked);
 
-        for (int i = 0; i < UnlockedItems.Length; i++)
+        for (int i = 0; i < UnlockedItems.Count; i++)
         {
             if (collection[i].GetChild(0).TryGetComponent(out Image image))
             {
@@ -58,5 +58,10 @@ public class ItemCollection : MonoBehaviour
             }
         }
         return list;
+    }
+
+    public List<Item> UnlockedItemList() {
+
+        return UnlockedItems;
     }
 }
