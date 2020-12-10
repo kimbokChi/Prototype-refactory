@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class ItemStateSaver : Singleton<ItemStateSaver>
 {
-    public event Action<Item> ItemUnlockEvent;
-
     [SerializeField] private RegisteredItem RegisteredItem;
 
     private Dictionary<ItemRating, List<Item>> _ItemLibDictionary;
@@ -112,23 +110,6 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
             itemLibDictionary = _ItemLibDictionary;
 
             return true;
-        }
-    }
-
-    public void ItemUnlock(params Item[] unlockItems)
-    {
-        var lockedList = RegisteredItem.LockedItemList;
-
-        for (int i = 0; i < unlockItems.Length; i++)
-        {
-            Item item = lockedList.FirstOrDefault(o => o.GetType().Equals(unlockItems[i].GetType()));
-            
-            if (item != null)
-            {
-                _UnlockedItemList.Add(item);
-
-                ItemUnlockEvent?.Invoke(item);
-            }
         }
     }
 }

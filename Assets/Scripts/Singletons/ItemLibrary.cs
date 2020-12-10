@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +9,8 @@ public enum ItemRating
 }
 public class ItemLibrary : Singleton<ItemLibrary>
 {
+    public event System.Action<Item> ItemUnlockEvent;
+
     [Header("Item Probablities")]
     [SerializeField][Range(0f, 1f)] private float Common;
     [SerializeField][Range(0f, 1f)] private float Rare;
@@ -41,13 +42,6 @@ public class ItemLibrary : Singleton<ItemLibrary>
         SceneManager.sceneUnloaded += scene =>
         {
             ItemStateSaver.Instance.SaveLibDictionary(mLibrary);
-        };
-        ItemStateSaver.Instance.ItemUnlockEvent += o =>
-        {
-            var item = Instantiate(o, ItemStateSaver.Instance.transform);
-                item.transform.position = new Vector2(-10f, 0);
-
-            mLibrary[item.Rating].Add(item);
         };
         mProbabilityArray = new float[4]
         {
@@ -128,6 +122,26 @@ public class ItemLibrary : Singleton<ItemLibrary>
             mLibrary[rating].RemoveAt(itemIndex);
         }
         return getItem;
+    }
+
+    public void ItemUnlock(params Item[] unlockItems)
+    {
+        var lockedList = RegisteredItem.LockedItemList;
+
+        for (int i = 0; i < unlockItems.Length; i++)
+        {
+            Item item = lockedList.FirstOrDefault(o => o.GetType().Equals(unlockItems[i].GetType()));
+
+            if (item != null)
+            {
+                item = Instantiate(item, ItemStateSaver.Instance.transform);
+                item.transform.position = new Vector2(-10f, 0);
+
+                mLibrary[item.Rating].Add(item);
+
+                ItemUnlockEvent?.Invoke(item);
+            }
+        }
     }
 
     private void RevisionProbablity(float selectedProbablity)
