@@ -45,7 +45,7 @@ public class ItemCollection : MonoBehaviour
     private List<Transform> CreateCollectionBox(int itemListLength, Transform parent)
     {
         var list = new List<Transform>();
-        int line = (itemListLength / 3) + 1;
+        int line = Mathf.Max((itemListLength / 3) + 1, 2);
 
 
         for (int i = 0; i < line; i++)

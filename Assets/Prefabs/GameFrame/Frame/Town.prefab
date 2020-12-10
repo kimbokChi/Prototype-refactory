@@ -1745,8 +1745,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 660f2b658ff8e044ab198ac56f819bb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnlockedSection: {fileID: 0}
-  LockedSection: {fileID: 0}
+  UnlockedSection: {fileID: 2804109539979894869}
+  LockedSection: {fileID: 4611844189028282092}
   CollectionBox: {fileID: 3858455884625870425, guid: 6b960ab9dd7054249b6a32f5ae91a0fc,
     type: 3}
   IntervalY: -180
