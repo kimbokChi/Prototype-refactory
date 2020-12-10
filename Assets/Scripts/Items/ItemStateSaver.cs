@@ -1,11 +1,16 @@
 ﻿using System;
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemStateSaver : Singleton<ItemStateSaver>
 {
+    [SerializeField] private RegisteredItem RegisteredItem;
+
     private Dictionary<ItemRating, List<Item>> _ItemLibDictionary;
+
+    private List<Item> _UnlockedItemList;
+    private List<Item>   _LockedItemList;
 
     private Item[] _AccessoryCollection;
     private Item[] _ContainerCollection;
@@ -64,7 +69,8 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
                 {
                     if (_WeaponItemType != null)
                     {
-                        return Instantiate(ItemLibrary.Instance.GetOriginalItem(_WeaponItemType));
+
+                        return Instantiate(_UnlockedItemList.First(o => o.GetType().Equals(_WeaponItemType)));
                     }
                 }
                 return null;
@@ -90,7 +96,6 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
     {
         _ItemLibDictionary = itemLibDictionary;
     }
-
     public bool LoadLibDictionary(out Dictionary<ItemRating, List<Item>> itemLibDictionary)
     {
         if (_ItemLibDictionary == null)
@@ -105,5 +110,36 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 
             return true;
         }
+    }
+
+
+    public void SaveUnlockedItemListForTest(List<Item> unlockedList)
+    {
+        _UnlockedItemList = unlockedList;
+    }
+    public bool LoadUnlockedItemListForTest(out List<Item> unlockedList)
+    {
+        if (_UnlockedItemList == null)
+        {
+            unlockedList = new List<Item>();
+            return false;
+        }
+        unlockedList = _UnlockedItemList;
+        return true;
+    }
+
+    public void SaveLockedItemListForTest(List<Item> lockedList)
+    {
+        _LockedItemList = lockedList;
+    }
+    public bool LoadLockedItemListForTest(out List<Item> lockedList)
+    {
+        if (_LockedItemList == null)
+        {
+            lockedList = new List<Item>();
+            return false;
+        }
+        lockedList = _LockedItemList;
+        return true;
     }
 }

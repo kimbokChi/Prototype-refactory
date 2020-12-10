@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,6 +9,8 @@ public enum ItemRating
 }
 public class ItemLibrary : Singleton<ItemLibrary>
 {
+    public event System.Action<Item> ItemUnlockEvent;
+
     [Header("Item Probablities")]
     [SerializeField][Range(0f, 1f)] private float Common;
     [SerializeField][Range(0f, 1f)] private float Rare;
@@ -17,9 +18,11 @@ public class ItemLibrary : Singleton<ItemLibrary>
     [SerializeField][Range(0f, 1f)] private float Legendary;
 
     [Header("Registered Items")]
-    [SerializeField] private Item[] Items;
+    [SerializeField] private RegisteredItem RegisteredItem;
 
     private Dictionary<ItemRating, List<Item>> mLibrary;
+    private List<Item>   _LockedItemListForTest;
+    private List<Item> _UnlockedItemListForTest;
 
     private float[] mProbabilityArray;
 
@@ -41,6 +44,9 @@ public class ItemLibrary : Singleton<ItemLibrary>
         SceneManager.sceneUnloaded += scene =>
         {
             ItemStateSaver.Instance.SaveLibDictionary(mLibrary);
+
+            ItemStateSaver.Instance.SaveUnlockedItemListForTest(_UnlockedItemListForTest);
+            ItemStateSaver.Instance.SaveLockedItemListForTest(_LockedItemListForTest);
         };
         mProbabilityArray = new float[4]
         {
@@ -53,7 +59,9 @@ public class ItemLibrary : Singleton<ItemLibrary>
             mLibrary.Add(ItemRating.Epic,      new List<Item>());
             mLibrary.Add(ItemRating.Legendary, new List<Item>());
 
-            for (int i = 0; i < Items.Length; ++i)
+            var Items = RegisteredItem.UnlockedItemList;
+
+            for (int i = 0; i < Items.Count; ++i)
             {
                 var item = Instantiate(Items[i], ItemStateSaver.Instance.transform);
                     item.transform.position = new Vector2(-10f, 0);
@@ -68,11 +76,12 @@ public class ItemLibrary : Singleton<ItemLibrary>
                 RevisionProbablity(mProbabilityArray[invokeCount]);
             }
         }
+        LoadItemListForTest();
     }
-
-    public Item GetOriginalItem(System.Type itemType)
+    [ContextMenu("AAA")]
+    private void AAA()
     {
-        return Items.First(o => o.GetType().Equals(itemType));
+        ItemUnlock(RegisteredItem.LockedItemList[0]);
     }
 
     public Item GetRandomItem()
@@ -126,6 +135,41 @@ public class ItemLibrary : Singleton<ItemLibrary>
         return getItem;
     }
 
+    public void ItemUnlock(params Item[] unlockItems)
+    {
+        for (int i = 0; i < unlockItems.Length; i++)
+        {
+            Item item = _LockedItemListForTest.FirstOrDefault(o => o.GetType().Equals(unlockItems[i].GetType()));
+
+            if (item != null)
+            {
+                item = Instantiate(item, ItemStateSaver.Instance.transform);
+                item.transform.position = new Vector2(-10f, 0);
+
+                mLibrary[item.Rating].Add(item);
+
+                _UnlockedItemListForTest.Add(item);
+                
+                for (int j = 0; j < _LockedItemListForTest.Count; j++)
+                {
+                    if (_LockedItemListForTest[i].GetType().Equals(item.GetType()))
+                    {
+                        _LockedItemListForTest.RemoveAt(i); break;
+                    }
+                }
+                ItemUnlockEvent?.Invoke(item);
+            }
+        }
+    }
+
+    public List<Item> GetUnlockedItemListForTest()
+    {
+        return _UnlockedItemListForTest;
+    }
+    public List<Item> GetLockedItemListForTest()
+    {
+        return _LockedItemListForTest;
+    }
     private void RevisionProbablity(float selectedProbablity)
     {
         int division =
@@ -141,6 +185,18 @@ public class ItemLibrary : Singleton<ItemLibrary>
             {
                 mProbabilityArray[i] += additive;
             }
+        }
+    }
+
+    private void LoadItemListForTest()
+    {
+        if (!ItemStateSaver.Instance.LoadUnlockedItemListForTest(out _UnlockedItemListForTest))
+        {
+            _UnlockedItemListForTest = RegisteredItem.UnlockedItemList;
+        }
+        if (!ItemStateSaver.Instance.LoadLockedItemListForTest(out _LockedItemListForTest))
+        {
+            _LockedItemListForTest = RegisteredItem.LockedItemList;
         }
     }
 }
