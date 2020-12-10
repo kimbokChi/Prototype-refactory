@@ -42,6 +42,13 @@ public class ItemLibrary : Singleton<ItemLibrary>
         {
             ItemStateSaver.Instance.SaveLibDictionary(mLibrary);
         };
+        ItemStateSaver.Instance.ItemUnlockEvent += o =>
+        {
+            var item = Instantiate(o, ItemStateSaver.Instance.transform);
+                item.transform.position = new Vector2(-10f, 0);
+
+            mLibrary[item.Rating].Add(item);
+        };
         mProbabilityArray = new float[4]
         {
             Common, Rare, Epic, Legendary
