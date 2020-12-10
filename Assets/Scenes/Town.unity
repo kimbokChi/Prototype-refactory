@@ -212,7 +212,7 @@ PrefabInstance:
     - target: {fileID: 5810549494006058208, guid: 01325a20e41267a488041a24730ae7f6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5810549494006058208, guid: 01325a20e41267a488041a24730ae7f6,
         type: 3}
@@ -826,7 +826,7 @@ GameObject:
   - component: {fileID: 1507383468}
   - component: {fileID: 1507383467}
   m_Layer: 5
-  m_Name: HealthBarCanvas
+  m_Name: WorldSpaceCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
