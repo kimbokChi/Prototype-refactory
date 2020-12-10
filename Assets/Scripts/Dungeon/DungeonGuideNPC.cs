@@ -24,5 +24,7 @@ public class DungeonGuideNPC : MonoBehaviour
     public void Interact()
     {
         DungeonSelectWindow.SetActive(!DungeonSelectWindow.activeSelf);
+
+        EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position);
     }
 }
