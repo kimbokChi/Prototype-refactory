@@ -2,6 +2,8 @@
 
 public class DungeonGuideNPC : MonoBehaviour
 {
+    [SerializeField] private bool IsWaitForEffectDisable;
+
     [SerializeField] private GameObject InteractionButton;
     [SerializeField] private GameObject DungeonSelectWindow;
 
@@ -23,8 +25,18 @@ public class DungeonGuideNPC : MonoBehaviour
 
     public void Interact()
     {
-        DungeonSelectWindow.SetActive(!DungeonSelectWindow.activeSelf);
+        if (IsWaitForEffectDisable)
+        {
+            EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position, () => 
+            {
+                DungeonSelectWindow.SetActive(!DungeonSelectWindow.activeSelf);
+            });
+        }
+        else
+        {
+            EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position);
 
-        EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position);
+            DungeonSelectWindow.SetActive(!DungeonSelectWindow.activeSelf);
+        }
     }
 }

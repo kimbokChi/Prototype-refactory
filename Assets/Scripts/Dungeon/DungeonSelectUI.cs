@@ -10,6 +10,11 @@ public class DungeonSelectUI : MonoBehaviour
 
     private DungeonSelection mDungeon;
 
+    private void OnDisable()
+    {
+        transform.localScale = Vector2.zero;
+    }
+
     void Awake()
     {
         mSelections = mContent.GetComponentsInChildren<Button>();

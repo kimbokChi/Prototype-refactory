@@ -1897,6 +1897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a0773250292484ebbd765fd09fa2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsWaitForEffectDisable: 0
   InteractionButton: {fileID: 1185797686}
   DungeonSelectWindow: {fileID: 775480201}
 --- !u!1 &1507383466
@@ -2251,6 +2252,11 @@ PrefabInstance:
       propertyPath: InteractionButton
       value: 
       objectReference: {fileID: 839837752}
+    - target: {fileID: 4921760133263328429, guid: da6b8d90c2f2b2b4c888028734e28a0e,
+        type: 3}
+      propertyPath: IsWaitForEffectDisable
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da6b8d90c2f2b2b4c888028734e28a0e, type: 3}
 --- !u!1001 &5846258137606730949
