@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, ICombatable
 {
-    [SerializeField]
-    private bool CanMoveDown;
+    [SerializeField] private bool CanMoveDown;
+    [SerializeField] private bool IsUsingHealthBar;
     
     [SerializeField]
     private GameObject mGameOverWindow;
@@ -121,9 +121,10 @@ public class Player : MonoBehaviour, ICombatable
     private void Start()
     {
         PlayerAnimator.Init();
-
-        HealthBarPool.Instance?.UsingPlayerHealthBar(-1f, transform, AbilityTable);
-
+        if (IsUsingHealthBar)
+        {
+            HealthBarPool.Instance?.UsingPlayerHealthBar(-1f, transform, AbilityTable);
+        }
         mIsInputLock  = false;
         mCanElevation = false;
         IsDeath       = false;
