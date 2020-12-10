@@ -727,7 +727,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 839837755}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1306168777}
+        m_MethodName: Interact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &839837755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1348,6 +1359,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1180295578 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3959295661310075210, guid: dfd439dc40217724c9527513a39e0241,
+    type: 3}
+  m_PrefabInstance: {fileID: 1951772227}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40277510bdd51464d8436ebc9682c19c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1181088699
 GameObject:
   m_ObjectHideFlags: 0
@@ -1428,7 +1451,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1181088702}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1180295578}
+        m_MethodName: Interaction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1181088702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1546,7 +1580,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1185797689}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1400038390}
+        m_MethodName: Interact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1185797689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1650,6 +1695,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1306168777 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4921760133263328429, guid: da6b8d90c2f2b2b4c888028734e28a0e,
+    type: 3}
+  m_PrefabInstance: {fileID: 4921760132731692236}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78a0773250292484ebbd765fd09fa2fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1400038385
 GameObject:
   m_ObjectHideFlags: 0
@@ -1792,7 +1849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a0773250292484ebbd765fd09fa2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Charge: {fileID: 610466608}
+  InteractionButton: {fileID: 1185797686}
   DungeonSelectWindow: {fileID: 775480201}
 --- !u!1 &1507383466
 GameObject:
@@ -1997,6 +2054,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3959295661310075210, guid: dfd439dc40217724c9527513a39e0241,
+        type: 3}
+      propertyPath: InteractionButton
+      value: 
+      objectReference: {fileID: 1181088699}
     - target: {fileID: 3959295661310075212, guid: dfd439dc40217724c9527513a39e0241,
         type: 3}
       propertyPath: m_Name
@@ -2136,6 +2198,11 @@ PrefabInstance:
       propertyPath: DungeonSelectWindow
       value: 
       objectReference: {fileID: 904198004}
+    - target: {fileID: 4921760133263328429, guid: da6b8d90c2f2b2b4c888028734e28a0e,
+        type: 3}
+      propertyPath: InteractionButton
+      value: 
+      objectReference: {fileID: 839837752}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da6b8d90c2f2b2b4c888028734e28a0e, type: 3}
 --- !u!1001 &5846258137606730949
