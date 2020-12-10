@@ -117,7 +117,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 
     public void ItemUnlock(params Item[] unlockItems)
     {
-        var lockedList = RegisteredItem.UnlockedItemList;
+        var lockedList = RegisteredItem.LockedItemList;
 
         for (int i = 0; i < unlockItems.Length; i++)
         {
