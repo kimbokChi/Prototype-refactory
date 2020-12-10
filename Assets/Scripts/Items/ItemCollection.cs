@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -63,5 +64,25 @@ public class ItemCollection : MonoBehaviour
     public List<Item> UnlockedItemList() {
 
         return UnlockedItems;
+    }
+}
+
+[CreateAssetMenu(fileName = "RegisteredItem", menuName = "ScriptableObject/RegisteredItem")]
+public class RegisteredItem : ScriptableObject
+{
+    [Space()]
+    [SerializeField] private List<Item> _UnlockedItemList;
+
+    [Space()]
+    [SerializeField] private List<Item>   _LockedItemList;
+
+    public List<Item> UnlockedItemList
+    { get => _UnlockedItemList; }
+    public List<Item> LockedItemList
+    { get => _LockedItemList; }
+
+    public List<Item> ItemListAll()
+    {
+        return new List<Item>(_LockedItemList.Union(_UnlockedItemList));
     }
 }
