@@ -388,6 +388,11 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3114460943482411960, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 4787919990706600178, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -411,6 +416,21 @@ PrefabInstance:
     - target: {fileID: 4787919990706600178, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
         type: 3}
       propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244353198040070346, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244353198040070357, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5244353198040070357, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5289888163907979925, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
@@ -1090,12 +1110,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51e73a3e3f1d2b947bbbed0df04f4304, type: 3}
---- !u!1 &254027282 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7677788242333209183, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
-    type: 3}
-  m_PrefabInstance: {fileID: 254027281}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &254027283 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2657234772226528089, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
@@ -1268,7 +1282,7 @@ PrefabInstance:
         type: 3}
       propertyPath: mGameOverWindow
       value: 
-      objectReference: {fileID: 254027282}
+      objectReference: {fileID: 1051375956}
     - target: {fileID: 5810549494006058014, guid: 01325a20e41267a488041a24730ae7f6,
         type: 3}
       propertyPath: mDefense
@@ -1405,6 +1419,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7a430e2c32c33a4a90ed8cd771529d9, type: 3}
+--- !u!1 &1051375956 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5244353198040070346, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+    type: 3}
+  m_PrefabInstance: {fileID: 254027281}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1652176066
 PrefabInstance:
   m_ObjectHideFlags: 0

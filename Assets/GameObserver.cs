@@ -25,7 +25,7 @@ public class GameObserver : Singleton<GameObserver>
     {
         KillCount++;
     }
-    public void GameClear()
+    public void GameOver()
     {
         ResultTime = Time.time - StartTime;
     }
