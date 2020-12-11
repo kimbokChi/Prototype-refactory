@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Castle : Singleton<Castle>
 {
+    public Floor PlayerFloor => mPlayerFloor;
+
     [SerializeField]
     private bool DisableStageEvent;
 
