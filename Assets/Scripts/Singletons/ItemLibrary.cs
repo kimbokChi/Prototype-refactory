@@ -63,6 +63,8 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
             for (int i = 0; i < Items.Count; ++i)
             {
+                if (Items[i] == null) continue;
+
                 var item = Instantiate(Items[i], ItemStateSaver.Instance.transform);
                     item.transform.position = new Vector2(-10f, 0);
 
@@ -149,11 +151,12 @@ public class ItemLibrary : Singleton<ItemLibrary>
                 mLibrary[item.Rating].Add(item);
 
                 _UnlockedItemListForTest.Add(item);
-                
+
                 for (int j = 0; j < _LockedItemListForTest.Count; j++)
                 {
                     if (_LockedItemListForTest[i].GetType().Equals(item.GetType()))
                     {
+
                         _LockedItemListForTest.RemoveAt(i); break;
                     }
                 }

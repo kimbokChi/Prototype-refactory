@@ -25,6 +25,8 @@ public class Castle : Singleton<Castle>
     [SerializeField] private   Floor   mPlayerFloor;
                      private Vector2[] mMovePoints;
 
+    [SerializeField] private GameObject _DungeonClearUI;
+
     #region READ
     /// <summary>
     /// 현재 층안에 존재하는 이동 지점의 위치를 반한합니다.
@@ -262,6 +264,12 @@ public class Castle : Singleton<Castle>
                 if (mPlayer.IsDeath)
                 {
                     mPlayerFloor.ExitPlayer(MESSAGE.BELONG_FLOOR, mLastPlayerPOS);
+                }
+                if (!CanNextPoint() && mPlayerFloor.IsClear && !DisableStageEvent)
+                {
+                    GameObserver.Instance.GameClear();
+
+                    _DungeonClearUI?.SetActive(true);
                 }
             }
             yield return null;
