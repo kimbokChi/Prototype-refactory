@@ -50,6 +50,7 @@ public class Player : MonoBehaviour, ICombatable
     private bool mIsMovingElevation;
 
     private bool mIsInputLock;
+    private bool mHasAttackSchedule;
 
     public bool IsDeath { get; private set; }
 
@@ -191,6 +192,8 @@ public class Player : MonoBehaviour, ICombatable
             Finger.Instance.Gauge.DisChargeEvent += AttackOrder;
         }
         mInventory.SetWeaponSlot(ItemStateSaver.Instance.LoadSlotItem(SlotType.Weapon, 0));
+
+        mHasAttackSchedule = false;
     }
 
     private void InputAction()
@@ -265,7 +268,12 @@ public class Player : MonoBehaviour, ICombatable
         {
             InputAction();
         }
+        if (mHasAttackSchedule)
+        {
+            Debug.Log("Has Schedule");
 
+            AttackOrder();
+        }
         if (mEMove == null)
         {
             Vector2 interactionPoint = Vector2.zero;
@@ -306,13 +314,24 @@ public class Player : MonoBehaviour, ICombatable
 
     private void AttackOrder()
     {
-        if (mInventory.IsEquipWeapon() && !mAttackPeriod.IsProgressing())
+        if (mInventory.IsEquipWeapon())
         {
-            if (mInventory.GetWeaponItem.CanAttackState)
+            if (!mAttackPeriod.IsProgressing())
             {
-                mAttackPeriod.StartPeriod();
+                // 나중에 수정해야함
+                if (mInventory.GetWeaponItem.CanAttackState || (mHasAttackSchedule && !mInventory.GetWeaponItem.GetType().Equals(typeof(GreatSword))))
+                {
+                    mAttackPeriod.StartPeriod();
+
+                    mHasAttackSchedule = false;
+                }
+            }
+            else
+            {
+                mHasAttackSchedule = true;
             }
         }
+        
     }
 
     private void AttackAction()
@@ -325,6 +344,7 @@ public class Player : MonoBehaviour, ICombatable
         if (mEMove == null && mAttackPeriod.CurrentPeriod == Period.Begin)
         {
             mAttackPeriod.StopPeriod();
+            mHasAttackSchedule = false;
 
             if (mCanElevation)
             {
