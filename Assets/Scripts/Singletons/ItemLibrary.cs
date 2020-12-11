@@ -123,6 +123,33 @@ public class ItemLibrary : Singleton<ItemLibrary>
         return null;
     }
 
+    public void ItemBoxReset()
+    {
+        mLibrary[ItemRating.Common   ].Clear();
+        mLibrary[ItemRating.Rare     ].Clear();
+        mLibrary[ItemRating.Epic     ].Clear();
+        mLibrary[ItemRating.Legendary].Clear();
+
+        var Items = _UnlockedItemListForTest;
+
+        for (int i = 0; i < Items.Count; ++i)
+        {
+            if (Items[i] == null) continue;
+
+            var item = Instantiate(Items[i], ItemStateSaver.Instance.transform);
+                item.transform.position = new Vector2(-10f, 0);
+
+            mLibrary[item.Rating].Add(item);
+        }
+        for (int invokeCount = 0; invokeCount < 4; invokeCount++)
+        {
+            if (mLibrary[(ItemRating)invokeCount].Count == 0)
+            {
+                RevisionProbablity(mProbabilityArray[invokeCount]);
+            }
+        }
+    }
+
     public Item GetRandomItem(ItemRating rating)
     {
         Item getItem = null;
@@ -132,7 +159,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
             int itemIndex = Random.Range(0, mLibrary[rating].Count);
 
             getItem = mLibrary[rating][itemIndex];
-            mLibrary[rating].RemoveAt(itemIndex);
+                      mLibrary[rating].RemoveAt(itemIndex);
         }
         return getItem;
     }

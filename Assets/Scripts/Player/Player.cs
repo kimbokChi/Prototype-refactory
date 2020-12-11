@@ -144,6 +144,14 @@ public class Player : MonoBehaviour, ICombatable
         DeathEvent += () =>      RangeArea.enabled = false;
         DeathEvent += () => HealthBarPool.Instance?.UnUsingHealthBar(transform);
         DeathEvent += () => PlayerAnimator.ChangeState(PlayerAnim.Death);
+        DeathEvent += () => mInventory.Clear();
+        DeathEvent += () =>
+        {
+            if (EquipWeaponSlot.transform.childCount != 0)
+            {
+                EquipWeaponSlot.transform.GetChild(0).transform.parent = ItemStateSaver.Instance.transform;
+            }
+        };
 
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
 
@@ -186,7 +194,7 @@ public class Player : MonoBehaviour, ICombatable
             };
             mInventory.WeaponChangeEvent += o =>
             {
-                o.transform.parent   = null;
+                o.transform.parent   = ItemStateSaver.Instance.transform;
                 o.transform.position = new Vector3(-10, 0, 0);
             };
             Finger.Instance.Gauge.DisChargeEvent += AttackOrder;

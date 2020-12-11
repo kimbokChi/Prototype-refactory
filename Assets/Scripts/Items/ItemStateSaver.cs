@@ -40,7 +40,11 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         {
             case SlotType.Weapon:
                 {
-                    _WeaponItemType = item.GetType();
+                    if (item == null)
+                    {
+                        _WeaponItemType = null;
+                    }
+                    else _WeaponItemType = item.GetType();
                 }
                 break;
 
@@ -69,7 +73,6 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
                 {
                     if (_WeaponItemType != null)
                     {
-
                         return Instantiate(_UnlockedItemList.First(o => o.GetType().Equals(_WeaponItemType)));
                     }
                 }
