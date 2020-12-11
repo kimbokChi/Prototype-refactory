@@ -257,7 +257,8 @@ public class Castle : Singleton<Castle>
                 {
                     mIsCastClearEvent = true;
 
-                    if (!DisableStageEvent && mPlayerFloor.FloorIndex != 1) {
+                    if (!DisableStageEvent) 
+                    {
                         StageEventLibrary.Instance.NotifyEvent(NotifyMessage.StageClear);
                     }
                 }
