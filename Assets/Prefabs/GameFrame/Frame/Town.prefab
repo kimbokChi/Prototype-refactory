@@ -115,6 +115,7 @@ MonoBehaviour:
   - {fileID: 84504956736761891}
   - {fileID: 84504955728603596}
   mPlayerFloor: {fileID: 84504956736761891}
+  _DungeonClearUI: {fileID: 0}
 --- !u!1 &84504955728603587
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,8 +515,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1767144529
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -852558035132325119, guid: 4001a0035b9671b40a198dd3db0578b3,
     type: 3}
@@ -826,7 +827,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6154964668123345700}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9942172
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1463,7 +1464,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: -0.0000019073486}
+  m_AnchoredPosition: {x: 0.000061035156, y: -0.000008940357}
   m_SizeDelta: {x: 0, y: 280}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &4809126246530041782
@@ -1834,8 +1835,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1767144529
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -852558035132325119, guid: 4001a0035b9671b40a198dd3db0578b3,
     type: 3}
