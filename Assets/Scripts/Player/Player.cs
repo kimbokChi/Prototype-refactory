@@ -151,6 +151,7 @@ public class Player : MonoBehaviour, ICombatable
             {
                 EquipWeaponSlot.transform.GetChild(0).transform.parent = ItemStateSaver.Instance.transform;
             }
+            ItemLibrary.Instance.ItemBoxReset();
         };
 
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
@@ -467,7 +468,8 @@ public class Player : MonoBehaviour, ICombatable
                           AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
             if (IsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
             {
-                DeathEvent.Invoke();
+                DeathEvent?.Invoke();
+                DeathEvent = null;
             }
             EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
         }
