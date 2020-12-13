@@ -139,7 +139,6 @@ public class Player : MonoBehaviour, ICombatable
 
         mCollidersOnMove = new List<Collider2D>();
 
-        DeathEvent += () => GameObserver.Instance.GameOver();
         DeathEvent += () => mGameOverWindow.SetActive(true);
         DeathEvent += () =>      RangeArea.enabled = false;
         DeathEvent += () => HealthBarPool.Instance?.UnUsingHealthBar(transform);

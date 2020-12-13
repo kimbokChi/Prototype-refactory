@@ -66,7 +66,7 @@ public class Room : MonoBehaviour
                 {
                     mObjects.RemoveAt(i);
 
-                    GameObserver.Instance.KillEnemy();
+                    GameLoger.Instance.EnemyDead();
                 }
             }
         }

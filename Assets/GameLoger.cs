@@ -3,17 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameObserver : Singleton<GameObserver>
+public class GameLoger : Singleton<GameLoger>
 {
     public float StartTime
     {
         get;
         private set;
     }
-    public float ResultTime
+    public float ElapsedTime
     {
-        get;
-        private set;
+        get => Time.time - StartTime;
     }
     public int KillCount
     {
@@ -21,15 +20,10 @@ public class GameObserver : Singleton<GameObserver>
         private set;
     }
 
-    public void KillEnemy()
+    public void EnemyDead()
     {
         KillCount++;
     }
-    public void GameOver()
-    {
-        ResultTime = Time.time - StartTime;
-    }
-
     private void Start()
     {
         KillCount = 0;

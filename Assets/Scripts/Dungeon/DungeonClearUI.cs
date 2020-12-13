@@ -21,11 +21,11 @@ public class DungeonClearUI : MonoBehaviour
         }
         ItemLibrary.Instance.ItemUnlock(UnlockItems);
 
-        int clearSec = Mathf.FloorToInt(GameObserver.Instance.ResultTime % 60f);
-        int clearMin = Mathf.FloorToInt(GameObserver.Instance.ResultTime / 60f);
+        int clearSec = Mathf.FloorToInt(GameLoger.Instance.ElapsedTime % 60f);
+        int clearMin = Mathf.FloorToInt(GameLoger.Instance.ElapsedTime / 60f);
 
         ClearTime.text = $"{clearMin:D2} : {clearSec:D2}";
-        KillCount.text = $"{GameObserver.Instance.KillCount:D3} 마리";
+        KillCount.text = $"{GameLoger.Instance.KillCount:D3} 마리";
     }
 
     public void Close()

@@ -270,8 +270,6 @@ public class Castle : Singleton<Castle>
                 }
                 if (!CanNextPoint() && mPlayerFloor.IsClear && !DisableStageEvent)
                 {
-                    GameObserver.Instance.GameOver();
-
                     _DungeonClearUI?.SetActive(true);
                 }
             }
