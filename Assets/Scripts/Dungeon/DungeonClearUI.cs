@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class DungeonClearUI : MonoBehaviour
 {
-    public Action KillEnemy;
-
     [SerializeField] private TMPro.TextMeshProUGUI KillCount;
     [SerializeField] private TMPro.TextMeshProUGUI ClearTime;
 

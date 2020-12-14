@@ -134,11 +134,13 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
         for (int i = 0; i < Items.Count; ++i)
         {
-            if (Items[i] == null) continue;
-
-            var item = Instantiate(Items[i], ItemStateSaver.Instance.transform);
+            var item = Items[i];
+            
+            if (!ItemStateSaver.Instance.IsSavedItem(Items[i], out item))
+            {
+                item = Instantiate(Items[i], ItemStateSaver.Instance.transform);
                 item.transform.position = new Vector2(-10f, 0);
-
+            }
             mLibrary[item.Rating].Add(item);
         }
         for (int invokeCount = 0; invokeCount < 4; invokeCount++)

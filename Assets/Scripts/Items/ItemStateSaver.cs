@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ItemStateSaver : Singleton<ItemStateSaver>
 {
@@ -16,6 +17,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
     private Item[] _ContainerCollection;
 
     private Type _WeaponItemType;
+    private int _LastSceneBuildIndex = int.MinValue;
 
     private void Awake()
     {
@@ -26,12 +28,40 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         else
         {
             DontDestroyOnLoad(gameObject);
+
+            SceneManager.sceneLoaded += (loadScene, loadMode) =>
+            {
+                // 같은 씬을 불러온다면
+                if (loadScene.buildIndex == _LastSceneBuildIndex || 
+                    loadScene.buildIndex == 0 && _LastSceneBuildIndex != int.MinValue)
+                {
+                    ItemLibrary.Instance.ItemBoxReset();
+                }
+            };
+            SceneManager.sceneUnloaded += currentScene =>
+            {
+                _LastSceneBuildIndex = currentScene.buildIndex;
+            };
         }
     }
 
-    public void Discard()
+    public bool IsSavedItem(Item saveCheckItem, out Item getItem)
     {
-        Destroy(gameObject);
+        for (int i = 0; i < transform.childCount; ++i)
+        {
+            if (transform.GetChild(i).TryGetComponent(out Item item))
+            {
+                if (saveCheckItem.GetType().Equals(item.GetType()))
+                {
+                    getItem = item;
+
+                    return true;
+                }
+            }
+        }
+        getItem = null;
+
+        return false;
     }
 
     public void SaveSlotItem(SlotType slotType, Item item, int index)
