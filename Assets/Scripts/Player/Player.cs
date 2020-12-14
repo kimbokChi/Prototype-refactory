@@ -2,6 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
+public static class InputExtension
+{
+    // 현재 입력이 'UI를 대상으로한 입력인가'의 여부를 반환
+    public static bool IsPointerInUIObject(this EventSystem eventSystem)
+    {
+        switch (Application.platform)
+        {
+            case RuntimePlatform.WindowsPlayer:
+            case RuntimePlatform.WindowsEditor:
+                return eventSystem.IsPointerOverGameObject();
+
+            case RuntimePlatform.Android:
+                return eventSystem.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+        }
+        return false;
+    }
+}
 
 public class Player : MonoBehaviour, ICombatable
 {
@@ -286,21 +305,24 @@ public class Player : MonoBehaviour, ICombatable
         {
             Vector2 interactionPoint = Vector2.zero;
 
-            if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
+            if (!EventSystem.current.IsPointerInUIObject())
             {
-                if (Input.touchCount > 0)
+                if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
                 {
-                    interactionPoint =
-                        Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-                }
-                else if (Input.GetMouseButtonDown(0))
-                {
-                    interactionPoint =
-                        Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                }
-                SetLookAtLeft(interactionPoint.x < 0);
+                    if (Input.touchCount > 0)
+                    {
+                        interactionPoint =
+                            Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+                    }
+                    else if (Input.GetMouseButtonDown(0))
+                    {
+                        interactionPoint =
+                            Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    }
+                    SetLookAtLeft(interactionPoint.x < 0);
 
-                AttackOrder();
+                    AttackOrder();
+                }
             }
         }
     }
