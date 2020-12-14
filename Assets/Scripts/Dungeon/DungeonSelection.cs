@@ -9,6 +9,9 @@ public class DungeonSelection : MonoBehaviour
 
     public void DungeonEnter()
     {
-        SceneManager.LoadScene(DungeonName);
+        MainCamera.Instance.Fade(1.75f, FadeType.In, () => 
+        {
+            SceneManager.LoadScene(DungeonName);
+        });
     }
 }

@@ -50,8 +50,17 @@ public class DataManager : Singleton<DataManager>
     }
     private DataSet mDataBase;
 
-    private void Awake() => DontDestroyOnLoad(this);
-
+    private void Awake()
+    {
+        if (FindObjectsOfType(typeof(ItemStateSaver)).Length > 1)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
     public void Init()
     {
         mDataBase = mDataBase ?? new DataSet("DataBase");

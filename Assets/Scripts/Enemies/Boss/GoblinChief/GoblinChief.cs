@@ -279,7 +279,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     // 죽을때 사용하는 그런 머시기
     private void DeathRattle()
     {
-        MainCamera.Instance.Fade(FadeTime, FadeType.In, () => TownLoader.SceneLoad());
+        // MainCamera.Instance.Fade(FadeTime, FadeType.In, () => TownLoader.SceneLoad());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

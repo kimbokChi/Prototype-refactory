@@ -28,7 +28,14 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
         StageClearEvent += CreateNPC;
         StageClearEvent += () => SetActiveInventoryButton(true);
 
-        StageEnterEvent += () => SetActiveInventoryButton(false);
+        StageEnterEvent += () =>
+        {
+            if (Castle.Instance.PlayerFloor.FloorIndex != 1)
+            {
+
+                SetActiveInventoryButton(false);
+            }
+        };
     }
 
     public void NotifyEvent(NotifyMessage message)

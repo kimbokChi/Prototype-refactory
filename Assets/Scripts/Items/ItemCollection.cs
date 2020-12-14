@@ -85,6 +85,9 @@ public class RegisteredItem : ScriptableObject
 
                 _HasUnlockedListInit = true;
             }
+            Debug.Log("Origin : "+ _UnlockedItemList.Count);
+            Debug.Log("Clone : "+ _UnlockedItemCloneList.Count);
+
             return _UnlockedItemCloneList;
         }
     }

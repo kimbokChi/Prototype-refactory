@@ -53,9 +53,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8680912196846555949}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8163265, y: 0.8163265, z: 1}
   m_Children:
   - {fileID: 8680912197298234487}
   - {fileID: 8680912197012792510}
@@ -191,7 +191,6 @@ MonoBehaviour:
   LMovePoint: {fileID: 8680912197298234487}
   CMovePoint: {fileID: 8680912196164021185}
   RMovePoint: {fileID: 8680912197012792510}
-  mRoomNumber: 3
 --- !u!1 &8680912197298234486
 GameObject:
   m_ObjectHideFlags: 0

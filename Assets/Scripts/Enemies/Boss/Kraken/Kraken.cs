@@ -169,7 +169,7 @@ public class Kraken : MonoBehaviour, IObject, ICombatable
 
     public void IUpdate()
     {
-        if (_Coroutine.IsFinished())
+        if (_Coroutine.IsFinished() && AbilityTable[Ability.CurHealth] > 0f)
         {
             if (!_AttackPeriod.IsProgressing())
             {
@@ -294,6 +294,13 @@ public class Kraken : MonoBehaviour, IObject, ICombatable
         _Coroutine.Finish();
     }
 
+    private IEnumerator DeathRattle()
+    {
+        yield return new WaitForSeconds(2.917f);
+
+        gameObject.SetActive(false);
+    }
+
     private IEnumerator ArtilleryFire()
     {
         float speed = ArtilleryShellSpeed;
@@ -342,9 +349,10 @@ public class Kraken : MonoBehaviour, IObject, ICombatable
             {
                 animator.SetBool(animator.GetParameter(0).nameHash, true);
             }
-            MainCamera.Instance.Shake(1.8f, 1.2f);
-
-            MainCamera.Instance.Fade(2.25f, FadeType.In, () => TownLoader.SceneLoad());
+            StartCoroutine(DeathRattle());
+            // MainCamera.Instance.Shake(1.8f, 1.2f);
+            // 
+            // MainCamera.Instance.Fade(2.25f, FadeType.In, () => TownLoader.SceneLoad());
         }
     }
 

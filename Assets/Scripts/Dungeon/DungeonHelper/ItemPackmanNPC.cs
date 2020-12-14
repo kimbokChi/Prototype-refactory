@@ -5,6 +5,8 @@ using Kimbokchi;
 
 public class ItemPackmanNPC : MonoBehaviour
 {
+    [SerializeField] private GameObject InteractionButton;
+
     [SerializeField] private DropItem DropItem;
     [SerializeField] private Transform DropItemHolder;
 
@@ -16,20 +18,19 @@ public class ItemPackmanNPC : MonoBehaviour
     [SerializeField] private Vector2 PointD;
 
     private bool mHasPlayer;
+    private bool mIsGivingItem;
 
-    private void Start()
+    public void Interaction()
     {
-        Finger.Instance.Gauge.DisChargeEvent += Interaction;
-    }
-
-    private void Interaction()
-    {
-        if (mHasPlayer)
+        if (!mIsGivingItem)
         {
             DropItem.Init(ItemLibrary.Instance.GetRandomItem());
             DropItem.gameObject.SetActive(true);
 
             StartCoroutine(ItemDrop());
+
+            mIsGivingItem = true;
+            EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position);
         }
     }
 
@@ -42,17 +43,15 @@ public class ItemPackmanNPC : MonoBehaviour
             DropItemHolder.localPosition = Utility.BezierCurve3(PointA, PointB, PointC, PointD, ratio);
             yield return null;
         }
-        Finger.Instance.Gauge.DisChargeEvent -= Interaction;
-
         yield return null;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) mHasPlayer = true;
+        if (collision.CompareTag("Player")) InteractionButton.SetActive(mHasPlayer = true);
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) mHasPlayer = false;
+        if (collision.CompareTag("Player")) InteractionButton.SetActive(mHasPlayer = false);
     }
 }
