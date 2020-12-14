@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 8963677344248655637}
   - component: {fileID: 8759549781930196682}
   m_Layer: 0
-  m_Name: Town_4
+  m_Name: Desk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,8 +211,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1704071513
-  m_SortingLayer: 10
+  m_SortingLayerID: 771312113
+  m_SortingLayer: 7
   m_SortingOrder: 1
   m_Sprite: {fileID: 4956551558906624836, guid: 4001a0035b9671b40a198dd3db0578b3,
     type: 3}
@@ -298,8 +298,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1704071513
-  m_SortingLayer: 10
+  m_SortingLayerID: 771312113
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9963cfb3734acf148afd677b5f45bb89, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -350,6 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40277510bdd51464d8436ebc9682c19c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InteractionButton: {fileID: 0}
   DropItem: {fileID: 8836453920314280155}
   DropItemHolder: {fileID: 4114080056086707101}
   CurveSpeed: 1.5
