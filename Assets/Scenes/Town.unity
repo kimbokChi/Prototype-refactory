@@ -1200,7 +1200,7 @@ GameObject:
   - component: {fileID: 1026377834}
   - component: {fileID: 1026377835}
   m_Layer: 0
-  m_Name: Town_1
+  m_Name: Desk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1256,8 +1256,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1704071513
-  m_SortingLayer: 10
+  m_SortingLayerID: 771312113
+  m_SortingLayer: 7
   m_SortingOrder: 1
   m_Sprite: {fileID: 8005180987341759987, guid: 4001a0035b9671b40a198dd3db0578b3,
     type: 3}
@@ -1811,8 +1811,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1704071513
-  m_SortingLayer: 10
+  m_SortingLayerID: 771312113
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b5e66601e73760f468bba24efec064fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2103,6 +2103,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3959295661310075208, guid: dfd439dc40217724c9527513a39e0241,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3959295661310075210, guid: dfd439dc40217724c9527513a39e0241,
         type: 3}
       propertyPath: InteractionButton
@@ -2256,6 +2261,11 @@ PrefabInstance:
         type: 3}
       propertyPath: IsWaitForEffectDisable
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5467528071913602830, guid: da6b8d90c2f2b2b4c888028734e28a0e,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da6b8d90c2f2b2b4c888028734e28a0e, type: 3}
