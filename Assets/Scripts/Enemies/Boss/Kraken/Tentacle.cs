@@ -48,7 +48,7 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
     public void Damaged(float damage, GameObject attacker)
     {
-        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
         MasterKraken?.Damaged(damage, attacker);
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)

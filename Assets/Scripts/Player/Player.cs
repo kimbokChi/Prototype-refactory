@@ -2,11 +2,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
+public static class InputExtension
+{
+    // 현재 입력이 'UI를 대상으로한 입력인가'의 여부를 반환
+    public static bool IsPointerInUIObject(this EventSystem eventSystem)
+    {
+        switch (Application.platform)
+        {
+            case RuntimePlatform.WindowsPlayer:
+            case RuntimePlatform.WindowsEditor:
+                return eventSystem.IsPointerOverGameObject();
+
+            case RuntimePlatform.Android:
+                return eventSystem.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+        }
+        return false;
+    }
+}
 
 public class Player : MonoBehaviour, ICombatable
 {
-    [SerializeField]
-    private bool CanMoveDown;
+    [SerializeField] private bool CanMoveDown;
+    [SerializeField] private bool IsUsingHealthBar;
     
     [SerializeField]
     private GameObject mGameOverWindow;
@@ -50,6 +69,7 @@ public class Player : MonoBehaviour, ICombatable
     private bool mIsMovingElevation;
 
     private bool mIsInputLock;
+    private bool mHasAttackSchedule;
 
     public bool IsDeath { get; private set; }
 
@@ -121,9 +141,10 @@ public class Player : MonoBehaviour, ICombatable
     private void Start()
     {
         PlayerAnimator.Init();
-
-        HealthBarPool.Instance?.UsingPlayerHealthBar(-1f, transform, AbilityTable);
-
+        if (IsUsingHealthBar)
+        {
+            HealthBarPool.Instance?.UsingPlayerHealthBar(-1f, transform, AbilityTable);
+        }
         mIsInputLock  = false;
         mCanElevation = false;
         IsDeath       = false;
@@ -141,6 +162,15 @@ public class Player : MonoBehaviour, ICombatable
         DeathEvent += () =>      RangeArea.enabled = false;
         DeathEvent += () => HealthBarPool.Instance?.UnUsingHealthBar(transform);
         DeathEvent += () => PlayerAnimator.ChangeState(PlayerAnim.Death);
+        DeathEvent += () => mInventory.Clear();
+        DeathEvent += () =>
+        {
+            if (EquipWeaponSlot.transform.childCount != 0)
+            {
+                EquipWeaponSlot.transform.GetChild(0).transform.parent = ItemStateSaver.Instance.transform;
+            }
+            ItemLibrary.Instance.ItemBoxReset();
+        };
 
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
 
@@ -177,14 +207,20 @@ public class Player : MonoBehaviour, ICombatable
                     AbilityTable.Table[Ability.Begin_AttackDelay] = o.Begin_AttackDelay;
 
                     o.AttackOverAction = () => mAttackPeriod.AttackActionOver();
+
+                    ItemStateSaver.Instance.SaveSlotItem(SlotType.Weapon, o, 0);
                 }
             };
             mInventory.WeaponChangeEvent += o =>
             {
-                o.transform.parent   = null;
+                o.transform.parent   = ItemStateSaver.Instance.transform;
                 o.transform.position = new Vector3(-10, 0, 0);
             };
+            Finger.Instance.Gauge.DisChargeEvent += AttackOrder;
         }
+        mInventory.SetWeaponSlot(ItemStateSaver.Instance.LoadSlotItem(SlotType.Weapon, 0));
+
+        mHasAttackSchedule = false;
     }
 
     private void InputAction()
@@ -227,9 +263,12 @@ public class Player : MonoBehaviour, ICombatable
                         break;
                     case LPOSITION3.BOT:
                         {
-                            mCanElevation = Castle.Instance.CanPrevPoint();
+                            if (CanMoveDown)
+                            {
+                                mCanElevation = Castle.Instance.CanPrevPoint();
 
-                            moveDir9 = mLocation9;
+                                moveDir9 = mLocation9;
+                            }
                         }
                         break;
                 }
@@ -256,24 +295,73 @@ public class Player : MonoBehaviour, ICombatable
         {
             InputAction();
         }
-        if (RangeArea.HasAny() && mEMove == null)
+        if (mHasAttackSchedule)
         {
-            if (RangeArea.CloestTargetPos().x > transform.position.x)
-                 transform.localRotation = Quaternion.Euler(Vector3.zero);
-            else transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+            Debug.Log("Has Schedule");
+
+            AttackOrder();
         }
-        if (mInventory.IsEquipWeapon())
+        if (mEMove == null)
         {
-            if (RangeArea.HasAny())
+            Vector2 interactionPoint = Vector2.zero;
+
+            if (!EventSystem.current.IsPointerInUIObject())
             {
-                mAttackPeriod.StartPeriod();
+                if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
+                {
+                    if (Input.touchCount > 0)
+                    {
+                        interactionPoint =
+                            Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+                    }
+                    else if (Input.GetMouseButtonDown(0))
+                    {
+                        interactionPoint =
+                            Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    }
+                    SetLookAtLeft(interactionPoint.x < 0);
+
+                    AttackOrder();
+                }
             }
         }
+    }
+
+    private void SetLookAtLeft(bool lookLeft)
+    {
+        if (lookLeft)
+        {
+            transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+        }
+        else 
+            transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (mEMove != null) mCollidersOnMove.Add(collision);
+    }
+
+    private void AttackOrder()
+    {
+        if (mInventory.IsEquipWeapon())
+        {
+            if (!mAttackPeriod.IsProgressing())
+            {
+                // 나중에 수정해야함
+                if (mInventory.GetWeaponItem.CanAttackState || (mHasAttackSchedule && !mInventory.GetWeaponItem.GetType().Equals(typeof(GreatSword))))
+                {
+                    mAttackPeriod.StartPeriod();
+
+                    mHasAttackSchedule = false;
+                }
+            }
+            else
+            {
+                mHasAttackSchedule = true;
+            }
+        }
+        
     }
 
     private void AttackAction()
@@ -283,8 +371,11 @@ public class Player : MonoBehaviour, ICombatable
 
     private void MoveAction(DIRECTION9 moveDIR9)
     {
-        if (mEMove == null)
+        if (mEMove == null && mAttackPeriod.CurrentPeriod == Period.Begin)
         {
+            mAttackPeriod.StopPeriod();
+            mHasAttackSchedule = false;
+
             if (mCanElevation)
             {
                 switch (moveDIR9)
@@ -309,9 +400,8 @@ public class Player : MonoBehaviour, ICombatable
             }
             else
             {
-                if (mLocation9 - moveDIR9 < 0)
-                     transform.localRotation = Quaternion.Euler(0f,   0f, 0f);
-                else transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+                         bool lookAtLeft = mLocation9 - moveDIR9 > 0;
+                SetLookAtLeft(lookAtLeft);
 
                 Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
 
@@ -399,9 +489,10 @@ public class Player : MonoBehaviour, ICombatable
                           AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
             if (IsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
             {
-                DeathEvent.Invoke();
+                DeathEvent?.Invoke();
+                DeathEvent = null;
             }
-            EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+            EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
         }
     }
 

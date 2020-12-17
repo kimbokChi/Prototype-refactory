@@ -57,7 +57,7 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
 
     public void Damaged(float damage, GameObject attacker)
     {
-        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
 
         EnemyAnimator.ChangeState(AnimState.Damaged);
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
@@ -98,13 +98,17 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
 
     public void IUpdate() 
     {
-        if (!_AttackPeriod.IsProgressing())
+        if (AbilityTable[Ability.CurHealth] > 0)
         {
-            if (Range.HasAny() && IsLookAtPlayer())
-            {
-                MoveStop();
 
-                _AttackPeriod.StartPeriod();
+            if (!_AttackPeriod.IsProgressing())
+            {
+                if (Range.HasAny() && IsLookAtPlayer())
+                {
+
+                    MoveStop();
+                    _AttackPeriod.StartPeriod();
+                }
             }
         }
     }

@@ -63,6 +63,12 @@ TagManager:
   - name: Front_Enemy
     uniqueID: 771312113
     locked: 0
+  - name: Character_Back
+    uniqueID: 1405454737
+    locked: 0
+  - name: Weapon_CharBack
+    uniqueID: 3114857737
+    locked: 0
   - name: Character
     uniqueID: 1704071513
     locked: 0

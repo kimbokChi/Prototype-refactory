@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public enum EffectKind
 {
-    EnemyDmgEffect
+    Damage, Twinkle
 }
 
 [System.Serializable]
@@ -60,6 +60,19 @@ public class EffectLibrary : Singleton<EffectLibrary>
         var effect
             = EffectLib[kind].Pop();
 
+        effect.transform.position = worldPoint;
+        effect.gameObject.SetActive(true);
+    }
+    public void UsingEffect(EffectKind kind, Vector2 worldPoint, Action disableAction)
+    {
+        if (EffectLib[kind].Count == 1)
+        {
+            EffectLib[kind].Push(Instantiate(EffectLib[kind].Peek()));
+        }
+        var effect
+            = EffectLib[kind].Pop();
+
+        effect.OnDisableEvent += disableAction;
         effect.transform.position = worldPoint;
         effect.gameObject.SetActive(true);
     }

@@ -4,87 +4,34 @@ using UnityEngine;
 
 public class ItemBox : MonoBehaviour
 {
-    public const string TRIGGER_TAG = "Player";
+    [SerializeField] private ItemBoxSprite ItemBoxSprite;
 
-    [SerializeField] private GameObject ShowItem;
-    [SerializeField] private Animator   Animator;
+    [Space()]
+    [SerializeField] private DropItem DropItem;
+    [SerializeField] private Animator Animator;
+    [SerializeField] private SpriteRenderer Renderer;
 
-    private bool mIsPlayerEnter;
-
-    private Item mContainItem;
-    private DropItem mDropItem;
-
-    public float COMMON_PROBABILITY = 0.4f; // 40%
-    public float RARE_PROBABILITY = 0.35f; // 35%
-    public float EPIC_PROBABILITY = 0.2f; // 20%
-    public float LEGENDARY_PROBABILITY = 0.05f; //  5%
-
-    private float[] mProbabilityArray;
-
-    private void OnEnable()
+    public void Init(Item containItem, ItemBoxSprite boxSprite)
     {
-        if (ShowItem.transform.GetChild(0).TryGetComponent(out mDropItem))
-        {
-            if (mDropItem.gameObject.TryGetComponent(out SpriteRenderer render))
-            {
-                 mContainItem = ItemLibrary.Instance.GetRandomItem();
-                render.sprite = mContainItem?.Sprite;
-            }
-        }
-        mProbabilityArray = new float[4]
-        {
-            COMMON_PROBABILITY, RARE_PROBABILITY, EPIC_PROBABILITY, LEGENDARY_PROBABILITY
-        };
+        ItemBoxSprite = boxSprite;
+        Renderer.sprite = boxSprite.ClosedSprite;
+
+        DropItem.Init(containItem);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(TRIGGER_TAG) && !ShowItem.activeSelf) {
-            mIsPlayerEnter   = true;
+        if (collision.CompareTag("Player")) {
+
             Animator.enabled = true;
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void ChestOpen()
     {
-        if (other.CompareTag(TRIGGER_TAG)) {
-            mIsPlayerEnter = false;
-        }
-    }
+        Renderer.sprite = ItemBoxSprite.OpenSprite;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            if (mIsPlayerEnter && !mDropItem.IsCatch)
-            {
-                mDropItem.Catch();
-                Inventory.Instance.AddItem(mContainItem);
-            }
-        }
-    }
-
-    public void ReplaceItem()
-    {
-        float probability = Random.value;
-
-        float sum = 0f;
-
-        for (int i = 0; i < 4; i++)
-        {
-            sum += mProbabilityArray[i];
-
-            if (sum <= probability)
-            {
-                if (ShowItem.transform.GetChild(0).TryGetComponent(out mDropItem))
-                {
-                    if (mDropItem.gameObject.TryGetComponent(out SpriteRenderer render))
-                    {
-                        mContainItem = ItemLibrary.Instance.GetRandomItem((ItemRating)i);
-                        render.sprite = mContainItem?.Sprite;
-                    }
-                }
-            }
-        }
+        Vector2 twinklePoint = transform.position + new Vector3(0f, 0.4f, 0f);
+        EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, twinklePoint);
     }
 }

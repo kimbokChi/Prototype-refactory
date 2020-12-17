@@ -7,6 +7,12 @@ public enum Period { Begin, Attack, After };
 
 public class AttackPeriod
 {
+    public Period CurrentPeriod
+    { 
+        get; 
+        private set; 
+    }
+
     private Action mEnterBeginAction;
     private Action mEnterAfterAction;
     private Action mEnterAttackAction;
@@ -16,10 +22,11 @@ public class AttackPeriod
     private IEnumerator mEUpdate;
     private bool mIsAttackOver;
 
-
     public AttackPeriod(AbilityTable abilityTable)
     {
         mAbilityTable = abilityTable;
+
+        CurrentPeriod = Period.Begin;
     }
     public void AttackActionOver()
     {
@@ -55,6 +62,8 @@ public class AttackPeriod
     {
         if (mEUpdate != null) {
             Inventory.Instance.StopCoroutine(mEUpdate);
+
+            mEUpdate = null;
         }
     }
 
@@ -65,18 +74,22 @@ public class AttackPeriod
         float DeltaTime() {
             return Time.deltaTime * Time.timeScale;
         }
+        CurrentPeriod = Period.Begin;
         mEnterBeginAction?.Invoke();
         for (float w = 0f; w < mAbilityTable.BeginAttackDelay; w += DeltaTime())
             yield return null;
 
+        CurrentPeriod = Period.Attack;
         mEnterAttackAction?.Invoke();
         yield return new WaitUntil(() => mIsAttackOver);
 
+        CurrentPeriod = Period.After;
         mEnterAfterAction?.Invoke();
         for (float w = 0f; w < mAbilityTable.AfterAttackDelay; w += DeltaTime())
             yield return null;
 
         mEUpdate = null;
+        CurrentPeriod = Period.Begin;
         mIsAttackOver = false;
     }
 }

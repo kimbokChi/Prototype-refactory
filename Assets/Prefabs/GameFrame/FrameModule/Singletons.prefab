@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2518353896841765212}
   - component: {fileID: 2518353896841765208}
   - component: {fileID: 2518353896841765207}
+  - component: {fileID: 2313952794288593244}
   m_Layer: 0
   m_Name: Singletons
   m_TagString: Untagged
@@ -69,7 +70,7 @@ MonoBehaviour:
   Rare: 0.3
   Epic: 0.15
   Legendary: 0.05
-  Items: []
+  RegisteredItem: {fileID: 11400000, guid: 04b9be7313947794880bf72a33d16641, type: 2}
 --- !u!114 &2518353896841765212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,7 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fca3110fd02347489f226dd2fa4bbb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemBox: {fileID: 208112646792821644, guid: f35de1102ab78f94d88d3d9b1b8ecbd8, type: 3}
+  ItemBox: {fileID: 5804754286839020693, guid: f35de1102ab78f94d88d3d9b1b8ecbd8, type: 3}
+  WoodenSprite: {fileID: 11400000, guid: fc94f87e70b154841bf91a06030f5cb0, type: 2}
+  GoldenSprite: {fileID: 11400000, guid: 21e45ce82839c5a43964f220aae0767a, type: 2}
   DungeonNPC: {fileID: 0}
   InventoryButton: {fileID: 0}
 --- !u!114 &2518353896841765207
@@ -109,6 +112,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d58d37b6f053564e9504126fede9ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2313952794288593244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518353896841765214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1fc83d1048e28543b554e9f206afe17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2518353896850578293
@@ -251,3 +266,7 @@ MonoBehaviour:
     EffectOrigin: {fileID: 4151722683427923717, guid: d048e326d4a85cc4985a8990a7a9e455,
       type: 3}
     HoldingCount: 5
+  - EffectKind: 1
+    EffectOrigin: {fileID: 595632416780288021, guid: 01b3624a87b605e42945eb17d3fed8f2,
+      type: 3}
+    HoldingCount: 1

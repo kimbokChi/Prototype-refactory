@@ -4,28 +4,55 @@ using UnityEngine;
 
 public class DropItem : MonoBehaviour
 {
-    private IEnumerator mEPlayAnimation;
+    [SerializeField] private Animator Animator;
+    [SerializeField] private SpriteRenderer Renderer;
+   
+    private bool mHasPlayer;
+    private Item mContainItem;
 
-    public bool IsCatch => (mEPlayAnimation != null);
+    public void Init(Item containItem)
+    {
+                          mContainItem = containItem;
+        Renderer.sprite = mContainItem?.Sprite;
+
+        Finger.Instance.Gauge.DisChargeEvent += Catch;
+    }
 
     public void Catch()
     {
-        if (TryGetComponent(out Animator animator))
+        if (mHasPlayer)
         {
-            animator.SetBool(animator.GetParameter(0).nameHash, true);
+            int animControlKey = Animator.GetParameter(0).nameHash;
 
-            StartCoroutine(mEPlayAnimation = EPlayAnimation());
+            if (!Animator.GetBool(animControlKey))
+            {
+                Animator.SetBool(animControlKey, true);
+            }
         }
     }
 
-    private IEnumerator EPlayAnimation()
+    private void AnimationPlayOver()
     {
-        for(float i = 0; i < 0.417f; i += Time.deltaTime * Time.timeScale)
-        {
-            yield return null;
-        }
         gameObject.SetActive(false);
 
-        yield break;
+        Inventory.Instance.AddItem(mContainItem);
+
+        Finger.Instance.Gauge.DisChargeEvent -= Catch;
+    }
+
+    private void Reset()
+    {
+        Debug.Assert(TryGetComponent(out Animator));
+        Debug.Assert(TryGetComponent(out Renderer));
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player")) mHasPlayer = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player")) mHasPlayer = false;
     }
 }

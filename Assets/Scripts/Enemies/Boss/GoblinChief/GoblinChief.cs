@@ -62,7 +62,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        EffectLibrary.Instance.UsingEffect(EffectKind.EnemyDmgEffect, transform.position);
+        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
         HealthBarImage.fillAmount = AbilityTable[Ability.CurHealth] / AbilityTable[Ability.MaxHealth];
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
@@ -279,7 +279,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     // 죽을때 사용하는 그런 머시기
     private void DeathRattle()
     {
-        MainCamera.Instance.Fade(FadeTime, FadeType.In, () => TownLoader.SceneLoad());
+        // MainCamera.Instance.Fade(FadeTime, FadeType.In, () => TownLoader.SceneLoad());
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

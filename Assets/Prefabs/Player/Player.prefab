@@ -127,7 +127,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1704071513
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: 999
   m_Sprite: {fileID: 21300000, guid: b91a47b4f5743724c92acc6ecca28388, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanMoveDown: 0
+  IsUsingHealthBar: 1
   mGameOverWindow: {fileID: 0}
   EquipWeaponSlot: {fileID: 5810549493965192802}
   mBlinkTime: 0.2

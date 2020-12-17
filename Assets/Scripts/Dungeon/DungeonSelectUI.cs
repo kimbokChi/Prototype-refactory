@@ -10,6 +10,11 @@ public class DungeonSelectUI : MonoBehaviour
 
     private DungeonSelection mDungeon;
 
+    private void OnDisable()
+    {
+        transform.localScale = Vector2.zero;
+    }
+
     void Awake()
     {
         mSelections = mContent.GetComponentsInChildren<Button>();
@@ -17,11 +22,6 @@ public class DungeonSelectUI : MonoBehaviour
 
     public void SelectDungeon(Button button)
     {
-        foreach (Button Child in mSelections)
-            Child.image.color = new Color(1f, 1f, 1f, 0.5f);
-
-        button.image.color = new Color(1f, 0, 0, 0.5f);
-
         Debug.Assert(button.TryGetComponent(out mDungeon));
     }
 
