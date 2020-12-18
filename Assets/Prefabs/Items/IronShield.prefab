@@ -118,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StatTable: {fileID: 3364367499189837294}
   Animator: {fileID: 3364367499189837297}
+  EffectOffset: {x: 0, y: 0.425}
   DurationTime: 4.5
   DemandCharge: 0.25
 --- !u!114 &3364367499189837294

@@ -9,6 +9,8 @@ public class IronShield : Item
         Defaulf, Begin, Duration, End
     }
     [SerializeField] private Animator Animator;
+    [SerializeField] private Vector2 EffectOffset;
+
     [SerializeField] private float DurationTime;
     [SerializeField] private float DemandCharge;
 
@@ -86,5 +88,13 @@ public class IronShield : Item
     private void DamagedAction(ref float damage, GameObject attacker, GameObject victim)
     {
         damage = 0f;
+
+        Vector2 point = (Vector2)transform.position + EffectOffset;
+
+        for (int i = 0; i < 4; ++i)
+        {
+            EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, point + Random.insideUnitCircle * 0.9f);
+        }
+        EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, point);
     }
 }
