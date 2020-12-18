@@ -120,6 +120,7 @@ MonoBehaviour:
   Animator: {fileID: 6386528746636147626}
   Projection: {fileID: 6646175519406877550, guid: 6ceef15e03b02864098bae8a8c1e168f,
     type: 3}
+  BetweenAngle: 42.5
   ShootSpeed: 11
   AttackType: 0
 --- !u!114 &6386528746636147625

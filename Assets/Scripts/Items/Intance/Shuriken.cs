@@ -12,6 +12,9 @@ public class Shuriken : Item
     [SerializeField] private Animator Animator;
     [SerializeField] private Projection Projection;
 
+    [Header("Attack Info")]
+    [Range(0f, 180f)]
+    [SerializeField] private float BetweenAngle;
     [SerializeField] private float ShootSpeed;
     [SerializeField] private AttackType AttackType;
 
@@ -42,7 +45,7 @@ public class Shuriken : Item
 
             case SlotType.Weapon:
                 {
-
+                    Inventory.Instance.ChargeAction += ChargeAction;
                 }
                 break;
         }
@@ -62,7 +65,7 @@ public class Shuriken : Item
 
             case SlotType.Weapon:
                 {
-
+                    Inventory.Instance.ChargeAction += ChargeAction;
                 }
                 break;
         }
@@ -76,8 +79,48 @@ public class Shuriken : Item
         {
             direction = Vector2.left;
         }
-        _ShurikenPool.Get().Shoot(transform.GetChild(0).position, direction, ShootSpeed);
-        MainCamera.Instance.Shake(0.1f, 0.8f);
+        switch (AttackType)
+        {
+            case AttackType.Continuous:
+                _ShurikenPool.Get().Shoot(transform.GetChild(0).position, direction, ShootSpeed);
+                MainCamera.Instance.Shake(0.1f, 0.8f);
+                break;
+
+            case AttackType.ThreeDirection:
+
+                float betweenAngle = BetweenAngle;
+
+                if (direction.x > 0)
+                {
+                    betweenAngle = 135f - BetweenAngle;
+                }
+                _ShurikenPool.Get().Shoot(transform.GetChild(0).position, direction, ShootSpeed);
+
+                Vector2 offset = (new Vector2(Mathf.Cos(-betweenAngle), Mathf.Sin(-betweenAngle)) * Mathf.Rad2Deg).normalized;
+                _ShurikenPool.Get().Shoot(transform.GetChild(0).position, (direction + offset).normalized, ShootSpeed);
+                Debug.Log((direction + offset).normalized);
+
+                        offset = (new Vector2(Mathf.Cos(+betweenAngle), Mathf.Sin(+betweenAngle)) * Mathf.Rad2Deg).normalized;
+                _ShurikenPool.Get().Shoot(transform.GetChild(0).position, (direction + offset).normalized, ShootSpeed);
+                Debug.Log((direction + offset).normalized);
+
+                MainCamera.Instance.Shake(0.2f, 0.8f);
+                break;
+        }
+    }
+
+    // 공격방식 스왑
+    private void ChargeAction(float charge)
+    {
+        if (charge >= 0.3f)
+        {
+
+            if (!Animator.GetBool(Animator.GetParameter(0).nameHash))
+            {
+                AttackType = AttackType == AttackType.Continuous ?
+                    AttackType.ThreeDirection : AttackType.Continuous;
+            }
+        }
     }
 
     private void Accessory_MoveBeginAction(Vector2 dir)
