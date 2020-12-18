@@ -76,6 +76,7 @@ public class Player : MonoBehaviour, ICombatable
     public AbilityTable GetAbility => AbilityTable;
 
     private CircleCollider2D mRangeCollider;
+    public bool CanHaveDamage = false;
 
     private float DeltaTime
     { get => Time.deltaTime * Time.timeScale; }
@@ -478,10 +479,8 @@ public class Player : MonoBehaviour, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if (mBlinkTimer.IsOver())
+        if (CanHaveDamage)
         {
-            mBlinkTimer.Start(mBlinkTime);
-
             MainCamera.Instance.Shake(0.3f, 1.0f);
 
             mInventory.OnDamaged(ref damage, attacker, gameObject);
