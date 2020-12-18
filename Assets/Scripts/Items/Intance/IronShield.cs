@@ -76,19 +76,15 @@ public class IronShield : Item
 
     private IEnumerator DurateShield()
     {
-        Player player;
-
-        if (transform.parent.parent.TryGetComponent(out player))
-        {
-            player.CanHaveDamage = false;
-        }
+        Inventory.Instance.BeDamagedAction += DamagedAction;
         yield return new WaitForSeconds(DurationTime);
 
         Animator.SetInteger(_AnimControlKey, (int)AnimState.End);
+        Inventory.Instance.BeDamagedAction -= DamagedAction;
+    }
 
-        if (transform.parent.parent.TryGetComponent(out player))
-        {
-            player.CanHaveDamage = true;
-        }
+    private void DamagedAction(ref float damage, GameObject attacker, GameObject victim)
+    {
+        damage = 0f;
     }
 }

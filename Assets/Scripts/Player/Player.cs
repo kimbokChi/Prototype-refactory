@@ -76,7 +76,6 @@ public class Player : MonoBehaviour, ICombatable
     public AbilityTable GetAbility => AbilityTable;
 
     private CircleCollider2D mRangeCollider;
-    public bool CanHaveDamage = false;
 
     private float DeltaTime
     { get => Time.deltaTime * Time.timeScale; }
@@ -479,8 +478,10 @@ public class Player : MonoBehaviour, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if (CanHaveDamage)
+        if (mBlinkTimer.IsOver())
         {
+            mBlinkTimer.Start(mBlinkTime);
+
             MainCamera.Instance.Shake(0.3f, 1.0f);
 
             mInventory.OnDamaged(ref damage, attacker, gameObject);
@@ -491,7 +492,10 @@ public class Player : MonoBehaviour, ICombatable
                 DeathEvent?.Invoke();
                 DeathEvent = null;
             }
-            EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
+            if (damage > 0f)
+            {
+                EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
+            }
         }
     }
 
