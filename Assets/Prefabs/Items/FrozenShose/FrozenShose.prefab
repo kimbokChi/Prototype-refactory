@@ -345,7 +345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StatTable: {fileID: 5570870206613295023}
   Animator: {fileID: 5570870206613295021}
-  FrozenPillar: {fileID: 6936394398711966713, guid: 70462d37eb409bf448a2e8291c019227,
+  FrozenPillar: {fileID: 4940038013366075531, guid: 70462d37eb409bf448a2e8291c019227,
     type: 3}
   PillarOffset: {x: 0, y: -0.2}
 --- !u!114 &5570870206613295023

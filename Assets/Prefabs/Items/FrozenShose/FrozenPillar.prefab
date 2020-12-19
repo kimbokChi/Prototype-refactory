@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6936394398711966714}
   - component: {fileID: 6936394398711966717}
   - component: {fileID: 6936394398711966715}
-  - component: {fileID: 6936394398711966713}
+  - component: {fileID: 4940038013366075531}
   - component: {fileID: 6936394398711966712}
   m_Layer: 0
   m_Name: FrozenPillar
@@ -103,7 +103,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &6936394398711966713
+--- !u!114 &4940038013366075531
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,12 +112,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6936394398711966716}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 162e500ee18349741bd81abe711966fd, type: 3}
+  m_Script: {fileID: 11500000, guid: d416d876a9b7c96418b975cb11031821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AreaCollider: {fileID: 6936394398711966712}
-  mSenseTags:
-  - Enemy
+  _TargetTag: Enemy
+  _LifeTime: 1.1
+  _MaxHitCount: 999
 --- !u!61 &6936394398711966712
 BoxCollider2D:
   m_ObjectHideFlags: 0

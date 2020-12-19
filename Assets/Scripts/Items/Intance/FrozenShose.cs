@@ -7,10 +7,10 @@ public class FrozenShose : Item
     [SerializeField] private Animator Animator;
 
     [Header("Pillar Section")]
-    [SerializeField] private Area FrozenPillar;
+    [SerializeField] private Projection FrozenPillar;
     [SerializeField] private Vector2 PillarOffset;
 
-    private Pool<Area> _PillarPool;
+    private Pool<Projection> _PillarPool;
     private bool _IsAlreadyInit = false;
 
     private GameObject _Player;
@@ -45,16 +45,18 @@ public class FrozenShose : Item
     {
         if (!_IsAlreadyInit)
         {
-            _PillarPool = new Pool<Area>();
+            _PillarPool = new Pool<Projection>();
             _PillarPool.Init(4, FrozenPillar, pillar =>
             {
-                pillar.SetEnterAction(o => 
-                {
-                    if (o.TryGetComponent(out ICombatable combatable))
+                pillar.SetAction(
+                hit => {
+                    if (hit.TryGetComponent(out ICombatable combatable))
                     {
-
                         combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
                     }
+                },
+                fro => {
+                    _PillarPool.Add(pillar);
                 }); 
             });
 
