@@ -15,6 +15,13 @@ public class FrozenShose : Item
 
     private GameObject _Player;
 
+    protected override void AttackAnimationPlayOver()
+    {
+        Animator.SetBool(Animator.GetParameter(0).nameHash, false);
+
+        base.AttackAnimationPlayOver();
+    }
+
     public override void AttackAction(GameObject attacker, ICombatable combatable)
     {
         _Player = attacker;
@@ -53,6 +60,11 @@ public class FrozenShose : Item
 
             _IsAlreadyInit = true;
         }
+    }
+
+    private void Shake()
+    {
+        MainCamera.Instance.Shake(0.3f, 1.1f);
     }
 
     // 애니메이션 이벤트로 실행된다
