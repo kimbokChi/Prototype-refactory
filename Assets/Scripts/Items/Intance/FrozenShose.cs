@@ -65,7 +65,7 @@ public class FrozenShose : Item
     // 애니메이션 이벤트로 실행된다
     private void SummonFrozenPillar()
     {
-        MainCamera.Instance.Shake(0.35f, 1.3f);
+        MainCamera.Instance.Shake(0.35f, 1.4f);
 
         var playerMovePoints = Castle.Instance.GetPlayerRoom().GetMovePoints();
 
