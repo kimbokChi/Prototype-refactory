@@ -270,3 +270,7 @@ MonoBehaviour:
     EffectOrigin: {fileID: 595632416780288021, guid: 01b3624a87b605e42945eb17d3fed8f2,
       type: 3}
     HoldingCount: 1
+  - EffectKind: 2
+    EffectOrigin: {fileID: 1110295823921683102, guid: d2ab08e5583429e4293b111baba6c305,
+      type: 3}
+    HoldingCount: 3

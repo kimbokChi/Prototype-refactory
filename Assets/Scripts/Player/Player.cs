@@ -492,7 +492,10 @@ public class Player : MonoBehaviour, ICombatable
                 DeathEvent?.Invoke();
                 DeathEvent = null;
             }
-            EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
+            if (damage > 0f)
+            {
+                EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
+            }
         }
     }
 
