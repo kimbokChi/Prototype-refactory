@@ -96,6 +96,6 @@ public class MysteriousMace : Item
     }
     protected override void CameraShake()
     {
-        MainCamera.Instance.Shake(0.25f, 1.5f);
+        MainCamera.Instance.Shake(0.25f, 1.8f);
     }
 }
