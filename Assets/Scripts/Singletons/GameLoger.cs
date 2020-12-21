@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameLoger : Singleton<GameLoger>
 {
@@ -19,15 +20,38 @@ public class GameLoger : Singleton<GameLoger>
         get;
         private set;
     }
+    public int RecordedMoney
+    {
+        get;
+        private set;
+    }
+
 
     public void EnemyDead()
     {
         KillCount++;
     }
-    private void Start()
+    public void RecordMoney(int money)
     {
-        KillCount = 0;
+        RecordedMoney = money;
+    }
 
-        StartTime = Time.time;
+    private void Awake()
+    {
+        if (GameObject.FindObjectsOfType(GetType()).Length > 2)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+
+            SceneManager.sceneLoaded += (a, b) =>
+            {
+                KillCount = 0;
+
+                StartTime = Time.time;
+            };
+        }
     }
 }

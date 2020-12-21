@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MoneyManager : Singleton<MoneyManager>
 {
@@ -39,5 +40,14 @@ public class MoneyManager : Singleton<MoneyManager>
             return true;
         }
         return false;
+    }
+    private void Awake()
+    {
+        SetMoney(GameLoger.Instance.RecordedMoney);
+
+        SceneManager.sceneUnloaded += scene =>
+        {
+            GameLoger.Instance.RecordMoney(Money);
+        };
     }
 }
