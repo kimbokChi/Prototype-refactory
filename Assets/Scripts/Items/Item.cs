@@ -13,6 +13,10 @@ public abstract class Item : MonoBehaviour
     {
         get => StatTable.NameKR;
     }
+    public int Cost
+    {
+        get => StatTable.Cost;
+    }
 
     public    Sprite  Sprite
     {

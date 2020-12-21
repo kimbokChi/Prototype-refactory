@@ -30,10 +30,8 @@ public class ItemShowBlock : MonoBehaviour
 
     public void SetBlock(Item blockItem)
     {
-        int rating = (int)blockItem.Rating + 8;
-
         ContainItem = blockItem;
-        ItemCost = Random.Range(rating, rating * 3);
+        ItemCost = blockItem.Cost;
 
         ItemNameText.text = blockItem.NameKR;
         ItemCostText.text = ItemCost.ToString();
