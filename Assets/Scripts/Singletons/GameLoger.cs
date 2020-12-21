@@ -6,6 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class GameLoger : Singleton<GameLoger>
 {
+    [ContextMenu("Add Money")]
+    private void AAA()
+    {
+        MoneyManager.Instance.AddMoney(30);
+    }
+
     public float StartTime
     {
         get;
@@ -38,7 +44,7 @@ public class GameLoger : Singleton<GameLoger>
 
     private void Awake()
     {
-        if (GameObject.FindObjectsOfType(GetType()).Length > 2)
+        if (GameObject.FindObjectsOfType(GetType()).Length > 1)
         {
             Destroy(gameObject);
         }

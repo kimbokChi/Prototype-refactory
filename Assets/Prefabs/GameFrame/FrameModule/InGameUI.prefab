@@ -559,9 +559,8 @@ GameObject:
   - component: {fileID: 8097330306836886903}
   - component: {fileID: 305486828662307043}
   - component: {fileID: 8815487002362420040}
-  - component: {fileID: 7732656228212833070}
   m_Layer: 5
-  m_Name: MoneyManager
+  m_Name: MoneyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -706,19 +705,6 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &7732656228212833070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8055384922029192326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81496015952ccc640bf7eba3de604edf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoneyText: {fileID: 8815487002362420040}
 --- !u!1 &8181889266676664354
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,6 +790,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8285090467586761474}
   - component: {fileID: 8799779933861544071}
+  - component: {fileID: 4511239676960804461}
   m_Layer: 5
   m_Name: Windows
   m_TagString: Untagged
@@ -857,6 +844,19 @@ MonoBehaviour:
   - {fileID: 9163073859341751388}
   - {fileID: 9163073861186088126}
   - {fileID: 9163073860815449345}
+--- !u!114 &4511239676960804461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8501517391627618633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81496015952ccc640bf7eba3de604edf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoneyText: {fileID: 8815487002362420040}
 --- !u!1 &9163073859341751387
 GameObject:
   m_ObjectHideFlags: 0
