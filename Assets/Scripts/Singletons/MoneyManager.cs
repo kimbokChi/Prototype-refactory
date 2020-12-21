@@ -17,17 +17,23 @@ public class MoneyManager : Singleton<MoneyManager>
         MoneyText.text = Money.ToString();
     }
 
-    public void Addition(int increasement)
+    public void SetMoney(int money)
     {
-        Money += increasement;
+        Money = money;
 
         TextUpdate();
     }
-    public bool Subtract(int decreasement)
+    public void AddMoney(int money)
     {
-        if (Money >= decreasement)
+        Money += money;
+
+        TextUpdate();
+    }
+    public bool SubtractMoney(int money)
+    {
+        if (Money >= money)
         {
-            Money -= decreasement;
+            Money -= money;
             TextUpdate();
 
             return true;
