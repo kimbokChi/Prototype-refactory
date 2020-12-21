@@ -9,6 +9,11 @@ public abstract class Item : MonoBehaviour
     [SerializeField]
     protected ItemStatTable StatTable;
 
+    public string NameKR
+    {
+        get => StatTable.NameKR;
+    }
+
     public    Sprite  Sprite
     {
         get

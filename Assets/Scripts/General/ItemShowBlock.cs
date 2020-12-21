@@ -35,7 +35,7 @@ public class ItemShowBlock : MonoBehaviour
         ContainItem = blockItem;
         ItemCost = Random.Range(rating, rating * 3);
 
-        ItemNameText.text = blockItem.GetType().ToString();
+        ItemNameText.text = blockItem.NameKR;
         ItemCostText.text = ItemCost.ToString();
 
         ItemImage.sprite = blockItem.Sprite;
