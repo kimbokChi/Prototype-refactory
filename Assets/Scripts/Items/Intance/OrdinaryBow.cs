@@ -41,6 +41,8 @@ public class OrdinaryBow : Item
                         mArrowPool = new Pool<Projection>();
                         mArrowPool.Init(3, Arrow, o =>
                         {
+                            o.transform.parent = ItemStateSaver.Instance.transform;
+
                             o.SetAction(hit =>
                             {
                                 if (hit.TryGetComponent(out ICombatable combatable))

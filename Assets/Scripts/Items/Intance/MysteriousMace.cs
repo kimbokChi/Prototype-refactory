@@ -47,7 +47,12 @@ public class MysteriousMace : Item
             if (mPool == null)
             {
                 mPool = new Pool<MysteriousBullet>();
-                mPool.Init(2, TracerBullet, o => o.DisableAction = b => mPool.Add(b));
+                mPool.Init(2, TracerBullet, o => o.DisableAction = b =>
+                {
+                    b.transform.parent = ItemStateSaver.Instance.transform;
+
+                    mPool.Add(b);
+                });
             }
             CollisionArea.SetEnterAction(HitAction);
             
