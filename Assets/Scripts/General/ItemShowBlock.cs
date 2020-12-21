@@ -7,8 +7,8 @@ public class ItemShowBlock : MonoBehaviour
 {
     [SerializeField] private ItemStore Store;
 
-    [SerializeField] private Text ItemNameText;
-    [SerializeField] private Text ItemCostText;
+    [SerializeField] private TMPro.TextMeshProUGUI ItemNameText;
+    [SerializeField] private TMPro.TextMeshProUGUI ItemCostText;
 
     [SerializeField] private Image ItemImage;
 
