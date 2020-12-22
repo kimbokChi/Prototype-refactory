@@ -81,26 +81,39 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         {
             EnemyAnimator.ChangeState(AnimState.Attack);
         });
-
         Range.SetScale(AbilityTable[Ability.Range]);
-        Range.SetEnterAction(o =>
-        {
-            if (o.TryGetComponent(out ICombatable combatable))
-            {
-                if(combatable.GetAbility[Ability.CurHealth] /
-                   combatable.GetAbility[Ability.MaxHealth] <= 0.5f)
-                {
-
-                    _HealingFriendly = o;
-                }
-            }
-        });
         StartCoroutine(MoveRoutine());
     }
     public void IUpdate()
     {
         if (AbilityTable[Ability.CurHealth] > 0)
         {
+            if (_HealingFriendly == null)
+            {
+                var list = Range.EntryList;
+                float leastRatio = 1f;
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (list[i].TryGetComponent(out ICombatable combatable))
+                    {
+                        float ratio = 
+                            combatable.GetAbility[Ability.CurHealth] /
+                            combatable.GetAbility[Ability.MaxHealth];
+
+                        if (leastRatio > ratio)
+                        {
+                            leastRatio = ratio;
+
+                            _HealingFriendly = list[i];
+                        }
+                    }
+                }
+                if (leastRatio > 0.5f)
+                {
+                    _HealingFriendly = null;
+                }
+            }
             if (_HealingFriendly != null)
             {
                 if (!IsLookAtFriendly())
