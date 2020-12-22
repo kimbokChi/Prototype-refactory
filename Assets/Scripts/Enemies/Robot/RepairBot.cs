@@ -81,6 +81,7 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         {
             EnemyAnimator.ChangeState(AnimState.Attack);
         });
+
         Range.SetScale(AbilityTable[Ability.Range]);
         StartCoroutine(MoveRoutine());
     }
@@ -90,7 +91,7 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         {
             if (_HealingFriendly == null)
             {
-                var list = Range.EntryList;
+                var list = HealingArea.EntryList;
                 float leastRatio = 1f;
 
                 for (int i = 0; i < list.Count; i++)
