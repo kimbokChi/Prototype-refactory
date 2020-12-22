@@ -21,7 +21,7 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     [SerializeField] private Vector2 InitPosition;
 
     private IEnumerator _Move;
-    private Player _Player;
+    private GameObject _HealingFriendly;
     private AttackPeriod _AttackPeriod;
 
     public AbilityTable GetAbility => AbilityTable;
@@ -77,16 +77,22 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         HealthBarPool.Instance.UsingHealthBar(-1.5f, transform, AbilityTable);
 
         _AttackPeriod = new AttackPeriod(AbilityTable);
-        _AttackPeriod.SetAction(Period.Attack, AttackAction);
+        _AttackPeriod.SetAction(Period.Attack, () => 
+        {
+            EnemyAnimator.ChangeState(AnimState.Attack);
+        });
 
         Range.SetScale(AbilityTable[Ability.Range]);
-
-        HealingArea.SetEnterAction(o =>
+        Range.SetEnterAction(o =>
         {
             if (o.TryGetComponent(out ICombatable combatable))
             {
+                if(combatable.GetAbility[Ability.CurHealth] /
+                   combatable.GetAbility[Ability.MaxHealth] <= 0.5f)
+                {
 
-                combatable.Damaged(AbilityTable.AttackPower, gameObject);
+                    _HealingFriendly = o;
+                }
             }
         });
         StartCoroutine(MoveRoutine());
@@ -95,31 +101,56 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     {
         if (AbilityTable[Ability.CurHealth] > 0)
         {
-
+            if (_HealingFriendly != null)
+            {
+                if (!IsLookAtFriendly())
+                {
+                    SetLookingLeft(!IsLookAtLeft);
+                }
+            }
             if (!_AttackPeriod.IsProgressing())
             {
-                if (Range.HasAny() && IsLookAtPlayer())
+                if (Range.HasThis(_HealingFriendly))
                 {
-
                     MoveStop();
+
                     _AttackPeriod.StartPeriod();
                 }
             }
         }
     }
-    private void AttackAction()
+    private void Healing()
     {
-        MoveStop();
+        if (Range.HasThis(_HealingFriendly))
+        {
+            if (_HealingFriendly.TryGetComponent(out ICombatable combatable))
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector2 point = (Vector2)_HealingFriendly.transform.position + Random.insideUnitCircle;
 
-        EnemyAnimator.ChangeState(AnimState.Attack);
+                    EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, point);
+                }
+                float healing = 
+                    combatable.GetAbility[Ability.MaxHealth] * HealingScale;
+                    combatable.GetAbility.Table[Ability.CurHealth] += healing;
+
+                if (combatable.GetAbility[Ability.CurHealth] /
+                    combatable.GetAbility[Ability.MaxHealth] > 0.75f)
+                {
+
+                    _HealingFriendly = null;
+                }
+            }
+        }
     }
 
-    private bool IsLookAtPlayer()
+    private bool IsLookAtFriendly()
     {
-        if (_Player != null)
+        if (_HealingFriendly != null)
         {
-            return (_Player.transform.position.x < transform.position.x && IsLookAtLeft ||
-                    _Player.transform.position.x > transform.position.x && !IsLookAtLeft);
+            return (_HealingFriendly.transform.position.x < transform.position.x && IsLookAtLeft ||
+                    _HealingFriendly.transform.position.x > transform.position.x && !IsLookAtLeft);
         }
         return false;
     }
@@ -146,10 +177,6 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
             _Move = null;
         }
     }
-    private void CameraShake()
-    {
-        MainCamera.Instance.Shake(0.25f, 1f);
-    }
 
     private IEnumerator MoveRoutine()
     {
@@ -168,7 +195,7 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
             Vector2 movePoint = InitPosition;
 
-            if (IsLookAtPlayer())
+            if (IsLookAtFriendly())
             {
                 if (IsLookAtLeft)
                 {
@@ -217,19 +244,9 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)
-    {
-        if (AbilityTable.CanRecognize(message))
-        {
-            _Player = enterPlayer;
-        }
-    }
+    { }
     public void PlayerExit(MESSAGE message)
-    {
-        if (AbilityTable.CantRecognize(message))
-        {
-            _Player = null;
-        }
-    }
+    { }
 
     public void CastBuff(Buff buffType, IEnumerator castedBuff)
     {
