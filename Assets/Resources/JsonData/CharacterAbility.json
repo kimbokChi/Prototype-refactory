@@ -198,5 +198,35 @@
     "After_AttackDelay": "0.5",
     "RecognitionArea": "Room",
     "Range": "2.2"
+  },
+  {
+    "ID": "Bot_RepairBot",
+    "MoveSpeed": "1.5",
+    "MaxHealth": "30.0",
+    "AttackPower": "15.0",
+    "Begin_AttackDelay": "0.0",
+    "After_AttackDelay": "0.5",
+    "RecognitionArea": "Room",
+    "Range": "0.8"
+  },
+  {
+    "ID": "Bot_CannonBot",
+    "MoveSpeed": "0.8",
+    "MaxHealth": "60.0",
+    "AttackPower": "15.0",
+    "Begin_AttackDelay": "0.2",
+    "After_AttackDelay": "0.8",
+    "RecognitionArea": "Room",
+    "Range": "2.0"
+  },
+  {
+    "ID": "Bot_HammerBot",
+    "MoveSpeed": "1.2",
+    "MaxHealth": "60.0",
+    "AttackPower": "20.0",
+    "Begin_AttackDelay": "0.4",
+    "After_AttackDelay": "0.4",
+    "RecognitionArea": "Room",
+    "Range": "1.0"
   }
 ]
