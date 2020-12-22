@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PeddlerNPC : MonoBehaviour
 {
-    [SerializeField] private Canvas WorldSpaceCanvas;
-
     [Header("Item Section")]
     [SerializeField] private SpriteRenderer ShowItemRenderer;
     [Range(1f, 2f)]
