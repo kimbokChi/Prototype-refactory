@@ -207,7 +207,7 @@
     "Begin_AttackDelay": "0.0",
     "After_AttackDelay": "0.5",
     "RecognitionArea": "Room",
-    "Range": "0.8"
+    "Range": "1.0"
   },
   {
     "ID": "Bot_CannonBot",
@@ -217,7 +217,7 @@
     "Begin_AttackDelay": "0.2",
     "After_AttackDelay": "0.8",
     "RecognitionArea": "Room",
-    "Range": "2.0"
+    "Range": "4.0"
   },
   {
     "ID": "Bot_HammerBot",

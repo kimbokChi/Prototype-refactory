@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Bullet: {fileID: 3579290249566589680}
-  ShootSpeed: 10
+  ShootSpeed: 13
   ShootPos: {x: -0.8, y: -0.425}
   IsLookAtLeft: 1
   AbilityTable: {fileID: 2125185423950125858}
