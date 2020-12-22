@@ -78,6 +78,7 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         {
             _AttackPeriod.StopPeriod();
 
+            MoveStop();
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
