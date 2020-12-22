@@ -70,7 +70,7 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     public void IInit()
     {
         EnemyAnimator.Init();
-        HealthBarPool.Instance.UsingHealthBar(new Vector2(0.35f, -1.5f), transform, AbilityTable);
+        HealthBarPool.Instance.UsingHealthBar(-1.5f, transform, AbilityTable);
 
         _AttackPeriod = new AttackPeriod(AbilityTable);
         _AttackPeriod.SetAction(Period.Attack, AttackAction);
