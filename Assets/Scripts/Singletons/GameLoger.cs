@@ -9,7 +9,13 @@ public class GameLoger : Singleton<GameLoger>
     [ContextMenu("Add Money")]
     private void AAA()
     {
-        MoneyManager.Instance.AddMoney(30);
+        MoneyManager.Instance.AddMoney(300);
+
+        Vector2 point =
+            (Vector2)GameObject.FindGameObjectWithTag("Player").transform.position + new Vector2(0, -0.5f);
+
+        EffectLibrary.Instance.UsingEffect(EffectKind.Coin, point);
+        EffectLibrary.Instance.UsingEffect(EffectKind.Coin, point);
     }
 
     public float StartTime

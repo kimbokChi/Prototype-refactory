@@ -80,6 +80,8 @@ public class PeddlerNPC : MonoBehaviour
             ItemCostText.gameObject.SetActive(false);
             ItemNameText.gameObject.SetActive(false);
 
+            Vector2 point = (Vector2)transform.position + new Vector2(0, -1.5f);
+            EffectLibrary.Instance.UsingEffect(EffectKind.Coin, point);
             MessageText.text = "구매완료!";
         }
     }
