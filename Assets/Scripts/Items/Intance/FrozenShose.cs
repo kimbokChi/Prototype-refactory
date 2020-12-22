@@ -45,6 +45,8 @@ public class FrozenShose : Item
             _PillarPool = new Pool<Projection>();
             _PillarPool.Init(4, FrozenPillar, pillar =>
             {
+                pillar.transform.parent = ItemStateSaver.Instance.transform;
+
                 pillar.SetAction(
                 hit => {
                     if (hit.TryGetComponent(out ICombatable combatable))

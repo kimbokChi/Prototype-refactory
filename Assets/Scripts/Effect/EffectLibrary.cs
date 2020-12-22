@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum EffectKind
 {
-    Damage, Twinkle, Brocking
+    Damage, Twinkle, Brocking, Coin
 }
 
 [System.Serializable]

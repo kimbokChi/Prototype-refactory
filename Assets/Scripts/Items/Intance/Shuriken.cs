@@ -142,6 +142,8 @@ public class Shuriken : Item
             _ShurikenPool = new Pool<Projection>();
             _ShurikenPool.Init(3, Projection, o => 
             {
+                o.transform.parent = ItemStateSaver.Instance.transform;
+
                 o.SetAction(
                     hit => 
                     {

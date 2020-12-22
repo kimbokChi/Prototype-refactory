@@ -15,7 +15,9 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
     [SerializeField] private ItemBoxSprite WoodenSprite;
     [SerializeField] private ItemBoxSprite GoldenSprite;
 
-    [SerializeField] private GameObject DungeonNPC;
+    [Header("NPC Section")]
+    [SerializeField] private GameObject  PeddlerNPC;
+                     private GameObject _PeddlerNPC;
 
     [SerializeField] private Animator InventoryButton;
 
@@ -25,7 +27,7 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
     private void Awake()
     {
         StageClearEvent += CreateItemBox;
-        StageClearEvent += CreateNPC;
+        StageClearEvent += OnEnablePeddlerNPC;
         StageClearEvent += () => SetActiveInventoryButton(true);
 
         StageEnterEvent += () =>
@@ -36,6 +38,7 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
                 SetActiveInventoryButton(false);
             }
         };
+        StageEnterEvent += OnDisablePeddlerNPC;
     }
 
     public void NotifyEvent(NotifyMessage message)
@@ -78,8 +81,18 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
             box.HoldingItemBox.Init(boxContainItem, boxSprite);
     }
 
-    private void CreateNPC()
+    private void OnEnablePeddlerNPC()
     {
+        if (_PeddlerNPC == null)
+        {
+            _PeddlerNPC = Instantiate(PeddlerNPC);
+        }
+        _PeddlerNPC.SetActive(true);
+        _PeddlerNPC.transform.position = (Vector2)Camera.main.transform.position;
+    }
+    private void OnDisablePeddlerNPC()
+    {
+        _PeddlerNPC?.SetActive(false);
     }
 
     private Vector2 RandomRoomPoint()

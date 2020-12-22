@@ -5,7 +5,9 @@
     "Range": "1.50",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
-    "Rating": "Common"
+    "Rating": "Common",
+    "NameKR": "철검",
+    "Cost": "8.00"
   },
   {
     "ID": "LongSword",
@@ -13,7 +15,9 @@
     "Range": "1.25",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
-    "Rating": "Common"
+    "Rating": "Common",
+    "NameKR": "강철검",
+    "Cost": "8"
   },
   {
     "ID": "MysteriousMace",
@@ -21,7 +25,9 @@
     "Range": "1.00",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
-    "Rating": "Rare"
+    "Rating": "Rare",
+    "NameKR": "신비한 메이스",
+    "Cost": "15"
   },
   {
     "ID": "GreatSword",
@@ -29,7 +35,9 @@
     "Range": "1.00",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
-    "Rating": "Epic"
+    "Rating": "Epic",
+    "NameKR": "짱쎈 대검",
+    "Cost": "40"
   },
   {
     "ID": "OrdinaryBow",
@@ -37,7 +45,9 @@
     "Range": "2.50",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
-    "Rating": "Rare"
+    "Rating": "Rare",
+    "NameKR": "평범한 활",
+    "Cost": "25"
   },
   {
     "ID": "FrozenShose",
@@ -45,7 +55,9 @@
     "Range": "1.50",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
-    "Rating": "Legendary"
+    "Rating": "Legendary",
+    "NameKR": "얼음 구두",
+    "Cost": "60"
   },
   {
     "ID": "IronShield",
@@ -53,7 +65,9 @@
     "Range": "1.00",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
-    "Rating": "Common"
+    "Rating": "Common",
+    "NameKR": "강철 방패",
+    "Cost": "5"
   },
   {
     "ID": "Shuriken",
@@ -61,6 +75,8 @@
     "Range": "2.00",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
-    "Rating": "Rare"
+    "Rating": "Rare",
+    "NameKR": "수리검",
+    "Cost": "15"
   }
 ]

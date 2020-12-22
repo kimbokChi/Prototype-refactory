@@ -34,6 +34,32 @@ public class ItemStatTable : MonoBehaviour
     }
     private ItemRating _Rating;
 
+    public  string  NameKR
+    {
+        get
+        {
+            if (!_IsAlreadyInit)
+            {
+                Init();
+            }
+            return _NameKR;
+        }
+    }
+    private string _NameKR;
+
+    public  int  Cost
+    {
+        get
+        {
+            if (!_IsAlreadyInit)
+            {
+                Init();
+            }
+            return _Cost;
+        }
+    }
+    private int _Cost;
+
     private const string JsonTableName = "ItemData";
 
     private Dictionary<ItemStat, float> _Table;
@@ -57,6 +83,9 @@ public class ItemStatTable : MonoBehaviour
             _Table[i] = float.Parse(JsonString(i.ToString()));
         }
         _Rating = (ItemRating)Enum.Parse(typeof(ItemRating), JsonString("Rating"));
+        _NameKR = JsonString("NameKR");
+
+        _Cost = int.Parse(JsonString("Cost"));
 
         _IsAlreadyInit = true;
     }

@@ -2,9 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameLoger : Singleton<GameLoger>
 {
+    [ContextMenu("Add Money")]
+    private void AAA()
+    {
+        MoneyManager.Instance.AddMoney(300);
+
+        Vector2 point =
+            (Vector2)GameObject.FindGameObjectWithTag("Player").transform.position + new Vector2(0, -0.5f);
+
+        EffectLibrary.Instance.UsingEffect(EffectKind.Coin, point);
+        EffectLibrary.Instance.UsingEffect(EffectKind.Coin, point);
+    }
+
     public float StartTime
     {
         get;
@@ -19,15 +32,38 @@ public class GameLoger : Singleton<GameLoger>
         get;
         private set;
     }
+    public int RecordedMoney
+    {
+        get;
+        private set;
+    }
+
 
     public void EnemyDead()
     {
         KillCount++;
     }
-    private void Start()
+    public void RecordMoney(int money)
     {
-        KillCount = 0;
+        RecordedMoney = money;
+    }
 
-        StartTime = Time.time;
+    private void Awake()
+    {
+        if (GameObject.FindObjectsOfType(GetType()).Length > 1)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+
+            SceneManager.sceneLoaded += (a, b) =>
+            {
+                KillCount = 0;
+
+                StartTime = Time.time;
+            };
+        }
     }
 }
