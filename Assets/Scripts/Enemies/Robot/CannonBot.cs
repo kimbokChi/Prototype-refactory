@@ -129,6 +129,8 @@ public class CannonBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         }
         else
             Bullet.Shoot(Bullet.transform.position, Vector2.right, ShootSpeed);
+
+        MainCamera.Instance.Shake();
     }
 
     private bool IsLookAtPlayer()
