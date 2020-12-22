@@ -60,7 +60,11 @@ public class EffectLibrary : Singleton<EffectLibrary>
         var effect
             = EffectLib[kind].Pop();
 
+        float effectZ = effect.transform.position.z;
+
         effect.transform.position = worldPoint;
+        effect.transform.SetZ(effectZ);
+
         effect.gameObject.SetActive(true);
     }
     public void UsingEffect(EffectKind kind, Vector2 worldPoint, Action disableAction)
