@@ -18,12 +18,15 @@ public class PeddlerNPC : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI ItemNameText;
     [SerializeField] private TMPro.TextMeshProUGUI  MessageText;
 
+    private bool _IsBoughtItem;
+
     private int _DropItemControlKey;
     private int _ItemCost;
     private Item _ContainItem;
 
     private void OnEnable()
     {
+        _IsBoughtItem = false;
         var list = ItemLibrary.Instance.GetUnlockedItemListForTest();
 
         _ContainItem = list[Random.Range(0, list.Count)];
@@ -67,22 +70,27 @@ public class PeddlerNPC : MonoBehaviour
 
     public void Purchace()
     {
-        if (MoneyManager.Instance.SubtractMoney(_ItemCost))
+        if (!_IsBoughtItem)
         {
-            var item = Instantiate(_ContainItem);
+            if (MoneyManager.Instance.SubtractMoney(_ItemCost))
+            {
+                var item = Instantiate(_ContainItem);
                 item.transform.position = new Vector2(-10f, 0f);
 
-            Inventory.Instance.AddItem(item);
-            item.transform.parent = ItemStateSaver.Instance.transform;
+                Inventory.Instance.AddItem(item);
+                item.transform.parent = ItemStateSaver.Instance.transform;
 
-            ShowItemAnimator.SetBool(_DropItemControlKey, true);
+                ShowItemAnimator.SetBool(_DropItemControlKey, true);
 
-            ItemCostText.gameObject.SetActive(false);
-            ItemNameText.gameObject.SetActive(false);
+                ItemCostText.gameObject.SetActive(false);
+                ItemNameText.gameObject.SetActive(false);
 
-            Vector2 point = (Vector2)transform.position + new Vector2(0, -1.5f);
-            EffectLibrary.Instance.UsingEffect(EffectKind.Coin, point);
-            MessageText.text = "구매완료!";
+                Vector2 point = (Vector2)transform.position + new Vector2(0, -1.5f);
+                EffectLibrary.Instance.UsingEffect(EffectKind.Coin, point);
+                MessageText.text = "구매완료!";
+
+                _IsBoughtItem = true;
+            }
         }
     }
 }
