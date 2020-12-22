@@ -2081,11 +2081,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: RepairBot
       objectReference: {fileID: 0}
-    - target: {fileID: 4183909946533553512, guid: fff4e673892c177439ce74b372edcdc0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4183909946533553514, guid: fff4e673892c177439ce74b372edcdc0,
         type: 3}
       propertyPath: m_RootOrder
