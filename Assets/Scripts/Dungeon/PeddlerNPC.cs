@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PeddlerNPC : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class PeddlerNPC : MonoBehaviour
     [SerializeField] private Animator ShowItemAnimator;
     [SerializeField] private GameObject InteractionUI;
 
-    [Header("Message Section")]
+    [Header("UI Section")]
+    [SerializeField] private GraphicRaycaster CanvasRaycaster;
     [SerializeField] private TMPro.TextMeshProUGUI ItemCostText;
     [SerializeField] private TMPro.TextMeshProUGUI ItemNameText;
     [SerializeField] private TMPro.TextMeshProUGUI  MessageText;
@@ -48,12 +50,17 @@ public class PeddlerNPC : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) InteractionUI.SetActive(true);
+        if (collision.CompareTag("Player"))
+        {
+            CanvasRaycaster.enabled = true;
+            InteractionUI.SetActive(true);
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
+            CanvasRaycaster.enabled = false;
             InteractionUI.SetActive(false);
         }
     }

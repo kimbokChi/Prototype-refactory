@@ -1041,6 +1041,7 @@ MonoBehaviour:
   ShowItemRenderer: {fileID: 6745026824629600612}
   ShowItemAnimator: {fileID: 6745026824629600615}
   InteractionUI: {fileID: 7812161005429435180}
+  CanvasRaycaster: {fileID: 6745026825274646876}
   ItemCostText: {fileID: 6745026824917655048}
   ItemNameText: {fileID: 6745026825211015786}
   MessageText: {fileID: 4988581572668439412}
