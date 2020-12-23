@@ -3215,10 +3215,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 317863941, guid: 596ca2a92ccf6fe47bc909af532aec22, type: 3}
-      propertyPath: DungeonName
-      value: SteamPunk
-      objectReference: {fileID: 0}
     - target: {fileID: 84504955430418166, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
       propertyPath: m_Name
@@ -3317,17 +3313,17 @@ PrefabInstance:
     - target: {fileID: 241012651264838804, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -2781.3113
+      value: -3466.9397
       objectReference: {fileID: 0}
     - target: {fileID: 241012651910978925, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 241012651910978925, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 241012651910978930, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}

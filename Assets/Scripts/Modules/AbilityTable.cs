@@ -17,6 +17,7 @@ public class AbilityTable : MonoBehaviour
     private const string JsonTableName = "CharacterAbility";
 
     [SerializeField] private CharacterAblityObject AblityObject;
+                     public CharacterAblityObject GetAblity => AblityObject;
 
     public float this[Ability ability]
     {

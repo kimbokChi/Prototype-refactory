@@ -5587,7 +5587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fa03a91da67534296df36fe6c7b93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DungeonName: SampleScene
+  DungeonName: SteamPunk
 --- !u!1 &8128482207803664504
 GameObject:
   m_ObjectHideFlags: 0

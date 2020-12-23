@@ -59,14 +59,14 @@ public class ItemLibrary : Singleton<ItemLibrary>
             mLibrary.Add(ItemRating.Epic,      new List<Item>());
             mLibrary.Add(ItemRating.Legendary, new List<Item>());
 
-            var Items = RegisteredItem.UnlockedItemList;
+            List<Item> Items = RegisteredItem.UnlockedItemList;
 
             for (int i = 0; i < Items.Count; ++i)
             {
                 if (Items[i] == null) continue;
 
                 var item = Instantiate(Items[i], ItemStateSaver.Instance.transform);
-                    item.transform.position = new Vector2(-10f, 0);
+                    item.transform.position = Vector2.zero;
 
                 mLibrary[item.Rating].Add(item);
             }
