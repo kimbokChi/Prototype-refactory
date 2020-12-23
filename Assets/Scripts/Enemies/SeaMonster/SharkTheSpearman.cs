@@ -64,6 +64,7 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
         {
             _AttackPeriod.StopPeriod();
 
+            MoveStop();
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
         }

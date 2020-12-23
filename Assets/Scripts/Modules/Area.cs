@@ -18,7 +18,11 @@ public class Area : MonoBehaviour
     private Action<GameObject> mEnterAction;
     private Action             mEmptyAction;
 
-    private List<GameObject> mSenseList;
+    public List<GameObject> EntryList
+    {
+        get;
+        private set;
+    }
 
     public void SetScale(float halfScale)
     {
@@ -48,7 +52,7 @@ public class Area : MonoBehaviour
 
     private void Awake()
     {
-        mSenseList = mSenseList ?? new List<GameObject>();
+        EntryList = EntryList ?? new List<GameObject>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -59,7 +63,7 @@ public class Area : MonoBehaviour
             {
                 mEnterAction?.Invoke(collision.gameObject);
 
-                mSenseList.Add(collision.gameObject);
+                EntryList.Add(collision.gameObject);
 
                 break;
             }
@@ -67,17 +71,17 @@ public class Area : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        mSenseList.Remove(collision.gameObject);
+        EntryList.Remove(collision.gameObject);
 
-        if (mSenseList.Count.Equals(0)) mEmptyAction?.Invoke();
+        if (EntryList.Count.Equals(0)) mEmptyAction?.Invoke();
     }
     public bool TryEnterTypeT<T>(out T enterObject) where T : class
     {
         enterObject = null;
 
-        if (mSenseList.Count > 0)
+        if (EntryList.Count > 0)
         {
-            if (mSenseList[0].TryGetComponent(out T instance)) {
+            if (EntryList[0].TryGetComponent(out T instance)) {
 
                 enterObject = instance;
             }
@@ -89,9 +93,9 @@ public class Area : MonoBehaviour
     {
         List<T> TContainer = new List<T>();
 
-        for (int i = 0; i < mSenseList.Count; ++i)
+        for (int i = 0; i < EntryList.Count; ++i)
         {
-            if (mSenseList[i].TryGetComponent(out T Instance))
+            if (EntryList[i].TryGetComponent(out T Instance))
             {
                 TContainer.Add(Instance);
 
@@ -102,15 +106,15 @@ public class Area : MonoBehaviour
 
     public bool HasAny()
     {
-        return mSenseList.Count > 0;
+        return EntryList.Count > 0;
     }
     public bool HasThis(GameObject _this)
     {
-        return mSenseList.Any(o => o.Equals(_this));
+        return EntryList.Any(o => o.Equals(_this));
     }
     public Vector2 CloestTargetPos()
     {
-        if (mSenseList.Count == 0)
+        if (EntryList.Count == 0)
         {
             return transform.position;
         }
@@ -120,7 +124,7 @@ public class Area : MonoBehaviour
             {
                 return Mathf.Abs(a.position.x - transform.position.x);
             }
-            GameObject cloestTarget = mSenseList.OrderBy(o => Distance(o.transform)).First();
+            GameObject cloestTarget = EntryList.OrderBy(o => Distance(o.transform)).First();
 
             return cloestTarget.transform.position;
         }
