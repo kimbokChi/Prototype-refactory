@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f78c79a89d77534c9dbe8c437363c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JsonLabelName: OrdinaryBow
+  StatObject: {fileID: 11400000, guid: fc65511f9d4691740820bf1830c8a810, type: 2}
 --- !u!1 &6155239584918217119
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +203,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -791847407
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: -5722735768399984094, guid: dd54d29f612e4ed4ea9f5b818779fe24,
     type: 3}

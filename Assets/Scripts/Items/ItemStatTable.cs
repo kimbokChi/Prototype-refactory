@@ -66,26 +66,22 @@ public class ItemStatTable : MonoBehaviour
 
     private bool _IsAlreadyInit = false;
 
-    [TextArea(1, 1)]
-    [SerializeField] private string JsonLabelName;
+    [SerializeField] private ItemStatObject StatObject;
 
     private void Init()
     {
         _Table = new Dictionary<ItemStat, float>();
 
-        string JsonString(string s)
-        {
-            return DataUtil.GetDataValue(JsonTableName, "ID", JsonLabelName, s);
-        }
+        _Table.Add(ItemStat.After_AttackDelay, StatObject.AfterAttackDelay);
+        _Table.Add(ItemStat.Begin_AttackDelay, StatObject.BeginAttackDelay);
 
-        for (ItemStat i = 0; i < ItemStat.End; i++)
-        {
-            _Table[i] = float.Parse(JsonString(i.ToString()));
-        }
-        _Rating = (ItemRating)Enum.Parse(typeof(ItemRating), JsonString("Rating"));
-        _NameKR = JsonString("NameKR");
+        _Table.Add(ItemStat.AttackPower, StatObject.AttackPower);
+        _Table.Add(ItemStat.Range, StatObject.Range);
 
-        _Cost = int.Parse(JsonString("Cost"));
+        _Rating = StatObject.Rating;
+        _NameKR = StatObject.NameKR;
+
+        _Cost = StatObject.Cost;
 
         _IsAlreadyInit = true;
     }

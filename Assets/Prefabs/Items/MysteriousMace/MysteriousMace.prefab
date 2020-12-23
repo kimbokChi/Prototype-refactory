@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f78c79a89d77534c9dbe8c437363c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JsonLabelName: MysteriousMace
+  StatObject: {fileID: 11400000, guid: c94b3ca32eb9500439a189d8f64f047b, type: 2}
 --- !u!212 &6202769102569731551
 SpriteRenderer:
   m_ObjectHideFlags: 0
