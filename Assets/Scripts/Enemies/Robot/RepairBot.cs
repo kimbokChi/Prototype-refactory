@@ -26,6 +26,13 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
     public AbilityTable GetAbility => AbilityTable;
 
+    [ContextMenu("Contect Check")]
+    private void ContextCheck()
+    {
+        Debug.Log($"AttackPeriod : {_AttackPeriod.CurrentPeriod}");
+        Debug.Log($"AttackPeriod Progressing: {_AttackPeriod.IsProgressing()}");
+        Debug.Log($"Has Healing Fiendly : {_HealingFriendly != null}");
+    }
 
     public void AnimationPlayOver(AnimState anim)
     {
@@ -89,6 +96,13 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     {
         if (AbilityTable[Ability.CurHealth] > 0)
         {
+            if (_HealingFriendly != null)
+            {
+                if (!_HealingFriendly.activeSelf)
+                {
+                    _HealingFriendly = null;
+                }
+            }
             if (_HealingFriendly == null)
             {
                 var list = HealingArea.EntryList;
