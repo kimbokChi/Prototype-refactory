@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Bot_RepairBot
+  AblityObject: {fileID: 11400000, guid: 946062ee8972b49478ddc0f1fb2148c8, type: 2}
 --- !u!114 &4183909946533553524
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Bot_CannonBot
+  AblityObject: {fileID: 11400000, guid: 2b255885520c69841921a7f347bcb87a, type: 2}
 --- !u!114 &2125185423950125859
 MonoBehaviour:
   m_ObjectHideFlags: 0

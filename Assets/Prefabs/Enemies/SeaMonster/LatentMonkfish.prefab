@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Sea_LatentMonkfish
+  AblityObject: {fileID: 11400000, guid: 1d3dcf7be5af77145b7581a61fedc88b, type: 2}
 --- !u!114 &4033230348203486468
 MonoBehaviour:
   m_ObjectHideFlags: 0

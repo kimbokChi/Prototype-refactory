@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Bot_HammerBot
+  AblityObject: {fileID: 11400000, guid: 6b8be514b39c7b048bea3d87e8a26e12, type: 2}
 --- !u!114 &6395963452512264012
 MonoBehaviour:
   m_ObjectHideFlags: 0

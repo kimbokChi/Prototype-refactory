@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Totem_Bomb
+  AblityObject: {fileID: 11400000, guid: 2d59abb5c72021e489450f191c049ee7, type: 2}
 --- !u!114 &1080074601151004900
 MonoBehaviour:
   m_ObjectHideFlags: 0
