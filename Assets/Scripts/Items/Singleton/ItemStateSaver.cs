@@ -10,8 +10,8 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 
     private Dictionary<ItemRating, List<Item>> _ItemLibDictionary;
 
-    private List<Item> _UnlockedItemList;
-    private List<Item>   _LockedItemList;
+    private List<Item> _UnlockedItemList = null;
+    private List<Item>   _LockedItemList = null;
 
     private Item[] _AccessoryCollection;
     private Item[] _ContainerCollection;

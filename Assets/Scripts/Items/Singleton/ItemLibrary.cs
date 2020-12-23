@@ -41,6 +41,8 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     private void Awake()
     {
+        LoadItemListForTest();
+
         SceneManager.sceneUnloaded += scene =>
         {
             ItemStateSaver.Instance.SaveLibDictionary(mLibrary);
@@ -66,7 +68,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
                 if (Items[i] == null) continue;
 
                 var item = Instantiate(Items[i], ItemStateSaver.Instance.transform);
-                    item.transform.position = Vector2.zero;
+                    item.transform.position = new Vector2(-10f, 0f);
 
                 mLibrary[item.Rating].Add(item);
             }
@@ -78,7 +80,6 @@ public class ItemLibrary : Singleton<ItemLibrary>
                 RevisionProbablity(mProbabilityArray[invokeCount]);
             }
         }
-        LoadItemListForTest();
     }
     [ContextMenu("AAA")]
     private void AAA()

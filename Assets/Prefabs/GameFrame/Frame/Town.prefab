@@ -2963,7 +2963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43edb3b952a26db49ad4f0039e67214d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RegisteredItem: {fileID: 11400000, guid: 04b9be7313947794880bf72a33d16641, type: 2}
+  RegisteredItem: {fileID: 0}
   ItemBlocks:
   - {fileID: 7877364474970240897}
   - {fileID: 8060111279319537148}
@@ -5691,7 +5691,7 @@ MonoBehaviour:
     type: 3}
   IntervalY: -140
   IntervalX: 140
-  RegisteredItem: {fileID: 11400000, guid: 04b9be7313947794880bf72a33d16641, type: 2}
+  RegisteredItem: {fileID: 0}
 --- !u!114 &3197690935132072501
 MonoBehaviour:
   m_ObjectHideFlags: 0

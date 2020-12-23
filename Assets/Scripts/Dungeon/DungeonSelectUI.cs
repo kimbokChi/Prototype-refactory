@@ -27,6 +27,7 @@ public class DungeonSelectUI : MonoBehaviour
 
     public void DungeonEnter()
     {
+        Debug.Log("Dungeon Enter : " + mDungeon.Name);
         mDungeon?.DungeonEnter();
     }
 }

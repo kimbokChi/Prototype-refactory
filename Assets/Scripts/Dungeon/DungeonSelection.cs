@@ -7,8 +7,11 @@ public class DungeonSelection : MonoBehaviour
     [SerializeField]
     private string DungeonName;
 
+    public string Name => DungeonName;
+
     public void DungeonEnter()
     {
+        Debug.Log("Enter!");
         MainCamera.Instance.Fade(1.75f, FadeType.In, () => 
         {
             SceneManager.LoadScene(DungeonName);
