@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 [CreateAssetMenu(fileName = "CharacterAblityObject", menuName = "ScriptableObject/CharacterAblityObject")]
 public class CharacterAblityObject : ScriptableObject
@@ -55,24 +54,3 @@ public class CharacterAblityObject : ScriptableObject
             System.Enum.Parse(typeof(RecognitionArea) ,JsonString("RecognitionArea"));
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(CharacterAblityObject))]
-public class CharacterAblityObjectControler : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        GUILayout.Space(15f);
-
-        if (GUILayout.Button("Set Data From Json", GUILayout.Height(30f)))
-        {
-            if (Application.isEditor)
-            {
-                (target as CharacterAblityObject).Init();
-            }
-        }
-    }
-}
-#endif

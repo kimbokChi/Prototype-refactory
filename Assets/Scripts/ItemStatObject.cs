@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 [CreateAssetMenu(fileName = "ItemStatObject", menuName = "ScriptableObject/ItemStatObject")]
 public class ItemStatObject : ScriptableObject
@@ -49,24 +48,3 @@ public class ItemStatObject : ScriptableObject
         _Cost = int.Parse(JsonString("Cost"));
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(ItemStatObject))]
-public class ItemStatObjectControler : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        GUILayout.Space(15f);
-
-        if (GUILayout.Button("Set Data From Json", GUILayout.Height(30f)))
-        {
-            if (Application.isEditor)
-            {
-                (target as ItemStatObject).Init();
-            }
-        }
-    }
-}
-#endif
