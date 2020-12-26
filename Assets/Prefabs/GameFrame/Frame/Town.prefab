@@ -2950,7 +2950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mChargeGauge: {fileID: 1835304635650266642}
-  SwipeLength: 3
+  SwipeLength: 30
 --- !u!114 &1322265256532718564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7283,7 +7283,7 @@ PrefabInstance:
     - target: {fileID: 2681548427281833580, guid: 1a47817b04330964183977f8df563060,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9163073859753952848, guid: 1a47817b04330964183977f8df563060,
         type: 3}

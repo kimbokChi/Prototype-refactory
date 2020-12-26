@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.EventSystems;
 
 public enum SwipeDirection
 {
@@ -34,11 +34,11 @@ public class Finger : Singleton<Finger>
 
     private Vector2 mTouchBeganPos;
     private Vector2 mTouchEndedPos;
-    private Vector2 mCurrentSwipe;
+    private Vector2 mSwipeDirection;
 
     private void Awake() {
         mCurPressTime = 0f;
-        mTouchBeganPos = mTouchEndedPos = mCurrentSwipe = Vector2.zero;
+        mTouchBeganPos = mTouchEndedPos = mSwipeDirection = Vector2.zero;
     }
 
     private void Update()
@@ -116,39 +116,34 @@ public class Finger : Singleton<Finger>
 
     public bool Swipe(SwipeDirection inputDriection)
     {
-        if (Input.touches.Length > 0)
+        if (Input.touchCount > 0)
         {
             Touch t = Input.GetTouch(0);
             if (t.phase == TouchPhase.Began)
             {
                 mTouchBeganPos = t.position;
             }
-            if (t.phase == TouchPhase.Ended)
+            if (t.phase == TouchPhase.Moved)
             {
                 mTouchEndedPos = t.position;
 
                 if (Vector2.Distance(mTouchBeganPos, mTouchEndedPos) >= SwipeLength)
                 {
-                    mCurrentSwipe = mTouchEndedPos - mTouchBeganPos;
+                    mSwipeDirection = mTouchEndedPos - mTouchBeganPos;
 
-                    mCurrentSwipe.Normalize();
+                    mSwipeDirection.Normalize();
 
-                    if (mCurrentSwipe.x > 0 && mCurrentSwipe.y > -0.5f && mCurrentSwipe.y < 0.5f)
+                    if (Mathf.Abs(mSwipeDirection.x) > Mathf.Abs(mSwipeDirection.y))
                     {
-                        return SwipeDirection.right == inputDriection;
+                        return (mSwipeDirection.x > 0 && SwipeDirection.right == inputDriection) ||
+                               (mSwipeDirection.x < 0 && SwipeDirection.left  == inputDriection);
                     }
-                    if (mCurrentSwipe.x < 0 && mCurrentSwipe.y > -0.5f && mCurrentSwipe.y < 0.5f)
+                    else
                     {
-                        return SwipeDirection.left == inputDriection;
+                        return (mSwipeDirection.y > 0 && SwipeDirection.up   == inputDriection) ||
+                               (mSwipeDirection.y < 0 && SwipeDirection.down == inputDriection);
                     }
-                    if (mCurrentSwipe.y > 0 && mCurrentSwipe.x > -0.5f && mCurrentSwipe.x < 0.5f)
-                    {
-                        return SwipeDirection.up == inputDriection;
-                    }
-                    if (mCurrentSwipe.y < 0 && mCurrentSwipe.x > -0.5f && mCurrentSwipe.x < 0.5f)
-                    {
-                        return SwipeDirection.down == inputDriection;
-                    }
+                    
                 }
             }
         }

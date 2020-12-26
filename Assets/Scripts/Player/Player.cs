@@ -20,10 +20,7 @@ public static class InputExtension
                 {
                     Touch touch = Input.GetTouch(0);
 
-                    if (touch.phase == TouchPhase.Began)
-                    {
-                        return eventSystem.IsPointerOverGameObject(touch.fingerId);
-                    }
+                    return eventSystem.IsPointerOverGameObject(touch.fingerId);
                 }
                 return false;
         }
@@ -357,9 +354,23 @@ public class Player : MonoBehaviour, ICombatable
         {
             if (!mAttackPeriod.IsProgressing())
             {
-                // 나중에 수정해야함
-                if (mInventory.GetWeaponItem.CanAttackState || !mInventory.GetWeaponItem.GetType().Equals(typeof(GreatSword)))
+                if (Application.platform == RuntimePlatform.Android)
                 {
+                    if (Input.touchCount > 0)
+                    {
+                        Touch touch = Input.GetTouch(0);
+
+                        if (touch.phase != TouchPhase.Ended)
+                        {
+                            return;
+                        }
+                    }
+                }
+                // 나중에 수정해야함
+                if (mInventory.GetWeaponItem.CanAttackState && 
+                   !mInventory.GetWeaponItem.GetType().Equals(typeof(GreatSword)))
+                {
+
                     mAttackPeriod.StartPeriod();
                 }
             }
