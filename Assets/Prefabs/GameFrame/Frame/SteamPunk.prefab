@@ -2666,7 +2666,8 @@ PrefabInstance:
     - target: {fileID: 3568650352139579490, guid: b338fd190ba165c40ae67b45a7e34d76,
         type: 3}
       propertyPath: m_text
-      value: "\uD14D\uC2A4\uD2B8\uB97C \uC785\uB825\uD558\uC138\uC694"
+      value: "\uBF08\uB97C \uB179\uC5EC\uB0B4\uB294 \uB4EF\uD55C \n\uC0B6\uC758 \uB178\uB798\uC5D0
+        \uCDA4\uC744 \uCD98\uB2E4."
       objectReference: {fileID: 0}
     - target: {fileID: 3568650352139579490, guid: b338fd190ba165c40ae67b45a7e34d76,
         type: 3}
