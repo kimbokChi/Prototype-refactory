@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Sea_SharkTheSpearman
+  AblityObject: {fileID: 11400000, guid: 97181afcc2a7c89408341ae63d0b3421, type: 2}
 --- !u!61 &4633175885586629997
 BoxCollider2D:
   m_ObjectHideFlags: 0

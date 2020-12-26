@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
 [CustomEditor(typeof(ItemBox))]
 public class ReplaceItem : Editor
 {
@@ -23,3 +24,4 @@ public class ReplaceItem : Editor
         }
     }
 }
+#endif

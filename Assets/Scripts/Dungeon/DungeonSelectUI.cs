@@ -20,13 +20,15 @@ public class DungeonSelectUI : MonoBehaviour
         mSelections = mContent.GetComponentsInChildren<Button>();
     }
 
-    public void SelectDungeon(Button button)
+    public void SelectDungeon(DungeonSelection selectedDungeon)
     {
-        Debug.Assert(button.TryGetComponent(out mDungeon));
+        Debug.Log("Dungeon Select : " + selectedDungeon.Name);
+        mDungeon = selectedDungeon;
     }
 
     public void DungeonEnter()
     {
+        Debug.Log("Dungeon Enter : " + mDungeon.Name);
         mDungeon?.DungeonEnter();
     }
 }

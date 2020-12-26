@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Goblin_Assassin
+  AblityObject: {fileID: 11400000, guid: 9a295d08ab2df7041bf41d7b01e6acb3, type: 2}
 --- !u!61 &7274113786828326570
 BoxCollider2D:
   m_ObjectHideFlags: 0

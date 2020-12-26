@@ -16,7 +16,13 @@ public static class InputExtension
                 return eventSystem.IsPointerOverGameObject();
 
             case RuntimePlatform.Android:
-                return eventSystem.IsPointerOverGameObject(Input.GetTouch(0).fingerId);
+                if (Input.touchCount > 0)
+                {
+                    Touch touch = Input.GetTouch(0);
+
+                    return eventSystem.IsPointerOverGameObject(touch.fingerId);
+                }
+                return false;
         }
         return false;
     }
@@ -69,7 +75,6 @@ public class Player : MonoBehaviour, ICombatable
     private bool mIsMovingElevation;
 
     private bool mIsInputLock;
-    private bool mHasAttackSchedule;
 
     public bool IsDeath { get; private set; }
 
@@ -182,14 +187,10 @@ public class Player : MonoBehaviour, ICombatable
             {               
                 if (o == null)
                 {
-                    float PlayerData(string dataName) {
-                        return float.Parse(DataUtil.GetDataValue("CharacterAbility", "ID", "Player", dataName));
-                    }
+                    mRangeCollider.radius = AbilityTable.GetAblity[Ability.Range];
 
-                    mRangeCollider.radius = PlayerData("Range");
-
-                    AbilityTable.Table[Ability.After_AttackDelay] = PlayerData("After_AttackDelay");
-                    AbilityTable.Table[Ability.Begin_AttackDelay] = PlayerData("Begin_AttackDelay");
+                    AbilityTable.Table[Ability.After_AttackDelay] = AbilityTable.GetAblity[Ability.After_AttackDelay];
+                    AbilityTable.Table[Ability.Begin_AttackDelay] = AbilityTable.GetAblity[Ability.Begin_AttackDelay];
 
                     mAttackPeriod.StopPeriod();
                 }
@@ -209,18 +210,19 @@ public class Player : MonoBehaviour, ICombatable
                     o.AttackOverAction = () => mAttackPeriod.AttackActionOver();
 
                     ItemStateSaver.Instance.SaveSlotItem(SlotType.Weapon, o, 0);
+                    mAttackPeriod.StopPeriod();
                 }
             };
             mInventory.WeaponChangeEvent += o =>
             {
                 o.transform.parent   = ItemStateSaver.Instance.transform;
                 o.transform.position = new Vector3(-10, 0, 0);
+
+                mAttackPeriod.StopPeriod();
             };
             Finger.Instance.Gauge.DisChargeEvent += AttackOrder;
         }
         mInventory.SetWeaponSlot(ItemStateSaver.Instance.LoadSlotItem(SlotType.Weapon, 0));
-
-        mHasAttackSchedule = false;
     }
 
     private void InputAction()
@@ -295,34 +297,38 @@ public class Player : MonoBehaviour, ICombatable
         {
             InputAction();
         }
-        if (mHasAttackSchedule)
-        {
-            Debug.Log("Has Schedule");
-
-            AttackOrder();
-        }
         if (mEMove == null)
         {
             Vector2 interactionPoint = Vector2.zero;
 
-            if (!EventSystem.current.IsPointerInUIObject())
+            if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
             {
-                if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
+                if (!EventSystem.current.IsPointerInUIObject())
                 {
-                    if (Input.touchCount > 0)
+                    switch (Application.platform)
                     {
-                        interactionPoint =
-                            Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-                    }
-                    else if (Input.GetMouseButtonDown(0))
-                    {
-                        interactionPoint =
-                            Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                        case RuntimePlatform.WindowsPlayer:
+                        case RuntimePlatform.WindowsEditor:
+                            if (Input.GetMouseButtonDown(0))
+                            {
+                                interactionPoint =
+                                    Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                            }
+                            break;
+
+                        case RuntimePlatform.Android:
+                            if (Input.touchCount > 0)
+                            {
+                                interactionPoint =
+                                    Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+                            }
+                            break;
                     }
                     SetLookAtLeft(interactionPoint.x < 0);
 
                     AttackOrder();
                 }
+
             }
         }
     }
@@ -348,17 +354,25 @@ public class Player : MonoBehaviour, ICombatable
         {
             if (!mAttackPeriod.IsProgressing())
             {
-                // 나중에 수정해야함
-                if (mInventory.GetWeaponItem.CanAttackState || (mHasAttackSchedule && !mInventory.GetWeaponItem.GetType().Equals(typeof(GreatSword))))
+                if (Application.platform == RuntimePlatform.Android)
                 {
-                    mAttackPeriod.StartPeriod();
+                    if (Input.touchCount > 0)
+                    {
+                        Touch touch = Input.GetTouch(0);
 
-                    mHasAttackSchedule = false;
+                        if (touch.phase != TouchPhase.Ended)
+                        {
+                            return;
+                        }
+                    }
                 }
-            }
-            else
-            {
-                mHasAttackSchedule = true;
+                // 나중에 수정해야함
+                if (mInventory.GetWeaponItem.CanAttackState && 
+                   !mInventory.GetWeaponItem.GetType().Equals(typeof(GreatSword)))
+                {
+
+                    mAttackPeriod.StartPeriod();
+                }
             }
         }
         
@@ -374,7 +388,6 @@ public class Player : MonoBehaviour, ICombatable
         if (mEMove == null && mAttackPeriod.CurrentPeriod == Period.Begin)
         {
             mAttackPeriod.StopPeriod();
-            mHasAttackSchedule = false;
 
             if (mCanElevation)
             {

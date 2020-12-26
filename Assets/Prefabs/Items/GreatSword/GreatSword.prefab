@@ -313,4 +313,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f78c79a89d77534c9dbe8c437363c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JsonLabelName: GreatSword
+  StatObject: {fileID: 11400000, guid: 5be121183dfd4aa46ab07bdbc50d207d, type: 2}

@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f78c79a89d77534c9dbe8c437363c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JsonLabelName: Shuriken
+  StatObject: {fileID: 11400000, guid: fc65511f9d4691740820bf1830c8a810, type: 2}
 --- !u!1 &8948904615681129087
 GameObject:
   m_ObjectHideFlags: 0

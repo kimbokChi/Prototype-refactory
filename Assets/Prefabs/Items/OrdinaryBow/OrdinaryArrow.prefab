@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -791847407
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: -1
   m_Sprite: {fileID: 3080844785212515740, guid: dd54d29f612e4ed4ea9f5b818779fe24,
     type: 3}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _TargetTag: Enemy
   _LifeTime: 2
-  _MaxHitCount: 1
+  _MaxHitCount: 2
 --- !u!61 &6380434301436913904
 BoxCollider2D:
   m_ObjectHideFlags: 0

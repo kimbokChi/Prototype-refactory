@@ -2950,7 +2950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mChargeGauge: {fileID: 1835304635650266642}
-  SwipeLength: 3
+  SwipeLength: 30
 --- !u!114 &1322265256532718564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2963,7 +2963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43edb3b952a26db49ad4f0039e67214d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RegisteredItem: {fileID: 11400000, guid: 04b9be7313947794880bf72a33d16641, type: 2}
+  RegisteredItem: {fileID: 0}
   ItemBlocks:
   - {fileID: 7877364474970240897}
   - {fileID: 8060111279319537148}
@@ -5587,7 +5587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fa03a91da67534296df36fe6c7b93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DungeonName: SampleScene
+  DungeonName: SteamPunk
 --- !u!1 &8128482207803664504
 GameObject:
   m_ObjectHideFlags: 0
@@ -5691,7 +5691,7 @@ MonoBehaviour:
     type: 3}
   IntervalY: -140
   IntervalX: 140
-  RegisteredItem: {fileID: 11400000, guid: 04b9be7313947794880bf72a33d16641, type: 2}
+  RegisteredItem: {fileID: 0}
 --- !u!114 &3197690935132072501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7283,7 +7283,7 @@ PrefabInstance:
     - target: {fileID: 2681548427281833580, guid: 1a47817b04330964183977f8df563060,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9163073859753952848, guid: 1a47817b04330964183977f8df563060,
         type: 3}

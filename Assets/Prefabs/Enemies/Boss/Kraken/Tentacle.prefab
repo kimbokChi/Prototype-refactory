@@ -171,7 +171,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1704071513
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: b6ddc50c182ddea40b55088db7520fb8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Sea_Tentacle
+  AblityObject: {fileID: 11400000, guid: 9ea55abdd09171840b7c19846ee45eb2, type: 2}
 --- !u!50 &3675016855813807283
 Rigidbody2D:
   serializedVersion: 4

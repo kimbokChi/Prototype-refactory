@@ -16,6 +16,9 @@ public class AbilityTable : MonoBehaviour
 {
     private const string JsonTableName = "CharacterAbility";
 
+    [SerializeField] private CharacterAblityObject AblityObject;
+                     public CharacterAblityObject GetAblity => AblityObject;
+
     public float this[Ability ability]
     {
         get
@@ -82,11 +85,7 @@ public class AbilityTable : MonoBehaviour
     {
         mTable = new Dictionary<Ability, float>();
 
-        string JsonData(string s)
-            => DataUtil.GetDataValue(JsonTableName, "ID", _JsonLableName, s);
-
-        mArea = (RecognitionArea)Enum.Parse(typeof(RecognitionArea), 
-            JsonData("RecognitionArea"));
+        mArea = AblityObject.Area;
 
         for (Ability i = 0; i < Ability.End; ++i)
         {
@@ -99,9 +98,9 @@ public class AbilityTable : MonoBehaviour
             {
                 if (i.Equals(Ability.CurHealth))
                 {
-                     mTable.Add(i, float.Parse(JsonData("MaxHealth")));
+                     mTable.Add(i, AblityObject[Ability.MaxHealth]);
                 }
-                else mTable.Add(i, float.Parse(JsonData(abilityName)));
+                else mTable.Add(i, AblityObject[i]);
             }
         }
     }
@@ -116,6 +115,4 @@ public class AbilityTable : MonoBehaviour
     { get => Table[Ability.After_AttackDelay] + Table[Ability.IAfter_AttackDelay]; }
     public float Range
     { get => Table[Ability.Range] + Table[Ability.IRange]; }
-
-    [SerializeField] private string _JsonLableName;
 }

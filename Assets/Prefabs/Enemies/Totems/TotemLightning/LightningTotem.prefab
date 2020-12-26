@@ -226,4 +226,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Totem_Lighting
+  AblityObject: {fileID: 11400000, guid: 80866c53c320e15479177b54567b271e, type: 2}

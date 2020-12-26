@@ -55,8 +55,6 @@ public class GreatSword : Item
                         SwordDancePool.Init(2, SwordDance, p =>
                         {
                             p.transform.localScale = Vector2.one * 1.5f;
-                            p.transform.parent = ItemStateSaver.Instance.transform;
-
                             p.SetAction(
                             o =>
                             {

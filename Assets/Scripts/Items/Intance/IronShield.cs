@@ -17,6 +17,8 @@ public class IronShield : Item
     private int _AnimControlKey;
     private bool _IsAlreadyInit;
 
+    private GameObject _Player;
+
     protected override void AttackAnimationPlayOver()
     {
         Animator.SetInteger(_AnimControlKey, (int)AnimState.Defaulf);
@@ -28,8 +30,7 @@ public class IronShield : Item
     {
         get
         {
-            return Animator.GetInteger(_AnimControlKey) == (int)AnimState.Defaulf && 
-                Finger.Instance.Gauge.Charge >= DemandCharge;
+            return false;
         }
     }
 
@@ -48,6 +49,8 @@ public class IronShield : Item
         if (onSlot == SlotType.Weapon)
         {
             Inventory.Instance.ChargeAction += ChargeAction;
+
+            _Player = transform.parent.parent.gameObject;
         }
     }
 
@@ -87,6 +90,10 @@ public class IronShield : Item
 
     private void DamagedAction(ref float damage, GameObject attacker, GameObject victim)
     {
+        if (attacker.TryGetComponent(out ICombatable combatable))
+        {
+            combatable.Damaged(damage / 2, _Player);
+        }
         damage = 0f;
 
         Vector2 point = (Vector2)transform.position + EffectOffset;
