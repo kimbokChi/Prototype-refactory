@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class MoneyManager : Singleton<MoneyManager>
 {
     [SerializeField]
-    private TMPro.TextMeshProUGUI MoneyText;
+    private TMPro.TextMeshProUGUI[] MoneyText;
 
     public int Money
     {
@@ -15,7 +15,10 @@ public class MoneyManager : Singleton<MoneyManager>
     }
     public void TextUpdate()
     {
-        MoneyText.text = Money.ToString();
+        for (int i = 0; i < MoneyText.Length; ++i)
+        {
+            MoneyText[i].text = Money.ToString();
+        }
     }
 
     public void SetMoney(int money)
