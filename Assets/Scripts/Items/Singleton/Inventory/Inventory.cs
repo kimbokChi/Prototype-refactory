@@ -132,6 +132,8 @@ public class Inventory : Singleton<Inventory>
     }
     public void Clear()
     {
+        ItemLibrary.Instance.ItemBoxReset();
+
         mWeaponSlot.SetItem(null);
 
         mAccessorySlot.ToList().ForEach(o => o.SetItem(null));

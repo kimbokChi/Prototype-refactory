@@ -24,6 +24,11 @@ public class DungeonFaildUI : MonoBehaviour
 
     public void BackToTown()
     {
-        MainCamera.Instance.Fade(2.25f, FadeType.In, () => SceneManager.LoadScene(0));
+        MainCamera.Instance.Fade(2.25f, FadeType.In, () =>
+        {
+            Inventory.Instance.Clear();
+
+            SceneManager.LoadScene(1);
+        });
     }
 }
