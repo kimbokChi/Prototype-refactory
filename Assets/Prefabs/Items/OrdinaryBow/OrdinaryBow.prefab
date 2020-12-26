@@ -120,7 +120,7 @@ MonoBehaviour:
   StatTable: {fileID: 3863560321652105227}
   Animator: {fileID: 3863560321652105220}
   Arrow: {fileID: 6380434301436913911, guid: 28a8f96f239ae9b4eab4eb8e0d6ef0e5, type: 3}
-  ShootSpeed: 11.5
+  ShootSpeed: 12.5
   ShootOffset: {x: 0, y: 0.1, z: 0}
 --- !u!114 &3863560321652105227
 MonoBehaviour:
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f78c79a89d77534c9dbe8c437363c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StatObject: {fileID: 11400000, guid: fc65511f9d4691740820bf1830c8a810, type: 2}
+  StatObject: {fileID: 11400000, guid: 28477e0645e68e04d8aa6300a60f3f0b, type: 2}
 --- !u!1 &6155239584918217119
 GameObject:
   m_ObjectHideFlags: 0
