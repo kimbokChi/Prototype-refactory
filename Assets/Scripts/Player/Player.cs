@@ -213,12 +213,15 @@ public class Player : MonoBehaviour, ICombatable
                     o.AttackOverAction = () => mAttackPeriod.AttackActionOver();
 
                     ItemStateSaver.Instance.SaveSlotItem(SlotType.Weapon, o, 0);
+                    mAttackPeriod.StopPeriod();
                 }
             };
             mInventory.WeaponChangeEvent += o =>
             {
                 o.transform.parent   = ItemStateSaver.Instance.transform;
                 o.transform.position = new Vector3(-10, 0, 0);
+
+                mAttackPeriod.StopPeriod();
             };
             Finger.Instance.Gauge.DisChargeEvent += AttackOrder;
         }

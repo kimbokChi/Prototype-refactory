@@ -114,12 +114,8 @@ public class Shuriken : Item
     {
         if (charge >= 0.3f)
         {
-
-            if (!Animator.GetBool(Animator.GetParameter(0).nameHash))
-            {
-                AttackType = AttackType == AttackType.Continuous ?
+            AttackType = AttackType == AttackType.Continuous ?
                     AttackType.ThreeDirection : AttackType.Continuous;
-            }
         }
     }
 

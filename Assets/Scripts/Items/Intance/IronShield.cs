@@ -28,8 +28,7 @@ public class IronShield : Item
     {
         get
         {
-            return Animator.GetInteger(_AnimControlKey) == (int)AnimState.Defaulf && 
-                Finger.Instance.Gauge.Charge >= DemandCharge;
+            return false;
         }
     }
 
