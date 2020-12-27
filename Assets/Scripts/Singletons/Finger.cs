@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public enum SwipeDirection
@@ -22,7 +23,18 @@ public class Finger : Singleton<Finger>
     public  Item  CarryItem
     {
         get => mCarryItem;
-        set => mCarryItem = value;
+        set
+        {
+            if (value == null)
+            {
+                CarryItemImage.sprite = _EmptySprite;
+            }
+            else
+            {
+                CarryItemImage.sprite = value.Sprite;
+            }
+            mCarryItem = value; 
+        }
     }
     private Item mCarryItem;
 
@@ -31,6 +43,8 @@ public class Finger : Singleton<Finger>
 
     private IEnumerator mEOnBulletTime;
 
+    private Sprite _EmptySprite;
+    [SerializeField] private Image CarryItemImage;
     [SerializeField] private float SwipeLength;
 
     private Vector2 mTouchBeganPos;
@@ -40,10 +54,32 @@ public class Finger : Singleton<Finger>
     private void Awake() {
         mCurPressTime = 0f;
         mTouchBeganPos = mTouchEndedPos = mSwipeDirection = Vector2.zero;
+
+        _EmptySprite = CarryItemImage.sprite;
     }
 
     private void Update()
     {
+        switch (Application.platform)
+        {
+            case RuntimePlatform.WindowsPlayer:
+            case RuntimePlatform.WindowsEditor:
+                {
+                    CarryItemImage.transform.position = Input.mousePosition;
+                }
+                break;
+
+            case RuntimePlatform.Android:
+                if (Input.touchCount > 0)
+                {
+                    Touch touch = Input.GetTouch(0);
+
+                    CarryItemImage.transform.position = touch.position;
+                }
+                break;
+        }
+        transform.SetZ(0);
+
         if (!EventSystem.current.IsPointerInUIObject())
         {
             // Begin Touch
