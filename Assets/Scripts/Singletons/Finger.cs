@@ -38,7 +38,6 @@ public class Finger : Singleton<Finger>
     }
     private Item mCarryItem;
 
-    private bool mIsBeginOnCharge;
     private float mCurPressTime;
 
     private IEnumerator mEOnBulletTime;
@@ -79,6 +78,13 @@ public class Finger : Singleton<Finger>
                 break;
         }
         transform.SetZ(0);
+
+        bool windowEnable = Inventory.Instance.InventoryWindow.activeSelf;
+
+        if (CarryItemImage.IsActive() != windowEnable)
+        {
+            CarryItemImage.gameObject.SetActive(windowEnable);
+        }
 
         if (!EventSystem.current.IsPointerInUIObject())
         {

@@ -1213,6 +1213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b952fd25b5bc2ef46bf3e3954891c159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _InventoryWindow: {fileID: 9163073860645569269}
   mWeaponSlot: {fileID: 9163073861157740104}
   mAccessorySlot:
   - {fileID: 9163073861212067378}
