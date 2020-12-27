@@ -1,5 +1,56 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &24997575308562223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2534687008313792825}
+  - component: {fileID: 3618370871098078991}
+  m_Layer: 5
+  m_Name: SystemMessage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2534687008313792825
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24997575308562223}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 423606169944087378}
+  m_Father: {fileID: 9163073859753952852}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3618370871098078991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24997575308562223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4a5c71bb355da4592de40deaae6972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MessageBox: {fileID: 2074418798765890675}
+  MessageText: {fileID: 3862212950308029300}
 --- !u!1 &136248063693882646
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,7 +451,7 @@ GameObject:
   - component: {fileID: 8286672568685342766}
   - component: {fileID: 3862212950308029300}
   m_Layer: 5
-  m_Name: Message
+  m_Name: MessageText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -557,7 +608,7 @@ GameObject:
   - component: {fileID: 7364093131898322398}
   - component: {fileID: 5895036276376946146}
   m_Layer: 5
-  m_Name: SystemMessage
+  m_Name: MessageBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -577,8 +628,8 @@ RectTransform:
   - {fileID: 3957116380583623505}
   - {fileID: 4498018080050751279}
   - {fileID: 1220267485363887623}
-  m_Father: {fileID: 9163073859753952852}
-  m_RootOrder: 3
+  m_Father: {fileID: 2534687008313792825}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2189,7 +2240,7 @@ RectTransform:
   - {fileID: 7572264575058116285}
   - {fileID: 8285090467586761474}
   - {fileID: 710862331886546733}
-  - {fileID: 423606169944087378}
+  - {fileID: 2534687008313792825}
   - {fileID: 2681548427281833580}
   - {fileID: 132640450083837566}
   m_Father: {fileID: 0}
