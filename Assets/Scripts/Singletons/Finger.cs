@@ -19,13 +19,14 @@ public class Finger : Singleton<Finger>
     public  ChargeGauge Gauge
     { get => mChargeGauge; }
 
-    public Item  CarryItem
+    public  Item  CarryItem
     {
         get => mCarryItem;
         set => mCarryItem = value;
     }
     private Item mCarryItem;
 
+    private bool mIsBeginOnCharge;
     private float mCurPressTime;
 
     private IEnumerator mEOnBulletTime;
@@ -43,35 +44,43 @@ public class Finger : Singleton<Finger>
 
     private void Update()
     {
-        // Begin Touch
-        if (Input.GetMouseButtonDown(0))
+        if (!EventSystem.current.IsPointerInUIObject())
         {
-            mChargeGauge.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            mChargeGauge.transform.Translate(0, 0, 10);
-        }
-
-        // Touuuuuuuuuuuuuch
-        if (Input.GetMouseButton(0))
-        {
-            if (mCurPressTime >= PRESS_TIME)
+            // Begin Touch
+            if (Input.GetMouseButtonDown(0))
             {
-                mChargeGauge.gameObject.SetActive(true);
+                mChargeGauge.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                mChargeGauge.GaugeUp(0.8f);
-
-                if (mEOnBulletTime == null)
+                mChargeGauge.transform.Translate(0, 0, 10);
+            }
+            // Touuuuuuuuuuuuuch
+            else if (Input.GetMouseButton(0))
+            {
+                if (mCurPressTime >= PRESS_TIME)
                 {
-                    StartCoroutine(mEOnBulletTime = EOnBulletTime(1.5f, 0.45f));
+                    mChargeGauge.gameObject.SetActive(true);
+
+                    mChargeGauge.GaugeUp(0.8f);
+
+                    if (mEOnBulletTime == null)
+                    {
+                        StartCoroutine(mEOnBulletTime = EOnBulletTime(1.5f, 0.45f));
+                    }
+                }
+                else
+                {
+                    mCurPressTime += Time.deltaTime;
                 }
             }
-            else
-            {
-                mCurPressTime += Time.deltaTime;
-            }
+            // End Touch
+            else InputReleaseCheck();
         }
-        // End Touch
-        if ((Input.GetMouseButtonUp(0) && mCurPressTime >= PRESS_TIME))
+        else InputReleaseCheck();
+    }
+
+    private void InputReleaseCheck()
+    {
+        if (Input.GetMouseButtonUp(0) && mCurPressTime >= PRESS_TIME)
         {
             Inventory.Instance.OnCharge(mChargeGauge.Charge);
 
