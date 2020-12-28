@@ -22,6 +22,7 @@ public class ItemInfo : ScriptableObject
     [SerializeField] private string _DPS;
     [SerializeField] private Color _TextColor;
     [SerializeField] private Sprite _ItemSprite;
+    [SerializeField] private Keyword[] _UsageKeywords;
 
     [Header("Weapon Section")]
     [TextArea(2, 4)]
@@ -48,6 +49,8 @@ public class ItemInfo : ScriptableObject
     { get => _DPS; }
     public Color TextColor
     { get => _TextColor; }
+    public Keyword[] UsageKeywords
+    { get => _UsageKeywords; }
 
     public string WeaponText
     { get => _WeaponText; }

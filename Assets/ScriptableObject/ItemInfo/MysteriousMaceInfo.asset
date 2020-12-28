@@ -19,9 +19,10 @@ MonoBehaviour:
   _TextColor: {r: 0.18, g: 0.84, b: 0.22, a: 1}
   _ItemSprite: {fileID: -6990389507589092616, guid: 297fa8eb2e1a486489ec2c395d2143b1,
     type: 3}
+  _UsageKeywords: 0000000002000000
   _WeaponText: "<b>\uD0C0\uACA9</b> : \uAC00\uB054\uC529\n\uBA40\uB9AC\uC788\uB294
     \uC801\uC744 \uCD94\uC801\uD558\uB294 \n\uD0C4\uD658\uC744 \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
   _WeaponAblity: ATK+5.0 SPEED+0.0
-  _AccessoryText: "<b>\uB4F1\uC7A5</b> : \uBB34\uC791\uC704 \uC801\uC744 \n\uB300\uC0C1\uC73C\uB85C\uD558\uB294
+  _AccessoryText: "<b>\uC785\uC7A5</b> : \uBB34\uC791\uC704 \uC801\uC744 \n\uB300\uC0C1\uC73C\uB85C\uD558\uB294
     \uD0C4\uD658\uC744 \n2~7\uAC1C \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
   _AccessoryAblity: ATK+5.0 SPEED+0.0

@@ -19,6 +19,7 @@ MonoBehaviour:
   _TextColor: {r: 0.18, g: 0.84, b: 0.22, a: 1}
   _ItemSprite: {fileID: -7713993427381439669, guid: 78746dd9f18440f4e8da12f49713ab3e,
     type: 3}
+  _UsageKeywords: 01000000
   _WeaponText: "\uACF5\uACA91 : \uC218\uB9AC\uAC80\uC744 \uC5F0\uC18D\uC73C\uB85C
     3\uBC88 \uB358\uC9D1\uB2C8\uB2E4.\n\uACF5\uACA92 : 3\uBC29\uD5A5\uC73C\uB85C
     \uC218\uB9AC\uAC80\uC744 \uB358\uC9D1\uB2C8\uB2E4.\n<b>\uCDA9\uC804</b> : \uACF5\uACA9\uBC29\uC2DD\uC744

@@ -19,6 +19,7 @@ MonoBehaviour:
   _TextColor: {r: 0.497, g: 0.2, b: 0.65, a: 1}
   _ItemSprite: {fileID: -3091812230915493593, guid: e1549c34ce093be469d9c328cbffc51c,
     type: 3}
+  _UsageKeywords: 01000000
   _WeaponText: "\uACF5\uACA9\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.\n<b>\uCDA9\uC804</b>
     : \uACF5\uACA9\uC744 \uC2E4\uD589\uD558\uBA70\n\uAC80\uAE30\uB97C \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
   _WeaponAblity: ATK+5.0 SPEED+0.0

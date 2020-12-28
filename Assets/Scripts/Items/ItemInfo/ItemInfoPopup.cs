@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ItemInfoPopup : Singleton<ItemInfoPopup>
 {
+    [SerializeField] private ItemKeywordContainer _KeywordContainer;
+    [Space()]
     [SerializeField] private Image _ItemImage;
     [SerializeField] private GameObject    _PopupObject;
     [SerializeField] private RectTransform _RectTransform;
@@ -23,8 +25,12 @@ public class ItemInfoPopup : Singleton<ItemInfoPopup>
     [SerializeField] private TMPro.TextMeshProUGUI _AccessoryInfoText;
     [SerializeField] private TMPro.TextMeshProUGUI _AccessoryAblityText;
 
+    private ItemInfo _ItemInfo;
+
     public void SetPopup(ItemInfo info)
     {
+        _ItemInfo = info;
+
         _ItemImage.sprite = info.ItemSprite;
 
         _NameText.text = info.ItemName;
@@ -44,39 +50,51 @@ public class ItemInfoPopup : Singleton<ItemInfoPopup>
 
     public void ShowPopup(DIRECTION9 pivot, Vector2 position)
     {
+        TPOSITION3 keywordPosition = TPOSITION3.LEFT;
+
         switch (pivot)
         {
             case DIRECTION9.TOP_LEFT:
+                keywordPosition = TPOSITION3.LEFT;
                 _RectTransform.pivot = new Vector2(0.0f, 1.0f);
                 break;
             case DIRECTION9.TOP:
+                keywordPosition = TPOSITION3.MID;
                 _RectTransform.pivot = new Vector2(0.5f, 1.0f);
                 break;
             case DIRECTION9.TOP_RIGHT:
+                keywordPosition = TPOSITION3.RIGHT;
                 _RectTransform.pivot = new Vector2(1.0f, 1.0f);
                 break;
             case DIRECTION9.MID_LEFT:
+                keywordPosition = TPOSITION3.LEFT;
                 _RectTransform.pivot = new Vector2(0.0f, 0.5f);
                 break;
             case DIRECTION9.MID:
+                keywordPosition = TPOSITION3.MID;
                 _RectTransform.pivot = new Vector2(0.5f, 0.5f);
                 break;
             case DIRECTION9.MID_RIGHT:
+                keywordPosition = TPOSITION3.RIGHT;
                 _RectTransform.pivot = new Vector2(1.0f, 0.5f);
                 break;
             case DIRECTION9.BOT_LEFT:
+                keywordPosition = TPOSITION3.LEFT;
                 _RectTransform.pivot = new Vector2(0.0f, 0.0f);
                 break;
             case DIRECTION9.BOT:
+                keywordPosition = TPOSITION3.MID;
                 _RectTransform.pivot = new Vector2(0.5f, 0.0f);
                 break;
             case DIRECTION9.BOT_RIGHT:
+                keywordPosition = TPOSITION3.RIGHT;
                 _RectTransform.pivot = new Vector2(1.0f, 0.0f);
                 break;
             default:
                 break;
         }
         _PopupObject.SetActive(true);
+        _KeywordContainer.ShowKeyword(keywordPosition, _ItemInfo.UsageKeywords);
 
         _RectTransform.position = position;
     }
@@ -84,5 +102,6 @@ public class ItemInfoPopup : Singleton<ItemInfoPopup>
     public void ClosePopup()
     {
         _PopupObject.SetActive(false);
+        _KeywordContainer.gameObject.SetActive(false);
     }
 }
