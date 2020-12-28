@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using System;
 
 public enum SlotType
 {
     Container, Accessory, Weapon
 }
-public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ItemSlot : MonoBehaviour
 {
     [SerializeField] private Sprite EmptySprite;
-    [SerializeField] private DIRECTION9 PopupPivot;
 
     public event Action<Item> ItemChangeEvent;
     public event Action<Item> ItemEquipEvent;
@@ -65,15 +63,5 @@ public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         SetItem(Finger.Instance.CarryItem);
                 Finger.Instance.CarryItem = containItem;
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        ItemInfoPopup.Instance.ShowPopup(PopupPivot, transform.position);
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        ItemInfoPopup.Instance.ClosePopup();
     }
 }

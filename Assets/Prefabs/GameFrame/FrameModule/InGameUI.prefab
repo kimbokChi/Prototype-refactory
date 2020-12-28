@@ -1305,6 +1305,7 @@ GameObject:
   - component: {fileID: 9163073859341751390}
   - component: {fileID: 9163073859341751385}
   - component: {fileID: 9163073859341751388}
+  - component: {fileID: 2202096247850300342}
   m_Layer: 5
   m_Name: Container_4
   m_TagString: Untagged
@@ -1435,6 +1436,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmptySprite: {fileID: 21300000, guid: 4f326f274bdffca408882922fe098e6f, type: 3}
+--- !u!114 &2202096247850300342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163073859341751387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1eb4158a91eb84aa7d75d325a795e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   PopupPivot: 6
 --- !u!1 &9163073859500809880
 GameObject:
@@ -1950,6 +1963,7 @@ GameObject:
   - component: {fileID: 9163073860062885927}
   - component: {fileID: 9163073860062885926}
   - component: {fileID: 9163073860062885925}
+  - component: {fileID: 1833704992156425010}
   m_Layer: 5
   m_Name: Container_2
   m_TagString: Untagged
@@ -2080,6 +2094,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmptySprite: {fileID: 21300000, guid: 4f326f274bdffca408882922fe098e6f, type: 3}
+--- !u!114 &1833704992156425010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163073860062885920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1eb4158a91eb84aa7d75d325a795e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   PopupPivot: 1
 --- !u!1 &9163073860077929378
 GameObject:
@@ -2094,6 +2120,7 @@ GameObject:
   - component: {fileID: 9163073860077929377}
   - component: {fileID: 9163073860077929376}
   - component: {fileID: 9163073860077929383}
+  - component: {fileID: 7378261568942023670}
   m_Layer: 5
   m_Name: AccessorySlot_3
   m_TagString: Untagged
@@ -2224,6 +2251,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmptySprite: {fileID: 21300000, guid: 04d8ba972ebba7d49b542d61ae90865a, type: 3}
+--- !u!114 &7378261568942023670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163073860077929378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1eb4158a91eb84aa7d75d325a795e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   PopupPivot: 2
 --- !u!1 &9163073860084450315
 GameObject:
@@ -2238,6 +2277,7 @@ GameObject:
   - component: {fileID: 9163073860084450318}
   - component: {fileID: 9163073860084450313}
   - component: {fileID: 9163073860084450316}
+  - component: {fileID: 1060590265082213633}
   m_Layer: 5
   m_Name: Container_3
   m_TagString: Untagged
@@ -2368,6 +2408,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmptySprite: {fileID: 21300000, guid: 4f326f274bdffca408882922fe098e6f, type: 3}
+--- !u!114 &1060590265082213633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163073860084450315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1eb4158a91eb84aa7d75d325a795e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   PopupPivot: 2
 --- !u!1 &9163073860099754140
 GameObject:
@@ -2941,6 +2993,7 @@ GameObject:
   - component: {fileID: 9163073860815449347}
   - component: {fileID: 9163073860815449346}
   - component: {fileID: 9163073860815449345}
+  - component: {fileID: 3736519259759887990}
   m_Layer: 5
   m_Name: Container_6
   m_TagString: Untagged
@@ -3071,6 +3124,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmptySprite: {fileID: 21300000, guid: 4f326f274bdffca408882922fe098e6f, type: 3}
+--- !u!114 &3736519259759887990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163073860815449356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1eb4158a91eb84aa7d75d325a795e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   PopupPivot: 8
 --- !u!1 &9163073860836215705
 GameObject:
@@ -3229,6 +3294,7 @@ GameObject:
   - component: {fileID: 9163073860951450859}
   - component: {fileID: 9163073860951450858}
   - component: {fileID: 9163073860951450857}
+  - component: {fileID: 8718353752720455869}
   m_Layer: 5
   m_Name: Container_1
   m_TagString: Untagged
@@ -3359,6 +3425,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmptySprite: {fileID: 21300000, guid: 4f326f274bdffca408882922fe098e6f, type: 3}
+--- !u!114 &8718353752720455869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163073860951450836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1eb4158a91eb84aa7d75d325a795e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   PopupPivot: 0
 --- !u!1 &9163073860985758030
 GameObject:
@@ -3528,6 +3606,7 @@ GameObject:
   - component: {fileID: 9163073861157740106}
   - component: {fileID: 9163073861157740213}
   - component: {fileID: 9163073861157740104}
+  - component: {fileID: 6327104186643466738}
   m_Layer: 5
   m_Name: WeaponSlot
   m_TagString: Untagged
@@ -3658,6 +3737,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmptySprite: {fileID: 21300000, guid: 7d13134b340f26447aad3972e604bcd6, type: 3}
+--- !u!114 &6327104186643466738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163073861157740215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1eb4158a91eb84aa7d75d325a795e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   PopupPivot: 0
 --- !u!1 &9163073861165710998
 GameObject:
@@ -3672,6 +3763,7 @@ GameObject:
   - component: {fileID: 9163073861165710997}
   - component: {fileID: 9163073861165710996}
   - component: {fileID: 9163073861165711019}
+  - component: {fileID: 6143238135730696970}
   m_Layer: 5
   m_Name: AccessorySlot_2
   m_TagString: Untagged
@@ -3802,6 +3894,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmptySprite: {fileID: 21300000, guid: 04d8ba972ebba7d49b542d61ae90865a, type: 3}
+--- !u!114 &6143238135730696970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163073861165710998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1eb4158a91eb84aa7d75d325a795e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   PopupPivot: 1
 --- !u!1 &9163073861186088101
 GameObject:
@@ -3816,6 +3920,7 @@ GameObject:
   - component: {fileID: 9163073861186088120}
   - component: {fileID: 9163073861186088123}
   - component: {fileID: 9163073861186088126}
+  - component: {fileID: 8617985812994626016}
   m_Layer: 5
   m_Name: Container_5
   m_TagString: Untagged
@@ -3946,6 +4051,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmptySprite: {fileID: 21300000, guid: 4f326f274bdffca408882922fe098e6f, type: 3}
+--- !u!114 &8617985812994626016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163073861186088101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1eb4158a91eb84aa7d75d325a795e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   PopupPivot: 7
 --- !u!1 &9163073861212067385
 GameObject:
@@ -3960,6 +4077,7 @@ GameObject:
   - component: {fileID: 9163073861212067388}
   - component: {fileID: 9163073861212067391}
   - component: {fileID: 9163073861212067378}
+  - component: {fileID: 5309099790497641600}
   m_Layer: 5
   m_Name: AccessorySlot_1
   m_TagString: Untagged
@@ -4090,6 +4208,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EmptySprite: {fileID: 21300000, guid: 04d8ba972ebba7d49b542d61ae90865a, type: 3}
+--- !u!114 &5309099790497641600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9163073861212067385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1eb4158a91eb84aa7d75d325a795e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   PopupPivot: 0
 --- !u!1 &9163073861285131866
 GameObject:
