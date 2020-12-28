@@ -155,4 +155,29 @@ public class AddItem : Editor
         }
     }
 }
+
+[CustomEditor(typeof(ItemInfo))]
+public class ItemInfoController : Editor
+{
+    public ItemStatObject _TargetItem;
+
+    public override void OnInspectorGUI()
+    {
+        base.OnInspectorGUI();
+
+        GUILayout.Space(20f);
+        GUILayout.Label("Select ItemStatObject");
+        _TargetItem = EditorGUILayout.ObjectField(_TargetItem, typeof(ItemStatObject), true) as ItemStatObject;
+
+        if (GUILayout.Button("Set Data", GUILayout.Height(30f)))
+        {
+            if (Application.isEditor)
+            {
+                ItemInfo info = target as ItemInfo;
+
+                info.SetData(_TargetItem.NameKR, _TargetItem.Rating, _TargetItem.AttackPower);
+            }
+        }
+    }
+}
 #endif
