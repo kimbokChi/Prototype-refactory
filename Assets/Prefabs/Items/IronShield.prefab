@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c975f0624b39c94db499c8f4d94118f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ItemInfoTable: {fileID: 11400000, guid: 1fb7fab01b4758e4cbf7158a957cd14f, type: 2}
   StatTable: {fileID: 3364367499189837294}
   Animator: {fileID: 3364367499189837297}
   EffectOffset: {x: 0, y: 0.425}

@@ -294,6 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a44db2be090e8bf4396559343f7b9a2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ItemInfoTable: {fileID: 11400000, guid: b0942e55510c4684e97891d02d378dd7, type: 2}
   StatTable: {fileID: 7820123583157055775}
   Animator: {fileID: 7820123583157055773}
   AttackArea: {fileID: 7820123582670454288}

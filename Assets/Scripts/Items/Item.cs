@@ -6,8 +6,10 @@ public abstract class Item : MonoBehaviour
 {
     public System.Action AttackOverAction;
 
-    [SerializeField]
-    protected ItemStatTable StatTable;
+    [SerializeField] private ItemInfo _ItemInfoTable;
+    [SerializeField] protected ItemStatTable StatTable;
+
+    public ItemInfo GetItemInfo => _ItemInfoTable;
 
     public string NameKR
     {

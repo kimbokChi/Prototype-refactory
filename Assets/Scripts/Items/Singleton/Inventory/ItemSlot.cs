@@ -10,6 +10,7 @@ public enum SlotType
 }
 public class ItemSlot : MonoBehaviour
 {
+    [SerializeField] private ItemInfoShower Shower;
     [SerializeField] private Sprite EmptySprite;
 
     public event Action<Item> ItemChangeEvent;
@@ -22,11 +23,25 @@ public class ItemSlot : MonoBehaviour
 
     private SlotType mSlotType;
 
+    [ContextMenu("AAA")]
+    private void AAA()
+    {
+        gameObject.TryGetComponent(out Shower);
+    }
+
     public void Init(SlotType type)
     {
         mSlotType = type;
 
         TryGetComponent(out mImage);
+
+        Shower.OnPopupEvent = () =>
+        {
+            if (mContainItem != null)
+            {
+                ItemInfoPopup.Instance.SetPopup(mContainItem.GetItemInfo);
+            }
+        };
     }
 
     public void SetItem(Item item)
@@ -43,10 +58,12 @@ public class ItemSlot : MonoBehaviour
 
         if (item == null)
         {
+            Shower.IsEnable = false;
             mImage.sprite = EmptySprite;
         }
         else
         {
+            Shower.IsEnable = true;
             item.OnEquipThis(mSlotType);
 
             mImage.sprite = item.Sprite;

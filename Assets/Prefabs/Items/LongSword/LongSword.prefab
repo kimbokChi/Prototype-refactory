@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06fd53a1a997a5c46a9a84c8c726d47f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ItemInfoTable: {fileID: 11400000, guid: ebadc3f9323ab0e44ad3b3bd42ecf550, type: 2}
   StatTable: {fileID: 6026546337754659799}
   Animator: {fileID: 6202769102915456820}
   CollisionArea: {fileID: 6202769102569731556}

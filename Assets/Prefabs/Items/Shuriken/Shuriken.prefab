@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50be89ddf4a4d514189c88911d40825c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ItemInfoTable: {fileID: 11400000, guid: 5035204784fefa148afcbe274ff520ee, type: 2}
   StatTable: {fileID: 6386528746636147625}
   Animator: {fileID: 6386528746636147626}
   Projection: {fileID: 6646175519406877550, guid: 6ceef15e03b02864098bae8a8c1e168f,
