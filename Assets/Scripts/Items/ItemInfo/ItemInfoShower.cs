@@ -26,9 +26,6 @@ public class ItemInfoShower : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (IsEnable)
-        {
-            ItemInfoPopup.Instance.ClosePopup();
-        }
+        ItemInfoPopup.Instance.ClosePopup();
     }
 }
