@@ -23,25 +23,45 @@ public class ItemCollection : MonoBehaviour
 
         for (int i = 0; i < lockedList.Count; i++)
         {
-            if (collection[i].GetChild(0).TryGetComponent(out Image image))
+            var collectionBox = collection[i].GetChild(0).gameObject;
+
+            if (collectionBox.TryGetComponent(out Image image))
             {
 
                 image.sprite = lockedList[i].Sprite;
             }
+            DIRECTION9 pivot = DIRECTION9.BOT_LEFT;
+            ShowerSetting(collectionBox, lockedList[i], pivot + i%3);
         }
         var unlockedList = ItemLibrary.Instance.GetUnlockedItemListForTest();
         collection = CreateCollectionBox(unlockedList.Count, UnlockedSection);
 
         for (int i = 0; i < unlockedList.Count; i++)
         {
-            if (collection[i].GetChild(0).TryGetComponent(out Image image))
+            var collectionBox = collection[i].GetChild(0).gameObject;
+
+            if (collectionBox.TryGetComponent(out Image image))
             {
 
                 image.sprite = unlockedList[i].Sprite;
             }
+            DIRECTION9 pivot = DIRECTION9.BOT_LEFT;
+            ShowerSetting(collectionBox, unlockedList[i], pivot + (i % 3));
         }
     }
 
+    private void ShowerSetting(GameObject _object, Item showItem, DIRECTION9 pivot)
+    {
+        if (_object.TryGetComponent(out ItemInfoShower shower))
+        {
+            shower.OnPopupEvent = () =>
+            {
+                ItemInfoPopup.Instance.SetPopup(showItem.GetItemInfo);
+            };
+            shower.SetPopupPivot(pivot);
+            shower.IsEnable = true;
+        }
+    }
     private List<Transform> CreateCollectionBox(int itemListLength, Transform parent)
     {
         var list = new List<Transform>();

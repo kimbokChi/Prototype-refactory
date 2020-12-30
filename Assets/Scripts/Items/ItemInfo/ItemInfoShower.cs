@@ -9,6 +9,11 @@ public class ItemInfoShower : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     [SerializeField] private DIRECTION9 PopupPivot;
 
+    public void SetPopupPivot(DIRECTION9 pivot)
+    {
+        PopupPivot = pivot;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (IsEnable)
