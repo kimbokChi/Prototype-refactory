@@ -44,6 +44,14 @@ public class ItemStore : MonoBehaviour
                 Inventory.Instance.AddItem(item);
                 item.transform.parent = ItemStateSaver.Instance.transform;
             }
+            else
+            {
+                SystemMessage.Instance.ShowMessage("보유한 골드가 부족합니다!");
+            }
+        }
+        else
+        {
+            SystemMessage.Instance.ShowMessage("먼저 구매할 아이템을\n선택해야 합니다!");
         }
     }
 }

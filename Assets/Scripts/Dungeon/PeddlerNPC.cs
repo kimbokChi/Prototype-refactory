@@ -91,6 +91,14 @@ public class PeddlerNPC : MonoBehaviour
 
                 _IsBoughtItem = true;
             }
+            else
+            {
+                SystemMessage.Instance.ShowMessage("보유한 골드가 부족합니다!");
+            }
+        }
+        else
+        {
+            SystemMessage.Instance.ShowMessage("이미 구매한 물건입니다!");
         }
     }
 }

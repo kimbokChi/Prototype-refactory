@@ -32,6 +32,10 @@ public class ItemPackmanNPC : MonoBehaviour
             mIsGivingItem = true;
             EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position);
         }
+        else
+        {
+            SystemMessage.Instance.ShowMessage("이미 한번 아이템이\n지급되었습니다!");
+        }
     }
 
     private IEnumerator ItemDrop()
