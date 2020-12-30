@@ -15,6 +15,13 @@ public struct KeywordBlock
     public GameObject KeywordInfoUI;
 }
 
+[Serializable]
+public struct GridLayoutSetting
+{
+    public TextAnchor ChildAlignment;
+    public Vector2 Spacing;
+}
+
 public class ItemKeywordContainer : MonoBehaviour
 {
     [SerializeField] private RectTransform   _RectTransform;
@@ -22,13 +29,13 @@ public class ItemKeywordContainer : MonoBehaviour
     [SerializeField] private KeywordBlock[]  _KeywordBlocks;
 
     [Header("GridLayoutGroup")]
-    [SerializeField] private RuntimePresets.Preset _GLGHorizontal;
-    [SerializeField] private RuntimePresets.Preset _GLGVertical;
+    [SerializeField] private GridLayoutSetting _HorizontalSetting;
+    [SerializeField] private GridLayoutSetting _VerticalSetting;
 
     [Header("RectTransform")]
-    [SerializeField] private RuntimePresets.Preset _RTLeft;
-    [SerializeField] private RuntimePresets.Preset _RTRight;
-    [SerializeField] private RuntimePresets.Preset _RTUp;
+    [SerializeField] private Rect _LeftRect;
+    [SerializeField] private Rect _RightRect;
+    [SerializeField] private Rect _UpRect;
 
     private Dictionary<Keyword, GameObject> _KeywordBlockCollection;
     private bool _IsAlreadyInit = false;
@@ -43,8 +50,6 @@ public class ItemKeywordContainer : MonoBehaviour
             {
                 _KeywordBlockCollection.Add
                     (_KeywordBlocks[i].Keyword, _KeywordBlocks[i].KeywordInfoUI);
-
-                Debug.Log("Init : " + _KeywordBlocks[i].Keyword);
             }
             _IsAlreadyInit = true;
         }
@@ -52,8 +57,7 @@ public class ItemKeywordContainer : MonoBehaviour
 
     private void OnDisable()
     {
-        foreach (var keywordBlock in _KeywordBlockCollection)
-        {
+        foreach (var keywordBlock in _KeywordBlockCollection) {
 
             keywordBlock.Value.SetActive(false);
         }
@@ -63,41 +67,38 @@ public class ItemKeywordContainer : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        var RTTargetPreset = _RTLeft;
+        Rect targetRect = default;
+        GridLayoutSetting targetLayout = default;
 
         switch (position)
         {
             case TPOSITION3.LEFT:
-                RTTargetPreset = _RTLeft;
+                {
+                    targetRect   = _LeftRect;
+                    targetLayout = _VerticalSetting;
+                }
                 break;
             case TPOSITION3.MID:
-                RTTargetPreset = _RTUp;
+                {
+                    targetRect   = _UpRect;
+                    targetLayout = _HorizontalSetting;
+                }
                 break;
             case TPOSITION3.RIGHT:
-                RTTargetPreset = _RTRight;
+                {
+                    targetRect   = _RightRect;
+                    targetLayout = _VerticalSetting;
+                }
                 break;
         }
-        if (RTTargetPreset.CanBeAppliedTo(_RectTransform))
-        {
-            RTTargetPreset.ApplyTo(_RectTransform);
-        }
-        if (position == TPOSITION3.MID)
-        {
-            if (_GLGHorizontal.CanBeAppliedTo(_GridLayoutGroup))
-            {
-                _GLGHorizontal.ApplyTo(_GridLayoutGroup);
-            }
-        }
-        else
-        {
-            if (_GLGVertical.CanBeAppliedTo(_GridLayoutGroup))
-            {
-                _GLGVertical.ApplyTo(_GridLayoutGroup);
-            }
-        }
+        _RectTransform.sizeDelta = new Vector2(targetRect.width, targetRect.height);
+        _RectTransform.localPosition = new Vector2(targetRect.x, targetRect.y);
+
+        _GridLayoutGroup.spacing = targetLayout.Spacing;
+        _GridLayoutGroup.childAlignment = targetLayout.ChildAlignment;
+        
         for (int i = 0; i < keywords.Length; ++i)
         {
-            Debug.Log(keywords[i]);
             _KeywordBlockCollection[keywords[i]].SetActive(true);
         }
     }
