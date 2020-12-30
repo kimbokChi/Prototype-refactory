@@ -4329,6 +4329,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3869120435129473437, guid: 596ca2a92ccf6fe47bc909af532aec22,
+        type: 3}
+      propertyPath: _UpRect.y
+      value: -10
+      objectReference: {fileID: 0}
     - target: {fileID: 4060803467843417791, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
       propertyPath: m_textInfo.lineCount

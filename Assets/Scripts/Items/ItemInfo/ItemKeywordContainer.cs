@@ -35,7 +35,7 @@ public class ItemKeywordContainer : MonoBehaviour
     [Header("RectTransform")]
     [SerializeField] private Rect _LeftRect;
     [SerializeField] private Rect _RightRect;
-    [SerializeField] private Rect _UpRect;
+    [SerializeField] private Rect _DownRect;
 
     private Dictionary<Keyword, GameObject> _KeywordBlockCollection;
     private bool _IsAlreadyInit = false;
@@ -80,7 +80,7 @@ public class ItemKeywordContainer : MonoBehaviour
                 break;
             case TPOSITION3.MID:
                 {
-                    targetRect   = _UpRect;
+                    targetRect   = _DownRect;
                     targetLayout = _HorizontalSetting;
                 }
                 break;
