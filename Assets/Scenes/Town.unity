@@ -887,12 +887,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01325a20e41267a488041a24730ae7f6, type: 3}
---- !u!1 &775480201 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8207548675330332967, guid: 596ca2a92ccf6fe47bc909af532aec22,
-    type: 3}
-  m_PrefabInstance: {fileID: 5846258137606730949}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &783903958
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,6 +1720,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1068070417 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3672978394724584308, guid: 596ca2a92ccf6fe47bc909af532aec22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5846258137606730949}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1115306725
 GameObject:
   m_ObjectHideFlags: 0
@@ -2336,7 +2336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsWaitForEffectDisable: 0
   InteractionButton: {fileID: 1185797686}
-  DungeonSelectWindow: {fileID: 775480201}
+  DungeonSelectWindow: {fileID: 1068070417}
 --- !u!1 &1507383466
 GameObject:
   m_ObjectHideFlags: 0
