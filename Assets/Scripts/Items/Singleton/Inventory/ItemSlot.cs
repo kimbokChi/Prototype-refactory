@@ -9,7 +9,7 @@ public enum SlotType
 {
     Container, Accessory, Weapon
 }
-public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private ItemInfoShower Shower;
     [SerializeField] private Sprite EmptySprite;
@@ -99,10 +99,6 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
     public void OnPointerDown(PointerEventData eventData)
     {
         _Coroutine.StartRoutine(WaitPress());
-    }
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        // OnPointerUp은 이전에 Down입력이 있어야지 작동해서 쓰기가 좀 힘드네여
     }
     public void OnPointerEnter(PointerEventData eventData)
     {

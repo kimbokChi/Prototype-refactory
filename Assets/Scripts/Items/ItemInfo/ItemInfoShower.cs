@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemInfoShower : MonoBehaviour, IPointerUpHandler, IPointerExitHandler
+public class ItemInfoShower : MonoBehaviour, IPointerUpHandler
 {
     public bool IsEnable = true;
     public Action OnPopupEvent;
@@ -33,10 +33,5 @@ public class ItemInfoShower : MonoBehaviour, IPointerUpHandler, IPointerExitHand
         {
             SetPopupEnable(true);
         }
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        // ItemInfoPopup.Instance.ClosePopup();
     }
 }
