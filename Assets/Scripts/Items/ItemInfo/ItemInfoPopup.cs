@@ -26,6 +26,7 @@ public class ItemInfoPopup : Singleton<ItemInfoPopup>
     [SerializeField] private TMPro.TextMeshProUGUI _AccessoryAblityText;
 
     private ItemInfo _ItemInfo;
+    private Coroutine _CloseInputCheck;
 
     public void SetPopup(ItemInfo info)
     {
@@ -97,11 +98,49 @@ public class ItemInfoPopup : Singleton<ItemInfoPopup>
         _KeywordContainer.ShowKeyword(keywordPosition, _ItemInfo.UsageKeywords);
 
         _RectTransform.position = position;
+
+        _CloseInputCheck.StartRoutine(CloseInputCheck());
     }
 
     public void ClosePopup()
     {
         _PopupObject.SetActive(false);
         _KeywordContainer.gameObject.SetActive(false);
+    }
+
+    private void Start()
+    {
+        _CloseInputCheck = new Coroutine(this);
+    }
+
+    private IEnumerator CloseInputCheck()
+    {
+        do
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.WindowsEditor:
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        ClosePopup();
+                    }
+                    break;
+                case RuntimePlatform.Android:
+                    if (Input.touchCount > 0)
+                    {
+                        if (Input.GetTouch(0).phase == TouchPhase.Began)
+                        {
+
+                            ClosePopup();
+                        }
+                    }
+                    break;
+            }
+            yield return null;
+
+        } while (_PopupObject.activeSelf);
+
+        _CloseInputCheck.Finish();
     }
 }
