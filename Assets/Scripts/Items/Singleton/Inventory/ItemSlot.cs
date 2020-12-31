@@ -25,6 +25,7 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
     private SlotType mSlotType;
 
     private Coroutine _Coroutine;
+    private bool _IsRoutineWaitInputOver = false;
 
     [ContextMenu("AAA")]
     private void AAA()
@@ -84,6 +85,8 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
 
         SetItem(Finger.Instance.CarryItem);
                 Finger.Instance.CarryItem = containItem;
+
+        _IsRoutineWaitInputOver = false;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -96,10 +99,23 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _Coroutine.StartRoutine(WaitInputOver());
+        if (Finger.Instance.CarryItem != null)
+        {
+            _Coroutine.StartRoutine(WaitInputOver());
+        }
     }
     public void OnPointerExit(PointerEventData eventData)
     {
+        if (_IsRoutineWaitInputOver && Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                {
+                    Select();
+                }
+            }
+        }
         _Coroutine.StopRoutine();
     }
     private IEnumerator WaitPress()
@@ -111,15 +127,23 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
     }
     private IEnumerator WaitInputOver()
     {
+        _IsRoutineWaitInputOver = true;
+
         switch (Application.platform)
         {
             case RuntimePlatform.WindowsPlayer:
             case RuntimePlatform.WindowsEditor:
                 yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
                 break;
-
             case RuntimePlatform.Android:
-                yield return new WaitUntil(() => Input.touchCount == 0);
+                yield return new WaitUntil(() => 
+                {
+                    if (Input.touchCount > 0)
+                    {
+                        return Input.GetTouch(0).phase == TouchPhase.Ended;
+                    }
+                    else return true;
+                });
                 break;
         }
         Select();
