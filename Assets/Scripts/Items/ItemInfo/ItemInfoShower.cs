@@ -13,14 +13,25 @@ public class ItemInfoShower : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         PopupPivot = pivot;
     }
+    public void SetPopupEnable(bool enablePopup)
+    {
+        if (enablePopup)
+        {
+            OnPopupEvent?.Invoke();
+
+            ItemInfoPopup.Instance.ShowPopup(PopupPivot, transform.position);
+        }
+        else
+        {
+            ItemInfoPopup.Instance.ClosePopup();
+        }
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (IsEnable)
         {
-            OnPopupEvent?.Invoke();
-
-            ItemInfoPopup.Instance.ShowPopup(PopupPivot, transform.position);
+            SetPopupEnable(true);
         }
     }
 

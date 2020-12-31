@@ -65,6 +65,8 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
         {
             Shower.IsEnable = false;
             mImage.sprite = EmptySprite;
+
+            Shower.SetPopupEnable(false);
         }
         else
         {
@@ -82,8 +84,13 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, I
     public void Select()
     {
         var containItem = mContainItem;
+        Item fingerItem = Finger.Instance.CarryItem;
 
-        SetItem(Finger.Instance.CarryItem);
+        if (fingerItem != null)
+        {
+            Shower.SetPopupEnable(true);
+        }
+        SetItem(fingerItem);
                 Finger.Instance.CarryItem = containItem;
 
         _IsRoutineWaitInputOver = false;
