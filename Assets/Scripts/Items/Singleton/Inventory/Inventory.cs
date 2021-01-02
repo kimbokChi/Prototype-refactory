@@ -73,6 +73,9 @@ public class Inventory : Singleton<Inventory>
         get => mWeaponSlot.ContainItem;
     }
 
+                     public  GameObject  InventoryWindow => _InventoryWindow;
+    [SerializeField] private GameObject _InventoryWindow;
+
     [SerializeField] private ItemSlot   mWeaponSlot;
     [SerializeField] private ItemSlot[] mAccessorySlot;
     [SerializeField] private ItemSlot[] mContainer;

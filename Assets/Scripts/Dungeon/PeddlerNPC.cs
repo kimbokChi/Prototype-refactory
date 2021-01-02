@@ -45,6 +45,7 @@ public class PeddlerNPC : MonoBehaviour
             _DropItemControlKey = ShowItemAnimator.GetParameter(0).nameHash;
         }
         MessageText.text = "구매확인";
+        InteractionUI.SetActive(CanvasRaycaster.enabled = false);
     }
     private void OnDisable()
     {

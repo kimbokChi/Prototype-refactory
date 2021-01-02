@@ -343,6 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069ec363ac85bca4690d48c4fc33ea00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ItemInfoTable: {fileID: 11400000, guid: eaf91360917bd0e4f8082bc631e297c8, type: 2}
   StatTable: {fileID: 5570870206613295023}
   Animator: {fileID: 5570870206613295021}
   FrozenPillar: {fileID: 4940038013366075531, guid: 70462d37eb409bf448a2e8291c019227,

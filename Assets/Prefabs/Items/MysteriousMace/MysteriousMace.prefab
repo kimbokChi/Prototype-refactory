@@ -193,6 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e6d4495ac544c4fbd63dbea02da9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ItemInfoTable: {fileID: 11400000, guid: cdfdd25644b41c944a011e68e5e94c26, type: 2}
   StatTable: {fileID: 6026546337754659799}
   Probablity: 0.7
   TracerBullet: {fileID: 8741865518583681042, guid: 2a0575ef97bfd1a4198addda82caa7fc,

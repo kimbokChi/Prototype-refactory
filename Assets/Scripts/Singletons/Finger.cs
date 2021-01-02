@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public enum SwipeDirection
@@ -19,10 +20,21 @@ public class Finger : Singleton<Finger>
     public  ChargeGauge Gauge
     { get => mChargeGauge; }
 
-    public Item  CarryItem
+    public  Item  CarryItem
     {
         get => mCarryItem;
-        set => mCarryItem = value;
+        set
+        {
+            if (value == null)
+            {
+                CarryItemImage.sprite = _EmptySprite;
+            }
+            else
+            {
+                CarryItemImage.sprite = value.Sprite;
+            }
+            mCarryItem = value; 
+        }
     }
     private Item mCarryItem;
 
@@ -30,6 +42,8 @@ public class Finger : Singleton<Finger>
 
     private IEnumerator mEOnBulletTime;
 
+    private Sprite _EmptySprite;
+    [SerializeField] private Image CarryItemImage;
     [SerializeField] private float SwipeLength;
 
     private Vector2 mTouchBeganPos;
@@ -39,39 +53,76 @@ public class Finger : Singleton<Finger>
     private void Awake() {
         mCurPressTime = 0f;
         mTouchBeganPos = mTouchEndedPos = mSwipeDirection = Vector2.zero;
+
+        _EmptySprite = CarryItemImage.sprite;
     }
 
     private void Update()
     {
-        // Begin Touch
-        if (Input.GetMouseButtonDown(0))
+        switch (Application.platform)
         {
-            mChargeGauge.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            case RuntimePlatform.WindowsPlayer:
+            case RuntimePlatform.WindowsEditor:
+                {
+                    CarryItemImage.transform.position = Input.mousePosition;
+                }
+                break;
 
-            mChargeGauge.transform.Translate(0, 0, 10);
+            case RuntimePlatform.Android:
+                if (Input.touchCount > 0)
+                {
+                    Touch touch = Input.GetTouch(0);
+
+                    CarryItemImage.transform.position = touch.position;
+                }
+                break;
+        }
+        transform.SetZ(0);
+
+        bool windowEnable = Inventory.Instance.InventoryWindow.activeSelf;
+
+        if (CarryItemImage.IsActive() != windowEnable)
+        {
+            CarryItemImage.gameObject.SetActive(windowEnable);
         }
 
-        // Touuuuuuuuuuuuuch
-        if (Input.GetMouseButton(0))
+        if (!EventSystem.current.IsPointerInUIObject())
         {
-            if (mCurPressTime >= PRESS_TIME)
+            // Begin Touch
+            if (Input.GetMouseButtonDown(0))
             {
-                mChargeGauge.gameObject.SetActive(true);
+                mChargeGauge.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                mChargeGauge.GaugeUp(0.8f);
-
-                if (mEOnBulletTime == null)
+                mChargeGauge.transform.Translate(0, 0, 10);
+            }
+            // Touuuuuuuuuuuuuch
+            else if (Input.GetMouseButton(0))
+            {
+                if (mCurPressTime >= PRESS_TIME)
                 {
-                    StartCoroutine(mEOnBulletTime = EOnBulletTime(1.5f, 0.45f));
+                    mChargeGauge.gameObject.SetActive(true);
+
+                    mChargeGauge.GaugeUp(0.8f);
+
+                    if (mEOnBulletTime == null)
+                    {
+                        StartCoroutine(mEOnBulletTime = EOnBulletTime(1.5f, 0.45f));
+                    }
+                }
+                else
+                {
+                    mCurPressTime += Time.deltaTime;
                 }
             }
-            else
-            {
-                mCurPressTime += Time.deltaTime;
-            }
+            // End Touch
+            else InputReleaseCheck();
         }
-        // End Touch
-        if ((Input.GetMouseButtonUp(0) && mCurPressTime >= PRESS_TIME))
+        else InputReleaseCheck();
+    }
+
+    private void InputReleaseCheck()
+    {
+        if (Input.GetMouseButtonUp(0) && mCurPressTime >= PRESS_TIME)
         {
             Inventory.Instance.OnCharge(mChargeGauge.Charge);
 

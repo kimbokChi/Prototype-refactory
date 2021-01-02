@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18524139476e7f144af6d8708b0deb2a, type: 3}
+  m_Name: ShurikenInfo
+  m_EditorClassIdentifier: 
+  _ItemName: "\uC218\uB9AC\uAC80"
+  _ItemRating: "\uD76C\uADC0 \uC544\uC774\uD15C"
+  _ATK: 3.5
+  _DPS: 7
+  _TextColor: {r: 0.18, g: 0.84, b: 0.22, a: 1}
+  _ItemSprite: {fileID: -7713993427381439669, guid: 78746dd9f18440f4e8da12f49713ab3e,
+    type: 3}
+  _UsageKeywords: 01000000
+  _WeaponText: "\uACF5\uACA91 : \uC218\uB9AC\uAC80\uC744 \uC5F0\uC18D\uC73C\uB85C
+    3\uBC88 \uB358\uC9D1\uB2C8\uB2E4.\n\uACF5\uACA92 : 3\uBC29\uD5A5\uC73C\uB85C
+    \uC218\uB9AC\uAC80\uC744 \uB358\uC9D1\uB2C8\uB2E4.\n<b>\uCDA9\uC804</b> : \uACF5\uACA9\uBC29\uC2DD\uC744
+    \uBCC0\uACBD\uD569\uB2C8\uB2E4."
+  _WeaponAblity: ATK+5.0 SPEED+0.0
+  _AccessoryText: "\uAC19\uC740 \uC544\uC774\uD15C\uC744 \uBB34\uAE30\uB85C \n\uC0AC\uC6A9\uD558\uACE0
+    \uC788\uB2E4\uBA74, \uC218\uB9AC\uAC80\uC774\n\uC801\uC744 \uAD00\uD1B5\uD569\uB2C8\uB2E4."
+  _AccessoryAblity: ATK+5.0 SPEED+0.0

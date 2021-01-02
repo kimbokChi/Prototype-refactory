@@ -11,6 +11,7 @@ public class ItemShowBlock : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI ItemCostText;
 
     [SerializeField] private Image ItemImage;
+    [SerializeField] private ItemInfoShower ItemShower;
 
     public int ItemCost
     {
@@ -37,5 +38,9 @@ public class ItemShowBlock : MonoBehaviour
         ItemCostText.text = ItemCost.ToString();
 
         ItemImage.sprite = blockItem.Sprite;
+        ItemShower.OnPopupEvent = () =>
+        {
+            ItemInfoPopup.Instance.SetPopup(blockItem.GetItemInfo);
+        };
     }
 }
