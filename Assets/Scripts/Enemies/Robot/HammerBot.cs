@@ -7,14 +7,11 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     [Header("Ability")]
     [SerializeField] private AbilityTable AbilityTable;
     [SerializeField] private EnemyAnimator EnemyAnimator;
-    [SerializeField] private Area Range;
-    [SerializeField] private Area AttackArea;
 
     [Header("Modules")]
     [SerializeField] private MovementModule _Movement;
     [SerializeField] private RecognitionModule _Recognition;
-
-    private AttackPeriod _AttackPeriod;
+    [SerializeField] private ShortRangeModule _AttackModule;
 
     public AbilityTable GetAbility => AbilityTable;
 
@@ -27,7 +24,7 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
                 {
                     EnemyAnimator.ChangeState(AnimState.Idle);
 
-                    _AttackPeriod.AttackActionOver();
+                    _AttackModule.PeriodAttackPartOver();
                 }
                 break;
 
@@ -55,7 +52,7 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         EnemyAnimator.ChangeState(AnimState.Damaged);
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
-            _AttackPeriod.StopPeriod();
+            _AttackModule.SetActivePeriod(false);
 
             _Movement.MoveStop();
             EnemyAnimator.ChangeState(AnimState.Death);
@@ -68,21 +65,11 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         EnemyAnimator.Init();
         HealthBarPool.Instance.UsingHealthBar(-1.5f, transform, AbilityTable);
 
-        _AttackPeriod = new AttackPeriod(AbilityTable);
-        _AttackPeriod.SetAction(Period.Attack, AttackAction);
-
+        _AttackModule.Init(gameObject, AbilityTable);
+        _AttackModule.RunningDrive();
+        _AttackModule.SetPeriodAction(Period.Attack, AttackAction);
+        
         MovementModuleInit();
-
-        Range.SetScale(AbilityTable[Ability.Range]);
-
-        AttackArea.SetEnterAction(o => 
-        {
-            if (o.TryGetComponent(out ICombatable combatable))
-            {
-
-                combatable.Damaged(AbilityTable.AttackPower, gameObject);
-            }
-        });
     }
 
     public void IUpdate()
@@ -90,13 +77,13 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         if (AbilityTable[Ability.CurHealth] > 0)
         {
 
-            if (!_AttackPeriod.IsProgressing())
+            if (!_AttackModule.IsPeriodProgressing())
             {
-                if (Range.HasAny() && _Recognition.IsLookAtPlayer())
+                if (_AttackModule.RangeHasAny() && _Recognition.IsLookAtPlayer())
                 {
 
                     _Movement.MoveStop();
-                    _AttackPeriod.StartPeriod();
+                    _AttackModule.SetActivePeriod(true);
                 }
             }
         }
@@ -116,7 +103,7 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         () =>
         {
             return EnemyAnimator.CurrentState() == AnimState.Idle &&
-                 !_AttackPeriod.IsProgressing();
+                 !_AttackModule.IsPeriodProgressing();
         });
         _Movement.RunningDrive(AbilityTable);
     }

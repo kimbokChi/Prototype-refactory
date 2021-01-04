@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 3729056150486511567}
   - component: {fileID: 4840172454778070405}
   - component: {fileID: 170996014544339428}
+  - component: {fileID: 914917488297482970}
   m_Layer: 0
   m_Name: HammerBot
   m_TagString: Enemy
@@ -223,10 +224,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilityTable: {fileID: 6395963452512264015}
   EnemyAnimator: {fileID: 6395963452512264012}
-  Range: {fileID: 1481196706971903556}
-  AttackArea: {fileID: 1459980265885323689}
   _Movement: {fileID: 4840172454778070405}
   _Recognition: {fileID: 170996014544339428}
+  _AttackModule: {fileID: 914917488297482970}
 --- !u!50 &8492035681471172228
 Rigidbody2D:
   serializedVersion: 4
@@ -302,6 +302,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _IsLookAtLeft: 1
+--- !u!114 &914917488297482970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6395963452512264000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c4a21a430df454683ea648376e1087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Range: {fileID: 1481196706971903556}
+  _AttackArea: {fileID: 1459980265885323689}
 --- !u!1 &7150224766146073584
 GameObject:
   m_ObjectHideFlags: 0
