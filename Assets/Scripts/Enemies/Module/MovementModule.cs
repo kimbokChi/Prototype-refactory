@@ -24,13 +24,22 @@ public class MovementModule : MonoBehaviour
     private IEnumerator _EMove;
     private AbilityTable _AbilityTable;
 
-    public void Init(AbilityTable abilityTable)
+    public void SetMovementEvent(Action<bool> begin, Action end)
+    {
+          EndOfMovementEvent += end;
+        BeginOfMovementEvent += begin;
+    }
+    public void SetMovementLogic(Func<bool> canMovement, Func<bool> lookAtPlayer, Func<bool> lookAtLeft)
+    {
+        CanMovement = canMovement;
+        IsLookAtLeft = lookAtLeft;
+        IsLookAtPlayer = lookAtPlayer;
+    }
+    public void RunningDrive(AbilityTable abilityTable)
     {
         _AbilityTable = abilityTable;
 
-        CanMovement    = () => false;
-        IsLookAtPlayer = () => false;
-        IsLookAtLeft   = () => false;
+        StartCoroutine(MoveRoutine());
     }
     public bool IsMoving()
     {
@@ -53,7 +62,6 @@ public class MovementModule : MonoBehaviour
 
             yield return new WaitForSeconds(waitTime);
             yield return new WaitUntil(CanMovement);
-
             Vector2 movePoint = _BasePosition;
 
             if (IsLookAtPlayer())

@@ -12,9 +12,7 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     [SerializeField] private Area AttackArea;
 
     [Header("Movement Info")]
-    [SerializeField] private float WaitMoveTimeMin;
-    [SerializeField] private float WaitMoveTimeMax;
-    [SerializeField] private Vector2 InitPosition;
+    [SerializeField] private MovementModule _MovementModule;
 
     private IEnumerator _Move;
     private Player _Player;
@@ -37,7 +35,7 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
             case AnimState.Damaged:
                 {
-                    if (IsMoving())
+                    if (_MovementModule.IsMoving())
                     {
                         EnemyAnimator.ChangeState(AnimState.Move);
                     }
@@ -61,7 +59,7 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         {
             _AttackPeriod.StopPeriod();
 
-            MoveStop();
+            _MovementModule.MoveStop();
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
@@ -75,6 +73,8 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         _AttackPeriod = new AttackPeriod(AbilityTable);
         _AttackPeriod.SetAction(Period.Attack, AttackAction);
 
+        MovementModuleInit();
+
         Range.SetScale(AbilityTable[Ability.Range]);
 
         AttackArea.SetEnterAction(o => 
@@ -85,8 +85,8 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
                 combatable.Damaged(AbilityTable.AttackPower, gameObject);
             }
         });
-        StartCoroutine(MoveRoutine());
     }
+
     public void IUpdate()
     {
         if (AbilityTable[Ability.CurHealth] > 0)
@@ -97,15 +97,39 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
                 if (Range.HasAny() && IsLookAtPlayer())
                 {
 
-                    MoveStop();
+                    _MovementModule.MoveStop();
                     _AttackPeriod.StartPeriod();
                 }
             }
         }
     }
+    private void MovementModuleInit()
+    {
+        _MovementModule.SetMovementEvent(dirLeft =>
+        {
+            SetLookingLeft(dirLeft);
+            EnemyAnimator.ChangeState(AnimState.Move);
+        },
+        () =>
+        {
+            EnemyAnimator.ChangeState(AnimState.Idle);
+        });
+        _MovementModule.SetMovementLogic(() =>
+        {
+            return EnemyAnimator.CurrentState() == AnimState.Idle &&
+                 !_AttackPeriod.IsProgressing();
+        },
+        IsLookAtPlayer,
+        () =>
+        {
+            return IsLookAtLeft;
+        });
+        _MovementModule.RunningDrive(AbilityTable);
+    }
+
     private void AttackAction()
     {
-        MoveStop();
+        _MovementModule.MoveStop();
 
         EnemyAnimator.ChangeState(AnimState.Attack);
     }
@@ -130,86 +154,9 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         else
             transform.rotation = Quaternion.Euler(Vector3.up * 180);
     }
-    private bool IsMoving()
-    {
-        return _Move != null;
-    }
-    private void MoveStop()
-    {
-        if (_Move != null)
-        {
-            StopCoroutine(_Move);
-            _Move = null;
-        }
-    }
     private void CameraShake()
     {
         MainCamera.Instance.Shake(0.25f, 1f);
-    }
-
-    private IEnumerator MoveRoutine()
-    {
-        bool CanMovement()
-        {
-            return EnemyAnimator.CurrentState() == AnimState.Idle
-                && !_AttackPeriod.IsProgressing();
-        }
-        while (AbilityTable[Ability.CurHealth] > 0)
-        {
-            yield return new WaitUntil(CanMovement);
-            float waitTime = Random.Range(WaitMoveTimeMin, WaitMoveTimeMax);
-
-            yield return new WaitForSeconds(waitTime);
-            yield return new WaitUntil(CanMovement);
-
-            Vector2 movePoint = InitPosition;
-
-            if (IsLookAtPlayer())
-            {
-                if (IsLookAtLeft)
-                {
-                    movePoint.x = -3.5f;
-                }
-                else
-                    movePoint.x = +3.5f;
-            }
-            else
-            {
-                movePoint.x += Random.Range(-3.5f, 3.5f);
-            }
-            SetLookingLeft(movePoint.x < transform.localPosition.x);
-            StartCoroutine(_Move = Move(movePoint));
-
-            EnemyAnimator.ChangeState(AnimState.Move);
-        }
-    }
-
-    private IEnumerator Move(Vector2 movePoint)
-    {
-        Vector3 direction = (movePoint.x > transform.localPosition.x)
-            ? Vector3.right : Vector3.left;
-
-        float DeltaTime()
-        {
-            return Time.deltaTime * Time.timeScale;
-        }
-        bool CanMoving()
-        {
-            return direction.x > 0 && transform.localPosition.x < movePoint.x ||
-                   direction.x < 0 && transform.localPosition.x > movePoint.x;
-        }
-        do
-        {
-            transform.localPosition += direction * AbilityTable.MoveSpeed * DeltaTime();
-
-            yield return null;
-
-        } while (CanMoving());
-
-        transform.localPosition = movePoint;
-
-        EnemyAnimator.ChangeState(AnimState.Idle);
-        _Move = null;
     }
 
     public void PlayerEnter(MESSAGE message, Player enterPlayer)

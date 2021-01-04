@@ -89,6 +89,7 @@ GameObject:
   - component: {fileID: 3289013457092312088}
   - component: {fileID: 8492035681471172228}
   - component: {fileID: 3729056150486511567}
+  - component: {fileID: 4840172454778070405}
   m_Layer: 0
   m_Name: HammerBot
   m_TagString: Enemy
@@ -224,9 +225,7 @@ MonoBehaviour:
   EnemyAnimator: {fileID: 6395963452512264012}
   Range: {fileID: 1481196706971903556}
   AttackArea: {fileID: 1459980265885323689}
-  WaitMoveTimeMin: 0.3
-  WaitMoveTimeMax: 0.6
-  InitPosition: {x: 0, y: 1.5}
+  _MovementModule: {fileID: 4840172454778070405}
 --- !u!50 &8492035681471172228
 Rigidbody2D:
   serializedVersion: 4
@@ -274,6 +273,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.15, y: 1.6}
   m_EdgeRadius: 0
+--- !u!114 &4840172454778070405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6395963452512264000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f698036ce22902e4a945d9d6b0bdb412, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _BasePosition: {x: 0, y: 1.5}
+  _WaitForMovementMin: 0.3
+  _WaitForMovementMax: 0.6
 --- !u!1 &7150224766146073584
 GameObject:
   m_ObjectHideFlags: 0
