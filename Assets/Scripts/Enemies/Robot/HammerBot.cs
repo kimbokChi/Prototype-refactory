@@ -14,8 +14,6 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     [SerializeField] private MovementModule _Movement;
     [SerializeField] private RecognitionModule _Recognition;
 
-    private IEnumerator _Move;
-    private Player _Player;
     private AttackPeriod _AttackPeriod;
 
     public AbilityTable GetAbility => AbilityTable;
@@ -105,24 +103,20 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     }
     private void MovementModuleInit()
     {
-        _Movement.SetMovementEvent(dirLeft =>
+        _Movement.SetMovementEvent(_Recognition,
+        () =>
         {
-            _Recognition.SetLookingLeft(dirLeft);
             EnemyAnimator.ChangeState(AnimState.Move);
         },
         () =>
         {
             EnemyAnimator.ChangeState(AnimState.Idle);
         });
-        _Movement.SetMovementLogic(() =>
+        _Movement.SetMovementLogic(_Recognition, 
+        () =>
         {
             return EnemyAnimator.CurrentState() == AnimState.Idle &&
                  !_AttackPeriod.IsProgressing();
-        },
-        _Recognition.IsLookAtPlayer,
-        () =>
-        {
-            return _Recognition.IsLookAtLeft;
         });
         _Movement.RunningDrive(AbilityTable);
     }
@@ -142,17 +136,13 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     {
         if (AbilityTable.CanRecognize(message))
         {
-            _Player = enterPlayer;
-
-            _Recognition.PlayerEnter(_Player);
+            _Recognition.PlayerEnter(enterPlayer);
         }
     }
     public void PlayerExit(MESSAGE message)
     {
         if (AbilityTable.CantRecognize(message))
         {
-            _Player = null;
-
             _Recognition.PlayerExit();
         }
     }

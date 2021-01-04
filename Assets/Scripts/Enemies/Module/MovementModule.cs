@@ -29,11 +29,28 @@ public class MovementModule : MonoBehaviour
           EndOfMovementEvent += end;
         BeginOfMovementEvent += begin;
     }
+    public void SetMovementEvent(RecognitionModule recognition, Action begin, Action end)
+    {
+          EndOfMovementEvent += end;
+        BeginOfMovementEvent += o =>
+        {
+            recognition.SetLookingLeft(o);
+
+            begin.Invoke();
+        };
+    }
     public void SetMovementLogic(Func<bool> canMovement, Func<bool> lookAtPlayer, Func<bool> lookAtLeft)
     {
         CanMovement = canMovement;
         IsLookAtLeft = lookAtLeft;
         IsLookAtPlayer = lookAtPlayer;
+    }
+    public void SetMovementLogic(RecognitionModule recognition, Func<bool> canMovement)
+    {
+        CanMovement = canMovement;
+
+        IsLookAtLeft = () => recognition.IsLookAtLeft;
+        IsLookAtPlayer = recognition.IsLookAtPlayer;
     }
     public void RunningDrive(AbilityTable abilityTable)
     {
