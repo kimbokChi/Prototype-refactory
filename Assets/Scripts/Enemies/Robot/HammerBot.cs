@@ -5,14 +5,14 @@ using UnityEngine;
 public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
     [Header("Ability")]
-    [SerializeField] private bool IsLookAtLeft;
     [SerializeField] private AbilityTable AbilityTable;
     [SerializeField] private EnemyAnimator EnemyAnimator;
     [SerializeField] private Area Range;
     [SerializeField] private Area AttackArea;
 
-    [Header("Movement Info")]
-    [SerializeField] private MovementModule _MovementModule;
+    [Header("Modules")]
+    [SerializeField] private MovementModule _Movement;
+    [SerializeField] private RecognitionModule _Recognition;
 
     private IEnumerator _Move;
     private Player _Player;
@@ -35,7 +35,7 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
             case AnimState.Damaged:
                 {
-                    if (_MovementModule.IsMoving())
+                    if (_Movement.IsMoving())
                     {
                         EnemyAnimator.ChangeState(AnimState.Move);
                     }
@@ -59,7 +59,7 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         {
             _AttackPeriod.StopPeriod();
 
-            _MovementModule.MoveStop();
+            _Movement.MoveStop();
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
         }
@@ -94,10 +94,10 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
             if (!_AttackPeriod.IsProgressing())
             {
-                if (Range.HasAny() && IsLookAtPlayer())
+                if (Range.HasAny() && _Recognition.IsLookAtPlayer())
                 {
 
-                    _MovementModule.MoveStop();
+                    _Movement.MoveStop();
                     _AttackPeriod.StartPeriod();
                 }
             }
@@ -105,54 +105,33 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     }
     private void MovementModuleInit()
     {
-        _MovementModule.SetMovementEvent(dirLeft =>
+        _Movement.SetMovementEvent(dirLeft =>
         {
-            SetLookingLeft(dirLeft);
+            _Recognition.SetLookingLeft(dirLeft);
             EnemyAnimator.ChangeState(AnimState.Move);
         },
         () =>
         {
             EnemyAnimator.ChangeState(AnimState.Idle);
         });
-        _MovementModule.SetMovementLogic(() =>
+        _Movement.SetMovementLogic(() =>
         {
             return EnemyAnimator.CurrentState() == AnimState.Idle &&
                  !_AttackPeriod.IsProgressing();
         },
-        IsLookAtPlayer,
+        _Recognition.IsLookAtPlayer,
         () =>
         {
-            return IsLookAtLeft;
+            return _Recognition.IsLookAtLeft;
         });
-        _MovementModule.RunningDrive(AbilityTable);
+        _Movement.RunningDrive(AbilityTable);
     }
 
     private void AttackAction()
     {
-        _MovementModule.MoveStop();
+        _Movement.MoveStop();
 
         EnemyAnimator.ChangeState(AnimState.Attack);
-    }
-
-    private bool IsLookAtPlayer()
-    {
-        if (_Player != null)
-        {
-            return (_Player.transform.position.x < transform.position.x && IsLookAtLeft ||
-                    _Player.transform.position.x > transform.position.x && !IsLookAtLeft);
-        }
-        return false;
-    }
-    private void SetLookingLeft(bool lookingLeft)
-    {
-        IsLookAtLeft = lookingLeft;
-
-        if (IsLookAtLeft)
-        {
-            transform.rotation = Quaternion.Euler(Vector3.zero);
-        }
-        else
-            transform.rotation = Quaternion.Euler(Vector3.up * 180);
     }
     private void CameraShake()
     {
@@ -164,6 +143,8 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         if (AbilityTable.CanRecognize(message))
         {
             _Player = enterPlayer;
+
+            _Recognition.PlayerEnter(_Player);
         }
     }
     public void PlayerExit(MESSAGE message)
@@ -171,6 +152,8 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         if (AbilityTable.CantRecognize(message))
         {
             _Player = null;
+
+            _Recognition.PlayerExit();
         }
     }
 
