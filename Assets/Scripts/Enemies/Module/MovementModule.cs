@@ -68,6 +68,8 @@ public class MovementModule : MonoBehaviour
         {
             StopCoroutine(_EMove);
             _EMove = null;
+
+            EndOfMovementEvent?.Invoke();
         }
     }
     private IEnumerator MoveRoutine()

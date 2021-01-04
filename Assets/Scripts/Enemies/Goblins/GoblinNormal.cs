@@ -17,7 +17,31 @@ public class GoblinNormal : MonoBehaviour, IObject, ICombatable, IAnimEventRecei
 
     public void AnimationPlayOver(AnimState anim)
     {
-        
+        switch (anim)
+        {
+            case AnimState.Attack:
+                {
+                    _EnemyAnimator.ChangeState(AnimState.Idle);
+
+                    _AttackModule.PeriodAttackPartOver();
+                }
+                break;
+
+            case AnimState.Damaged:
+                {
+                    if (_Movement.IsMoving())
+                    {
+                        _EnemyAnimator.ChangeState(AnimState.Move);
+                    }
+                    else
+                        _EnemyAnimator.ChangeState(AnimState.Idle);
+                }
+                break;
+
+            case AnimState.Death:
+                gameObject.SetActive(false);
+                break;
+        }
     }
     public void Damaged(float damage, GameObject attacker)
     {
@@ -41,10 +65,12 @@ public class GoblinNormal : MonoBehaviour, IObject, ICombatable, IAnimEventRecei
 
         _AttackModule.Init(gameObject, _AbilityTable);
         _AttackModule.RunningDrive();
-        _AttackModule.SetPeriodAction(Period.Attack, () => 
+        _AttackModule.SetPeriodAction(Period.Begin, () => 
         {
             _Movement.MoveStop();
-
+        });
+        _AttackModule.SetPeriodAction(Period.Attack, () => 
+        {
             _EnemyAnimator.ChangeState(AnimState.Attack);
         });
 
