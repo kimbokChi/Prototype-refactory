@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "SelectionInfo", menuName = "ScriptableObject/Dungeon/SelectionInfo")]
 public class DungeonSelectionInfo : ScriptableObject
 {
+    [SerializeField] private string _AttachedSceneName;
+    public string AttachedSceneName
+    { get => _AttachedSceneName; }
+
     [Header("DungeonLocked Section")]
     [TextArea(1, 1)] 
     [SerializeField] private string _LockedTitle;
