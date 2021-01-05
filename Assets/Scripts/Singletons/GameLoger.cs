@@ -37,6 +37,11 @@ public class GameLoger : Singleton<GameLoger>
         get;
         private set;
     }
+    public int UnlockDungeonIndex
+    {
+        get;
+        private set;
+    }
 
 
     public void EnemyDead()
@@ -47,6 +52,10 @@ public class GameLoger : Singleton<GameLoger>
     {
         RecordedMoney = money;
     }
+    public void RecordStageUnlock()
+    {
+        UnlockDungeonIndex++;
+    }
 
     private void Awake()
     {
@@ -56,6 +65,8 @@ public class GameLoger : Singleton<GameLoger>
         }
         else
         {
+            UnlockDungeonIndex = 0;
+
             DontDestroyOnLoad(gameObject);
 
             SceneManager.sceneLoaded += (a, b) =>
