@@ -47,15 +47,17 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 
     public bool IsSavedItem(Item saveCheckItem, out Item getItem)
     {
-        for (int i = 0; i < transform.childCount; ++i)
+        if (saveCheckItem != null)
         {
-            if (transform.GetChild(i).TryGetComponent(out Item item))
+            for (int i = 0; i < transform.childCount; ++i)
             {
-                if (saveCheckItem.GetType().Equals(item.GetType()))
+                if (transform.GetChild(i).TryGetComponent(out Item item))
                 {
-                    getItem = item;
+                    if (saveCheckItem.GetType().Equals(item.GetType()))
+                    {
 
-                    return true;
+                        getItem = item; return true;
+                    }
                 }
             }
         }

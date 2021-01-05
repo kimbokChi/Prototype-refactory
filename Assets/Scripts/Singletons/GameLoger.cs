@@ -9,7 +9,6 @@ public class GameLoger : Singleton<GameLoger>
     [ContextMenu("Add Money")]
     private void AAA()
     {
-        RecordStageUnlock();
         MoneyManager.Instance.AddMoney(300);
 
         Vector2 point =

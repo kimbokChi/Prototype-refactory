@@ -2250,6 +2250,17 @@ PrefabInstance:
       propertyPath: m_textInfo.characterCount
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1004223647072048471, guid: b338fd190ba165c40ae67b45a7e34d76,
+        type: 3}
+      propertyPath: _UnlockDungeonInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: ec10f5b4a60a2e84aacabc7d17566683,
+        type: 2}
+    - target: {fileID: 1004223647072048471, guid: b338fd190ba165c40ae67b45a7e34d76,
+        type: 3}
+      propertyPath: _UnlockDungeonIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1237717389116112981, guid: b338fd190ba165c40ae67b45a7e34d76,
         type: 3}
       propertyPath: m_AnchorMax.x
