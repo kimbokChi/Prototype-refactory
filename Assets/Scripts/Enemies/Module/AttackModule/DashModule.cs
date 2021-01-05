@@ -56,7 +56,7 @@ public class DashModule : AttackModule
         }
         float ratio = 0;
 
-        while (ratio < 1)
+        while (ratio < 1 && _AbilityTable[Ability.CurHealth] > 0f)
         {
             float Speed()
             {
