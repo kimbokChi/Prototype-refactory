@@ -1315,6 +1315,12 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 267.38
       objectReference: {fileID: 0}
+    - target: {fileID: 3368290263159320012, guid: 6d35f7aceb1ca204c815c77efd990357,
+        type: 3}
+      propertyPath: _SelectionInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: de51b9a1a10eed1468d48856a60a4ceb,
+        type: 2}
     - target: {fileID: 5204545919223423984, guid: 6d35f7aceb1ca204c815c77efd990357,
         type: 3}
       propertyPath: m_text
@@ -1537,6 +1543,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5943110451546845134}
     m_Modifications:
+    - target: {fileID: 3368290263159320012, guid: 6d35f7aceb1ca204c815c77efd990357,
+        type: 3}
+      propertyPath: _SelectionInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: f2ae43ea0d362d2409ec23d3f1697505,
+        type: 2}
     - target: {fileID: 8322495266806049668, guid: 6d35f7aceb1ca204c815c77efd990357,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1677,6 +1689,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3368290263159320012, guid: 6d35f7aceb1ca204c815c77efd990357,
+        type: 3}
+      propertyPath: _SelectionInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: ec10f5b4a60a2e84aacabc7d17566683,
+        type: 2}
     - target: {fileID: 5204545919223423984, guid: 6d35f7aceb1ca204c815c77efd990357,
         type: 3}
       propertyPath: m_text

@@ -3,18 +3,15 @@ using UnityEngine.SceneManagement;
 
 public class DungeonSelection : MonoBehaviour
 {
-    [TextArea(1, 1)]
-    [SerializeField]
-    private string DungeonName;
+    [SerializeField] private DungeonSelectionInfo _SelectionInfo;
 
-    public string Name => DungeonName;
+    public string Name => _SelectionInfo.AttachedSceneName;
 
     public void DungeonEnter()
     {
-        Debug.Log("Enter!");
         MainCamera.Instance.Fade(1.75f, FadeType.In, () => 
         {
-            SceneManager.LoadScene(DungeonName);
+            SceneManager.LoadScene(_SelectionInfo.AttachedSceneName);
         });
     }
 }
