@@ -33,6 +33,8 @@ public class AttackModule : MonoBehaviour
     }
     public void Init(GameObject user, AbilityTable abilityTable)
     {
+        _User = user;
+
         _AbilityTable = abilityTable;
         _AttackPeriod = new AttackPeriod(abilityTable);
     }

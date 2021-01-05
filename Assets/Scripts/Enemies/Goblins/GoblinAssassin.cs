@@ -10,7 +10,7 @@ public class GoblinAssassin : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     [Header("Modules")]
     [SerializeField] private MovementModule _Movement;
     [SerializeField] private RecognitionModule _Recognition;
-    [SerializeField] private ShortRangeModule _AttackModule;
+    [SerializeField] private DashModule _AttackModule;
 
     [Header("Dash")]
     [SerializeField] private float _DashDistance;
@@ -84,10 +84,20 @@ public class GoblinAssassin : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         });
         _AttackModule.SetPeriodAction(Period.Attack, () =>
         {
-            _DashRoutine.StartRoutine(Dash());
-
+            if (_Recognition.IsLookAtLeft)
+            {
+                _AttackModule.Dash(Vector2.left);
+            }
+            else
+            {
+                _AttackModule.Dash(Vector2.right);
+            }
             _EnemyAnimator.ChangeState(AnimState.Attack);
         });
+        _AttackModule.DashEndEvent += () =>
+        {
+            AnimationPlayOver(AnimState.Attack);
+        };
         MovementModuleInit();
     }
 
@@ -106,46 +116,6 @@ public class GoblinAssassin : MonoBehaviour, IObject, ICombatable, IAnimEventRec
                 }
             }
         }
-    }
-
-    private IEnumerator Dash() 
-    {
-        Vector2 force;
-
-        if (_Recognition.IsLookAtLeft)
-        {
-            force = Vector2.left * _DashDistance;
-        }
-        else
-            force = Vector2.right * _DashDistance;
-
-        Vector2 dashPoint = (Vector2)transform.localPosition + force;
-                dashPoint.x.Range(-3.5f, 3.5f);
-
-        _DashEffect.SetActive(true);
-        _DashEffect.transform.parent = null;
-
-        float ratio = 0;
-
-        while(ratio < 1)
-        {
-            float Speed()
-            {
-                return Time.timeScale * Time.deltaTime * _DashSpeedScale * _AbilityTable.MoveSpeed;
-            }
-            ratio = Mathf.Min(1f, ratio + Speed());
-
-            transform.localPosition = Vector2.Lerp(transform.localPosition, dashPoint, ratio);
-
-            yield return null;
-        }
-        _DashRoutine.Finish();
-
-        _DashEffect.SetActive(false);
-        _DashEffect.transform.parent = transform;
-        _DashEffect.transform.localPosition = Vector2.zero;
-
-        AnimationPlayOver(AnimState.Attack);
     }
 
     private void MovementModuleInit()
