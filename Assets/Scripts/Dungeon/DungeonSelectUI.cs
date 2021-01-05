@@ -32,11 +32,20 @@ public class DungeonSelectUI : MonoBehaviour
                 {
                     _Selections[i].SelectedEvent += selected =>
                     {
-                        _SelectedDungeon = selected;
+                        if (_SelectedDungeon != selected)
+                        {
+                            _SelectedDungeon = selected;
 
-                        _SelectedStamp.SetActive(true);
-                        _SelectedStamp.transform.parent = selected.transform;
-                        _SelectedStamp.transform.localPosition = new Vector3(0, 45, 0);
+                            _SelectedStamp.SetActive(true);
+                            _SelectedStamp.transform.parent = selected.transform;
+                            _SelectedStamp.transform.localPosition = new Vector3(0, 45, 0);
+                        }
+                        else if(_SelectedDungeon.Equals(selected))
+                        {
+                            _SelectedDungeon = null;
+
+                            _SelectedStamp.SetActive(false);
+                        }
                     };
                 }
             }
@@ -44,6 +53,13 @@ public class DungeonSelectUI : MonoBehaviour
     }
     public void DungeonEnter()
     {
-        _SelectedDungeon?.DungeonEnter();
+        if (_SelectedDungeon != null)
+        {
+            _SelectedDungeon.DungeonEnter();
+        }
+        else
+        {
+            SystemMessage.Instance.ShowMessage("입장할 던전을<line-height=120%>\n선택해야 합니다!");
+        }
     }
 }

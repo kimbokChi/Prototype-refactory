@@ -256,7 +256,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 3
   m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -408,4 +408,3 @@ MonoBehaviour:
   _Image: {fileID: 8322495266806049786}
   _Title: {fileID: 8204391350028462517}
   _Comment: {fileID: 5204545919223423984}
-  _Button: {fileID: 0}
