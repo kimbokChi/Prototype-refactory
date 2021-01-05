@@ -1,157 +1,25 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GoblinAssassin : EnemyBase, IAnimEventReceiver
+public class GoblinAssassin : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
-    [SerializeField]
-    private Area mContactArea;
+    [Header("Ability")]
+    [SerializeField] private AbilityTable _AbilityTable;
+    [SerializeField] private EnemyAnimator _EnemyAnimator;
 
-    [SerializeField][Range(0f, 5f)]
-    private float mMaxDashLength;
+    [Header("Modules")]
+    [SerializeField] private MovementModule _Movement;
+    [SerializeField] private RecognitionModule _Recognition;
+    [SerializeField] private ShortRangeModule _AttackModule;
 
-    [SerializeField]
-    private float mDashSpeedScale;
+    [Header("Dash")]
+    [SerializeField] private float _DashDistance;
+    [SerializeField] private float _DashSpeedScale;
+    [SerializeField] private GameObject _DashEffect;
 
-    [SerializeField]
-    private GameObject AfterImage;
+    private Coroutine _DashRoutine;
 
-    [SerializeField]
-    private EnemyAnimator EnemyAnimator;
-
-    private AttackPeriod mAttackPeriod;
-    private Timer mWaitForMoving;
-
-    private IEnumerator mEDash;
-    public override void Damaged(float damage, GameObject attacker)
-    {
-        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
-        EnemyAnimator.ChangeState(AnimState.Damaged);
-
-        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
-        {
-            AfterImage.SetActive(false);
-
-            if (mEDash != null) 
-            {
-                StopCoroutine(mEDash); 
-                              mEDash = null;
-            }
-            mAttackPeriod.StopPeriod();
-            EnemyAnimator.ChangeState(AnimState.Death);
-
-            HealthBarPool.Instance.UnUsingHealthBar(transform);
-        }
-    }
-
-    public override void IInit()
-    {
-        EnemyAnimator.Init();
-        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
-
-        mContactArea.SetEnterAction(Attack);
-
-        mWaitForMoving = new Timer();
-
-        mAttackPeriod = new AttackPeriod(AbilityTable);
-
-        mAttackPeriod.SetAction(Period.Begin, () => {
-            EnemyAnimator.ChangeState(AnimState.AttackBegin);
-        });
-        mAttackPeriod.SetAction(Period.Attack, AttackAction);
-    }
-    public override void IUpdate()
-    {
-        if (!mAttackPeriod.IsProgressing())
-        {
-            if (IsLookAtPlayer())
-            {
-                MoveStop();
-
-                mAttackPeriod.StartPeriod();
-            }
-            else if (mWaitForMoving.IsOver())
-            {
-                if (IsMoveFinish && !HasPlayerOnRange())
-                {
-                    Vector2 movePoint;
-
-                    EnemyAnimator.ChangeState(AnimState.Move);
-
-                    movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
-                    movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
-
-                    MoveToPoint(movePoint);
-                }
-            }
-            else
-            {
-                mWaitForMoving.Update();
-            }
-        }
-    }
-    protected override void MoveFinish()
-    {
-        EnemyAnimator.ChangeState(AnimState.Idle);
-
-        mWaitForMoving.Start(WaitMoveTime);
-    }
-
-    private void AttackAction()
-    {
-        AfterImage.SetActive(true);
-        AfterImage.transform.parent = null;
-
-        AfterImage.transform.position = transform.position;
-        EnemyAnimator.ChangeState(AnimState.Attack);
-
-        Vector2 force;
-
-        if (SpriteFlipX)
-        {
-            force = Vector2.right * mMaxDashLength;
-        }
-        else
-            force = Vector2.left * mMaxDashLength;
-
-        StartCoroutine(mEDash = EDash((Vector2)transform.localPosition + force));
-    }
-
-    private IEnumerator EDash(Vector2 dashPoint)
-    {
-        Vector2 force;
-
-        if (dashPoint.x - transform.localPosition.x > 0)
-        {
-            force = Vector2.right * mMaxDashLength;
-        }
-        else
-            force = Vector2.left * mMaxDashLength;
-
-        dashPoint = (Vector2)transform.localPosition + force;
-        dashPoint.x.Range(-HalfMoveRangeX, HalfMoveRangeX);
-
-        float lerpAmount = 0;
-
-        while (lerpAmount < 1)
-        {
-            lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * mDashSpeedScale * AbilityTable.MoveSpeed);
-
-            transform.localPosition = Vector3.Lerp(transform.localPosition, dashPoint, lerpAmount);
-
-            yield return null;
-        }
-        mEDash = null;
-    }
-
-    private void Attack(GameObject @object)
-    {
-        if (mEDash != null)
-        if (@object.TryGetComponent(out ICombatable combatable))
-        {
-            combatable.Damaged(AbilityTable.AttackPower, gameObject);
-        }
-    }
+    public AbilityTable GetAbility => _AbilityTable;
 
     public void AnimationPlayOver(AnimState anim)
     {
@@ -159,19 +27,22 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
         {
             case AnimState.Attack:
                 {
-                    AfterImage.transform.parent = transform;
+                    _DashRoutine.StopRoutine();
 
-                    mAttackPeriod.AttackActionOver();
-                    EnemyAnimator.ChangeState(AnimState.Idle);
+                    _EnemyAnimator.ChangeState(AnimState.Idle);
+
+                    _AttackModule.PeriodAttackPartOver();
                 }
                 break;
+
             case AnimState.Damaged:
                 {
-                    if (IsMoving)
-                        EnemyAnimator.ChangeState(AnimState.Move);
-
+                    if (_Movement.IsMoving())
+                    {
+                        _EnemyAnimator.ChangeState(AnimState.Move);
+                    }
                     else
-                        EnemyAnimator.ChangeState(AnimState.Idle);
+                        _EnemyAnimator.ChangeState(AnimState.Idle);
                 }
                 break;
 
@@ -179,5 +50,148 @@ public class GoblinAssassin : EnemyBase, IAnimEventReceiver
                 gameObject.SetActive(false);
                 break;
         }
+    }
+
+    public void Damaged(float damage, GameObject attacker)
+    {
+        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
+
+        _EnemyAnimator.ChangeState(AnimState.Damaged);
+        if ((_AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        {
+            _AttackModule.SetActivePeriod(false);
+
+            _Movement.MoveStop();
+            _EnemyAnimator.ChangeState(AnimState.Death);
+            HealthBarPool.Instance.UnUsingHealthBar(transform);
+        }
+    }
+
+    public void IInit()
+    {
+        _EnemyAnimator.Init();
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, _AbilityTable);
+
+        _DashRoutine = new Coroutine(this);
+
+        _AttackModule.Init(gameObject, _AbilityTable);
+        _AttackModule.RunningDrive();
+        _AttackModule.SetPeriodAction(Period.Begin, () =>
+        {
+            _Movement.MoveStop();
+
+            _EnemyAnimator.ChangeState(AnimState.AttackBegin);
+        });
+        _AttackModule.SetPeriodAction(Period.Attack, () =>
+        {
+            _DashRoutine.StartRoutine(Dash());
+
+            _EnemyAnimator.ChangeState(AnimState.Attack);
+        });
+        MovementModuleInit();
+    }
+
+    public void IUpdate()
+    {
+        if (_AbilityTable[Ability.CurHealth] > 0)
+        {
+
+            if (!_AttackModule.IsPeriodProgressing())
+            {
+                if (_AttackModule.RangeHasAny() && _Recognition.IsLookAtPlayer())
+                {
+
+                    _Movement.MoveStop();
+                    _AttackModule.SetActivePeriod(true);
+                }
+            }
+        }
+    }
+
+    private IEnumerator Dash() 
+    {
+        Vector2 force;
+
+        if (_Recognition.IsLookAtLeft)
+        {
+            force = Vector2.left * _DashDistance;
+        }
+        else
+            force = Vector2.right * _DashDistance;
+
+        Vector2 dashPoint = (Vector2)transform.localPosition + force;
+                dashPoint.x.Range(-3.5f, 3.5f);
+
+        _DashEffect.SetActive(true);
+        _DashEffect.transform.parent = null;
+
+        float ratio = 0;
+
+        while(ratio < 1)
+        {
+            float Speed()
+            {
+                return Time.timeScale * Time.deltaTime * _DashSpeedScale * _AbilityTable.MoveSpeed;
+            }
+            ratio = Mathf.Min(1f, ratio + Speed());
+
+            transform.localPosition = Vector2.Lerp(transform.localPosition, dashPoint, ratio);
+
+            yield return null;
+        }
+        _DashRoutine.Finish();
+
+        _DashEffect.SetActive(false);
+        _DashEffect.transform.parent = transform;
+        _DashEffect.transform.localPosition = Vector2.zero;
+
+        AnimationPlayOver(AnimState.Attack);
+    }
+
+    private void MovementModuleInit()
+    {
+        _Movement.SetMovementEvent(_Recognition,
+        () =>
+        {
+            _EnemyAnimator.ChangeState(AnimState.Move);
+        },
+        () =>
+        {
+            _EnemyAnimator.ChangeState(AnimState.Idle);
+        });
+        _Movement.SetMovementLogic(_Recognition,
+        () =>
+        {
+            return _EnemyAnimator.CurrentState() == AnimState.Idle &&
+                  !_AttackModule.IsPeriodProgressing();
+        });
+        _Movement.RunningDrive(_AbilityTable);
+    }
+
+    public void PlayerEnter(MESSAGE message, Player enterPlayer)
+    {
+        if (_AbilityTable.CanRecognize(message))
+        {
+            _Recognition.PlayerEnter(enterPlayer);
+        }
+    }
+    public void PlayerExit(MESSAGE message)
+    {
+        if (_AbilityTable.CantRecognize(message))
+        {
+            _Recognition.PlayerExit();
+        }
+    }
+    public bool IsActive()
+    {
+        return gameObject.activeSelf;
+    }
+    public GameObject ThisObject()
+    {
+        return gameObject;
+    }
+    public void CastBuff(Buff buffType, IEnumerator castedBuff)
+    {
+        StartCoroutine(castedBuff);
     }
 }
