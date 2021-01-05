@@ -1253,7 +1253,7 @@ GameObject:
   - component: {fileID: 2513356593910316397}
   - component: {fileID: 6781568497341880178}
   m_Layer: 5
-  m_Name: UnlockDungeonTitle
+  m_Name: UnlockDungeonMsg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1888,6 +1888,7 @@ MonoBehaviour:
   _UnlockDungeonIndex: 0
   _UnlockDungeonInfo: {fileID: 0}
   _DungeonInfoImage: {fileID: 775559493169150056}
+  _DungeonUnlockMessage: {fileID: 6781568497341880178}
   _DungeonTitle: {fileID: 605729824495155751}
   _DungeonComment: {fileID: 3568650352139579490}
   KillCount: {fileID: 4814344839041273934}
