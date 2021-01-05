@@ -88,6 +88,8 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
         if (fingerItem != null)
         {
+            ItemInfoPopup.Instance.SetPopup(fingerItem.GetItemInfo);
+
             Shower.SetPopupEnable(true);
         }
         SetItem(fingerItem);

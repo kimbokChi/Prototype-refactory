@@ -193,7 +193,7 @@ MonoBehaviour:
   mSenseArae: {fileID: 53926453138816439}
   mCastBuff: 1
   mDurate: 3
-  mLevel: 1
+  mLevel: 3
 --- !u!95 &1722614913
 Animator:
   serializedVersion: 3
