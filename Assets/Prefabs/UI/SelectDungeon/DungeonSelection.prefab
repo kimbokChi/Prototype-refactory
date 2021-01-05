@@ -64,7 +64,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC544\uC9C1 \uCD9C\uC785\uD560 \uC218 \uC5C6\uB294 \uB358\uC804\uC785\uB2C8\uB2E4"
+  m_text: "\uC774\uC804 \uB2E8\uC804\uC744 \n\uD074\uB9AC\uC5B4\uD574\uC57C \uD569\uB2C8\uB2E4."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ea300de88d890424ca3beeb8446a80e3, type: 2}
   m_sharedMaterial: {fileID: 6960670983000816079, guid: ea300de88d890424ca3beeb8446a80e3,
@@ -134,10 +134,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 5204545919223423984}
-    characterCount: 17
+    characterCount: 18
     spriteCount: 0
     spaceCount: 4
-    wordCount: 5
+    wordCount: 4
     linkCount: 0
     lineCount: 2
     pageCount: 1
@@ -326,8 +326,9 @@ GameObject:
   - component: {fileID: 8322495266806049785}
   - component: {fileID: 8322495266806049786}
   - component: {fileID: 8322495266806049787}
+  - component: {fileID: 3368290263159320012}
   m_Layer: 5
-  m_Name: Dungeon Selection
+  m_Name: DungeonSelection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -446,3 +447,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3368290263159320012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8322495266806049669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17fa03a91da67534296df36fe6c7b93f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DungeonName: BetaGame
