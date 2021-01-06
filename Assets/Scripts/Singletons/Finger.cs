@@ -11,7 +11,7 @@ public enum SwipeDirection
 
 public class Finger : Singleton<Finger>
 {
-    private const float PRESS_TIME = 0.8f;
+    private const float PRESS_TIME = 1f;
 
     private float DeltaTime => Time.deltaTime;
 
@@ -92,14 +92,14 @@ public class Finger : Singleton<Finger>
         if (!EventSystem.current.IsPointerInUIObject())
         {
             // Begin Touch
-            if (Input.GetMouseButtonDown(0))
+            if (BeginInputCheck())
             {
                 mChargeGauge.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
                 mChargeGauge.transform.Translate(0, 0, 10);
             }
             // Touuuuuuuuuuuuuch
-            else if (Input.GetMouseButton(0))
+            else if (StationaryInputCheck())
             {
                 if (mCurPressTime >= PRESS_TIME)
                 {
@@ -121,21 +121,79 @@ public class Finger : Singleton<Finger>
             else InputReleaseCheck();
         }
         else InputReleaseCheck();
-    }
 
-    private void InputReleaseCheck()
-    {
-        if (Input.GetMouseButtonUp(0) && mCurPressTime >= PRESS_TIME)
+        #region Local Functions
+        bool BeginInputCheck()
         {
-            Inventory.Instance.OnCharge(mChargeGauge.Charge);
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.WindowsEditor:
+                    return Input.GetMouseButtonDown(0);
 
-            mChargeGauge.gameObject.SetActive(false);
-            mCurPressTime = 0;
-
-            StartCoroutine(EDisBulletTime(1.75f));
+                case RuntimePlatform.Android:
+                    if (Input.touchCount > 0)
+                    {
+                        return Input.GetTouch(0).phase == TouchPhase.Began;
+                    }
+                    return false;
+                default:
+                    return false;
+            }
         }
-    }
+        bool StationaryInputCheck()
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.WindowsEditor:
+                    return Input.GetMouseButton(0);
 
+                case RuntimePlatform.Android:
+                    if (Input.touchCount > 0)
+                    {
+                        var touch = Input.GetTouch(0);
+
+                        return touch.phase == TouchPhase.Stationary ||
+                               touch.phase == TouchPhase.Moved;
+                    }
+                    return false;
+                default:
+                    return false;
+            }
+        }
+        bool EndInputCheck()
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.WindowsEditor:
+                    return Input.GetMouseButton(0);
+
+                case RuntimePlatform.Android:
+                    if (Input.touchCount > 0)
+                    {
+                        return Input.GetTouch(0).phase == TouchPhase.Ended;
+                    }
+                    return false;
+                default:
+                    return false;
+            }
+        }
+        void InputReleaseCheck()
+        {
+            if (EndInputCheck() && mCurPressTime >= PRESS_TIME)
+            {
+                Inventory.Instance.OnCharge(mChargeGauge.Charge);
+
+                mChargeGauge.gameObject.SetActive(false);
+                mCurPressTime = 0;
+
+                StartCoroutine(EDisBulletTime(1.75f));
+            }
+        }
+        #endregion
+    }
     private IEnumerator EOnBulletTime(float accel, float slowMax)
     {
         float lerpAmount = 0f;
