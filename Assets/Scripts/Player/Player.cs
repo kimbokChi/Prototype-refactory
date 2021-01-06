@@ -303,7 +303,7 @@ public class Player : MonoBehaviour, ICombatable
 
             if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
             {
-                if (!EventSystem.current.IsPointerInUIObject())
+                if (!EventSystem.current.IsPointerInUIObject() && !mAttackPeriod.IsProgressing())
                 {
                     switch (Application.platform)
                     {
