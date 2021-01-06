@@ -21,10 +21,8 @@ public class GreatSword : Item
 
     private GameObject mPlayer;
 
-    public override bool CanAttackState
-    {
-        get => Finger.Instance.Gauge.Charge >= DemandCharge;
-    }
+    public override bool IsNeedAttackBtn
+    { get => false; }
 
     public override void OffEquipThis(SlotType offSlot)
     {

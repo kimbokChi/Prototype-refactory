@@ -49,8 +49,6 @@ public class MysteriousMace : Item
                 mPool = new Pool<MysteriousBullet>();
                 mPool.Init(2, TracerBullet, o => o.DisableAction = b =>
                 {
-                    b.transform.parent = ItemStateSaver.Instance.transform;
-
                     mPool.Add(b);
                 });
             }
