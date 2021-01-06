@@ -135,6 +135,9 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
         for (int i = 0; i < Items.Count; ++i)
         {
+            if (Items[i] == null) {
+                continue;
+            }
             var item = Items[i];
             
             if (!ItemStateSaver.Instance.IsSavedItem(Items[i], out item))

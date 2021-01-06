@@ -2,98 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GolemStoneMini : EnemyBase, IAnimEventReceiver
+public class GolemStoneMini : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
-    [SerializeField]
-    private EnemyAnimator EnemyAnimator;
+    [Header("Ability")]
+    [SerializeField] private AbilityTable _AbilityTable;
+    [SerializeField] private EnemyAnimator _EnemyAnimator;
 
-    private Timer mWaitForMove;
+    [Header("Modules")]
+    [SerializeField] private MovementModule _Movement;
+    [SerializeField] private RecognitionModule _Recognition;
+    [SerializeField] private ShortRangeModule _AttackModule;
 
-    private AttackPeriod mAttackPeriod;
-
-    private bool mCanMoving;
-
-    public override void Damaged(float damage, GameObject attacker)
-    {
-        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
-
-        if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
-        {
-            EnemyAnimator.ChangeState(AnimState.Death);
-
-            HealthBarPool.Instance.UnUsingHealthBar(transform);
-        }
-    }
-
-    public override void IInit()
-    {
-        EnemyAnimator?.Init();
-
-        HealthBarPool.Instance.UsingHealthBar(-1f, transform, AbilityTable);
-
-        mWaitForMove = new Timer();
-
-        mAttackPeriod = new AttackPeriod(AbilityTable);
-
-        mAttackPeriod.SetAction(Period.Begin, () => {
-            mCanMoving = false;
-            MoveStop();
-            EnemyAnimator.ChangeState(AnimState.AttackBegin);
-        });
-        mAttackPeriod.SetAction(Period.Attack, () => {
-            EnemyAnimator.ChangeState(AnimState.Attack);
-        });
-        mCanMoving = true;
-    }
-    public override void IUpdate()
-    {
-        if (mWaitForMove.IsOver())
-        {
-            if (mCanMoving)
-            {
-
-                if (IsMoveFinish && !HasPlayerOnRange())
-                {
-                    Vector2 movePoint;
-
-                    movePoint.x = Random.Range(-HalfMoveRangeX, HalfMoveRangeX) + OriginPosition.x;
-                    movePoint.y = Random.Range(-HalfMoveRangeY, HalfMoveRangeY) + OriginPosition.y;
-
-                    EnemyAnimator.ChangeState(AnimState.Move);
-
-                    if (mPlayer != null)
-                    {
-                        MoveToPlayer(movePoint);
-                    }
-                    else MoveToPoint(movePoint);
-                }
-            }
-        }
-        else
-        {
-            mWaitForMove.Update();
-        }
-
-        if (HasPlayerOnRange() && IsLookAtPlayer())
-        {
-            mAttackPeriod.StartPeriod();
-        }
-    }
-
-    protected override void MoveFinish()
-    {
-        mWaitForMove.Start(WaitMoveTime);
-
-        EnemyAnimator.ChangeState(AnimState.Idle);
-    }
-
-    private void AttackAction()
-    {
-        if (HasPlayerOnRange() && IsLookAtPlayer())
-        {
-            mPlayer.Damaged(AbilityTable.AttackPower, gameObject);
-        }
-    }
+    public AbilityTable GetAbility => _AbilityTable;
 
     public void AnimationPlayOver(AnimState anim)
     {
@@ -101,15 +21,20 @@ public class GolemStoneMini : EnemyBase, IAnimEventReceiver
         {
             case AnimState.Attack:
                 {
-                    mAttackPeriod.AttackActionOver();
+                    _EnemyAnimator.ChangeState(AnimState.Idle);
 
-                    EnemyAnimator.ChangeState(AnimState.Idle);
-                    mCanMoving = true;
+                    _AttackModule.PeriodAttackPartOver();
                 }
                 break;
+
             case AnimState.Damaged:
                 {
-                    EnemyAnimator.ChangeState(AnimState.Idle);
+                    if (_Movement.IsMoving())
+                    {
+                        _EnemyAnimator.ChangeState(AnimState.Move);
+                    }
+                    else
+                        _EnemyAnimator.ChangeState(AnimState.Idle);
                 }
                 break;
 
@@ -117,5 +42,106 @@ public class GolemStoneMini : EnemyBase, IAnimEventReceiver
                 gameObject.SetActive(false);
                 break;
         }
+    }
+    public void Damaged(float damage, GameObject attacker)
+    {
+        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
+
+        _EnemyAnimator.ChangeState(AnimState.Damaged);
+        if ((_AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
+        {
+            _AttackModule.SetActivePeriod(false);
+
+            _Movement.MoveStop();
+            _EnemyAnimator.ChangeState(AnimState.Death);
+            HealthBarPool.Instance.UnUsingHealthBar(transform);
+        }
+    }
+
+    public void IInit()
+    {
+        _EnemyAnimator.Init();
+        HealthBarPool.Instance.UsingHealthBar(-1f, transform, _AbilityTable);
+
+        _AttackModule.Init(gameObject, _AbilityTable);
+        _AttackModule.RunningDrive();
+        _AttackModule.SetPeriodAction(Period.Begin, () =>
+        {
+            _Movement.MoveStop();
+
+            _EnemyAnimator.ChangeState(AnimState.AttackBegin);
+        });
+        _AttackModule.SetPeriodAction(Period.Attack, () =>
+        {
+            _EnemyAnimator.ChangeState(AnimState.Attack);
+        });
+
+        MovementModuleInit();
+    }
+    public void IUpdate()
+    {
+        if (_AbilityTable[Ability.CurHealth] > 0)
+        {
+
+            if (!_AttackModule.IsPeriodProgressing())
+            {
+                if (_AttackModule.RangeHasAny() && _Recognition.IsLookAtPlayer())
+                {
+
+                    _Movement.MoveStop();
+                    _AttackModule.SetActivePeriod(true);
+                }
+            }
+        }
+    }
+    private void CameraShake()
+    {
+        MainCamera.Instance.Shake(0.2f, 0.6f);
+    }
+    private void MovementModuleInit()
+    {
+        _Movement.SetMovementEvent(_Recognition,
+        () =>
+        {
+            _EnemyAnimator.ChangeState(AnimState.Move);
+        },
+        () =>
+        {
+            _EnemyAnimator.ChangeState(AnimState.Idle);
+        });
+        _Movement.SetMovementLogic(_Recognition,
+        () =>
+        {
+            return _EnemyAnimator.CurrentState() == AnimState.Idle &&
+                  !_AttackModule.IsPeriodProgressing();
+        });
+        _Movement.RunningDrive(_AbilityTable);
+    }
+
+    public void PlayerEnter(MESSAGE message, Player enterPlayer)
+    {
+        if (_AbilityTable.CanRecognize(message))
+        {
+            _Recognition.PlayerEnter(enterPlayer);
+        }
+    }
+    public void PlayerExit(MESSAGE message)
+    {
+        if (_AbilityTable.CantRecognize(message))
+        {
+            _Recognition.PlayerExit();
+        }
+    }
+    public bool IsActive()
+    {
+        return gameObject.activeSelf;
+    }
+    public GameObject ThisObject()
+    {
+        return gameObject;
+    }
+    public void CastBuff(Buff buffType, IEnumerator castedBuff)
+    {
+        StartCoroutine(castedBuff);
     }
 }

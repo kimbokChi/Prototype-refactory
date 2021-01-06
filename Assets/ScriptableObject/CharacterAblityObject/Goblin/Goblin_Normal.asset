@@ -18,5 +18,5 @@ MonoBehaviour:
   _AttackPower: 5
   _BeginAttackDelay: 0.7
   _AfterAttackDelay: 0.7
-  _Range: 1
+  _Range: 0.6
   _Area: 1

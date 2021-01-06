@@ -558,6 +558,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3930122263957905936}
     m_Modifications:
+    - target: {fileID: 170996014544339428, guid: ac5184f17e8dcbf48aecbadd48ab113b,
+        type: 3}
+      propertyPath: _IsLookAtLeft
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3289013457092312088, guid: ac5184f17e8dcbf48aecbadd48ab113b,
         type: 3}
       propertyPath: IsLookAtLeft

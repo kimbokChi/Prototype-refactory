@@ -3932,6 +3932,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 511733201378069097, guid: b6e444820f2f08d4987528b020b3d070,
         type: 3}
+    - target: {fileID: 1004223647072048471, guid: b338fd190ba165c40ae67b45a7e34d76,
+        type: 3}
+      propertyPath: _UnlockDungeonInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: f2ae43ea0d362d2409ec23d3f1697505,
+        type: 2}
+    - target: {fileID: 1004223647072048471, guid: b338fd190ba165c40ae67b45a7e34d76,
+        type: 3}
+      propertyPath: _UnlockDungeonIndex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1237717389116112981, guid: b338fd190ba165c40ae67b45a7e34d76,
         type: 3}
       propertyPath: m_AnchorMax.x

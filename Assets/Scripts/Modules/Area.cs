@@ -24,6 +24,10 @@ public class Area : MonoBehaviour
         private set;
     }
 
+    public void SetActiveCollider(bool isActive)
+    {
+        AreaCollider.enabled = isActive;
+    }
     public void SetScale(float halfScale)
     {
         if (AreaCollider.TryGetComponent(out CircleCollider2D circle))
