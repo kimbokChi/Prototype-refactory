@@ -222,16 +222,6 @@ public class Player : MonoBehaviour, ICombatable
 
                 mAttackPeriod.StopPeriod();
             };
-            Finger.Instance.Gauge.DisChargeEvent += () => 
-            {
-                if (mInventory.GetWeaponItem != null)
-                {
-                    if (mInventory.GetWeaponItem.GetType().Equals(typeof(GreatSword)))
-                    {
-                        AttackOrder();
-                    }
-                }
-            };
         }
         mInventory.SetWeaponSlot(ItemStateSaver.Instance.LoadSlotItem(SlotType.Weapon, 0));
     }
@@ -312,14 +302,6 @@ public class Player : MonoBehaviour, ICombatable
         {
             Vector2 interactionPoint = Vector2.zero;
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                AttackButtonControlar.Instance.ShowButton();
-            }
-            if (Input.GetMouseButtonDown(1))
-            {
-                AttackButtonControlar.Instance.HideButton();
-            }
             if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
             {
                 if (!EventSystem.current.IsPointerInUIObject())
@@ -374,12 +356,8 @@ public class Player : MonoBehaviour, ICombatable
         {
             if (!mAttackPeriod.IsProgressing())
             {
-                // 나중에 수정해야함
-                if (!mInventory.GetWeaponItem.GetType().Equals(typeof(GreatSword)))
-                {
 
-                    mAttackPeriod.StartPeriod();
-                }
+                mAttackPeriod.StartPeriod();
             }
         }
         

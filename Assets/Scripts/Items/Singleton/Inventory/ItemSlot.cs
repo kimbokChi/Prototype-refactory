@@ -77,6 +77,18 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         }
         if (mSlotType == SlotType.Weapon)
         {
+            if (item != null)
+            {
+                if (item.IsNeedAttackBtn) {
+                    AttackButtonControlar.Instance.ShowButton();
+                }
+                else {
+                    AttackButtonControlar.Instance.HideButton();
+                }
+            }
+            else {
+                AttackButtonControlar.Instance.HideButton();
+            }
             ItemStateSaver.Instance.SaveSlotItem(mSlotType, mContainItem, 0);
         }
     }
