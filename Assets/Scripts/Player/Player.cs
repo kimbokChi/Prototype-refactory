@@ -333,22 +333,22 @@ public class Player : MonoBehaviour, ICombatable
         }
     }
 
-    private void SetLookAtLeft(bool lookLeft)
-    {
-        if (lookLeft)
-        {
-            transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
-        }
-        else 
-            transform.localRotation = Quaternion.Euler(Vector3.zero);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (mEMove != null) mCollidersOnMove.Add(collision);
     }
 
-    private void AttackOrder()
+    public void SetLookAtLeft(bool lookLeft)
+    {
+        if (lookLeft)
+        {
+            transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+        }
+        else
+            transform.localRotation = Quaternion.Euler(Vector3.zero);
+    }
+
+    public void AttackOrder()
     {
         if (mInventory.IsEquipWeapon())
         {
