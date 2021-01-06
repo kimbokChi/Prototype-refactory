@@ -40,6 +40,9 @@ public class Finger : Singleton<Finger>
 
     private float mCurPressTime;
 
+    private bool _IsMustBeReleased;
+    private bool _HasBeginTouch;
+
     private IEnumerator mEOnBulletTime;
 
     private Sprite _EmptySprite;
@@ -167,40 +170,57 @@ public class Finger : Singleton<Finger>
 
     public bool Swipe(SwipeDirection inputDriection)
     {
+        bool canMove = false;
+
         if (Input.touchCount > 0)
         {
+            Touch t = Input.GetTouch(0);
+
             if (!EventSystem.current.IsPointerInUIObject())
             {
-                Touch t = Input.GetTouch(0);
                 if (t.phase == TouchPhase.Began)
                 {
+                    _HasBeginTouch = true;
+
                     mTouchBeganPos = t.position;
                 }
-                if (t.phase == TouchPhase.Moved)
+                if (t.phase == TouchPhase.Ended)
                 {
-                    mTouchEndedPos = t.position;
+                    _HasBeginTouch = false;
 
-                    if (Vector2.Distance(mTouchBeganPos, mTouchEndedPos) >= SwipeLength)
+                    _IsMustBeReleased = false;
+                }
+            }
+            if (_HasBeginTouch && t.phase == TouchPhase.Moved && !_IsMustBeReleased)
+            {
+                mTouchEndedPos = t.position;
+
+                if (Vector2.Distance(mTouchBeganPos, mTouchEndedPos) >= SwipeLength)
+                {
+                    mSwipeDirection = mTouchEndedPos - mTouchBeganPos;
+
+                    mSwipeDirection.Normalize();
+
+                    if (Mathf.Abs(mSwipeDirection.x) > Mathf.Abs(mSwipeDirection.y))
                     {
-                        mSwipeDirection = mTouchEndedPos - mTouchBeganPos;
-
-                        mSwipeDirection.Normalize();
-
-                        if (Mathf.Abs(mSwipeDirection.x) > Mathf.Abs(mSwipeDirection.y))
-                        {
-                            return (mSwipeDirection.x > 0 && SwipeDirection.right == inputDriection) ||
-                                   (mSwipeDirection.x < 0 && SwipeDirection.left == inputDriection);
-                        }
-                        else
-                        {
-                            return (mSwipeDirection.y > 0 && SwipeDirection.up == inputDriection) ||
-                                   (mSwipeDirection.y < 0 && SwipeDirection.down == inputDriection);
-                        }
-
+                        canMove =
+                            (mSwipeDirection.x > 0 && SwipeDirection.right == inputDriection) ||
+                            (mSwipeDirection.x < 0 && SwipeDirection.left == inputDriection);
                     }
+                    else
+                    {
+                        canMove =
+                            (mSwipeDirection.y > 0 && SwipeDirection.up == inputDriection) ||
+                            (mSwipeDirection.y < 0 && SwipeDirection.down == inputDriection);
+                    }
+
                 }
             }
         }
-        return false;
+        if (canMove)
+        {
+            _IsMustBeReleased = true;
+        }
+        return canMove;
     }
 }
