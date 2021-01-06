@@ -29,7 +29,7 @@ public class AttackButtonControlar : MonoBehaviour
             _Player.AttackOrder(); 
         };
 
-        _Player.MovingEvent += OnMoving;
+        //_Player.MovingEvent += OnMoving;
     }
     private void OnMoving(LPOSITION3 movePosition, float ratio)
     {
