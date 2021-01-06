@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AttackButtonControlar : MonoBehaviour
 {
+    private readonly Vector2 TopPosition = new Vector2(0, 440);
+    private readonly Vector2 BotPosition = new Vector2(0, 0);
+
     [SerializeField] private AttackButton _LAttackButton;
     [SerializeField] private AttackButton _RAttackButton;
 
@@ -25,5 +28,25 @@ public class AttackButtonControlar : MonoBehaviour
 
             _Player.AttackOrder(); 
         };
+
+        _Player.MovingEvent += OnMoving;
+    }
+    private void OnMoving(LPOSITION3 movePosition, float ratio)
+    {
+        switch (movePosition)
+        {
+            case LPOSITION3.TOP:
+                {
+                    transform.localPosition = Vector2.Lerp(transform.localPosition, TopPosition, ratio);
+                }
+                break;
+
+            case LPOSITION3.MID:
+            case LPOSITION3.BOT:
+                {
+                    transform.localPosition = Vector2.Lerp(transform.localPosition, BotPosition, ratio);
+                }
+                break;
+        }
     }
 }
