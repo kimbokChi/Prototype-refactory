@@ -2181,6 +2181,7 @@ GameObject:
   - component: {fileID: 1400038388}
   - component: {fileID: 1400038389}
   - component: {fileID: 1400038390}
+  - component: {fileID: 1400038391}
   m_Layer: 0
   m_Name: ItemCollectorNPC
   m_TagString: Untagged
@@ -2310,9 +2311,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a0773250292484ebbd765fd09fa2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _Hider: {fileID: 1400038391}
   IsWaitForEffectDisable: 0
   InteractionButton: {fileID: 1185797686}
   DungeonSelectWindow: {fileID: 1068070417}
+--- !u!114 &1400038391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400038385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bbb634dfa1a4f049835e276efb060a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1507383466
 GameObject:
   m_ObjectHideFlags: 0
@@ -2447,6 +2461,7 @@ GameObject:
   - component: {fileID: 1587181401}
   - component: {fileID: 1587181400}
   - component: {fileID: 1587181399}
+  - component: {fileID: 1587181404}
   m_Layer: 0
   m_Name: ItemStoreNPC
   m_TagString: Untagged
@@ -2466,6 +2481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a0773250292484ebbd765fd09fa2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _Hider: {fileID: 1587181404}
   IsWaitForEffectDisable: 0
   InteractionButton: {fileID: 1685401494}
   DungeonSelectWindow: {fileID: 1816316513}
@@ -2579,6 +2595,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1587181404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1587181398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bbb634dfa1a4f049835e276efb060a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1685401494
 GameObject:
   m_ObjectHideFlags: 0

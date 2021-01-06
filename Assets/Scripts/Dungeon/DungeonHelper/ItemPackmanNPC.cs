@@ -5,6 +5,7 @@ using Kimbokchi;
 
 public class ItemPackmanNPC : MonoBehaviour
 {
+    [SerializeField] private AttackButtonHider _Hider;
     [SerializeField] private GameObject InteractionButton;
 
     [SerializeField] private DropItem DropItem;
@@ -52,10 +53,20 @@ public class ItemPackmanNPC : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) InteractionButton.SetActive(mHasPlayer = true);
+        if (collision.CompareTag("Player"))
+        {
+            _Hider.HideOrShow();
+
+            InteractionButton.SetActive(mHasPlayer = true);
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) InteractionButton.SetActive(mHasPlayer = false);
+        if (collision.CompareTag("Player"))
+        {
+            _Hider.HideOrShow();
+
+            InteractionButton.SetActive(mHasPlayer = false);
+        }
     }
 }
