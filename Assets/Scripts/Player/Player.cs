@@ -312,6 +312,14 @@ public class Player : MonoBehaviour, ICombatable
         {
             Vector2 interactionPoint = Vector2.zero;
 
+            if (Input.GetMouseButtonDown(0))
+            {
+                AttackButtonControlar.Instance.ShowButton();
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                AttackButtonControlar.Instance.HideButton();
+            }
             if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
             {
                 if (!EventSystem.current.IsPointerInUIObject())

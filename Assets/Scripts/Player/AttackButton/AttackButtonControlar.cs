@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackButtonControlar : MonoBehaviour
+public class AttackButtonControlar : Singleton<AttackButtonControlar>
 {
     private readonly Vector2 TopPosition = new Vector2(0, 440);
     private readonly Vector2 BotPosition = new Vector2(0, 0);
 
+    private readonly Vector2 LHidePosition = new Vector2(-510f, -360f);
+    private readonly Vector2 LShowPosition = new Vector2(-250f, -360f);
+
+    private readonly Vector2 RHidePosition = new Vector2(+510f, -360f);
+    private readonly Vector2 RShowPosition = new Vector2(+250f, -360f);
+
     [SerializeField] private AttackButton _LAttackButton;
     [SerializeField] private AttackButton _RAttackButton;
+
+    private Coroutine _ButtonShowRoutine;
 
     private Player _Player;
 
@@ -28,8 +36,43 @@ public class AttackButtonControlar : MonoBehaviour
 
             _Player.AttackOrder(); 
         };
+        _ButtonShowRoutine = new Coroutine(this);
 
         //_Player.MovingEvent += OnMoving;
+    }
+    public void ShowButton()
+    {
+        _ButtonShowRoutine.StartRoutine(EShowButton(true));
+    }
+    public void HideButton()
+    {
+        _ButtonShowRoutine.StartRoutine(EShowButton(false));
+    }
+    private IEnumerator EShowButton(bool show)
+    {
+        float time = 2f;
+
+        Vector2 lTargetPosition = LHidePosition;
+        Vector2 rTargetPosition = RHidePosition;
+
+        if (show)
+        {
+            lTargetPosition = LShowPosition;
+            rTargetPosition = RShowPosition;
+        }
+        for (float i = 0f; i < time; i += Time.deltaTime)
+        {
+            float ratio = Mathf.Min(i, time) / time;
+
+            _LAttackButton.transform.localPosition 
+                = Vector2.Lerp(_LAttackButton.transform.localPosition, lTargetPosition, ratio);
+
+            _RAttackButton.transform.localPosition
+                = Vector2.Lerp(_RAttackButton.transform.localPosition, rTargetPosition, ratio);
+
+            yield return null;
+        }
+        _ButtonShowRoutine.Finish();
     }
     private void OnMoving(LPOSITION3 movePosition, float ratio)
     {
