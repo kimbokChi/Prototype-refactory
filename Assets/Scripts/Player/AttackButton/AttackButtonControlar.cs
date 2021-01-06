@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class AttackButtonControlar : Singleton<AttackButtonControlar>
 {
+    public bool IsButtonHide
+    {
+        get;
+        private set;
+    }
     private readonly Vector2 TopPosition = new Vector2(0, 440);
     private readonly Vector2 BotPosition = new Vector2(0, 0);
 
@@ -55,6 +60,8 @@ public class AttackButtonControlar : Singleton<AttackButtonControlar>
         Vector2 lTargetPosition = LHidePosition;
         Vector2 rTargetPosition = RHidePosition;
 
+        IsButtonHide = show;
+
         if (show)
         {
             lTargetPosition = LShowPosition;
@@ -64,7 +71,7 @@ public class AttackButtonControlar : Singleton<AttackButtonControlar>
         {
             float ratio = Mathf.Min(i, time) / time;
 
-            _LAttackButton.transform.localPosition 
+            _LAttackButton.transform.localPosition
                 = Vector2.Lerp(_LAttackButton.transform.localPosition, lTargetPosition, ratio);
 
             _RAttackButton.transform.localPosition
