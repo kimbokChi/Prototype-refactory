@@ -169,32 +169,35 @@ public class Finger : Singleton<Finger>
     {
         if (Input.touchCount > 0)
         {
-            Touch t = Input.GetTouch(0);
-            if (t.phase == TouchPhase.Began)
+            if (!EventSystem.current.IsPointerInUIObject())
             {
-                mTouchBeganPos = t.position;
-            }
-            if (t.phase == TouchPhase.Moved)
-            {
-                mTouchEndedPos = t.position;
-
-                if (Vector2.Distance(mTouchBeganPos, mTouchEndedPos) >= SwipeLength)
+                Touch t = Input.GetTouch(0);
+                if (t.phase == TouchPhase.Began)
                 {
-                    mSwipeDirection = mTouchEndedPos - mTouchBeganPos;
+                    mTouchBeganPos = t.position;
+                }
+                if (t.phase == TouchPhase.Moved)
+                {
+                    mTouchEndedPos = t.position;
 
-                    mSwipeDirection.Normalize();
+                    if (Vector2.Distance(mTouchBeganPos, mTouchEndedPos) >= SwipeLength)
+                    {
+                        mSwipeDirection = mTouchEndedPos - mTouchBeganPos;
 
-                    if (Mathf.Abs(mSwipeDirection.x) > Mathf.Abs(mSwipeDirection.y))
-                    {
-                        return (mSwipeDirection.x > 0 && SwipeDirection.right == inputDriection) ||
-                               (mSwipeDirection.x < 0 && SwipeDirection.left  == inputDriection);
+                        mSwipeDirection.Normalize();
+
+                        if (Mathf.Abs(mSwipeDirection.x) > Mathf.Abs(mSwipeDirection.y))
+                        {
+                            return (mSwipeDirection.x > 0 && SwipeDirection.right == inputDriection) ||
+                                   (mSwipeDirection.x < 0 && SwipeDirection.left == inputDriection);
+                        }
+                        else
+                        {
+                            return (mSwipeDirection.y > 0 && SwipeDirection.up == inputDriection) ||
+                                   (mSwipeDirection.y < 0 && SwipeDirection.down == inputDriection);
+                        }
+
                     }
-                    else
-                    {
-                        return (mSwipeDirection.y > 0 && SwipeDirection.up   == inputDriection) ||
-                               (mSwipeDirection.y < 0 && SwipeDirection.down == inputDriection);
-                    }
-                    
                 }
             }
         }
