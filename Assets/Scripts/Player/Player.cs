@@ -222,7 +222,16 @@ public class Player : MonoBehaviour, ICombatable
 
                 mAttackPeriod.StopPeriod();
             };
-            Finger.Instance.Gauge.DisChargeEvent += AttackOrder;
+            Finger.Instance.Gauge.DisChargeEvent += () => 
+            {
+                if (mInventory.GetWeaponItem != null)
+                {
+                    if (mInventory.GetWeaponItem.GetType().Equals(typeof(GreatSword)))
+                    {
+                        AttackOrder();
+                    }
+                }
+            };
         }
         mInventory.SetWeaponSlot(ItemStateSaver.Instance.LoadSlotItem(SlotType.Weapon, 0));
     }
@@ -305,7 +314,7 @@ public class Player : MonoBehaviour, ICombatable
 
             if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
             {
-                if (!EventSystem.current.IsPointerInUIObject() && !mAttackPeriod.IsProgressing())
+                if (!EventSystem.current.IsPointerInUIObject())
                 {
                     switch (Application.platform)
                     {
@@ -327,8 +336,6 @@ public class Player : MonoBehaviour, ICombatable
                             break;
                     }
                     SetLookAtLeft(interactionPoint.x < 0);
-
-                    AttackOrder();
                 }
 
             }
@@ -342,12 +349,15 @@ public class Player : MonoBehaviour, ICombatable
 
     public void SetLookAtLeft(bool lookLeft)
     {
-        if (lookLeft)
+        if (!mAttackPeriod.IsProgressing())
         {
-            transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+            if (lookLeft)
+            {
+                transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+            }
+            else
+                transform.localRotation = Quaternion.Euler(Vector3.zero);
         }
-        else
-            transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 
     public void AttackOrder()
@@ -356,21 +366,8 @@ public class Player : MonoBehaviour, ICombatable
         {
             if (!mAttackPeriod.IsProgressing())
             {
-                if (Application.platform == RuntimePlatform.Android)
-                {
-                    if (Input.touchCount > 0)
-                    {
-                        Touch touch = Input.GetTouch(0);
-
-                        if (touch.phase != TouchPhase.Ended)
-                        {
-                            return;
-                        }
-                    }
-                }
                 // 나중에 수정해야함
-                if (mInventory.GetWeaponItem.CanAttackState && 
-                   !mInventory.GetWeaponItem.GetType().Equals(typeof(GreatSword)))
+                if (!mInventory.GetWeaponItem.GetType().Equals(typeof(GreatSword)))
                 {
 
                     mAttackPeriod.StartPeriod();
