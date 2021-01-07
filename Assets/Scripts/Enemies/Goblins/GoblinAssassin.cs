@@ -12,11 +12,6 @@ public class GoblinAssassin : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     [SerializeField] private RecognitionModule _Recognition;
     [SerializeField] private DashModule _AttackModule;
 
-    [Header("Dash")]
-    [SerializeField] private float _DashDistance;
-    [SerializeField] private float _DashSpeedScale;
-    [SerializeField] private GameObject _DashEffect;
-
     private Coroutine _DashRoutine;
 
     public AbilityTable GetAbility => _AbilityTable;
@@ -29,9 +24,12 @@ public class GoblinAssassin : MonoBehaviour, IObject, ICombatable, IAnimEventRec
                 {
                     _DashRoutine.StopRoutine();
 
-                    _EnemyAnimator.ChangeState(AnimState.Idle);
+                    if (_AbilityTable[Ability.CurHealth] > 0f)
+                    {
 
-                    _AttackModule.PeriodAttackPartOver();
+                        _EnemyAnimator.ChangeState(AnimState.Idle);
+                        _AttackModule.PeriodAttackPartOver();
+                    }
                 }
                 break;
 
