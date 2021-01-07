@@ -168,7 +168,7 @@ public class Finger : Singleton<Finger>
             {
                 case RuntimePlatform.WindowsPlayer:
                 case RuntimePlatform.WindowsEditor:
-                    return Input.GetMouseButton(0);
+                    return Input.GetMouseButtonUp(0);
 
                 case RuntimePlatform.Android:
                     if (Input.touchCount > 0)

@@ -11,11 +11,11 @@ public class AttackButtonHider : MonoBehaviour
     {
         if (!_IsAlreadyInit)
         {
-            _ButtonAlreadyOpen = AttackButtonControlar.Instance.IsButtonHide;
+            _ButtonAlreadyOpen = AttackButtonController.Instance.IsButtonHide;
 
             if (_ButtonAlreadyOpen)
             {
-                AttackButtonControlar.Instance.HideButton();
+                AttackButtonController.Instance.HideButton();
             }
             _IsAlreadyInit = true;
         }
@@ -23,7 +23,7 @@ public class AttackButtonHider : MonoBehaviour
         {
             if (_ButtonAlreadyOpen)
             {
-                AttackButtonControlar.Instance.ShowButton();
+                AttackButtonController.Instance.ShowButton();
             }
             _IsAlreadyInit = false;
         }

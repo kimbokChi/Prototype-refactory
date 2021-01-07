@@ -80,14 +80,14 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             if (item != null)
             {
                 if (item.IsNeedAttackBtn) {
-                    AttackButtonControlar.Instance.ShowButton();
+                    AttackButtonController.Instance.ShowButton();
                 }
                 else {
-                    AttackButtonControlar.Instance.HideButton();
+                    AttackButtonController.Instance.HideButton();
                 }
             }
             else {
-                AttackButtonControlar.Instance.HideButton();
+                AttackButtonController.Instance.HideButton();
             }
             ItemStateSaver.Instance.SaveSlotItem(mSlotType, mContainItem, 0);
         }
