@@ -84,6 +84,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
+            mAttackPeriod.StopPeriod();
             Animator.SetInteger(mAnimControlKey, (int)AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
