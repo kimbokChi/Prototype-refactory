@@ -77,6 +77,18 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
         }
         if (mSlotType == SlotType.Weapon)
         {
+            if (item != null)
+            {
+                if (item.IsNeedAttackBtn) {
+                    AttackButtonControlar.Instance.ShowButton();
+                }
+                else {
+                    AttackButtonControlar.Instance.HideButton();
+                }
+            }
+            else {
+                AttackButtonControlar.Instance.HideButton();
+            }
             ItemStateSaver.Instance.SaveSlotItem(mSlotType, mContainItem, 0);
         }
     }
@@ -134,7 +146,7 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
     }
     private IEnumerator WaitForPressInput()
     {
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.4f);
         ItemSwapFingerAndSlot();
 
         _Coroutine.Finish();

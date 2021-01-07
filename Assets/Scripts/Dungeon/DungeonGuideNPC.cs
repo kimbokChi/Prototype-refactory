@@ -2,6 +2,7 @@
 
 public class DungeonGuideNPC : MonoBehaviour
 {
+    [SerializeField] private AttackButtonHider _Hider;
     [SerializeField] private bool IsWaitForEffectDisable;
 
     [SerializeField] private GameObject InteractionButton;
@@ -16,11 +17,21 @@ public class DungeonGuideNPC : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) InteractionButton.SetActive(mHasPlayer = true);
+        if (collision.CompareTag("Player"))
+        {
+            _Hider.HideOrShow();
+
+            InteractionButton.SetActive(mHasPlayer = true);
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) InteractionButton.SetActive(mHasPlayer = false);
+        if (collision.CompareTag("Player"))
+        {
+            _Hider.HideOrShow();
+
+            InteractionButton.SetActive(mHasPlayer = false);
+        }
     }
 
     public void Interact()

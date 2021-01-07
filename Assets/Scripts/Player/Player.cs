@@ -30,6 +30,8 @@ public static class InputExtension
 
 public class Player : MonoBehaviour, ICombatable
 {
+    public event Action<LPOSITION3, float> MovingEvent;
+
     [SerializeField] private bool CanMoveDown;
     [SerializeField] private bool IsUsingHealthBar;
     
@@ -220,7 +222,6 @@ public class Player : MonoBehaviour, ICombatable
 
                 mAttackPeriod.StopPeriod();
             };
-            Finger.Instance.Gauge.DisChargeEvent += AttackOrder;
         }
         mInventory.SetWeaponSlot(ItemStateSaver.Instance.LoadSlotItem(SlotType.Weapon, 0));
     }
@@ -325,22 +326,10 @@ public class Player : MonoBehaviour, ICombatable
                             break;
                     }
                     SetLookAtLeft(interactionPoint.x < 0);
-
-                    AttackOrder();
                 }
 
             }
         }
-    }
-
-    private void SetLookAtLeft(bool lookLeft)
-    {
-        if (lookLeft)
-        {
-            transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
-        }
-        else 
-            transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -348,31 +337,27 @@ public class Player : MonoBehaviour, ICombatable
         if (mEMove != null) mCollidersOnMove.Add(collision);
     }
 
-    private void AttackOrder()
+    public void SetLookAtLeft(bool lookLeft)
+    {
+        if (!mAttackPeriod.IsProgressing())
+        {
+            if (lookLeft)
+            {
+                transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+            }
+            else
+                transform.localRotation = Quaternion.Euler(Vector3.zero);
+        }
+    }
+
+    public void AttackOrder()
     {
         if (mInventory.IsEquipWeapon())
         {
             if (!mAttackPeriod.IsProgressing())
             {
-                if (Application.platform == RuntimePlatform.Android)
-                {
-                    if (Input.touchCount > 0)
-                    {
-                        Touch touch = Input.GetTouch(0);
 
-                        if (touch.phase != TouchPhase.Ended)
-                        {
-                            return;
-                        }
-                    }
-                }
-                // 나중에 수정해야함
-                if (mInventory.GetWeaponItem.CanAttackState && 
-                   !mInventory.GetWeaponItem.GetType().Equals(typeof(GreatSword)))
-                {
-
-                    mAttackPeriod.StartPeriod();
-                }
+                mAttackPeriod.StartPeriod();
             }
         }
         
@@ -443,6 +428,28 @@ public class Player : MonoBehaviour, ICombatable
             lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * AbilityTable.MoveSpeed);
 
             transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
+
+            LPOSITION3 moveDIR3 = LPOSITION3.NONE;
+
+            switch (moveDIR9)
+            {
+                case DIRECTION9.TOP_LEFT:
+                case DIRECTION9.TOP:
+                case DIRECTION9.TOP_RIGHT:
+                    moveDIR3 = LPOSITION3.TOP;
+                    break;
+                case DIRECTION9.MID_LEFT:
+                case DIRECTION9.MID:
+                case DIRECTION9.MID_RIGHT:
+                    moveDIR3 = LPOSITION3.MID;
+                    break;
+                case DIRECTION9.BOT_LEFT:
+                case DIRECTION9.BOT:
+                case DIRECTION9.BOT_RIGHT:
+                    moveDIR3 = LPOSITION3.BOT;
+                    break;
+            }
+            MovingEvent?.Invoke(moveDIR3, lerpAmount);
 
             if (a) {
                 if (mIsMovingElevation && lerpAmount >= 0.1f)

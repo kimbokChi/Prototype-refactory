@@ -83,7 +83,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mChargeGauge: {fileID: 2518353896850578289}
-  SwipeLength: 30
+  CarryItemImage: {fileID: 0}
+  SwipeLength: 45
 --- !u!114 &2518353896841765208
 MonoBehaviour:
   m_ObjectHideFlags: 0

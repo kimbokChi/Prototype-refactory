@@ -26,13 +26,8 @@ public class IronShield : Item
         base.AttackAnimationPlayOver();
     }
 
-    public override bool CanAttackState
-    {
-        get
-        {
-            return false;
-        }
-    }
+    public override bool IsNeedAttackBtn
+    { get => false; }
 
     public override void OffEquipThis(SlotType offSlot)
     {

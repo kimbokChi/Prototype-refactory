@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class PeddlerNPC : MonoBehaviour
 {
+    [SerializeField] private AttackButtonHider _Hider;
+
     [Header("Item Section")]
     [Range(1f, 2f)]
     [SerializeField] private float ItemCostScalling;
@@ -58,6 +60,8 @@ public class PeddlerNPC : MonoBehaviour
         {
             CanvasRaycaster.enabled = true;
             InteractionUI.SetActive(true);
+
+            _Hider.HideOrShow();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -66,6 +70,8 @@ public class PeddlerNPC : MonoBehaviour
         {
             CanvasRaycaster.enabled = false;
             InteractionUI.SetActive(false);
+
+            _Hider.HideOrShow();
         }
     }
 
