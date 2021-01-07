@@ -20,6 +20,9 @@ TextureImporter:
   - first:
       213: -906784498632765804
     second: DungeonSelect_5
+  - first:
+      213: 2661632892829122358
+    second: DungeonSelect_6
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -238,6 +241,27 @@ TextureImporter:
       bones: []
       spriteID: 49ec9278d447a63f0800000000000000
       internalID: -906784498632765804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonSelect_6
+      rect:
+        serializedVersion: 2
+        x: 1146
+        y: 309
+        width: 215
+        height: 355
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63f339b930500f420800000000000000
+      internalID: 2661632892829122358
       vertices: []
       indices: 
       edges: []
