@@ -4839,7 +4839,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: AttackButtons
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5529087891168477544, guid: 4357f04ecd3c13b4b9ff38b96be09fe6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4357f04ecd3c13b4b9ff38b96be09fe6, type: 3}
 --- !u!224 &5272965360078862655 stripped
 RectTransform:

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackButtonControlar : Singleton<AttackButtonControlar>
+public class AttackButtonController : Singleton<AttackButtonController>
 {
     public bool IsButtonHide
     {
