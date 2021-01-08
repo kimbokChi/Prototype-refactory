@@ -555,6 +555,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405060821}
   m_CullTransparentMesh: 0
+--- !u!1 &484318045 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2942208290765904464, guid: 596ca2a92ccf6fe47bc909af532aec22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5846258137606730949}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &486486569
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,6 +881,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01325a20e41267a488041a24730ae7f6, type: 3}
+--- !u!1 &751083770 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3672978394724584308, guid: 596ca2a92ccf6fe47bc909af532aec22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5846258137606730949}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &783903958
 GameObject:
   m_ObjectHideFlags: 0
@@ -2308,7 +2320,7 @@ MonoBehaviour:
   _Hider: {fileID: 1400038391}
   IsWaitForEffectDisable: 0
   InteractionButton: {fileID: 1185797686}
-  DungeonSelectWindow: {fileID: 0}
+  DungeonSelectWindow: {fileID: 751083770}
 --- !u!114 &1400038391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2478,7 +2490,7 @@ MonoBehaviour:
   _Hider: {fileID: 1587181404}
   IsWaitForEffectDisable: 0
   InteractionButton: {fileID: 1685401494}
-  DungeonSelectWindow: {fileID: 0}
+  DungeonSelectWindow: {fileID: 484318045}
 --- !u!61 &1587181400
 BoxCollider2D:
   m_ObjectHideFlags: 0

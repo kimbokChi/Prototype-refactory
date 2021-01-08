@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ItemStore : MonoBehaviour
 {
@@ -32,6 +32,13 @@ public class ItemStore : MonoBehaviour
     {
         _SelectedBlock = block;
     }
+    private void Update()
+    {
+        if (EventSystem.current.currentSelectedGameObject == null)
+        {
+            _SelectedBlock = null;
+        }
+    }
     public void Purchace()
     {
         if (_SelectedBlock != null)
@@ -43,6 +50,9 @@ public class ItemStore : MonoBehaviour
 
                 Inventory.Instance.AddItem(item);
                 item.transform.parent = ItemStateSaver.Instance.transform;
+
+                _SelectedBlock.Disable();
+                _SelectedBlock = null;
             }
             else
             {
