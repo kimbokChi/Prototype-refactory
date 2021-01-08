@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JsonLabelName: GreatSword
   _Range: 1
-  _AttackPower: 10
+  _AttackPower: 18
   _BeginAttackDelay: 0
   _AfterAttackDelay: 0
   _Rating: 2

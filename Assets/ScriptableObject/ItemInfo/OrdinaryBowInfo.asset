@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: OrdinaryBowInfo
   m_EditorClassIdentifier: 
   _ItemName: "\uD3C9\uBC94\uD55C \uD65C"
-  _ItemRating: "\uC77C\uBC18 \uC544\uC774\uD15C"
-  _ATK: 8.0
-  _DPS: 6.15
-  _TextColor: {r: 0.437, g: 0.452, b: 0.4, a: 1}
+  _ItemRating: "\uD76C\uADC0 \uC544\uC774\uD15C"
+  _ATK: 16.0
+  _DPS: 12.3
+  _TextColor: {r: 0.18, g: 0.84, b: 0.22, a: 1}
   _ItemSprite: {fileID: -5722735768399984094, guid: dd54d29f612e4ed4ea9f5b818779fe24,
     type: 3}
+  _UsageKeywords: 
   _WeaponText: "\uD55C \uBC88 \uAD00\uD1B5\uD560 \uC218 \uC788\uB294 \n\uD654\uC0B4\uC744
     \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
   _WeaponAblity: ATK+5.0 SPEED+0.0

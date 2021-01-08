@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ItemName: "\uC2E0\uBE44\uD55C \uBA54\uC774\uC2A4"
   _ItemRating: "\uD76C\uADC0 \uC544\uC774\uD15C"
-  _ATK: 8.0
-  _DPS: 3.69
+  _ATK: 20.0
+  _DPS: 9.23
   _TextColor: {r: 0.18, g: 0.84, b: 0.22, a: 1}
   _ItemSprite: {fileID: -6990389507589092616, guid: 297fa8eb2e1a486489ec2c395d2143b1,
     type: 3}

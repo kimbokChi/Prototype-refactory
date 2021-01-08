@@ -17,7 +17,7 @@
     "Begin_AttackDelay": "1.0",
     "After_AttackDelay": "3.0",
     "RecognitionArea": "Room",
-    "Range": "0.0"
+    "Range": "3.0"
   },
   {
     "ID": "Goblin_Chief",
@@ -41,7 +41,7 @@
   },
   {
     "ID": "Goblin_Normal",
-    "MoveSpeed": "1.0",
+    "MoveSpeed": "0.6",
     "MaxHealth": "30.0",
     "AttackPower": "5.0",
     "Begin_AttackDelay": "0.7",
@@ -67,7 +67,7 @@
     "Begin_AttackDelay": "1.0",
     "After_AttackDelay": "1.5",
     "RecognitionArea": "Room",
-    "Range": "1.0"
+    "Range": "0.7"
   },
   {
     "ID": "Slime_Normal",

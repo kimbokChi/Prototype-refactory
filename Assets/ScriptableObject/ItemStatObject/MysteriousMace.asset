@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JsonLabelName: MysteriousMace
   _Range: 1
-  _AttackPower: 8
+  _AttackPower: 20
   _BeginAttackDelay: 0
   _AfterAttackDelay: 0
   _Rating: 1

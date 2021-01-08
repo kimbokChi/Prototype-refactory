@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JsonLabelName: OrdinaryBow
   _Range: 2.5
-  _AttackPower: 8
+  _AttackPower: 16
   _BeginAttackDelay: 0
   _AfterAttackDelay: 0
-  _Rating: 0
+  _Rating: 1
   _NameKR: "\uD3C9\uBC94\uD55C \uD65C"
-  _Cost: 10
+  _Cost: 25
