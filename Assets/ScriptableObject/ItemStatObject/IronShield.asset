@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JsonLabelName: IronShield
   _Range: 1
-  _AttackPower: 5
+  _AttackPower: 20
   _BeginAttackDelay: 0
   _AfterAttackDelay: 0
-  _Rating: 1
+  _Rating: 0
   _NameKR: "\uAC15\uCCA0 \uBC29\uD328"
-  _Cost: 15
+  _Cost: 5

@@ -6,12 +6,17 @@ using UnityEngine.UI;
 public class ItemShowBlock : MonoBehaviour
 {
     [SerializeField] private ItemStore Store;
+    [SerializeField] private ItemInfoShower ItemShower;
 
+    [SerializeField] private Button _Button;
+
+    [Header("TextSection")]
     [SerializeField] private TMPro.TextMeshProUGUI ItemNameText;
     [SerializeField] private TMPro.TextMeshProUGUI ItemCostText;
 
+    [Header("ImageSection")]
     [SerializeField] private Image ItemImage;
-    [SerializeField] private ItemInfoShower ItemShower;
+    [SerializeField] private Image ContainerImage;
 
     public int ItemCost
     {
@@ -28,7 +33,16 @@ public class ItemShowBlock : MonoBehaviour
     {
         Store.BlockSelect(this);
     }
+    public void Disable()
+    {
+        _Button.enabled = false;
 
+        ItemNameText.color = new Color(0.35f, 0.35f, 0.35f);
+        ItemCostText.color = new Color(0.25f, 0.25f, 0.25f);
+
+        ItemImage.color      = new Color(0.5f, 0.5f, 0.5f);
+        ContainerImage.color = new Color(0.5f, 0.5f, 0.5f);
+    }
     public void SetBlock(Item blockItem)
     {
         ContainItem = blockItem;

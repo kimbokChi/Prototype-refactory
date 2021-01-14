@@ -16,8 +16,10 @@ public class BuffLibrary : Singleton<BuffLibrary>
 
     private IEnumerable HealBuff(uint level, AbilityTable ability)
     {
-        ability.Table[Ability.CurHealth] += level * HEAL;
+        float healingMin = ability[Ability.CurHealth] + level * HEAL;
+        float healingMax = ability[Ability.MaxHealth];
 
+        ability.Table[Ability.CurHealth] = Mathf.Min(healingMin, healingMax);
         yield break;
     }
    

@@ -41,10 +41,6 @@ public class Player : MonoBehaviour, ICombatable
     [SerializeField]
     private GameObject EquipWeaponSlot;
 
-    [SerializeField]
-    private float mBlinkTime;
-    private Timer mBlinkTimer;
-
     [SerializeField] 
     private Area RangeArea;
 
@@ -157,8 +153,6 @@ public class Player : MonoBehaviour, ICombatable
         IsDeath       = false;
 
         mIsMovingElevation = false;
-
-        mBlinkTimer = new Timer();
 
         mAttackPeriod = new AttackPeriod(AbilityTable);
         mAttackPeriod.SetAction(Period.Attack, AttackAction);
@@ -291,9 +285,6 @@ public class Player : MonoBehaviour, ICombatable
     }
     private void Update()
     {
-        if (!mBlinkTimer.IsOver()) 
-             mBlinkTimer.Update();
-
         if (!IsDeath)
         {
             InputAction();
@@ -498,24 +489,19 @@ public class Player : MonoBehaviour, ICombatable
 
     public void Damaged(float damage, GameObject attacker)
     {
-        if (mBlinkTimer.IsOver())
+        MainCamera.Instance.Shake(0.3f, 1.0f);
+
+        mInventory.OnDamaged(ref damage, attacker, gameObject);
+
+        AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
+        if (IsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
         {
-            mBlinkTimer.Start(mBlinkTime);
-
-            MainCamera.Instance.Shake(0.3f, 1.0f);
-
-            mInventory.OnDamaged(ref damage, attacker, gameObject);
-
-                          AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
-            if (IsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
-            {
-                DeathEvent?.Invoke();
-                DeathEvent = null;
-            }
-            if (damage > 0f)
-            {
-                EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
-            }
+            DeathEvent?.Invoke();
+            DeathEvent = null;
+        }
+        if (damage > 0f)
+        {
+            EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
         }
     }
 

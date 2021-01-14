@@ -49,18 +49,23 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
     private void CastBuff()
     {
-        ICombatable[] combats = mSenseArae.GetEnterTypeT<ICombatable>();
-
         Anim.SetActive(true);
 
-        for (int i = 0; i < combats.Length; ++i)
+        for (int i = 0; i < mSenseArae.EntryList.Count; ++i)
         {
-            AbilityTable stat = combats[i].GetAbility;
+            var _enterObject = mSenseArae.EntryList[i];
 
-            IEnumerator buffEnumator 
-                = BuffLibrary.Instance.GetBuff(mCastBuff, mLevel, mDurate, stat);
+            if (_enterObject.TryGetComponent(out ICombatable combatable))
+            {
+                var stat = combatable.GetAbility;
 
-            combats[i].CastBuff(mCastBuff, buffEnumator);
+                IEnumerator buffEnumator
+                    = BuffLibrary.Instance.GetBuff(mCastBuff, mLevel, mDurate, stat);
+
+                combatable.CastBuff(mCastBuff, buffEnumator);
+
+                EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, _enterObject.transform.position);
+            }
         }
         StartCoroutine(EffectAnimPlayOver());
     }
@@ -84,6 +89,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
         if ((AbilityTable.Table[Ability.CurHealth] -= damage) <= 0)
         {
+            mAttackPeriod.StopPeriod();
             Animator.SetInteger(mAnimControlKey, (int)AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);

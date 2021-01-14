@@ -38,6 +38,9 @@ public class ItemStatObjectControler : Editor
             if (Application.isEditor)
             {
                 (target as ItemStatObject).Init();
+
+                EditorUtility.SetDirty(target);
+                AssetDatabase.SaveAssets();
             }
         }
     }
@@ -57,6 +60,9 @@ public class CharacterAblityObjectControler : Editor
             if (Application.isEditor)
             {
                 (target as CharacterAblityObject).Init();
+
+                EditorUtility.SetDirty(target);
+                AssetDatabase.SaveAssets();
             }
         }
     }
@@ -176,6 +182,9 @@ public class ItemInfoController : Editor
                 ItemInfo info = target as ItemInfo;
 
                 info.SetData(_TargetItem.NameKR, _TargetItem.Rating, _TargetItem.AttackPower);
+
+                EditorUtility.SetDirty(target);
+                AssetDatabase.SaveAssets();
             }
         }
     }

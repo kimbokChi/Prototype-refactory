@@ -1,28 +1,25 @@
 fileFormatVersion: 2
-guid: b6e444820f2f08d4987528b020b3d070
+guid: 343c8a0d84c9e3f4a9a39c20a505bf7d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5708812327298657796
-    second: DungeonSelect_0
+      213: 6383144458260352495
+    second: ItemStore_0
   - first:
-      213: -8510354074952017376
-    second: DungeonSelect_1
+      213: 2536933879779694918
+    second: ItemStore_1
   - first:
-      213: 511733201378069097
-    second: DungeonSelect_2
+      213: -3025603134332538409
+    second: ItemStore_2
   - first:
-      213: 5327139027057955629
-    second: DungeonSelect_3
+      213: -7343488023553956188
+    second: ItemStore_3
   - first:
-      213: -2540570371090847394
-    second: DungeonSelect_4
+      213: 7961403625715538743
+    second: ItemStore_4
   - first:
-      213: -906784498632765804
-    second: DungeonSelect_5
-  - first:
-      213: 2661632892829122358
-    second: DungeonSelect_6
+      213: -3922599382053561105
+    second: ItemStore_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -120,13 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DungeonSelect_0
+      name: ItemStore_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 590
-        width: 830
-        height: 800
+        x: 178
+        y: 193
+        width: 368
+        height: 638
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,20 +131,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 40ee10aa096c93f40800000000000000
-      internalID: 5708812327298657796
+      spriteID: fed8c90c01c759850800000000000000
+      internalID: 6383144458260352495
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DungeonSelect_1
+      name: ItemStore_1
       rect:
         serializedVersion: 2
-        x: 90
-        y: 160
-        width: 215
-        height: 355
+        x: 773
+        y: 652
+        width: 20
+        height: 23
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -155,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02adfa10f0625e980800000000000000
-      internalID: -8510354074952017376
+      spriteID: 6491ce22ceff43320800000000000000
+      internalID: 2536933879779694918
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DungeonSelect_2
+      name: ItemStore_2
       rect:
         serializedVersion: 2
-        x: 325
-        y: 160
-        width: 215
-        height: 355
+        x: 605
+        y: 540
+        width: 195
+        height: 68
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -176,20 +173,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 96ac9e7a2aa0a1700800000000000000
-      internalID: 511733201378069097
+      spriteID: 7d1fccacaf5e206d0800000000000000
+      internalID: -3025603134332538409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DungeonSelect_3
+      name: ItemStore_3
       rect:
         serializedVersion: 2
-        x: 560
-        y: 160
-        width: 215
-        height: 355
+        x: 600
+        y: 408
+        width: 205
+        height: 77
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,20 +194,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d23d8e088bccde940800000000000000
-      internalID: 5327139027057955629
+      spriteID: 4a62bbfcc80b61a90800000000000000
+      internalID: -7343488023553956188
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DungeonSelect_4
+      name: ItemStore_4
       rect:
         serializedVersion: 2
-        x: 870
-        y: 190
-        width: 215
-        height: 85
+        x: 568
+        y: 296
+        width: 107
+        height: 42
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,20 +215,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e596f3045b41ebcd0800000000000000
-      internalID: -2540570371090847394
+      spriteID: 73b18409a669c7e60800000000000000
+      internalID: 7961403625715538743
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DungeonSelect_5
+      name: ItemStore_5
       rect:
         serializedVersion: 2
-        x: 1145
-        y: 190
-        width: 215
-        height: 85
+        x: 723
+        y: 296
+        width: 107
+        height: 37
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -239,29 +236,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 49ec9278d447a63f0800000000000000
-      internalID: -906784498632765804
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: DungeonSelect_6
-      rect:
-        serializedVersion: 2
-        x: 1146
-        y: 309
-        width: 215
-        height: 355
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 63f339b930500f420800000000000000
-      internalID: 2661632892829122358
+      spriteID: fecd78415a02099c0800000000000000
+      internalID: -3922599382053561105
       vertices: []
       indices: 
       edges: []

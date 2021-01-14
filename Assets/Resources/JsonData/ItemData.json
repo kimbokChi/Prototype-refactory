@@ -1,7 +1,7 @@
 [
   {
     "ID": "IronSword",
-    "AttackPower": "15.00",
+    "AttackPower": "20.00",
     "Range": "1.50",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
@@ -11,7 +11,7 @@
   },
   {
     "ID": "LongSword",
-    "AttackPower": "4.00",
+    "AttackPower": "16.00",
     "Range": "1.25",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
@@ -21,7 +21,7 @@
   },
   {
     "ID": "MysteriousMace",
-    "AttackPower": "8.00",
+    "AttackPower": "20.00",
     "Range": "1.00",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
@@ -31,7 +31,7 @@
   },
   {
     "ID": "GreatSword",
-    "AttackPower": "10.00",
+    "AttackPower": "18.00",
     "Range": "1.00",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
@@ -41,7 +41,7 @@
   },
   {
     "ID": "OrdinaryBow",
-    "AttackPower": "8.00",
+    "AttackPower": "16.00",
     "Range": "2.50",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
@@ -51,7 +51,7 @@
   },
   {
     "ID": "FrozenShose",
-    "AttackPower": "15.00",
+    "AttackPower": "30.00",
     "Range": "1.50",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
@@ -61,7 +61,7 @@
   },
   {
     "ID": "IronShield",
-    "AttackPower": "5.00",
+    "AttackPower": "20.00",
     "Range": "1.00",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
@@ -71,7 +71,7 @@
   },
   {
     "ID": "Shuriken",
-    "AttackPower": "3.50",
+    "AttackPower": "7.00",
     "Range": "2.00",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",

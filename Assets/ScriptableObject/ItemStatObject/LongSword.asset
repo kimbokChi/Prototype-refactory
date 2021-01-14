@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   JsonLabelName: LongSword
   _Range: 1.25
-  _AttackPower: 4
+  _AttackPower: 16
   _BeginAttackDelay: 0
   _AfterAttackDelay: 0
   _Rating: 0
