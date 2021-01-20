@@ -17,6 +17,15 @@ public class RegisteredItem : ScriptableObject
     {
         return _RegisterItems.Count;
     }
+    public List<ItemID> GetAllID()
+    {
+        List<ItemID> list = new List<ItemID>();
+        for (int i = 0; i < _RegisterItems.Count; ++i)
+        {
+            list.Add(_RegisterItems[i].ID);
+        }
+        return list;
+    }
     public Item GetItemInstance(ItemID id)
     {
         foreach (var item in _RegisterItems)

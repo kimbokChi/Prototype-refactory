@@ -8,64 +8,124 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 {
     [SerializeField] private RegisteredItem RegisteredItem;
 
-    private Dictionary<ItemRating, List<Item>> _ItemLibDictionary;
-
-    private List<Item> _UnlockedItemList = null;
-    private List<Item>   _LockedItemList = null;
+    private List<int> _UnlockedItemList = null;
+    private List<int>   _LockedItemList = null;
 
     private ItemID[] _AccessoryIDArray;
     private ItemID[] _ContainerIDArray;
 
     private ItemID _WeaponItemID;
 
+    private bool _IsAlreadyInit = false;
+
     private void Awake()
     {
-        if (FindObjectsOfType(typeof(ItemStateSaver)).Length > 1)
+        Init();
+    }
+    private void Init()
+    {
+        if (!_IsAlreadyInit)
         {
-            Destroy(gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(gameObject);
+            _IsAlreadyInit = true;
+            ItemListInit();
+
+            List<int> list = new List<int>();
+            for (int i = 0; i < RegisteredItem.GetAllID().Count; i++)
+            {
+                list.Add((int)RegisteredItem.GetAllID()[i]);
+            }
+            SetUnlockedItem(list);
+
+            if (FindObjectsOfType(typeof(ItemStateSaver)).Length > 1)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
     }
 
-    public void  SetUnlockedItem(List<int> idList)
+    public void SetUnlockedItem(List<int> idList)
     {
-        if (_UnlockedItemList == null) {
-            _UnlockedItemList = new List<Item>();
-        }   _UnlockedItemList.Clear();
-        
-        if (_LockedItemList == null) {
-            _LockedItemList = new List<Item>();
-        }   _LockedItemList.Clear();
+        ItemListInit();
+
+        _UnlockedItemList.Clear();
+          _LockedItemList.Clear();
 
         int registerCount = RegisteredItem.Count();
         for (int i = 0; i < registerCount; i++)
         {
-            Item instance = RegisteredItem.GetItemInstance((ItemID)i);
+            int id = idList[i];
 
             if (idList.Contains(i))
             {
-                _UnlockedItemList.Add(instance);
+                _UnlockedItemList.Add(id);
             }
             else
             {
-                _LockedItemList.Add(instance);
+                _LockedItemList.Add(id);
             }
         }
     }
     public void SetInventoryItem(List<int> idList)
     {
+        _WeaponItemID = (ItemID)idList[0];
 
+        int invokeCount = 
+            Inventory.AccessorySlotCount + 
+            Inventory.ContainerSlotCount;
+
+        for (int i = 0; i < invokeCount; i++)
+        {
+            if (i < Inventory.AccessorySlotCount)
+            {
+                _AccessoryIDArray[i] = (ItemID)idList[i];
+            }
+            else
+            {
+                _ContainerIDArray[i] = (ItemID)idList[i];
+            }
+        }
+    }
+
+    public List<int> GetUnlockedItem()
+    {
+        Init();
+        return new List<int>(_UnlockedItemList);
+    }
+    public List<int> GetInventoryItem()
+    {
+        List<int> list = new List<int>();
+        list.Add((int)_WeaponItemID);
+
+        int invokeCount = 
+            Inventory.AccessorySlotCount + 
+            Inventory.ContainerSlotCount;
+
+        for (int i = 0; i < invokeCount; i++)
+        {
+            if (i < Inventory.AccessorySlotCount)
+            {
+                list.Add((int)_AccessoryIDArray[i]);
+            }
+            else
+            {
+                list.Add((int)_ContainerIDArray[i]);
+            }
+        }
+        return list;
     }
     public void ItemUnlock(params ItemID[] ids)
     {
+        ItemListInit();
+
         for (int i = 0; i < ids.Length; i++)
         {
             for (int j = 0; j < _LockedItemList.Count; j++)
             {
-                if (_LockedItemList[j].ID == ids[i])
+                if (_LockedItemList[j] == (int)ids[i])
                 {
                     _UnlockedItemList.Add(_LockedItemList[j]);
                     _LockedItemList.RemoveAt(j);
@@ -76,7 +136,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 
     public void SaveSlotItem(SlotType slotType, Item item, int index)
     {
-        SlotItemArrayInit();
+        ItemSlotArrayInit();
 
         switch (slotType)
         {
@@ -116,7 +176,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
     }
     public Item LoadSlotItem(SlotType slotType, int index)
     {
-        SlotItemArrayInit();
+        ItemSlotArrayInit();
         ItemID loadID = ItemID.None;
 
         switch (slotType)
@@ -135,67 +195,15 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         }
         return RegisteredItem.GetItemInstance(loadID);
     }
-    private void SlotItemArrayInit()
+
+    private void ItemSlotArrayInit()
     {
-        if (_ContainerIDArray == null)
-        {
-            _ContainerIDArray = new ItemID[Inventory.ContainerSlotCount];
-        }
-        if (_AccessoryIDArray == null)
-        {
-            _AccessoryIDArray = new ItemID[Inventory.ContainerSlotCount];
-        }
+        _ContainerIDArray = _ContainerIDArray ?? new ItemID[Inventory.ContainerSlotCount];
+        _AccessoryIDArray = _AccessoryIDArray ?? new ItemID[Inventory.AccessorySlotCount];
     }
-
-
-    public void SaveLibDictionary(Dictionary<ItemRating, List<Item>> itemLibDictionary)
+    private void ItemListInit()
     {
-        _ItemLibDictionary = itemLibDictionary;
-    }
-    public bool LoadLibDictionary(out Dictionary<ItemRating, List<Item>> itemLibDictionary)
-    {
-        if (_ItemLibDictionary == null)
-        {
-            itemLibDictionary = new Dictionary<ItemRating, List<Item>>();
-
-            return false;
-        }
-        else
-        {
-            itemLibDictionary = _ItemLibDictionary;
-
-            return true;
-        }
-    }
-
-
-    public void SaveUnlockedItemListForTest(List<Item> unlockedList)
-    {
-        _UnlockedItemList = unlockedList;
-    }
-    public bool LoadUnlockedItemListForTest(out List<Item> unlockedList)
-    {
-        if (_UnlockedItemList == null)
-        {
-            unlockedList = new List<Item>();
-            return false;
-        }
-        unlockedList = _UnlockedItemList;
-        return true;
-    }
-
-    public void SaveLockedItemListForTest(List<Item> lockedList)
-    {
-        _LockedItemList = lockedList;
-    }
-    public bool LoadLockedItemListForTest(out List<Item> lockedList)
-    {
-        if (_LockedItemList == null)
-        {
-            lockedList = new List<Item>();
-            return false;
-        }
-        lockedList = _LockedItemList;
-        return true;
+        _UnlockedItemList = _UnlockedItemList ?? new List<int>();
+          _LockedItemList =   _LockedItemList ?? new List<int>();
     }
 }
