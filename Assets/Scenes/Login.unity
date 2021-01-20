@@ -354,6 +354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loginObject: {fileID: 1152652461}
+  touchStart: {fileID: 0}
   errorObject: {fileID: 501244844}
   nicknameObject: {fileID: 7962938}
 --- !u!1 &501244844
@@ -1482,17 +1483,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 240304160}
         m_MethodName: UpdateNickName
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1477004813}
-        m_MethodName: SceneLoad
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

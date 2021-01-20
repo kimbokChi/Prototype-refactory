@@ -22,7 +22,7 @@ namespace BackEnd
                 {
                     case Data.TotalGold: return TotalGoldKey;
                     case Data.KillCount: return KillCountKey;
-                    case Data.PlayTime : return PlayTimeKey;
+                    case Data.PlayTime: return PlayTimeKey;
 
                     default:
                         return string.Empty;
@@ -32,6 +32,8 @@ namespace BackEnd
     }
     public class ParamAssistant : Singleton<ParamAssistant>
     {
+        BackEndServerManager backEndServerManager = new BackEndServerManager();
+
         private ColumnName _Column = new ColumnName();
 
         public Param GetData(params Data[] data)
@@ -55,5 +57,8 @@ namespace BackEnd
             }
             return param;
         }
+
+
     }
+
 }

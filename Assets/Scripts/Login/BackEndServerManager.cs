@@ -10,19 +10,24 @@ using GooglePlayGames.BasicApi;
 using UnityEngine.SocialPlatforms;
 
 
-public class BackEndServerManager : MonoBehaviour
+public class BackEndServerManager : Singleton<BackEndServerManager>
 {
     private static BackEndServerManager instance;   // 인스턴스
     public bool isLogin { get; private set; }   // 로그인 여부
 
     private string tempNickName;                        // 설정할 닉네임 (id와 동일)
     public string myNickName { get; private set; } = string.Empty;  // 로그인한 계정의 닉네임
-    public string myIndate { get; private set; } = string.Empty;    // 로그인한 계정의 inDate
+    public string myIndate { get;  set; } = string.Empty; 
+    public string mIndate { get;  set; } = string.Empty;
+    public string InDate { get;  set; } = string.Empty;// 로그인한 계정의 inDate
     private Action<bool, string> loginSuccessFunc = null;
+
+
+    BackendReturnObject bro;
 
     private const string BackendError = "statusCode : {0}\nErrorCode : {1}\nMessage : {2}";
     // Start is called before the first frame update
-
+    
     void Awake()
     {
         if (instance != null)
@@ -32,6 +37,48 @@ public class BackEndServerManager : MonoBehaviour
         instance = this;
         // 모든 씬에서 유지
         DontDestroyOnLoad(this.gameObject);
+    }
+
+
+    public void SendDataToServerSchema(string _Table )
+    {
+        Where where = new Where();
+        Debug.Log("쿠르르");
+       
+        Param _Param = new Param();
+        Debug.Log(_Param);
+
+        where.Equal("gamerIndate", mIndate);
+        _Param.Add("Gold", MoneyManager.Instance.Money);
+        _Param.Add("Kill", GameLoger.Instance.KillCount);
+        _Param.Add("Time", GameLoger.Instance.ElapsedTime.ToString());
+
+        Enqueue(Backend.GameSchemaInfo.Get, _Table, where, 1, (BackendReturnObject Getbro) =>
+        {
+          
+            Debug.Log("커넥트");
+
+            if (Getbro.IsSuccess())
+            {
+             Enqueue(Backend.GameSchemaInfo.Update, _Table, Getbro.GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString(), _Param, (BackendReturnObject Updatebro) =>
+             {
+              if(Updatebro.IsSuccess())
+                 Debug.Log("Update");
+                 else
+                     Debug.Log("falil update"+ Updatebro);
+             });
+            }
+            else
+            {
+               Enqueue(Backend.GameSchemaInfo.Insert, _Table, _Param, (BackendReturnObject Insertbro) =>
+                {
+                  if(Insertbro.IsSuccess())
+                    Debug.Log("insert");
+                  else
+                     Debug.Log("falil insert"+ Insertbro);
+                });
+            }
+        });
     }
 
     public static BackEndServerManager GetInstance()
@@ -86,8 +133,15 @@ public class BackEndServerManager : MonoBehaviour
 
     void OnApplicationQuit()
     {
+
+
+        Param param = new Param();
+        param.Add("Gold", MoneyManager.Instance.Money);
+
+        SendDataToServerSchema("Player");
         Debug.Log("OnApplicationQuit");
         StopSendQueue();
+
     }
 
     void OnApplicationPause(bool isPause)
@@ -103,62 +157,62 @@ public class BackEndServerManager : MonoBehaviour
         }
     }
 
+    
     public void BackendTokenLogin(Action<bool, string> func)
     {
-        Enqueue(Backend.BMember.LoginWithTheBackendToken, callback =>
+        Debug.Log("전");
+    Enqueue(Backend.BMember.LoginWithTheBackendToken ,callback =>
         {
             if (callback.IsSuccess())
             {
+                OnLogined();
                 Debug.Log("토큰 로그인 성공");
                 loginSuccessFunc = func;
-
-                OnPrevBackendAuthorized();
-                return;
+               
             }
-
-            Debug.Log("토큰 로그인 실패\n" + callback.ToString());
-            func(false, string.Empty);
+            else
+            {
+                Debug.Log("토큰 로그인 실패\n" + callback.ToString());
+                func(false, string.Empty);
+                SceneLoader.Instance.SceneLoad(1);
+            }
         });
+    }
+
+    public void OnLogined()
+    {
+        bro = Backend.BMember.GetUserInfo();
+        mIndate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+        if (bro.IsSuccess())
+        {
+            Where param = new Where();
+            param.Equal("gamerIndate", mIndate);
+            Backend.GameSchemaInfo.Get("Player", param, 1, callback1 =>
+            {
+                if (callback1.IsSuccess())
+                {
+                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
+                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
+
+                    GameLoger.Instance.RecordMoney(int.Parse(callback1.Rows()[0]["Gold"]["N"].ToString()));
+                    
+                    Debug.Log("정보 불러오기 성공"+callback1);
+                    SceneLoader.Instance.SceneLoad(2);
+
+                }
+                else
+                {
+                   
+                    Debug.Log("정보 불러오기 실패");
+                    SceneLoader.Instance.SceneLoad(1);
+                }
+            });
+        }
+        else
+            Debug.Log(bro + "812");
     }
     // 커스텀 로그인
-    public void CustomLogin(string id, string pw, Action<bool, string> func)
-    {
-        Enqueue(Backend.BMember.CustomLogin, id, pw, callback =>
-        {
-            if (callback.IsSuccess())
-            {
-                Debug.Log("커스텀 로그인 성공");
-                loginSuccessFunc = func;
 
-                OnPrevBackendAuthorized();
-                return;
-            }
-
-            Debug.Log("커스텀 로그인 실패\n" + callback);
-            func(false, string.Format(BackendError,
-                callback.GetStatusCode(), callback.GetErrorCode(), callback.GetMessage()));
-        });
-    }
-    // 커스텀 회원가입
-    public void CustomSignIn(string id, string pw, Action<bool, string> func)
-    {
-        tempNickName = id;
-        Enqueue(Backend.BMember.CustomSignUp, id, pw, callback =>
-        {
-            if (callback.IsSuccess())
-            {
-                Debug.Log("커스텀 회원가입 성공");
-                loginSuccessFunc = func;
-
-                OnPrevBackendAuthorized();
-                return;
-            }
-
-            Debug.LogError("커스텀 회원가입 실패\n" + callback.ToString());
-            func(false, string.Format(BackendError,
-                callback.GetStatusCode(), callback.GetErrorCode(), callback.GetMessage()));
-        });
-    }
 
     public void GoogleAuthorizeFederation(Action<bool, string> func)
     {
@@ -213,6 +267,7 @@ public class BackEndServerManager : MonoBehaviour
                             loginSuccessFunc = func;
 
                             OnPrevBackendAuthorized();
+                            SceneLoader.Instance.SceneLoad(2);
                             return;
                         }
 
@@ -265,6 +320,7 @@ public class BackEndServerManager : MonoBehaviour
             }
             loginSuccessFunc = func;
             OnBackendAuthorized();
+            SceneLoader.Instance.SceneLoad(2);
         });
     }
     private void OnPrevBackendAuthorized()
@@ -298,6 +354,12 @@ public class BackEndServerManager : MonoBehaviour
            
         });
     }
+    void Update()
+    {
+        SendQueue.Poll();
+        
+    }
+
     public void GuestLogin(Action<bool, string> func)
     {
         Enqueue(Backend.BMember.GuestLogin, callback =>
@@ -306,7 +368,11 @@ public class BackEndServerManager : MonoBehaviour
             {
                 Debug.Log("게스트 로그인 성공");
                 loginSuccessFunc = func;
-
+               OnLogined();
+                bro = Backend.GameSchemaInfo.Insert("Player");
+               Param param1 = new Param();
+                param1.Add("gamerIndate", mIndate);
+                Backend.GameSchemaInfo.Update("Player", bro.GetInDate(), param1);
                 OnPrevBackendAuthorized();
                 return;
             }
@@ -316,11 +382,7 @@ public class BackEndServerManager : MonoBehaviour
                 callback.GetStatusCode(), callback.GetErrorCode(), callback.GetMessage()));
         });
     }
-    void Update()
-    {
-        SendQueue.Poll();
-    }
-
+  
     // Update is called once per frame
  
 }
