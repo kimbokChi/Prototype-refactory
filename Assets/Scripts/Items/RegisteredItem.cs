@@ -2,51 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct RegisterItemSet
+{
+    public ItemID ID;
+    public Item Instance;
+}
 [CreateAssetMenu(fileName = "RegisteredItem", menuName = "ScriptableObject/RegisteredItem")]
 public class RegisteredItem : ScriptableObject
 {
-    [Space()]
-    [SerializeField] private List<Item> _UnlockedItemList;
-                     private List<Item> _UnlockedItemCloneList;
-    private bool _HasUnlockedListInit;
+    [SerializeField] private List<RegisterItemSet> _RegisterItems;
 
-    [Space()]
-    [SerializeField] private List<Item> _LockedItemList;
-                     private List<Item> _LockedItemCloneList;
-    private bool _HasLockedListInit;
-
-    public List<Item> UnlockedItemList
+    public int Count()
     {
-        get
-        {
-            if (!_HasUnlockedListInit)
-            {
-                _UnlockedItemCloneList = _UnlockedItemList.ToList();
-
-                _HasUnlockedListInit = true;
-            }
-            Debug.Log("Origin : " + _UnlockedItemList.Count);
-            Debug.Log("Clone : " + _UnlockedItemCloneList.Count);
-
-            return _UnlockedItemCloneList;
-        }
+        return _RegisterItems.Count;
     }
-    public List<Item> LockedItemList
+    public List<ItemID> GetAllID()
     {
-        get
+        List<ItemID> list = new List<ItemID>();
+        for (int i = 0; i < _RegisterItems.Count; ++i)
         {
-            if (!_HasLockedListInit)
-            {
-                _LockedItemCloneList = _LockedItemList.ToList();
-
-                _HasLockedListInit = true;
-            }
-            return _LockedItemCloneList;
+            list.Add(_RegisterItems[i].ID);
         }
+        return list;
     }
-
-    public List<Item> ItemListAll()
+    public Item GetItemInstance(ItemID id)
     {
-        return new List<Item>(_LockedItemList.Union(_UnlockedItemList));
+        foreach (var item in _RegisterItems)
+        {
+            if (item.ID == id) return item.Instance;
+        }
+        return null;
     }
 }

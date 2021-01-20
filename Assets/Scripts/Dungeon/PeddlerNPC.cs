@@ -29,7 +29,7 @@ public class PeddlerNPC : MonoBehaviour
     private void OnEnable()
     {
         _IsBoughtItem = false;
-        var list = ItemLibrary.Instance.GetUnlockedItemListForTest();
+        var list = ItemStateSaver.Instance.GetUnlockedItem();
 
         _ContainItem = list[Random.Range(0, list.Count)];
 

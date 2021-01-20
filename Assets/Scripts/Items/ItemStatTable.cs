@@ -47,6 +47,14 @@ public class ItemStatTable : MonoBehaviour
     }
     private string _NameKR;
 
+    public ItemID ID
+    {
+        get
+        {
+            return StatObject.ID;
+        }
+    }
+
     public  int  Cost
     {
         get

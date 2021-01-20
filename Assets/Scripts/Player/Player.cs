@@ -217,7 +217,10 @@ public class Player : MonoBehaviour, ICombatable
                 mAttackPeriod.StopPeriod();
             };
         }
-        mInventory.SetWeaponSlot(ItemStateSaver.Instance.LoadSlotItem(SlotType.Weapon, 0));
+        var instance = ItemStateSaver.Instance.LoadSlotItem(SlotType.Weapon, 0);
+        if (instance != null) {
+            instance = ItemLibrary.Instance.GetItemObject(instance.ID);
+        } mInventory.SetWeaponSlot(instance);
     }
 
     private void InputAction()

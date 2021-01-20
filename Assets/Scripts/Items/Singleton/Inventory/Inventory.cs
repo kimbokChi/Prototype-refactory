@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Inventory : Singleton<Inventory>
 {
@@ -94,31 +93,25 @@ public class Inventory : Singleton<Inventory>
 
         mWeaponSlot.Init(SlotType.Weapon);
 
-        for (int i = 0; i < mContainer.Length; ++i)
-        {
-            mContainer[i].Init(SlotType.Container);
-
-            mContainer[i].SetItem(ItemStateSaver.Instance.LoadSlotItem(SlotType.Container, i));
-
-            if (i < mAccessorySlot.Length)
+        for (int i = 0; i < ContainerSlotCount; ++i)
+        {   
+            if (i < AccessorySlotCount)
             {
+                var instance = ItemStateSaver.Instance.LoadSlotItem(SlotType.Accessory, i);
+                if (instance != null) {
+                    instance = ItemLibrary.Instance.GetItemObject(instance.ID);
+                }
                 mAccessorySlot[i].Init(SlotType.Accessory);
-
-                mAccessorySlot[i].SetItem(ItemStateSaver.Instance.LoadSlotItem(SlotType.Accessory, i));
+                mAccessorySlot[i].SetItem(instance);
             }
-        }
-        SceneManager.sceneUnloaded += PreventionItem;
-    }
-
-    private void PreventionItem(Scene scene)
-    {
-        for (int i = 0; i < mAccessorySlot.Length; ++i)
-        {
-            ItemStateSaver.Instance.SaveSlotItem(SlotType.Accessory, mAccessorySlot[i].ContainItem, i);
-        }
-        for (int i = 0; i < mContainer.Length; ++i)
-        {
-            ItemStateSaver.Instance.SaveSlotItem(SlotType.Container, mContainer[i].ContainItem, i);
+            {
+                var instance = ItemStateSaver.Instance.LoadSlotItem(SlotType.Container, i);
+                if (instance != null) {
+                    instance = ItemLibrary.Instance.GetItemObject(instance.ID);
+                }
+                mContainer[i].Init(SlotType.Container);
+                mContainer[i].SetItem(instance);
+            }
         }
     }
     public bool IsEquipWeapon()

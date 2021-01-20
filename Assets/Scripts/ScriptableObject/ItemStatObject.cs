@@ -17,6 +17,7 @@ public class ItemStatObject : ScriptableObject
     [SerializeField] private float _BeginAttackDelay;
     [SerializeField] private float _AfterAttackDelay;
 
+    [SerializeField] private ItemID _ID;
     [SerializeField] private ItemRating _Rating;
     [SerializeField] private string _NameKR;
     [SerializeField] private int _Cost;
@@ -25,6 +26,8 @@ public class ItemStatObject : ScriptableObject
     public float AttackPower => _AttackPower;
     public float BeginAttackDelay => _BeginAttackDelay;
     public float AfterAttackDelay => _AfterAttackDelay;
+
+    public ItemID ID => _ID;
     public ItemRating Rating => _Rating;
     public string NameKR => _NameKR;
     public int Cost => _Cost;
@@ -44,6 +47,7 @@ public class ItemStatObject : ScriptableObject
 
         _Rating = (ItemRating)System.Enum.Parse(typeof(ItemRating), JsonString("Rating"));
         _NameKR = JsonString("NameKR");
+        _ID = (ItemID)System.Enum.Parse(typeof(ItemID), JsonLabelName);
 
         _Cost = int.Parse(JsonString("Cost"));
     }

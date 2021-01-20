@@ -28,9 +28,8 @@ public class DungeonClearUI : MonoBehaviour
         for (int i = 0; i < UnlockItems.Length; ++i)
         {
             ItemBoxes[i].sprite = UnlockItems[i].Sprite;
+            ItemStateSaver.Instance.ItemUnlock(UnlockItems[i].ID);
         }
-        ItemLibrary.Instance.ItemUnlock(UnlockItems);
-
         int clearSec = Mathf.FloorToInt(GameLoger.Instance.ElapsedTime % 60f);
         int clearMin = Mathf.FloorToInt(GameLoger.Instance.ElapsedTime / 60f);
 

@@ -18,11 +18,15 @@ public class ItemCollection : MonoBehaviour
 
     private void Start()
     {
-        var lockedList = ItemLibrary.Instance.GetLockedItemListForTest();
+        var lockedList = ItemStateSaver.Instance.GetLockedItem();
         var collection = CreateCollectionBox(lockedList.Count, LockedSection);
 
         for (int i = 0; i < lockedList.Count; i++)
         {
+            if (lockedList[i] == null)
+            {
+                continue;
+            }
             var collectionBox = collection[i].GetChild(0).gameObject;
 
             if (collectionBox.TryGetComponent(out Image image))
@@ -33,11 +37,15 @@ public class ItemCollection : MonoBehaviour
             DIRECTION9 pivot = DIRECTION9.BOT_LEFT;
             ShowerSetting(collectionBox, lockedList[i], pivot + i%3);
         }
-        var unlockedList = ItemLibrary.Instance.GetUnlockedItemListForTest();
+        var unlockedList = ItemStateSaver.Instance.GetUnlockedItem();
         collection = CreateCollectionBox(unlockedList.Count, UnlockedSection);
 
         for (int i = 0; i < unlockedList.Count; i++)
         {
+            if (unlockedList[i] == null)
+            {
+                continue;
+            }
             var collectionBox = collection[i].GetChild(0).gameObject;
 
             if (collectionBox.TryGetComponent(out Image image))
