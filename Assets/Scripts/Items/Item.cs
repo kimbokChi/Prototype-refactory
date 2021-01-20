@@ -5,7 +5,7 @@ using UnityEngine;
 public enum ItemID
 {
     None, GreatSword, FrozenShose, IronShield, 
-    MysteriousMace, OrdinaryBow, Shuriken , LongSword
+    MysteriousMace, OrdinaryBow, Shuriken, LongSword
 }
 public abstract class Item : MonoBehaviour
 {

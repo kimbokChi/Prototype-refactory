@@ -29,12 +29,14 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
             _IsAlreadyInit = true;
             ItemListInit();
 
+            // ====== ====== Test ====== ====== //
             List<int> list = new List<int>();
             for (int i = 0; i < RegisteredItem.GetAllID().Count; i++)
             {
                 list.Add((int)RegisteredItem.GetAllID()[i]);
             }
             SetUnlockedItem(list);
+            // ====== ====== Test ====== ====== //
 
             if (FindObjectsOfType(typeof(ItemStateSaver)).Length > 1)
             {
@@ -55,9 +57,9 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
           _LockedItemList.Clear();
 
         int registerCount = RegisteredItem.Count();
-        for (int i = 0; i < registerCount; i++)
+        for (int i = 1; i < registerCount + 1; i++)
         {
-            Item instance = RegisteredItem.GetItemInstance((ItemID)idList[i]);
+            Item instance = RegisteredItem.GetItemInstance((ItemID)i);
 
             if (idList.Contains(i))
             {

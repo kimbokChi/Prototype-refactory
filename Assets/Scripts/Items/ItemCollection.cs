@@ -23,6 +23,10 @@ public class ItemCollection : MonoBehaviour
 
         for (int i = 0; i < lockedList.Count; i++)
         {
+            if (lockedList[i] == null)
+            {
+                continue;
+            }
             var collectionBox = collection[i].GetChild(0).gameObject;
 
             if (collectionBox.TryGetComponent(out Image image))
@@ -38,6 +42,10 @@ public class ItemCollection : MonoBehaviour
 
         for (int i = 0; i < unlockedList.Count; i++)
         {
+            if (unlockedList[i] == null)
+            {
+                continue;
+            }
             var collectionBox = collection[i].GetChild(0).gameObject;
 
             if (collectionBox.TryGetComponent(out Image image))
