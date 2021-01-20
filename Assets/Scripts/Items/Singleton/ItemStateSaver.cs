@@ -13,11 +13,10 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
     private List<Item> _UnlockedItemList = null;
     private List<Item>   _LockedItemList = null;
 
-    private Item[] _AccessoryCollection;
-    private Item[] _ContainerCollection;
+    private ItemID[] _AccessoryIDArray;
+    private ItemID[] _ContainerIDArray;
 
-    private Type _WeaponItemType;
-    private int _LastSceneBuildIndex = int.MinValue;
+    private ItemID _WeaponItemID;
 
     private void Awake()
     {
@@ -28,104 +27,126 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         else
         {
             DontDestroyOnLoad(gameObject);
-
-            SceneManager.sceneLoaded += (loadScene, loadMode) =>
-            {
-                // 같은 씬을 불러온다면
-                if (loadScene.buildIndex == _LastSceneBuildIndex || 
-                    loadScene.buildIndex == 0 && _LastSceneBuildIndex != int.MinValue)
-                {
-                    ItemLibrary.Instance.ItemBoxReset();
-                }
-            };
-            SceneManager.sceneUnloaded += currentScene =>
-            {
-                _LastSceneBuildIndex = currentScene.buildIndex;
-            };
         }
     }
 
-    public bool IsSavedItem(Item saveCheckItem, out Item getItem)
+    public void  SetUnlockedItem(List<int> idList)
     {
-        if (saveCheckItem != null)
-        {
-            for (int i = 0; i < transform.childCount; ++i)
-            {
-                if (transform.GetChild(i).TryGetComponent(out Item item))
-                {
-                    if (saveCheckItem.GetType().Equals(item.GetType()))
-                    {
+        if (_UnlockedItemList == null) {
+            _UnlockedItemList = new List<Item>();
+        }   _UnlockedItemList.Clear();
+        
+        if (_LockedItemList == null) {
+            _LockedItemList = new List<Item>();
+        }   _LockedItemList.Clear();
 
-                        getItem = item; return true;
-                    }
+        int registerCount = RegisteredItem.Count();
+        for (int i = 0; i < registerCount; i++)
+        {
+            Item instance = RegisteredItem.GetItemInstance((ItemID)i);
+
+            if (idList.Contains(i))
+            {
+                _UnlockedItemList.Add(instance);
+            }
+            else
+            {
+                _LockedItemList.Add(instance);
+            }
+        }
+    }
+    public void SetInventoryItem(List<int> idList)
+    {
+
+    }
+    public void ItemUnlock(params ItemID[] ids)
+    {
+        for (int i = 0; i < ids.Length; i++)
+        {
+            for (int j = 0; j < _LockedItemList.Count; j++)
+            {
+                if (_LockedItemList[j].ID == ids[i])
+                {
+                    _UnlockedItemList.Add(_LockedItemList[j]);
+                    _LockedItemList.RemoveAt(j);
                 }
             }
         }
-        getItem = null;
-
-        return false;
     }
 
     public void SaveSlotItem(SlotType slotType, Item item, int index)
     {
+        SlotItemArrayInit();
+
         switch (slotType)
         {
             case SlotType.Weapon:
                 {
                     if (item == null)
                     {
-                        _WeaponItemType = null;
+                        _WeaponItemID = ItemID.None;
                     }
-                    else _WeaponItemType = item.GetType();
+                    else 
+                        _WeaponItemID = item.ID;
                 }
                 break;
 
             case SlotType.Container:
-                if (_ContainerCollection == null)
                 {
-                    _ContainerCollection = new Item[Inventory.ContainerSlotCount];
+                    if (item == null)
+                    {
+                        _ContainerIDArray[index] = ItemID.None;
+                    }
+                    else
+                        _ContainerIDArray[index] = item.ID;
                 }
-                _ContainerCollection[index] = item;
                 break;
 
             case SlotType.Accessory:
-                if (_AccessoryCollection == null)
                 {
-                    _AccessoryCollection = new Item[Inventory.AccessorySlotCount];
+                    if (item == null)
+                    {
+                        _AccessoryIDArray[index] = ItemID.None;
+                    }
+                    else
+                        _AccessoryIDArray[index] = item.ID;
                 }
-                _AccessoryCollection[index] = item;
                 break;
         }
     }
     public Item LoadSlotItem(SlotType slotType, int index)
     {
+        SlotItemArrayInit();
+        ItemID loadID = ItemID.None;
+
         switch (slotType)
         {
             case SlotType.Weapon:
-                {
-                    if (_WeaponItemType != null)
-                    {
-                        return Instantiate(_UnlockedItemList.First(o => o.GetType().Equals(_WeaponItemType)));
-                    }
-                }
-                return null;
+                loadID = _WeaponItemID;
+                break;
 
             case SlotType.Container:
-                if (_ContainerCollection != null)
-                {
-                    return _ContainerCollection[index];
-                }
+                loadID = _ContainerIDArray[index];
                 break;
 
             case SlotType.Accessory:
-                if (_AccessoryCollection != null)
-                {
-                    return _AccessoryCollection[index];
-                }
+                loadID = _AccessoryIDArray[index];
                 break;
         }
-        return null;
+        return RegisteredItem.GetItemInstance(loadID);
     }
+    private void SlotItemArrayInit()
+    {
+        if (_ContainerIDArray == null)
+        {
+            _ContainerIDArray = new ItemID[Inventory.ContainerSlotCount];
+        }
+        if (_AccessoryIDArray == null)
+        {
+            _AccessoryIDArray = new ItemID[Inventory.ContainerSlotCount];
+        }
+    }
+
 
     public void SaveLibDictionary(Dictionary<ItemRating, List<Item>> itemLibDictionary)
     {
