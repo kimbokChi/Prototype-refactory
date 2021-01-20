@@ -17,6 +17,7 @@ MonoBehaviour:
   _AttackPower: 18
   _BeginAttackDelay: 0
   _AfterAttackDelay: 0
+  _ID: 1
   _Rating: 2
   _NameKR: "\uC9F1\uC388 \uB300\uAC80"
   _Cost: 40
