@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemID
+{
+    None, GreatSword, FrozenShose, IronShield, 
+    MysteriousMace, OrdinaryBow, Shuriken , LongSword
+}
 public abstract class Item : MonoBehaviour
 {
     public System.Action AttackOverAction;
@@ -43,6 +48,10 @@ public abstract class Item : MonoBehaviour
     public ItemRating Rating
     {
         get => StatTable.Rating;
+    }
+    public ItemID ID
+    {
+        get => StatTable.ID;
     }
     public float WeaponRange
     { 
