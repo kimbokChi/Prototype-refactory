@@ -55,7 +55,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
         var unlockedList = ItemStateSaver.Instance.GetUnlockedItem();
         for (int i = 0; i < unlockedList.Count; ++i)
         {
-            ItemID id = (ItemID)unlockedList[i];
+            ItemID id = unlockedList[i].ID;
             Item instance = RegisteredItem.GetItemInstance(id);
 
             if (instance != null)

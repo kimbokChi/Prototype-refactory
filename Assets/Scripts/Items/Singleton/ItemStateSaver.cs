@@ -8,8 +8,8 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 {
     [SerializeField] private RegisteredItem RegisteredItem;
 
-    private List<int> _UnlockedItemList = null;
-    private List<int>   _LockedItemList = null;
+    private List<Item> _UnlockedItemList = null;
+    private List<Item>   _LockedItemList = null;
 
     private ItemID[] _AccessoryIDArray;
     private ItemID[] _ContainerIDArray;
@@ -57,15 +57,15 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         int registerCount = RegisteredItem.Count();
         for (int i = 0; i < registerCount; i++)
         {
-            int id = idList[i];
+            Item instance = RegisteredItem.GetItemInstance((ItemID)idList[i]);
 
             if (idList.Contains(i))
             {
-                _UnlockedItemList.Add(id);
+                _UnlockedItemList.Add(instance);
             }
             else
             {
-                _LockedItemList.Add(id);
+                _LockedItemList.Add(instance);
             }
         }
     }
@@ -90,10 +90,10 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         }
     }
 
-    public List<int> GetUnlockedItem()
+    public List<Item> GetUnlockedItem()
     {
         Init();
-        return new List<int>(_UnlockedItemList);
+        return new List<Item>(_UnlockedItemList);
     }
     public List<int> GetInventoryItem()
     {
@@ -125,7 +125,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         {
             for (int j = 0; j < _LockedItemList.Count; j++)
             {
-                if (_LockedItemList[j] == (int)ids[i])
+                if (_LockedItemList[j].ID == ids[i])
                 {
                     _UnlockedItemList.Add(_LockedItemList[j]);
                     _LockedItemList.RemoveAt(j);
@@ -203,7 +203,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
     }
     private void ItemListInit()
     {
-        _UnlockedItemList = _UnlockedItemList ?? new List<int>();
-          _LockedItemList =   _LockedItemList ?? new List<int>();
+        _UnlockedItemList = _UnlockedItemList ?? new List<Item>();
+          _LockedItemList =   _LockedItemList ?? new List<Item>();
     }
 }
