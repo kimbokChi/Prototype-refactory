@@ -26,6 +26,8 @@ public class ItemStatObject : ScriptableObject
     public float AttackPower => _AttackPower;
     public float BeginAttackDelay => _BeginAttackDelay;
     public float AfterAttackDelay => _AfterAttackDelay;
+
+    public ItemID ID => _ID;
     public ItemRating Rating => _Rating;
     public string NameKR => _NameKR;
     public int Cost => _Cost;
