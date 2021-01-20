@@ -89,8 +89,8 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
             else {
                 AttackButtonController.Instance.HideButton();
             }
-            ItemStateSaver.Instance.SaveSlotItem(mSlotType, mContainItem, 0);
         }
+        ItemStateSaver.Instance.SaveSlotItem(mSlotType, mContainItem, 0);
     }
 
     public void ItemSwapFingerAndSlot()
