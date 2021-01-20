@@ -219,7 +219,7 @@ public class Player : MonoBehaviour, ICombatable
         }
         var instance = ItemStateSaver.Instance.LoadSlotItem(SlotType.Weapon, 0);
         if (instance != null) {
-            instance = Instantiate(instance);
+            instance = ItemLibrary.Instance.GetItemObject(instance.ID);
         } mInventory.SetWeaponSlot(instance);
     }
 

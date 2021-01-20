@@ -27,6 +27,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
     private List<Item> _UnlockedItemListForTest;
 
     private float[] mProbabilityArray;
+    private bool _IsAlreadyInit;
 
     [ContextMenu("Probablity Check")]
     private void ProbablityCheck()
@@ -43,44 +44,54 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     private void Awake()
     {
-        mProbabilityArray = new float[4]
+        Init();
+    }
+    private void Init()
+    {
+        if (!_IsAlreadyInit)
         {
-            Common, Rare, Epic, Legendary
-        };
-        _Library = new Dictionary<ItemRating, List<Item>>();
+            _IsAlreadyInit = true;
 
-        _Library.Add(ItemRating.Common,   new List<Item>());
-        _Library.Add(ItemRating.Rare,     new List<Item>());
-        _Library.Add(ItemRating.Epic,     new List<Item>());
-        _Library.Add(ItemRating.Legendary,new List<Item>());
-
-        var unlockedList = ItemStateSaver.Instance.GetUnlockedItem();
-        for (int i = 0; i < unlockedList.Count; ++i)
-        {
-            ItemID id = unlockedList[i].ID;
-            Item instance = RegisteredItem.GetItemInstance(id);
-
-            if (instance != null)
+            mProbabilityArray = new float[4]
             {
-                var item = Instantiate(instance);
-                item.transform.position = new Vector2(-10f, 0f);
+                Common, Rare, Epic, Legendary
+            };
+            _Library = new Dictionary<ItemRating, List<Item>>();
 
-                _Library[item.Rating].Add(item);
+            _Library.Add(ItemRating.Common,    new List<Item>());
+            _Library.Add(ItemRating.Rare,      new List<Item>());
+            _Library.Add(ItemRating.Epic,      new List<Item>());
+            _Library.Add(ItemRating.Legendary, new List<Item>());
+
+            var unlockedList = ItemStateSaver.Instance.GetUnlockedItem();
+            for (int i = 0; i < unlockedList.Count; ++i)
+            {
+                ItemID id = unlockedList[i].ID;
+                Item instance = RegisteredItem.GetItemInstance(id);
+
+                if (instance != null)
+                {
+                    var item = Instantiate(instance);
+                    item.transform.position = new Vector2(-10f, 0f);
+
+                    _Library[item.Rating].Add(item);
+                }
             }
-        }
-        _RunTimeLibrary = new Dictionary<ItemRating, List<Item>>(_Library);
+            _RunTimeLibrary = new Dictionary<ItemRating, List<Item>>(_Library);
 
-        for (int invokeCount = 0; invokeCount < 4; invokeCount++)
-        {
-            if (_Library[(ItemRating)invokeCount].Count == 0)
+            for (int invokeCount = 0; invokeCount < 4; invokeCount++)
             {
-                RevisionProbablity(mProbabilityArray[invokeCount]);
+                if (_Library[(ItemRating)invokeCount].Count == 0)
+                {
+                    RevisionProbablity(mProbabilityArray[invokeCount]);
+                }
             }
         }
     }
 
     public Item GetItemObject(ItemID id)
     {
+        Init();
         Item instance = RegisteredItem.GetItemInstance(id);
 
         if (instance != null)
@@ -92,6 +103,8 @@ public class ItemLibrary : Singleton<ItemLibrary>
     }
     public Item GetRandomItem()
     {
+        Init();
+
         float sum = 0f;
         float probability = Random.value;
 
@@ -134,6 +147,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     public void ItemBoxReset()
     {
+        Init();
         _RunTimeLibrary = new Dictionary<ItemRating, List<Item>>(_Library);
 
         for (int invokeCount = 0; invokeCount < 4; invokeCount++)
@@ -147,6 +161,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     public Item GetRandomItem(ItemRating rating)
     {
+        Init();
         Item getItem = null;
         
         if (_RunTimeLibrary.Values.All(o => o.Count == 0))

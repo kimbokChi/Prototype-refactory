@@ -99,7 +99,7 @@ public class Inventory : Singleton<Inventory>
             {
                 var instance = ItemStateSaver.Instance.LoadSlotItem(SlotType.Accessory, i);
                 if (instance != null) {
-                    instance = Instantiate(instance);
+                    instance = ItemLibrary.Instance.GetItemObject(instance.ID);
                 }
                 mAccessorySlot[i].Init(SlotType.Accessory);
                 mAccessorySlot[i].SetItem(instance);
@@ -107,7 +107,7 @@ public class Inventory : Singleton<Inventory>
             {
                 var instance = ItemStateSaver.Instance.LoadSlotItem(SlotType.Container, i);
                 if (instance != null) {
-                    instance = Instantiate(instance);
+                    instance = ItemLibrary.Instance.GetItemObject(instance.ID);
                 }
                 mContainer[i].Init(SlotType.Container);
                 mContainer[i].SetItem(instance);
