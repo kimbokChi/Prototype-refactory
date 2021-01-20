@@ -2,51 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct RegisterItemSet
+{
+    public ItemID ID;
+    public Item Instance;
+}
 [CreateAssetMenu(fileName = "RegisteredItem", menuName = "ScriptableObject/RegisteredItem")]
 public class RegisteredItem : ScriptableObject
 {
-    [Space()]
-    [SerializeField] private List<Item> _UnlockedItemList;
-                     private List<Item> _UnlockedItemCloneList;
-    private bool _HasUnlockedListInit;
+    [SerializeField] private List<RegisterItemSet> _RegisterItems;
 
-    [Space()]
-    [SerializeField] private List<Item> _LockedItemList;
-                     private List<Item> _LockedItemCloneList;
-    private bool _HasLockedListInit;
-
-    public List<Item> UnlockedItemList
+    public int Count()
     {
-        get
-        {
-            if (!_HasUnlockedListInit)
-            {
-                _UnlockedItemCloneList = _UnlockedItemList.ToList();
-
-                _HasUnlockedListInit = true;
-            }
-            Debug.Log("Origin : " + _UnlockedItemList.Count);
-            Debug.Log("Clone : " + _UnlockedItemCloneList.Count);
-
-            return _UnlockedItemCloneList;
-        }
+        return _RegisterItems.Count;
     }
-    public List<Item> LockedItemList
+    public Item GetItemInstance(ItemID id)
     {
-        get
+        foreach (var item in _RegisterItems)
         {
-            if (!_HasLockedListInit)
-            {
-                _LockedItemCloneList = _LockedItemList.ToList();
-
-                _HasLockedListInit = true;
-            }
-            return _LockedItemCloneList;
+            if (item.ID == id) return item.Instance;
         }
-    }
-
-    public List<Item> ItemListAll()
-    {
-        return new List<Item>(_LockedItemList.Union(_UnlockedItemList));
+        return null;
     }
 }
