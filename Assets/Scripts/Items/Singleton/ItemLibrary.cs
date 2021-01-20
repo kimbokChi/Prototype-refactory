@@ -178,14 +178,6 @@ public class ItemLibrary : Singleton<ItemLibrary>
         return getItem;
     }
 
-    public List<Item> GetUnlockedItemListForTest()
-    {
-        return _UnlockedItemListForTest;
-    }
-    public List<Item> GetLockedItemListForTest()
-    {
-        return _LockedItemListForTest;
-    }
     private void RevisionProbablity(float selectedProbablity)
     {
         int division =

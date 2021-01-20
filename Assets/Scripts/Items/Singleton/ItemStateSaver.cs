@@ -95,6 +95,12 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         Init();
         return new List<Item>(_UnlockedItemList);
     }
+    public List<Item> GetLockedItem()
+    {
+        Init();
+        return new List<Item>(_LockedItemList);
+    }
+
     public List<int> GetInventoryItem()
     {
         List<int> list = new List<int>();

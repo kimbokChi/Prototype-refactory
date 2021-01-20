@@ -16,7 +16,7 @@ public class ItemStore : MonoBehaviour
     {
         if (!_IsAlreadyInit)
         {
-            var list = ItemLibrary.Instance.GetUnlockedItemListForTest().ToList();
+            var list = ItemStateSaver.Instance.GetUnlockedItem();
 
             for (int i = 0; i < 3; i++)
             {
