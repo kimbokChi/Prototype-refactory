@@ -178,34 +178,6 @@ public class ItemLibrary : Singleton<ItemLibrary>
         return getItem;
     }
 
-    public void ItemUnlock(params Item[] unlockItems)
-    {
-        for (int i = 0; i < unlockItems.Length; i++)
-        {
-            Item item = _LockedItemListForTest.FirstOrDefault(o => o.GetType().Equals(unlockItems[i].GetType()));
-
-            if (item != null)
-            {
-                item = Instantiate(item, ItemStateSaver.Instance.transform);
-                item.transform.position = new Vector2(-10f, 0);
-
-                _RunTimeLibrary[item.Rating].Add(item);
-
-                _UnlockedItemListForTest.Add(item);
-
-                for (int j = 0; j < _LockedItemListForTest.Count; j++)
-                {
-                    if (_LockedItemListForTest[i].GetType().Equals(item.GetType()))
-                    {
-
-                        _LockedItemListForTest.RemoveAt(i); break;
-                    }
-                }
-                ItemUnlockEvent?.Invoke(item);
-            }
-        }
-    }
-
     public List<Item> GetUnlockedItemListForTest()
     {
         return _UnlockedItemListForTest;
