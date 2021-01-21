@@ -10,8 +10,8 @@ public class LoginUI : MonoBehaviour
 
    
     public GameObject loginObject;
-  
-  
+
+    public GameObject touchStart;
     public GameObject errorObject;
     public GameObject nicknameObject;
 
@@ -35,6 +35,7 @@ public class LoginUI : MonoBehaviour
     {
         if (instance == null)
         {
+            
             Debug.LogError("LoginUI 인스턴스가 존재하지 않습니다.");
             return null;
         }
@@ -56,10 +57,10 @@ public class LoginUI : MonoBehaviour
             //   fadeObject = fade.GetComponent<FadeAnimation>();
        // }
 
-        var google = loginObject.transform.GetChild(0).gameObject;
+    //    var google = loginObject.transform.GetChild(0).gameObject;
 
 #if UNITY_ANDROID
-        google.SetActive(true);
+      //  google.SetActive(true);
 
 #endif
     }
@@ -67,14 +68,14 @@ public class LoginUI : MonoBehaviour
 
     public void TouchStart()
     {
-       
         BackEndServerManager.GetInstance().BackendTokenLogin((bool result, string error) =>
         {
-            Dispatcher.Current.BeginInvoke(() =>
-            {
+        Debug.Log("hop");
+            
                 if (result)
                 {
-                    ChangeLobbyScene();
+
+                    SceneLoader.Instance.SceneLoad(2);
                     return;
                 }
                 else
@@ -85,8 +86,8 @@ public class LoginUI : MonoBehaviour
                     return;
                 }
             
-                loginObject.SetActive(true);
-            });
+               
+           
         });
 
     }
@@ -120,9 +121,10 @@ public class LoginUI : MonoBehaviour
                     errorText.text = "닉네임 생성 오류\n\n" + error;
                     errorObject.SetActive(true);
                     return;
-                }else
-                    Debug.Log("씬");
-                ChangeLobbyScene();
+                }
+                else
+                   
+                Debug.Log("씬");
             });
         });
     }
@@ -145,7 +147,7 @@ public class LoginUI : MonoBehaviour
                     errorObject.SetActive(true);
                     return;
                 }
-                ChangeLobbyScene();
+                SceneLoader.Instance.SceneLoad(2);
             });
         });
     }
@@ -160,6 +162,7 @@ public class LoginUI : MonoBehaviour
        // loadingObject.SetActive(true);
         BackEndServerManager.GetInstance().GuestLogin((bool result, string error) =>
         {
+
             Dispatcher.Current.BeginInvoke(() =>
             {
                 if (!result)
@@ -169,27 +172,20 @@ public class LoginUI : MonoBehaviour
                     errorObject.SetActive(true);
                     return;
                 }
-                Debug.Log("씬");
-                ChangeLobbyScene();
+                SceneLoader.Instance.SceneLoad(2);
             });
         });
     }
-    void ChangeLobbyScene()
+     void SceneLoad(int index)
     {
-       
-            GameManager.GetInstance().ChangeState(GameManager.GameState.Town, (bool isDone) =>
-            {
-                
-            });
-       
-      
+        SceneManager.LoadScene(index);
 
-      
-
+        if (index == 1)
         {
-            GameManager.GetInstance().ChangeState(GameManager.GameState.Town);
+            Inventory.Instance.Clear();
         }
-
     }
+
 }
+
 
