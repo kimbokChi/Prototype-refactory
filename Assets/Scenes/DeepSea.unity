@@ -2403,7 +2403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f61c2c011c455bf4a96fd0ba09f7fca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RegisteredItem: {fileID: 0}
+  RegisteredItem: {fileID: 11400000, guid: 04b9be7313947794880bf72a33d16641, type: 2}
 --- !u!4 &1873670970
 Transform:
   m_ObjectHideFlags: 0
