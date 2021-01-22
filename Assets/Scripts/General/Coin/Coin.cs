@@ -23,7 +23,6 @@ public class Coin : MonoBehaviour
         {
             _PopRoutine = new Coroutine(this);
         }
-        Debug.Log(_Animator.parameterCount);
         _AnimationHash = _Animator.GetParameter(0).nameHash;
     }
     public void Enable()
