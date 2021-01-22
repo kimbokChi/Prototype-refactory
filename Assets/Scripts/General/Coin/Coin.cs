@@ -26,6 +26,13 @@ public class Coin : MonoBehaviour
         _PopRoutine.StartRoutine(PopAnimation());
         _AnimationHash = _Animator.GetParameter(0).nameHash;
     }
+    private void OnDisable()
+    {
+        transform.localScale = Vector3.one;
+        _Animator.SetBool(_AnimationHash, false);
+
+        CoinPool.Instance.Add(this);
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && !_Animator.GetBool(_AnimationHash))
@@ -39,9 +46,6 @@ public class Coin : MonoBehaviour
     private void Disable()
     {
         gameObject.SetActive(false);
-
-        transform.localScale = Vector3.one;
-        _Animator.SetBool(_AnimationHash, false);
     }
     private IEnumerator PopAnimation()
     {
