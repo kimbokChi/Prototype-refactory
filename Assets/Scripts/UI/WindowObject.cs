@@ -2,14 +2,14 @@
 
 public class WindowObject : MonoBehaviour
 {
-    [SerializeField] private GameObject _BlockingLayer;
+    [SerializeField] private BlockingLayer _BlockingLayer;
 
     private void OnEnable()
     {
-        _BlockingLayer.SetActive(true);
+        _BlockingLayer.SetActive(true, gameObject);
     }
     private void OnDisable()
     {
-        _BlockingLayer.SetActive(false);
+        _BlockingLayer.SetActive(false, gameObject);
     }
 }
