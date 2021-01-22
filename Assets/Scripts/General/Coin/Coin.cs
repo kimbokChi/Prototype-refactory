@@ -37,12 +37,13 @@ public class Coin : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && !_Animator.GetBool(_AnimationHash))
+        if (_PopRoutine.IsFinished())
         {
-            _PopRoutine.StopRoutine();
-
-            MoneyManager.Instance.AddMoney(Value);
-            _Animator.SetBool(_AnimationHash, true);
+            if (collision.CompareTag("Player") && !_Animator.GetBool(_AnimationHash))
+            {
+                MoneyManager.Instance.AddMoney(Value);
+                _Animator.SetBool(_AnimationHash, true);
+            }
         }
     }
     private void Disable()
