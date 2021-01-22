@@ -16,7 +16,9 @@ public class CoinDropper : MonoBehaviour
             Coin coin = CoinPool.Instance.Get();
 
             coin.Value = _CoinValue;
+
             coin.transform.position = transform.position + offset;
+            coin.Enable();
         }
     }
 }

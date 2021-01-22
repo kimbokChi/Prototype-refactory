@@ -12,7 +12,7 @@ public class CoinPool : Singleton<CoinPool>
     private void Awake()
     {
         _Pool = new Pool<Coin>();
-        _Pool.Init(_HoldingCount, _Origin);
+        _Pool.Init(_HoldingCount, _Origin, coin => coin.Init());
     }
 
     public Coin Get()
