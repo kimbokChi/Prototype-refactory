@@ -30,12 +30,12 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
             ItemListInit();
 
             // ====== ====== Test ====== ====== //
-            List<int> list = new List<int>();
-            for (int i = 0; i < RegisteredItem.GetAllID().Count; i++)
-            {
-                list.Add((int)RegisteredItem.GetAllID()[i]);
-            }
-            SetUnlockedItem(list);
+        //    List<int> list = new List<int>();
+          //  for (int i = 0; i < RegisteredItem.GetAllID().Count; i++)
+           // {
+           //     list.Add((int)RegisteredItem.GetAllID()[i]);
+            //}
+           // SetUnlockedItem(list);
             // ====== ====== Test ====== ====== //
 
             if (FindObjectsOfType(typeof(ItemStateSaver)).Length > 1)
