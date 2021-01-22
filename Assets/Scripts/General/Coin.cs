@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    [SerializeField] private Animator _Animator;
+    public int Value;
 
+    [SerializeField] private Animator _Animator;
+    private int _AnimationHash;
+
+    private void OnEnable()
+    {
+        _AnimationHash = _Animator.GetParameter(0).nameHash;
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !_Animator.GetBool(_AnimationHash))
         {
-            _Animator.SetBool(_Animator.GetParameter(0).nameHash, true);
+            MoneyManager.Instance.AddMoney(Value);
+            _Animator.SetBool(_AnimationHash, true);
         }
+    }
+    private void Disable()
+    {
+        gameObject.SetActive(false);
     }
 }
