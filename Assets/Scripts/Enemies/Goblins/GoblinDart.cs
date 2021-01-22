@@ -11,6 +11,7 @@ public class GoblinDart : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
     [SerializeField] private MovementModule _Movement;
     [SerializeField] private RecognitionModule _Recognition;
     [SerializeField] private LongRangeModule _AttackModule;
+    [SerializeField] private CoinDropper _CoinDropper;
 
     public AbilityTable GetAbility => _AbilityTable;
 
@@ -54,6 +55,8 @@ public class GoblinDart : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
             _Movement.MoveStop();
             _EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _CoinDropper.Drop(3);
         }
     }
 

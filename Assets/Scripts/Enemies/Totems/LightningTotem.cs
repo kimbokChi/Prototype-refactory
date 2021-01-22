@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    [SerializeField] private CoinDropper _CoinDropper;
     [SerializeField] private AbilityTable AbilityTable;
 
     [SerializeField] private EnemyAnimator EnemyAnimator;
@@ -92,6 +93,8 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
             EnemyAnimator.ChangeState(AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _CoinDropper.Drop(3);
         }
     }
 
