@@ -100,6 +100,8 @@ AnimationClip:
       value: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - time: 0.25
       value: {fileID: 2100000, guid: d0530982f24a5844187401c63285ee0c, type: 2}
+    - time: 0.5
+      value: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     attribute: m_Materials.Array.data[0]
     path: CoinSprite
     classID: 212
@@ -135,12 +137,13 @@ AnimationClip:
     pptrCurveMapping:
     - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - {fileID: 2100000, guid: d0530982f24a5844187401c63285ee0c, type: 2}
+    - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5
+    m_StopTime: 0.5833333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -409,7 +412,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.5
+  - time: 0.5833333
     functionName: Disable
     data: 
     objectReferenceParameter: {fileID: 0}

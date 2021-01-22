@@ -39,6 +39,9 @@ public class Coin : MonoBehaviour
     private void Disable()
     {
         gameObject.SetActive(false);
+
+        transform.localScale = Vector3.one;
+        _Animator.SetBool(_AnimationHash, false);
     }
     private IEnumerator PopAnimation()
     {
