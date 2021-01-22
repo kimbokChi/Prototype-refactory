@@ -1783,6 +1783,7 @@ GameObject:
   - component: {fileID: 3924565880136380670}
   - component: {fileID: 4525782497786560908}
   - component: {fileID: 1004223647072048471}
+  - component: {fileID: 6944239958673768614}
   m_Layer: 5
   m_Name: DungeonClearUI
   m_TagString: Untagged
@@ -1898,6 +1899,20 @@ MonoBehaviour:
   ItemBoxes:
   - {fileID: 7584144128305363930}
   - {fileID: 6524383971731650488}
+--- !u!114 &6944239958673768614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7833136633231753133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 102abbd64cfc103418e99f6dc5cb00a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _IntractableLayer: 1
+  _BlockingLayer: {fileID: 0}
 --- !u!1 &7892265797797130853
 GameObject:
   m_ObjectHideFlags: 0
