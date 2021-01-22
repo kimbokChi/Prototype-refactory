@@ -21,9 +21,12 @@ public class BlockingLayer : MonoBehaviour, IPointerDownHandler
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        _User?.SetActive(false);
-        _User = null;
+        if (_User)
+        {
+            _User.SetActive(false);
+            _User = null;
 
-        gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
     }
 }
