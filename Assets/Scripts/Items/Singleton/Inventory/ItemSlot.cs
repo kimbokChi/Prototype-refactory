@@ -9,7 +9,7 @@ public enum SlotType
 {
     Container, Accessory, Weapon
 }
-public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
+public class ItemSlot : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] private ItemInfoShower Shower;
     [SerializeField] private Sprite EmptySprite;
@@ -106,6 +106,7 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+
         if (Application.platform == RuntimePlatform.WindowsEditor || 
             Application.platform == RuntimePlatform.WindowsPlayer)
         {
@@ -135,5 +136,7 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
                 }
             }
         }
+
+
     }
 }
