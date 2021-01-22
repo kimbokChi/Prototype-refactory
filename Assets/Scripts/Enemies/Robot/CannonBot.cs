@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CannonBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    [SerializeField] private CoinDropper _CoinDropper;
+
     [Header("Bullet Info")]
     [SerializeField] private Projection Bullet;
     [SerializeField] private float ShootSpeed;
@@ -67,6 +69,8 @@ public class CannonBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
             MoveStop();
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _CoinDropper.Drop(3);
         }
     }
 

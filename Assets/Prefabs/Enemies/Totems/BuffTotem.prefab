@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 1722614913}
   - component: {fileID: 7138527647169006540}
   - component: {fileID: 2325238707315122105}
+  - component: {fileID: 506108337168108675}
   m_Layer: 0
   m_Name: BuffTotem
   m_TagString: Enemy
@@ -186,6 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1116093eb2f8aa341889ec1066767046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _CoinDropper: {fileID: 506108337168108675}
   AnimLength: 1.833
   Anim: {fileID: 833377283793197278}
   Animator: {fileID: 1722614913}
@@ -260,6 +262,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.2, y: 1.2}
   m_EdgeRadius: 0
+--- !u!114 &506108337168108675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53926453361515090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CoinValue: 1
+  _GroundOffsetY: -0.3
 --- !u!1 &833377283793197278
 GameObject:
   m_ObjectHideFlags: 0

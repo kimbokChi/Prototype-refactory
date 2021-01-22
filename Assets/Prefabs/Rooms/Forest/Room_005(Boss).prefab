@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 8680912197157835162}
   - component: {fileID: 8680912197157835156}
   m_Layer: 0
-  m_Name: Room_007(GoblinChief)
+  m_Name: Room_005(Boss)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -192,7 +192,6 @@ MonoBehaviour:
   LMovePoint: {fileID: 8680912197298234487}
   CMovePoint: {fileID: 8680912196164021185}
   RMovePoint: {fileID: 8680912197012792510}
-  mRoomNumber: 7
 --- !u!1 &8680912197298234486
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,6 +236,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3348873940667493075, guid: 8437aee243bc2e14fa012bedac0bfb41,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348873940667493075, guid: 8437aee243bc2e14fa012bedac0bfb41,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -252,6 +256,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3348873940667493075, guid: 8437aee243bc2e14fa012bedac0bfb41,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3348873940667493075, guid: 8437aee243bc2e14fa012bedac0bfb41,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -263,16 +272,6 @@ PrefabInstance:
     - target: {fileID: 3348873940667493075, guid: 8437aee243bc2e14fa012bedac0bfb41,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3348873940667493075, guid: 8437aee243bc2e14fa012bedac0bfb41,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3348873940667493075, guid: 8437aee243bc2e14fa012bedac0bfb41,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3348873940667493075, guid: 8437aee243bc2e14fa012bedac0bfb41,

@@ -12,6 +12,7 @@ public class GolemStoneMini : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     [SerializeField] private MovementModule _Movement;
     [SerializeField] private RecognitionModule _Recognition;
     [SerializeField] private ShortRangeModule _AttackModule;
+    [SerializeField] private CoinDropper _CoinDropper;
 
     public AbilityTable GetAbility => _AbilityTable;
 
@@ -55,6 +56,8 @@ public class GolemStoneMini : MonoBehaviour, IObject, ICombatable, IAnimEventRec
             _Movement.MoveStop();
             _EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _CoinDropper.Drop(3);
         }
     }
 

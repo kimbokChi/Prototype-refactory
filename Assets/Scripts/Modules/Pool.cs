@@ -46,8 +46,8 @@ public class Pool<T> where T : MonoBehaviour
         {
             var _object = UnityEngine.Object.Instantiate(_OriginalObject);
 
-            _object.gameObject.SetActive(false);
             _ObjectInitAction?.Invoke(_object);
+            _object.gameObject.SetActive(false);
 
             _Pool.Push(_object);
         }

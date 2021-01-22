@@ -11,6 +11,7 @@ public class GoblinAssassin : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     [SerializeField] private MovementModule _Movement;
     [SerializeField] private RecognitionModule _Recognition;
     [SerializeField] private DashModule _AttackModule;
+    [SerializeField] private CoinDropper _CoinDropper;
 
     private Coroutine _DashRoutine;
 
@@ -62,6 +63,8 @@ public class GoblinAssassin : MonoBehaviour, IObject, ICombatable, IAnimEventRec
             _Movement.MoveStop();
             _EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _CoinDropper.Drop(2);
         }
     }
 
