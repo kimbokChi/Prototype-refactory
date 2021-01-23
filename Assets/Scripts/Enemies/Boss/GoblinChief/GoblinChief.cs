@@ -71,6 +71,11 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
             gameObject.SetActive(false);
 
             _CoinDropper.Drop(15);
+
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
             DeathRattle();
         }
     }

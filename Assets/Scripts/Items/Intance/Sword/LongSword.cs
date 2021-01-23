@@ -4,10 +4,9 @@ public class LongSword : Item
 {
     [SerializeField] private Animator Animator;
     [SerializeField] private Area CollisionArea;
-    [SerializeField] private Projection SwordDance;
 
-    private int mAnimPlayKey;
-    private int mAnimControlKey;
+    private int _AnimPlayKey;
+    private int _AnimControlKey;
 
     private GameObject mPlayer;
 
@@ -19,8 +18,6 @@ public class LongSword : Item
     {
         if (offSlot.Equals(SlotType.Weapon))
         {
-            Inventory.Instance.ChargeAction -= ChargeAction;
-
             AttackOverAction = null;
         }
     }
@@ -29,15 +26,10 @@ public class LongSword : Item
     {
         if (onSlot.Equals(SlotType.Weapon))
         {
-            SwordDance = Instantiate(SwordDance);
-            SwordDance.gameObject.SetActive(false);
-
             CollisionArea.SetEnterAction(HitAction);
 
-            mAnimPlayKey    = Animator.GetParameter(0).nameHash;
-            mAnimControlKey = Animator.GetParameter(1).nameHash;
-
-            Inventory.Instance.ChargeAction += ChargeAction;
+            _AnimPlayKey    = Animator.GetParameter(0).nameHash;
+            _AnimControlKey = Animator.GetParameter(1).nameHash;
 
             mPlayer = mPlayer ?? transform.parent.parent.gameObject;
         }
@@ -48,31 +40,11 @@ public class LongSword : Item
         CollisionArea.enabled = true;
         CollisionArea.GetCollider.enabled = true;
 
-        Animator.SetBool(mAnimPlayKey, true);
-        Animator.SetBool(mAnimControlKey, !Animator.GetBool(mAnimControlKey));
+        Animator.SetBool(_AnimPlayKey, true);
+        Animator.SetBool(_AnimControlKey, !Animator.GetBool(_AnimControlKey));
 
         mPlayer = attacker;
     }
-
-    private void ChargeAction(float charge)
-    {
-        if (charge >= 0.15f)
-        {
-            Vector2 direction = Vector2.right;
-
-            SwordDance.gameObject.SetActive(true);
-            SwordDance.transform.localRotation = Quaternion.Euler(Vector3.zero);
-
-            if (mPlayer.transform.localRotation.y == -1)
-            {
-                SwordDance.transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
-                direction = Vector2.left;
-            }
-            SwordDance.transform.position = transform.position;
-            SwordDance.Shoot(transform.position, direction, 8f);
-        }
-    }
-
     private void HitAction(GameObject hitObject)
     {
         if (hitObject.TryGetComponent(out ICombatable combatable))

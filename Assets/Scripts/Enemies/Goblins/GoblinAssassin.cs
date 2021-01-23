@@ -65,6 +65,10 @@ public class GoblinAssassin : MonoBehaviour, IObject, ICombatable, IAnimEventRec
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
             _CoinDropper.Drop(2);
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 

@@ -9,7 +9,7 @@ public enum SlotType
 {
     Container, Accessory, Weapon
 }
-public class ItemSlot : MonoBehaviour, IPointerDownHandler
+public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private ItemInfoShower Shower;
     [SerializeField] private Sprite EmptySprite;
@@ -106,6 +106,34 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        ItemSwapFingerAndSlot();
+        if (Application.platform == RuntimePlatform.WindowsEditor || 
+            Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            ItemSwapFingerAndSlot();
+        }
+    }
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).phase == TouchPhase.Began) {
+                    ItemSwapFingerAndSlot();
+                }
+            }
+        }
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).phase == TouchPhase.Ended) {
+                    ItemSwapFingerAndSlot();
+                }
+            }
+        }
     }
 }

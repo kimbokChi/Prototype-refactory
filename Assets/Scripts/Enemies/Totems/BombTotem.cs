@@ -87,6 +87,11 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
             _CoinDropper.Drop(4);
+
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 

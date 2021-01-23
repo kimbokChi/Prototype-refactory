@@ -61,6 +61,10 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
             _CoinDropper.Drop(3);
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 

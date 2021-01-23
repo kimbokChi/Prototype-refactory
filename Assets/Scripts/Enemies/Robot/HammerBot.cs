@@ -60,6 +60,10 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
             _CoinDropper.Drop(5);
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 

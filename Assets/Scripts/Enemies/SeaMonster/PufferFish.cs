@@ -73,6 +73,10 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
             _CoinDropper.Drop(1);
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 

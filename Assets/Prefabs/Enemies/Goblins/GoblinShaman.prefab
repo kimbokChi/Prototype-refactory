@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 3188296097784790467}
   - component: {fileID: 4679398232086579494}
   - component: {fileID: 2020488316543109278}
+  - component: {fileID: 2432898027831829920}
   m_Layer: 0
   m_Name: GoblinShaman
   m_TagString: Enemy
@@ -171,6 +172,7 @@ MonoBehaviour:
   _Movement: {fileID: 3289283950954935668}
   _Recognition: {fileID: 2052727903467961869}
   _AttackModule: {fileID: 3188296097784790467}
+  _CoinDropper: {fileID: 2432898027831829920}
 --- !u!95 &852241797
 Animator:
   serializedVersion: 3
@@ -308,3 +310,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2432898027831829920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7939119612046069814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CoinValue: 1
+  _GroundOffsetY: -0.3
