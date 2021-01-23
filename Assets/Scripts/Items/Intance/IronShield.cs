@@ -6,11 +6,13 @@ public class IronShield : Item
 {
     public enum AnimState
     {
-        Defaulf, Begin, Duration, End
+        Defaulf, Begin, End, Attack
     }
+    [SerializeField] private Area _CollisionArea;
     [SerializeField] private Animator Animator;
     [SerializeField] private Vector2 EffectOffset;
 
+    [Header("Ability")]
     [SerializeField] private float DurationTime;
     [SerializeField] private float DemandCharge;
 
@@ -25,9 +27,6 @@ public class IronShield : Item
 
         base.AttackAnimationPlayOver();
     }
-
-    public override bool IsNeedAttackBtn
-    { get => false; }
 
     public override void OffEquipThis(SlotType offSlot)
     {
@@ -51,15 +50,26 @@ public class IronShield : Item
 
     private void AnimationBeginOver()
     {
-        Animator.SetInteger(_AnimControlKey, (int)AnimState.Duration);
-
         StartCoroutine(DurateShield());
+    }
+
+    public override void AttackAction(GameObject attacker, ICombatable combatable)
+    {
+        Animator.SetInteger(_AnimControlKey, (int)AnimState.Attack);
     }
 
     private void Init()
     {
         if (!_IsAlreadyInit)
         {
+            _CollisionArea?.SetEnterAction(o =>
+            {
+                if (o.TryGetComponent(out ICombatable combatable))
+                {
+                    combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
+                    MainCamera.Instance.Shake(0.2f, 1.2f);
+                }
+            });
             _AnimControlKey = Animator.GetParameter(0).nameHash;
 
             _IsAlreadyInit = true;
@@ -70,6 +80,8 @@ public class IronShield : Item
     {
         if (charge >= DemandCharge)
         {
+            AttackButtonController.Instance.HideButton();
+
             Animator.SetInteger(_AnimControlKey, (int)AnimState.Begin);
         }
     }
@@ -78,6 +90,8 @@ public class IronShield : Item
     {
         Inventory.Instance.BeDamagedAction += DamagedAction;
         yield return new WaitForSeconds(DurationTime);
+
+        AttackButtonController.Instance.ShowButton();
 
         Animator.SetInteger(_AnimControlKey, (int)AnimState.End);
         Inventory.Instance.BeDamagedAction -= DamagedAction;
