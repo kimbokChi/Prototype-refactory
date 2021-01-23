@@ -58,6 +58,10 @@ public class GoblinNormal : MonoBehaviour, IObject, ICombatable, IAnimEventRecei
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
             _CoinDropper.Drop();
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 
