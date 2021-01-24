@@ -20,7 +20,11 @@ public class Ads : Singleton<Ads>
     public void ReAds()
     {
         InitReAD();
+
         Invoke("Show", 1);
+
+        
+
     }
     public void InitReAD()
     {

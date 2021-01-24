@@ -2,7 +2,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using BackEnd;
+using static BackEnd.SendQueue;
+using System.Collections.Generic;
 public class DungeonClearUI : MonoBehaviour
 {
     [Header("UnlockDungeon")]
@@ -27,10 +29,64 @@ public class DungeonClearUI : MonoBehaviour
     {
         for (int i = 0; i < UnlockItems.Length; ++i)
         {
+            
             ItemBoxes[i].sprite = UnlockItems[i].Sprite;
             ItemStateSaver.Instance.ItemUnlock(UnlockItems[i].ID);
+         
+
         }
-        int clearSec = Mathf.FloorToInt(GameLoger.Instance.ElapsedTime % 60f);
+
+
+        var list = ItemStateSaver.Instance.GetUnlockedItem();
+        List<int> numlockedList = new List<int>();
+        
+        for(int i = 0; i<list.Count; i++)
+        {
+            numlockedList.Add((int)list[i].ID);
+        }
+
+       Where where = new Where();
+        Debug.Log("인벤");
+
+        Param _Param = new Param();
+        Debug.Log(_Param);
+
+        where.Equal("gamerIndate",BackEndServerManager.Instance.mIndate);
+
+        _Param.Add("ItemList", numlockedList) ; 
+       
+
+        Enqueue(Backend.GameSchemaInfo.Get, "ITem", where, 1, (BackendReturnObject Getbro) =>
+        {
+
+            Debug.Log("인벤커넥트");
+
+            if (Getbro.IsSuccess())
+            {
+                Enqueue(Backend.GameInfo.Update, "ITem", Getbro.GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString(), _Param, (BackendReturnObject Updatebro) =>
+                {
+                    if (Updatebro.IsSuccess())
+                        Debug.Log("인벤 Update");
+                    else
+                        Debug.Log("falil 인벤 update" + Updatebro);
+                });
+            }
+        
+            else
+        {
+            Enqueue(Backend.GameInfo.Insert, "ITem", _Param, (BackendReturnObject Insertbro) =>
+            {
+                if (Insertbro.IsSuccess())
+                    Debug.Log("인벤 insert");
+                else
+                    Debug.Log("falil 인벤  insert" + Insertbro);
+            });
+        }
+    });
+
+
+
+            int clearSec = Mathf.FloorToInt(GameLoger.Instance.ElapsedTime % 60f);
         int clearMin = Mathf.FloorToInt(GameLoger.Instance.ElapsedTime / 60f);
 
         ClearTime.text = $"{clearMin:D2} : {clearSec:D2}";
@@ -53,14 +109,15 @@ public class DungeonClearUI : MonoBehaviour
             _DungeonUnlockMessage.text = "이미 해금됨";
         }
     }
-
+   
     public void Close()
     {
         MainCamera.Instance.Fade(2.25f, FadeType.In, () =>
         {
             Inventory.Instance.Clear();
 
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(2);
         });
     }
+
 }

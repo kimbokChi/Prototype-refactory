@@ -52,7 +52,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         _Param.Add("Gold", MoneyManager.Instance.Money);
         _Param.Add("Kill", GameLoger.Instance.KillCount);
         _Param.Add("Time", GameLoger.Instance.ElapsedTime.ToString());
-
+       
         Enqueue(Backend.GameSchemaInfo.Get, _Table, where, 1, (BackendReturnObject Getbro) =>
         {
           
@@ -166,6 +166,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             if (callback.IsSuccess())
             {
                 OnLogined();
+                OnItem();
                 Debug.Log("토큰 로그인 성공");
                 loginSuccessFunc = func;
                
@@ -179,6 +180,57 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         });
     }
 
+    
+    public void OnItem()
+    {
+        bro = Backend.BMember.GetUserInfo();
+        mIndate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+        if (bro.IsSuccess())
+        {
+            Where param = new Where();
+            param.Equal("gamerIndate", mIndate);
+            Backend.GameInfo.GetPrivateContents("ITem", (callback1) =>
+            {
+                if (callback1.IsSuccess())
+                {
+
+                    
+
+
+                    int Itemm = Convert.ToInt32(callback1);
+
+                   
+                    List<int> nowlist = new List<int>();
+
+                    nowlist.Add(Itemm);
+
+
+
+
+
+                    ItemStateSaver.Instance.SetUnlockedItem(nowlist); 
+
+
+
+                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
+                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
+                    
+
+                    Debug.Log("정보 불러오기 성공" + callback1);
+              
+
+                }
+                else
+                { 
+
+                    Debug.Log("정보 불러오기 실패");
+                    SceneLoader.Instance.SceneLoad(1);
+                }
+            });
+        }
+        else
+            Debug.Log(bro + "812");
+    }
     public void OnLogined()
     {
         bro = Backend.BMember.GetUserInfo();
