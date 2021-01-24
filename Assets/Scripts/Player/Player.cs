@@ -173,6 +173,13 @@ public class Player : MonoBehaviour, ICombatable
             }
             ItemLibrary.Instance.ItemBoxReset();
         };
+        DeathEvent += () =>
+        {
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
+        };
 
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
 
