@@ -30,13 +30,14 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
             ItemListInit();
 
             // ====== ====== Test ====== ====== //
-            List<int> list = new List<int>();
-            for (int i = 0; i < RegisteredItem.GetAllID().Count; i++)
-            {
-                list.Add((int)RegisteredItem.GetAllID()[i]);
-            }
-            SetUnlockedItem(list);
+            // List<int> list = new List<int>();
+            // for (int i = 0; i < RegisteredItem.GetAllID().Count; i++)
+            //  {
+            //    list.Add((int)RegisteredItem.GetAllID()[i]);
+            // }
+            //SetUnlockedItem(list);
             // ====== ====== Test ====== ====== //
+            SetUnlockedItem(new List<int>());
 
             // ====== ====== 기본아이템 지급 ====== ====== //
             ItemID none = ItemID.None;
@@ -102,6 +103,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         }
     }
 
+
     public List<Item> GetUnlockedItem()
     {
         Init();
@@ -146,6 +148,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
                 if (_LockedItemList[j].ID == ids[i])
                 {
                     _UnlockedItemList.Add(_LockedItemList[j]);
+                  
                     _LockedItemList.RemoveAt(j);
                 }
             }
@@ -213,6 +216,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         }
         return RegisteredItem.GetItemInstance(loadID);
     }
+
 
     private void ItemSlotArrayInit()
     {
