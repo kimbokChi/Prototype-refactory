@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2518353896841765212}
   - component: {fileID: 2518353896841765208}
   - component: {fileID: 2518353896841765207}
+  - component: {fileID: 3324460677969513873}
   m_Layer: 0
   m_Name: Singletons
   m_TagString: Untagged
@@ -97,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fca3110fd02347489f226dd2fa4bbb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ItemBoxProbab: 0.6
   ItemBox: {fileID: 5804754286839020693, guid: f35de1102ab78f94d88d3d9b1b8ecbd8, type: 3}
   WoodenSprite: {fileID: 11400000, guid: fc94f87e70b154841bf91a06030f5cb0, type: 2}
   GoldenSprite: {fileID: 11400000, guid: 21e45ce82839c5a43964f220aae0767a, type: 2}
@@ -115,6 +117,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d58d37b6f053564e9504126fede9ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3324460677969513873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2518353896841765214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5775434da317194ab4bb94fff6fd874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Origin: {fileID: 1258303563582313542, guid: e2a3979e221eda64889fad7f2e67b9c4, type: 3}
+  _HoldingCount: 5
 --- !u!1 &2518353896850578293
 GameObject:
   m_ObjectHideFlags: 0

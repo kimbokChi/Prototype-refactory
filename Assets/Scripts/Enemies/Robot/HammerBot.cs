@@ -12,6 +12,7 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     [SerializeField] private MovementModule _Movement;
     [SerializeField] private RecognitionModule _Recognition;
     [SerializeField] private ShortRangeModule _AttackModule;
+    [SerializeField] private CoinDropper _CoinDropper;
 
     public AbilityTable GetAbility => AbilityTable;
 
@@ -57,6 +58,12 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
             _Movement.MoveStop();
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _CoinDropper.Drop(5);
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 

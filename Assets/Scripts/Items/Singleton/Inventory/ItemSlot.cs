@@ -24,9 +24,6 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     private SlotType mSlotType;
 
-    private Coroutine _Coroutine;
-    private bool _IsWaitForTouchOver = false;
-
     [ContextMenu("AAA")]
     private void AAA()
     {
@@ -46,7 +43,6 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
                 ItemInfoPopup.Instance.SetPopup(mContainItem.GetItemInfo);
             }
         };
-        _Coroutine = new Coroutine(this);
     }
 
     public void SetItem(Item item)
@@ -110,52 +106,34 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        _Coroutine.StartRoutine(WaitForPressInput());
+        if (Application.platform == RuntimePlatform.WindowsEditor || 
+            Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            ItemSwapFingerAndSlot();
+        }
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (Finger.Instance.CarryItem != null)
+        if (Application.platform == RuntimePlatform.Android)
         {
-            switch (Application.platform)
+            if (Input.touchCount > 0)
             {
-                case RuntimePlatform.WindowsPlayer:
-                case RuntimePlatform.WindowsEditor:
-                    _Coroutine.StartRoutine(WaitForInputOver());
-                    break;
-
-                case RuntimePlatform.Android:
-                    _IsWaitForTouchOver = true;
-                    break;
+                if (Input.GetTouch(0).phase == TouchPhase.Began) {
+                    ItemSwapFingerAndSlot();
+                }
             }
         }
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (_IsWaitForTouchOver)
+        if (Application.platform == RuntimePlatform.Android)
         {
-            if (Input.touchCount > 0) {
-                if (Input.GetTouch(0).phase == TouchPhase.Ended)
-                {
-                    _IsWaitForTouchOver = false;
-
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).phase == TouchPhase.Ended) {
                     ItemSwapFingerAndSlot();
                 }
             }
         }
-        _Coroutine.StopRoutine();
-    }
-    private IEnumerator WaitForPressInput()
-    {
-        yield return new WaitForSeconds(0.4f);
-        ItemSwapFingerAndSlot();
-
-        _Coroutine.Finish();
-    }
-    private IEnumerator WaitForInputOver()
-    {
-        yield return new WaitUntil(() => Input.GetMouseButtonUp(0));
-        ItemSwapFingerAndSlot();
-
-        _Coroutine.Finish();
     }
 }

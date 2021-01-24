@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    [SerializeField] private CoinDropper _CoinDropper;
+
     [Header("Ability")]
     [SerializeField] private bool IsLookAtLeft;
     [SerializeField] private AbilityTable AbilityTable;
@@ -81,6 +83,12 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
             MoveStop();
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _CoinDropper.Drop(3);
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 

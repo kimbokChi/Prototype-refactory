@@ -114,7 +114,7 @@ AnimationClip:
       customType: 21
       isPPtrCurve: 1
     - serializedVersion: 2
-      path: 0
+      path: 3691992569
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -128,7 +128,7 @@ AnimationClip:
       customType: 4
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 0
+      path: 3691992569
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -366,6 +366,6 @@ AnimationClip:
     path: IronShield_Animation
     classID: 4
     script: {fileID: 0}
-  m_HasGenericRootTransform: 1
+  m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events: []

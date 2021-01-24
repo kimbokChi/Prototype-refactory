@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using BackEnd;
 public static class InputExtension
 {
     // 현재 입력이 'UI를 대상으로한 입력인가'의 여부를 반환
@@ -31,6 +31,7 @@ public static class InputExtension
 public class Player : MonoBehaviour, ICombatable
 {
     public event Action<LPOSITION3, float> MovingEvent;
+   
 
     [SerializeField] private bool CanMoveDown;
     [SerializeField] private bool IsUsingHealthBar;
@@ -489,7 +490,7 @@ public class Player : MonoBehaviour, ICombatable
         playerPos = transform.position;
             return !mIsMovingElevation;
     }
-
+    
     public void Damaged(float damage, GameObject attacker)
     {
         MainCamera.Instance.Shake(0.3f, 1.0f);
@@ -499,8 +500,18 @@ public class Player : MonoBehaviour, ICombatable
         AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
         if (IsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
         {
-            DeathEvent?.Invoke();
+            Debug.Log("저장");
+
+
+         
+
+            BackEndServerManager.Instance.SendDataToServerSchema("Player");
+
+             DeathEvent?.Invoke();
             DeathEvent = null;
+
+
+
         }
         if (damage > 0f)
         {

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7780686527644580250}
   - component: {fileID: 4633175885586629997}
   - component: {fileID: 5324540337100509796}
+  - component: {fileID: 3195137921203246130}
   m_Layer: 0
   m_Name: SharkTheSpearman
   m_TagString: Enemy
@@ -119,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9764f57203c7dc4b8f78336abff9a6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _CoinDropper: {fileID: 3195137921203246130}
   Spear: {fileID: 4909953821009092301, guid: 52a770207297e6747bc1b62e405682fa, type: 3}
   ShootSpeed: 18
   ShootPos: {x: 0.2, y: 0.3}
@@ -202,6 +204,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3195137921203246130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293722670195797993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CoinValue: 2
+  _GroundOffsetY: -0.3
 --- !u!1 &5261783804804844009
 GameObject:
   m_ObjectHideFlags: 0

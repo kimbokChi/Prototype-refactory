@@ -9,6 +9,9 @@ public enum NotifyMessage
 
 public class StageEventLibrary : Singleton<StageEventLibrary>
 {
+    [Range(0f, 1f)]
+    [SerializeField] private float _ItemBoxProbab;
+
     [Header("ItemBox Section")]
     [SerializeField] private ItemBoxHolder ItemBox;
     [SerializeField] private ItemBoxSprite WoodenSprite;
@@ -25,8 +28,17 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
 
     private void Awake()
     {
-        StageClearEvent += CreateItemBox;
-        StageClearEvent += OnEnablePeddlerNPC;
+        StageClearEvent += () =>
+        {
+            if (Random.value < _ItemBoxProbab)
+            {
+                CreateItemBox();
+            }
+            else
+            {
+                OnEnablePeddlerNPC();
+            }
+        };
         StageClearEvent += () => SetActiveInventoryButton(true);
 
         StageEnterEvent += () =>

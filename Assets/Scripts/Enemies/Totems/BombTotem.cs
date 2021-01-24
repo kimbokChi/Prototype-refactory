@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    [SerializeField] private CoinDropper _CoinDropper;
+
     [Header("Range Info")]
     [SerializeField] private Area Range;
     [SerializeField] private CircleCollider2D RangeCollider;
@@ -84,6 +86,12 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
             EnemyAnimator.ChangeState(AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+            _CoinDropper.Drop(4);
+
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 

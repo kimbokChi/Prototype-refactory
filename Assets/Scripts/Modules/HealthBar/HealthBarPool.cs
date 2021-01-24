@@ -71,16 +71,6 @@ public class HealthBarPool : Singleton<HealthBarPool>
                                   mUserList.Remove(master);
 
             UnUsingHealthBar(healthBar);
-
-            if (master.CompareTag("Enemy") && master.TryGetComponent(out ICombatable combatable))
-            {
-                if (combatable.GetAbility[Ability.CurHealth] <= 0)
-                {
-                    EffectLibrary.Instance.UsingEffect(EffectKind.Coin, master.position + new Vector3(0, -0.5f, 0));
-
-                    MoneyManager.Instance.AddMoney(Random.Range(3, 7));
-                }
-            }
         }
     }
 

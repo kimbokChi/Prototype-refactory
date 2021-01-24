@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 688170121829781643}
   - component: {fileID: 7306476150646585093}
   - component: {fileID: 4543339602691744104}
+  - component: {fileID: 6983624975531079731}
   m_Layer: 0
   m_Name: GoblinDart
   m_TagString: Enemy
@@ -108,6 +109,7 @@ MonoBehaviour:
   _Movement: {fileID: 8615163776626541797}
   _Recognition: {fileID: 517327099968501452}
   _AttackModule: {fileID: 688170121829781643}
+  _CoinDropper: {fileID: 6983624975531079731}
 --- !u!95 &278768577591416048
 Animator:
   serializedVersion: 3
@@ -247,6 +249,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 1.2}
   m_EdgeRadius: 0
+--- !u!114 &6983624975531079731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4034151817204670685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CoinValue: 1
+  _GroundOffsetY: -0.3
 --- !u!1 &4034151817544926905
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
     public Action<Tentacle> DeathrattleAction;
 
+    [SerializeField] private CoinDropper _CoinDropper;
     [SerializeField] private AbilityTable AbilityTable;
     [SerializeField] private EnemyAnimator EnemyAnimator;
     
@@ -58,6 +59,12 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _CoinDropper.Drop(3);
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 

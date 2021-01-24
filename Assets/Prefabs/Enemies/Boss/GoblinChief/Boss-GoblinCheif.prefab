@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 8731517950841985786}
   - component: {fileID: 3764260241588451071}
   - component: {fileID: 153932327292754914}
+  - component: {fileID: 7929359552994979952}
   m_Layer: 0
   m_Name: Boss-GoblinCheif
   m_TagString: Enemy
@@ -232,6 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LPosition3: 0
+  _CoinDropper: {fileID: 7929359552994979952}
   AbilityTable: {fileID: 6103993616405179631}
   Animator: {fileID: 3348873940667493074}
   HealthBar: {fileID: 0}
@@ -320,6 +322,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7929359552994979952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348873940667493073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CoinValue: 4
+  _GroundOffsetY: -1.5
 --- !u!1 &6703213330863355055
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,18 +600,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7814858913531858021}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7790324935899168979 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 31313575762971830, guid: 968101930594537488674a602fbbcdad,
-    type: 3}
-  m_PrefabInstance: {fileID: 7814858913531858021}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a57423d17c6ca04b8a629da4936db74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6323124978121557440 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4301980446789028261, guid: 968101930594537488674a602fbbcdad,
@@ -606,6 +610,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 162e500ee18349741bd81abe711966fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7790324935899168979 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 31313575762971830, guid: 968101930594537488674a602fbbcdad,
+    type: 3}
+  m_PrefabInstance: {fileID: 7814858913531858021}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a57423d17c6ca04b8a629da4936db74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &7864646775540251058

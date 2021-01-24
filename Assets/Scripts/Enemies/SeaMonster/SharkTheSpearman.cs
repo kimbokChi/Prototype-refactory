@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    [SerializeField] private CoinDropper _CoinDropper;
+
     [Header("Spear Info")]
     [SerializeField] private Arrow Spear;
     [SerializeField] private float ShootSpeed;
@@ -67,6 +69,12 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
             MoveStop();
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _CoinDropper.Drop(4);
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 

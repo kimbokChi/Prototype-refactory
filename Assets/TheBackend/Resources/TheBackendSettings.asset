@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 660911240, guid: 77d6e49b5e6e74c909970a208a23105c, type: 3}
   m_Name: TheBackendSettings
   m_EditorClassIdentifier: 
-  clientAppID: b1042500-4a75-11eb-8665-f9f5929acb741625
-  signatureKey: b2f79090-4a75-11eb-8665-f9f5929acb741625
+  clientAppID: 8fc55730-59f0-11eb-8f27-af991fb502b01625
+  signatureKey: 927cd610-59f0-11eb-8f27-af991fb502b01625
   functionAuthKey: 
   packageName: com.AdverGameKorea.AscenDDungeon
   isAllPlatform: 1

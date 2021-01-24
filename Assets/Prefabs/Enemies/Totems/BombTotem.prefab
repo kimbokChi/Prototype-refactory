@@ -114,6 +114,7 @@ GameObject:
   - component: {fileID: 8727877944927416976}
   - component: {fileID: 8478487100379901975}
   - component: {fileID: 5673173598819149837}
+  - component: {fileID: 5918977258807524460}
   m_Layer: 0
   m_Name: BombTotem
   m_TagString: Enemy
@@ -198,6 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60f7571350f76f84ea5a8472cb82609f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _CoinDropper: {fileID: 5918977258807524460}
   Range: {fileID: 1080074601151004900}
   RangeCollider: {fileID: 901497636886740779}
   AbilityTable: {fileID: 7447130978180794834}
@@ -281,3 +283,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.2, y: 1.2}
   m_EdgeRadius: 0
+--- !u!114 &5918977258807524460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309640331586953155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _CoinValue: 1
+  _GroundOffsetY: -0.3

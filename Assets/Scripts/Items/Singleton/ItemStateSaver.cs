@@ -38,6 +38,16 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
            // SetUnlockedItem(list);
             // ====== ====== Test ====== ====== //
 
+            // ====== ====== 기본아이템 지급 ====== ====== //
+            ItemID none = ItemID.None;
+
+            if (_AccessoryIDArray.All(id => id == none) && 
+                _ContainerIDArray.All(id => id == none) && _WeaponItemID == none)
+            {
+                _WeaponItemID = ItemID.LongSword;
+            }
+            // ====== ====== 기본아이템 지급 ====== ====== // 
+
             if (FindObjectsOfType(typeof(ItemStateSaver)).Length > 1)
             {
                 Destroy(gameObject);
