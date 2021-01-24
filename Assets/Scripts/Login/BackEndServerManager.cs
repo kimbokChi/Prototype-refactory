@@ -165,8 +165,9 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         {
             if (callback.IsSuccess())
             {
-                OnLogined();
+                OnStage();
                 OnItem();
+                OnLogined();
                 Debug.Log("토큰 로그인 성공");
                 loginSuccessFunc = func;
                
@@ -180,7 +181,65 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         });
     }
 
-    
+    public void OnStage()
+    {
+        bro = Backend.BMember.GetUserInfo();
+        mIndate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+        if (bro.IsSuccess())
+        {
+            Where param = new Where();
+            param.Equal("gamerIndate", mIndate);
+            Backend.GameInfo.GetPrivateContents("STAGE", (callback1) =>
+            {
+                if (callback1.IsSuccess())
+                {
+                   
+
+                    // for (int i = 0; i < callback1.Rows()[0]["stagedata"]["L"].Count; i++)
+                    //{
+                    //     nowlist.Add(Convert.ToInt32(callback1.Rows()[0]["stagedata"]["L"][i]["N"].ToString()));
+                    // }
+
+
+                    // callback1 = JsonUtility.FromJson<>(int);
+
+
+
+                    //int Itemm = Convert.ToInt32(callback1);
+
+
+
+                    //nowlist.Add(Itemm);
+
+
+                    GameLoger.Instance.SetStageUnlock((int.Parse(callback1.Rows()[0]["stagedata"]["N"].ToString())));
+
+
+                    
+
+
+
+                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
+                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
+
+
+                    Debug.Log("정보 불러오기 성공" + callback1);
+
+
+                }
+                else
+                {
+
+                    Debug.Log("정보 불러오기 실패");
+               
+                }
+            });
+        }
+        else
+            Debug.Log(bro + "812");
+    }
+
+
     public void OnItem()
     {
         bro = Backend.BMember.GetUserInfo();
@@ -193,28 +252,15 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             {
                 if (callback1.IsSuccess())
                 {
-
-                    
-
-
-                    int Itemm = Convert.ToInt32(callback1);
-
-                   
                     List<int> nowlist = new List<int>();
 
-                    nowlist.Add(Itemm);
+                    for (int i = 0; i < callback1.Rows()[0]["ItemList"]["L"].Count; i++)
+                    {
+                        nowlist.Add(Convert.ToInt32(callback1.Rows()[0]["ItemList"]["L"][i]["N"].ToString()));
+                    }
 
 
-
-
-
-                    ItemStateSaver.Instance.SetUnlockedItem(nowlist); 
-
-
-
-                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
-                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
-                    
+                   ItemStateSaver.Instance.SetUnlockedItem(nowlist); 
 
                     Debug.Log("정보 불러오기 성공" + callback1);
               
@@ -223,8 +269,8 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
                 else
                 { 
 
-                    Debug.Log("정보 불러오기 실패");
-                    SceneLoader.Instance.SceneLoad(1);
+                    Debug.Log("정보 불러오기 실패"+callback1);
+                    
                 }
             });
         }
@@ -420,7 +466,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             {
                 Debug.Log("게스트 로그인 성공");
                 loginSuccessFunc = func;
-               OnLogined();
+             
                 bro = Backend.GameSchemaInfo.Insert("Player");
                Param param1 = new Param();
                 param1.Add("gamerIndate", mIndate);

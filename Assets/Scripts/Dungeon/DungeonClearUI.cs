@@ -36,6 +36,48 @@ public class DungeonClearUI : MonoBehaviour
 
         }
 
+        
+
+
+        Where where = new Where();
+        Debug.Log("인벤");
+
+        Param Param = new Param();
+        Debug.Log(Param);
+
+        where.Equal("gamerIndate", BackEndServerManager.Instance.mIndate);
+
+        Param.Add("stagedata", GameLoger.Instance.UnlockDungeonIndex);
+
+
+        Enqueue(Backend.GameSchemaInfo.Get, "STAGE", where, 1, (BackendReturnObject Getbro) =>
+        {
+
+            Debug.Log("스테이지커넥트");
+
+            if (Getbro.IsSuccess())
+            {
+                Enqueue(Backend.GameInfo.Update, "STAGE", Getbro.GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString(), Param, (BackendReturnObject Updatebro) =>
+                {
+                    if (Updatebro.IsSuccess())
+                        Debug.Log("스테이지 Update");
+                    else
+                        Debug.Log("falil 스테이지 update" + Updatebro);
+                });
+            }
+
+            else
+            {
+                Enqueue(Backend.GameInfo.Insert, "STAGE", Param, (BackendReturnObject Insertbro) =>
+                {
+                    if (Insertbro.IsSuccess())
+                        Debug.Log("스테이지 insert");
+                    else
+                        Debug.Log("falil 스테이지  insert" + Insertbro);
+                });
+            }
+        });
+
 
         var list = ItemStateSaver.Instance.GetUnlockedItem();
         List<int> numlockedList = new List<int>();
@@ -45,7 +87,7 @@ public class DungeonClearUI : MonoBehaviour
             numlockedList.Add((int)list[i].ID);
         }
 
-       Where where = new Where();
+       
         Debug.Log("인벤");
 
         Param _Param = new Param();
@@ -116,7 +158,7 @@ public class DungeonClearUI : MonoBehaviour
         {
             Inventory.Instance.Clear();
 
-            Ads.Instance.mAds();
+            Ads.Instance.ShowFrontAd();
             Ads.Instance.ClosedADEvent(() =>
             {
                 SceneManager.LoadScene(2);

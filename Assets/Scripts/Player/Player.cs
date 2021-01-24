@@ -514,7 +514,7 @@ public class Player : MonoBehaviour, ICombatable
 
             BackEndServerManager.Instance.SendDataToServerSchema("Player");
 
-            Ads.Instance.mAds();
+            Ads.Instance.ShowFrontAd();
             DeathEvent?.Invoke();
             DeathEvent = null;
 

@@ -56,6 +56,10 @@ public class GameLoger : Singleton<GameLoger>
     {
         UnlockDungeonIndex++;
     }
+    public void SetStageUnlock(int index)
+    {
+        UnlockDungeonIndex = index;
+    }
 
     private void Awake()
     {
