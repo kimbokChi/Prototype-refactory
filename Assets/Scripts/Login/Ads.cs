@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GoogleMobileAds.Api;
+
+
 public class Ads : Singleton<Ads>
 {
     private readonly string unitID = "ca - app - pub - 5708876822263347~3868785607";
@@ -32,11 +35,9 @@ public class Ads : Singleton<Ads>
         reAd = new RewardedAd(id);
         AdRequest request = new AdRequest.Builder().Build();
 
-
         reAd.LoadAd(request);
         reAd.OnAdClosed += (sender, e) => Debug.Log("광고가 닫힘");
         reAd.OnAdLoaded += (sender, e) => Debug.Log("광고가 로드됨");
-
     }
     public void InitAD()
     {
@@ -65,4 +66,18 @@ public class Ads : Singleton<Ads>
         screednAD.Show();
     }
 
+    public void ClosedADEvent(Action action)
+    {
+        if (screednAD != null)
+        {
+            screednAD.OnAdClosed += (a, b) => action.Invoke();
+        }
+    }
+    public void UserEarnedRewardEvent(Action action)
+    {
+        if (reAd != null)
+        {
+            reAd.OnUserEarnedReward += (a, b) => action.Invoke();
+        }
+    }
 }
