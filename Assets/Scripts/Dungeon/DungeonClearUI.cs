@@ -116,7 +116,11 @@ public class DungeonClearUI : MonoBehaviour
         {
             Inventory.Instance.Clear();
 
-            SceneManager.LoadScene(2);
+            Ads.Instance.mAds();
+            Ads.Instance.ClosedADEvent(() =>
+            {
+                SceneManager.LoadScene(2);
+            });
         });
     }
 
