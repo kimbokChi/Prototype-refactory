@@ -28,7 +28,11 @@ public class DungeonFaildUI : MonoBehaviour
         {
             Inventory.Instance.Clear();
 
-            SceneManager.LoadScene(1);
+            Ads.Instance.mAds();
+            Ads.Instance.ClosedADEvent(() =>
+            {
+                SceneManager.LoadScene(2);
+            });
         });
     }
 }

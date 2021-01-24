@@ -25,13 +25,17 @@ public class ItemPackmanNPC : MonoBehaviour
     {
         if (!mIsGivingItem)
         {
-            DropItem.Init(ItemLibrary.Instance.GetRandomItem());
-            DropItem.gameObject.SetActive(true);
+            Ads.Instance.ReAds();
+            Ads.Instance.UserEarnedRewardEvent(() => 
+            {
+                DropItem.Init(ItemLibrary.Instance.GetRandomItem());
+                DropItem.gameObject.SetActive(true);
 
-            StartCoroutine(ItemDrop());
+                StartCoroutine(ItemDrop());
 
-            mIsGivingItem = true;
-            EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position);
+                mIsGivingItem = true;
+                EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position);
+            });
         }
         else
         {

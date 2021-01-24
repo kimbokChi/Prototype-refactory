@@ -36,7 +36,11 @@ public class DungeonSelection : MonoBehaviour, IPointerDownHandler
     {
         MainCamera.Instance.Fade(1.75f, FadeType.In, () => 
         {
-            SceneManager.LoadScene(_SelectionInfo.AttachedSceneName);
+            Ads.Instance.mAds();
+            Ads.Instance.ClosedADEvent(() => 
+            {
+                SceneManager.LoadScene(_SelectionInfo.AttachedSceneName);
+            });
         });
     }
 
