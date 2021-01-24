@@ -28,6 +28,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         {
             _IsAlreadyInit = true;
             ItemListInit();
+            ItemSlotArrayInit();
 
             // ====== ====== Test ====== ====== //
             // List<int> list = new List<int>();

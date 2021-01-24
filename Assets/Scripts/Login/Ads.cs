@@ -65,8 +65,8 @@ public class Ads : Singleton<Ads>
     public void ShowFrontAd()
     {
         Debug.Log("FrontAd");
-        frontAd.Show();
         LoadFrontAd();
+        frontAd.Show();
     }
     #endregion
 
@@ -87,8 +87,8 @@ public class Ads : Singleton<Ads>
 
     public void ShowRewardAd()
     {
-        rewardAd.Show();
         LoadRewardAd();
+        rewardAd.Show();
     }
     #endregion
     public void ClosedADEvent(Action action)
