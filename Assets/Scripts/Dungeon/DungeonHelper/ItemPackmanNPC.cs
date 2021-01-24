@@ -25,7 +25,7 @@ public class ItemPackmanNPC : MonoBehaviour
     {
         if (!mIsGivingItem)
         {
-            Ads.Instance.ReAds();
+            Ads.Instance.ShowRewardAd();
             Ads.Instance.UserEarnedRewardEvent(() => 
             {
                 DropItem.Init(ItemLibrary.Instance.GetRandomItem());

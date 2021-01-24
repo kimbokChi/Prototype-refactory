@@ -7,77 +7,102 @@ using GoogleMobileAds.Api;
 
 public class Ads : Singleton<Ads>
 {
-    private readonly string unitID = "ca - app - pub - 5708876822263347~3868785607";
+    private static Ads _instance = null;
+    public bool isTestMode;
 
-    private readonly string Test_unitID = " ca-app-pub-5708876822263347/3093570612";
-
-    private readonly string Test_reward = " ca-app-pub-5708876822263347/6491913665";
-    private InterstitialAd screednAD;
-    private RewardedAd reAd;
-
-    public void mAds()
+    public static Ads instance
     {
-        InitAD();
-        Invoke("Show", 2);
-    }
-    public void ReAds()
-    {
-        InitReAD();
-
-        Invoke("Show", 1);
-
-        
-
-    }
-    public void InitReAD()
-    {
-        string id = Debug.isDebugBuild ? Test_unitID : unitID;
-        reAd = new RewardedAd(id);
-        AdRequest request = new AdRequest.Builder().Build();
-
-        reAd.LoadAd(request);
-        reAd.OnAdClosed += (sender, e) => Debug.Log("광고가 닫힘");
-        reAd.OnAdLoaded += (sender, e) => Debug.Log("광고가 로드됨");
-    }
-    public void InitAD()
-    {
-        string id = Debug.isDebugBuild ? Test_unitID : unitID;
-        screednAD = new InterstitialAd(id);
-        AdRequest request = new AdRequest.Builder().Build();
-
-
-        screednAD.LoadAd(request);
-        screednAD.OnAdClosed += (sender, e) => Debug.Log("광고가 닫힘");
-        screednAD.OnAdLoaded += (sender, e) => Debug.Log("광고가 로드됨");
-        
-    }
-
-    public void Show()
-    {
-        StartCoroutine("ShowScreenAd");
-    }
-
-    private IEnumerator ShowScreenAd()
-    {
-        while(!screednAD.IsLoaded())
+        get
         {
-            yield return null;
+            if (_instance == null)
+                return null;
+            return _instance;
         }
-        screednAD.Show();
     }
 
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else
+            Destroy(this.gameObject);
+    }
+
+    void Start()
+    {
+
+        LoadFrontAd();
+        LoadRewardAd();
+    }
+
+    AdRequest GetAdRequest()
+    {
+        Debug.Log("AdRequest");
+        return new AdRequest.Builder().Build();
+    }
+
+
+
+    #region 전면 광고
+    const string frontTestID = "ca-app-pub-3940256099942544/8691691433";
+    const string frontID = " ca-app-pub-5708876822263347/3093570612";
+    InterstitialAd frontAd;
+
+
+    void LoadFrontAd()
+    {
+        frontAd = new InterstitialAd(isTestMode ? frontTestID : frontID);
+        Debug.Log(frontAd);
+        frontAd.LoadAd(GetAdRequest());
+        frontAd.OnAdClosed += (sender, e) =>
+        {
+            Debug.Log("Ad End");
+        };
+    }
+
+    public void ShowFrontAd()
+    {
+        Debug.Log("FrontAd");
+        frontAd.Show();
+        LoadFrontAd();
+    }
+    #endregion
+
+    #region 리워드 광고
+    const string rewardTestID = "ca-app-pub-3940256099942544/5224354917";
+    const string rewardID = "ca-app-pub-5708876822263347/6491913665";
+    RewardedAd rewardAd;
+
+
+    void LoadRewardAd()
+    {
+        rewardAd = new RewardedAd(isTestMode ? rewardTestID : rewardID);
+        rewardAd.LoadAd(GetAdRequest());
+        rewardAd.OnUserEarnedReward += (sender, e) =>
+        {
+        };
+    }
+
+    public void ShowRewardAd()
+    {
+        rewardAd.Show();
+        LoadRewardAd();
+    }
+    #endregion
     public void ClosedADEvent(Action action)
     {
-        if (screednAD != null)
+        if (frontAd != null)
         {
-            screednAD.OnAdClosed += (a, b) => action.Invoke();
+            frontAd.OnAdClosed += (a, b) => action.Invoke();
         }
     }
     public void UserEarnedRewardEvent(Action action)
     {
-        if (reAd != null)
+        if (rewardAd != null)
         {
-            reAd.OnUserEarnedReward += (a, b) => action.Invoke();
+            rewardAd.OnUserEarnedReward += (a, b) => action.Invoke();
         }
     }
 }
