@@ -28,6 +28,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         {
             _IsAlreadyInit = true;
             ItemListInit();
+            ItemSlotArrayInit();
 
             // ====== ====== Test ====== ====== //
             // List<int> list = new List<int>();
@@ -72,7 +73,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         {
             Item instance = RegisteredItem.GetItemInstance((ItemID)i);
 
-            if (idList.Contains(i))
+            if (IsDefaultUnlockItemCheck(i) || idList.Contains(i))
             {
                 _UnlockedItemList.Add(instance);
             }
@@ -227,5 +228,13 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
     {
         _UnlockedItemList = _UnlockedItemList ?? new List<Item>();
           _LockedItemList =   _LockedItemList ?? new List<Item>();
+    }
+    private bool IsDefaultUnlockItemCheck(int id)
+    {
+        return id == (int)ItemID.LongSword
+            || id == (int)ItemID.OrdinaryBow
+            || id == (int)ItemID.Shuriken
+            || id == (int)ItemID.MysteriousMace
+            || id == (int)ItemID.IronShield;
     }
 }

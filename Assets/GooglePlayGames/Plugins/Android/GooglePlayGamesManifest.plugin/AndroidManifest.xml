@@ -10,7 +10,8 @@
 
     <application>
 
-     
+     <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID"
+				android:value="ca-app-pub-5708876822263347~3868785607"/>
 
         <!-- The space in these forces it to be interpreted as a string vs. int -->
         <meta-data android:name="com.google.android.gms.games.APP_ID"
