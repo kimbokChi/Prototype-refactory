@@ -23,7 +23,11 @@ public class ItemPackmanNPC : MonoBehaviour
 
     public void Interaction()
     {
-        if (!mIsGivingItem)
+        if (!mHasPlayer)
+        {
+            SystemMessage.Instance.ShowMessage("NPC와의 거리가\n너무 멉니다!");
+        }
+        else if (!mIsGivingItem)
         {
             Ads.Instance.ShowRewardAd();
             Ads.Instance.UserEarnedRewardEvent(() => 
@@ -60,8 +64,7 @@ public class ItemPackmanNPC : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             _Hider.HideOrShow();
-
-            InteractionButton.SetActive(mHasPlayer = true);
+            mHasPlayer = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -69,8 +72,7 @@ public class ItemPackmanNPC : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             _Hider.HideOrShow();
-
-            InteractionButton.SetActive(mHasPlayer = false);
+            mHasPlayer = false;
         }
     }
 }

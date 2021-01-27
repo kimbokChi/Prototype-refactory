@@ -20,8 +20,7 @@ public class DungeonGuideNPC : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             _Hider.HideOrShow();
-
-            InteractionButton.SetActive(mHasPlayer = true);
+            mHasPlayer = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -29,14 +28,17 @@ public class DungeonGuideNPC : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             _Hider.HideOrShow();
-
-            InteractionButton.SetActive(mHasPlayer = false);
+            mHasPlayer = false;
         }
     }
 
     public void Interact()
     {
-        if (IsWaitForEffectDisable)
+        if (!mHasPlayer)
+        {
+            SystemMessage.Instance.ShowMessage("NPC와의 거리가\n너무 멉니다!");
+        }
+        else if (IsWaitForEffectDisable)
         {
             EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position, () => 
             {

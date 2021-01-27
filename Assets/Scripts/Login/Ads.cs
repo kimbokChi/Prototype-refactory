@@ -32,6 +32,7 @@ public class Ads : Singleton<Ads>
 
     void Start()
     {
+        MobileAds.Initialize(o => Debug.Log("Init : " + o.ToString()));
 
         LoadFrontAd();
         LoadRewardAd();
@@ -46,8 +47,8 @@ public class Ads : Singleton<Ads>
 
 
     #region 전면 광고
-    const string frontTestID = "ca-app-pub-3940256099942544/8691691433";
-    const string frontID = " ca-app-pub-5708876822263347/3093570612";
+    const string frontTestID = "ca-app-pub-3940256099942544/1033173712";
+    const string frontID = "ca-app-pub-5708876822263347/3093570612";
     InterstitialAd frontAd;
 
 
@@ -55,18 +56,25 @@ public class Ads : Singleton<Ads>
     {
         frontAd = new InterstitialAd(isTestMode ? frontTestID : frontID);
         Debug.Log(frontAd);
+
         frontAd.LoadAd(GetAdRequest());
         frontAd.OnAdClosed += (sender, e) =>
         {
-            Debug.Log("Ad End");
+            LoadFrontAd();
         };
     }
 
     public void ShowFrontAd()
     {
         Debug.Log("FrontAd");
-        LoadFrontAd();
-        frontAd.Show();
+        if (frontAd.IsLoaded())
+        {
+            frontAd.Show();
+        }
+        else
+        {
+            LoadFrontAd();
+        }
     }
     #endregion
 
@@ -82,13 +90,20 @@ public class Ads : Singleton<Ads>
         rewardAd.LoadAd(GetAdRequest());
         rewardAd.OnUserEarnedReward += (sender, e) =>
         {
+            LoadRewardAd();
         };
     }
 
     public void ShowRewardAd()
     {
-        LoadRewardAd();
-        rewardAd.Show();
+        if (rewardAd.IsLoaded())
+        {
+            rewardAd.Show();
+        }
+        else
+        {
+            LoadRewardAd();
+        }
     }
     #endregion
     public void ClosedADEvent(Action action)

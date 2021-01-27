@@ -106,37 +106,13 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-
-        if (Application.platform == RuntimePlatform.WindowsEditor || 
-            Application.platform == RuntimePlatform.WindowsPlayer)
+        ItemSwapFingerAndSlot();
+    }
+    public void ItemSwapAction()
+    {
+        if (Application.platform == RuntimePlatform.Android)
         {
             ItemSwapFingerAndSlot();
         }
-    }
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            if (Input.touchCount > 0)
-            {
-                if (Input.GetTouch(0).phase == TouchPhase.Began) {
-                    ItemSwapFingerAndSlot();
-                }
-            }
-        }
-    }
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            if (Input.touchCount > 0)
-            {
-                if (Input.GetTouch(0).phase == TouchPhase.Ended) {
-                    ItemSwapFingerAndSlot();
-                }
-            }
-        }
-
-
     }
 }
