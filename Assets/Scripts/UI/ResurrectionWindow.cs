@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ResurrectionWindow : MonoBehaviour
 {
-    [SerializeField] private GameObject _NextWindow;
+    [FormerlySerializedAs("_NextWindow")]
+    [SerializeField] private GameObject _ResultWindow;
+    [SerializeField] private GameObject _ResurrectionWindow;
     [SerializeField] private Resurrectable _Resurrectable;
 
     private bool _IsAlreadyEarn = false;
@@ -17,6 +20,21 @@ public class ResurrectionWindow : MonoBehaviour
             var player = GameObject.FindGameObjectWithTag("Player");
 
             Debug.Assert(player.TryGetComponent(out _Resurrectable));
+        }
+    }
+    private void Awake()
+    {
+        FindPlayer();
+
+        if (_Resurrectable.TryGetComponent(out Player player))
+        {
+            player.DeathEvent += revertAction =>
+            {
+                if (!_IsAlreadyEarn && !revertAction)
+                {
+                    _ResurrectionWindow.SetActive(true);
+                }
+            };
         }
     }
     public void ShowAD()
@@ -36,6 +54,6 @@ public class ResurrectionWindow : MonoBehaviour
     public void Close()
     {
         gameObject.SetActive(false);
-        _NextWindow.SetActive(true);
+        _ResultWindow.SetActive(true);
     }
 }

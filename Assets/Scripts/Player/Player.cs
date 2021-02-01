@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using BackEnd;
 public static class InputExtension
@@ -30,14 +31,19 @@ public static class InputExtension
 
 public class Player : MonoBehaviour, ICombatable
 {
+    #region COMMENT
+    /// <summary>
+    /// parameter1 : revert death event?
+    /// </summary>
+    #endregion
+    public event Action<bool> DeathEvent;
     public event Action<LPOSITION3, float> MovingEvent;
-   
 
     [SerializeField] private bool CanMoveDown;
     [SerializeField] private bool IsUsingHealthBar;
     
     [SerializeField]
-    private GameObject mGameOverWindow;
+    private Resurrectable _Resurrectable;
 
     [SerializeField]
     private GameObject EquipWeaponSlot;
@@ -66,8 +72,6 @@ public class Player : MonoBehaviour, ICombatable
     private List<Collider2D> mCollidersOnMove;
 
     private AttackPeriod mAttackPeriod;
-
-    private event Action DeathEvent;
 
     private bool mCanElevation;
 
