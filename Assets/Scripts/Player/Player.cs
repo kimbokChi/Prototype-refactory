@@ -192,7 +192,6 @@ public class Player : MonoBehaviour, ICombatable
 
                     o.AttackOverAction = () => mAttackPeriod.AttackActionOver();
 
-                    ItemStateSaver.Instance.SaveSlotItem(SlotType.Weapon, o, 0);
                     mAttackPeriod.StopPeriod();
                 }
             };
@@ -210,26 +209,6 @@ public class Player : MonoBehaviour, ICombatable
         } mInventory.SetWeaponSlot(instance);
 
         _Resurrectable.ResurrectAction += ResurrectAction;
-
-        SceneManager.sceneUnloaded += scene => 
-        {
-            if (scene.buildIndex != (int)SceneIndex.Town)
-            {
-                var list = new List<int>() 
-                {
-                    // ___Weapon___
-                    (int)ItemID.None,
-                    
-                    // ___Accessory___
-                    (int)ItemID.None, (int)ItemID.None, (int)ItemID.None,
-
-                    // ___Container___
-                    (int)ItemID.None, (int)ItemID.None, (int)ItemID.None,
-                    (int)ItemID.None, (int)ItemID.None, (int)ItemID.None
-                };
-                ItemStateSaver.Instance.SetInventoryItem(list);
-            }
-        };
     }
     private void InputAction()
     {
@@ -292,6 +271,26 @@ public class Player : MonoBehaviour, ICombatable
                     moveDir9 = mLocation9 + 1;
             }
             if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
+        }
+    }
+    private void OnDestroy()
+    {
+        // 마을에서 다른 씬으로 이동하는 것이 아니라면, 인벤토리를 비운다.
+        if (SceneManager.GetActiveScene().buildIndex != (int)SceneIndex.Town)
+        {
+            var list = new List<int>()
+                {
+                    // ___Weapon___
+                    (int)ItemID.None,
+                    
+                    // ___Accessory___
+                    (int)ItemID.None, (int)ItemID.None, (int)ItemID.None,
+
+                    // ___Container___
+                    (int)ItemID.None, (int)ItemID.None, (int)ItemID.None,
+                    (int)ItemID.None, (int)ItemID.None, (int)ItemID.None
+                };
+            ItemStateSaver.Instance.SetInventoryItem(list);
         }
     }
     private void Update()
