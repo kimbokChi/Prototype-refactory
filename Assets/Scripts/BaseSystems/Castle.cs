@@ -264,10 +264,6 @@ public class Castle : Singleton<Castle>
                         StageEventLibrary.Instance.NotifyEvent(NotifyMessage.StageClear);
                     }
                 }
-                if (mPlayer.IsDeath)
-                {
-                    mPlayerFloor.ExitPlayer(MESSAGE.BELONG_FLOOR, mLastPlayerPOS);
-                }
                 if (!CanNextPoint() && mPlayerFloor.IsClear && !DisableStageEvent)
                 {
                     _DungeonClearUI?.SetActive(true);

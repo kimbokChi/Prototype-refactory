@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using Mono = Inventory;
 
 public enum Period { Begin, Attack, After };
 
@@ -55,13 +54,13 @@ public class AttackPeriod
     public void StartPeriod()
     {
         if (mEUpdate == null) {
-            Inventory.Instance.StartCoroutine(mEUpdate = EUpdate());
+            mAbilityTable.StartCoroutine(mEUpdate = EUpdate());
         }
     }
     public void StopPeriod()
     {
         if (mEUpdate != null) {
-            Inventory.Instance.StopCoroutine(mEUpdate);
+            mAbilityTable.StopCoroutine(mEUpdate);
 
             mEUpdate = null;
         }

@@ -21,7 +21,7 @@ public class Title : MonoBehaviour
             Dispatcher.Current.BeginInvoke(() =>
             {
 
-                SceneManager.LoadScene(2);
+                SceneManager.LoadScene((int)SceneIndex.Town);
                 Debug.Log("통과");
                 if (result)
                 {

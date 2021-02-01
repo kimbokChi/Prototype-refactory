@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 using BackEnd;
 public static class InputExtension
@@ -30,14 +31,19 @@ public static class InputExtension
 
 public class Player : MonoBehaviour, ICombatable
 {
+    #region COMMENT
+    /// <summary>
+    /// parameter1 : revert death event?
+    /// </summary>
+    #endregion
+    public event Action<bool> DeathEvent;
     public event Action<LPOSITION3, float> MovingEvent;
-   
 
     [SerializeField] private bool CanMoveDown;
     [SerializeField] private bool IsUsingHealthBar;
     
     [SerializeField]
-    private GameObject mGameOverWindow;
+    private Resurrectable _Resurrectable;
 
     [SerializeField]
     private GameObject EquipWeaponSlot;
@@ -67,15 +73,11 @@ public class Player : MonoBehaviour, ICombatable
 
     private AttackPeriod mAttackPeriod;
 
-    private event Action DeathEvent;
-
     private bool mCanElevation;
 
     private bool mIsMovingElevation;
 
     private bool mIsInputLock;
-
-    public bool IsDeath { get; private set; }
 
     public AbilityTable GetAbility => AbilityTable;
 
@@ -151,7 +153,6 @@ public class Player : MonoBehaviour, ICombatable
         }
         mIsInputLock  = false;
         mCanElevation = false;
-        IsDeath       = false;
 
         mIsMovingElevation = false;
 
@@ -159,28 +160,6 @@ public class Player : MonoBehaviour, ICombatable
         mAttackPeriod.SetAction(Period.Attack, AttackAction);
 
         mCollidersOnMove = new List<Collider2D>();
-
-        DeathEvent += () => mGameOverWindow.SetActive(true);
-        DeathEvent += () =>      RangeArea.enabled = false;
-        DeathEvent += () => HealthBarPool.Instance?.UnUsingHealthBar(transform);
-        DeathEvent += () => PlayerAnimator.ChangeState(PlayerAnim.Death);
-        DeathEvent += () => mInventory.Clear();
-        DeathEvent += () =>
-        {
-            if (EquipWeaponSlot.transform.childCount != 0)
-            {
-                EquipWeaponSlot.transform.GetChild(0).transform.parent = ItemStateSaver.Instance.transform;
-            }
-            ItemLibrary.Instance.ItemBoxReset();
-        };
-        DeathEvent += () =>
-        {
-            if (TryGetComponent(out Collider2D collider))
-            {
-                collider.enabled = false;
-            }
-        };
-
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
 
         mInventory = Inventory.Instance;
@@ -213,7 +192,6 @@ public class Player : MonoBehaviour, ICombatable
 
                     o.AttackOverAction = () => mAttackPeriod.AttackActionOver();
 
-                    ItemStateSaver.Instance.SaveSlotItem(SlotType.Weapon, o, 0);
                     mAttackPeriod.StopPeriod();
                 }
             };
@@ -229,8 +207,9 @@ public class Player : MonoBehaviour, ICombatable
         if (instance != null) {
             instance = ItemLibrary.Instance.GetItemObject(instance.ID);
         } mInventory.SetWeaponSlot(instance);
-    }
 
+        _Resurrectable.ResurrectAction += ResurrectAction;
+    }
     private void InputAction()
     {
         if (!mIsInputLock)
@@ -294,9 +273,29 @@ public class Player : MonoBehaviour, ICombatable
             if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
         }
     }
+    private void OnDestroy()
+    {
+        // 마을에서 다른 씬으로 이동하는 것이 아니라면, 인벤토리를 비운다.
+        if (SceneManager.GetActiveScene().buildIndex != (int)SceneIndex.Town)
+        {
+            var list = new List<int>()
+                {
+                    // ___Weapon___
+                    (int)ItemID.None,
+                    
+                    // ___Accessory___
+                    (int)ItemID.None, (int)ItemID.None, (int)ItemID.None,
+
+                    // ___Container___
+                    (int)ItemID.None, (int)ItemID.None, (int)ItemID.None,
+                    (int)ItemID.None, (int)ItemID.None, (int)ItemID.None
+                };
+            ItemStateSaver.Instance.SetInventoryItem(list);
+        }
+    }
     private void Update()
     {
-        if (!IsDeath)
+        if (AbilityTable[Ability.CurHealth] > 0f)
         {
             InputAction();
         }
@@ -368,6 +367,31 @@ public class Player : MonoBehaviour, ICombatable
     private void AttackAction()
     {
         mInventory.AttackAction(gameObject, null);
+    }
+    private void ResurrectAction()
+    {
+        RangeArea.enabled = true;
+        PlayerAnimator.ChangeState(PlayerAnim.Idle);
+
+        if (TryGetComponent(out Collider2D collider))
+        {
+            collider.enabled = true;
+        }
+        DeathEvent?.Invoke(true);
+
+        AbilityTable.Table[Ability.CurHealth] 
+            = AbilityTable[Ability.MaxHealth] * 0.3f;
+    }
+    private void DeathAction()
+    {
+        RangeArea.enabled = false;
+        PlayerAnimator.ChangeState(PlayerAnim.Death);
+
+        if (TryGetComponent(out Collider2D collider)) {
+
+            collider.enabled = false;
+        }
+        DeathEvent?.Invoke(false);
     }
 
     private void MoveAction(DIRECTION9 moveDIR9)
@@ -505,22 +529,15 @@ public class Player : MonoBehaviour, ICombatable
         mInventory.OnDamaged(ref damage, attacker, gameObject);
 
         AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
-        if (IsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
+        if (AbilityTable.Table[Ability.CurHealth] <= 0f)
         {
             Debug.Log("저장");
 
-
-         
-
+#if UNITY_EDITOR
+#else
             BackEndServerManager.Instance.SendDataToServerSchema("Player");
-
-            Ads.Instance.ShowFrontAd();
-            DeathEvent?.Invoke();
-            DeathEvent = null;
-
-            
-
-
+#endif
+            DeathAction();
         }
         if (damage > 0f)
         {

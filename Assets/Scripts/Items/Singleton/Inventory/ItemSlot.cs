@@ -11,6 +11,7 @@ public enum SlotType
 }
 public class ItemSlot : MonoBehaviour, IPointerDownHandler
 {
+    [SerializeField] private int _Index;
     [SerializeField] private ItemInfoShower Shower;
     [SerializeField] private Sprite EmptySprite;
 
@@ -86,7 +87,7 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler
                 AttackButtonController.Instance.HideButton();
             }
         }
-        ItemStateSaver.Instance.SaveSlotItem(mSlotType, mContainItem, 0);
+        ItemStateSaver.Instance.SaveSlotItem(mSlotType, mContainItem, _Index);
     }
 
     public void ItemSwapFingerAndSlot()

@@ -31,7 +31,7 @@ public class DungeonFaildUI : MonoBehaviour
             Ads.Instance.ShowFrontAd();
             Ads.Instance.ClosedADEvent(() =>
             {
-                SceneManager.LoadScene(2);
+                SceneManager.LoadScene((int)SceneIndex.Town);
             });
         });
     }

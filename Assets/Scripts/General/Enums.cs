@@ -26,3 +26,7 @@ public enum RecognitionArea
 {
     Default, Room, Floor
 }
+public enum SceneIndex
+{
+    Title, Login, Town, Forest, DeepSea, SteamPunk
+}

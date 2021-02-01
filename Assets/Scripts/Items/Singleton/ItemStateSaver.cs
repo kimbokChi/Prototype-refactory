@@ -41,13 +41,12 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
             SetUnlockedItem(new List<int>());
 
             // ====== ====== 기본아이템 지급 ====== ====== //
-            ItemID none = ItemID.None;
+            EquipWeaponItem();
 
-            if (_AccessoryIDArray.All(id => id == none) && 
-                _ContainerIDArray.All(id => id == none) && _WeaponItemID == none)
+            SceneManager.sceneUnloaded += o => 
             {
-                _WeaponItemID = ItemID.LongSword;
-            }
+                EquipWeaponItem();
+            };
             // ====== ====== 기본아이템 지급 ====== ====== // 
 
             if (FindObjectsOfType(typeof(ItemStateSaver)).Length > 1)
@@ -85,21 +84,25 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
     }
     public void SetInventoryItem(List<int> idList)
     {
-        _WeaponItemID = (ItemID)idList[0];
+        Debug.Log(idList.Count());
 
-        int invokeCount = 
-            Inventory.AccessorySlotCount + 
-            Inventory.ContainerSlotCount;
+        _WeaponItemID = (ItemID)idList[0];
+        idList.RemoveAt(0);
+
+        int container = Inventory.ContainerSlotCount;
+        int accessory = Inventory.AccessorySlotCount;
+
+        int invokeCount = container + accessory;
 
         for (int i = 0; i < invokeCount; i++)
         {
-            if (i < Inventory.AccessorySlotCount)
+            if (i < accessory)
             {
                 _AccessoryIDArray[i] = (ItemID)idList[i];
             }
-            else
+            if (i < container)
             {
-                _ContainerIDArray[i] = (ItemID)idList[i];
+                _ContainerIDArray[i] = (ItemID)idList[i + accessory];
             }
         }
     }
@@ -217,7 +220,37 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
         }
         return RegisteredItem.GetItemInstance(loadID);
     }
-
+    public void EquipWeaponItem()
+    {
+        if (_WeaponItemID == ItemID.None)
+        {
+            for (int i = 0; i < Inventory.ContainerSlotCount; ++i)
+            {
+                if (_ContainerIDArray[i] != ItemID.None)
+                {
+                    _WeaponItemID = _ContainerIDArray[i];
+                    _ContainerIDArray[i] = ItemID.None;
+                    break;
+                }
+            }
+            if (_WeaponItemID == ItemID.None)
+            {
+                for (int i = 0; i < Inventory.AccessorySlotCount; ++i)
+                {
+                    if (_AccessoryIDArray[i] != ItemID.None)
+                    {
+                        _WeaponItemID = _AccessoryIDArray[i];
+                        _AccessoryIDArray[i] = ItemID.None;
+                        break;
+                    }
+                }
+                if (_WeaponItemID == ItemID.None)
+                {
+                    _WeaponItemID = ItemID.LongSword;
+                }
+            }
+        }
+    }
 
     private void ItemSlotArrayInit()
     {
