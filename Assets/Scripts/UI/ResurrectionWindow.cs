@@ -30,9 +30,16 @@ public class ResurrectionWindow : MonoBehaviour
         {
             player.DeathEvent += revertAction =>
             {
-                if (!_IsAlreadyEarn && !revertAction)
+                if (!revertAction)
                 {
-                    _ResurrectionWindow.SetActive(true);
+                    if (!_IsAlreadyEarn)
+                    {
+                        _ResurrectionWindow.SetActive(true);
+                    }
+                    else
+                    {
+                        _ResultWindow.SetActive(true);
+                    }
                 }
             };
         }
@@ -45,7 +52,7 @@ public class ResurrectionWindow : MonoBehaviour
             Ads.Instance.UserEarnedRewardEvent(() =>
             {
                 _IsAlreadyEarn = true;
-                gameObject.SetActive(false);
+                _ResurrectionWindow.SetActive(false);
 
                 _Resurrectable.Resurrect();
             });
@@ -53,7 +60,8 @@ public class ResurrectionWindow : MonoBehaviour
     }
     public void Close()
     {
-        gameObject.SetActive(false);
+        _ResurrectionWindow.SetActive(false);
+
         _ResultWindow.SetActive(true);
     }
 }
