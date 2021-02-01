@@ -644,6 +644,7 @@ GameObject:
   - component: {fileID: 7832399709621743386}
   - component: {fileID: 1341930223691388554}
   - component: {fileID: 3821552836790897382}
+  - component: {fileID: 936796651636017618}
   m_Layer: 5
   m_Name: ResurrectWindow
   m_TagString: Untagged
@@ -723,6 +724,20 @@ MonoBehaviour:
   _IsEnablePause: 0
   _IntractableLayer: 1
   _BlockingLayer: {fileID: 5954936117977289782}
+--- !u!114 &936796651636017618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1794704511150177457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2afc4d7e140126644b9afa368eacd03f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _NextWindow: {fileID: 0}
+  _Resurrectable: {fileID: 0}
 --- !u!1 &2240164015531856424
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,7 +825,7 @@ GameObject:
   - component: {fileID: 4379401769903576774}
   - component: {fileID: 9100976620189992166}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Close
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -920,7 +935,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4379401769903576774}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 936796651636017618}
+        m_MethodName: Close
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3219277949309425569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1879,7 +1905,7 @@ GameObject:
   - component: {fileID: 2479504721598059952}
   - component: {fileID: 2760782746773757610}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ShowAD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1989,7 +2015,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2479504721598059952}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 936796651636017618}
+        m_MethodName: ShowAD
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7627177166312115234
 GameObject:
   m_ObjectHideFlags: 0

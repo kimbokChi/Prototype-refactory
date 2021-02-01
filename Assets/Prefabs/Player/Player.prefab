@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 5810549494006058013}
   - component: {fileID: 5810549494006058012}
   - component: {fileID: 2441175701001870715}
+  - component: {fileID: 2085608592035298536}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -156,7 +157,6 @@ MonoBehaviour:
   IsUsingHealthBar: 1
   mGameOverWindow: {fileID: 0}
   EquipWeaponSlot: {fileID: 5810549493965192802}
-  mBlinkTime: 0.2
   RangeArea: {fileID: 5810549494338724702}
   AbilityTable: {fileID: 5810549494281094165}
   PlayerAnimator: {fileID: 6242916743501542565}
@@ -241,6 +241,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2085608592035298536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5810549494006058011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 966c8ee146a50954998f62d5268f3085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5810549494281094164
 GameObject:
   m_ObjectHideFlags: 0

@@ -322,6 +322,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0.97826034
       objectReference: {fileID: 0}
+    - target: {fileID: 1775850975682492278, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+        type: 3}
+      propertyPath: _NextWindow
+      value: 
+      objectReference: {fileID: 1051375956}
     - target: {fileID: 1940088306000384280, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
         type: 3}
       propertyPath: m_textInfo.lineCount
