@@ -79,8 +79,6 @@ public class Player : MonoBehaviour, ICombatable
 
     private bool mIsInputLock;
 
-    public bool IsDeath { get; private set; }
-
     public AbilityTable GetAbility => AbilityTable;
 
     private CircleCollider2D mRangeCollider;
@@ -155,7 +153,6 @@ public class Player : MonoBehaviour, ICombatable
         }
         mIsInputLock  = false;
         mCanElevation = false;
-        IsDeath       = false;
 
         mIsMovingElevation = false;
 
@@ -287,7 +284,7 @@ public class Player : MonoBehaviour, ICombatable
     }
     private void Update()
     {
-        if (!IsDeath)
+        if (AbilityTable[Ability.CurHealth] > 0f)
         {
             InputAction();
         }
@@ -370,6 +367,9 @@ public class Player : MonoBehaviour, ICombatable
             collider.enabled = true;
         }
         DeathEvent?.Invoke(true);
+
+        AbilityTable.Table[Ability.CurHealth] 
+            = AbilityTable[Ability.MaxHealth] * 0.3f;
     }
     private void DeathAction()
     {
@@ -518,13 +518,14 @@ public class Player : MonoBehaviour, ICombatable
         mInventory.OnDamaged(ref damage, attacker, gameObject);
 
         AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
-        if (IsDeath = AbilityTable.Table[Ability.CurHealth] <= 0f)
+        if (AbilityTable.Table[Ability.CurHealth] <= 0f)
         {
             Debug.Log("저장");
 
+#if UNITY_EDITOR
+#else
             BackEndServerManager.Instance.SendDataToServerSchema("Player");
-
-            Ads.Instance.ShowFrontAd();
+#endif
             DeathAction();
         }
         if (damage > 0f)
