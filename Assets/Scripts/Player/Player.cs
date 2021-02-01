@@ -163,28 +163,6 @@ public class Player : MonoBehaviour, ICombatable
         mAttackPeriod.SetAction(Period.Attack, AttackAction);
 
         mCollidersOnMove = new List<Collider2D>();
-
-        DeathEvent += () => mGameOverWindow.SetActive(true);
-        DeathEvent += () =>      RangeArea.enabled = false;
-        DeathEvent += () => HealthBarPool.Instance?.UnUsingHealthBar(transform);
-        DeathEvent += () => PlayerAnimator.ChangeState(PlayerAnim.Death);
-        DeathEvent += () => mInventory.Clear();
-        DeathEvent += () =>
-        {
-            if (EquipWeaponSlot.transform.childCount != 0)
-            {
-                EquipWeaponSlot.transform.GetChild(0).transform.parent = ItemStateSaver.Instance.transform;
-            }
-            ItemLibrary.Instance.ItemBoxReset();
-        };
-        DeathEvent += () =>
-        {
-            if (TryGetComponent(out Collider2D collider))
-            {
-                collider.enabled = false;
-            }
-        };
-
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
 
         mInventory = Inventory.Instance;
@@ -233,6 +211,15 @@ public class Player : MonoBehaviour, ICombatable
         if (instance != null) {
             instance = ItemLibrary.Instance.GetItemObject(instance.ID);
         } mInventory.SetWeaponSlot(instance);
+
+        _Resurrectable.ResurrectAction += ResurrectAction;
+
+        SceneManager.sceneUnloaded += scene => {
+            if (scene.buildIndex != (int)SceneIndex.Town)
+            {
+                Inventory.Instance.Clear();
+            }
+        };
     }
 
     private void InputAction()
@@ -372,6 +359,28 @@ public class Player : MonoBehaviour, ICombatable
     private void AttackAction()
     {
         mInventory.AttackAction(gameObject, null);
+    }
+    private void ResurrectAction()
+    {
+        RangeArea.enabled = true;
+        PlayerAnimator.ChangeState(PlayerAnim.Idle);
+
+        if (TryGetComponent(out Collider2D collider))
+        {
+            collider.enabled = true;
+        }
+        DeathEvent?.Invoke(true);
+    }
+    private void DeathAction()
+    {
+        RangeArea.enabled = false;
+        PlayerAnimator.ChangeState(PlayerAnim.Death);
+
+        if (TryGetComponent(out Collider2D collider)) {
+
+            collider.enabled = false;
+        }
+        DeathEvent?.Invoke(false);
     }
 
     private void MoveAction(DIRECTION9 moveDIR9)
@@ -513,18 +522,10 @@ public class Player : MonoBehaviour, ICombatable
         {
             Debug.Log("저장");
 
-
-         
-
             BackEndServerManager.Instance.SendDataToServerSchema("Player");
 
             Ads.Instance.ShowFrontAd();
-            DeathEvent?.Invoke();
-            DeathEvent = null;
-
-            
-
-
+            DeathAction();
         }
         if (damage > 0f)
         {
