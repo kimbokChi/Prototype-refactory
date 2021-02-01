@@ -85,21 +85,25 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
     }
     public void SetInventoryItem(List<int> idList)
     {
-        _WeaponItemID = (ItemID)idList[0];
+        Debug.Log(idList.Count());
 
-        int invokeCount = 
-            Inventory.AccessorySlotCount + 
-            Inventory.ContainerSlotCount;
+        _WeaponItemID = (ItemID)idList[0];
+        idList.RemoveAt(0);
+
+        int container = Inventory.ContainerSlotCount;
+        int accessory = Inventory.AccessorySlotCount;
+
+        int invokeCount = container + accessory;
 
         for (int i = 0; i < invokeCount; i++)
         {
-            if (i < Inventory.AccessorySlotCount)
+            if (i < accessory)
             {
                 _AccessoryIDArray[i] = (ItemID)idList[i];
             }
-            else
+            if (i < container)
             {
-                _ContainerIDArray[i] = (ItemID)idList[i];
+                _ContainerIDArray[i] = (ItemID)idList[i + accessory];
             }
         }
     }

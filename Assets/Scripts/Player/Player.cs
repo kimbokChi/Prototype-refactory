@@ -211,14 +211,26 @@ public class Player : MonoBehaviour, ICombatable
 
         _Resurrectable.ResurrectAction += ResurrectAction;
 
-        SceneManager.sceneUnloaded += scene => {
+        SceneManager.sceneUnloaded += scene => 
+        {
             if (scene.buildIndex != (int)SceneIndex.Town)
             {
-                Inventory.Instance.Clear();
+                var list = new List<int>() 
+                {
+                    // ___Weapon___
+                    (int)ItemID.None,
+                    
+                    // ___Accessory___
+                    (int)ItemID.None, (int)ItemID.None, (int)ItemID.None,
+
+                    // ___Container___
+                    (int)ItemID.None, (int)ItemID.None, (int)ItemID.None,
+                    (int)ItemID.None, (int)ItemID.None, (int)ItemID.None
+                };
+                ItemStateSaver.Instance.SetInventoryItem(list);
             }
         };
     }
-
     private void InputAction()
     {
         if (!mIsInputLock)
