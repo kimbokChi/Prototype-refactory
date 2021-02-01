@@ -155,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanMoveDown: 0
   IsUsingHealthBar: 1
-  mGameOverWindow: {fileID: 0}
+  _Resurrectable: {fileID: 2085608592035298536}
   EquipWeaponSlot: {fileID: 5810549493965192802}
   RangeArea: {fileID: 5810549494338724702}
   AbilityTable: {fileID: 5810549494281094165}
