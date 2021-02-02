@@ -398,12 +398,9 @@ public class Player : MonoBehaviour, ICombatable
     {
         if (mEMove == null)
         {
-            if (mAttackPeriod.IsProgressing())
-            {
-                mAttackPeriod.StopPeriod();
+            mAttackPeriod.StopPeriod();
+            Inventory.Instance.ArrackCancel();
 
-                Inventory.Instance.ArrackCancel();
-            }
             if (mCanElevation)
             {
                 switch (moveDIR9)

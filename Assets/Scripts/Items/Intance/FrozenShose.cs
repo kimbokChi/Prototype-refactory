@@ -81,4 +81,9 @@ public class FrozenShose : Item
             }
         }
     }
+
+    public override void AttackCancel()
+    {
+        Animator.SetBool(_AnimControlKey, false);
+    }
 }
