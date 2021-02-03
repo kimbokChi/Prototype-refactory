@@ -101,4 +101,9 @@ public class MysteriousMace : Item
     {
         MainCamera.Instance.Shake(0.25f, 1.8f);
     }
+
+    public override void AttackCancel()
+    {
+        Animator.SetBool(_AnimControlKey, false);
+    }
 }

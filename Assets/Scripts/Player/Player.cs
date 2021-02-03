@@ -396,9 +396,10 @@ public class Player : MonoBehaviour, ICombatable
 
     private void MoveAction(DIRECTION9 moveDIR9)
     {
-        if (mEMove == null && mAttackPeriod.CurrentPeriod == Period.Begin)
+        if (mEMove == null)
         {
             mAttackPeriod.StopPeriod();
+            Inventory.Instance.ArrackCancel();
 
             if (mCanElevation)
             {

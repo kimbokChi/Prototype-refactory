@@ -164,4 +164,9 @@ public class Shuriken : Item
 
         Animator.SetBool(Animator.GetParameter(0).nameHash, false);
     }
+
+    public override void AttackCancel()
+    {
+        Animator.SetBool(Animator.GetParameter(0).nameHash, false);
+    }
 }

@@ -91,4 +91,9 @@ public class OrdinaryBow : Item
     {
         MainCamera.Instance.Shake();
     }
+
+    public override void AttackCancel()
+    {
+        Animator.SetBool(mAnimPlayKey, false);
+    }
 }

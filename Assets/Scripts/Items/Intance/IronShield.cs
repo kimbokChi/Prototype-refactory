@@ -113,4 +113,9 @@ public class IronShield : Item
         }
         EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, point);
     }
+
+    public override void AttackCancel()
+    {
+        Animator.SetInteger(_AnimControlKey, (int)AnimState.Defaulf);
+    }
 }

@@ -110,4 +110,10 @@ public class GreatSword : Item
     {
         MainCamera.Instance.Shake(0.29f, 3.5f);
     }
+
+    public override void AttackCancel()
+    {
+        Animator.SetBool(mAnimPlayKey, false);
+        Animator.SetBool(mAnimControlKey, false);
+    }
 }

@@ -54,4 +54,9 @@ public class LongSword : Item
             Inventory.Instance.OnAttackEvent(mPlayer, combatable);
         }
     }
+
+    public override void AttackCancel()
+    {
+        Animator.SetBool(_AnimPlayKey, false);
+    }
 }
