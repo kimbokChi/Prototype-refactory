@@ -426,11 +426,11 @@ public class Player : MonoBehaviour, ICombatable
                             {
                                 mIsMovingElevation = true;
 
-                                moveDir9 = mLocation9 - 3;
+                                moveDir9 = mLocation9 -= 3;
 
-                                //movePoint = Castle.Instance.GetMovePoint(moveDir9);
-                                //movePoint.x = transform.position.x;
-                                //_MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
+                                movePoint = Castle.Instance.GetMovePoint(moveDir9);
+                                movePoint.x = transform.position.x;
+                                _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
                             }
                             break;
                     }
@@ -443,11 +443,11 @@ public class Player : MonoBehaviour, ICombatable
                             {
                                 mIsMovingElevation = true;
 
-                                moveDir9 = mLocation9 + 3;
+                                moveDir9 = mLocation9 += 3;
 
-                                //movePoint = Castle.Instance.GetMovePoint(moveDir9);
-                                //movePoint.x = transform.position.x;
-                                //_MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
+                                movePoint = Castle.Instance.GetMovePoint(moveDir9);
+                                movePoint.x = transform.position.x;
+                                _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
                             }
                             break;
                         case LPOSITION3.BOT:
@@ -469,7 +469,7 @@ public class Player : MonoBehaviour, ICombatable
                     _MoveRoutine.StartRoutine(MoveWithDir(Vector2.left));
                     break;
             }
-            if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
+            // if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
         }
 
     }
@@ -623,28 +623,17 @@ public class Player : MonoBehaviour, ICombatable
         _MoveRoutine.Finish();
     }
 
-    [Obsolete]
     private IEnumerator MoveWithPoint(Vector3 movePoint)
     {
-        bool isLessXAxis = movePoint.x < transform.position.x;
-        bool isLessYAxis = movePoint.y < transform.position.y;
+        float DeltaTime() => Time.deltaTime * Time.timeScale;
 
-        bool IsOutOfRange()
+        for (float ratio = 0f; ratio < 1f; ratio += DeltaTime() * AbilityTable.MoveSpeed)
         {
-            return (transform.position.x < movePoint.x &&  isLessXAxis)
-                || (transform.position.x > movePoint.x && !isLessXAxis)
-                || (transform.position.y < movePoint.y &&  isLessYAxis)
-                || (transform.position.y > movePoint.y && !isLessYAxis);
-        }
-        Vector3 direction = (movePoint - transform.position).normalized;
+            ratio = Mathf.Min(ratio, 1f);
 
-        while (!IsOutOfRange())
-        {
-            transform.position += direction * Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed * 3f;
+            transform.position = Vector3.Lerp(transform.position, movePoint, ratio);
             yield return null;
         }
-        transform.position = movePoint;
-
         _MoveRoutine.Finish();
     }
 
