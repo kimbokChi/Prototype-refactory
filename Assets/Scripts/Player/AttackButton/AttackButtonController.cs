@@ -18,8 +18,8 @@ public class AttackButtonController : Singleton<AttackButtonController>
     private readonly Vector2 RHidePosition = new Vector2(+510f, -360f);
     private readonly Vector2 RShowPosition = new Vector2(+250f, -360f);
 
-    [SerializeField] private AttackButton _LAttackButton;
-    [SerializeField] private AttackButton _RAttackButton;
+    [SerializeField] private SubscribableButton _LAttackButton;
+    [SerializeField] private SubscribableButton _RAttackButton;
 
     private Coroutine _ButtonShowRoutine;
 
@@ -29,13 +29,13 @@ public class AttackButtonController : Singleton<AttackButtonController>
     {
         _Player = FindObjectOfType(typeof(Player)) as Player;
 
-        _LAttackButton.IntractEvent += () => 
+        _LAttackButton.ButtonDown += () => 
         {
             _Player.SetLookAtLeft(true);
 
             _Player.AttackOrder(); 
         };
-        _RAttackButton.IntractEvent += () => 
+        _RAttackButton.ButtonDown += () => 
         {
             _Player.SetLookAtLeft(false);
 

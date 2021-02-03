@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class AttackButton : MonoBehaviour, IPointerDownHandler
+public class SubscribableButton : MonoBehaviour, IPointerDownHandler
 {
-    public event Action IntractEvent;
+    public event Action ButtonDown;
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        IntractEvent?.Invoke();
+        ButtonDown?.Invoke();
     }
 }
