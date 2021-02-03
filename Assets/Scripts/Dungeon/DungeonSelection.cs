@@ -34,14 +34,21 @@ public class DungeonSelection : MonoBehaviour, IPointerDownHandler
 
     public void DungeonEnter()
     {
-        MainCamera.Instance.Fade(1.75f, FadeType.In, () => 
+        if (Inventory.Instance.IsEquipWeapon())
         {
-            Ads.Instance.ShowFrontAd();
-            Ads.Instance.ClosedADEvent(() => 
+            MainCamera.Instance.Fade(1.75f, FadeType.In, () =>
             {
-                SceneManager.LoadScene(_SelectionInfo.AttachedSceneName);
+                Ads.Instance.ShowFrontAd();
+                Ads.Instance.ClosedADEvent(() =>
+                {
+                    SceneManager.LoadScene(_SelectionInfo.AttachedSceneName);
+                });
             });
-        });
+        }
+        else
+        {
+            SystemMessage.Instance.ShowMessage("무기없이 입장할 수\n없습니다!");
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
