@@ -11,7 +11,7 @@ public enum SwipeDirection
 
 public class Finger : Singleton<Finger>
 {
-    private const float PRESS_TIME = 1f;
+    public const float PRESS_TIME = 1f;
 
     private float DeltaTime => Time.deltaTime;
 
@@ -53,11 +53,34 @@ public class Finger : Singleton<Finger>
     private Vector2 mTouchEndedPos;
     private Vector2 mSwipeDirection;
 
-    private void Awake() {
+    private bool _ChargeEnable;
+
+    private void Awake() 
+    {
         mCurPressTime = 0f;
         mTouchBeganPos = mTouchEndedPos = mSwipeDirection = Vector2.zero;
 
         _EmptySprite = CarryItemImage.sprite;
+        _ChargeEnable = false;
+    }
+
+    public void StartCharging()
+    {
+        _ChargeEnable = true;
+
+        mChargeGauge.gameObject.SetActive(true);
+        StartCoroutine(mEOnBulletTime = EOnBulletTime(1.5f, 0.45f));
+    }
+    public void EndCharging()
+    {
+        _ChargeEnable = false;
+
+        Inventory.Instance.OnCharge(mChargeGauge.Charge);
+
+        mChargeGauge.gameObject.SetActive(false);
+        mCurPressTime = 0;
+
+        StartCoroutine(EDisBulletTime(1.75f));
     }
 
     private void Update()
@@ -88,7 +111,22 @@ public class Finger : Singleton<Finger>
         {
             CarryItemImage.gameObject.SetActive(windowEnable);
         }
+        if (_ChargeEnable)
+        {
+            mCurPressTime += Time.deltaTime;
+            mChargeGauge.GaugeUp(0.8f);
+        }
+        #region Old Version Charging Input
+        /*
+        else if (mCurPressTime >= PRESS_TIME)
+        {
+            Inventory.Instance.OnCharge(mChargeGauge.Charge);
 
+            mChargeGauge.gameObject.SetActive(false);
+            mCurPressTime = 0;
+
+            StartCoroutine(EDisBulletTime(1.75f));
+        }
         if (!EventSystem.current.IsPointerInUIObject())
         {
             // Begin Touch
@@ -192,6 +230,8 @@ public class Finger : Singleton<Finger>
                 StartCoroutine(EDisBulletTime(1.75f));
             }
         }
+        #endregion
+        */
         #endregion
     }
     private IEnumerator EOnBulletTime(float accel, float slowMax)
