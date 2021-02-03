@@ -427,6 +427,10 @@ public class Player : MonoBehaviour, ICombatable
                                 mIsMovingElevation = true;
 
                                 moveDir9 = mLocation9 - 3;
+
+                                //movePoint = Castle.Instance.GetMovePoint(moveDir9);
+                                //movePoint.x = transform.position.x;
+                                //_MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
                             }
                             break;
                     }
@@ -440,6 +444,10 @@ public class Player : MonoBehaviour, ICombatable
                                 mIsMovingElevation = true;
 
                                 moveDir9 = mLocation9 + 3;
+
+                                //movePoint = Castle.Instance.GetMovePoint(moveDir9);
+                                //movePoint.x = transform.position.x;
+                                //_MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
                             }
                             break;
                         case LPOSITION3.BOT:
@@ -612,7 +620,34 @@ public class Player : MonoBehaviour, ICombatable
 
             transform.position = position;
         }
+        _MoveRoutine.Finish();
     }
+
+    [Obsolete]
+    private IEnumerator MoveWithPoint(Vector3 movePoint)
+    {
+        bool isLessXAxis = movePoint.x < transform.position.x;
+        bool isLessYAxis = movePoint.y < transform.position.y;
+
+        bool IsOutOfRange()
+        {
+            return (transform.position.x < movePoint.x &&  isLessXAxis)
+                || (transform.position.x > movePoint.x && !isLessXAxis)
+                || (transform.position.y < movePoint.y &&  isLessYAxis)
+                || (transform.position.y > movePoint.y && !isLessYAxis);
+        }
+        Vector3 direction = (movePoint - transform.position).normalized;
+
+        while (!IsOutOfRange())
+        {
+            transform.position += direction * Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed * 3f;
+            yield return null;
+        }
+        transform.position = movePoint;
+
+        _MoveRoutine.Finish();
+    }
+
 
     public void InputLock(bool isLock) {
         mIsInputLock = isLock;

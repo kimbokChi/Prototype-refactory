@@ -74,7 +74,16 @@ public class PlayerController : MonoBehaviour
             {
                 case ButtonState.Down: _Player.MoveOrder(direction);
                     break;
-                case ButtonState.Up  : _Player.MoveStop();
+                case ButtonState.Up  :
+                    {
+                        switch (direction)
+                        {
+                            case Direction.Right:
+                            case Direction.Left:
+                                _Player.MoveStop();
+                                break;
+                        }
+                    }
                     break;
             }
         }
