@@ -4,9 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public enum SwipeDirection
+public enum Direction
 {
-    up, down, right, left
+    Up, Down, Right, Left
 }
 
 public class Finger : Singleton<Finger>
@@ -266,7 +266,7 @@ public class Finger : Singleton<Finger>
         yield break;
     }
 
-    public bool Swipe(SwipeDirection inputDriection)
+    public bool Swipe(Direction inputDriection)
     {
         bool canMove = false;
 
@@ -302,14 +302,14 @@ public class Finger : Singleton<Finger>
                     if (Mathf.Abs(mSwipeDirection.x) > Mathf.Abs(mSwipeDirection.y))
                     {
                         canMove =
-                            (mSwipeDirection.x > 0 && SwipeDirection.right == inputDriection) ||
-                            (mSwipeDirection.x < 0 && SwipeDirection.left == inputDriection);
+                            (mSwipeDirection.x > 0 && Direction.Right == inputDriection) ||
+                            (mSwipeDirection.x < 0 && Direction.Left == inputDriection);
                     }
                     else
                     {
                         canMove =
-                            (mSwipeDirection.y > 0 && SwipeDirection.up == inputDriection) ||
-                            (mSwipeDirection.y < 0 && SwipeDirection.down == inputDriection);
+                            (mSwipeDirection.y > 0 && Direction.Up == inputDriection) ||
+                            (mSwipeDirection.y < 0 && Direction.Down == inputDriection);
                     }
 
                 }
