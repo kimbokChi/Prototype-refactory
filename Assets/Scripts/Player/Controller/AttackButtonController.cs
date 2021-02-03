@@ -29,17 +29,23 @@ public class AttackButtonController : Singleton<AttackButtonController>
     {
         _Player = FindObjectOfType(typeof(Player)) as Player;
 
-        _LAttackButton.ButtonDown += () => 
+        _LAttackButton.ButtonAction += (state) => 
         {
-            _Player.SetLookAtLeft(true);
+            if (state == ButtonState.Down)
+            {
+                _Player.SetLookAtLeft(true);
 
-            _Player.AttackOrder(); 
+                _Player.AttackOrder();
+            }
         };
-        _RAttackButton.ButtonDown += () => 
+        _RAttackButton.ButtonAction += (state) => 
         {
-            _Player.SetLookAtLeft(false);
+            if (state == ButtonState.Down)
+            {
+                _Player.SetLookAtLeft(false);
 
-            _Player.AttackOrder(); 
+                _Player.AttackOrder();
+            }
         };
         _ButtonShowRoutine = new Coroutine(this);
 
