@@ -70,9 +70,12 @@ public class PlayerController : MonoBehaviour
 
         void MoveOrderToPlayer(ButtonState state, Direction direction)
         {
-            if (state == ButtonState.Down)
+            switch (state)
             {
-                _Player.MoveOrder(direction);
+                case ButtonState.Down: _Player.MoveOrder(direction);
+                    break;
+                case ButtonState.Up  : _Player.MoveStop();
+                    break;
             }
         }
     }

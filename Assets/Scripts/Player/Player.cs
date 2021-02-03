@@ -79,6 +79,8 @@ public class Player : MonoBehaviour, ICombatable
 
     private bool mIsInputLock;
 
+    private Coroutine _MoveRoutine;
+
     public AbilityTable GetAbility => AbilityTable;
 
     private CircleCollider2D mRangeCollider;
@@ -163,6 +165,8 @@ public class Player : MonoBehaviour, ICombatable
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
 
         mInventory = Inventory.Instance;
+
+        _MoveRoutine = _MoveRoutine ?? new Coroutine(this);
 
         if (RangeArea.gameObject.TryGetComponent(out mRangeCollider))
         {
@@ -394,10 +398,17 @@ public class Player : MonoBehaviour, ICombatable
         DeathEvent?.Invoke(false);
     }
 
+    public void MoveStop()
+    {
+        _MoveRoutine.StopRoutine();
+    }
+
     public void MoveOrder(Direction direction)
     {
         if (!mIsInputLock)
         {
+            Vector2 movePoint = Vector2.zero;
+
             DIRECTION9 moveDir9 = DIRECTION9.END;
             switch (direction)
             {
@@ -444,16 +455,10 @@ public class Player : MonoBehaviour, ICombatable
                     }
                     break;
                 case Direction.Right:
-                    if (GetTPOSITION3() != TPOSITION3.RIGHT)
-                    {
-                        moveDir9 = mLocation9 + 1;
-                    }
+                    _MoveRoutine.StartRoutine(MoveWithDir(Vector2.right));
                     break;
                 case Direction.Left:
-                    if (GetTPOSITION3() != TPOSITION3.LEFT)
-                    {
-                        moveDir9 = mLocation9 - 1;
-                    }
+                    _MoveRoutine.StartRoutine(MoveWithDir(Vector2.left));
                     break;
             }
             if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
@@ -568,6 +573,45 @@ public class Player : MonoBehaviour, ICombatable
 
         mLocation9 = moveDIR9; mEMove = null;
         yield break;
+    }
+
+    private IEnumerator MoveWithDir(Vector3 direction)
+    {
+        Vector2 movePointMin = Vector2.zero;
+        Vector2 movePointMax = Vector2.zero;
+
+        switch (GetLPOSITION3())
+        {
+            case LPOSITION3.TOP:
+                movePointMin = Castle.Instance.GetMovePoint(DIRECTION9.TOP_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(DIRECTION9.TOP_RIGHT);
+                break;
+            case LPOSITION3.MID:
+                movePointMin = Castle.Instance.GetMovePoint(DIRECTION9.MID_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(DIRECTION9.MID_RIGHT);
+                break;
+            case LPOSITION3.BOT:
+                movePointMin = Castle.Instance.GetMovePoint(DIRECTION9.BOT_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(DIRECTION9.BOT_RIGHT);
+                break;
+        }
+        bool IsOutOfRange()
+        {
+            return transform.position.x < movePointMin.x 
+                || transform.position.x > movePointMax.x;
+        }
+        while (!IsOutOfRange())
+        {
+            transform.position += direction * Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed;
+            yield return null;
+        }
+        if (IsOutOfRange())
+        {
+            Vector2 position = transform.position;
+                    position.x = Mathf.Clamp(position.x, movePointMin.x, movePointMax.x);
+
+            transform.position = position;
+        }
     }
 
     public void InputLock(bool isLock) {
