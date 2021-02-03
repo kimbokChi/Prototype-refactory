@@ -2145,6 +2145,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _AttackButton: {fileID: 3462016915649980161}
+  _UMoveButton: {fileID: 5624098802160410463}
+  _DMoveButton: {fileID: 3731100506391218068}
+  _LMoveButton: {fileID: 7514229193283402720}
+  _RMoveButton: {fileID: 4177463990312773053}
 --- !u!1 &4475820787889357472
 GameObject:
   m_ObjectHideFlags: 0

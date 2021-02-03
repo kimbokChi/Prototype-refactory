@@ -394,6 +394,72 @@ public class Player : MonoBehaviour, ICombatable
         DeathEvent?.Invoke(false);
     }
 
+    public void MoveOrder(Direction direction)
+    {
+        if (!mIsInputLock)
+        {
+            DIRECTION9 moveDir9 = DIRECTION9.END;
+            switch (direction)
+            {
+                case Direction.Up:
+                    switch (GetLPOSITION3())
+                    {
+                        case LPOSITION3.TOP:
+                            mCanElevation = Castle.Instance.CanNextPoint();
+
+                            moveDir9 = mLocation9;
+                            break;
+
+                        case LPOSITION3.MID:
+                        case LPOSITION3.BOT:
+                            {
+                                mIsMovingElevation = true;
+
+                                moveDir9 = mLocation9 - 3;
+                            }
+                            break;
+                    }
+                    break;
+                case Direction.Down:
+                    switch (GetLPOSITION3())
+                    {
+                        case LPOSITION3.TOP:
+                        case LPOSITION3.MID:
+                            {
+                                mIsMovingElevation = true;
+
+                                moveDir9 = mLocation9 + 3;
+                            }
+                            break;
+                        case LPOSITION3.BOT:
+                            {
+                                if (CanMoveDown)
+                                {
+                                    mCanElevation = Castle.Instance.CanPrevPoint();
+
+                                    moveDir9 = mLocation9;
+                                }
+                            }
+                            break;
+                    }
+                    break;
+                case Direction.Right:
+                    if (GetTPOSITION3() != TPOSITION3.RIGHT)
+                    {
+                        moveDir9 = mLocation9 + 1;
+                    }
+                    break;
+                case Direction.Left:
+                    if (GetTPOSITION3() != TPOSITION3.LEFT)
+                    {
+                        moveDir9 = mLocation9 - 1;
+                    }
+                    break;
+            }
+            if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
+        }
+
+    }
     private void MoveAction(DIRECTION9 moveDIR9)
     {
         if (mEMove == null)

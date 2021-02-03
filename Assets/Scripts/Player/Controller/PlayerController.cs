@@ -12,6 +12,12 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private SubscribableButton _AttackButton;
 
+    [Header("MoveButtons")]
+    [SerializeField] private SubscribableButton _UMoveButton;
+    [SerializeField] private SubscribableButton _DMoveButton;
+    [SerializeField] private SubscribableButton _LMoveButton;
+    [SerializeField] private SubscribableButton _RMoveButton;
+
     private Player _Player;
 
     private bool _IsAlreadyInit = false;
@@ -52,12 +58,24 @@ public class PlayerController : MonoBehaviour
                                 break;
                         }
                     };
+
+                    _UMoveButton.ButtonAction += state => MoveOrderToPlayer(state, Direction.Up);
+                    _DMoveButton.ButtonAction += state => MoveOrderToPlayer(state, Direction.Down);
+                    _LMoveButton.ButtonAction += state => MoveOrderToPlayer(state, Direction.Left);
+                    _RMoveButton.ButtonAction += state => MoveOrderToPlayer(state, Direction.Right);
                 }
             }
             _IsAlreadyInit = true;
         }
-    }
 
+        void MoveOrderToPlayer(ButtonState state, Direction direction)
+        {
+            if (state == ButtonState.Down)
+            {
+                _Player.MoveOrder(direction);
+            }
+        }
+    }
     private IEnumerator WaitForStartCharging()
     {
         for (float i = 0f; i < Finger.PRESS_TIME; i += Time.deltaTime)
