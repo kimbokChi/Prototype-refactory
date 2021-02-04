@@ -80,7 +80,7 @@ public class IronShield : Item
     {
         if (charge >= DemandCharge)
         {
-            AttackButtonController.Instance.HideButton();
+            // AttackButtonController.Instance.HideButton();
 
             Animator.SetInteger(_AnimControlKey, (int)AnimState.Begin);
         }
@@ -91,7 +91,7 @@ public class IronShield : Item
         Inventory.Instance.BeDamagedAction += DamagedAction;
         yield return new WaitForSeconds(DurationTime);
 
-        AttackButtonController.Instance.ShowButton();
+        // AttackButtonController.Instance.ShowButton();
 
         Animator.SetInteger(_AnimControlKey, (int)AnimState.End);
         Inventory.Instance.BeDamagedAction -= DamagedAction;

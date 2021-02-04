@@ -63,7 +63,7 @@ public class ItemPackmanNPC : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            _Hider.HideOrShow();
+            // _Hider.HideOrShow();
             mHasPlayer = true;
         }
     }
@@ -71,7 +71,7 @@ public class ItemPackmanNPC : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            _Hider.HideOrShow();
+            // _Hider.HideOrShow();
             mHasPlayer = false;
         }
     }

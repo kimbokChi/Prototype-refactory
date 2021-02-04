@@ -19,7 +19,7 @@ public class DungeonGuideNPC : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            _Hider.HideOrShow();
+            // _Hider.HideOrShow();
             mHasPlayer = true;
         }
     }
@@ -27,7 +27,7 @@ public class DungeonGuideNPC : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            _Hider.HideOrShow();
+            // _Hider.HideOrShow();
             mHasPlayer = false;
         }
     }
