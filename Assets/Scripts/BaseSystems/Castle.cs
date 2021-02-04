@@ -69,11 +69,9 @@ public class Castle : Singleton<Castle>
     #endregion 
     public bool CanNextPoint(out Vector2 point)
     {
-        if (IsIndexOutFloor(mPlayerFloor.FloorIndex))
-        {
-            point = Vector2.zero; return false;
-        }
-        else
+        point = Vector2.zero;
+
+        if (CanNextPoint())
         {
             mPlayerFloor = mFloors[mPlayerFloor.FloorIndex];
 
@@ -86,6 +84,7 @@ public class Castle : Singleton<Castle>
 
             return true;
         }
+        return false;
     }
     // === Cheat ===
     public void SetPlayerFloor(int floor)
@@ -108,11 +107,9 @@ public class Castle : Singleton<Castle>
     }
     public bool CanPrevPoint(out Vector2 point)
     {
-        if (IsIndexOutFloor(mPlayerFloor.FloorIndex - 2))
-        {
-            point = Vector2.zero; return false;
-        }
-        else
+        point = Vector2.zero;
+
+        if (CanPrevPoint())
         {
             mPlayerFloor = mFloors[mPlayerFloor.FloorIndex];
 
@@ -125,6 +122,7 @@ public class Castle : Singleton<Castle>
 
             return true;
         }
+        return false;
     }
 
     public void PauseEnable() => mIsPause = true;
