@@ -66,12 +66,11 @@ public class Castle : Singleton<Castle>
         {
             mPlayerFloor = mFloors[mPlayerFloor.FloorIndex];
 
-            int playerPOS = (int)mPlayer.GetTPOSITION3();
+            float playerX = mPlayer.transform.position.x;
 
-            point = mPlayerFloor.GetMovePoints(LPOSITION3.BOT)[playerPOS];
+            point = new Vector2(playerX, mPlayerFloor.GetMovePoints(LPOSITION3.BOT)[0].y);
 
             RenewPlayerFloor();
-
             MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
 
             return true;
@@ -104,14 +103,13 @@ public class Castle : Singleton<Castle>
         }
         else
         {
-            mPlayerFloor = mFloors[mPlayerFloor.FloorIndex - 2];
+            mPlayerFloor = mFloors[mPlayerFloor.FloorIndex];
 
-            int playerPOS = (int)mPlayer.GetTPOSITION3();
+            float playerX = mPlayer.transform.position.x;
 
-            point = mPlayerFloor.GetMovePoints(LPOSITION3.TOP)[playerPOS];
+            point = new Vector2(playerX, mPlayerFloor.GetMovePoints(LPOSITION3.TOP)[0].y);
 
             RenewPlayerFloor();
-
             MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
 
             return true;

@@ -119,33 +119,6 @@ public class Player : MonoBehaviour, ICombatable
         return LPOSITION3.NONE;
     }
 
-    public TPOSITION3 GetTPOSITION3()
-    {
-        switch (mLocation9)
-        {
-            case DIRECTION9.TOP_LEFT:
-            case DIRECTION9.MID_LEFT:
-            case DIRECTION9.BOT_LEFT:
-                return TPOSITION3.LEFT;
-
-            case DIRECTION9.TOP:
-            case DIRECTION9.MID:
-            case DIRECTION9.BOT:
-                return TPOSITION3.MID;
-
-            case DIRECTION9.TOP_RIGHT:
-            case DIRECTION9.MID_RIGHT:
-            case DIRECTION9.BOT_RIGHT:
-                return TPOSITION3.RIGHT;
-
-            default:
-                break;
-        }
-        Debug.Log("Value Error");
-        return TPOSITION3.NONE;
-    }
-
-
     private void Start()
     {
         PlayerAnimator.Init();
@@ -355,8 +328,6 @@ public class Player : MonoBehaviour, ICombatable
                                 if (Castle.Instance.CanNextPoint(out movePoint))
                                 {
                                     mLocation9 += 6;
-
-                                    movePoint.x = transform.position.x;
                                     _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
                                 }
                             }
@@ -396,8 +367,6 @@ public class Player : MonoBehaviour, ICombatable
                                 if (CanMoveDown && Castle.Instance.CanPrevPoint(out movePoint))
                                 {
                                     mLocation9 -= 6;
-
-                                    movePoint.x = transform.position.x;
                                     _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
                                 }
                             }
@@ -690,6 +659,32 @@ public class Player : MonoBehaviour, ICombatable
 
         mLocation9 = moveDIR9; mEMove = null;
         yield break;
+    }
+    [Obsolete]
+    public TPOSITION3 GetTPOSITION3()
+    {
+        switch (mLocation9)
+        {
+            case DIRECTION9.TOP_LEFT:
+            case DIRECTION9.MID_LEFT:
+            case DIRECTION9.BOT_LEFT:
+                return TPOSITION3.LEFT;
+
+            case DIRECTION9.TOP:
+            case DIRECTION9.MID:
+            case DIRECTION9.BOT:
+                return TPOSITION3.MID;
+
+            case DIRECTION9.TOP_RIGHT:
+            case DIRECTION9.MID_RIGHT:
+            case DIRECTION9.BOT_RIGHT:
+                return TPOSITION3.RIGHT;
+
+            default:
+                break;
+        }
+        Debug.Log("Value Error");
+        return TPOSITION3.NONE;
     }
     #endregion
 
