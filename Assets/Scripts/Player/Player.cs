@@ -256,6 +256,13 @@ public class Player : MonoBehaviour, ICombatable
         }
     }
 
+    public void AttackCancel()
+    {
+        Inventory.Instance.AttackCancel();
+
+        mAttackPeriod.StopPeriod();
+    }
+
     public void AttackOrder()
     {
         if (mInventory.IsEquipWeapon() && AbilityTable[Ability.CurHealth] > 0f)
@@ -266,7 +273,6 @@ public class Player : MonoBehaviour, ICombatable
                 mAttackPeriod.StartPeriod();
             }
         }
-        
     }
 
     private void AttackAction()
@@ -308,7 +314,7 @@ public class Player : MonoBehaviour, ICombatable
     {
         if (!mIsInputLock && AbilityTable[Ability.CurHealth] > 0f)
         {
-            Inventory.Instance.ArrackCancel();
+            AttackCancel();
 
             Vector2 movePoint = Vector2.zero;
 
@@ -370,9 +376,11 @@ public class Player : MonoBehaviour, ICombatable
                     break;
                 case Direction.Right:
                     _MoveRoutine.StartRoutine(MoveWithDir(Vector2.right));
+                    SetLookAtLeft(false);
                     break;
                 case Direction.Left:
                     _MoveRoutine.StartRoutine(MoveWithDir(Vector2.left));
+                    SetLookAtLeft(true);
                     break;
             }
         }
@@ -548,7 +556,7 @@ public class Player : MonoBehaviour, ICombatable
         if (mEMove == null)
         {
             mAttackPeriod.StopPeriod();
-            Inventory.Instance.ArrackCancel();
+            AttackCancel();
 
             if (mCanElevation)
             {

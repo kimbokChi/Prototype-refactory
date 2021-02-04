@@ -149,7 +149,7 @@ public class Inventory : Singleton<Inventory>
     {
         mWeaponSlot.ContainItem?.AttackAction(attacker, targetCombat);
     }
-    public void ArrackCancel()
+    public void AttackCancel()
     {
         mWeaponSlot.ContainItem?.AttackCancel();
     }
