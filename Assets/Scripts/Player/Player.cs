@@ -312,7 +312,7 @@ public class Player : MonoBehaviour, ICombatable
 
     public void MoveOrder(Direction direction)
     {
-        if (!mIsInputLock && AbilityTable[Ability.CurHealth] > 0f)
+        if (!mIsInputLock && AbilityTable[Ability.CurHealth] > 0f && _MoveRoutine.IsFinished())
         {
             AttackCancel();
 
@@ -339,11 +339,11 @@ public class Player : MonoBehaviour, ICombatable
                             {
                                 mIsMovingElevation = true;
 
-                                moveDir9 = mLocation9 -= 3;
+                                moveDir9 = mLocation9 - 3;
 
                                 movePoint = Castle.Instance.GetMovePoint(moveDir9);
                                 movePoint.x = transform.position.x;
-                                _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
+                                _MoveRoutine.StartRoutine(MoveWithPoint(movePoint, direction));
                             }
                             break;
                     }
@@ -356,11 +356,11 @@ public class Player : MonoBehaviour, ICombatable
                             {
                                 mIsMovingElevation = true;
 
-                                moveDir9 = mLocation9 += 3;
+                                moveDir9 = mLocation9 + 3;
 
                                 movePoint = Castle.Instance.GetMovePoint(moveDir9);
                                 movePoint.x = transform.position.x;
-                                _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
+                                _MoveRoutine.StartRoutine(MoveWithPoint(movePoint, direction));
                             }
                             break;
                         case UnitizedPosV.BOT:
@@ -435,7 +435,28 @@ public class Player : MonoBehaviour, ICombatable
             transform.position = Vector3.Lerp(transform.position, movePoint, ratio);
             yield return null;
         }
+
         _MoveRoutine.Finish();
+    }
+    private IEnumerator MoveWithPoint(Vector3 movePoint, Direction direction)
+    {
+        yield return StartCoroutine(MoveWithPoint(movePoint));
+
+        switch (direction)
+        {
+            case Direction.Up:
+                mLocation9 -= 3;
+                break;
+            case Direction.Down:
+                mLocation9 += 3;
+                break;
+            case Direction.Right:
+                mLocation9++;
+                break;
+            case Direction.Left:
+                mLocation9--;
+                break;
+        }
     }
 
     public void InputLock(bool isLock) {
