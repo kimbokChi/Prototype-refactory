@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // 플레이어에게 이동을 지시할 수 있어야 한다.
@@ -12,7 +11,12 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private SubscribableButton _AttackButton;
 
-    [Header("MoveButtons")]
+    [Header("___Scaling Prop___")]
+    [SerializeField] private float _ScalingTime;
+    [SerializeField] private float _DefaultScale;
+    [SerializeField] private float _MaxScale;
+
+    [Header("___MoveButton Prop___")]
     [SerializeField] private SubscribableButton _UMoveButton;
     [SerializeField] private SubscribableButton _DMoveButton;
     [SerializeField] private SubscribableButton _LMoveButton;
@@ -22,12 +26,14 @@ public class PlayerController : MonoBehaviour
 
     private bool _IsAlreadyInit = false;
     private Coroutine _WaitCharge;
+    private Coroutine _WaitScaling;
 
     private void Awake()
     {
         if (!_IsAlreadyInit)
         {
-            _WaitCharge = new Coroutine(this);
+            _WaitCharge  = new Coroutine(this);
+            _WaitScaling = new Coroutine(this);
 
             var find = GameObject.FindGameObjectWithTag("Player");
             if (find != null)
@@ -48,13 +54,15 @@ public class PlayerController : MonoBehaviour
                                 if (!_WaitCharge.IsFinished())
                                 {
                                     _Player.AttackOrder();
-
-                                    _WaitCharge.StopRoutine();
                                 }
                                 else
                                 {
                                     Finger.Instance.EndCharging();
+
+                                    _WaitScaling.StopRoutine();
+                                    _WaitScaling.StartRoutine(AttackBtnScaling(true));
                                 }
+                                _WaitCharge.StopRoutine();
                                 break;
                         }
                     };
@@ -97,5 +105,23 @@ public class PlayerController : MonoBehaviour
         _WaitCharge.Finish();
 
         Finger.Instance.StartCharging();
+
+        _WaitScaling.StopRoutine();
+        _WaitScaling.StartRoutine(AttackBtnScaling(false));
+    }
+    private IEnumerator AttackBtnScaling(bool toDeafult)
+    {
+        Vector3 targetScale = Vector3.one * (toDeafult ? _DefaultScale : _MaxScale);
+
+        for (float i = 0; i < _ScalingTime; i += Time.deltaTime)
+        {
+            float ratio = Mathf.Min(i / _ScalingTime, 1f);
+
+            _AttackButton.transform.localScale = 
+                Vector3.Lerp(_AttackButton.transform.localScale, targetScale, ratio);
+
+            yield return null;
+        }
+        _WaitScaling.Finish();
     }
 }

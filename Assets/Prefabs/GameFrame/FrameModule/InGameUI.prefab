@@ -2145,6 +2145,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _AttackButton: {fileID: 3462016915649980161}
+  _ScalingTime: 2.5
+  _DefaultScale: 0.5
+  _MaxScale: 0.55
   _UMoveButton: {fileID: 5624098802160410463}
   _DMoveButton: {fileID: 3731100506391218068}
   _LMoveButton: {fileID: 7514229193283402720}
