@@ -45,7 +45,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     private int mControlKey;
 
     private Anim mNextPattern;
-    private UnitizedPos mJumpDIR9;
     private AttackPeriod mAttackPeriod;
 
     public AbilityTable GetAbility => AbilityTable;
@@ -143,33 +142,9 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     private void Jumping()
     {
-        mJumpDIR9 = mPlayer.GetUnitizedPos();
+        UnitizedPosV jumpPos = mPlayer.GetUnitizedPosV();
 
-        UnitizedPosV Dir2LPos(UnitizedPos dir)
-        {
-            switch (dir)
-            {
-                case UnitizedPos.TOP_LEFT:
-                case UnitizedPos.TOP:
-                case UnitizedPos.TOP_RIGHT:
-                    return UnitizedPosV.TOP;
-
-                case UnitizedPos.MID_LEFT:
-                case UnitizedPos.MID:
-                case UnitizedPos.MID_RIGHT:
-                    return UnitizedPosV.MID;
-
-                case UnitizedPos.BOT_LEFT:
-                case UnitizedPos.BOT:
-                case UnitizedPos.BOT_RIGHT:
-                    return UnitizedPosV.BOT;
-            }
-            return UnitizedPosV.NONE;
-        }
-
-        float moveY = Castle.Instance.GetMovePoint(mJumpDIR9).y;
-
-        Vector2 point = new Vector2(transform.position.x, moveY + 1.05f);
+        Vector2 point = new Vector2(transform.position.x, Castle.Instance.GetMovePointY(jumpPos) + 1.05f);
 
         if (point.x > transform.position.x)
         {
@@ -178,7 +153,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         else
             transform.rotation = Quaternion.Euler(Vector3.zero);
 
-        LPosition3 = Dir2LPos(mJumpDIR9);
+        LPosition3 = jumpPos;
 
         StartCoroutine(Move(point, () =>
         {
@@ -188,9 +163,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     private void DashSwing()
     {
-        float moveX = Castle.Instance.GetMovePoint(mPlayer.GetUnitizedPos()).x;
-
-        Vector2 point = new Vector2(moveX, transform.position.y);
+        Vector2 point = new Vector2(mPlayer.transform.position.x, transform.position.y);
 
         if (point.x > transform.position.x)
         {
@@ -227,10 +200,10 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     {
         int random = Random.Range(0, 3);
 
-        UnitizedPos playerDIR9 = mPlayer.GetUnitizedPos();
+        UnitizedPosV playerPosV = mPlayer.GetUnitizedPosV();
 
         Vector2 castPoint = new Vector2
-            (mPlayer.transform.position.x, Castle.Instance.GetMovePoint(playerDIR9).y + 1.2f);
+            (mPlayer.transform.position.x, Castle.Instance.GetMovePointY(playerPosV) + 1.2f);
 
         switch (random) {
             case 0:

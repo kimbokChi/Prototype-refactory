@@ -38,6 +38,17 @@ public class Castle : Singleton<Castle>
     {
         return mMovePoints[(int)direction];
     }
+    public float GetMovePointY(UnitizedPosV posV)
+    {
+        switch (posV)
+        {
+            case UnitizedPosV.TOP: return mMovePoints[0].y;
+            case UnitizedPosV.MID: return mMovePoints[3].y;
+            case UnitizedPosV.BOT: return mMovePoints[6].y;
+            
+            default: return 0f;
+        }
+    }
 
     #region READ
     /// <summary>

@@ -88,10 +88,6 @@ public class Player : MonoBehaviour, ICombatable
     private float DeltaTime
     { get => Time.deltaTime * Time.timeScale; }
 
-    public UnitizedPos GetUnitizedPos()
-    {
-        return mLocation9;
-    }
     public UnitizedPosV GetUnitizedPosV()
     {
         switch (mLocation9)
@@ -684,6 +680,11 @@ public class Player : MonoBehaviour, ICombatable
         }
         Debug.Log("Value Error");
         return UnitizedPosH.NONE;
+    }
+    [Obsolete]
+    public UnitizedPos GetUnitizedPos()
+    {
+        return mLocation9;
     }
     #endregion
 
