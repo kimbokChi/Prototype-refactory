@@ -340,6 +340,8 @@ public class Player : MonoBehaviour, ICombatable
     {
         if (!mIsInputLock && AbilityTable[Ability.CurHealth] > 0f)
         {
+            Inventory.Instance.ArrackCancel();
+
             Vector2 movePoint = Vector2.zero;
 
             DIRECTION9 moveDir9 = DIRECTION9.END;
@@ -349,9 +351,15 @@ public class Player : MonoBehaviour, ICombatable
                     switch (GetLPOSITION3())
                     {
                         case LPOSITION3.TOP:
-                            mCanElevation = Castle.Instance.CanNextPoint();
+                            {
+                                if (Castle.Instance.CanNextPoint(out movePoint))
+                                {
+                                    mLocation9 += 6;
 
-                            moveDir9 = mLocation9;
+                                    movePoint.x = transform.position.x;
+                                    _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
+                                }
+                            }
                             break;
 
                         case LPOSITION3.MID:
@@ -385,11 +393,12 @@ public class Player : MonoBehaviour, ICombatable
                             break;
                         case LPOSITION3.BOT:
                             {
-                                if (CanMoveDown)
+                                if (CanMoveDown && Castle.Instance.CanPrevPoint(out movePoint))
                                 {
-                                    mCanElevation = Castle.Instance.CanPrevPoint();
+                                    mLocation9 -= 6;
 
-                                    moveDir9 = mLocation9;
+                                    movePoint.x = transform.position.x;
+                                    _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
                                 }
                             }
                             break;
