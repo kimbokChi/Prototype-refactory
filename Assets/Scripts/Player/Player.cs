@@ -214,69 +214,6 @@ public class Player : MonoBehaviour, ICombatable
 
         _Resurrectable.ResurrectAction += ResurrectAction;
     }
-    private void InputAction()
-    {
-        if (!mIsInputLock)
-        {
-            DIRECTION9 moveDir9 = DIRECTION9.END;
-
-            if (Input.GetKey(KeyCode.UpArrow) || Finger.Instance.Swipe(Direction.Up))
-            {
-                switch (GetLPOSITION3())
-                {
-                    case LPOSITION3.TOP:
-                        mCanElevation = Castle.Instance.CanNextPoint();
-
-                        moveDir9 = mLocation9;
-                        break;
-
-                    case LPOSITION3.MID:
-                    case LPOSITION3.BOT:
-                        {
-                            mIsMovingElevation = true;
-
-                            moveDir9 = mLocation9 - 3;
-                        }
-                        break;
-                }
-            }
-            else if (Input.GetKey(KeyCode.DownArrow) || Finger.Instance.Swipe(Direction.Down))
-            {
-                switch (GetLPOSITION3())
-                {
-                    case LPOSITION3.TOP:
-                    case LPOSITION3.MID:
-                        {
-                            mIsMovingElevation = true;
-
-                            moveDir9 = mLocation9 + 3;
-                        }
-                        break;
-                    case LPOSITION3.BOT:
-                        {
-                            if (CanMoveDown)
-                            {
-                                mCanElevation = Castle.Instance.CanPrevPoint();
-
-                                moveDir9 = mLocation9;
-                            }
-                        }
-                        break;
-                }
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow) || Finger.Instance.Swipe(Direction.Left))
-            {
-                if (GetTPOSITION3() != TPOSITION3.LEFT)
-                    moveDir9 = mLocation9 - 1;
-            }
-            else if (Input.GetKey(KeyCode.RightArrow) || Finger.Instance.Swipe(Direction.Right))
-            {
-                if (GetTPOSITION3() != TPOSITION3.RIGHT)
-                    moveDir9 = mLocation9 + 1;
-            }
-            if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
-        }
-    }
     private void OnDestroy()
     {
         // 마을에서 다른 씬으로 이동하는 것이 아니라면, 인벤토리를 비운다.
@@ -299,10 +236,6 @@ public class Player : MonoBehaviour, ICombatable
     }
     private void Update()
     {
-        if (AbilityTable[Ability.CurHealth] > 0f)
-        {
-            InputAction();
-        }
         if (mEMove == null)
         {
             Vector2 interactionPoint = Vector2.zero;
@@ -357,7 +290,7 @@ public class Player : MonoBehaviour, ICombatable
 
     public void AttackOrder()
     {
-        if (mInventory.IsEquipWeapon())
+        if (mInventory.IsEquipWeapon() && AbilityTable[Ability.CurHealth] > 0f)
         {
             if (!mAttackPeriod.IsProgressing())
             {
@@ -405,7 +338,7 @@ public class Player : MonoBehaviour, ICombatable
 
     public void MoveOrder(Direction direction)
     {
-        if (!mIsInputLock)
+        if (!mIsInputLock && AbilityTable[Ability.CurHealth] > 0f)
         {
             Vector2 movePoint = Vector2.zero;
 
@@ -469,120 +402,8 @@ public class Player : MonoBehaviour, ICombatable
                     _MoveRoutine.StartRoutine(MoveWithDir(Vector2.left));
                     break;
             }
-            // if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
-        }
-
-    }
-    private void MoveAction(DIRECTION9 moveDIR9)
-    {
-        if (mEMove == null)
-        {
-            mAttackPeriod.StopPeriod();
-            Inventory.Instance.ArrackCancel();
-
-            if (mCanElevation)
-            {
-                switch (moveDIR9)
-                {
-                    case DIRECTION9.TOP_LEFT:
-                    case DIRECTION9.TOP:
-                    case DIRECTION9.TOP_RIGHT:
-                        if (Castle.Instance.CanNextPoint(out Vector2 nextPoint)) {
-                            StartCoroutine(mEMove = EMove(nextPoint, moveDIR9 + 6));
-                        }
-                        break;
-
-                    case DIRECTION9.BOT_LEFT:
-                    case DIRECTION9.BOT:
-                    case DIRECTION9.BOT_RIGHT:
-                        if (Castle.Instance.CanPrevPoint(out Vector2 prevPoint)) {
-                            StartCoroutine(mEMove = EMove(prevPoint, moveDIR9 - 6));
-                        }
-                        break;
-                }
-                
-            }
-            else
-            {
-                         bool lookAtLeft = mLocation9 - moveDIR9 > 0;
-                SetLookAtLeft(lookAtLeft);
-
-                Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
-
-                StartCoroutine(mEMove = EMove(movePoint, moveDIR9));
-            }
         }
     }
-
-    private IEnumerator EMove(Vector2 movePoint, DIRECTION9 moveDIR9)
-    {
-        bool a = false;
-
-        if (mIsMovingElevation)
-        {
-            PlayerAnimator.ChangeState(PlayerAnim.Jump);
-
-            a = true;
-        }
-        else 
-            PlayerAnimator.ChangeState(PlayerAnim.Move);
-
-        mInventory.OnMoveBegin(movePoint.normalized);
-
-        for (float lerpAmount = 0f; lerpAmount < 1f; )
-        {
-            lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * AbilityTable.MoveSpeed);
-
-            transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
-
-            LPOSITION3 moveDIR3 = LPOSITION3.NONE;
-
-            switch (moveDIR9)
-            {
-                case DIRECTION9.TOP_LEFT:
-                case DIRECTION9.TOP:
-                case DIRECTION9.TOP_RIGHT:
-                    moveDIR3 = LPOSITION3.TOP;
-                    break;
-                case DIRECTION9.MID_LEFT:
-                case DIRECTION9.MID:
-                case DIRECTION9.MID_RIGHT:
-                    moveDIR3 = LPOSITION3.MID;
-                    break;
-                case DIRECTION9.BOT_LEFT:
-                case DIRECTION9.BOT:
-                case DIRECTION9.BOT_RIGHT:
-                    moveDIR3 = LPOSITION3.BOT;
-                    break;
-            }
-            MovingEvent?.Invoke(moveDIR3, lerpAmount);
-
-            if (a) {
-                if (mIsMovingElevation && lerpAmount >= 0.1f)
-                {
-                    a = false;
-                    PlayerAnimator.ChangeState(PlayerAnim.Landing);
-                }
-            }
-            yield return null;
-        }
-        PlayerAnimator.ChangeState(PlayerAnim.Idle);
-
-        mInventory.OnMoveEnd(mCollidersOnMove.ToArray());
-
-        mCollidersOnMove.Clear();
-
-        if (mCanElevation)
-        {
-            mInventory.OnFloorEnter();
-            mCanElevation = false;
-        }
-        mIsMovingElevation = false;
-
-        mLocation9 = moveDIR9; mEMove = null;
-        yield break;
-    }
-
     private IEnumerator MoveWithDir(Vector3 direction)
     {
         Vector2 movePointMin = Vector2.zero;
@@ -622,7 +443,6 @@ public class Player : MonoBehaviour, ICombatable
         }
         _MoveRoutine.Finish();
     }
-
     private IEnumerator MoveWithPoint(Vector3 movePoint)
     {
         float DeltaTime() => Time.deltaTime * Time.timeScale;
@@ -636,7 +456,6 @@ public class Player : MonoBehaviour, ICombatable
         }
         _MoveRoutine.Finish();
     }
-
 
     public void InputLock(bool isLock) {
         mIsInputLock = isLock;
@@ -684,4 +503,185 @@ public class Player : MonoBehaviour, ICombatable
     {
         StartCoroutine(castedBuff);
     }
+
+    #region Obsolete Function
+    [Obsolete]
+    private void InputAction()
+    {
+        if (!mIsInputLock)
+        {
+            DIRECTION9 moveDir9 = DIRECTION9.END;
+
+            if (Input.GetKey(KeyCode.UpArrow) || Finger.Instance.Swipe(Direction.Up))
+            {
+                switch (GetLPOSITION3())
+                {
+                    case LPOSITION3.TOP:
+                        mCanElevation = Castle.Instance.CanNextPoint();
+
+                        moveDir9 = mLocation9;
+                        break;
+
+                    case LPOSITION3.MID:
+                    case LPOSITION3.BOT:
+                        {
+                            mIsMovingElevation = true;
+
+                            moveDir9 = mLocation9 - 3;
+                        }
+                        break;
+                }
+            }
+            else if (Input.GetKey(KeyCode.DownArrow) || Finger.Instance.Swipe(Direction.Down))
+            {
+                switch (GetLPOSITION3())
+                {
+                    case LPOSITION3.TOP:
+                    case LPOSITION3.MID:
+                        {
+                            mIsMovingElevation = true;
+
+                            moveDir9 = mLocation9 + 3;
+                        }
+                        break;
+                    case LPOSITION3.BOT:
+                        {
+                            if (CanMoveDown)
+                            {
+                                mCanElevation = Castle.Instance.CanPrevPoint();
+
+                                moveDir9 = mLocation9;
+                            }
+                        }
+                        break;
+                }
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow) || Finger.Instance.Swipe(Direction.Left))
+            {
+                if (GetTPOSITION3() != TPOSITION3.LEFT)
+                    moveDir9 = mLocation9 - 1;
+            }
+            else if (Input.GetKey(KeyCode.RightArrow) || Finger.Instance.Swipe(Direction.Right))
+            {
+                if (GetTPOSITION3() != TPOSITION3.RIGHT)
+                    moveDir9 = mLocation9 + 1;
+            }
+            if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
+        }
+    }
+    [Obsolete]
+    private void MoveAction(DIRECTION9 moveDIR9)
+    {
+        if (mEMove == null)
+        {
+            mAttackPeriod.StopPeriod();
+            Inventory.Instance.ArrackCancel();
+
+            if (mCanElevation)
+            {
+                switch (moveDIR9)
+                {
+                    case DIRECTION9.TOP_LEFT:
+                    case DIRECTION9.TOP:
+                    case DIRECTION9.TOP_RIGHT:
+                        if (Castle.Instance.CanNextPoint(out Vector2 nextPoint))
+                        {
+                            StartCoroutine(mEMove = EMove(nextPoint, moveDIR9 + 6));
+                        }
+                        break;
+
+                    case DIRECTION9.BOT_LEFT:
+                    case DIRECTION9.BOT:
+                    case DIRECTION9.BOT_RIGHT:
+                        if (Castle.Instance.CanPrevPoint(out Vector2 prevPoint))
+                        {
+                            StartCoroutine(mEMove = EMove(prevPoint, moveDIR9 - 6));
+                        }
+                        break;
+                }
+
+            }
+            else
+            {
+                bool lookAtLeft = mLocation9 - moveDIR9 > 0;
+                SetLookAtLeft(lookAtLeft);
+
+                Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
+
+                StartCoroutine(mEMove = EMove(movePoint, moveDIR9));
+            }
+        }
+    }
+    [Obsolete]
+    private IEnumerator EMove(Vector2 movePoint, DIRECTION9 moveDIR9)
+    {
+        bool a = false;
+
+        if (mIsMovingElevation)
+        {
+            PlayerAnimator.ChangeState(PlayerAnim.Jump);
+
+            a = true;
+        }
+        else
+            PlayerAnimator.ChangeState(PlayerAnim.Move);
+
+        mInventory.OnMoveBegin(movePoint.normalized);
+
+        for (float lerpAmount = 0f; lerpAmount < 1f;)
+        {
+            lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * AbilityTable.MoveSpeed);
+
+            transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
+
+            LPOSITION3 moveDIR3 = LPOSITION3.NONE;
+
+            switch (moveDIR9)
+            {
+                case DIRECTION9.TOP_LEFT:
+                case DIRECTION9.TOP:
+                case DIRECTION9.TOP_RIGHT:
+                    moveDIR3 = LPOSITION3.TOP;
+                    break;
+                case DIRECTION9.MID_LEFT:
+                case DIRECTION9.MID:
+                case DIRECTION9.MID_RIGHT:
+                    moveDIR3 = LPOSITION3.MID;
+                    break;
+                case DIRECTION9.BOT_LEFT:
+                case DIRECTION9.BOT:
+                case DIRECTION9.BOT_RIGHT:
+                    moveDIR3 = LPOSITION3.BOT;
+                    break;
+            }
+            MovingEvent?.Invoke(moveDIR3, lerpAmount);
+
+            if (a)
+            {
+                if (mIsMovingElevation && lerpAmount >= 0.1f)
+                {
+                    a = false;
+                    PlayerAnimator.ChangeState(PlayerAnim.Landing);
+                }
+            }
+            yield return null;
+        }
+        PlayerAnimator.ChangeState(PlayerAnim.Idle);
+
+        mInventory.OnMoveEnd(mCollidersOnMove.ToArray());
+
+        mCollidersOnMove.Clear();
+
+        if (mCanElevation)
+        {
+            mInventory.OnFloorEnter();
+            mCanElevation = false;
+        }
+        mIsMovingElevation = false;
+
+        mLocation9 = moveDIR9; mEMove = null;
+        yield break;
+    }
+    #endregion
+
 }
