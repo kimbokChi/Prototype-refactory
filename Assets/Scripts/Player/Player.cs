@@ -88,35 +88,34 @@ public class Player : MonoBehaviour, ICombatable
     private float DeltaTime
     { get => Time.deltaTime * Time.timeScale; }
 
-    public DIRECTION9 GetDIRECTION9()
+    public UnitizedPos GetUnitizedPos()
     {
         return mLocation9;
     }
-
-    public LPOSITION3 GetLPOSITION3()
+    public UnitizedPosV GetUnitizedPosV()
     {
         switch (mLocation9)
         {
-            case DIRECTION9.TOP_LEFT:
-            case DIRECTION9.TOP:
-            case DIRECTION9.TOP_RIGHT:
-                return LPOSITION3.TOP;
+            case UnitizedPos.TOP_LEFT:
+            case UnitizedPos.TOP:
+            case UnitizedPos.TOP_RIGHT:
+                return UnitizedPosV.TOP;
 
-            case DIRECTION9.MID_LEFT:
-            case DIRECTION9.MID:
-            case DIRECTION9.MID_RIGHT:
-                return LPOSITION3.MID;
+            case UnitizedPos.MID_LEFT:
+            case UnitizedPos.MID:
+            case UnitizedPos.MID_RIGHT:
+                return UnitizedPosV.MID;
 
-            case DIRECTION9.BOT_LEFT:
-            case DIRECTION9.BOT:
-            case DIRECTION9.BOT_RIGHT:
-                return LPOSITION3.BOT;
+            case UnitizedPos.BOT_LEFT:
+            case UnitizedPos.BOT:
+            case UnitizedPos.BOT_RIGHT:
+                return UnitizedPosV.BOT;
 
             default:
                 break;
         }
         Debug.Log("Value Error");
-        return LPOSITION3.NONE;
+        return UnitizedPosV.NONE;
     }
 
     private void Start()
