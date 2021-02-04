@@ -61,7 +61,7 @@ public class PeddlerNPC : MonoBehaviour
             CanvasRaycaster.enabled = true;
             InteractionUI.SetActive(true);
 
-            _Hider.HideOrShow();
+            // _Hider.HideOrShow();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -71,7 +71,7 @@ public class PeddlerNPC : MonoBehaviour
             CanvasRaycaster.enabled = false;
             InteractionUI.SetActive(false);
 
-            _Hider.HideOrShow();
+            // _Hider.HideOrShow();
         }
     }
 

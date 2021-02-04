@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Obsolete]
 public class AttackButtonController : Singleton<AttackButtonController>
 {
     public bool IsButtonHide
@@ -18,8 +20,8 @@ public class AttackButtonController : Singleton<AttackButtonController>
     private readonly Vector2 RHidePosition = new Vector2(+510f, -360f);
     private readonly Vector2 RShowPosition = new Vector2(+250f, -360f);
 
-    [SerializeField] private AttackButton _LAttackButton;
-    [SerializeField] private AttackButton _RAttackButton;
+    [SerializeField] private SubscribableButton _LAttackButton;
+    [SerializeField] private SubscribableButton _RAttackButton;
 
     private Coroutine _ButtonShowRoutine;
 
@@ -29,17 +31,23 @@ public class AttackButtonController : Singleton<AttackButtonController>
     {
         _Player = FindObjectOfType(typeof(Player)) as Player;
 
-        _LAttackButton.IntractEvent += () => 
+        _LAttackButton.ButtonAction += (state) => 
         {
-            _Player.SetLookAtLeft(true);
+            if (state == ButtonState.Down)
+            {
+                _Player.SetLookAtLeft(true);
 
-            _Player.AttackOrder(); 
+                _Player.AttackOrder();
+            }
         };
-        _RAttackButton.IntractEvent += () => 
+        _RAttackButton.ButtonAction += (state) => 
         {
-            _Player.SetLookAtLeft(false);
+            if (state == ButtonState.Down)
+            {
+                _Player.SetLookAtLeft(false);
 
-            _Player.AttackOrder(); 
+                _Player.AttackOrder();
+            }
         };
         _ButtonShowRoutine = new Coroutine(this);
 
@@ -81,18 +89,18 @@ public class AttackButtonController : Singleton<AttackButtonController>
         }
         _ButtonShowRoutine.Finish();
     }
-    private void OnMoving(LPOSITION3 movePosition, float ratio)
+    private void OnMoving(UnitizedPosV movePosition, float ratio)
     {
         switch (movePosition)
         {
-            case LPOSITION3.TOP:
+            case UnitizedPosV.TOP:
                 {
                     transform.localPosition = Vector2.Lerp(transform.localPosition, TopPosition, ratio);
                 }
                 break;
 
-            case LPOSITION3.MID:
-            case LPOSITION3.BOT:
+            case UnitizedPosV.MID:
+            case UnitizedPosV.BOT:
                 {
                     transform.localPosition = Vector2.Lerp(transform.localPosition, BotPosition, ratio);
                 }

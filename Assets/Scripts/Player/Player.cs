@@ -37,7 +37,7 @@ public class Player : MonoBehaviour, ICombatable
     /// </summary>
     #endregion
     public event Action<bool> DeathEvent;
-    public event Action<LPOSITION3, float> MovingEvent;
+    public event Action<UnitizedPosV, float> MovingEvent;
 
     [SerializeField] private bool CanMoveDown;
     [SerializeField] private bool IsUsingHealthBar;
@@ -61,7 +61,7 @@ public class Player : MonoBehaviour, ICombatable
     private float mDefense;
 
     [SerializeField]
-    private DIRECTION9 mLocation9;
+    private UnitizedPos mLocation9;
     
     private IEnumerator mEMove;
 
@@ -79,6 +79,8 @@ public class Player : MonoBehaviour, ICombatable
 
     private bool mIsInputLock;
 
+    private Coroutine _MoveRoutine;
+
     public AbilityTable GetAbility => AbilityTable;
 
     private CircleCollider2D mRangeCollider;
@@ -86,63 +88,31 @@ public class Player : MonoBehaviour, ICombatable
     private float DeltaTime
     { get => Time.deltaTime * Time.timeScale; }
 
-    public DIRECTION9 GetDIRECTION9()
-    {
-        return mLocation9;
-    }
-
-    public LPOSITION3 GetLPOSITION3()
+    public UnitizedPosV GetUnitizedPosV()
     {
         switch (mLocation9)
         {
-            case DIRECTION9.TOP_LEFT:
-            case DIRECTION9.TOP:
-            case DIRECTION9.TOP_RIGHT:
-                return LPOSITION3.TOP;
+            case UnitizedPos.TOP_LEFT:
+            case UnitizedPos.TOP:
+            case UnitizedPos.TOP_RIGHT:
+                return UnitizedPosV.TOP;
 
-            case DIRECTION9.MID_LEFT:
-            case DIRECTION9.MID:
-            case DIRECTION9.MID_RIGHT:
-                return LPOSITION3.MID;
+            case UnitizedPos.MID_LEFT:
+            case UnitizedPos.MID:
+            case UnitizedPos.MID_RIGHT:
+                return UnitizedPosV.MID;
 
-            case DIRECTION9.BOT_LEFT:
-            case DIRECTION9.BOT:
-            case DIRECTION9.BOT_RIGHT:
-                return LPOSITION3.BOT;
+            case UnitizedPos.BOT_LEFT:
+            case UnitizedPos.BOT:
+            case UnitizedPos.BOT_RIGHT:
+                return UnitizedPosV.BOT;
 
             default:
                 break;
         }
         Debug.Log("Value Error");
-        return LPOSITION3.NONE;
+        return UnitizedPosV.NONE;
     }
-
-    public TPOSITION3 GetTPOSITION3()
-    {
-        switch (mLocation9)
-        {
-            case DIRECTION9.TOP_LEFT:
-            case DIRECTION9.MID_LEFT:
-            case DIRECTION9.BOT_LEFT:
-                return TPOSITION3.LEFT;
-
-            case DIRECTION9.TOP:
-            case DIRECTION9.MID:
-            case DIRECTION9.BOT:
-                return TPOSITION3.MID;
-
-            case DIRECTION9.TOP_RIGHT:
-            case DIRECTION9.MID_RIGHT:
-            case DIRECTION9.BOT_RIGHT:
-                return TPOSITION3.RIGHT;
-
-            default:
-                break;
-        }
-        Debug.Log("Value Error");
-        return TPOSITION3.NONE;
-    }
-
 
     private void Start()
     {
@@ -163,6 +133,8 @@ public class Player : MonoBehaviour, ICombatable
         Debug.Assert(gameObject.TryGetComponent(out mRenderer));
 
         mInventory = Inventory.Instance;
+
+        _MoveRoutine = _MoveRoutine ?? new Coroutine(this);
 
         if (RangeArea.gameObject.TryGetComponent(out mRangeCollider))
         {
@@ -210,69 +182,6 @@ public class Player : MonoBehaviour, ICombatable
 
         _Resurrectable.ResurrectAction += ResurrectAction;
     }
-    private void InputAction()
-    {
-        if (!mIsInputLock)
-        {
-            DIRECTION9 moveDir9 = DIRECTION9.END;
-
-            if (Input.GetKey(KeyCode.UpArrow) || Finger.Instance.Swipe(SwipeDirection.up))
-            {
-                switch (GetLPOSITION3())
-                {
-                    case LPOSITION3.TOP:
-                        mCanElevation = Castle.Instance.CanNextPoint();
-
-                        moveDir9 = mLocation9;
-                        break;
-
-                    case LPOSITION3.MID:
-                    case LPOSITION3.BOT:
-                        {
-                            mIsMovingElevation = true;
-
-                            moveDir9 = mLocation9 - 3;
-                        }
-                        break;
-                }
-            }
-            else if (Input.GetKey(KeyCode.DownArrow) || Finger.Instance.Swipe(SwipeDirection.down))
-            {
-                switch (GetLPOSITION3())
-                {
-                    case LPOSITION3.TOP:
-                    case LPOSITION3.MID:
-                        {
-                            mIsMovingElevation = true;
-
-                            moveDir9 = mLocation9 + 3;
-                        }
-                        break;
-                    case LPOSITION3.BOT:
-                        {
-                            if (CanMoveDown)
-                            {
-                                mCanElevation = Castle.Instance.CanPrevPoint();
-
-                                moveDir9 = mLocation9;
-                            }
-                        }
-                        break;
-                }
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow) || Finger.Instance.Swipe(SwipeDirection.left))
-            {
-                if (GetTPOSITION3() != TPOSITION3.LEFT)
-                    moveDir9 = mLocation9 - 1;
-            }
-            else if (Input.GetKey(KeyCode.RightArrow) || Finger.Instance.Swipe(SwipeDirection.right))
-            {
-                if (GetTPOSITION3() != TPOSITION3.RIGHT)
-                    moveDir9 = mLocation9 + 1;
-            }
-            if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
-        }
-    }
     private void OnDestroy()
     {
         // 마을에서 다른 씬으로 이동하는 것이 아니라면, 인벤토리를 비운다.
@@ -295,10 +204,6 @@ public class Player : MonoBehaviour, ICombatable
     }
     private void Update()
     {
-        if (AbilityTable[Ability.CurHealth] > 0f)
-        {
-            InputAction();
-        }
         if (mEMove == null)
         {
             Vector2 interactionPoint = Vector2.zero;
@@ -351,9 +256,16 @@ public class Player : MonoBehaviour, ICombatable
         }
     }
 
+    public void AttackCancel()
+    {
+        Inventory.Instance.AttackCancel();
+
+        mAttackPeriod.StopPeriod();
+    }
+
     public void AttackOrder()
     {
-        if (mInventory.IsEquipWeapon())
+        if (mInventory.IsEquipWeapon() && AbilityTable[Ability.CurHealth] > 0f)
         {
             if (!mAttackPeriod.IsProgressing())
             {
@@ -361,7 +273,6 @@ public class Player : MonoBehaviour, ICombatable
                 mAttackPeriod.StartPeriod();
             }
         }
-        
     }
 
     private void AttackAction()
@@ -394,114 +305,158 @@ public class Player : MonoBehaviour, ICombatable
         DeathEvent?.Invoke(false);
     }
 
-    private void MoveAction(DIRECTION9 moveDIR9)
+    public void MoveStop()
     {
-        if (mEMove == null)
+        _MoveRoutine.StopRoutine();
+    }
+
+    public void MoveOrder(Direction direction)
+    {
+        if (!mIsInputLock && AbilityTable[Ability.CurHealth] > 0f && _MoveRoutine.IsFinished())
         {
-            mAttackPeriod.StopPeriod();
-            Inventory.Instance.ArrackCancel();
+            AttackCancel();
 
-            if (mCanElevation)
+            Vector2 movePoint = Vector2.zero;
+
+            UnitizedPos moveDir9 = UnitizedPos.END;
+            switch (direction)
             {
-                switch (moveDIR9)
-                {
-                    case DIRECTION9.TOP_LEFT:
-                    case DIRECTION9.TOP:
-                    case DIRECTION9.TOP_RIGHT:
-                        if (Castle.Instance.CanNextPoint(out Vector2 nextPoint)) {
-                            StartCoroutine(mEMove = EMove(nextPoint, moveDIR9 + 6));
-                        }
-                        break;
+                case Direction.Up:
+                    switch (GetUnitizedPosV())
+                    {
+                        case UnitizedPosV.TOP:
+                            {
+                                if (Castle.Instance.CanNextPoint(out movePoint))
+                                {
+                                    mLocation9 += 6;
+                                    _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
+                                }
+                            }
+                            break;
 
-                    case DIRECTION9.BOT_LEFT:
-                    case DIRECTION9.BOT:
-                    case DIRECTION9.BOT_RIGHT:
-                        if (Castle.Instance.CanPrevPoint(out Vector2 prevPoint)) {
-                            StartCoroutine(mEMove = EMove(prevPoint, moveDIR9 - 6));
-                        }
-                        break;
-                }
-                
-            }
-            else
-            {
-                         bool lookAtLeft = mLocation9 - moveDIR9 > 0;
-                SetLookAtLeft(lookAtLeft);
+                        case UnitizedPosV.MID:
+                        case UnitizedPosV.BOT:
+                            {
+                                mIsMovingElevation = true;
 
-                Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
+                                moveDir9 = mLocation9 - 3;
 
-                StartCoroutine(mEMove = EMove(movePoint, moveDIR9));
+                                movePoint = Castle.Instance.GetMovePoint(moveDir9);
+                                movePoint.x = transform.position.x;
+                                _MoveRoutine.StartRoutine(MoveWithPoint(movePoint, direction));
+                            }
+                            break;
+                    }
+                    break;
+                case Direction.Down:
+                    switch (GetUnitizedPosV())
+                    {
+                        case UnitizedPosV.TOP:
+                        case UnitizedPosV.MID:
+                            {
+                                mIsMovingElevation = true;
+
+                                moveDir9 = mLocation9 + 3;
+
+                                movePoint = Castle.Instance.GetMovePoint(moveDir9);
+                                movePoint.x = transform.position.x;
+                                _MoveRoutine.StartRoutine(MoveWithPoint(movePoint, direction));
+                            }
+                            break;
+                        case UnitizedPosV.BOT:
+                            {
+                                if (CanMoveDown && Castle.Instance.CanPrevPoint(out movePoint))
+                                {
+                                    mLocation9 -= 6;
+                                    _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
+                                }
+                            }
+                            break;
+                    }
+                    break;
+                case Direction.Right:
+                    _MoveRoutine.StartRoutine(MoveWithDir(Vector2.right));
+                    SetLookAtLeft(false);
+                    break;
+                case Direction.Left:
+                    _MoveRoutine.StartRoutine(MoveWithDir(Vector2.left));
+                    SetLookAtLeft(true);
+                    break;
             }
         }
     }
-
-    private IEnumerator EMove(Vector2 movePoint, DIRECTION9 moveDIR9)
+    private IEnumerator MoveWithDir(Vector3 direction)
     {
-        bool a = false;
+        Vector2 movePointMin = Vector2.zero;
+        Vector2 movePointMax = Vector2.zero;
 
-        if (mIsMovingElevation)
+        switch (GetUnitizedPosV())
         {
-            PlayerAnimator.ChangeState(PlayerAnim.Jump);
-
-            a = true;
+            case UnitizedPosV.TOP:
+                movePointMin = Castle.Instance.GetMovePoint(UnitizedPos.TOP_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(UnitizedPos.TOP_RIGHT);
+                break;
+            case UnitizedPosV.MID:
+                movePointMin = Castle.Instance.GetMovePoint(UnitizedPos.MID_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(UnitizedPos.MID_RIGHT);
+                break;
+            case UnitizedPosV.BOT:
+                movePointMin = Castle.Instance.GetMovePoint(UnitizedPos.BOT_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(UnitizedPos.BOT_RIGHT);
+                break;
         }
-        else 
-            PlayerAnimator.ChangeState(PlayerAnim.Move);
-
-        mInventory.OnMoveBegin(movePoint.normalized);
-
-        for (float lerpAmount = 0f; lerpAmount < 1f; )
+        bool IsOutOfRange()
         {
-            lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * AbilityTable.MoveSpeed);
-
-            transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
-
-            LPOSITION3 moveDIR3 = LPOSITION3.NONE;
-
-            switch (moveDIR9)
-            {
-                case DIRECTION9.TOP_LEFT:
-                case DIRECTION9.TOP:
-                case DIRECTION9.TOP_RIGHT:
-                    moveDIR3 = LPOSITION3.TOP;
-                    break;
-                case DIRECTION9.MID_LEFT:
-                case DIRECTION9.MID:
-                case DIRECTION9.MID_RIGHT:
-                    moveDIR3 = LPOSITION3.MID;
-                    break;
-                case DIRECTION9.BOT_LEFT:
-                case DIRECTION9.BOT:
-                case DIRECTION9.BOT_RIGHT:
-                    moveDIR3 = LPOSITION3.BOT;
-                    break;
-            }
-            MovingEvent?.Invoke(moveDIR3, lerpAmount);
-
-            if (a) {
-                if (mIsMovingElevation && lerpAmount >= 0.1f)
-                {
-                    a = false;
-                    PlayerAnimator.ChangeState(PlayerAnim.Landing);
-                }
-            }
+            return transform.position.x < movePointMin.x 
+                || transform.position.x > movePointMax.x;
+        }
+        while (!IsOutOfRange())
+        {
+            transform.position += direction * Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed;
             yield return null;
         }
-        PlayerAnimator.ChangeState(PlayerAnim.Idle);
-
-        mInventory.OnMoveEnd(mCollidersOnMove.ToArray());
-
-        mCollidersOnMove.Clear();
-
-        if (mCanElevation)
+        if (IsOutOfRange())
         {
-            mInventory.OnFloorEnter();
-            mCanElevation = false;
-        }
-        mIsMovingElevation = false;
+            Vector2 position = transform.position;
+                    position.x = Mathf.Clamp(position.x, movePointMin.x, movePointMax.x);
 
-        mLocation9 = moveDIR9; mEMove = null;
-        yield break;
+            transform.position = position;
+        }
+        _MoveRoutine.Finish();
+    }
+    private IEnumerator MoveWithPoint(Vector3 movePoint)
+    {
+        float DeltaTime() => Time.deltaTime * Time.timeScale;
+
+        for (float ratio = 0f; ratio < 1f; ratio += DeltaTime() * AbilityTable.MoveSpeed)
+        {
+            ratio = Mathf.Min(ratio, 1f);
+
+            transform.position = Vector3.Lerp(transform.position, movePoint, ratio);
+            yield return null;
+        }
+
+        _MoveRoutine.Finish();
+    }
+    private IEnumerator MoveWithPoint(Vector3 movePoint, Direction direction)
+    {
+        yield return StartCoroutine(MoveWithPoint(movePoint));
+
+        switch (direction)
+        {
+            case Direction.Up:
+                mLocation9 -= 3;
+                break;
+            case Direction.Down:
+                mLocation9 += 3;
+                break;
+            case Direction.Right:
+                mLocation9++;
+                break;
+            case Direction.Left:
+                mLocation9--;
+                break;
+        }
     }
 
     public void InputLock(bool isLock) {
@@ -550,4 +505,216 @@ public class Player : MonoBehaviour, ICombatable
     {
         StartCoroutine(castedBuff);
     }
+
+    #region Obsolete Function
+    [Obsolete]
+    private void InputAction()
+    {
+        if (!mIsInputLock)
+        {
+            UnitizedPos moveDir9 = UnitizedPos.END;
+
+            if (Input.GetKey(KeyCode.UpArrow) || Finger.Instance.Swipe(Direction.Up))
+            {
+                switch (GetUnitizedPosV())
+                {
+                    case UnitizedPosV.TOP:
+                        mCanElevation = Castle.Instance.CanNextPoint();
+
+                        moveDir9 = mLocation9;
+                        break;
+
+                    case UnitizedPosV.MID:
+                    case UnitizedPosV.BOT:
+                        {
+                            mIsMovingElevation = true;
+
+                            moveDir9 = mLocation9 - 3;
+                        }
+                        break;
+                }
+            }
+            else if (Input.GetKey(KeyCode.DownArrow) || Finger.Instance.Swipe(Direction.Down))
+            {
+                switch (GetUnitizedPosV())
+                {
+                    case UnitizedPosV.TOP:
+                    case UnitizedPosV.MID:
+                        {
+                            mIsMovingElevation = true;
+
+                            moveDir9 = mLocation9 + 3;
+                        }
+                        break;
+                    case UnitizedPosV.BOT:
+                        {
+                            if (CanMoveDown)
+                            {
+                                mCanElevation = Castle.Instance.CanPrevPoint();
+
+                                moveDir9 = mLocation9;
+                            }
+                        }
+                        break;
+                }
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow) || Finger.Instance.Swipe(Direction.Left))
+            {
+                if (GetTPOSITION3() != UnitizedPosH.LEFT)
+                    moveDir9 = mLocation9 - 1;
+            }
+            else if (Input.GetKey(KeyCode.RightArrow) || Finger.Instance.Swipe(Direction.Right))
+            {
+                if (GetTPOSITION3() != UnitizedPosH.RIGHT)
+                    moveDir9 = mLocation9 + 1;
+            }
+            if (moveDir9 != UnitizedPos.END) MoveAction(moveDir9);
+        }
+    }
+    [Obsolete]
+    private void MoveAction(UnitizedPos moveDIR9)
+    {
+        if (mEMove == null)
+        {
+            mAttackPeriod.StopPeriod();
+            AttackCancel();
+
+            if (mCanElevation)
+            {
+                switch (moveDIR9)
+                {
+                    case UnitizedPos.TOP_LEFT:
+                    case UnitizedPos.TOP:
+                    case UnitizedPos.TOP_RIGHT:
+                        if (Castle.Instance.CanNextPoint(out Vector2 nextPoint))
+                        {
+                            StartCoroutine(mEMove = EMove(nextPoint, moveDIR9 + 6));
+                        }
+                        break;
+
+                    case UnitizedPos.BOT_LEFT:
+                    case UnitizedPos.BOT:
+                    case UnitizedPos.BOT_RIGHT:
+                        if (Castle.Instance.CanPrevPoint(out Vector2 prevPoint))
+                        {
+                            StartCoroutine(mEMove = EMove(prevPoint, moveDIR9 - 6));
+                        }
+                        break;
+                }
+
+            }
+            else
+            {
+                bool lookAtLeft = mLocation9 - moveDIR9 > 0;
+                SetLookAtLeft(lookAtLeft);
+
+                Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
+
+                StartCoroutine(mEMove = EMove(movePoint, moveDIR9));
+            }
+        }
+    }
+    [Obsolete]
+    private IEnumerator EMove(Vector2 movePoint, UnitizedPos moveDIR9)
+    {
+        bool a = false;
+
+        if (mIsMovingElevation)
+        {
+            PlayerAnimator.ChangeState(PlayerAnim.Jump);
+
+            a = true;
+        }
+        else
+            PlayerAnimator.ChangeState(PlayerAnim.Move);
+
+        mInventory.OnMoveBegin(movePoint.normalized);
+
+        for (float lerpAmount = 0f; lerpAmount < 1f;)
+        {
+            lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * AbilityTable.MoveSpeed);
+
+            transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
+
+            UnitizedPosV moveDIR3 = UnitizedPosV.NONE;
+
+            switch (moveDIR9)
+            {
+                case UnitizedPos.TOP_LEFT:
+                case UnitizedPos.TOP:
+                case UnitizedPos.TOP_RIGHT:
+                    moveDIR3 = UnitizedPosV.TOP;
+                    break;
+                case UnitizedPos.MID_LEFT:
+                case UnitizedPos.MID:
+                case UnitizedPos.MID_RIGHT:
+                    moveDIR3 = UnitizedPosV.MID;
+                    break;
+                case UnitizedPos.BOT_LEFT:
+                case UnitizedPos.BOT:
+                case UnitizedPos.BOT_RIGHT:
+                    moveDIR3 = UnitizedPosV.BOT;
+                    break;
+            }
+            MovingEvent?.Invoke(moveDIR3, lerpAmount);
+
+            if (a)
+            {
+                if (mIsMovingElevation && lerpAmount >= 0.1f)
+                {
+                    a = false;
+                    PlayerAnimator.ChangeState(PlayerAnim.Landing);
+                }
+            }
+            yield return null;
+        }
+        PlayerAnimator.ChangeState(PlayerAnim.Idle);
+
+        mInventory.OnMoveEnd(mCollidersOnMove.ToArray());
+
+        mCollidersOnMove.Clear();
+
+        if (mCanElevation)
+        {
+            mInventory.OnFloorEnter();
+            mCanElevation = false;
+        }
+        mIsMovingElevation = false;
+
+        mLocation9 = moveDIR9; mEMove = null;
+        yield break;
+    }
+    [Obsolete]
+    public UnitizedPosH GetTPOSITION3()
+    {
+        switch (mLocation9)
+        {
+            case UnitizedPos.TOP_LEFT:
+            case UnitizedPos.MID_LEFT:
+            case UnitizedPos.BOT_LEFT:
+                return UnitizedPosH.LEFT;
+
+            case UnitizedPos.TOP:
+            case UnitizedPos.MID:
+            case UnitizedPos.BOT:
+                return UnitizedPosH.MID;
+
+            case UnitizedPos.TOP_RIGHT:
+            case UnitizedPos.MID_RIGHT:
+            case UnitizedPos.BOT_RIGHT:
+                return UnitizedPosH.RIGHT;
+
+            default:
+                break;
+        }
+        Debug.Log("Value Error");
+        return UnitizedPosH.NONE;
+    }
+    [Obsolete]
+    public UnitizedPos GetUnitizedPos()
+    {
+        return mLocation9;
+    }
+    #endregion
+
 }

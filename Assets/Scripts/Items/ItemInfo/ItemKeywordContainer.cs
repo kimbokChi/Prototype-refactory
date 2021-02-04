@@ -63,7 +63,7 @@ public class ItemKeywordContainer : MonoBehaviour
         }
     }
 
-    public void ShowKeyword(TPOSITION3 position, params Keyword[] keywords)
+    public void ShowKeyword(UnitizedPosH position, params Keyword[] keywords)
     {
         gameObject.SetActive(true);
 
@@ -72,19 +72,19 @@ public class ItemKeywordContainer : MonoBehaviour
 
         switch (position)
         {
-            case TPOSITION3.LEFT:
+            case UnitizedPosH.LEFT:
                 {
                     targetRect   = _LeftRect;
                     targetLayout = _VerticalSetting;
                 }
                 break;
-            case TPOSITION3.MID:
+            case UnitizedPosH.MID:
                 {
                     targetRect   = _DownRect;
                     targetLayout = _HorizontalSetting;
                 }
                 break;
-            case TPOSITION3.RIGHT:
+            case UnitizedPosH.RIGHT:
                 {
                     targetRect   = _RightRect;
                     targetLayout = _VerticalSetting;

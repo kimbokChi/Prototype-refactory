@@ -20,7 +20,7 @@ public class Castle : Singleton<Castle>
 
     private Player mPlayer;
 
-    private LPOSITION3 mLastPlayerPOS = LPOSITION3.NONE;
+    private UnitizedPosV mLastPlayerPOS = UnitizedPosV.NONE;
 
     [Header("Floor")]
     [SerializeField] private   Floor[] mFloors;
@@ -34,9 +34,20 @@ public class Castle : Singleton<Castle>
     /// 현재 층안에 존재하는 이동 지점의 위치를 반한합니다.
     /// </summary>
     #endregion 
-    public Vector2 GetMovePoint(DIRECTION9 direction)
+    public Vector2 GetMovePoint(UnitizedPos direction)
     {
         return mMovePoints[(int)direction];
+    }
+    public float GetMovePointY(UnitizedPosV posV)
+    {
+        switch (posV)
+        {
+            case UnitizedPosV.TOP: return mMovePoints[0].y;
+            case UnitizedPosV.MID: return mMovePoints[3].y;
+            case UnitizedPosV.BOT: return mMovePoints[6].y;
+            
+            default: return 0f;
+        }
     }
 
     #region READ
@@ -58,24 +69,22 @@ public class Castle : Singleton<Castle>
     #endregion 
     public bool CanNextPoint(out Vector2 point)
     {
-        if (IsIndexOutFloor(mPlayerFloor.FloorIndex))
-        {
-            point = Vector2.zero; return false;
-        }
-        else
+        point = Vector2.zero;
+
+        if (CanNextPoint())
         {
             mPlayerFloor = mFloors[mPlayerFloor.FloorIndex];
 
-            int playerPOS = (int)mPlayer.GetTPOSITION3();
+            float playerX = mPlayer.transform.position.x;
 
-            point = mPlayerFloor.GetMovePoints(LPOSITION3.BOT)[playerPOS];
+            point = new Vector2(playerX, mPlayerFloor.GetMovePoints(UnitizedPosV.BOT)[0].y);
 
             RenewPlayerFloor();
-
             MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
 
             return true;
         }
+        return false;
     }
     // === Cheat ===
     public void SetPlayerFloor(int floor)
@@ -84,7 +93,7 @@ public class Castle : Singleton<Castle>
         mPlayerFloor = mFloors[floor - 1];
 
         mPlayer.transform.position = 
-            mPlayerFloor.GetMovePoints(mPlayer.GetLPOSITION3())[(int)mPlayer.GetTPOSITION3()];
+            mPlayerFloor.GetMovePoints(mPlayer.GetUnitizedPosV())[(int)mPlayer.GetTPOSITION3()];
 
         RenewPlayerFloor();
 
@@ -98,24 +107,22 @@ public class Castle : Singleton<Castle>
     }
     public bool CanPrevPoint(out Vector2 point)
     {
-        if (IsIndexOutFloor(mPlayerFloor.FloorIndex - 2))
-        {
-            point = Vector2.zero; return false;
-        }
-        else
-        {
-            mPlayerFloor = mFloors[mPlayerFloor.FloorIndex - 2];
+        point = Vector2.zero;
 
-            int playerPOS = (int)mPlayer.GetTPOSITION3();
+        if (CanPrevPoint())
+        {
+            mPlayerFloor = mFloors[mPlayerFloor.FloorIndex];
 
-            point = mPlayerFloor.GetMovePoints(LPOSITION3.TOP)[playerPOS];
+            float playerX = mPlayer.transform.position.x;
+
+            point = new Vector2(playerX, mPlayerFloor.GetMovePoints(UnitizedPosV.TOP)[0].y);
 
             RenewPlayerFloor();
-
             MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
 
             return true;
         }
+        return false;
     }
 
     public void PauseEnable() => mIsPause = true;
@@ -129,7 +136,7 @@ public class Castle : Singleton<Castle>
 
     public Room GetPlayerRoom()
     {
-        return mPlayerFloor.GetRooms()[(int)mPlayer.GetLPOSITION3()];
+        return mPlayerFloor.GetRooms()[(int)mPlayer.GetUnitizedPosV()];
     }
 
     public IObject GetLongestIObject(Vector2 comparePos)
@@ -207,11 +214,11 @@ public class Castle : Singleton<Castle>
         {
             RenewPlayerPOS();
         }
-        Vector2[] topMovePoint = mPlayerFloor.GetMovePoints(LPOSITION3.TOP);
-        Vector2[] midMovePoint = mPlayerFloor.GetMovePoints(LPOSITION3.MID);
-        Vector2[] botMovePoint = mPlayerFloor.GetMovePoints(LPOSITION3.BOT);
+        Vector2[] topMovePoint = mPlayerFloor.GetMovePoints(UnitizedPosV.TOP);
+        Vector2[] midMovePoint = mPlayerFloor.GetMovePoints(UnitizedPosV.MID);
+        Vector2[] botMovePoint = mPlayerFloor.GetMovePoints(UnitizedPosV.BOT);
 
-        mMovePoints = new Vector2[(int)DIRECTION9.END]
+        mMovePoints = new Vector2[(int)UnitizedPos.END]
         {
             topMovePoint[0], topMovePoint[1], topMovePoint[2],
             midMovePoint[0], midMovePoint[1], midMovePoint[2],
@@ -231,13 +238,13 @@ public class Castle : Singleton<Castle>
     #endregion
     private void RenewPlayerPOS()
     {
-        if (mLastPlayerPOS != mPlayer.GetLPOSITION3())
+        if (mLastPlayerPOS != mPlayer.GetUnitizedPosV())
         {
-            if (mLastPlayerPOS != LPOSITION3.NONE)
+            if (mLastPlayerPOS != UnitizedPosV.NONE)
             {
                 mPlayerFloor.ExitPlayer(MESSAGE.THIS_ROOM, mLastPlayerPOS);
             }
-            mPlayerFloor.EnterPlayer(mPlayer, mLastPlayerPOS = mPlayer.GetLPOSITION3());
+            mPlayerFloor.EnterPlayer(mPlayer, mLastPlayerPOS = mPlayer.GetUnitizedPosV());
         }
     }
 

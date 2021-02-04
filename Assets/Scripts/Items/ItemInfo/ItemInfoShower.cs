@@ -7,9 +7,9 @@ public class ItemInfoShower : MonoBehaviour, IPointerUpHandler
     public bool IsEnable = true;
     public Action OnPopupEvent;
 
-    [SerializeField] private DIRECTION9 PopupPivot;
+    [SerializeField] private UnitizedPos PopupPivot;
 
-    public void SetPopupPivot(DIRECTION9 pivot)
+    public void SetPopupPivot(UnitizedPos pivot)
     {
         PopupPivot = pivot;
     }
