@@ -87,18 +87,18 @@ public class AttackButtonController : Singleton<AttackButtonController>
         }
         _ButtonShowRoutine.Finish();
     }
-    private void OnMoving(LPOSITION3 movePosition, float ratio)
+    private void OnMoving(UnitizedPosV movePosition, float ratio)
     {
         switch (movePosition)
         {
-            case LPOSITION3.TOP:
+            case UnitizedPosV.TOP:
                 {
                     transform.localPosition = Vector2.Lerp(transform.localPosition, TopPosition, ratio);
                 }
                 break;
 
-            case LPOSITION3.MID:
-            case LPOSITION3.BOT:
+            case UnitizedPosV.MID:
+            case UnitizedPosV.BOT:
                 {
                     transform.localPosition = Vector2.Lerp(transform.localPosition, BotPosition, ratio);
                 }

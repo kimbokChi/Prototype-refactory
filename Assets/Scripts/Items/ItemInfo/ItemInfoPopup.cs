@@ -49,46 +49,46 @@ public class ItemInfoPopup : Singleton<ItemInfoPopup>
         _AccessoryAblityText.text = info.AccessoryAblity;
     }
 
-    public void ShowPopup(DIRECTION9 pivot, Vector2 position)
+    public void ShowPopup(UnitizedPos pivot, Vector2 position)
     {
-        TPOSITION3 keywordPosition = TPOSITION3.LEFT;
+        UnitizedPosH keywordPosition = UnitizedPosH.LEFT;
 
         switch (pivot)
         {
-            case DIRECTION9.TOP_LEFT:
-                keywordPosition = TPOSITION3.LEFT;
+            case UnitizedPos.TOP_LEFT:
+                keywordPosition = UnitizedPosH.LEFT;
                 _RectTransform.pivot = new Vector2(0.0f, 1.0f);
                 break;
-            case DIRECTION9.TOP:
-                keywordPosition = TPOSITION3.MID;
+            case UnitizedPos.TOP:
+                keywordPosition = UnitizedPosH.MID;
                 _RectTransform.pivot = new Vector2(0.5f, 1.0f);
                 break;
-            case DIRECTION9.TOP_RIGHT:
-                keywordPosition = TPOSITION3.RIGHT;
+            case UnitizedPos.TOP_RIGHT:
+                keywordPosition = UnitizedPosH.RIGHT;
                 _RectTransform.pivot = new Vector2(1.0f, 1.0f);
                 break;
-            case DIRECTION9.MID_LEFT:
-                keywordPosition = TPOSITION3.LEFT;
+            case UnitizedPos.MID_LEFT:
+                keywordPosition = UnitizedPosH.LEFT;
                 _RectTransform.pivot = new Vector2(0.0f, 0.5f);
                 break;
-            case DIRECTION9.MID:
-                keywordPosition = TPOSITION3.MID;
+            case UnitizedPos.MID:
+                keywordPosition = UnitizedPosH.MID;
                 _RectTransform.pivot = new Vector2(0.5f, 0.5f);
                 break;
-            case DIRECTION9.MID_RIGHT:
-                keywordPosition = TPOSITION3.RIGHT;
+            case UnitizedPos.MID_RIGHT:
+                keywordPosition = UnitizedPosH.RIGHT;
                 _RectTransform.pivot = new Vector2(1.0f, 0.5f);
                 break;
-            case DIRECTION9.BOT_LEFT:
-                keywordPosition = TPOSITION3.LEFT;
+            case UnitizedPos.BOT_LEFT:
+                keywordPosition = UnitizedPosH.LEFT;
                 _RectTransform.pivot = new Vector2(0.0f, 0.0f);
                 break;
-            case DIRECTION9.BOT:
-                keywordPosition = TPOSITION3.MID;
+            case UnitizedPos.BOT:
+                keywordPosition = UnitizedPosH.MID;
                 _RectTransform.pivot = new Vector2(0.5f, 0.0f);
                 break;
-            case DIRECTION9.BOT_RIGHT:
-                keywordPosition = TPOSITION3.RIGHT;
+            case UnitizedPos.BOT_RIGHT:
+                keywordPosition = UnitizedPosH.RIGHT;
                 _RectTransform.pivot = new Vector2(1.0f, 0.0f);
                 break;
             default:

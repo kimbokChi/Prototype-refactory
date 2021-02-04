@@ -33,7 +33,7 @@ public class BombTotemSkill : MonoBehaviour
     {
         Vector2 CastPoint()
         {
-            float playerY = Castle.Instance.GetMovePoint(mPlayer.GetDIRECTION9()).y + 1.1f;
+            float playerY = Castle.Instance.GetMovePoint(mPlayer.GetUnitizedPos()).y + 1.1f;
 
             return new Vector2(mPlayer.transform.position.x, playerY);
         }

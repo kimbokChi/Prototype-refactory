@@ -196,8 +196,8 @@ public class Kraken : MonoBehaviour, IObject, ICombatable
         tentacle.transform.parent = room.transform;
 
         roomIndex *= 3;
-        float summonPointMinX = Castle.Instance.GetMovePoint((DIRECTION9)roomIndex).x;
-        float summonPointMaxX = Castle.Instance.GetMovePoint((DIRECTION9)roomIndex + 2).x;
+        float summonPointMinX = Castle.Instance.GetMovePoint((UnitizedPos)roomIndex).x;
+        float summonPointMaxX = Castle.Instance.GetMovePoint((UnitizedPos)roomIndex + 2).x;
 
         MainCamera.Instance.Shake(0.6f, 1f);
         Vector2 summonPoint = new Vector2(Random.Range(summonPointMinX, summonPointMaxX), 2.3f);
@@ -213,8 +213,8 @@ public class Kraken : MonoBehaviour, IObject, ICombatable
 
         var room = Castle.Instance.GetFloorRooms()[floorIndex];
 
-        float summonPointMinX = Castle.Instance.GetMovePoint((DIRECTION9)(floorIndex * 3)).x;
-        float summonPointMaxX = Castle.Instance.GetMovePoint((DIRECTION9)(floorIndex * 3) + 2).x;
+        float summonPointMinX = Castle.Instance.GetMovePoint((UnitizedPos)(floorIndex * 3)).x;
+        float summonPointMaxX = Castle.Instance.GetMovePoint((UnitizedPos)(floorIndex * 3) + 2).x;
 
         for (int i = 0; i < 3; i++)
         {

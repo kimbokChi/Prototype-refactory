@@ -37,7 +37,7 @@ public class Player : MonoBehaviour, ICombatable
     /// </summary>
     #endregion
     public event Action<bool> DeathEvent;
-    public event Action<LPOSITION3, float> MovingEvent;
+    public event Action<UnitizedPosV, float> MovingEvent;
 
     [SerializeField] private bool CanMoveDown;
     [SerializeField] private bool IsUsingHealthBar;
@@ -61,7 +61,7 @@ public class Player : MonoBehaviour, ICombatable
     private float mDefense;
 
     [SerializeField]
-    private DIRECTION9 mLocation9;
+    private UnitizedPos mLocation9;
     
     private IEnumerator mEMove;
 
@@ -316,13 +316,13 @@ public class Player : MonoBehaviour, ICombatable
 
             Vector2 movePoint = Vector2.zero;
 
-            DIRECTION9 moveDir9 = DIRECTION9.END;
+            UnitizedPos moveDir9 = UnitizedPos.END;
             switch (direction)
             {
                 case Direction.Up:
-                    switch (GetLPOSITION3())
+                    switch (GetUnitizedPosV())
                     {
-                        case LPOSITION3.TOP:
+                        case UnitizedPosV.TOP:
                             {
                                 if (Castle.Instance.CanNextPoint(out movePoint))
                                 {
@@ -332,8 +332,8 @@ public class Player : MonoBehaviour, ICombatable
                             }
                             break;
 
-                        case LPOSITION3.MID:
-                        case LPOSITION3.BOT:
+                        case UnitizedPosV.MID:
+                        case UnitizedPosV.BOT:
                             {
                                 mIsMovingElevation = true;
 
@@ -347,10 +347,10 @@ public class Player : MonoBehaviour, ICombatable
                     }
                     break;
                 case Direction.Down:
-                    switch (GetLPOSITION3())
+                    switch (GetUnitizedPosV())
                     {
-                        case LPOSITION3.TOP:
-                        case LPOSITION3.MID:
+                        case UnitizedPosV.TOP:
+                        case UnitizedPosV.MID:
                             {
                                 mIsMovingElevation = true;
 
@@ -361,7 +361,7 @@ public class Player : MonoBehaviour, ICombatable
                                 _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
                             }
                             break;
-                        case LPOSITION3.BOT:
+                        case UnitizedPosV.BOT:
                             {
                                 if (CanMoveDown && Castle.Instance.CanPrevPoint(out movePoint))
                                 {
@@ -386,19 +386,19 @@ public class Player : MonoBehaviour, ICombatable
         Vector2 movePointMin = Vector2.zero;
         Vector2 movePointMax = Vector2.zero;
 
-        switch (GetLPOSITION3())
+        switch (GetUnitizedPosV())
         {
-            case LPOSITION3.TOP:
-                movePointMin = Castle.Instance.GetMovePoint(DIRECTION9.TOP_LEFT);
-                movePointMax = Castle.Instance.GetMovePoint(DIRECTION9.TOP_RIGHT);
+            case UnitizedPosV.TOP:
+                movePointMin = Castle.Instance.GetMovePoint(UnitizedPos.TOP_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(UnitizedPos.TOP_RIGHT);
                 break;
-            case LPOSITION3.MID:
-                movePointMin = Castle.Instance.GetMovePoint(DIRECTION9.MID_LEFT);
-                movePointMax = Castle.Instance.GetMovePoint(DIRECTION9.MID_RIGHT);
+            case UnitizedPosV.MID:
+                movePointMin = Castle.Instance.GetMovePoint(UnitizedPos.MID_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(UnitizedPos.MID_RIGHT);
                 break;
-            case LPOSITION3.BOT:
-                movePointMin = Castle.Instance.GetMovePoint(DIRECTION9.BOT_LEFT);
-                movePointMax = Castle.Instance.GetMovePoint(DIRECTION9.BOT_RIGHT);
+            case UnitizedPosV.BOT:
+                movePointMin = Castle.Instance.GetMovePoint(UnitizedPos.BOT_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(UnitizedPos.BOT_RIGHT);
                 break;
         }
         bool IsOutOfRange()
@@ -487,20 +487,20 @@ public class Player : MonoBehaviour, ICombatable
     {
         if (!mIsInputLock)
         {
-            DIRECTION9 moveDir9 = DIRECTION9.END;
+            UnitizedPos moveDir9 = UnitizedPos.END;
 
             if (Input.GetKey(KeyCode.UpArrow) || Finger.Instance.Swipe(Direction.Up))
             {
-                switch (GetLPOSITION3())
+                switch (GetUnitizedPosV())
                 {
-                    case LPOSITION3.TOP:
+                    case UnitizedPosV.TOP:
                         mCanElevation = Castle.Instance.CanNextPoint();
 
                         moveDir9 = mLocation9;
                         break;
 
-                    case LPOSITION3.MID:
-                    case LPOSITION3.BOT:
+                    case UnitizedPosV.MID:
+                    case UnitizedPosV.BOT:
                         {
                             mIsMovingElevation = true;
 
@@ -511,17 +511,17 @@ public class Player : MonoBehaviour, ICombatable
             }
             else if (Input.GetKey(KeyCode.DownArrow) || Finger.Instance.Swipe(Direction.Down))
             {
-                switch (GetLPOSITION3())
+                switch (GetUnitizedPosV())
                 {
-                    case LPOSITION3.TOP:
-                    case LPOSITION3.MID:
+                    case UnitizedPosV.TOP:
+                    case UnitizedPosV.MID:
                         {
                             mIsMovingElevation = true;
 
                             moveDir9 = mLocation9 + 3;
                         }
                         break;
-                    case LPOSITION3.BOT:
+                    case UnitizedPosV.BOT:
                         {
                             if (CanMoveDown)
                             {
@@ -535,19 +535,19 @@ public class Player : MonoBehaviour, ICombatable
             }
             else if (Input.GetKey(KeyCode.LeftArrow) || Finger.Instance.Swipe(Direction.Left))
             {
-                if (GetTPOSITION3() != TPOSITION3.LEFT)
+                if (GetTPOSITION3() != UnitizedPosH.LEFT)
                     moveDir9 = mLocation9 - 1;
             }
             else if (Input.GetKey(KeyCode.RightArrow) || Finger.Instance.Swipe(Direction.Right))
             {
-                if (GetTPOSITION3() != TPOSITION3.RIGHT)
+                if (GetTPOSITION3() != UnitizedPosH.RIGHT)
                     moveDir9 = mLocation9 + 1;
             }
-            if (moveDir9 != DIRECTION9.END) MoveAction(moveDir9);
+            if (moveDir9 != UnitizedPos.END) MoveAction(moveDir9);
         }
     }
     [Obsolete]
-    private void MoveAction(DIRECTION9 moveDIR9)
+    private void MoveAction(UnitizedPos moveDIR9)
     {
         if (mEMove == null)
         {
@@ -558,18 +558,18 @@ public class Player : MonoBehaviour, ICombatable
             {
                 switch (moveDIR9)
                 {
-                    case DIRECTION9.TOP_LEFT:
-                    case DIRECTION9.TOP:
-                    case DIRECTION9.TOP_RIGHT:
+                    case UnitizedPos.TOP_LEFT:
+                    case UnitizedPos.TOP:
+                    case UnitizedPos.TOP_RIGHT:
                         if (Castle.Instance.CanNextPoint(out Vector2 nextPoint))
                         {
                             StartCoroutine(mEMove = EMove(nextPoint, moveDIR9 + 6));
                         }
                         break;
 
-                    case DIRECTION9.BOT_LEFT:
-                    case DIRECTION9.BOT:
-                    case DIRECTION9.BOT_RIGHT:
+                    case UnitizedPos.BOT_LEFT:
+                    case UnitizedPos.BOT:
+                    case UnitizedPos.BOT_RIGHT:
                         if (Castle.Instance.CanPrevPoint(out Vector2 prevPoint))
                         {
                             StartCoroutine(mEMove = EMove(prevPoint, moveDIR9 - 6));
@@ -590,7 +590,7 @@ public class Player : MonoBehaviour, ICombatable
         }
     }
     [Obsolete]
-    private IEnumerator EMove(Vector2 movePoint, DIRECTION9 moveDIR9)
+    private IEnumerator EMove(Vector2 movePoint, UnitizedPos moveDIR9)
     {
         bool a = false;
 
@@ -611,24 +611,24 @@ public class Player : MonoBehaviour, ICombatable
 
             transform.position = Vector2.Lerp(transform.position, movePoint, lerpAmount);
 
-            LPOSITION3 moveDIR3 = LPOSITION3.NONE;
+            UnitizedPosV moveDIR3 = UnitizedPosV.NONE;
 
             switch (moveDIR9)
             {
-                case DIRECTION9.TOP_LEFT:
-                case DIRECTION9.TOP:
-                case DIRECTION9.TOP_RIGHT:
-                    moveDIR3 = LPOSITION3.TOP;
+                case UnitizedPos.TOP_LEFT:
+                case UnitizedPos.TOP:
+                case UnitizedPos.TOP_RIGHT:
+                    moveDIR3 = UnitizedPosV.TOP;
                     break;
-                case DIRECTION9.MID_LEFT:
-                case DIRECTION9.MID:
-                case DIRECTION9.MID_RIGHT:
-                    moveDIR3 = LPOSITION3.MID;
+                case UnitizedPos.MID_LEFT:
+                case UnitizedPos.MID:
+                case UnitizedPos.MID_RIGHT:
+                    moveDIR3 = UnitizedPosV.MID;
                     break;
-                case DIRECTION9.BOT_LEFT:
-                case DIRECTION9.BOT:
-                case DIRECTION9.BOT_RIGHT:
-                    moveDIR3 = LPOSITION3.BOT;
+                case UnitizedPos.BOT_LEFT:
+                case UnitizedPos.BOT:
+                case UnitizedPos.BOT_RIGHT:
+                    moveDIR3 = UnitizedPosV.BOT;
                     break;
             }
             MovingEvent?.Invoke(moveDIR3, lerpAmount);
@@ -660,30 +660,30 @@ public class Player : MonoBehaviour, ICombatable
         yield break;
     }
     [Obsolete]
-    public TPOSITION3 GetTPOSITION3()
+    public UnitizedPosH GetTPOSITION3()
     {
         switch (mLocation9)
         {
-            case DIRECTION9.TOP_LEFT:
-            case DIRECTION9.MID_LEFT:
-            case DIRECTION9.BOT_LEFT:
-                return TPOSITION3.LEFT;
+            case UnitizedPos.TOP_LEFT:
+            case UnitizedPos.MID_LEFT:
+            case UnitizedPos.BOT_LEFT:
+                return UnitizedPosH.LEFT;
 
-            case DIRECTION9.TOP:
-            case DIRECTION9.MID:
-            case DIRECTION9.BOT:
-                return TPOSITION3.MID;
+            case UnitizedPos.TOP:
+            case UnitizedPos.MID:
+            case UnitizedPos.BOT:
+                return UnitizedPosH.MID;
 
-            case DIRECTION9.TOP_RIGHT:
-            case DIRECTION9.MID_RIGHT:
-            case DIRECTION9.BOT_RIGHT:
-                return TPOSITION3.RIGHT;
+            case UnitizedPos.TOP_RIGHT:
+            case UnitizedPos.MID_RIGHT:
+            case UnitizedPos.BOT_RIGHT:
+                return UnitizedPosH.RIGHT;
 
             default:
                 break;
         }
         Debug.Log("Value Error");
-        return TPOSITION3.NONE;
+        return UnitizedPosH.NONE;
     }
     #endregion
 

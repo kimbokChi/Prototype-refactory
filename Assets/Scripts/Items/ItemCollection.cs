@@ -34,7 +34,7 @@ public class ItemCollection : MonoBehaviour
 
                 image.sprite = lockedList[i].Sprite;
             }
-            DIRECTION9 pivot = DIRECTION9.BOT_LEFT;
+            UnitizedPos pivot = UnitizedPos.BOT_LEFT;
             ShowerSetting(collectionBox, lockedList[i], pivot + i%3);
         }
         var unlockedList = ItemStateSaver.Instance.GetUnlockedItem();
@@ -53,12 +53,12 @@ public class ItemCollection : MonoBehaviour
 
                 image.sprite = unlockedList[i].Sprite;
             }
-            DIRECTION9 pivot = DIRECTION9.BOT_LEFT;
+            UnitizedPos pivot = UnitizedPos.BOT_LEFT;
             ShowerSetting(collectionBox, unlockedList[i], pivot + (i % 3));
         }
     }
 
-    private void ShowerSetting(GameObject _object, Item showItem, DIRECTION9 pivot)
+    private void ShowerSetting(GameObject _object, Item showItem, UnitizedPos pivot)
     {
         if (_object.TryGetComponent(out ItemInfoShower shower))
         {

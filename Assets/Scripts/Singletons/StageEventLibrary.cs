@@ -68,7 +68,7 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
 
     private void CreateItemBox()
     {
-        Vector2 createPoint = Castle.Instance.GetMovePoint(DIRECTION9.MID);
+        Vector2 createPoint = Castle.Instance.GetMovePoint(UnitizedPos.MID);
 
         var boxSprite = WoodenSprite;
         var boxContainItem = ItemLibrary.Instance.GetRandomItem();
@@ -111,8 +111,8 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
         // 0 or 3 or 6
         int floorIndex = Random.Range(0, 3) * 3;
 
-        Vector2 createPointMin = Castle.Instance.GetMovePoint((DIRECTION9)floorIndex);
-        Vector2 createPointMax = Castle.Instance.GetMovePoint((DIRECTION9)floorIndex + 2);
+        Vector2 createPointMin = Castle.Instance.GetMovePoint((UnitizedPos)floorIndex);
+        Vector2 createPointMax = Castle.Instance.GetMovePoint((UnitizedPos)floorIndex + 2);
 
         return new Vector2(Random.Range(createPointMin.x, createPointMax.x), createPointMin.y + 0.5f);
     }

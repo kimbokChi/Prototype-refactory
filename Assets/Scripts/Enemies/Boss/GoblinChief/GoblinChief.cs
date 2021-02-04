@@ -12,7 +12,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     {
         Idle, Jump, Swing, Skill, Landing, End
     }
-    [SerializeField] private LPOSITION3 LPosition3;
+    [SerializeField] private UnitizedPosV LPosition3;
     [SerializeField] private CoinDropper _CoinDropper;
 
     [Header("Ability")]
@@ -45,7 +45,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     private int mControlKey;
 
     private Anim mNextPattern;
-    private DIRECTION9 mJumpDIR9;
+    private UnitizedPos mJumpDIR9;
     private AttackPeriod mAttackPeriod;
 
     public AbilityTable GetAbility => AbilityTable;
@@ -95,7 +95,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
                     break;
             
                 case Anim.Swing:
-                    if (mPlayer.GetLPOSITION3() == LPosition3)
+                    if (mPlayer.GetUnitizedPosV() == LPosition3)
                     {
                         DashSwing();
                     }
@@ -143,28 +143,28 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     private void Jumping()
     {
-        mJumpDIR9 = mPlayer.GetDIRECTION9();
+        mJumpDIR9 = mPlayer.GetUnitizedPos();
 
-        LPOSITION3 Dir2LPos(DIRECTION9 dir)
+        UnitizedPosV Dir2LPos(UnitizedPos dir)
         {
             switch (dir)
             {
-                case DIRECTION9.TOP_LEFT:
-                case DIRECTION9.TOP:
-                case DIRECTION9.TOP_RIGHT:
-                    return LPOSITION3.TOP;
+                case UnitizedPos.TOP_LEFT:
+                case UnitizedPos.TOP:
+                case UnitizedPos.TOP_RIGHT:
+                    return UnitizedPosV.TOP;
 
-                case DIRECTION9.MID_LEFT:
-                case DIRECTION9.MID:
-                case DIRECTION9.MID_RIGHT:
-                    return LPOSITION3.MID;
+                case UnitizedPos.MID_LEFT:
+                case UnitizedPos.MID:
+                case UnitizedPos.MID_RIGHT:
+                    return UnitizedPosV.MID;
 
-                case DIRECTION9.BOT_LEFT:
-                case DIRECTION9.BOT:
-                case DIRECTION9.BOT_RIGHT:
-                    return LPOSITION3.BOT;
+                case UnitizedPos.BOT_LEFT:
+                case UnitizedPos.BOT:
+                case UnitizedPos.BOT_RIGHT:
+                    return UnitizedPosV.BOT;
             }
-            return LPOSITION3.NONE;
+            return UnitizedPosV.NONE;
         }
 
         float moveY = Castle.Instance.GetMovePoint(mJumpDIR9).y;
@@ -188,7 +188,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     private void DashSwing()
     {
-        float moveX = Castle.Instance.GetMovePoint(mPlayer.GetDIRECTION9()).x;
+        float moveX = Castle.Instance.GetMovePoint(mPlayer.GetUnitizedPos()).x;
 
         Vector2 point = new Vector2(moveX, transform.position.y);
 
@@ -227,7 +227,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     {
         int random = Random.Range(0, 3);
 
-        DIRECTION9 playerDIR9 = mPlayer.GetDIRECTION9();
+        UnitizedPos playerDIR9 = mPlayer.GetUnitizedPos();
 
         Vector2 castPoint = new Vector2
             (mPlayer.transform.position.x, Castle.Instance.GetMovePoint(playerDIR9).y + 1.2f);

@@ -33,14 +33,14 @@ public class LightningTotemSkill : MonoBehaviour
     }
     private IEnumerator SkillCasting()
     {
-        DIRECTION9 startDIR =
-            DIRECTION9.BOT_LEFT + Kimbokchi.Utility.LuckyNumber(0.5f, 0f, 0.5f);
+        UnitizedPos startDIR =
+            UnitizedPos.BOT_LEFT + Kimbokchi.Utility.LuckyNumber(0.5f, 0f, 0.5f);
 
         for (int i = 0; i < 3; i++)
         {
             int direction = i;
 
-            if (startDIR.Equals(DIRECTION9.BOT_RIGHT))
+            if (startDIR.Equals(UnitizedPos.BOT_RIGHT))
             {
                 direction *= -1;
             }
