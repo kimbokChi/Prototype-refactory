@@ -54,26 +54,36 @@ public class Ads : Singleton<Ads>
 
     void LoadFrontAd()
     {
-        frontAd = new InterstitialAd(isTestMode ? frontTestID : frontID);
-        Debug.Log(frontAd);
 
-        frontAd.LoadAd(GetAdRequest());
-        frontAd.OnAdClosed += (sender, e) =>
-        {
-            LoadFrontAd();
-        };
+       
+            frontAd = new InterstitialAd(isTestMode ? frontTestID : frontID);
+            Debug.Log(frontAd);
+
+            frontAd.LoadAd(GetAdRequest());
+            frontAd.OnAdClosed += (sender, e) =>
+            {
+                LoadFrontAd();
+            };
+        
+      
     }
 
     public void ShowFrontAd()
     {
-        Debug.Log("FrontAd");
-        if (frontAd.IsLoaded())
+        if (IAP.Instance.APP == false)
         {
-            frontAd.Show();
-        }
-        else
+            Debug.Log("FrontAd");
+            if (frontAd.IsLoaded())
+            {
+                frontAd.Show();
+            }
+            else
+            {
+                LoadFrontAd();
+            }
+        }else
         {
-            LoadFrontAd();
+
         }
     }
     #endregion

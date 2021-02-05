@@ -49,6 +49,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         Debug.Log(_Param);
 
         where.Equal("gamerIndate", mIndate);
+        _Param.Add("IAP", IAP.Instance.IAp);
         _Param.Add("Gold", MoneyManager.Instance.Money);
         _Param.Add("Kill", GameLoger.Instance.KillCount);
         _Param.Add("Time", GameLoger.Instance.ElapsedTime.ToString());
@@ -193,46 +194,25 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             {
                 if (callback1.IsSuccess())
                 {
-                   
 
-                    // for (int i = 0; i < callback1.Rows()[0]["stagedata"]["L"].Count; i++)
-                    //{
-                    //     nowlist.Add(Convert.ToInt32(callback1.Rows()[0]["stagedata"]["L"][i]["N"].ToString()));
-                    // }
-
-
-                    // callback1 = JsonUtility.FromJson<>(int);
+                    if (callback1.IsSuccess())
+                    {
+                        GameLoger.Instance.SetStageUnlock(Convert.ToInt32(callback1.Rows()[0]["STAGE"]["L"]["N"].ToString()));
 
 
 
-                    //int Itemm = Convert.ToInt32(callback1);
+
+                        Debug.Log("정보 불러오기 성공" + callback1);
 
 
+                    }
+                    else
+                    {
 
-                    //nowlist.Add(Itemm);
+                        Debug.Log("정보 불러오기 실패" + callback1);
 
-
-                    GameLoger.Instance.SetStageUnlock((int.Parse(callback1.Rows()[0]["stagedata"]["N"].ToString())));
-
-
-                    
-
-
-
-                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
-                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
-
-
-                    Debug.Log("정보 불러오기 성공" + callback1);
-
-
-                }
-                else
-                {
-
-                    Debug.Log("정보 불러오기 실패");
-               
-                }
+                    }
+                }    
             });
         }
         else
@@ -293,7 +273,9 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
                     Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
 
                     GameLoger.Instance.RecordMoney(int.Parse(callback1.Rows()[0]["Gold"]["N"].ToString()));
-                    
+                    IAP.Instance.AiP(bool.Parse(callback1.Rows()[0]["Gold"]["N"].ToString()));
+
+
                     Debug.Log("정보 불러오기 성공"+callback1);
                     SceneLoader.Instance.SceneLoad(2);
 
