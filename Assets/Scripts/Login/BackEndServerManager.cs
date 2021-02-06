@@ -49,7 +49,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         Debug.Log(_Param);
 
         where.Equal("gamerIndate", mIndate);
-        _Param.Add("IAP", IAP.Instance.IAp);
+        _Param.Add("IAP", IAP.Instance.APP);
         _Param.Add("Gold", MoneyManager.Instance.Money);
         _Param.Add("Kill", GameLoger.Instance.KillCount);
         _Param.Add("Time", GameLoger.Instance.ElapsedTime.ToString());

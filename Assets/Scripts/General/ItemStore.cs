@@ -11,6 +11,7 @@ public class ItemStore : MonoBehaviour
 
     private bool _IsAlreadyInit = false;
     private ItemShowBlock _SelectedBlock;
+    private IPurchasable  _SelectedPurchaser;
 
     private void Start()
     {
@@ -31,12 +32,19 @@ public class ItemStore : MonoBehaviour
     public void BlockSelect(ItemShowBlock block)
     {
         _SelectedBlock = block;
+        _SelectedPurchaser = null;
+    }
+    public void PurchaserSelect(IPurchasable purchaser)
+    {
+        _SelectedBlock = null;
+        _SelectedPurchaser = purchaser;
     }
     private void Update()
     {
         if (EventSystem.current.currentSelectedGameObject == null)
         {
             _SelectedBlock = null;
+            _SelectedPurchaser = null;
         }
     }
     public void Purchace()
@@ -59,9 +67,13 @@ public class ItemStore : MonoBehaviour
                 SystemMessage.Instance.ShowMessage("보유한 골드가 부족합니다!");
             }
         }
+        else if (_SelectedPurchaser != null)
+        {
+            _SelectedPurchaser.TryPurchase();
+        }
         else
         {
-            SystemMessage.Instance.ShowMessage("먼저 구매할 아이템을\n선택해야 합니다!");
+            SystemMessage.Instance.ShowMessage("먼저 구매할 항목을\n선택해야 합니다!");
         }
     }
 }
