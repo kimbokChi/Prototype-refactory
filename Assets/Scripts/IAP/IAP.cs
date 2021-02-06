@@ -4,16 +4,6 @@ using UnityEngine;
 
 public class IAP : Singleton<IAP>
 {
-    //bool IAp = false;
-    // Start is called before the first frame update
-
-
-    public bool IAp
-    {
-        get;
-        private set;
-    }
-
    // 서버에서 불러온 bool 값을 AiP에 적용하여 인앱 구매 했는지 안했는지 구분을한다 
     public void AiP(bool Aip)
     {
@@ -29,16 +19,26 @@ public class IAP : Singleton<IAP>
 
     public void Reward()
     {
-        IAp = true;
         APP = true;
         BackEndServerManager.Instance.SendDataToServerSchema("Player");
         print("인앱성공");
     }
 
-    // Update is called once per frame
     public void Faild()
     {
        // IAp = false;
         print("인앱실패");
+    }
+
+    private void Awake()
+    {
+        if (FindObjectsOfType<IAP>().Length > 1)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            DontDestroyOnLoad(this);
+        }
     }
 }
