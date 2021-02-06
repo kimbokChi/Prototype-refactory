@@ -1358,6 +1358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FadeFilter: {fileID: 1156250213}
+  DamagedFilter: {fileID: 0}
   ThisCamera: {fileID: 863157979}
   OriginCameraScale: 8
 --- !u!1 &903961014
@@ -1716,6 +1717,10 @@ MonoBehaviour:
     HoldingCount: 2
   - EffectKind: 3
     EffectOrigin: {fileID: 1490842679328148067, guid: 820d2e105a5b7f04bbf72b6fe6d16e16,
+      type: 3}
+    HoldingCount: 2
+  - EffectKind: 4
+    EffectOrigin: {fileID: 314849504013700523, guid: 3ca590692fb55994bbf22d346a425d66,
       type: 3}
     HoldingCount: 2
 --- !u!4 &1026448712
