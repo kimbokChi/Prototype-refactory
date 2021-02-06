@@ -9,6 +9,7 @@ public class LongSword : Item
     private int _AnimControlKey;
 
     private GameObject mPlayer;
+    private bool _IsAttackOver = true;
 
     private void Reset()
     {
@@ -21,7 +22,12 @@ public class LongSword : Item
             AttackOverAction = null;
         }
     }
+    protected override void AttackAnimationPlayOver()
+    {
+        base.AttackAnimationPlayOver();
 
+        _IsAttackOver = true;
+    }
     public override void OnEquipThis(SlotType onSlot)
     {
         if (onSlot.Equals(SlotType.Weapon))
@@ -43,7 +49,13 @@ public class LongSword : Item
         Animator.SetBool(_AnimPlayKey, true);
         Animator.SetBool(_AnimControlKey, !Animator.GetBool(_AnimControlKey));
 
+        _IsAttackOver = false;
+
         mPlayer = attacker;
+    }
+    protected override void CameraShake()
+    {
+        MainCamera.Instance.Shake(0.3f, 0.3f);
     }
     private void HitAction(GameObject hitObject)
     {
@@ -57,6 +69,10 @@ public class LongSword : Item
 
     public override void AttackCancel()
     {
-        Animator.SetBool(_AnimPlayKey, false);
+        if (!_IsAttackOver)
+        {
+            Animator.SetBool(_AnimPlayKey, false);
+            Animator.SetBool(_AnimControlKey, true);
+        }
     }
 }
