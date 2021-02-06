@@ -243,6 +243,18 @@ public class Player : MonoBehaviour, ICombatable
         if (mEMove != null) mCollidersOnMove.Add(collision);
     }
 
+    public void BackToOriginalAnim()
+    {
+        if (!_MoveRoutine.IsFinished())
+        {
+            PlayerAnimator.ChangeState(PlayerAnim.Move);
+        }
+        else
+        {
+            PlayerAnimator.ChangeState(PlayerAnim.Idle);
+        }
+    }
+
     public void SetLookAtLeft(bool lookLeft)
     {
         if (!mAttackPeriod.IsProgressing())
@@ -501,6 +513,8 @@ public class Player : MonoBehaviour, ICombatable
         }
         if (damage > 0f)
         {
+            PlayerAnimator.ChangeState(PlayerAnim.Damaged);
+
             EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
         }
     }
