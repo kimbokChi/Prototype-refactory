@@ -31,6 +31,8 @@ public static class InputExtension
 
 public class Player : MonoBehaviour, ICombatable
 {
+    private readonly Vector3 LookAtLeft = new Vector3(0f, 180f, 0f);
+
     #region COMMENT
     /// <summary>
     /// parameter1 : revert death event?
@@ -261,7 +263,7 @@ public class Player : MonoBehaviour, ICombatable
         {
             if (lookLeft)
             {
-                transform.localRotation = Quaternion.Euler(Vector3.up * 180f);
+                transform.localRotation = Quaternion.Euler(LookAtLeft);
             }
             else
                 transform.localRotation = Quaternion.Euler(Vector3.zero);
@@ -436,7 +438,9 @@ public class Player : MonoBehaviour, ICombatable
             if (rateTime >= 0.3f)
             {
                 rateTime = 0f;
-                EffectLibrary.Instance.UsingEffect(EffectKind.Dust, transform.position - new Vector3(0.2f, 0.2f));
+                var dust = EffectLibrary.Instance.UsingEffect(EffectKind.Dust, transform.position - new Vector3(0.2f, 0.2f));
+
+                dust.transform.rotation = Quaternion.Euler(IsLookAtLeft() ? Vector3.zero : LookAtLeft);
             }
             transform.position += direction * deltaTime * AbilityTable.MoveSpeed;
             yield return null;
@@ -502,6 +506,11 @@ public class Player : MonoBehaviour, ICombatable
     {
         playerPos = transform.position;
             return !mIsMovingElevation;
+    }
+
+    public bool IsLookAtLeft()
+    {
+        return transform.rotation.eulerAngles.Equals(LookAtLeft);
     }
     
     public void Damaged(float damage, GameObject attacker)

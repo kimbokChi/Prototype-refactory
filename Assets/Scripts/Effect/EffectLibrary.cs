@@ -52,7 +52,7 @@ public class EffectLibrary : Singleton<EffectLibrary>
     }
 
 
-    public void UsingEffect(EffectKind kind, Vector2 worldPoint)
+    public Effect UsingEffect(EffectKind kind, Vector2 worldPoint)
     {
         if (EffectLib[kind].Count == 1) {
             EffectLib[kind].Push(Instantiate(EffectLib[kind].Peek()));
@@ -66,8 +66,10 @@ public class EffectLibrary : Singleton<EffectLibrary>
         effect.transform.SetZ(effectZ);
 
         effect.gameObject.SetActive(true);
+
+        return effect;
     }
-    public void UsingEffect(EffectKind kind, Vector2 worldPoint, Action disableAction)
+    public Effect UsingEffect(EffectKind kind, Vector2 worldPoint, Action disableAction)
     {
         if (EffectLib[kind].Count == 1)
         {
@@ -79,5 +81,7 @@ public class EffectLibrary : Singleton<EffectLibrary>
         effect.OnDisableEvent += disableAction;
         effect.transform.position = worldPoint;
         effect.gameObject.SetActive(true);
+
+        return effect;
     }
 }
