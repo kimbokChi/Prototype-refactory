@@ -308,6 +308,8 @@ public class Player : MonoBehaviour, ICombatable
     public void MoveStop()
     {
         _MoveRoutine.StopRoutine();
+
+        PlayerAnimator.ChangeState(PlayerAnim.Idle);
     }
 
     public void MoveOrder(Direction direction)
@@ -410,6 +412,8 @@ public class Player : MonoBehaviour, ICombatable
             return transform.position.x < movePointMin.x 
                 || transform.position.x > movePointMax.x;
         }
+        PlayerAnimator.ChangeState(PlayerAnim.Move);
+
         while (!IsOutOfRange())
         {
             transform.position += direction * Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed;
