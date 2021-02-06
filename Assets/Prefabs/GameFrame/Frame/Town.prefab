@@ -1373,8 +1373,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4288173969
-  m_fontColor: {r: 0.5677802, g: 0.34202564, b: 0.5943396, a: 1}
+    rgba: 4293052127
+  m_fontColor: {r: 0.87508005, g: 0.77803487, b: 0.8867924, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2590,6 +2590,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4646570645933651728}
+  - component: {fileID: 6070039099038257135}
   m_Layer: 5
   m_Name: NoAD
   m_TagString: Untagged
@@ -2620,6 +2621,18 @@ RectTransform:
   m_AnchoredPosition: {x: 208, y: -397.5}
   m_SizeDelta: {x: 100, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6070039099038257135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3867206251167045181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ced48e9a58c0a246bc0af1cf6069c75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4018697661134155257
 GameObject:
   m_ObjectHideFlags: 0
@@ -3125,7 +3138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3153,6 +3166,7 @@ GameObject:
   - component: {fileID: 4074138750356189488}
   - component: {fileID: 6536459532351649011}
   - component: {fileID: 9059630842495040200}
+  - component: {fileID: 3961986287151199613}
   m_Layer: 5
   m_Name: ButtonArea
   m_TagString: Untagged
@@ -3200,7 +3214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.80814034, g: 1, b: 0.5566038, a: 1}
+  m_Color: {r: 0.63189745, g: 0.8156828, b: 0.9433962, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3263,9 +3277,27 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6536459532351649011}
   m_OnClick:
     m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &3961986287151199613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4543660235801707849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a5f511b0d8142cba0aeb92d0b264c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  productId: ' no_ad'
+  buttonType: 0
+  consumePurchase: 1
+  onPurchaseComplete:
+    m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: Selected
+      - m_Target: {fileID: 6070039099038257135}
+        m_MethodName: PurchaseSuccess
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3275,6 +3307,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onPurchaseFailed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6070039099038257135}
+        m_MethodName: PurchaseFaild
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  titleText: {fileID: 0}
+  descriptionText: {fileID: 0}
+  priceText: {fileID: 0}
 --- !u!1 &4997170166095172686
 GameObject:
   m_ObjectHideFlags: 0
@@ -3796,8 +3845,6 @@ GameObject:
   - component: {fileID: 5378675574061423374}
   - component: {fileID: 1532346560982855357}
   - component: {fileID: 4858914873727178723}
-  - component: {fileID: 6004724637233246706}
-  - component: {fileID: 5566514383539802214}
   m_Layer: 5
   m_Name: ItemBox
   m_TagString: Untagged
@@ -3847,7 +3894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3863,48 +3910,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6004724637233246706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6157417666749891484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c1eb4158a91eb84aa7d75d325a795e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsEnable: 1
-  PopupPivot: 6
---- !u!114 &5566514383539802214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6157417666749891484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 6004724637233246706}
-          m_MethodName: SetPopupEnable
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
 --- !u!1 &6306048598073700275
 GameObject:
   m_ObjectHideFlags: 0
@@ -5844,6 +5849,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 84504955430418167}
     m_Modifications:
+    - target: {fileID: 132640450083837566, guid: 1a47817b04330964183977f8df563060,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 303068841827310377, guid: 1a47817b04330964183977f8df563060,
         type: 3}
       propertyPath: m_IsActive
@@ -5882,7 +5892,7 @@ PrefabInstance:
     - target: {fileID: 6928495937235072430, guid: 1a47817b04330964183977f8df563060,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7617671478612115460, guid: 1a47817b04330964183977f8df563060,
         type: 3}
@@ -5892,7 +5902,7 @@ PrefabInstance:
     - target: {fileID: 8285090467586761474, guid: 1a47817b04330964183977f8df563060,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8492802384351605542, guid: 1a47817b04330964183977f8df563060,
         type: 3}
