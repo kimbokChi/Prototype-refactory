@@ -6,7 +6,6 @@ using Kimbokchi;
 public class ItemPackmanNPC : MonoBehaviour
 {
     [SerializeField] private AttackButtonHider _Hider;
-    [SerializeField] private GameObject InteractionButton;
 
     [SerializeField] private DropItem DropItem;
     [SerializeField] private Transform DropItemHolder;
