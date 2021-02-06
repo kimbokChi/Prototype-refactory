@@ -1169,6 +1169,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51e73a3e3f1d2b947bbbed0df04f4304, type: 3}
+--- !u!1 &254027282 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 677494283755924880, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+    type: 3}
+  m_PrefabInstance: {fileID: 254027281}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &254027283 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2657234772226528089, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
@@ -1323,6 +1329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FadeFilter: {fileID: 254027283}
+  DamagedFilter: {fileID: 254027282}
   ThisCamera: {fileID: 300584033}
   OriginCameraScale: 8
 --- !u!1001 &404620026
