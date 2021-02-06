@@ -370,6 +370,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FadeFilter: {fileID: 254027283}
+  DamagedFilter: {fileID: 7650367632805531305}
   ThisCamera: {fileID: 300584033}
   OriginCameraScale: 8
 --- !u!1001 &404620026
@@ -1677,3 +1678,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7650367632805531305 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7155482731458069798, guid: 2c076833f0929224aa04f80fd30bc408,
+    type: 3}
+  m_PrefabInstance: {fileID: 7650367632805531303}
+  m_PrefabAsset: {fileID: 0}
