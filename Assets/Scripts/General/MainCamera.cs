@@ -23,7 +23,11 @@ public static class MathExtension
 
 public class MainCamera : Singleton<MainCamera>
 {
+    [Header("____Filter Props____")]
     [SerializeField] private Image FadeFilter;
+    [SerializeField] private GameObject DamagedFilter;
+
+    [Header("____Camera Props____")]
     [SerializeField] private Camera ThisCamera;
     [SerializeField] private float OriginCameraScale;
 
@@ -45,7 +49,6 @@ public class MainCamera : Singleton<MainCamera>
             OriginCameraScale = ThisCamera.orthographicSize;
         }
     }
-
     private void Start()
     {
         mIsZoomIn = false;
@@ -56,6 +59,11 @@ public class MainCamera : Singleton<MainCamera>
 
         Fade(1f, FadeType.Out);
         // -- 화면이 서서히 밝아지게 --
+    }
+
+    public void UseDamagedFilter()
+    {
+        DamagedFilter.SetActive(true);
     }
 
     public void Shake()

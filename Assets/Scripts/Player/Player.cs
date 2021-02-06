@@ -516,6 +516,7 @@ public class Player : MonoBehaviour, ICombatable
             PlayerAnimator.ChangeState(PlayerAnim.Damaged);
 
             EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
+            MainCamera.Instance.UseDamagedFilter();
         }
     }
 
