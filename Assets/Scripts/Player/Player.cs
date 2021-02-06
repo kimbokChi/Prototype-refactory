@@ -426,9 +426,19 @@ public class Player : MonoBehaviour, ICombatable
         }
         PlayerAnimator.ChangeState(PlayerAnim.Move);
 
+        float rateTime = 0f;
+
         while (!IsOutOfRange())
         {
-            transform.position += direction * Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed;
+            float deltaTime = Time.deltaTime * Time.timeScale;
+            rateTime += deltaTime;
+
+            if (rateTime >= 0.3f)
+            {
+                rateTime = 0f;
+                EffectLibrary.Instance.UsingEffect(EffectKind.Dust, transform.position - new Vector3(0.2f, 0.2f));
+            }
+            transform.position += direction * deltaTime * AbilityTable.MoveSpeed;
             yield return null;
         }
         if (IsOutOfRange())
