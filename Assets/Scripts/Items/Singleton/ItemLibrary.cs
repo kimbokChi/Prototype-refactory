@@ -77,15 +77,7 @@ public class ItemLibrary : Singleton<ItemLibrary>
                     _Library[item.Rating].Add(item);
                 }
             }
-            _RunTimeLibrary = new Dictionary<ItemRating, List<Item>>(_Library);
-
-            for (int invokeCount = 0; invokeCount < 4; invokeCount++)
-            {
-                if (_Library[(ItemRating)invokeCount].Count == 0)
-                {
-                    RevisionProbablity(mProbabilityArray[invokeCount]);
-                }
-            }
+            ItemBoxReset();
         }
     }
 
@@ -147,14 +139,16 @@ public class ItemLibrary : Singleton<ItemLibrary>
 
     public void ItemBoxReset()
     {
-        Init();
-        _RunTimeLibrary = new Dictionary<ItemRating, List<Item>>(_Library);
-
-        for (int invokeCount = 0; invokeCount < 4; invokeCount++)
+        if (_IsAlreadyInit)
         {
-            if (_Library[(ItemRating)invokeCount].Count == 0)
+            _RunTimeLibrary = _Library.ToDictionary(o => o.Key, i => i.Value.ToList());
+
+            for (int invokeCount = 0; invokeCount < 4; invokeCount++)
             {
-                RevisionProbablity(mProbabilityArray[invokeCount]);
+                if (_Library[(ItemRating)invokeCount].Count == 0)
+                {
+                    RevisionProbablity(mProbabilityArray[invokeCount]);
+                }
             }
         }
     }
