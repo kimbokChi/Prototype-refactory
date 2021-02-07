@@ -493,21 +493,6 @@ public class Player : MonoBehaviour, ICombatable
         mIsInputLock = isLock;
     }
 
-    #region READ
-    /// <summary>
-    /// 플레이어 개체가 위/아래로 이동중이라면 false를, 그렇지 않다면 true를 반환합니다.
-    /// </summary>
-    /// <param name="playerPos">
-    /// 함수의 반환값과는 관계없이 일관되게 플레이어의 위치를 전달합니다.
-    /// </param>
-    /// <returns></returns>
-    #endregion
-    public bool TryGetPosition(out Vector2 playerPos)
-    {
-        playerPos = transform.position;
-            return !mIsMovingElevation;
-    }
-
     public bool IsLookAtLeft()
     {
         return transform.rotation.eulerAngles.Equals(LookAtLeft);
@@ -752,6 +737,21 @@ public class Player : MonoBehaviour, ICombatable
     public UnitizedPos GetUnitizedPos()
     {
         return mLocation9;
+    }
+    [Obsolete]
+    #region READ
+    /// <summary>
+    /// 플레이어 개체가 위/아래로 이동중이라면 false를, 그렇지 않다면 true를 반환합니다.
+    /// </summary>
+    /// <param name="playerPos">
+    /// 함수의 반환값과는 관계없이 일관되게 플레이어의 위치를 전달합니다.
+    /// </param>
+    /// <returns></returns>
+    #endregion
+    public bool TryGetPosition(out Vector2 playerPos)
+    {
+        playerPos = transform.position;
+        return !mIsMovingElevation;
     }
     #endregion
 
