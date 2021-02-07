@@ -505,6 +505,13 @@ public class Player : MonoBehaviour, ICombatable
         mInventory.OnDamaged(ref damage, attacker, gameObject);
 
         AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
+        if (damage > 0f)
+        {
+            PlayerAnimator.ChangeState(PlayerAnim.Damaged);
+
+            EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
+            MainCamera.Instance.UseDamagedFilter();
+        }
         if (AbilityTable.Table[Ability.CurHealth] <= 0f)
         {
             Debug.Log("저장");
@@ -514,13 +521,6 @@ public class Player : MonoBehaviour, ICombatable
             BackEndServerManager.Instance.SendDataToServerSchema("Player");
 #endif
             DeathAction();
-        }
-        if (damage > 0f)
-        {
-            PlayerAnimator.ChangeState(PlayerAnim.Damaged);
-
-            EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
-            MainCamera.Instance.UseDamagedFilter();
         }
     }
 
