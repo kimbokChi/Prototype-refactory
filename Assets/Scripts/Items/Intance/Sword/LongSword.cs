@@ -43,9 +43,6 @@ public class LongSword : Item
 
     public override void AttackAction(GameObject attacker, ICombatable combatable)
     {
-        CollisionArea.enabled = true;
-        CollisionArea.GetCollider.enabled = true;
-
         Animator.SetBool(_AnimPlayKey, true);
         Animator.SetBool(_AnimControlKey, !Animator.GetBool(_AnimControlKey));
 
