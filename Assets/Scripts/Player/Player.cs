@@ -296,7 +296,7 @@ public class Player : MonoBehaviour, ICombatable
     private void ResurrectAction()
     {
         RangeArea.enabled = true;
-        PlayerAnimator.ChangeState(PlayerAnim.Idle);
+        PlayerAnimator.ChangeState(PlayerAnim.Damaged);
 
         if (TryGetComponent(out Collider2D collider))
         {
