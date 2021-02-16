@@ -22,6 +22,28 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private SubscribableButton _LMoveButton;
     [SerializeField] private SubscribableButton _RMoveButton;
 
+    public SubscribableButton this[Direction dir]
+    {
+        get
+        {
+            switch (dir)
+            {
+                case Direction.Up:
+                    return _UMoveButton;
+                case Direction.Down:
+                    return _DMoveButton;
+                case Direction.Right:
+                    return _RMoveButton;
+                case Direction.Left:
+                    return _LMoveButton;
+
+                default:
+                    return _AttackButton;
+            }
+        }
+    }
+    public SubscribableButton AttackButton => _AttackButton;
+
     private Player _Player;
 
     private bool _IsAlreadyInit = false;
@@ -104,6 +126,11 @@ public class PlayerController : MonoBehaviour
             _UMoveButton, _DMoveButton,
             _LMoveButton, _RMoveButton, _AttackButton
         };
+    }
+    public void SetButtonScale(float defaultScale, float maxScale)
+    {
+        _DefaultScale = defaultScale;
+        _MaxScale = maxScale;
     }
 
     private IEnumerator WaitForStartCharging()

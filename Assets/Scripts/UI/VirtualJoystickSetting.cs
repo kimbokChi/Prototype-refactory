@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 public class VirtualJoystickSetting : MonoBehaviour
 {
+    [Header("____Controller Props_____")]
     [SerializeField] private PlayerController _Controller;
+
+    [SerializeField] float _ControllerDefScale;
+    [SerializeField] float _ControllerMaxScale;
+    [SerializeField] float _ControllerOffset;
 
     [Header("____Slider Props____")]
     [SerializeField] private Slider _ScaleSlider;
