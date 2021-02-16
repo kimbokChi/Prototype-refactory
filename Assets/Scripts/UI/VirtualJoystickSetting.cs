@@ -28,6 +28,15 @@ public class VirtualJoystickSetting : MonoBehaviour
         {
             _IsAlreadyInit = true;
 
+            float scale = GameLoger.Instance.ControllerDefScale / _ControllerDefScale * 50f;
+
+            _ScaleValueText.text = ((int)scale).ToString();
+            _ScaleSlider.value = scale;
+
+            float alpha = GameLoger.Instance.ControllerAlpha * 100f;
+            _AlphaSlider.value = alpha;
+            _AlphaValueText.text = ((int)alpha).ToString();
+
             _ScaleSlider.onValueChanged.AddListener(ScaleValueChanged);
             _AlphaSlider.onValueChanged.AddListener(AlphaValueChanged);
         }
