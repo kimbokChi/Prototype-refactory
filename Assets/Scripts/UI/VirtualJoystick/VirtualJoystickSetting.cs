@@ -20,6 +20,10 @@ public class VirtualJoystickSetting : MonoBehaviour
     [SerializeField] private Slider _AlphaSlider;
     [SerializeField] private TMPro.TextMeshProUGUI _AlphaValueText;
 
+    [Header("____Reposer Props____")]
+    [SerializeField] private VirtualJoystickReposer _Reposer;
+    [SerializeField] private Button _ReposerButton;
+
     private bool _IsAlreadyInit = false;
 
     private void Awake()
@@ -39,6 +43,8 @@ public class VirtualJoystickSetting : MonoBehaviour
 
             _ScaleSlider.onValueChanged.AddListener(ScaleValueChanged);
             _AlphaSlider.onValueChanged.AddListener(AlphaValueChanged);
+
+            _ReposerButton.onClick.AddListener(ReposerButtonClick);
         }
     }
     private void ScaleValueChanged(float value)
@@ -69,5 +75,9 @@ public class VirtualJoystickSetting : MonoBehaviour
         _Controller.SetButtonAlpha(alpha);
         
         GameLoger.Instance.ControllerAlpha = alpha;
+    }
+    private void ReposerButtonClick()
+    {
+        _Reposer.gameObject.SetActive(true);
     }
 }
