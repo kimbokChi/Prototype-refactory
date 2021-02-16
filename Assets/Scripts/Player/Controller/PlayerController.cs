@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 // 플레이어에게 이동을 지시할 수 있어야 한다.
 // 플레이어의 이동은 플레이어 내부적으로 처리한다.
@@ -50,7 +51,9 @@ public class PlayerController : MonoBehaviour
     private Coroutine _WaitCharge;
     private Coroutine _WaitScaling;
 
-    private void Awake()
+    private Image[] _AllButtonImages;
+
+    private void Start()
     {
         if (!_IsAlreadyInit)
         {
@@ -96,6 +99,25 @@ public class PlayerController : MonoBehaviour
                 }
             }
             _IsAlreadyInit = true;
+
+            SetButtonScale(GameLoger.Instance.ControllerDefScale, GameLoger.Instance.ControllerMaxScale);
+            SetButtonOffset(GameLoger.Instance.ControllerOffset);
+
+            // ====== _AllButtonImages Init ===== //
+            if (_AllButtonImages == null)
+            {
+                var buttons = GetAllButtons();
+                _AllButtonImages = new Image[buttons.Length];
+
+                for (int i = 0; i < _AllButtonImages.Length; i++)
+                {
+                    buttons[i].TryGetComponent(out _AllButtonImages[i]);
+                }
+            }
+            // ====== _AllButtonImages Init ===== //
+            SetButtonAlpha(GameLoger.Instance.ControllerAlpha);
+
+            transform.localPosition = GameLoger.Instance.ControllerPos;
         }
 
         void MoveOrderToPlayer(ButtonState state, Direction direction)
@@ -127,12 +149,38 @@ public class PlayerController : MonoBehaviour
             _LMoveButton, _RMoveButton, _AttackButton
         };
     }
+
     public void SetButtonScale(float defaultScale, float maxScale)
     {
         _DefaultScale = defaultScale;
         _MaxScale = maxScale;
 
+        Vector3 scale = Vector3.one * defaultScale;
+        _UMoveButton.transform.localScale = scale;
+        _DMoveButton.transform.localScale = scale;
+        _LMoveButton.transform.localScale = scale;
+        _RMoveButton.transform.localScale = scale;
+
+        _AttackButton.transform.localScale = scale;
+
         _WaitScaling.StopRoutine();
+    }
+    public void SetButtonOffset(float offset)
+    {
+        _UMoveButton.transform.localPosition = Vector3.up    * offset;
+        _DMoveButton.transform.localPosition = Vector3.down  * offset;
+        _LMoveButton.transform.localPosition = Vector3.left  * offset;
+        _RMoveButton.transform.localPosition = Vector3.right * offset;
+    }
+    public void SetButtonAlpha(float alpha)
+    {
+        var newColor = _AllButtonImages[0].color;
+            newColor.a = alpha;
+
+        for (int i = 0; i < _AllButtonImages.Length; ++i)
+        {
+            _AllButtonImages[i].color = newColor;
+        }
     }
 
     private IEnumerator WaitForStartCharging()
