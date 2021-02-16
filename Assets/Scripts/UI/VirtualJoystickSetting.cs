@@ -60,6 +60,10 @@ public class VirtualJoystickSetting : MonoBehaviour
 
         float offset = _ControllerOffset * value;
 
+        GameLoger.Instance.ControllerDefScale = defScale;
+        GameLoger.Instance.ControllerMaxScale = maxScale;
+        GameLoger.Instance.ControllerOffset   = offset;
+
         for (Direction d = Direction.Up; (int)d < 4; d++)
         {
             Vector3 position = Vector2.zero;
@@ -82,7 +86,6 @@ public class VirtualJoystickSetting : MonoBehaviour
             _Controller[d].transform.localScale = scale;
             _Controller[d].transform.localPosition = position;
         }
-
         _Controller.AttackButton.transform.localScale = scale;
     }
     private void AlphaValueChanged(float value)
@@ -96,5 +99,6 @@ public class VirtualJoystickSetting : MonoBehaviour
         {
             _ControllerBtns[i].color = color;
         }
+        GameLoger.Instance.ControllerAlpha = color.a;
     }
 }
