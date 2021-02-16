@@ -47,5 +47,13 @@ public class VirtualJoystickSetting : MonoBehaviour
     private void AlphaValueChanged(float value)
     {
         _AlphaValueText.text = ((int)value).ToString();
+
+        var color = _ControllerBtns[0].color;
+            color.a = value * 0.01f;
+        
+        for (int i = 0; i < _ControllerBtns.Length; ++i)
+        {
+            _ControllerBtns[i].color = color;
+        }
     }
 }
