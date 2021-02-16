@@ -96,6 +96,16 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    
+    public SubscribableButton[] GetAllButtons()
+    {
+        return new SubscribableButton[5]
+        {
+            _UMoveButton, _DMoveButton,
+            _LMoveButton, _RMoveButton, _AttackButton
+        };
+    }
+
     private IEnumerator WaitForStartCharging()
     {
         for (float i = 0f; i < Finger.PRESS_TIME; i += Time.deltaTime)
