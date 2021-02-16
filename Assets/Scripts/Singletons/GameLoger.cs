@@ -52,7 +52,7 @@ public class GameLoger : Singleton<GameLoger>
     private const float ControllerOFFSET = 90f;
     private const float ControllerDEFSCALE = 0.65f;
     private const float ControllerMAXSCALE = 0.7f;
-    private const float ControllerALPHA = 1f;
+    private const float ControllerALPHA = 0.5f;
     private readonly Vector2 ControllerPOS = new Vector2(0, -380f);
 
     public void EnemyDead()
