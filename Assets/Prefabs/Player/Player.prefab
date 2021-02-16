@@ -160,7 +160,7 @@ MonoBehaviour:
   RangeArea: {fileID: 5810549494338724702}
   AbilityTable: {fileID: 5810549494281094165}
   PlayerAnimator: {fileID: 6242916743501542565}
-  mDefense: 10
+  mDefense: 1
   mLocation9: 4
 --- !u!114 &6242916743501542565
 MonoBehaviour:
@@ -188,7 +188,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}

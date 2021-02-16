@@ -16,7 +16,7 @@ public class LoginUI : MonoBehaviour
     public GameObject nicknameObject;
 
   
-    private InputField nicknameField;
+    private TMPro.TMP_InputField nicknameField;
     private Text errorText;
     private GameObject loadingObject;
     // private FadeAnimation fadeObject;
@@ -45,7 +45,7 @@ public class LoginUI : MonoBehaviour
     void Start()
     {
        
-        nicknameField = nicknameObject.GetComponentInChildren<InputField>();
+        nicknameField = nicknameObject.GetComponentInChildren<TMPro.TMP_InputField>();
         errorText = errorObject.GetComponentInChildren<Text>();
 
         //loadingObject = GameObject.FindGameObjectWithTag("Loading");

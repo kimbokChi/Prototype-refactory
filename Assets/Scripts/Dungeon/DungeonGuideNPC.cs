@@ -5,7 +5,6 @@ public class DungeonGuideNPC : MonoBehaviour
     [SerializeField] private AttackButtonHider _Hider;
     [SerializeField] private bool IsWaitForEffectDisable;
 
-    [SerializeField] private GameObject InteractionButton;
     [SerializeField] private GameObject DungeonSelectWindow;
 
     private bool mHasPlayer;

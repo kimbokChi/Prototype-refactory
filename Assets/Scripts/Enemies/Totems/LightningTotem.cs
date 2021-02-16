@@ -66,13 +66,13 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     {
         MainCamera.Instance.Shake(0.1f, 0.3f);
 
-        if (mPlayer.TryGetPosition(out Vector2 playerPos)) 
-        {
-            mLighting.transform.position = mLightingOffset + playerPos;
-            mLighting.gameObject.SetActive(true);
+        Vector2 playerPos = new Vector2
+            (mPlayer.transform.position.x, Castle.Instance.GetMovePointY(mPlayer.GetUnitizedPosV()));
 
-            mLighting.SetAttackPower(AbilityTable.AttackPower);
-        }
+        mLighting.transform.position = mLightingOffset + playerPos;
+        mLighting.gameObject.SetActive(true);
+
+        mLighting.SetAttackPower(AbilityTable.AttackPower);
     }
 
     private void Pool_popMethod(Lightning lighting)

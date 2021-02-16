@@ -687,6 +687,7 @@ GameObject:
   - component: {fileID: 554784674}
   - component: {fileID: 8169306734231699325}
   - component: {fileID: 628275152133173627}
+  - component: {fileID: 216068789873659571}
   m_Layer: 5
   m_Name: DungeonSelectUI
   m_TagString: Untagged
@@ -772,6 +773,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!95 &216068789873659571
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5943110452058734120}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 855cfceabeee8ab44863f5b4ed61f6ab, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5943110452095202311
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,7 +993,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5943110452350580487}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 554784674}
+        m_MethodName: DungeonEnter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5943110452649000254
 GameObject:
   m_ObjectHideFlags: 0
@@ -1829,6 +1860,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d35f7aceb1ca204c815c77efd990357, type: 3}
+--- !u!224 &2379407133469791450 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8322495266806049668, guid: 6d35f7aceb1ca204c815c77efd990357,
+    type: 3}
+  m_PrefabInstance: {fileID: 5943110451065225054}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8990514519531049618 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3368290263159320012, guid: 6d35f7aceb1ca204c815c77efd990357,
@@ -1841,12 +1878,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fa03a91da67534296df36fe6c7b93f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &2379407133469791450 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8322495266806049668, guid: 6d35f7aceb1ca204c815c77efd990357,
-    type: 3}
-  m_PrefabInstance: {fileID: 5943110451065225054}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5943110452343264205
 PrefabInstance:
   m_ObjectHideFlags: 0

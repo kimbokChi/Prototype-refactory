@@ -296,7 +296,7 @@ public class Player : MonoBehaviour, ICombatable
     private void ResurrectAction()
     {
         RangeArea.enabled = true;
-        PlayerAnimator.ChangeState(PlayerAnim.Idle);
+        PlayerAnimator.ChangeState(PlayerAnim.Damaged);
 
         if (TryGetComponent(out Collider2D collider))
         {
@@ -493,21 +493,6 @@ public class Player : MonoBehaviour, ICombatable
         mIsInputLock = isLock;
     }
 
-    #region READ
-    /// <summary>
-    /// 플레이어 개체가 위/아래로 이동중이라면 false를, 그렇지 않다면 true를 반환합니다.
-    /// </summary>
-    /// <param name="playerPos">
-    /// 함수의 반환값과는 관계없이 일관되게 플레이어의 위치를 전달합니다.
-    /// </param>
-    /// <returns></returns>
-    #endregion
-    public bool TryGetPosition(out Vector2 playerPos)
-    {
-        playerPos = transform.position;
-            return !mIsMovingElevation;
-    }
-
     public bool IsLookAtLeft()
     {
         return transform.rotation.eulerAngles.Equals(LookAtLeft);
@@ -520,6 +505,13 @@ public class Player : MonoBehaviour, ICombatable
         mInventory.OnDamaged(ref damage, attacker, gameObject);
 
         AbilityTable.Table[Ability.CurHealth] -= damage / mDefense;
+        if (damage > 0f)
+        {
+            PlayerAnimator.ChangeState(PlayerAnim.Damaged);
+
+            EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
+            MainCamera.Instance.UseDamagedFilter();
+        }
         if (AbilityTable.Table[Ability.CurHealth] <= 0f)
         {
             Debug.Log("저장");
@@ -529,13 +521,6 @@ public class Player : MonoBehaviour, ICombatable
             BackEndServerManager.Instance.SendDataToServerSchema("Player");
 #endif
             DeathAction();
-        }
-        if (damage > 0f)
-        {
-            PlayerAnimator.ChangeState(PlayerAnim.Damaged);
-
-            EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
-            MainCamera.Instance.UseDamagedFilter();
         }
     }
 
@@ -752,6 +737,21 @@ public class Player : MonoBehaviour, ICombatable
     public UnitizedPos GetUnitizedPos()
     {
         return mLocation9;
+    }
+    [Obsolete]
+    #region READ
+    /// <summary>
+    /// 플레이어 개체가 위/아래로 이동중이라면 false를, 그렇지 않다면 true를 반환합니다.
+    /// </summary>
+    /// <param name="playerPos">
+    /// 함수의 반환값과는 관계없이 일관되게 플레이어의 위치를 전달합니다.
+    /// </param>
+    /// <returns></returns>
+    #endregion
+    public bool TryGetPosition(out Vector2 playerPos)
+    {
+        playerPos = transform.position;
+        return !mIsMovingElevation;
     }
     #endregion
 
