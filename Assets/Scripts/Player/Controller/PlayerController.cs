@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 // 플레이어에게 이동을 지시할 수 있어야 한다.
 // 플레이어의 이동은 플레이어 내부적으로 처리한다.
@@ -22,6 +24,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private SubscribableButton _DMoveButton;
     [SerializeField] private SubscribableButton _LMoveButton;
     [SerializeField] private SubscribableButton _RMoveButton;
+
+    [Header("___Interaction Prop___")]
+    [SerializeField] private SubscribableButton _Button;
+    [SerializeField] private Image  _ButtonImage;
 
     public SubscribableButton this[Direction dir]
     {
@@ -148,6 +154,15 @@ public class PlayerController : MonoBehaviour
             _UMoveButton, _DMoveButton,
             _LMoveButton, _RMoveButton, _AttackButton
         };
+    }
+
+    public void SetActiveInteraction(bool enable)
+    {
+        _ButtonImage.enabled = _Button.enabled = enable;
+    }
+    public void AddInteractionAction(Action<ButtonState> action)
+    {
+        _Button.ButtonAction += action;
     }
 
     public void SetButtonScale(float defaultScale, float maxScale)
