@@ -48,6 +48,42 @@ public class VirtualJoystickSetting : MonoBehaviour
     private void ScaleValueChanged(float value)
     {
         _ScaleValueText.text = ((int)value).ToString();
+        value *= 0.02f;
+
+        float defScale = value * _ControllerDefScale;
+        float maxScale = value * _ControllerMaxScale;
+
+        Vector3 scale = Vector3.one;
+                scale.x = scale.y = defScale;
+
+        _Controller.SetButtonScale(defScale, maxScale);
+
+        float offset = _ControllerOffset * value;
+
+        for (Direction d = Direction.Up; (int)d < 4; d++)
+        {
+            Vector3 position = Vector2.zero;
+
+            switch (d)
+            {
+                case Direction.Up:
+                    position = Vector2.up * offset;
+                    break;
+                case Direction.Down:
+                    position = Vector2.down * offset;
+                    break;
+                case Direction.Right:
+                    position = Vector2.right * offset;
+                    break;
+                case Direction.Left:
+                    position = Vector2.left * offset;
+                    break;
+            }
+            _Controller[d].transform.localScale = scale;
+            _Controller[d].transform.localPosition = position;
+        }
+
+        _Controller.AttackButton.transform.localScale = scale;
     }
     private void AlphaValueChanged(float value)
     {

@@ -131,6 +131,8 @@ public class PlayerController : MonoBehaviour
     {
         _DefaultScale = defaultScale;
         _MaxScale = maxScale;
+
+        _WaitScaling.StopRoutine();
     }
 
     private IEnumerator WaitForStartCharging()
