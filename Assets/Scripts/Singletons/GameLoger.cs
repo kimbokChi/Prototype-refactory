@@ -43,6 +43,17 @@ public class GameLoger : Singleton<GameLoger>
         private set;
     }
 
+    [HideInInspector] public float ControllerOffset;
+    [HideInInspector] public float ControllerDefScale;
+    [HideInInspector] public float ControllerMaxScale;
+    [HideInInspector] public float ControllerAlpha;
+    [HideInInspector] public Vector2 ControllerPos;
+
+    private const float ControllerOFFSET = 90f;
+    private const float ControllerDEFSCALE = 0.65f;
+    private const float ControllerMAXSCALE = 0.7f;
+    private const float ControllerALPHA = 0.5f;
+    private readonly Vector2 ControllerPOS = new Vector2(0, -380f);
 
     public void EnemyDead()
     {
@@ -79,6 +90,11 @@ public class GameLoger : Singleton<GameLoger>
 
                 StartTime = Time.time;
             };
+            ControllerOffset = ControllerOFFSET;
+            ControllerDefScale = ControllerDEFSCALE;
+            ControllerMaxScale = ControllerMAXSCALE;
+            ControllerAlpha = ControllerALPHA;
+            ControllerPos = ControllerPOS;
         }
     }
 }

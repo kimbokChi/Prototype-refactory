@@ -330,14 +330,13 @@ public class Player : MonoBehaviour, ICombatable
     {
         if (!mIsInputLock && AbilityTable[Ability.CurHealth] > 0f && _MoveRoutine.IsFinished())
         {
-            AttackCancel();
-
             Vector2 movePoint = Vector2.zero;
 
             UnitizedPos moveDir9 = UnitizedPos.END;
             switch (direction)
             {
                 case Direction.Up:
+                    AttackCancel();
                     switch (GetUnitizedPosV())
                     {
                         case UnitizedPosV.TOP:
@@ -365,6 +364,7 @@ public class Player : MonoBehaviour, ICombatable
                     }
                     break;
                 case Direction.Down:
+                    AttackCancel();
                     switch (GetUnitizedPosV())
                     {
                         case UnitizedPosV.TOP:

@@ -111,7 +111,7 @@ public class Castle : Singleton<Castle>
 
         if (CanPrevPoint())
         {
-            mPlayerFloor = mFloors[mPlayerFloor.FloorIndex];
+            mPlayerFloor = mFloors[mPlayerFloor.FloorIndex - 2];
 
             float playerX = mPlayer.transform.position.x;
 
