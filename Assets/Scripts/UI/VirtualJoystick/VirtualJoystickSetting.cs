@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class VirtualJoystickSetting : MonoBehaviour
 {
     [Header("____Controller Props_____")]
-    [SerializeField] private PlayerController _Controller;
+    [SerializeField] private VirtualJoystick _Controller;
 
     [SerializeField] float _ControllerDefScale;
     [SerializeField] float _ControllerMaxScale;

@@ -10,7 +10,7 @@ using UnityEngine.EventSystems;
 // 또한 위/아래로 이동할 때에는 y값만 MovePoint로 부터 불러오도록..
 // 일단 공격 버튼부터 만들자. 이동은 좀 걸릴것 같으니까.
 
-public class PlayerController : MonoBehaviour
+public class VirtualJoystick : MonoBehaviour
 {
     [SerializeField] private SubscribableButton _AttackButton;
 

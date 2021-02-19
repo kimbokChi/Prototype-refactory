@@ -10,7 +10,7 @@ public class VirtualJoystickReposer : MonoBehaviour
         = new Vector3(Screen.width / 2f, Screen.height / 2f);
 
     [SerializeField] private GameObject _SettingWindow;
-    [SerializeField] private PlayerController _Controller;
+    [SerializeField] private VirtualJoystick _Controller;
 
     private bool _IsButtonStateDown = false;
     private bool _IsAlreadyInit = false;
