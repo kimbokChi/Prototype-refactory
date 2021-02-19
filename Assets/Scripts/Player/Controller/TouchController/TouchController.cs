@@ -105,6 +105,10 @@ public class TouchController : MonoBehaviour
         {
             _CurrentPhase = Input.GetTouch(0).phase;
         }
+        else
+        {
+            _CurrentPhase = TouchPhase.Ended;
+        }
 #endif
         if (!EventSystem.current.IsPointerInUIObject())
         {
@@ -184,13 +188,13 @@ public class TouchController : MonoBehaviour
                                     _Player.AttackOrder();
                                 }
                             }
-                            _StationaryTime = 0f;
                             if (_IsAlreadyCharging)
                             {
                                 Finger.Instance.EndCharging();
                                 _IsAlreadyCharging = false;
                             }
                         }
+                        _StationaryTime = 0f;
                     }
                     break;
                 case TouchPhase.Canceled:
@@ -214,12 +218,17 @@ public class TouchController : MonoBehaviour
     private IEnumerator Move(Direction direction)
     {
         _Player.MoveOrder(direction);
-
-        while (_CurrentPhase == TouchPhase.Moved 
-            || _CurrentPhase == TouchPhase.Stationary) {
-
+#if UNITY_EDITOR
+        while (!Input.GetMouseButtonUp(0))
+        {
+            yield return null;
+        }
+#else
+        while (Input.touchCount > 0) 
+        {
             yield return null; 
         }
+#endif
         _Player.MoveStop();
         _MoveRoutine.Finish();
 
@@ -227,6 +236,6 @@ public class TouchController : MonoBehaviour
     }
     private void OnDisable()
     {
-        _MoveRoutine.StopRoutine();
+        _MoveRoutine?.StopRoutine();
     }
 }
