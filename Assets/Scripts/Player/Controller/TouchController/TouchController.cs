@@ -15,7 +15,9 @@ public class TouchController : MonoBehaviour
 
     private Player _Player;
     private float _StationaryTime;
+
     private bool _IsAlreadyCharging;
+    private bool _IsAlreadyInit = false;
 
     public bool IsMobilePlatform()
     {
@@ -84,11 +86,15 @@ public class TouchController : MonoBehaviour
     {
         _StationaryTime = 0f;
         _IsAlreadyCharging = false;
-
-        _MoveRoutine = new Coroutine(this);
+        
         _CurrentPhase = TouchPhase.Ended;
 
-        _Player = FindObjectOfType<Player>();
+        if (!_IsAlreadyInit)
+        {
+            _MoveRoutine = new Coroutine(this);
+
+            _Player = FindObjectOfType<Player>();
+        }
     }
     private void Update()
     {
@@ -100,86 +106,89 @@ public class TouchController : MonoBehaviour
             _CurrentPhase = Input.GetTouch(0).phase;
         }
 #endif
-        switch (_CurrentPhase)
+        if (!EventSystem.current.IsPointerInUIObject())
         {
-            case TouchPhase.Began:
-                {
-                    _BeganInputPoint = InputPosition();
-                }
-                break;
-            case TouchPhase.Moved:
-                {
-                    Vector2 inputPosition = InputPosition();
-                    if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
+            switch (_CurrentPhase)
+            {
+                case TouchPhase.Began:
                     {
-                        Vector2 direction = (inputPosition - _BeganInputPoint).normalized;
-                        _BeganInputPoint = inputPosition;
-                        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+                        _BeganInputPoint = InputPosition();
+                    }
+                    break;
+                case TouchPhase.Moved:
+                    {
+                        Vector2 inputPosition = InputPosition();
+                        if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
                         {
-                            if (direction.x > 0)
+                            Vector2 direction = (inputPosition - _BeganInputPoint).normalized;
+                            _BeganInputPoint = inputPosition;
+                            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
                             {
-                                _MoveRoutine.StartRoutine(Move(Direction.Right));
+                                if (direction.x > 0)
+                                {
+                                    _MoveRoutine.StartRoutine(Move(Direction.Right));
+                                }
+                                else
+                                {
+                                    _MoveRoutine.StartRoutine(Move(Direction.Left));
+                                }
                             }
                             else
                             {
-                                _MoveRoutine.StartRoutine(Move(Direction.Left));
-                            }
-                        }
-                        else
-                        {
-                            if (direction.y > 0)
-                            {
-                                _Player.MoveOrder(Direction.Up);
-                            }
-                            else
-                            {
-                                _Player.MoveOrder(Direction.Down);
+                                if (direction.y > 0)
+                                {
+                                    _Player.MoveOrder(Direction.Up);
+                                }
+                                else
+                                {
+                                    _Player.MoveOrder(Direction.Down);
+                                }
                             }
                         }
                     }
-                }
-                break;
-            case TouchPhase.Stationary:
-                {
-                    if (_MoveRoutine.IsFinished())
+                    break;
+                case TouchPhase.Stationary:
                     {
-                        _StationaryTime += Time.deltaTime * Time.timeScale;
+                        if (_MoveRoutine.IsFinished())
+                        {
+                            _StationaryTime += Time.deltaTime * Time.timeScale;
 
-                        if (!_IsAlreadyCharging)
-                        {
-                            if (_StationaryTime > NeedChargingTime)
+                            if (!_IsAlreadyCharging)
                             {
-                                _IsAlreadyCharging = true;
-                                Finger.Instance.StartCharging();
+                                if (_StationaryTime > NeedChargingTime)
+                                {
+                                    _IsAlreadyCharging = true;
+                                    Finger.Instance.StartCharging();
+                                }
                             }
                         }
                     }
-                }
-                break;
-            case TouchPhase.Ended:
-                {
-                    if (_MoveRoutine.IsFinished())
+                    break;
+                case TouchPhase.Ended:
                     {
-                        if (_StationaryTime > 0f)
+                        if (_MoveRoutine.IsFinished())
                         {
-                            if (_StationaryTime <= NeedChargingTime)
+                            if (_StationaryTime > 0f)
                             {
-                                _Player.AttackOrder();
+                                if (_StationaryTime <= NeedChargingTime)
+                                {
+                                    _Player.AttackOrder();
+                                }
+                            }
+                            _StationaryTime = 0f;
+                            if (_IsAlreadyCharging)
+                            {
+                                Finger.Instance.EndCharging();
+                                _IsAlreadyCharging = false;
                             }
                         }
-                        _StationaryTime = 0f;
-                        if (_IsAlreadyCharging)
-                        {
-                            Finger.Instance.EndCharging();
-                            _IsAlreadyCharging = false;
-                        }
                     }
-                }
-                break;
-            case TouchPhase.Canceled:
-                break;
-            default:
-                break;
+                    break;
+                case TouchPhase.Canceled:
+                    break;
+                default:
+                    break;
+            }
         }
     }
     private void CurrentPhaseCheck()
@@ -206,5 +215,9 @@ public class TouchController : MonoBehaviour
         _MoveRoutine.Finish();
 
         _StationaryTime = 0f;
+    }
+    private void OnDisable()
+    {
+        _MoveRoutine.StopRoutine();
     }
 }
