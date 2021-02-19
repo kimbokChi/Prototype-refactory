@@ -1,17 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class TouchController : MonoBehaviour
 {
-    private const float NeedMovingLength = 30;
+    private const float NeedMovingLength = 0.5f;
+    private const float NeedChargingTime = 1f;
 
     private Coroutine _MoveRoutine;
     private TouchPhase _CurrentPhase;
     private Vector2 _BeganInputPoint;
 
     private Player _Player;
+    private float _StationaryTime;
+    private bool _IsAlreadyCharging;
 
     public bool IsMobilePlatform()
     {
@@ -46,6 +50,11 @@ public class TouchController : MonoBehaviour
                         return Input.GetMouseButtonDown(0);
                     }
                 case TouchPhase.Moved:
+                    {
+                        return Input.GetMouseButton(0) && 
+                            Mathf.Abs(Input.GetAxis("Mouse X")) + 
+                            Mathf.Abs(Input.GetAxis("Mouse Y")) > 0f;
+                    }
                 case TouchPhase.Stationary:
                     {
                         return Input.GetMouseButton(0);
@@ -63,16 +72,19 @@ public class TouchController : MonoBehaviour
     {
         if (IsMobilePlatform())
         {
-            return Input.GetTouch(0).position;
+            return Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
         }
         else
         {
-            return Input.mousePosition;
+            return Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
     }
 
     private void Start()
     {
+        _StationaryTime = 0f;
+        _IsAlreadyCharging = false;
+
         _MoveRoutine = new Coroutine(this);
         _CurrentPhase = TouchPhase.Ended;
 
@@ -80,8 +92,14 @@ public class TouchController : MonoBehaviour
     }
     private void Update()
     {
+#if UNITY_EDITOR
         CurrentPhaseCheck();
-
+#else
+        if (Input.touchCount > 0)
+        {
+            _CurrentPhase = Input.GetTouch(0).phase;
+        }
+#endif
         switch (_CurrentPhase)
         {
             case TouchPhase.Began:
@@ -92,12 +110,10 @@ public class TouchController : MonoBehaviour
             case TouchPhase.Moved:
                 {
                     Vector2 inputPosition = InputPosition();
-
                     if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
                     {
                         Vector2 direction = (inputPosition - _BeganInputPoint).normalized;
                         _BeganInputPoint = inputPosition;
-
                         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
                         {
                             if (direction.x > 0)
@@ -124,8 +140,41 @@ public class TouchController : MonoBehaviour
                 }
                 break;
             case TouchPhase.Stationary:
+                {
+                    if (_MoveRoutine.IsFinished())
+                    {
+                        _StationaryTime += Time.deltaTime * Time.timeScale;
+
+                        if (!_IsAlreadyCharging)
+                        {
+                            if (_StationaryTime > NeedChargingTime)
+                            {
+                                _IsAlreadyCharging = true;
+                                Finger.Instance.StartCharging();
+                            }
+                        }
+                    }
+                }
                 break;
             case TouchPhase.Ended:
+                {
+                    if (_MoveRoutine.IsFinished())
+                    {
+                        if (_StationaryTime > 0f)
+                        {
+                            if (_StationaryTime <= NeedChargingTime)
+                            {
+                                _Player.AttackOrder();
+                            }
+                        }
+                        _StationaryTime = 0f;
+                        if (_IsAlreadyCharging)
+                        {
+                            Finger.Instance.EndCharging();
+                            _IsAlreadyCharging = false;
+                        }
+                    }
+                }
                 break;
             case TouchPhase.Canceled:
                 break;
@@ -148,10 +197,14 @@ public class TouchController : MonoBehaviour
     {
         _Player.MoveOrder(direction);
 
-        while (_CurrentPhase == TouchPhase.Moved) { yield return null; }
+        while (_CurrentPhase == TouchPhase.Moved 
+            || _CurrentPhase == TouchPhase.Stationary) {
 
+            yield return null; 
+        }
         _Player.MoveStop();
-
         _MoveRoutine.Finish();
+
+        _StationaryTime = 0f;
     }
 }
