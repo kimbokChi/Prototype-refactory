@@ -46,7 +46,7 @@ public class PlayerControllerSetting : MonoBehaviour
 
     private bool _IsAlreadyInit = false;
 
-    private void Awake()
+    private void Start()
     {
         if (!_IsAlreadyInit)
         {

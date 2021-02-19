@@ -4248,6 +4248,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2422493087177400051, guid: 596ca2a92ccf6fe47bc909af532aec22,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayerControllerSetting
+      objectReference: {fileID: 0}
     - target: {fileID: 2438441973669378053, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
       propertyPath: m_IsActive
