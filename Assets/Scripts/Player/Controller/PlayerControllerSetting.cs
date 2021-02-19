@@ -32,9 +32,6 @@ public class PlayerControllerSetting : MonoBehaviour
     [SerializeField] private Button _ReposerButton;
 
     [Header("____Method Props____")]
-    private readonly Color  DefaultTextColor = new Color(0.5f, 0.5f, 0.5f);
-    private readonly Color SelectedTextColor = new Color(0.2f, 0.2f, 0.2f);
-
     [SerializeField] private Sprite _SelectedImage;
     [SerializeField] private Sprite  _DefaultImage; 
     [Space()]
@@ -87,9 +84,6 @@ public class PlayerControllerSetting : MonoBehaviour
         _JoystickSelection.Image.sprite = _SelectedImage;
         _TouchConSelection.Image.sprite = _DefaultImage;
 
-        _JoystickSelection.TextUI.color = SelectedTextColor;
-        _TouchConSelection.TextUI.color =  DefaultTextColor;
-
         _VirtualJoystick.gameObject.SetActive(true);
         _TouchController.enabled = false;
     }
@@ -99,9 +93,6 @@ public class PlayerControllerSetting : MonoBehaviour
 
         _JoystickSelection.Image.sprite = _DefaultImage;
         _TouchConSelection.Image.sprite = _SelectedImage;
-
-        _JoystickSelection.TextUI.color =  DefaultTextColor;
-        _TouchConSelection.TextUI.color = SelectedTextColor;
 
         _VirtualJoystick.gameObject.SetActive(false);
         _TouchController.enabled = true;
