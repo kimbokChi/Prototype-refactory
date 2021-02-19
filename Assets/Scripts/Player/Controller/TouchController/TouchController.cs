@@ -118,30 +118,39 @@ public class TouchController : MonoBehaviour
                 case TouchPhase.Moved:
                     {
                         Vector2 inputPosition = InputPosition();
-                        if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
                         {
                             Vector2 direction = (inputPosition - _BeganInputPoint).normalized;
-                            _BeganInputPoint = inputPosition;
+                            
                             if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
                             {
-                                if (direction.x > 0)
+                                if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
                                 {
-                                    _MoveRoutine.StartRoutine(Move(Direction.Right));
-                                }
-                                else
-                                {
-                                    _MoveRoutine.StartRoutine(Move(Direction.Left));
+                                    _BeganInputPoint = inputPosition;
+
+                                    if (direction.x > 0)
+                                    {
+                                        _MoveRoutine.StartRoutine(Move(Direction.Right));
+                                    }
+                                    else
+                                    {
+                                        _MoveRoutine.StartRoutine(Move(Direction.Left));
+                                    }
                                 }
                             }
                             else
                             {
-                                if (direction.y > 0)
+                                if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 2f)
                                 {
-                                    _Player.MoveOrder(Direction.Up);
-                                }
-                                else
-                                {
-                                    _Player.MoveOrder(Direction.Down);
+                                    _BeganInputPoint = inputPosition;
+
+                                    if (direction.y > 0)
+                                    {
+                                        _Player.MoveOrder(Direction.Up);
+                                    }
+                                    else
+                                    {
+                                        _Player.MoveOrder(Direction.Down);
+                                    }
                                 }
                             }
                         }
