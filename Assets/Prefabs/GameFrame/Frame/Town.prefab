@@ -5385,6 +5385,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3926476649503410284}
     m_Modifications:
+    - target: {fileID: 700675137087303600, guid: 44f4ab34148fca0438579b95691591b7,
+        type: 3}
+      propertyPath: _BlockingLayer
+      value: 
+      objectReference: {fileID: 1595125902404075352}
     - target: {fileID: 880198653003122910, guid: 44f4ab34148fca0438579b95691591b7,
         type: 3}
       propertyPath: m_textInfo.lineCount
