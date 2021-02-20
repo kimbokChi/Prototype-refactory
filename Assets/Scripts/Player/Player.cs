@@ -306,8 +306,6 @@ public class Player : MonoBehaviour, ICombatable
     private void DeathAction()
     {
         RangeArea.enabled = false;
-        PlayerAnimator.ChangeState(PlayerAnim.Death);
-
         if (TryGetComponent(out Collider2D collider)) {
 
             collider.enabled = false;
@@ -516,7 +514,7 @@ public class Player : MonoBehaviour, ICombatable
 #else
             BackEndServerManager.Instance.SendDataToServerSchema("Player");
 #endif
-            DeathAction();
+            PlayerAnimator.ChangeState(PlayerAnim.Death);
         }
     }
 
