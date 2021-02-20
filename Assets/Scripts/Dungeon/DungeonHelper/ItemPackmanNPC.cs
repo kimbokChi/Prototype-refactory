@@ -26,7 +26,7 @@ public class ItemPackmanNPC : MonoBehaviour
         {
             SystemMessage.Instance.ShowMessage("NPC와의 거리가\n너무 멉니다!");
         }
-        else if (!mIsGivingItem)
+        else
         {
             Ads.Instance.ShowRewardAd();
             Ads.Instance.UserEarnedRewardEvent(() => 
@@ -39,10 +39,6 @@ public class ItemPackmanNPC : MonoBehaviour
                 mIsGivingItem = true;
                 EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position);
             });
-        }
-        else
-        {
-            SystemMessage.Instance.ShowMessage("이미 한번 아이템이\n지급되었습니다!");
         }
     }
 
