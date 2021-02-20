@@ -2019,7 +2019,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 855cfceabeee8ab44863f5b4ed61f6ab, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -2052,6 +2052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 102abbd64cfc103418e99f6dc5cb00a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _IsEnablePause: 1
   _IntractableLayer: 1
   _BlockingLayer: {fileID: 0}
 --- !u!1 &7892265797797130853
