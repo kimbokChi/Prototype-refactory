@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class LongRangeModule : AttackModule
 {
+    public event Action<ICombatable> HitEvent;
+
     public event Action<GameObject> TargetHitEvent;
     public event Action<Projection>  LifeOverEvent;
 
@@ -39,6 +41,7 @@ public class LongRangeModule : AttackModule
         {
             if (hit.TryGetComponent(out ICombatable combatable))
             {
+                HitEvent?.Invoke(combatable);
                 combatable.Damaged(_AbilityTable.AttackPower, _User);
             }
         };
