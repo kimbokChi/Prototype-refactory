@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class VirtualJoystickSetting : MonoBehaviour
+public class PlayerControllerSetting : MonoBehaviour
 {
+    [System.Serializable] public struct Selection
+    {
+        public Image Image;
+        public TMPro.TextMeshProUGUI TextUI;
+        public SubscribableButton Button;
+    }
+
     [Header("____Controller Props_____")]
-    [SerializeField] private PlayerController _Controller;
+    [SerializeField] private VirtualJoystick _Controller;
 
     [SerializeField] float _ControllerDefScale;
     [SerializeField] float _ControllerMaxScale;
@@ -24,9 +31,19 @@ public class VirtualJoystickSetting : MonoBehaviour
     [SerializeField] private VirtualJoystickReposer _Reposer;
     [SerializeField] private Button _ReposerButton;
 
+    [Header("____Method Props____")]
+    [SerializeField] private Sprite _SelectedImage;
+    [SerializeField] private Sprite  _DefaultImage; 
+    [Space()]
+    [SerializeField] private VirtualJoystick _VirtualJoystick;
+    [SerializeField] private TouchController _TouchController;
+    [Space()]
+    [SerializeField] private Selection _JoystickSelection;
+    [SerializeField] private Selection _TouchConSelection;
+
     private bool _IsAlreadyInit = false;
 
-    private void Awake()
+    private void Start()
     {
         if (!_IsAlreadyInit)
         {
@@ -45,7 +62,40 @@ public class VirtualJoystickSetting : MonoBehaviour
             _AlphaSlider.onValueChanged.AddListener(AlphaValueChanged);
 
             _ReposerButton.onClick.AddListener(ReposerButtonClick);
+
+            // ====== Selection Init ====== //
+            if (GameLoger.Instance.UsingVJoystick) 
+            {
+                JoystickEnable();
+            }
+            else
+            {
+                TouchEnable();
+            }
+            _JoystickSelection.Button.ButtonAction += state => { JoystickEnable(); };
+            _TouchConSelection.Button.ButtonAction += state => {    TouchEnable(); };
+            // ====== Selection Init ====== //
         }
+    }
+    public void JoystickEnable()
+    {
+        GameLoger.Instance.UsingVJoystick = true;
+
+        _JoystickSelection.Image.sprite = _SelectedImage;
+        _TouchConSelection.Image.sprite = _DefaultImage;
+
+        _VirtualJoystick.gameObject.SetActive(true);
+        _TouchController.enabled = false;
+    }
+    public void TouchEnable()
+    {
+        GameLoger.Instance.UsingVJoystick = false;
+
+        _JoystickSelection.Image.sprite = _DefaultImage;
+        _TouchConSelection.Image.sprite = _SelectedImage;
+
+        _VirtualJoystick.gameObject.SetActive(false);
+        _TouchController.enabled = true;
     }
     private void ScaleValueChanged(float value)
     {

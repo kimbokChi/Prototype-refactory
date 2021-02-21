@@ -34,7 +34,7 @@ public class ResurrectionWindow : MonoBehaviour
                 {
                     if (!_IsAlreadyEarn)
                     {
-                        _ResurrectionWindow.SetActive(true);
+                        SetActiveResurrectionWindow(true);
                     }
                     else
                     {
@@ -52,7 +52,7 @@ public class ResurrectionWindow : MonoBehaviour
             Ads.Instance.UserEarnedRewardEvent(() =>
             {
                 _IsAlreadyEarn = true;
-                _ResurrectionWindow.SetActive(false);
+                SetActiveResurrectionWindow(false);
 
                 _Resurrectable.Resurrect();
             });
@@ -60,8 +60,15 @@ public class ResurrectionWindow : MonoBehaviour
     }
     public void Close()
     {
-        _ResurrectionWindow.SetActive(false);
+        SetActiveResurrectionWindow(false);
 
         _ResultWindow.SetActive(true);
+    }
+    public void SetActiveResurrectionWindow(bool active)
+    {
+        _ResurrectionWindow.SetActive(active);
+
+        Time.timeScale = active ? 0f : 1f;
+        MainCamera.Instance.Shake(0f, 0f);
     }
 }

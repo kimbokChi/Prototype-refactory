@@ -73,14 +73,17 @@ public class Finger : Singleton<Finger>
     }
     public void EndCharging()
     {
-        _ChargeEnable = false;
+        if (_ChargeEnable)
+        {
+            _ChargeEnable = false;
 
-        Inventory.Instance.OnCharge(mChargeGauge.Charge);
+            Inventory.Instance.OnCharge(mChargeGauge.Charge);
 
-        mChargeGauge.gameObject.SetActive(false);
-        mCurPressTime = 0;
+            mChargeGauge.gameObject.SetActive(false);
+            mCurPressTime = 0;
 
-        StartCoroutine(EDisBulletTime(1.75f));
+            StartCoroutine(EDisBulletTime(1.75f));
+        }
     }
 
     private void Update()

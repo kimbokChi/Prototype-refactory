@@ -233,7 +233,6 @@ public class Player : MonoBehaviour, ICombatable
                             }
                             break;
                     }
-                    SetLookAtLeft(interactionPoint.x < 0);
                 }
 
             }
@@ -259,15 +258,12 @@ public class Player : MonoBehaviour, ICombatable
 
     public void SetLookAtLeft(bool lookLeft)
     {
-        if (!mAttackPeriod.IsProgressing())
+        if (lookLeft)
         {
-            if (lookLeft)
-            {
-                transform.localRotation = Quaternion.Euler(LookAtLeft);
-            }
-            else
-                transform.localRotation = Quaternion.Euler(Vector3.zero);
+            transform.localRotation = Quaternion.Euler(LookAtLeft);
         }
+        else
+            transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 
     public void AttackCancel()
@@ -310,8 +306,6 @@ public class Player : MonoBehaviour, ICombatable
     private void DeathAction()
     {
         RangeArea.enabled = false;
-        PlayerAnimator.ChangeState(PlayerAnim.Death);
-
         if (TryGetComponent(out Collider2D collider)) {
 
             collider.enabled = false;
@@ -520,7 +514,7 @@ public class Player : MonoBehaviour, ICombatable
 #else
             BackEndServerManager.Instance.SendDataToServerSchema("Player");
 #endif
-            DeathAction();
+            PlayerAnimator.ChangeState(PlayerAnim.Death);
         }
     }
 
@@ -628,9 +622,6 @@ public class Player : MonoBehaviour, ICombatable
             }
             else
             {
-                bool lookAtLeft = mLocation9 - moveDIR9 > 0;
-                SetLookAtLeft(lookAtLeft);
-
                 Vector2 movePoint = Castle.Instance.GetMovePoint(moveDIR9);
 
                 StartCoroutine(mEMove = EMove(movePoint, moveDIR9));

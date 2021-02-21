@@ -19,11 +19,13 @@ public class DungeonFaildUI : MonoBehaviour
 
     public void ReTry()
     {
+        gameObject.SetActive(false);
         MainCamera.Instance.Fade(2.25f, FadeType.In, () => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex));
     }
 
     public void BackToTown()
     {
+        gameObject.SetActive(false);
         MainCamera.Instance.Fade(2.25f, FadeType.In, () =>
         {
             Inventory.Instance.Clear();

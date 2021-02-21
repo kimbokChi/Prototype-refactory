@@ -26,33 +26,38 @@ public class ItemPackmanNPC : MonoBehaviour
         {
             SystemMessage.Instance.ShowMessage("NPC와의 거리가\n너무 멉니다!");
         }
-        else if (!mIsGivingItem)
+        else
         {
             Ads.Instance.ShowRewardAd();
             Ads.Instance.UserEarnedRewardEvent(() => 
             {
-                DropItem.Init(ItemLibrary.Instance.GetRandomItem());
-                DropItem.gameObject.SetActive(true);
+                var drop = Instantiate(DropItemHolder.gameObject, transform);
 
-                StartCoroutine(ItemDrop());
+                if (drop.transform.GetChild(0).TryGetComponent(out DropItem dropItem))
+                {
+                    dropItem.Init(ItemLibrary.Instance.GetRandomItem());
+                    dropItem.gameObject.SetActive(true);
 
-                mIsGivingItem = true;
+                    StartCoroutine(ItemDrop(drop.transform));
+                }
                 EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position);
             });
         }
-        else
-        {
-            SystemMessage.Instance.ShowMessage("이미 한번 아이템이\n지급되었습니다!");
-        }
     }
 
-    private IEnumerator ItemDrop()
+    private IEnumerator ItemDrop(Transform holder)
     {
+        Vector2 offset = Vector2.right * Random.value;
+
+        Vector2 pointB = PointB + offset;
+        Vector2 pointC = PointC + offset;
+        Vector2 pointD = PointD + offset;
+
         for (float ratio = 0f; ratio < 1; ratio += Time.deltaTime * CurveSpeed)
         {
             ratio = ratio > 1 ? 1 : ratio;
 
-            DropItemHolder.localPosition = Utility.BezierCurve3(PointA, PointB, PointC, PointD, ratio);
+            holder.localPosition = Utility.BezierCurve3(PointA, pointB, pointC, pointD, ratio);
             yield return null;
         }
         yield return null;
