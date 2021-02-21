@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 3764260241588451071}
   - component: {fileID: 153932327292754914}
   - component: {fileID: 7929359552994979952}
+  - component: {fileID: 1130786962174129906}
   m_Layer: 0
   m_Name: Boss-GoblinCheif
   m_TagString: Enemy
@@ -336,6 +337,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _CoinValue: 4
   _GroundOffsetY: -1.5
+--- !u!114 &1130786962174129906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348873940667493073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9080871fdec5914fa03376cd6a9d1ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsPlayOnEnable: 0
+  Name: 27
 --- !u!1 &6703213330863355055
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,12 +609,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 968101930594537488674a602fbbcdad, type: 3}
---- !u!4 &3348873941434647165 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4758725759963155992, guid: 968101930594537488674a602fbbcdad,
-    type: 3}
-  m_PrefabInstance: {fileID: 7814858913531858021}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6323124978121557440 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4301980446789028261, guid: 968101930594537488674a602fbbcdad,
@@ -624,6 +633,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a57423d17c6ca04b8a629da4936db74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &3348873941434647165 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4758725759963155992, guid: 968101930594537488674a602fbbcdad,
+    type: 3}
+  m_PrefabInstance: {fileID: 7814858913531858021}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7864646775540251058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -789,6 +804,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fca10bb003edcee45984e9fe39b25b6c, type: 3}
+--- !u!4 &5744302149157510345 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4415065367250870137, guid: fca10bb003edcee45984e9fe39b25b6c,
+    type: 3}
+  m_PrefabInstance: {fileID: 8282870481461560240}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8282870482350299623 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 890968663, guid: fca10bb003edcee45984e9fe39b25b6c,
@@ -801,9 +822,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 162e500ee18349741bd81abe711966fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &5744302149157510345 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4415065367250870137, guid: fca10bb003edcee45984e9fe39b25b6c,
-    type: 3}
-  m_PrefabInstance: {fileID: 8282870481461560240}
-  m_PrefabAsset: {fileID: 0}
