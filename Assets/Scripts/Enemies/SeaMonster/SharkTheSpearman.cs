@@ -124,6 +124,7 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
 
     private void AttackAction()
     {
+        SoundManager.Instance.PlaySound(SoundName.SharkTheSpearman_Attack);
         EnemyAnimator.ChangeState(AnimState.Attack);
 
         Spear.gameObject.SetActive(true);

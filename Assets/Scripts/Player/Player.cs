@@ -291,6 +291,8 @@ public class Player : MonoBehaviour, ICombatable
     }
     private void ResurrectAction()
     {
+        SoundManager.Instance.PlaySound(SoundName.Resurrection);
+
         RangeArea.enabled = true;
         PlayerAnimator.ChangeState(PlayerAnim.Damaged);
 
@@ -450,6 +452,7 @@ public class Player : MonoBehaviour, ICombatable
     }
     private IEnumerator MoveWithPoint(Vector3 movePoint)
     {
+        SoundManager.Instance.PlaySound(SoundName.PlayerDash);
         float DeltaTime() => Time.deltaTime * Time.timeScale;
 
         for (float ratio = 0f; ratio < 1f; ratio += DeltaTime() * AbilityTable.MoveSpeed)

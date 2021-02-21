@@ -150,6 +150,7 @@ public class DungeonClearUI : MonoBehaviour
         {
             _DungeonUnlockMessage.text = "이미 해금됨";
         }
+        SoundManager.Instance.PlaySound(SoundName.DungeonResult);
     }
    
     public void Close()

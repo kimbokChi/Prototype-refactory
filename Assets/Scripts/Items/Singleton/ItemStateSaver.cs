@@ -157,6 +157,7 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
                 }
             }
         }
+        SoundManager.Instance.PlaySound(SoundName.UnlockItem);
     }
 
     public void SaveSlotItem(SlotType slotType, Item item, int index)

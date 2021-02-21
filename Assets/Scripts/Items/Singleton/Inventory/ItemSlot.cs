@@ -48,6 +48,10 @@ public class ItemSlot : MonoBehaviour, IPointerDownHandler
 
     public void SetItem(Item item)
     {
+        if (gameObject.activeInHierarchy)
+        {
+            SoundManager.Instance.PlaySound(SoundName.EquipItem);
+        }
         if (mContainItem != null)
         {
             ItemChangeEvent?.Invoke(mContainItem);

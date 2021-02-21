@@ -128,6 +128,8 @@ public class CannonBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
     private void AttackAction()
     {
+        SoundManager.Instance.PlaySound(SoundName.CannonBot_Attack);
+
         Bullet.gameObject.SetActive(true);
         Bullet.transform.localPosition = ShootPos;
 

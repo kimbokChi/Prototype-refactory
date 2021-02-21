@@ -83,6 +83,8 @@ public class GreatSword : Item
 
     private void SwordDanceShoot()
     {
+        SoundManager.Instance.PlaySound(SoundName.GreatSword);
+
         var direction = Vector2.right;
         
         if (mPlayer.transform.localRotation.eulerAngles.y > 0f)

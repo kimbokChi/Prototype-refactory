@@ -15,6 +15,8 @@ public class DungeonFaildUI : MonoBehaviour
 
         ClearTime.text = $"{clearMin:D2} : {clearSec:D2}";
         KillCount.text = $"{GameLoger.Instance.KillCount:D3} 마리";
+
+        SoundManager.Instance.PlaySound(SoundName.DungeonResult);
     }
 
     public void ReTry()

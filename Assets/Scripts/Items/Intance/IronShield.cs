@@ -112,6 +112,8 @@ public class IronShield : Item
             EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, point + Random.insideUnitCircle * 0.9f);
         }
         EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, point);
+
+        SoundManager.Instance.PlaySound(SoundName.ShieldDefence);
     }
 
     public override void AttackCancel()

@@ -53,6 +53,8 @@ public class ItemStore : MonoBehaviour
         {
             if (MoneyManager.Instance.SubtractMoney(_SelectedBlock.ItemCost))
             {
+                SoundManager.Instance.PlaySound(SoundName.BuyItem);
+
                 var item = Instantiate(_SelectedBlock.ContainItem);
                     item.transform.position = new Vector2(-10f, 0f);
 

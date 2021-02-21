@@ -78,6 +78,7 @@ public class MysteriousBullet : MonoBehaviour
 
                 ETarceTarget = null;
             }
+            SoundManager.Instance.PlaySound(SoundName.MysteriousBulletHit);
             gameObject.SetActive(false);
         }
     }

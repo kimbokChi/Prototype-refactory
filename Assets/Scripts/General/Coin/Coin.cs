@@ -42,6 +42,8 @@ public class Coin : MonoBehaviour
             {
                 MoneyManager.Instance.AddMoney(Value);
                 _Animator.SetBool(_AnimationHash, true);
+
+                SoundManager.Instance.PlaySound(SoundName.PickUpCoin);
             }
         }
     }

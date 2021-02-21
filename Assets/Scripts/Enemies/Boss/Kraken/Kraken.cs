@@ -51,6 +51,8 @@ public class Kraken : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
+        SoundManager.Instance.PlaySound(SoundName.BossAppear_DeepSea);
+
         _PatternInvokeCount = 0;
 
         _FallingTentacle = Instantiate(_FallingTentacle);

@@ -33,5 +33,7 @@ public class ItemBox : MonoBehaviour
 
         Vector2 twinklePoint = transform.position + new Vector3(0f, 0.4f, 0f);
         EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, twinklePoint);
+
+        SoundManager.Instance.PlaySound(SoundName.ItemBoxOpen);
     }
 }

@@ -75,7 +75,8 @@ public class HammerBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         _AttackModule.Init(gameObject, AbilityTable);
         _AttackModule.RunningDrive();
         _AttackModule.SetPeriodAction(Period.Attack, AttackAction);
-        
+        _AttackModule.HitEvent += o => SoundManager.Instance.PlaySound(SoundName.HammerBot_Attack);
+
         MovementModuleInit();
     }
 
