@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class ShortRangeModule : AttackModule
 {
+    public event Action<ICombatable> HitEvent;
+
     [SerializeField] private Area _Range;
     [SerializeField] private Area _AttackArea;
 
@@ -15,6 +18,7 @@ public class ShortRangeModule : AttackModule
         {
             if (o.TryGetComponent(out ICombatable combatable))
             {
+                HitEvent?.Invoke(combatable);
 
                 combatable.Damaged(_AbilityTable.AttackPower, _User);
             }
