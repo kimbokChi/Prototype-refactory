@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 6202769102569731552}
   - component: {fileID: 6026546337754659799}
   - component: {fileID: 6202769102569731551}
+  - component: {fileID: 4263574580434294787}
   m_Layer: 0
   m_Name: LongSword
   m_TagString: Untagged
@@ -164,6 +165,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4263574580434294787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202769102915456826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9080871fdec5914fa03376cd6a9d1ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsPlayOnEnable: 0
+  Name: 15
 --- !u!1 &6202769103187889876
 GameObject:
   m_ObjectHideFlags: 0
