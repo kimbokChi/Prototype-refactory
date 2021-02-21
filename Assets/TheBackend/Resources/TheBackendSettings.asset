@@ -18,5 +18,5 @@ MonoBehaviour:
   packageName: com.AdverGameKorea.AscenDDungeon
   isAllPlatform: 1
   sendLogReport: 1
-  timeOutSec: 100
+  timeOutSec: 30
   Version: 5.1.1

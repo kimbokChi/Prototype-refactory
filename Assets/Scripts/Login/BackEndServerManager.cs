@@ -22,6 +22,8 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
     public string InDate { get;  set; } = string.Empty;// 로그인한 계정의 inDate
     private Action<bool, string> loginSuccessFunc = null;
 
+    float x = 0;
+    float Y = 0;
 
     BackendReturnObject bro;
 
@@ -39,6 +41,49 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         DontDestroyOnLoad(this.gameObject);
     }
 
+    public void Optionsaver()
+    {
+        Where where = new Where();
+        Debug.Log("옵션값23");
+
+        Param _Param = new Param();
+        Debug.Log(_Param);
+
+        where.Equal("gamerIndate", mIndate);
+        _Param.Add("ControllerOffset", GameLoger.Instance.ControllerOffset);
+        _Param.Add("ControllerDefScale", GameLoger.Instance.ControllerDefScale);
+        _Param.Add("ControllerMaxScale", GameLoger.Instance.ControllerMaxScale);
+        _Param.Add("ControllerAlpha", GameLoger.Instance.ControllerAlpha);
+        _Param.Add("ControllerPosX", GameLoger.Instance.ControllerPos.x);
+        _Param.Add("ControllerPosY", GameLoger.Instance.ControllerPos.y);
+
+        Enqueue(Backend.GameSchemaInfo.Get, "Option", where, 1, (BackendReturnObject Getbro) =>
+        {
+
+            Debug.Log("옵션값");
+
+            if (Getbro.IsSuccess())
+            {
+                Enqueue(Backend.GameSchemaInfo.Update, "Option", Getbro.GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString(), _Param, (BackendReturnObject Updatebro) =>
+                {
+                    if (Updatebro.IsSuccess())
+                        Debug.Log("Update");
+                    else
+                        Debug.Log("falil update" + Updatebro);
+                });
+            }
+            else
+            {
+                Enqueue(Backend.GameSchemaInfo.Insert, "Option", _Param, (BackendReturnObject Insertbro) =>
+                {
+                    if (Insertbro.IsSuccess())
+                        Debug.Log("insert");
+                    else
+                        Debug.Log("falil insert" + Insertbro);
+                });
+            }
+        });
+    }
 
     public void SendDataToServerSchema(string _Table )
     {
@@ -169,8 +214,9 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
                 OnStage();
                 OnItem();
                 OnLogined();
-                Debug.Log("토큰 로그인 성공");
+                OnOption();
                 loginSuccessFunc = func;
+                Debug.Log("토큰 로그인 성공");
                
             }
             else
@@ -181,6 +227,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             }
         });
     }
+
 
     public void OnStage()
     {
@@ -197,7 +244,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
 
                     if (callback1.IsSuccess())
                     {
-                        GameLoger.Instance.SetStageUnlock(Convert.ToInt32(callback1.Rows()[0]["STAGE"]["L"]["N"].ToString()));
+                      GameLoger.Instance.SetStageUnlock(Convert.ToInt32(callback1.Rows()[0]["stagedata"]["N"].ToString()));
 
 
 
@@ -257,6 +304,46 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         else
             Debug.Log(bro + "812");
     }
+
+    public void OnOption()
+    {
+        bro = Backend.BMember.GetUserInfo();
+        mIndate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+        if (bro.IsSuccess())
+        {
+            Where param = new Where();
+            param.Equal("gamerIndate", mIndate);
+            Backend.GameSchemaInfo.Get("Option", param,1, callback1 =>
+            {
+                if (callback1.IsSuccess())
+                {
+                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
+                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
+
+                    GameLoger.Instance.ConOffset(float.Parse(callback1.Rows()[0]["ControllerOffset"]["N"].ToString()));
+                    GameLoger.Instance.ConDefScale(float.Parse(callback1.Rows()[0]["ControllerDefScale"]["N"].ToString()));
+                    GameLoger.Instance.ConMaxScale(float.Parse(callback1.Rows()[0]["ControllerMaxScale"]["N"].ToString()));
+                    GameLoger.Instance.ConAlpha(float.Parse(callback1.Rows()[0]["ControllerAlpha"]["N"].ToString()));
+                    GameLoger.Instance.ConPosX(float.Parse(callback1.Rows()[0]["ControllerPosX"]["N"].ToString()));
+                    GameLoger.Instance.ConPosY(float.Parse(callback1.Rows()[0]["ControllerPosY"]["N"].ToString()));
+                  
+
+
+                    Debug.Log("정보 불러오기 성공" + callback1);
+                  
+
+                }
+                else
+                {
+
+                    Debug.Log("정보 불러오기 실패" + callback1);
+                    SceneLoader.Instance.SceneLoad(1);
+                }
+            });
+        }
+        else
+            Debug.Log(bro + "812");
+    }
     public void OnLogined()
     {
         bro = Backend.BMember.GetUserInfo();
@@ -273,7 +360,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
                     Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
 
                     GameLoger.Instance.RecordMoney(int.Parse(callback1.Rows()[0]["Gold"]["N"].ToString()));
-                    IAP.Instance.AiP(bool.Parse(callback1.Rows()[0]["Gold"]["N"].ToString()));
+                  // IAP.Instance.AiP(bool.Parse(callback1.Rows()[0]["IAP"]["BOOL"].ToString()));
 
 
                     Debug.Log("정보 불러오기 성공"+callback1);
@@ -283,7 +370,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
                 else
                 {
                    
-                    Debug.Log("정보 불러오기 실패");
+                    Debug.Log("정보 불러오기 실패" + callback1);
                     SceneLoader.Instance.SceneLoad(1);
                 }
             });
@@ -292,7 +379,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             Debug.Log(bro + "812");
     }
     // 커스텀 로그인
-
+    
 
     public void GoogleAuthorizeFederation(Action<bool, string> func)
     {
@@ -312,10 +399,19 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             {
                 if (callback.IsSuccess())
                 {
+                    OnStage();
+                    OnItem();
+                    OnOption();
+                    OnLogined();
                     Debug.Log("GPGS 인증 성공");
                     loginSuccessFunc = func;
 
+                    bro = Backend.GameSchemaInfo.Insert("Player");
+                    Param param1 = new Param();
+                    param1.Add("gamerIndate", mIndate);
+                    Backend.GameSchemaInfo.Update("Player", bro.GetInDate(), param1);
                     OnPrevBackendAuthorized();
+                    SceneLoader.Instance.SceneLoad(2);
                     return;
                 }
 
@@ -343,6 +439,10 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
                     {
                         if (callback.IsSuccess())
                         {
+                            OnLogined();
+                            OnItem();
+                            OnStage();
+                            OnOption();
                             Debug.Log("GPGS 인증 성공");
                             loginSuccessFunc = func;
 

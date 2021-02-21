@@ -55,6 +55,36 @@ public class GameLoger : Singleton<GameLoger>
     private const float ControllerALPHA = 0.5f;
     private readonly Vector2 ControllerPOS = new Vector2(0, -380f);
 
+
+    public void ConOffset(float Offet)
+    {
+        ControllerOffset = Offet;
+    }
+
+    public void ConDefScale(float Def)
+    {
+        ControllerDefScale = Def;
+    }
+
+    public void ConMaxScale(float Max)
+    {
+        ControllerMaxScale = Max;
+    }
+    public void ConAlpha(float Alpha)
+    {
+        ControllerAlpha = Alpha;
+    } 
+
+    public void ConPosX(float conX)
+    {
+        ControllerPos.x = conX;
+    }
+
+    public void ConPosY(float conY)
+    {
+        ControllerPos.y = conY;
+    }
+
     public void EnemyDead()
     {
         KillCount++;

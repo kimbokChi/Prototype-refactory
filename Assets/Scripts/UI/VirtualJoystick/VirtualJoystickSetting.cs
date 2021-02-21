@@ -80,4 +80,9 @@ public class VirtualJoystickSetting : MonoBehaviour
     {
         _Reposer.gameObject.SetActive(true);
     }
+
+    private void OnDisable()
+    {
+        BackEndServerManager.Instance.Optionsaver();
+    }
 }

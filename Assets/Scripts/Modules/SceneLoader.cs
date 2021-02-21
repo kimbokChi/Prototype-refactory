@@ -20,9 +20,5 @@ public class SceneLoader : Singleton<SceneLoader>
     {
         SceneManager.LoadScene(index);
 
-        if (index == 1)
-        {
-            Inventory.Instance.Clear();
-        }
     }
 }
