@@ -67,6 +67,7 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     private void AttackAction()
     {
         MainCamera.Instance.Shake(0.4f, 1.2f);
+        SoundManager.Instance.PlaySound(SoundName.ExplosionTotem);
 
         if (Range.TryEnterTypeT(out Player player))
         {

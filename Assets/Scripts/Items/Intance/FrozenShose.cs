@@ -80,6 +80,7 @@ public class FrozenShose : Item
                 _PillarPool.Get().Shoot(new Vector3(pointX, _Player.transform.position.y + PillarOffsetY, 0f), Vector2.zero, 0f);
             }
         }
+        SoundManager.Instance.PlaySound(SoundName.SummonFrozenPillar);
     }
 
     public override void AttackCancel()

@@ -41,6 +41,7 @@ public class SpecialBuffTotem : MonoBehaviour
         transform.position = castPoint;
 
         gameObject.SetActive(true);
+        SoundManager.Instance.PlaySound(SoundName.GoblinChief_SummonTotem);
     }
 
     // 애니메이션 이벤트로 실행될 함수

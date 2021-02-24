@@ -14,6 +14,8 @@ public class SystemMessage : Singleton<SystemMessage>
         MessageBox.SetActive(true);
 
         MessageText.text = message;
+
+        SoundManager.Instance.PlaySound(SoundName.ErrorWindow);
     }
     public void CloseMessage()
     {

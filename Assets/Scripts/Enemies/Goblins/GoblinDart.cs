@@ -79,7 +79,7 @@ public class GoblinDart : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
         {
             _EnemyAnimator.ChangeState(AnimState.Attack);
         });
-
+        _AttackModule.HitEvent += o => SoundManager.Instance.PlaySound(SoundName.DartHit);
         MovementModuleInit();
     }
     public void IUpdate()
@@ -100,6 +100,7 @@ public class GoblinDart : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
     }
     private void AttackAction()
     {
+        SoundManager.Instance.PlaySound(SoundName.DartShoot);
         Vector2 direction;
 
         if (_Recognition.IsLookAtLeft)

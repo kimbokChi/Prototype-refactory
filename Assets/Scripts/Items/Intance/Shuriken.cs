@@ -107,6 +107,7 @@ public class Shuriken : Item
                 MainCamera.Instance.Shake(0.2f, 0.8f);
                 break;
         }
+        SoundManager.Instance.PlaySound(SoundName.ThrowShuriken);
     }
 
     // 공격방식 스왑

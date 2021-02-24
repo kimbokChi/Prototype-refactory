@@ -78,9 +78,9 @@ public class GoblinNormal : MonoBehaviour, IObject, ICombatable, IAnimEventRecei
         });
         _AttackModule.SetPeriodAction(Period.Attack, () => 
         {
+            SoundManager.Instance.PlaySound(SoundName.GoblinNormal_Attack);
             _EnemyAnimator.ChangeState(AnimState.Attack);
         });
-
         MovementModuleInit();
     }
     public void IUpdate()

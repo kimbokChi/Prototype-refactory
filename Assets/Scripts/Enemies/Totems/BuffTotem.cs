@@ -52,6 +52,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     private void CastBuff()
     {
         Anim.SetActive(true);
+        SoundManager.Instance.PlaySound(SoundName.BuffTotem);
 
         for (int i = 0; i < mSenseArae.EntryList.Count; ++i)
         {

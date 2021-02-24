@@ -103,6 +103,7 @@ public class GolemStoneMini : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     }
     private void CameraShake()
     {
+        SoundManager.Instance.PlaySound(SoundName.Golem_Attack);
         MainCamera.Instance.Shake(0.2f, 0.6f);
     }
     private void MovementModuleInit()

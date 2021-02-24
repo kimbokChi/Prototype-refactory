@@ -151,6 +151,8 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     // == 애니메이션 이벤트로 실행 ==
     private void AttackAction()
     {
+        SoundManager.Instance.PlaySound(SoundName.LatentMonkfish_Attack);
+
         if (IsLookAtPlayer()) 
         {
             if (Range.HasThis(_Player.gameObject)) 
@@ -161,6 +163,8 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     }
     private void BurrowAttackEnable()
     {
+        SoundManager.Instance.PlaySound(SoundName.LatentMonkfish_Swoop);
+
         MainCamera.Instance.Shake();
         BurrowAttackArea.gameObject.SetActive(true);
     }

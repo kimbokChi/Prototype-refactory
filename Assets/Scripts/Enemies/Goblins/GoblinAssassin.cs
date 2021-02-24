@@ -89,6 +89,7 @@ public class GoblinAssassin : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         });
         _AttackModule.SetPeriodAction(Period.Attack, () =>
         {
+            SoundManager.Instance.PlaySound(SoundName.GoblinAssassin_Dash);
             if (_Recognition.IsLookAtLeft)
             {
                 _AttackModule.Dash(Vector2.left);

@@ -23,6 +23,7 @@ public class OrdinaryBow : Item
         mPlayer = attacker;
 
         Animator.SetBool(mAnimPlayKey, true);
+        SoundManager.Instance.PlaySound(SoundName.BowPull);
     }
 
     public override void OffEquipThis(SlotType offSlot)
@@ -51,6 +52,8 @@ public class OrdinaryBow : Item
 
                                     Inventory.Instance.OnAttackEvent(mPlayer, combatable);
                                     MainCamera.Instance.Shake();
+
+                                    SoundManager.Instance.PlaySound(SoundName.ArrowHit);
                                 }
                             },
                             p => mArrowPool.Add(p));
@@ -78,6 +81,8 @@ public class OrdinaryBow : Item
 
         arrow.transform.rotation = mPlayer.transform.localRotation;
         arrow.Shoot(transform.position + ShootOffset, direction, ShootSpeed);
+
+        SoundManager.Instance.PlaySound(SoundName.BowShoot);
     }
 
     protected override void AttackAnimationPlayOver()

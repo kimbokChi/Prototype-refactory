@@ -161,6 +161,8 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
         {
             if (_HealingFriendly.TryGetComponent(out ICombatable combatable))
             {
+                SoundManager.Instance.PlaySound(SoundName.RepairBot_Attack);
+
                 for (int i = 0; i < 5; i++)
                 {
                     Vector2 point = (Vector2)_HealingFriendly.transform.position + Random.insideUnitCircle;

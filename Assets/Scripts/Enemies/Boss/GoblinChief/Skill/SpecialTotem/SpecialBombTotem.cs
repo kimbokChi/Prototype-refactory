@@ -41,6 +41,8 @@ public class SpecialBombTotem : MonoBehaviour
         SpecialTotem.SetActive(true);
 
         StartCoroutine(SkillCasting());
+
+        SoundManager.Instance.PlaySound(SoundName.GoblinChief_SummonTotem);
     }
     private IEnumerator SkillCasting()
     {

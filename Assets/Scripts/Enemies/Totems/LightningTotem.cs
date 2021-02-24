@@ -64,6 +64,7 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
 
     private void AttackAction()
     {
+        SoundManager.Instance.PlaySound(SoundName.LightningTotem);
         MainCamera.Instance.Shake(0.1f, 0.3f);
 
         Vector2 playerPos = new Vector2
