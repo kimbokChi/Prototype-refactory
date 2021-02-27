@@ -1043,6 +1043,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1fc83d1048e28543b554e9f206afe17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UsingVJoystick: 1
+  ControllerOffset: 0
+  ControllerDefScale: 0
+  ControllerMaxScale: 0
+  ControllerAlpha: 0
+  ControllerPos: {x: 0, y: 0}
 --- !u!4 &882767439
 Transform:
   m_ObjectHideFlags: 0
