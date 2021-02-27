@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BigPotion
+  m_Name: LargePotion
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -59,5 +59,5 @@ SpriteAtlas:
   - Big-Potion-2
   - Big-Potion-4
   - Big-Potion-1
-  m_Tag: BigPotion
+  m_Tag: LargePotion
   m_IsVariant: 0

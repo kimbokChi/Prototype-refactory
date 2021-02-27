@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MiddlePotion
+  m_Name: MediumPotion
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -57,5 +57,5 @@ SpriteAtlas:
   - Midle-Potion-2
   - Midle-Potion-5
   - Midle-Potion-3
-  m_Tag: MiddlePotion
+  m_Tag: MediumPotion
   m_IsVariant: 0
