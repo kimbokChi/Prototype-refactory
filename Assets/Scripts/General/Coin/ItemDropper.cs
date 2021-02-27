@@ -30,11 +30,11 @@ public class ItemDropper : MonoBehaviour
 
         float random = Random.value;
 
-        if (random <= _CommonPotion)
+        if (random <= _RarePotion)
         {
             PotionPool.Instance.Get(rare).transform.position = transform.position + offset;
         }
-        else if (random <= _RarePotion)
+        else if (random <= _CommonPotion)
         {
             PotionPool.Instance.Get(common).transform.position = transform.position + offset;
         }
