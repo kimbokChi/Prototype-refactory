@@ -183,8 +183,6 @@ public class Player : MonoBehaviour, ICombatable
         } mInventory.SetWeaponSlot(instance);
 
         _Resurrectable.ResurrectAction += ResurrectAction;
-
-        PotionPool.Instance.Get(PotionName.LHealingPotion).transform.position = transform.position;
     }
     private void OnDestroy()
     {
