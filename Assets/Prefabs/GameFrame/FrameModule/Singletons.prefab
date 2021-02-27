@@ -100,7 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fca3110fd02347489f226dd2fa4bbb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ItemBoxProbab: 0.6
+  _ItemBoxProbab: 0.5
+  _PeddlerNPCProbab: 0.3
+  _LHealPotionProbab: 0.05
+  _MHealPotionProbab: 0.15
   ItemBox: {fileID: 5804754286839020693, guid: f35de1102ab78f94d88d3d9b1b8ecbd8, type: 3}
   WoodenSprite: {fileID: 11400000, guid: fc94f87e70b154841bf91a06030f5cb0, type: 2}
   GoldenSprite: {fileID: 11400000, guid: 21e45ce82839c5a43964f220aae0767a, type: 2}
