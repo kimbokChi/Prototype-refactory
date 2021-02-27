@@ -35,7 +35,9 @@ public class PotionPool : Singleton<PotionPool>
             _PotionLib.Add(name, instance);
             _PotionPool.Add(name, new Queue<Potion>());
 
-            _PotionPool[name].Enqueue(Instantiate(instance));
+            instance = Instantiate(instance);
+            instance.gameObject.SetActive(false);
+            _PotionPool[name].Enqueue(instance);
         }
     }
     private void Update()
@@ -69,11 +71,11 @@ public class PotionPool : Singleton<PotionPool>
 
                 for (int i = 0; i < rayHit.Length; i++)
                 {
-                    for (int j = 0; j < _EnablePotionList.Count; j++)
+                    for (int index = 0; index < _EnablePotionList.Count; index++)
                     {
-                        if (rayHit[i].collider.gameObject.Equals(_EnablePotionList[i].gameObject))
+                        if (rayHit[i].collider.gameObject.Equals(_EnablePotionList[index].gameObject))
                         {
-                            _EnablePotionList[i].Interaction();
+                            _EnablePotionList[index].Interaction();
                             break;
                         }
                     }

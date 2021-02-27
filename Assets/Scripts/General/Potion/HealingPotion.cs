@@ -13,6 +13,7 @@ public class HealingPotion : Potion
         float heal = Mathf.Min(maxHealth, maxHealth * _HealRate);
 
         PotionPool.Instance.PlayerAbilityTable.Table[Ability.CurHealth] += heal;
+        PotionPool.Instance.Add(this);
     }
     public override void Interaction()
     {
