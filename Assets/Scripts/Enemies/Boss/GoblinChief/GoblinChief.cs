@@ -70,6 +70,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
             gameObject.SetActive(false);
 
             _ItemDropper.CoinDrop(15);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
 
             if (TryGetComponent(out Collider2D collider))
             {

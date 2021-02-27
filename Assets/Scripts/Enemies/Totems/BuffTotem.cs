@@ -98,6 +98,8 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
             _ItemDropper.CoinDrop(2);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
+
             if (TryGetComponent(out Collider2D collider))
             {
                 collider.enabled = false;

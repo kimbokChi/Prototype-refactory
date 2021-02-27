@@ -96,6 +96,7 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
             _ItemDropper.CoinDrop(6);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
             if (TryGetComponent(out Collider2D collider))
             {
                 collider.enabled = false;

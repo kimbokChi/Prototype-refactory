@@ -71,6 +71,8 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
             _ItemDropper.CoinDrop(8);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
+
             if (TryGetComponent(out Collider2D collider))
             {
                 collider.enabled = false;

@@ -57,6 +57,8 @@ public class GoblinDart : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
             _ItemDropper.CoinDrop(3);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
+
             if (TryGetComponent(out Collider2D collider))
             {
                 collider.enabled = false;

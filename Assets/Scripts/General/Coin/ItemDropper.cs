@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class ItemDropper : MonoBehaviour
 {
-    [Header("Coin Property")]
     [SerializeField] private float _GroundOffsetY;
+
+    [Header("Potion Property")]
+    [SerializeField, Range(0f, 1f)] private float _CommonPotion = 0.05f;
+    [SerializeField, Range(0f, 1f)] private float _RarePotion = 0.02f;
 
     public void CoinDrop(int count = 1)
     {
@@ -19,6 +22,21 @@ public class ItemDropper : MonoBehaviour
 
             coin.transform.position = transform.position + offset;
             coin.Enable();
+        }
+    }
+    public void TryPotionDrop(PotionName common, PotionName rare)
+    {
+        Vector3 offset = new Vector3(0, _GroundOffsetY + 0.4f, 0);
+
+        float random = Random.value;
+
+        if (random <= _CommonPotion)
+        {
+            PotionPool.Instance.Get(rare).transform.position = transform.position + offset;
+        }
+        else if (random <= _RarePotion)
+        {
+            PotionPool.Instance.Get(common).transform.position = transform.position + offset;
         }
     }
 }

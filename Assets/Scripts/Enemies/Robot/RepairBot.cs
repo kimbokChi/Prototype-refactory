@@ -79,6 +79,8 @@ public class RepairBot : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
             _ItemDropper.CoinDrop(7);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
+
             if (TryGetComponent(out Collider2D collider))
             {
                 collider.enabled = false;
