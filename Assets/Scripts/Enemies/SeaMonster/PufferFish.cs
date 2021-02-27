@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
-    [SerializeField] private CoinDropper _CoinDropper;
+    [SerializeField] private ItemDropper _ItemDropper;
 
     [Header("Ability")]
     [SerializeField] private bool IsLookAtLeft;
@@ -72,7 +72,7 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
-            _CoinDropper.Drop(1);
+            _ItemDropper.CoinDrop(5);
             if (TryGetComponent(out Collider2D collider))
             {
                 collider.enabled = false;

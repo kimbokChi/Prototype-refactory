@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 7291071949441808161}
   - component: {fileID: 7678774356169625268}
   - component: {fileID: 5536725659337335330}
-  - component: {fileID: 3504037873742445412}
+  - component: {fileID: 3935292098046069129}
   m_Layer: 0
   m_Name: GolemStoneMini
   m_TagString: Enemy
@@ -249,7 +249,7 @@ MonoBehaviour:
   _Movement: {fileID: 7291071949441808161}
   _Recognition: {fileID: 7678774356169625268}
   _AttackModule: {fileID: 5536725659337335330}
-  _CoinDropper: {fileID: 3504037873742445412}
+  _ItemDropper: {fileID: 3935292098046069129}
 --- !u!114 &3232727511114484403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Range: {fileID: 8712236661530147781}
   _AttackArea: {fileID: 2892552215513255038}
---- !u!114 &3504037873742445412
+--- !u!114 &3935292098046069129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -327,10 +327,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1927945669150814535}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Script: {fileID: 11500000, guid: 742c0fd89b2091643b66fe8944ad09dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinValue: 2
   _GroundOffsetY: -0.3
 --- !u!1 &6280200594553478797
 GameObject:

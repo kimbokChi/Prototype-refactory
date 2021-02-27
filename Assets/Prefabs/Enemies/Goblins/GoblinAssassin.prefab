@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 8906943136366602259}
   - component: {fileID: 2570077720577189544}
   - component: {fileID: 4674652797845875592}
-  - component: {fileID: 5678087181643081459}
+  - component: {fileID: 4221624986397251486}
   m_Layer: 0
   m_Name: GoblinAssassin
   m_TagString: Enemy
@@ -285,7 +285,7 @@ MonoBehaviour:
   _Movement: {fileID: 8934372964383126271}
   _Recognition: {fileID: 1716451817925160132}
   _AttackModule: {fileID: 8906943136366602259}
-  _CoinDropper: {fileID: 5678087181643081459}
+  _ItemDropper: {fileID: 4221624986397251486}
 --- !u!95 &1249953335
 Animator:
   serializedVersion: 3
@@ -423,7 +423,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5678087181643081459
+--- !u!114 &4221624986397251486
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -432,10 +432,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7274113786047085156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Script: {fileID: 11500000, guid: 742c0fd89b2091643b66fe8944ad09dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinValue: 1
   _GroundOffsetY: -0.3
 --- !u!1 &7274113786828326574
 GameObject:

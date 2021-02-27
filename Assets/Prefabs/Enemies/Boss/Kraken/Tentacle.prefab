@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 3550762048770414474}
   - component: {fileID: 3675016855813807283}
   - component: {fileID: 3784561706877194330}
-  - component: {fileID: 1441403103502118625}
+  - component: {fileID: 1231329164267045668}
   m_Layer: 0
   m_Name: Tentacle
   m_TagString: Enemy
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f16ed30c46dd54c8b6f5ffaada04fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinDropper: {fileID: 1441403103502118625}
+  _ItemDropper: {fileID: 1231329164267045668}
   AbilityTable: {fileID: 3550762048770414474}
   EnemyAnimator: {fileID: 5774750757637743333}
   Range: {fileID: 7385146187157378355}
@@ -294,7 +294,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 4}
   m_EdgeRadius: 0
---- !u!114 &1441403103502118625
+--- !u!114 &1231329164267045668
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,10 +303,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 962337063486827636}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Script: {fileID: 11500000, guid: 742c0fd89b2091643b66fe8944ad09dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinValue: 1
   _GroundOffsetY: -1.6
 --- !u!1 &2220442435515117392
 GameObject:

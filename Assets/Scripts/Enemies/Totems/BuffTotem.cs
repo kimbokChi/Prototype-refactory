@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
-    [SerializeField] private CoinDropper _CoinDropper;
+    [SerializeField] private ItemDropper _ItemDropper;
 
     [Header("Effect Animation Info")]
     [SerializeField] private float AnimLength;
@@ -97,7 +97,7 @@ public class BuffTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
-            _CoinDropper.Drop(2);
+            _ItemDropper.CoinDrop(2);
             if (TryGetComponent(out Collider2D collider))
             {
                 collider.enabled = false;

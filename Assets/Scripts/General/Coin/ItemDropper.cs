@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinDropper : MonoBehaviour
+public class ItemDropper : MonoBehaviour
 {
-    [SerializeField] private int _CoinValue;
+    [Header("Coin Property")]
     [SerializeField] private float _GroundOffsetY;
 
-    public void Drop(int count = 1)
+    public void CoinDrop(int count = 1)
     {
         Vector3 offset = Vector3.up * _GroundOffsetY;
 
@@ -15,7 +15,7 @@ public class CoinDropper : MonoBehaviour
         {
             Coin coin = CoinPool.Instance.Get();
 
-            coin.Value = _CoinValue;
+            coin.Value = 1;
 
             coin.transform.position = transform.position + offset;
             coin.Enable();

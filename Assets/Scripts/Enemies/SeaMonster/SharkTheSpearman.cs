@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
-    [SerializeField] private CoinDropper _CoinDropper;
+    [SerializeField] private ItemDropper _ItemDropper;
 
     [Header("Spear Info")]
     [SerializeField] private Arrow Spear;
@@ -70,7 +70,7 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
-            _CoinDropper.Drop(4);
+            _ItemDropper.CoinDrop(8);
             if (TryGetComponent(out Collider2D collider))
             {
                 collider.enabled = false;

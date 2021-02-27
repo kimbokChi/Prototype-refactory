@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 4840172454778070405}
   - component: {fileID: 170996014544339428}
   - component: {fileID: 914917488297482970}
-  - component: {fileID: 153139207098068285}
+  - component: {fileID: 1002688791427675971}
   m_Layer: 0
   m_Name: HammerBot
   m_TagString: Enemy
@@ -228,7 +228,7 @@ MonoBehaviour:
   _Movement: {fileID: 4840172454778070405}
   _Recognition: {fileID: 170996014544339428}
   _AttackModule: {fileID: 914917488297482970}
-  _CoinDropper: {fileID: 153139207098068285}
+  _ItemDropper: {fileID: 1002688791427675971}
 --- !u!50 &8492035681471172228
 Rigidbody2D:
   serializedVersion: 4
@@ -318,7 +318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Range: {fileID: 1481196706971903556}
   _AttackArea: {fileID: 1459980265885323689}
---- !u!114 &153139207098068285
+--- !u!114 &1002688791427675971
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -327,10 +327,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6395963452512264000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Script: {fileID: 11500000, guid: 742c0fd89b2091643b66fe8944ad09dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinValue: 5
   _GroundOffsetY: -0.8
 --- !u!1 &7150224766146073584
 GameObject:

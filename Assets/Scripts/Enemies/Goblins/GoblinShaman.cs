@@ -12,7 +12,7 @@ public class GoblinShaman : MonoBehaviour, IObject, ICombatable, IAnimEventRecei
     [SerializeField] private MovementModule _Movement;
     [SerializeField] private RecognitionModule _Recognition;
     [SerializeField] private SummonModule _AttackModule;
-    [SerializeField] private CoinDropper _CoinDropper;
+    [SerializeField] private ItemDropper _ItemDropper;
 
     public AbilityTable GetAbility => _AbilityTable;
 
@@ -57,7 +57,7 @@ public class GoblinShaman : MonoBehaviour, IObject, ICombatable, IAnimEventRecei
             _EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
-            _CoinDropper.Drop(6);
+            _ItemDropper.CoinDrop(6);
             if (TryGetComponent(out Collider2D collider))
             {
                 collider.enabled = false;
