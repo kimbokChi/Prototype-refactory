@@ -388,3 +388,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _GroundOffsetY: -1.3
+  _CommonPotion: 0.1
+  _RarePotion: 0.05
