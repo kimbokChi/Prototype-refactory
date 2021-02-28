@@ -8,7 +8,7 @@ public class ItemDropper : MonoBehaviour
 
     [Header("Potion Property")]
     [SerializeField, Range(0f, 1f)] private float _CommonPotion = 0.1f;
-    [SerializeField, Range(0f, 1f)] private float _RarePotion = 0.02f;
+    [SerializeField, Range(0f, 1f)] private float _RarePotion = 0.05f;
 
     public void CoinDrop(int count = 1)
     {

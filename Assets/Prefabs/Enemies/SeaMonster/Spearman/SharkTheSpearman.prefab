@@ -218,7 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _GroundOffsetY: -0.3
   _CommonPotion: 0.1
-  _RarePotion: 0.02
+  _RarePotion: 0.05
 --- !u!1 &5261783804804844009
 GameObject:
   m_ObjectHideFlags: 0
