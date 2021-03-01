@@ -219,17 +219,38 @@ public class TouchController : MonoBehaviour
     private IEnumerator Move(Direction direction)
     {
         _Player.MoveOrder(direction);
+
+        switch (direction)
+        {
+            case Direction.Up:
+            case Direction.Down:
+                {
+                    while (_Player.IsMoving())
+                    {
+                        yield return null;
+                    }
+                }
+                break;
+            case Direction.Right:
+            case Direction.Left:
+                {
 #if UNITY_EDITOR
-        while (!Input.GetMouseButtonUp(0))
-        {
-            yield return null;
-        }
+                    while (!Input.GetMouseButtonUp(0))
+                    {
+                        yield return null;
+                    }
 #else
-        while (Input.touchCount > 0) 
-        {
-            yield return null; 
-        }
+                    while (Input.touchCount > 0)
+                    {
+                        yield return null;
+                    }
 #endif
+                }
+                break;
+            default:
+                yield return null;
+                break;
+        }
         _Player.MoveStop();
         _MoveRoutine.Finish();
     }
