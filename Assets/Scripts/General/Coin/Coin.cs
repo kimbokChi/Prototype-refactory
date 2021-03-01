@@ -6,6 +6,8 @@ public class Coin : MonoBehaviour
 {
     public int Value;
 
+    [SerializeField] private Collider2D _Collider;
+
     [Header("PopAnimation")]
     [SerializeField] private float _PopAnimationTime;
     [Range(0f, 1f)]
@@ -53,6 +55,8 @@ public class Coin : MonoBehaviour
     }
     private IEnumerator PopAnimation()
     {
+        _Collider.enabled = false;
+
         Vector2 start = transform.position;
 
         Vector2 target = start + Vector2.right * Random.Range(-_PopRange, _PopRange);
@@ -64,5 +68,7 @@ public class Coin : MonoBehaviour
             yield return null;
         }
         _PopRoutine.Finish();
+
+        _Collider.enabled = true;
     }
 }

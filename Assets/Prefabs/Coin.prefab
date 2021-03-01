@@ -82,6 +82,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: 0
+  _Collider: {fileID: 1258303563582313541}
   _PopAnimationTime: 0.75
   _PopRange: 1
   _Animator: {fileID: 1258303563582313528}
