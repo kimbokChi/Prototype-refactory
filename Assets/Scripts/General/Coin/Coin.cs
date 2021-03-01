@@ -6,6 +6,8 @@ public class Coin : MonoBehaviour
 {
     public int Value;
 
+    [SerializeField] private Collider2D _Collider;
+
     [Header("PopAnimation")]
     [SerializeField] private float _PopAnimationTime;
     [Range(0f, 1f)]
@@ -36,15 +38,13 @@ public class Coin : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_PopRoutine.IsFinished())
+        if (collision.CompareTag("Player"))
         {
-            if (collision.CompareTag("Player") && !_Animator.GetBool(_AnimationHash))
-            {
-                MoneyManager.Instance.AddMoney(Value);
-                _Animator.SetBool(_AnimationHash, true);
+            MoneyManager.Instance.AddMoney(Value);
+            _Animator.SetBool(_AnimationHash, true);
 
-                SoundManager.Instance.PlaySound(SoundName.PickUpCoin);
-            }
+            SoundManager.Instance.PlaySound(SoundName.PickUpCoin);
+            _PopRoutine.StopRoutine();
         }
     }
     private void Disable()
@@ -55,6 +55,8 @@ public class Coin : MonoBehaviour
     }
     private IEnumerator PopAnimation()
     {
+        _Collider.enabled = false;
+
         Vector2 start = transform.position;
 
         Vector2 target = start + Vector2.right * Random.Range(-_PopRange, _PopRange);
@@ -66,5 +68,7 @@ public class Coin : MonoBehaviour
             yield return null;
         }
         _PopRoutine.Finish();
+
+        _Collider.enabled = true;
     }
 }
