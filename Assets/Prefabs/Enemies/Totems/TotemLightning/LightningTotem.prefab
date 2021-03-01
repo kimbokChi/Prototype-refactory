@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3179360225215724666}
   - component: {fileID: 8226094158166802672}
   - component: {fileID: 425384193673338200}
-  - component: {fileID: 1850316976866037719}
+  - component: {fileID: 2967918526160895960}
   m_Layer: 0
   m_Name: LightningTotem
   m_TagString: Enemy
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6ae0675cd165243818e6cc050c4a0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinDropper: {fileID: 1850316976866037719}
+  _ItemDropper: {fileID: 2967918526160895960}
   AbilityTable: {fileID: 958710597669009595}
   EnemyAnimator: {fileID: 8933881720809119529}
   mLighting: {fileID: 4549945440606657599, guid: 884f76396095edc4e9a29001cf595ce6,
@@ -185,7 +185,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.2, y: 1.2}
   m_EdgeRadius: 0
---- !u!114 &1850316976866037719
+--- !u!114 &2967918526160895960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,11 +194,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7410228392169130876}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Script: {fileID: 11500000, guid: 742c0fd89b2091643b66fe8944ad09dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinValue: 2
   _GroundOffsetY: -0.3
+  _CommonPotion: 0.1
+  _RarePotion: 0.05
 --- !u!1 &7778066798918100485
 GameObject:
   m_ObjectHideFlags: 0

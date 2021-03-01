@@ -123,8 +123,8 @@ GameObject:
   - component: {fileID: 8731517950841985786}
   - component: {fileID: 3764260241588451071}
   - component: {fileID: 153932327292754914}
-  - component: {fileID: 7929359552994979952}
   - component: {fileID: 1130786962174129906}
+  - component: {fileID: 1409681766848391517}
   m_Layer: 0
   m_Name: Boss-GoblinCheif
   m_TagString: Enemy
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LPosition3: 0
-  _CoinDropper: {fileID: 7929359552994979952}
+  _ItemDropper: {fileID: 0}
   AbilityTable: {fileID: 6103993616405179631}
   Animator: {fileID: 3348873940667493074}
   HealthBar: {fileID: 0}
@@ -323,20 +323,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7929359552994979952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3348873940667493073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _CoinValue: 4
-  _GroundOffsetY: -1.5
 --- !u!114 &1130786962174129906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,6 +337,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsPlayOnEnable: 0
   Name: 27
+--- !u!114 &1409681766848391517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348873940667493073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 742c0fd89b2091643b66fe8944ad09dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _GroundOffsetY: -1.5
+  _CommonPotion: 0.1
+  _RarePotion: 0.05
 --- !u!1 &6703213330863355055
 GameObject:
   m_ObjectHideFlags: 0

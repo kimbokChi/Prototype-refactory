@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 3014745951218843190}
   - component: {fileID: 4671115193957456666}
   - component: {fileID: 2183188798564597707}
-  - component: {fileID: 8382140518672202088}
+  - component: {fileID: 1543094358560202842}
   m_Layer: 0
   m_Name: PufferFish
   m_TagString: Enemy
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4db4735335dd9c841bc86b48c334ab22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinDropper: {fileID: 8382140518672202088}
+  _ItemDropper: {fileID: 1543094358560202842}
   IsLookAtLeft: 1
   AbilityTable: {fileID: 3014745951218843191}
   EnemyAnimator: {fileID: 3014745951218843190}
@@ -375,7 +375,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
---- !u!114 &8382140518672202088
+--- !u!114 &1543094358560202842
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -384,8 +384,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 3014745951218843213}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Script: {fileID: 11500000, guid: 742c0fd89b2091643b66fe8944ad09dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinValue: 5
   _GroundOffsetY: -1.3
+  _CommonPotion: 0.1
+  _RarePotion: 0.05

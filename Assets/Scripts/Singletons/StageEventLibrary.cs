@@ -1,16 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Kimbokchi;
 
 public enum NotifyMessage
 {
     StageClear, StageEnter
 }
-
+[ExecuteInEditMode]
 public class StageEventLibrary : Singleton<StageEventLibrary>
 {
-    [Range(0f, 1f)]
-    [SerializeField] private float _ItemBoxProbab;
+    private const int ProbablityPropertyCount = 4;
+
+    private enum StageClearEnventName
+    {
+        CreateItemBox, SummonPeddlerNPC, CreateLHealingPotion, CreateMHealingPotion
+    }
+    [SerializeField, Range(0f, 1f)] private float _ItemBoxProbab;
+    [SerializeField, Range(0f, 1f)] private float _PeddlerNPCProbab;
+    [SerializeField, Range(0f, 1f)] private float _LHealPotionProbab;
+    [SerializeField, Range(0f, 1f)] private float _MHealPotionProbab;
+    private float[] _ProbablityArray;
 
     [Header("ItemBox Section")]
     [SerializeField] private ItemBoxHolder ItemBox;
@@ -28,15 +38,30 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
 
     private void Awake()
     {
+        _ProbablityArray = new float[ProbablityPropertyCount] 
+        {
+            _ItemBoxProbab, _PeddlerNPCProbab, _LHealPotionProbab, _MHealPotionProbab
+        };
         StageClearEvent += () =>
         {
-            if (Random.value < _ItemBoxProbab)
+            int eventIndex = Utility.LuckyNumber(_ProbablityArray);
+
+            switch ((StageClearEnventName)eventIndex)
             {
-                CreateItemBox();
-            }
-            else
-            {
-                OnEnablePeddlerNPC();
+                case StageClearEnventName.CreateItemBox:
+                    CreateItemBox();
+                    break;
+                case StageClearEnventName.SummonPeddlerNPC:
+                    OnEnablePeddlerNPC();
+                    break;
+                case StageClearEnventName.CreateLHealingPotion:
+                    CreatePotion(PotionName.LHealingPotion);
+                    break;
+                case StageClearEnventName.CreateMHealingPotion:
+                    CreatePotion(PotionName.MHealingPotion);
+                    break;
+                default:
+                    break;
             }
         };
         StageClearEvent += () => SetActiveInventoryButton(true);
@@ -90,6 +115,11 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
         }
         var box = Instantiate(ItemBox, createPoint, Quaternion.identity);
             box.HoldingItemBox.Init(boxContainItem, boxSprite);
+    }
+    private void CreatePotion(PotionName potionName)
+    {
+        PotionPool.Instance.Get(potionName).transform.position 
+            = Castle.Instance.GetMovePoint(UnitizedPos.MID);
     }
 
     private void OnEnablePeddlerNPC()

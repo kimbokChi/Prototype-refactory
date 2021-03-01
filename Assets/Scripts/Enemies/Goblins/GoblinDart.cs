@@ -11,7 +11,7 @@ public class GoblinDart : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
     [SerializeField] private MovementModule _Movement;
     [SerializeField] private RecognitionModule _Recognition;
     [SerializeField] private LongRangeModule _AttackModule;
-    [SerializeField] private CoinDropper _CoinDropper;
+    [SerializeField] private ItemDropper _ItemDropper;
 
     public AbilityTable GetAbility => _AbilityTable;
 
@@ -56,7 +56,9 @@ public class GoblinDart : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
             _EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
-            _CoinDropper.Drop(3);
+            _ItemDropper.CoinDrop(3);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
+
             if (TryGetComponent(out Collider2D collider))
             {
                 collider.enabled = false;

@@ -11,7 +11,7 @@ public class GoblinAssassin : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     [SerializeField] private MovementModule _Movement;
     [SerializeField] private RecognitionModule _Recognition;
     [SerializeField] private DashModule _AttackModule;
-    [SerializeField] private CoinDropper _CoinDropper;
+    [SerializeField] private ItemDropper _ItemDropper;
 
     private Coroutine _DashRoutine;
 
@@ -64,7 +64,9 @@ public class GoblinAssassin : MonoBehaviour, IObject, ICombatable, IAnimEventRec
             _EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
-            _CoinDropper.Drop(2);
+            _ItemDropper.CoinDrop(2);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
+
             if (TryGetComponent(out Collider2D collider))
             {
                 collider.enabled = false;

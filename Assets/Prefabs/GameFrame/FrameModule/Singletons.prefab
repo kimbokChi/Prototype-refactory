@@ -36,6 +36,7 @@ Transform:
   - {fileID: 2518353896850578292}
   - {fileID: 5880703107540200302}
   - {fileID: 719036514548845176}
+  - {fileID: 4545606555075668470}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -99,7 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fca3110fd02347489f226dd2fa4bbb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ItemBoxProbab: 0.6
+  _ItemBoxProbab: 0.5
+  _PeddlerNPCProbab: 0.3
+  _LHealPotionProbab: 0.05
+  _MHealPotionProbab: 0.15
   ItemBox: {fileID: 5804754286839020693, guid: f35de1102ab78f94d88d3d9b1b8ecbd8, type: 3}
   WoodenSprite: {fileID: 11400000, guid: fc94f87e70b154841bf91a06030f5cb0, type: 2}
   GoldenSprite: {fileID: 11400000, guid: 21e45ce82839c5a43964f220aae0767a, type: 2}
@@ -362,4 +366,79 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6860921374311656212, guid: bc1997a534299774abbe570bcd002f05,
     type: 3}
   m_PrefabInstance: {fileID: 6254484233742655852}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8171376426939484069
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2518353896841765213}
+    m_Modifications:
+    - target: {fileID: 5653058241685515859, guid: c78b6d796f52b354a91f126ddac9331b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653058241685515859, guid: c78b6d796f52b354a91f126ddac9331b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653058241685515859, guid: c78b6d796f52b354a91f126ddac9331b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653058241685515859, guid: c78b6d796f52b354a91f126ddac9331b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653058241685515859, guid: c78b6d796f52b354a91f126ddac9331b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653058241685515859, guid: c78b6d796f52b354a91f126ddac9331b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653058241685515859, guid: c78b6d796f52b354a91f126ddac9331b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653058241685515859, guid: c78b6d796f52b354a91f126ddac9331b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653058241685515859, guid: c78b6d796f52b354a91f126ddac9331b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653058241685515859, guid: c78b6d796f52b354a91f126ddac9331b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653058241685515859, guid: c78b6d796f52b354a91f126ddac9331b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5653058241685515861, guid: c78b6d796f52b354a91f126ddac9331b,
+        type: 3}
+      propertyPath: m_Name
+      value: PotionPool
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c78b6d796f52b354a91f126ddac9331b, type: 3}
+--- !u!4 &4545606555075668470 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5653058241685515859, guid: c78b6d796f52b354a91f126ddac9331b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8171376426939484069}
   m_PrefabAsset: {fileID: 0}

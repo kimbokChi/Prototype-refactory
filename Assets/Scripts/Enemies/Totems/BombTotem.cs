@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
-    [SerializeField] private CoinDropper _CoinDropper;
+    [SerializeField] private ItemDropper _ItemDropper;
 
     [Header("Range Info")]
     [SerializeField] private Area Range;
@@ -87,7 +87,8 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
             EnemyAnimator.ChangeState(AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
-            _CoinDropper.Drop(4);
+            _ItemDropper.CoinDrop(4);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
 
             if (TryGetComponent(out Collider2D collider))
             {

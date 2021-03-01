@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7034269368150289277}
   - component: {fileID: 5166139037131581288}
   - component: {fileID: 3435590651772035958}
-  - component: {fileID: 6855448274617187914}
+  - component: {fileID: 2562260869327929882}
   m_Layer: 0
   m_Name: CannonBot
   m_TagString: Enemy
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8471371ce4e9a641aa89e1f7da7efa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinDropper: {fileID: 6855448274617187914}
+  _ItemDropper: {fileID: 2562260869327929882}
   Bullet: {fileID: 3579290249566589680}
   ShootSpeed: 13
   ShootPos: {x: -0.8, y: -0.425}
@@ -205,7 +205,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.4, y: 1.8}
   m_EdgeRadius: 0
---- !u!114 &6855448274617187914
+--- !u!114 &2562260869327929882
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -214,11 +214,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2125185423950125863}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Script: {fileID: 11500000, guid: 742c0fd89b2091643b66fe8944ad09dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinValue: 3
   _GroundOffsetY: -1
+  _CommonPotion: 0.1
+  _RarePotion: 0.05
 --- !u!1 &5511743553352052502
 GameObject:
   m_ObjectHideFlags: 0

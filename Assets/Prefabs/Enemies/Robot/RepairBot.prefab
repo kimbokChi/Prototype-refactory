@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 1092107638}
   - component: {fileID: 7332568057210430375}
   - component: {fileID: 3225360765162321234}
-  - component: {fileID: 202459842285805085}
+  - component: {fileID: 5588998999536605542}
   m_Layer: 0
   m_Name: RepairBot
   m_TagString: Enemy
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2616cc5b469e40f4b987c1f7b6c6351f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinDropper: {fileID: 202459842285805085}
+  _ItemDropper: {fileID: 5588998999536605542}
   IsLookAtLeft: 1
   AbilityTable: {fileID: 4183909946533553527}
   EnemyAnimator: {fileID: 4183909946533553524}
@@ -267,7 +267,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &202459842285805085
+--- !u!114 &5588998999536605542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -276,11 +276,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4183909946533553512}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6203759ed405d74390d832b41876e65, type: 3}
+  m_Script: {fileID: 11500000, guid: 742c0fd89b2091643b66fe8944ad09dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CoinValue: 1
   _GroundOffsetY: -0.8
+  _CommonPotion: 0.1
+  _RarePotion: 0.05
 --- !u!1 &4617885358269722393
 GameObject:
   m_ObjectHideFlags: 0

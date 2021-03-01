@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
-    [SerializeField] private CoinDropper _CoinDropper;
+    [SerializeField] private ItemDropper _ItemDropper;
     [SerializeField] private AbilityTable AbilityTable;
 
     [SerializeField] private EnemyAnimator EnemyAnimator;
@@ -95,7 +95,8 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
 
-            _CoinDropper.Drop(3);
+            _ItemDropper.CoinDrop(6);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
             if (TryGetComponent(out Collider2D collider))
             {
                 collider.enabled = false;

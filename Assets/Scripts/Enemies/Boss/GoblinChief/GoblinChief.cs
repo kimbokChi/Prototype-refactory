@@ -13,7 +13,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         Idle, Jump, Swing, Skill, Landing, End
     }
     [SerializeField] private UnitizedPosV LPosition3;
-    [SerializeField] private CoinDropper _CoinDropper;
+    [SerializeField] private ItemDropper _ItemDropper;
 
     [Header("Ability")]
     [SerializeField] private AbilityTable AbilityTable;
@@ -69,7 +69,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         {
             gameObject.SetActive(false);
 
-            _CoinDropper.Drop(15);
+            _ItemDropper.CoinDrop(15);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
 
             if (TryGetComponent(out Collider2D collider))
             {
