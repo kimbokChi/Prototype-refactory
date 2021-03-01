@@ -467,8 +467,6 @@ public class Player : MonoBehaviour, ICombatable
     }
     private IEnumerator MoveWithPoint(Vector3 movePoint, Direction direction)
     {
-        yield return StartCoroutine(MoveWithPoint(movePoint));
-
         switch (direction)
         {
             case Direction.Up:
@@ -484,6 +482,7 @@ public class Player : MonoBehaviour, ICombatable
                 mLocation9--;
                 break;
         }
+        yield return StartCoroutine(MoveWithPoint(movePoint));
     }
 
     public void InputLock(bool isLock) {

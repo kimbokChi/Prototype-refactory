@@ -149,12 +149,13 @@ public class TouchController : MonoBehaviour
 
                                     if (direction.y > 0)
                                     {
-                                        _Player.MoveOrder(Direction.Up);
+                                        _MoveRoutine.StartRoutine(Move(Direction.Up));
                                     }
                                     else
                                     {
-                                        _Player.MoveOrder(Direction.Down);
+                                        _MoveRoutine.StartRoutine(Move(Direction.Down));
                                     }
+                                    _StationaryTime = 0f;
                                 }
                             }
                         }
@@ -231,8 +232,6 @@ public class TouchController : MonoBehaviour
 #endif
         _Player.MoveStop();
         _MoveRoutine.Finish();
-
-        _StationaryTime = 0f;
     }
     private void OnDisable()
     {
