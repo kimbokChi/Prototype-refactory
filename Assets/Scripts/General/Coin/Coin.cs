@@ -36,15 +36,13 @@ public class Coin : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_PopRoutine.IsFinished())
+        if (collision.CompareTag("Player"))
         {
-            if (collision.CompareTag("Player") && !_Animator.GetBool(_AnimationHash))
-            {
-                MoneyManager.Instance.AddMoney(Value);
-                _Animator.SetBool(_AnimationHash, true);
+            MoneyManager.Instance.AddMoney(Value);
+            _Animator.SetBool(_AnimationHash, true);
 
-                SoundManager.Instance.PlaySound(SoundName.PickUpCoin);
-            }
+            SoundManager.Instance.PlaySound(SoundName.PickUpCoin);
+            _PopRoutine.StopRoutine();
         }
     }
     private void Disable()
