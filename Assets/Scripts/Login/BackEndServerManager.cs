@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 // Include Backend
 using BackEnd;
+using LitJson;
 using static BackEnd.SendQueue;
 //  Include GPGS namespace
 using GooglePlayGames;
@@ -22,9 +24,11 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
     public string InDate { get;  set; } = string.Empty;// 로그인한 계정의 inDate
     private Action<bool, string> loginSuccessFunc = null;
 
+    public bool load = false;
+
     float x = 0;
     float Y = 0;
-
+    bool IsInitialized = false;
     BackendReturnObject bro;
 
     private const string BackendError = "statusCode : {0}\nErrorCode : {1}\nMessage : {2}";
@@ -127,6 +131,45 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         });
     }
 
+    public void IAPSAVE(string _Table)
+    {
+        Where where = new Where();
+        Debug.Log("iap");
+
+        Param _Param = new Param();
+        Debug.Log(_Param);
+
+        where.Equal("gamerIndate", mIndate);
+        _Param.Add("IAP", IAP.Instance.APP);
+       
+
+        Enqueue(Backend.GameSchemaInfo.Get, _Table, where, 1, (BackendReturnObject Getbro) =>
+        {
+
+            Debug.Log("iap커넥트");
+
+            if (Getbro.IsSuccess())
+            {
+                Enqueue(Backend.GameSchemaInfo.Update, _Table, Getbro.GetReturnValuetoJSON()["rows"][0]["inDate"]["BOOL"].ToString(), _Param, (BackendReturnObject Updatebro) =>
+                {
+                    if (Updatebro.IsSuccess())
+                        Debug.Log("Update");
+                    else
+                        Debug.Log("falil update" + Updatebro);
+                });
+            }
+            else
+            {
+                Enqueue(Backend.GameSchemaInfo.Insert, _Table, _Param, (BackendReturnObject Insertbro) =>
+                {
+                    if (Insertbro.IsSuccess())
+                        Debug.Log("insert");
+                    else
+                        Debug.Log("falil insert" + Insertbro);
+                });
+            }
+        });
+    }
     public static BackEndServerManager GetInstance()
     {
         if (instance == null)
@@ -142,41 +185,85 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
     {
 
 #if UNITY_ANDROID
+        // ----- GPGS -----
         PlayGamesClientConfiguration config = new PlayGamesClientConfiguration
             .Builder()
             .RequestServerAuthCode(false)
+            .RequestEmail()
             .RequestIdToken()
             .Build();
+
+        //커스텀된 정보로 GPGS 초기화
         PlayGamesPlatform.InitializeInstance(config);
         PlayGamesPlatform.DebugLogEnabled = true;
-
+        //GPGS 시작.
         PlayGamesPlatform.Activate();
 #endif
         isLogin = false;
+   
+        // ----- 뒤끝 -----
+
+        
         try
         {
-            Backend.Initialize(() =>
+
+            Backend.Initialize(() => // 비동기 
             {
                 if (Backend.IsInitialized)
                 {
-#if UNITY_ANDROID
-                    Debug.Log("GoogleHash - " + Backend.Utils.GetGoogleHash());
-#endif
-                    // 비동기 함수 큐 초기화
-                    StartSendQueue(true);
+                    IsInitialized = true;
+                    SendQueue.StartSendQueue();
+                   
+
+                    // 구글 해시키 획득 
+                    if (!string.IsNullOrEmpty(Backend.Utils.GetGoogleHash()))
+                        Debug.Log(Backend.Utils.GetGoogleHash());
+
+                    // 서버시간 획득
+                    Debug.Log(Backend.Utils.GetServerTime());
+                    // Application 버전 확인
+                   
+
                 }
                 else
                 {
-                    Debug.Log("뒤끝 초기화 실패");
+                    // 초기화 실패한 경우 실행
+
+                    
+                    Debug.Log("초기화 실패 - ");
                 }
             });
+
         }
         catch (Exception e)
         {
-            Debug.Log("[예외]뒤끝 초기화 실패\n" + e.ToString());
+            Debug.LogError(e.Message);
         }
     }
+    void backendCallback(BackendReturnObject BRO)
+    {
+        //프로세싱 팝업 끄기
+        
 
+        // 초기화 성공한 경우 실행
+        if (BRO.IsSuccess())
+        {
+            // 구글 해시키 획득 
+            if (!string.IsNullOrEmpty(Backend.Utils.GetGoogleHash()))
+                Debug.Log(Backend.Utils.GetGoogleHash());
+
+            // 서버시간 획득
+            Debug.Log(Backend.Utils.GetServerTime());
+            // Application 버전 확인
+          
+        }
+        // 초기화 실패한 경우 실행
+        else
+        {
+          
+            Debug.Log("초기화 실패 - " + BRO);
+        }
+    }
     void OnApplicationQuit()
     {
 
@@ -211,13 +298,14 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         {
             if (callback.IsSuccess())
             {
-                OnStage();
-                OnItem();
-                OnLogined();
-                OnOption();
+                OnBackendAuthorized();
                 loginSuccessFunc = func;
                 Debug.Log("토큰 로그인 성공");
-               
+                load = true;
+                if (load == true)
+                {
+                    SceneLoader.Instance.SceneLoad(2);
+                }
             }
             else
             {
@@ -251,13 +339,14 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
 
                         Debug.Log("정보 불러오기 성공" + callback1);
 
+                        load = true;
 
                     }
                     else
                     {
 
                         Debug.Log("정보 불러오기 실패" + callback1);
-
+                       // SceneLoader.Instance.SceneLoad(1);
                     }
                 }    
             });
@@ -297,7 +386,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
                 { 
 
                     Debug.Log("정보 불러오기 실패"+callback1);
-                    
+                    //SceneLoader.Instance.SceneLoad(1);
                 }
             });
         }
@@ -331,13 +420,47 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
 
                     Debug.Log("정보 불러오기 성공" + callback1);
                   
+                    
+                }
+                else
+                {
+
+                    Debug.Log("정보 불러오기 실패" + callback1);
+                   // SceneLoader.Instance.SceneLoad(1);
+                }
+            });
+        }
+        else
+            Debug.Log(bro + "812");
+    }
+    public void IAPCOME()
+    {
+        bro = Backend.BMember.GetUserInfo();
+        mIndate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+        if (bro.IsSuccess())
+        {
+            Where param = new Where();
+            param.Equal("gamerIndate", mIndate);
+            Backend.GameSchemaInfo.Get("IAP", param, 1, callback1 =>
+            {
+                if (callback1.IsSuccess())
+                {
+                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
+                    Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
+
+                   
+                    IAP.Instance.AiP(bool.Parse(callback1.Rows()[0]["IAP"]["BOOL"].ToString()));
+
+
+                    Debug.Log("정보 불러오기 성공" + callback1);
+           
 
                 }
                 else
                 {
 
                     Debug.Log("정보 불러오기 실패" + callback1);
-                    SceneLoader.Instance.SceneLoad(1);
+                 //   SceneLoader.Instance.SceneLoad(1);
                 }
             });
         }
@@ -364,14 +487,14 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
 
 
                     Debug.Log("정보 불러오기 성공"+callback1);
-                    SceneLoader.Instance.SceneLoad(2);
 
+                    
                 }
                 else
                 {
                    
                     Debug.Log("정보 불러오기 실패" + callback1);
-                    SceneLoader.Instance.SceneLoad(1);
+                    //SceneLoader.Instance.SceneLoad(1);
                 }
             });
         }
@@ -379,112 +502,91 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             Debug.Log(bro + "812");
     }
     // 커스텀 로그인
-    
 
-    public void GoogleAuthorizeFederation(Action<bool, string> func)
+#region 페더레이션 회원 가입 (GPGS)
+    public void GPGSLogin() // 로그인으로 해야 될 경우, 동기 형식이 더 편하다
     {
 #if UNITY_ANDROID
-        // 이미 gpgs 로그인이 된 경우
+        // 이미 로그인 된 경우
         if (Social.localUser.authenticated == true)
         {
-            var token = GetFederationToken();
-            if (token.Equals(string.Empty))
+            bro = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "gpgs");
+            if (bro.IsSuccess())
             {
-                Debug.LogError("GPGS 토큰이 존재하지 않습니다.");
-                func(false, "GPGS 인증을 실패하였습니다.\nGPGS 토큰이 존재하지 않습니다.");
-                return;
-            }
+                // 성공시
+                OnBackendAuthorized();
 
-            Enqueue(Backend.BMember.AuthorizeFederation, token, FederationType.Google, "gpgs 인증", callback =>
-            {
-                if (callback.IsSuccess())
+             
+                indate();
+                MessagePopManager.instance.ShowPop("GPGS 로그인 성공");
+
+                load = true;
+
+                if (load == true)
                 {
-                    OnStage();
-                    OnItem();
-                    OnOption();
-                    OnLogined();
-                    Debug.Log("GPGS 인증 성공");
-                    loginSuccessFunc = func;
-
-                    bro = Backend.GameSchemaInfo.Insert("Player");
-                    Param param1 = new Param();
-                    param1.Add("gamerIndate", mIndate);
-                    Backend.GameSchemaInfo.Update("Player", bro.GetInDate(), param1);
-                    OnPrevBackendAuthorized();
                     SceneLoader.Instance.SceneLoad(2);
-                    return;
                 }
-
-                Debug.LogError("GPGS 인증 실패\n" + callback.ToString());
-                func(false, string.Format(BackendError,
-                    callback.GetStatusCode(), callback.GetErrorCode(), callback.GetMessage()));
-            });
+            }
         }
-        // gpgs 로그인을 해야하는 경우
         else
         {
             Social.localUser.Authenticate((bool success) =>
             {
                 if (success)
                 {
-                    var token = GetFederationToken();
-                    if (token.Equals(string.Empty))
-                    {
-                        Debug.LogError("GPGS 토큰이 존재하지 않습니다.");
-                        func(false, "GPGS 인증을 실패하였습니다.\nGPGS 토큰이 존재하지 않습니다.");
-                        return;
-                    }
+                    // 로그인 성공 -> 뒤끝 서버에 획득한 구글 토큰으로 가입요청
+                    bro = Backend.BMember.AuthorizeFederation(GetTokens(), FederationType.Google, "gpgs");
 
-                    Enqueue(Backend.BMember.AuthorizeFederation, token, FederationType.Google, "gpgs 인증", callback =>
+                    if (bro.IsSuccess())
                     {
-                        if (callback.IsSuccess())
+                        // 성공시
+                        OnBackendAuthorized();
+
+                        
+                        indate();
+                        Debug.Log("GPGS 로그인 성공");
+
+                        load = true;
+                        if (load == true)
                         {
-                            OnLogined();
-                            OnItem();
-                            OnStage();
-                            OnOption();
-                            Debug.Log("GPGS 인증 성공");
-                            loginSuccessFunc = func;
-
-                            OnPrevBackendAuthorized();
                             SceneLoader.Instance.SceneLoad(2);
-                            return;
                         }
-
-                        Debug.LogError("GPGS 인증 실패\n" + callback.ToString());
-                        func(false, string.Format(BackendError,
-                            callback.GetStatusCode(), callback.GetErrorCode(), callback.GetMessage()));
-                    });
+                    }
                 }
                 else
                 {
+                    // 로그인 실패
+                    Debug.Log("Login failed for some reason");
                     Debug.LogError("GPGS 로그인 실패");
-                    func(false, "GPGS 인증을 실패하였습니다.\nGPGS 로그인을 실패하였습니다.");
-                    return;
+                    MessagePopManager.instance.ShowPop("[X]GPGS 로그인 실패", 10f);
                 }
             });
         }
 #endif
     }
 
-    private string GetFederationToken()
+    // 구글 토큰 받아옴
+    public string GetTokens() // 딱히 수정할 필요 없음
     {
 #if UNITY_ANDROID
-        if (!PlayGamesPlatform.Instance.localUser.authenticated)
+        if (PlayGamesPlatform.Instance.localUser.authenticated)
         {
-            Debug.LogError("GPGS에 접속되어있지 않습니다. PlayGamesPlatform.Instance.localUser.authenticated :  fail");
-            return string.Empty;
+            // 유저 토큰 받기 첫번째 방법
+            string _IDtoken = PlayGamesPlatform.Instance.GetIdToken();
+            // 두번째 방법
+            // string _IDtoken = ((PlayGamesLocalUser)Social.localUser).GetIdToken();
+            return _IDtoken;
         }
-        // 유저 토큰 받기
-        string _IDtoken = PlayGamesPlatform.Instance.GetIdToken();
-        tempNickName = PlayGamesPlatform.Instance.GetUserDisplayName();
-        Debug.Log(tempNickName);
-        return _IDtoken;
-
-#else
-        return string.Empty;
+        else
+        {
+            MessagePopManager.instance.ShowPop("접속되어있지 않습니다. PlayGamesPlatform.Instance.localUser.authenticated :  fail", 10f);
+            Debug.Log("접속되어있지 않습니다. PlayGamesPlatform.Instance.localUser.authenticated :  fail");
+        }
 #endif
+        return null;
     }
+     #endregion
+
 
     public void UpdateNickname(string nickname, Action<bool, string> func)
     {
@@ -503,36 +605,17 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             SceneLoader.Instance.SceneLoad(2);
         });
     }
-    private void OnPrevBackendAuthorized()
-    {
-        isLogin = true;
+ 
 
-        OnBackendAuthorized();
-    }
     private void OnBackendAuthorized()
     {
-        Enqueue(Backend.BMember.GetUserInfo, callback =>
-        {
-            if (!callback.IsSuccess())
-            {
-                Debug.LogError("유저 정보 불러오기 실패\n" + callback);
-                loginSuccessFunc(false, string.Format(BackendError,
-                callback.GetStatusCode(), callback.GetErrorCode(), callback.GetMessage()));
-                return;
-            }
-            Debug.Log("유저정보\n" + callback);
+        OnLogined();
+        IAPCOME();
+        OnItem();
+        OnStage();
+        OnOption();
 
-            var info = callback.GetReturnValuetoJSON()["row"];
-            if (info["nickname"] == null)
-            {
-               
-                return;
-            }
-            myNickName = info["nickname"].ToString();
-            myIndate = info["inDate"].ToString();
-
-           
-        });
+       
     }
     void Update()
     {
@@ -540,29 +623,70 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         
     }
 
-    public void GuestLogin(Action<bool, string> func)
+    public void GuestLogin()
     {
         Enqueue(Backend.BMember.GuestLogin, callback =>
         {
             if (callback.IsSuccess())
             {
+                OnBackendAuthorized();
+
+
+                indate();
                 Debug.Log("게스트 로그인 성공");
-                loginSuccessFunc = func;
-             
-                bro = Backend.GameSchemaInfo.Insert("Player");
-               Param param1 = new Param();
-                param1.Add("gamerIndate", mIndate);
-                Backend.GameSchemaInfo.Update("Player", bro.GetInDate(), param1);
-                OnPrevBackendAuthorized();
                 return;
             }
 
             Debug.Log("게스트 로그인 실패\n" + callback);
-            func(false, string.Format(BackendError,
-                callback.GetStatusCode(), callback.GetErrorCode(), callback.GetMessage()));
+           
         });
     }
-  
+   
+
+    public void indate()
+    {
+        Tplay();
+        Titem();
+        Tstage();
+        Toption();
+        Tiap();
+    }
+    public void Tplay()
+    {
+        bro = Backend.GameSchemaInfo.Insert("Player");
+        Param param1 = new Param();
+        param1.Add("gamerIndate", mIndate);
+        Backend.GameSchemaInfo.Update("Player", bro.GetInDate(), param1);
+    }
+     public void Titem()
+    {
+        bro = Backend.GameSchemaInfo.Insert("ITem");
+        Param param1 = new Param();
+        param1.Add("gamerIndate", mIndate);
+        Backend.GameSchemaInfo.Update("ITem", bro.GetInDate(), param1);
+    }
+
+    public void Tstage()
+    {
+        bro = Backend.GameSchemaInfo.Insert("STAGE");
+        Param param1 = new Param();
+        param1.Add("gamerIndate", mIndate);
+        Backend.GameSchemaInfo.Update("STAGE", bro.GetInDate(), param1);
+    }
+
+    public void Toption()
+    {
+        bro = Backend.GameSchemaInfo.Insert("Option");
+        Param param1 = new Param();
+        param1.Add("gamerIndate", mIndate);
+        Backend.GameSchemaInfo.Update("Option", bro.GetInDate(), param1);
+    }
     // Update is called once per frame
- 
+    public void Tiap()
+    {
+        bro = Backend.GameSchemaInfo.Insert("IAP");
+        Param param1 = new Param();
+        param1.Add("gamerIndate", mIndate);
+        Backend.GameSchemaInfo.Update("IAP", bro.GetInDate(), param1);
+    }
 }
