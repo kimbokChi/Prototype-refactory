@@ -61,12 +61,14 @@ public class Player : MonoBehaviour, ICombatable
 
     [SerializeField]
     private float mDefense;
-    [SerializeField, Range(0f, 3.5f)]
-    private float _DashLength;
-    [SerializeField, Range(1f, 3f)]
-    private float _DashSpeedScale;
 
-    [SerializeField]
+    [Header("Dash Property")]
+    [SerializeField, Range(0f, 3.5f)] private float _DashLength;
+    [SerializeField, Range(0f, 2.0f)] private float _DashTime;
+    [SerializeField, Range(1f, 3.0f)] private float _DashSpeedScale;
+    [SerializeField] private AnimationCurve _DashCurve;
+
+    [Space(), SerializeField]
     private UnitizedPos mLocation9;
     
     private IEnumerator mEMove;
@@ -281,12 +283,14 @@ public class Player : MonoBehaviour, ICombatable
                 case UnitizedPosH.LEFT:
                     {
                         dashPoint += Vector2.left * _DashLength;
+                        SetLookAtLeft(true);
                     }
                     break;
 
                 case UnitizedPosH.RIGHT:
                     {
                         dashPoint += Vector2.right * _DashLength;
+                        SetLookAtLeft(false);
                     }
                     break;
             }
@@ -315,9 +319,10 @@ public class Player : MonoBehaviour, ICombatable
         }
         Vector2 start = transform.position;
 
-        for (float i = 0; i < 1f; i += Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed * _DashSpeedScale)
+        for (float i = 0; i < _DashTime; i += Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed * _DashSpeedScale)
         {
-            transform.position = Vector2.Lerp(start, dashPoint, i);
+            float ratio = _DashCurve.Evaluate(i / _DashTime);
+            transform.position = Vector2.Lerp(start, dashPoint, ratio);
 
             if (transform.position.x < movePointMin.x)
             {
