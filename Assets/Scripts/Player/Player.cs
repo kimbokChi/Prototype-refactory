@@ -61,6 +61,10 @@ public class Player : MonoBehaviour, ICombatable
 
     [SerializeField]
     private float mDefense;
+    [SerializeField, Range(0f, 3.5f)]
+    private float _DashLength;
+    [SerializeField, Range(1f, 3f)]
+    private float _DashSpeedScale;
 
     [SerializeField]
     private UnitizedPos mLocation9;
@@ -265,6 +269,71 @@ public class Player : MonoBehaviour, ICombatable
         else
             transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
+
+    // ========== Dash Order ========== //
+    public void DashOrder(UnitizedPosH direction)
+    {
+        if (_MoveRoutine.IsFinished())
+        {            
+            Vector2 dashPoint = transform.position;
+            switch (direction)
+            {
+                case UnitizedPosH.LEFT:
+                    {
+                        dashPoint += Vector2.left * _DashLength;
+                    }
+                    break;
+
+                case UnitizedPosH.RIGHT:
+                    {
+                        dashPoint += Vector2.right * _DashLength;
+                    }
+                    break;
+            }
+            _MoveRoutine.StartRoutine(DashRoutine(dashPoint));
+        }
+    }
+    private IEnumerator DashRoutine(Vector2 dashPoint)
+    {
+        Vector2 movePointMin = Vector2.zero;
+        Vector2 movePointMax = Vector2.zero;
+
+        switch (GetUnitizedPosV())
+        {
+            case UnitizedPosV.TOP:
+                movePointMin = Castle.Instance.GetMovePoint(UnitizedPos.TOP_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(UnitizedPos.TOP_RIGHT);
+                break;
+            case UnitizedPosV.MID:
+                movePointMin = Castle.Instance.GetMovePoint(UnitizedPos.MID_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(UnitizedPos.MID_RIGHT);
+                break;
+            case UnitizedPosV.BOT:
+                movePointMin = Castle.Instance.GetMovePoint(UnitizedPos.BOT_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(UnitizedPos.BOT_RIGHT);
+                break;
+        }
+        Vector2 start = transform.position;
+
+        for (float i = 0; i < 1f; i += Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed * _DashSpeedScale)
+        {
+            transform.position = Vector2.Lerp(start, dashPoint, i);
+
+            if (transform.position.x < movePointMin.x)
+            {
+                transform.position = new Vector2(movePointMin.x, transform.position.y);
+                break;
+            }
+            else if (transform.position.x > movePointMax.x)
+            {
+                transform.position = new Vector2(movePointMax.x, transform.position.y);
+                break;
+            }
+            yield return null;
+        }
+        _MoveRoutine.Finish();
+    }
+    // ========== Dash Order ========== //
 
     public void AttackCancel()
     {
