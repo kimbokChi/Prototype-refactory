@@ -8,6 +8,7 @@ public class TouchController : MonoBehaviour
 {
     private const float NeedMovingLength = 0.5f;
     private const float NeedChargingTime = 1f;
+    private const float NeedDashLength = 180f;
 
     private Coroutine _MoveRoutine;
     private TouchPhase _CurrentPhase;
@@ -135,12 +136,13 @@ public class TouchController : MonoBehaviour
                 case TouchPhase.Moved:
                     {
                         Vector2 inputPosition = InputPosition();
-                        {
-                            Vector2 direction = (inputPosition - _BeganInputPoint).normalized;
+                        Vector2 direction = (inputPosition - _BeganInputPoint).normalized;
 
+                        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+                        {
                             Vector3 delta = DeltaPosition();
 
-                            if (delta.magnitude > 200)
+                            if (delta.magnitude > NeedDashLength)
                             {
                                 if (delta.x > 0)
                                 {
@@ -151,37 +153,33 @@ public class TouchController : MonoBehaviour
                                     _Player.DashOrder(UnitizedPosH.LEFT);
                                 }
                             }
-                            else
+                            else if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
                             {
-                                if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-                                {
-                                    if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
-                                    {
-                                        _BeganInputPoint = inputPosition;
+                                _BeganInputPoint = inputPosition;
 
-                                        if (direction.x > 0)
-                                        {
-                                            _MoveRoutine.StartRoutine(Move(Direction.Right));
-                                        }
-                                        else
-                                        {
-                                            _MoveRoutine.StartRoutine(Move(Direction.Left));
-                                        }
-                                    }
+                                if (direction.x > 0)
+                                {
+                                    _MoveRoutine.StartRoutine(Move(Direction.Right));
                                 }
                                 else
                                 {
-                                    if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 2f)
-                                    {
-                                        if (direction.y > 0)
-                                        {
-                                            _Player.MoveOrder(Direction.Up);
-                                        }
-                                        else
-                                        {
-                                            _Player.MoveOrder(Direction.Down);
-                                        }
-                                    }                                    
+                                    _MoveRoutine.StartRoutine(Move(Direction.Left));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 2f)
+                            {
+                                _BeganInputPoint = inputPosition;
+
+                                if (direction.y > 0)
+                                {
+                                    _Player.MoveOrder(Direction.Up);
+                                }
+                                else
+                                {
+                                    _Player.MoveOrder(Direction.Down);
                                 }
                                 _StationaryTime = 0f;
 

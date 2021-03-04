@@ -406,7 +406,7 @@ public class Player : MonoBehaviour, ICombatable
 
     public void MoveOrder(Direction direction)
     {
-        if (!mIsInputLock && AbilityTable[Ability.CurHealth] > 0f && _MoveRoutine.IsFinished())
+        if (!mIsInputLock && AbilityTable[Ability.CurHealth] > 0f && _MoveRoutine.IsFinished() && _DashRoutine.IsFinished())
         {
             Vector2 movePoint = Vector2.zero;
 
