@@ -29,6 +29,9 @@ public class VirtualJoystick : MonoBehaviour
     [SerializeField] private SubscribableButton _Button;
     [SerializeField] private Image  _ButtonImage;
 
+    private const float IntervalClickTime = 0.2f;
+    private float _LastClickTime = 0f;
+
     public SubscribableButton this[Direction dir]
     {
         get
@@ -130,9 +133,25 @@ public class VirtualJoystick : MonoBehaviour
         {
             switch (state)
             {
-                case ButtonState.Down: _Player.MoveOrder(direction);
+                case ButtonState.Down:
+                    if (Time.time - _LastClickTime < IntervalClickTime)
+                    {
+                        switch (direction)
+                        {
+                            case Direction.Right:
+                                _Player.DashOrder(UnitizedPosH.RIGHT);
+                                break;
+                            case Direction.Left:
+                                _Player.DashOrder(UnitizedPosH.LEFT);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        _Player.MoveOrder(direction);
+                    }
                     break;
-                case ButtonState.Up  :
+                case ButtonState.Up:
                     {
                         switch (direction)
                         {
@@ -144,6 +163,7 @@ public class VirtualJoystick : MonoBehaviour
                     }
                     break;
             }
+            _LastClickTime = Time.time;
         }
     }
     

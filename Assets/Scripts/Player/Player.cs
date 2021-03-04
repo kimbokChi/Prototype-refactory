@@ -68,6 +68,8 @@ public class Player : MonoBehaviour, ICombatable
     [SerializeField, Range(1f, 3.0f)] private float _DashSpeedScale;
     [SerializeField] private AnimationCurve _DashCurve;
 
+    private Coroutine _DashRoutine;
+
     [Space(), SerializeField]
     private UnitizedPos mLocation9;
     
@@ -143,6 +145,7 @@ public class Player : MonoBehaviour, ICombatable
         mInventory = Inventory.Instance;
 
         _MoveRoutine = _MoveRoutine ?? new Coroutine(this);
+        _DashRoutine = _DashRoutine ?? new Coroutine(this);
 
         if (RangeArea.gameObject.TryGetComponent(out mRangeCollider))
         {
@@ -275,7 +278,7 @@ public class Player : MonoBehaviour, ICombatable
     // ========== Dash Order ========== //
     public void DashOrder(UnitizedPosH direction)
     {
-        if (_MoveRoutine.IsFinished())
+        if (_DashRoutine.IsFinished())
         {            
             Vector2 dashPoint = transform.position;
             switch (direction)
@@ -294,7 +297,8 @@ public class Player : MonoBehaviour, ICombatable
                     }
                     break;
             }
-            _MoveRoutine.StartRoutine(DashRoutine(dashPoint));
+            _MoveRoutine.StopRoutine();
+            _DashRoutine.StartRoutine(DashRoutine(dashPoint));
         }
     }
     private IEnumerator DashRoutine(Vector2 dashPoint)
@@ -336,7 +340,7 @@ public class Player : MonoBehaviour, ICombatable
             }
             yield return null;
         }
-        _MoveRoutine.Finish();
+        _DashRoutine.Finish();
     }
     // ========== Dash Order ========== //
 
