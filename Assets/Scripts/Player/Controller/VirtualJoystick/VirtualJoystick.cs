@@ -31,6 +31,7 @@ public class VirtualJoystick : MonoBehaviour
 
     private const float IntervalClickTime = 0.2f;
     private float _LastClickTime = 0f;
+    private Direction _PrevInputButton = Direction.None;
 
     public SubscribableButton this[Direction dir]
     {
@@ -134,7 +135,7 @@ public class VirtualJoystick : MonoBehaviour
             switch (state)
             {
                 case ButtonState.Down:
-                    if (Time.time - _LastClickTime < IntervalClickTime)
+                    if (direction == _PrevInputButton && Time.time - _LastClickTime < IntervalClickTime)
                     {
                         switch (direction)
                         {
@@ -145,10 +146,13 @@ public class VirtualJoystick : MonoBehaviour
                                 _Player.DashOrder(UnitizedPosH.LEFT);
                                 break;
                         }
+                        _PrevInputButton = Direction.None;
                     }
                     else
                     {
                         _Player.MoveOrder(direction);
+
+                        _PrevInputButton = direction;
                     }
                     break;
                 case ButtonState.Up:

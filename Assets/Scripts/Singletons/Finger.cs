@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public enum Direction
 {
-    Up, Down, Right, Left
+    Up, Down, Right, Left, None
 }
 
 public class Finger : Singleton<Finger>
