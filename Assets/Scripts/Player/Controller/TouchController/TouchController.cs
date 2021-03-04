@@ -175,11 +175,11 @@ public class TouchController : MonoBehaviour
 
                                 if (direction.y > 0)
                                 {
-                                    _Player.MoveOrder(Direction.Up);
+                                    _MoveRoutine.StartRoutine(Move(Direction.Up));
                                 }
                                 else
                                 {
-                                    _Player.MoveOrder(Direction.Down);
+                                    _MoveRoutine.StartRoutine(Move(Direction.Down));
                                 }
                                 _StationaryTime = 0f;
 
