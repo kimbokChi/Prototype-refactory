@@ -161,7 +161,7 @@ MonoBehaviour:
   AbilityTable: {fileID: 5810549494281094165}
   PlayerAnimator: {fileID: 6242916743501542565}
   mDefense: 1
-  _DashLength: 1.5
+  _DashLength: 3
   _DashTime: 1
   _DashSpeedScale: 1.1
   _DashCurve:
