@@ -315,6 +315,10 @@ public class Player : MonoBehaviour, ICombatable
         DeathEvent?.Invoke(false);
     }
 
+    public bool IsMoving()
+    {
+        return !_MoveRoutine.IsFinished();
+    }
     public void MoveStop()
     {
         _MoveRoutine.StopRoutine();
