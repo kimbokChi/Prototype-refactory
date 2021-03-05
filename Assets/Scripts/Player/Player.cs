@@ -40,6 +40,7 @@ public class Player : MonoBehaviour, ICombatable
     #endregion
     public event Action<bool> DeathEvent;
     public event Action<UnitizedPosV, float> MovingEvent;
+    public event Action<Player> OnceDashEndEvent;
 
     [SerializeField] private bool CanMoveDown;
     [SerializeField] private bool IsUsingHealthBar;
@@ -341,6 +342,9 @@ public class Player : MonoBehaviour, ICombatable
             yield return null;
         }
         _DashRoutine.Finish();
+
+        OnceDashEndEvent?.Invoke(this);
+        OnceDashEndEvent = null;
     }
     // ========== Dash Order ========== //
 

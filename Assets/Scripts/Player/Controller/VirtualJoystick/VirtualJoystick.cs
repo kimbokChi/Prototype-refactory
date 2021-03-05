@@ -147,6 +147,8 @@ public class VirtualJoystick : MonoBehaviour
                                 break;
                         }
                         _PrevInputButton = Direction.None;
+
+                        _Player.OnceDashEndEvent += p => p.MoveOrder(direction);
                     }
                     else
                     {
