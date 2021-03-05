@@ -102,10 +102,10 @@ public class VirtualJoystick : MonoBehaviour
                         }
                     };
 
-                    _UMoveButton.ButtonAction += state => MoveOrderToPlayer(state, Direction.Up);
-                    _DMoveButton.ButtonAction += state => MoveOrderToPlayer(state, Direction.Down);
-                    _LMoveButton.ButtonAction += state => MoveOrderToPlayer(state, Direction.Left);
-                    _RMoveButton.ButtonAction += state => MoveOrderToPlayer(state, Direction.Right);
+                    _UMoveButton.ButtonAction += state => MoveOrderToPlayer(_UMoveButton, state, Direction.Up);
+                    _DMoveButton.ButtonAction += state => MoveOrderToPlayer(_DMoveButton, state, Direction.Down);
+                    _LMoveButton.ButtonAction += state => MoveOrderToPlayer(_LMoveButton, state, Direction.Left);
+                    _RMoveButton.ButtonAction += state => MoveOrderToPlayer(_RMoveButton, state, Direction.Right);
                 }
             }
             _IsAlreadyInit = true;
@@ -130,7 +130,7 @@ public class VirtualJoystick : MonoBehaviour
             transform.localPosition = GameLoger.Instance.ControllerPos;
         }
 
-        void MoveOrderToPlayer(ButtonState state, Direction direction)
+        void MoveOrderToPlayer(SubscribableButton button, ButtonState state, Direction direction)
         {
             switch (state)
             {
@@ -148,7 +148,13 @@ public class VirtualJoystick : MonoBehaviour
                         }
                         _PrevInputButton = Direction.None;
 
-                        _Player.OnceDashEndEvent += p => p.MoveOrder(direction);
+                        _Player.OnceDashEndEvent += p =>
+                        {
+                            if (button.CurrentState == ButtonState.Down)
+                            {
+                                p.MoveOrder(direction);
+                            }
+                        };
                     }
                     else
                     {
