@@ -11,7 +11,7 @@ public enum Direction
 
 public class Finger : Singleton<Finger>
 {
-    public const float PRESS_TIME = 1f;
+    public const float PRESS_TIME = 0.5f;
 
     private float DeltaTime => Time.deltaTime;
 

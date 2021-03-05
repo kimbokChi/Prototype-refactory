@@ -7,7 +7,6 @@ using UnityEngine.EventSystems;
 public class TouchController : MonoBehaviour
 {
     private const float NeedMovingLength = 0.5f;
-    private const float NeedChargingTime = 1f;
     private const float NeedDashLength = 180f;
 
     private Coroutine _MoveRoutine;
@@ -196,7 +195,7 @@ public class TouchController : MonoBehaviour
 
                             if (!_IsAlreadyCharging)
                             {
-                                if (_StationaryTime > NeedChargingTime)
+                                if (_StationaryTime > Finger.PRESS_TIME)
                                 {
                                     _IsAlreadyCharging = true;
                                     Finger.Instance.StartCharging();
@@ -211,7 +210,7 @@ public class TouchController : MonoBehaviour
                         {
                             if (_StationaryTime > 0f)
                             {
-                                if (_StationaryTime <= NeedChargingTime)
+                                if (_StationaryTime <= Finger.PRESS_TIME)
                                 {
                                     _Player.AttackOrder();
                                 }
