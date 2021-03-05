@@ -259,13 +259,16 @@ public class Player : MonoBehaviour, ICombatable
 
     public void BackToOriginalAnim()
     {
-        if (!_MoveRoutine.IsFinished())
+        if (AbilityTable[Ability.CurHealth] > 0f)
         {
-            PlayerAnimator.ChangeState(PlayerAnim.Move);
-        }
-        else
-        {
-            PlayerAnimator.ChangeState(PlayerAnim.Idle);
+            if (!_MoveRoutine.IsFinished())
+            {
+                PlayerAnimator.ChangeState(PlayerAnim.Move);
+            }
+            else
+            {
+                PlayerAnimator.ChangeState(PlayerAnim.Idle);
+            }
         }
     }
 
@@ -415,7 +418,10 @@ public class Player : MonoBehaviour, ICombatable
     {
         _MoveRoutine.StopRoutine();
 
-        PlayerAnimator.ChangeState(PlayerAnim.Idle);
+        if (AbilityTable[Ability.CurHealth] > 0f)
+        {
+            PlayerAnimator.ChangeState(PlayerAnim.Idle);
+        }
     }
 
     public void MoveOrder(Direction direction)
