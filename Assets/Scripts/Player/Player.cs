@@ -66,10 +66,12 @@ public class Player : MonoBehaviour, ICombatable
     [Header("Dash Property")]
     [SerializeField, Range(0f, 3.5f)] private float _DashLength;
     [SerializeField, Range(0f, 2.0f)] private float _DashTime;
+    [SerializeField, Range(0f, 2.0f)] private float _DashCool;
     [SerializeField, Range(1f, 3.0f)] private float _DashSpeedScale;
     [SerializeField] private AnimationCurve _DashCurve;
 
     private Coroutine _DashRoutine;
+    private Coroutine _DashCoolRoutine;
 
     [Space(), SerializeField]
     private UnitizedPos mLocation9;
@@ -147,6 +149,7 @@ public class Player : MonoBehaviour, ICombatable
 
         _MoveRoutine = _MoveRoutine ?? new Coroutine(this);
         _DashRoutine = _DashRoutine ?? new Coroutine(this);
+        _DashCoolRoutine = new Coroutine(this);
 
         if (RangeArea.gameObject.TryGetComponent(out mRangeCollider))
         {
@@ -279,7 +282,7 @@ public class Player : MonoBehaviour, ICombatable
     // ========== Dash Order ========== //
     public void DashOrder(UnitizedPosH direction)
     {
-        if (_DashRoutine.IsFinished())
+        if (_DashRoutine.IsFinished() && _DashCoolRoutine.IsFinished())
         {            
             Vector2 dashPoint = transform.position;
             switch (direction)
@@ -345,6 +348,13 @@ public class Player : MonoBehaviour, ICombatable
 
         OnceDashEndEvent?.Invoke(this);
         OnceDashEndEvent = null;
+
+        _DashCoolRoutine.StartRoutine(DashCoolTime());
+    }
+    private IEnumerator DashCoolTime()
+    {
+        for (float i = 0f; i < _DashCool; i += Time.deltaTime * Time.timeScale) yield return null;
+        _DashCoolRoutine.Finish();
     }
     // ========== Dash Order ========== //
 

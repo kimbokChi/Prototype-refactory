@@ -163,6 +163,7 @@ MonoBehaviour:
   mDefense: 1
   _DashLength: 3
   _DashTime: 1
+  _DashCool: 0.5
   _DashSpeedScale: 1.1
   _DashCurve:
     serializedVersion: 2
