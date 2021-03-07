@@ -294,6 +294,8 @@ public class Player : MonoBehaviour, ICombatable
                     {
                         dashPoint += Vector2.left * _DashLength;
                         SetLookAtLeft(true);
+
+                        Inventory.Instance.PlayerDash(Direction.Left);
                     }
                     break;
 
@@ -301,6 +303,8 @@ public class Player : MonoBehaviour, ICombatable
                     {
                         dashPoint += Vector2.right * _DashLength;
                         SetLookAtLeft(false);
+
+                        Inventory.Instance.PlayerDash(Direction.Right);
                     }
                     break;
             }

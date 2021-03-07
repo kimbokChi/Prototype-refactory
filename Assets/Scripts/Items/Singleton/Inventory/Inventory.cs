@@ -16,6 +16,8 @@ public class Inventory : Singleton<Inventory>
     public event ProjHit ProjectionHitEvent;
     public delegate void ProjHit(GameObject victim, Projection proj, float damage);
 
+    public event Action<Direction> DashEvent;
+
     #region COMMENT
     /// <summary>
     /// parameter[1] : attacker gameobject
@@ -132,6 +134,10 @@ public class Inventory : Singleton<Inventory>
     public void OnCharge(float power)
     {
         ChargeAction?.Invoke(power);
+    }
+    public void PlayerDash(Direction direction)
+    {
+        DashEvent?.Invoke(direction);
     }
     public void PlayerMoveUpDownBegin(UnitizedPosV room, Direction direction)
     {

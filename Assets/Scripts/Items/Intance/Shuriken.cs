@@ -25,20 +25,17 @@ public class Shuriken : Item
 
     public override void AttackAction(GameObject attacker, ICombatable combatable)
     {
-        _Player = attacker;
-
         Animator.SetBool   (Animator.GetParameter(0).nameHash, true);
         Animator.SetInteger(Animator.GetParameter(1).nameHash, (int)AttackType);
     }
 
     public override void OffEquipThis(SlotType offSlot)
     {
-        Init();
-
         switch (offSlot)
         {
             case SlotType.Accessory:
                 {
+                    Inventory.Instance.DashEvent -= DashEvent;
                 }
                 break;
 
@@ -49,7 +46,6 @@ public class Shuriken : Item
                 break;
         }
     }
-
     public override void OnEquipThis(SlotType onSlot)
     {
         Init();
@@ -58,6 +54,7 @@ public class Shuriken : Item
         {
             case SlotType.Accessory:
                 {
+                    Inventory.Instance.DashEvent += DashEvent;
                 }
                 break;
 
@@ -68,7 +65,21 @@ public class Shuriken : Item
                 break;
         }
     }
-
+    private void DashEvent(Direction direction)
+    {
+        Vector2 dir = Vector2.zero;
+        switch (direction)
+        {
+            case Direction.Right:
+                dir = Vector2.right;
+                break;
+            case Direction.Left:
+                dir = Vector2.left;
+                break;
+        }
+        _ShurikenPool.Get().Shoot(_Player.transform.position, dir, ShootSpeed);
+        SoundManager.Instance.PlaySound(SoundName.ThrowShuriken);
+    }
     private void ShootShuriken()
     {
         var direction = Vector2.right;
@@ -125,6 +136,8 @@ public class Shuriken : Item
     {
         if (!_IsAlreadyInit)
         {
+            _Player = GameObject.FindGameObjectWithTag("Player");
+
             _IsAlreadyInit = true;
 
             _ShurikenPool = new Pool<Projection>();
