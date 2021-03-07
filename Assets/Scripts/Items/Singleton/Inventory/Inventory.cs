@@ -13,20 +13,6 @@ public class Inventory : Singleton<Inventory>
 
     #region COMMENT
     /// <summary>
-    /// parameter[1] : move direction
-    /// </summary>
-    #endregion
-    public event Action<Vector2> MoveBeginAction;
-
-    #region COMMENT
-    /// <summary>
-    /// parameter[1] : collision objects when the moving
-    /// </summary>
-    #endregion
-    public event Action<Collider2D[]> MoveEndAction;
-
-    #region COMMENT
-    /// <summary>
     /// parameter[1] : attacker gameobject
     /// <br></br>
     /// parameter[2] : attack target interface 'ICombatable'
@@ -45,8 +31,6 @@ public class Inventory : Singleton<Inventory>
     #endregion
     public event action BeDamagedAction;
     public delegate void action(ref float damage, GameObject attacker, GameObject victim);
-
-    public event Action FloorEnterAction;
 
     #region COMMENT
     /// <summary>
@@ -158,9 +142,4 @@ public class Inventory : Singleton<Inventory>
     {
         AttackEvent?.Invoke(attacker, targetCombat);
     }
-
-    public void OnFloorEnter() => FloorEnterAction?.Invoke();
-
-    public void OnMoveBegin(Vector2 moveDir) => MoveBeginAction?.Invoke(moveDir);
-    public void OnMoveEnd(Collider2D[] colliders) => MoveEndAction?.Invoke(colliders);
 }

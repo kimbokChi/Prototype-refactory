@@ -39,7 +39,6 @@ public class Shuriken : Item
         {
             case SlotType.Accessory:
                 {
-                    Inventory.Instance.MoveBeginAction += Accessory_MoveBeginAction;
                 }
                 break;
 
@@ -59,7 +58,6 @@ public class Shuriken : Item
         {
             case SlotType.Accessory:
                 {
-                    Inventory.Instance.MoveBeginAction -= Accessory_MoveBeginAction;
                 }
                 break;
 
@@ -118,11 +116,6 @@ public class Shuriken : Item
             AttackType = AttackType == AttackType.Continuous ?
                     AttackType.ThreeDirection : AttackType.Continuous;
         }
-    }
-
-    private void Accessory_MoveBeginAction(Vector2 dir)
-    {
-
     }
 
     private IEnumerator EAccessory_MoveBeginAction(Vector2 dir)

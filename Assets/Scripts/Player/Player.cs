@@ -746,8 +746,6 @@ public class Player : MonoBehaviour, ICombatable
         else
             PlayerAnimator.ChangeState(PlayerAnim.Move);
 
-        mInventory.OnMoveBegin(movePoint.normalized);
-
         for (float lerpAmount = 0f; lerpAmount < 1f;)
         {
             lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * AbilityTable.MoveSpeed);
@@ -788,13 +786,10 @@ public class Player : MonoBehaviour, ICombatable
         }
         PlayerAnimator.ChangeState(PlayerAnim.Idle);
 
-        mInventory.OnMoveEnd(mCollidersOnMove.ToArray());
-
         mCollidersOnMove.Clear();
 
         if (mCanElevation)
         {
-            mInventory.OnFloorEnter();
             mCanElevation = false;
         }
         mIsMovingElevation = false;
