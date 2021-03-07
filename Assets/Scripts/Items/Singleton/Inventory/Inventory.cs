@@ -11,6 +11,8 @@ public class Inventory : Singleton<Inventory>
 
     #region Item Function Event
 
+    public event Action<UnitizedPosV, Direction> MoveUpDownEvent;
+
     #region COMMENT
     /// <summary>
     /// parameter[1] : attacker gameobject
@@ -119,16 +121,19 @@ public class Inventory : Singleton<Inventory>
         mAccessorySlot.ToList().ForEach(o => o.SetItem(null));
             mContainer.ToList().ForEach(o => o.SetItem(null));
     }
+    // ========== ItemEvent Method ========== //
     public void OnDamaged(ref float damage, GameObject attacker, GameObject victim)
     {
         BeDamagedAction?.Invoke(ref damage, attacker, victim);
     }
-
     public void OnCharge(float power)
     {
         ChargeAction?.Invoke(power);
     }
-
+    public void PlayerMoveUpDownBegin(UnitizedPosV room, Direction direction)
+    {
+        MoveUpDownEvent?.Invoke(room, direction);
+    }
     public void AttackAction(GameObject attacker, ICombatable targetCombat)
     {
         mWeaponSlot.ContainItem?.AttackAction(attacker, targetCombat);
@@ -142,4 +147,5 @@ public class Inventory : Singleton<Inventory>
     {
         AttackEvent?.Invoke(attacker, targetCombat);
     }
+    // ========== ItemEvent Method ========== //
 }

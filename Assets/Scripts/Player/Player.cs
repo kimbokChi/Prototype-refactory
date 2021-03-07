@@ -442,6 +442,8 @@ public class Player : MonoBehaviour, ICombatable
                                 if (Castle.Instance.CanNextPoint(out movePoint))
                                 {
                                     mLocation9 += 6;
+                                    Inventory.Instance.PlayerMoveUpDownBegin(GetUnitizedPosV(), direction);
+
                                     _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
                                 }
                             }
@@ -482,6 +484,8 @@ public class Player : MonoBehaviour, ICombatable
                                 if (CanMoveDown && Castle.Instance.CanPrevPoint(out movePoint))
                                 {
                                     mLocation9 -= 6;
+                                    Inventory.Instance.PlayerMoveUpDownBegin(GetUnitizedPosV(), direction);
+
                                     _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
                                 }
                             }
@@ -573,9 +577,11 @@ public class Player : MonoBehaviour, ICombatable
         {
             case Direction.Up:
                 mLocation9 -= 3;
+                Inventory.Instance.PlayerMoveUpDownBegin(GetUnitizedPosV(), direction);
                 break;
             case Direction.Down:
                 mLocation9 += 3;
+                Inventory.Instance.PlayerMoveUpDownBegin(GetUnitizedPosV(), direction);
                 break;
             case Direction.Right:
                 mLocation9++;
