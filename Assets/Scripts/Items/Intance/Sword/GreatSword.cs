@@ -7,10 +7,9 @@ public class GreatSword : Item
 
     [Header("Charge Ablity")]
     [SerializeField] private Projection SwordDance;
-    [Range(0f, 1f)]
-    [SerializeField] private float DemandCharge;
-    [Range(1f, 20f)]
-    [SerializeField] private float SwordDanceSpeed;
+    [SerializeField, Range(0f, 1f)] private float DemandCharge;
+    [SerializeField, Range(0f, 5f)] private float _DamageScale;
+    [SerializeField, Range(1f, 20f)] private float SwordDanceSpeed;
 
     private Pool<Projection> SwordDancePool;
 
@@ -58,7 +57,7 @@ public class GreatSword : Item
                             {
                                 if (o.TryGetComponent(out ICombatable combatable))
                                 {
-                                    combatable.Damaged(StatTable[ItemStat.AttackPower], mPlayer);
+                                    combatable.Damaged(StatTable[ItemStat.AttackPower] * _DamageScale, mPlayer);
                                 }
                             }, 
                             o => SwordDancePool.Add(o));
