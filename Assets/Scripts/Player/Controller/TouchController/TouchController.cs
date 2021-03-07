@@ -7,11 +7,12 @@ using UnityEngine.EventSystems;
 public class TouchController : MonoBehaviour
 {
     private const float NeedMovingLength = 0.5f;
-    private const float NeedChargingTime = 1f;
+    private const float NeedDashLength = 180f;
 
     private Coroutine _MoveRoutine;
     private TouchPhase _CurrentPhase;
     private Vector2 _BeganInputPoint;
+    private Vector3 _LastInputPoint;
 
     private Player _Player;
     private float _StationaryTime;
@@ -81,6 +82,17 @@ public class TouchController : MonoBehaviour
             return Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
     }
+    public Vector2 DeltaPosition()
+    {
+        if (IsMobilePlatform())
+        {
+            return Input.GetTouch(0).deltaPosition;
+        }
+        else
+        {
+            return Camera.main.ScreenToWorldPoint(Input.mousePosition) - _LastInputPoint;
+        }
+    }
 
     private void Start()
     {
@@ -95,6 +107,7 @@ public class TouchController : MonoBehaviour
 
             _Player = FindObjectOfType<Player>();
         }
+        _LastInputPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
     private void Update()
     {
@@ -122,41 +135,54 @@ public class TouchController : MonoBehaviour
                 case TouchPhase.Moved:
                     {
                         Vector2 inputPosition = InputPosition();
-                        {
-                            Vector2 direction = (inputPosition - _BeganInputPoint).normalized;
-                            
-                            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-                            {
-                                if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
-                                {
-                                    _BeganInputPoint = inputPosition;
+                        Vector2 direction = (inputPosition - _BeganInputPoint).normalized;
 
-                                    if (direction.x > 0)
-                                    {
-                                        _MoveRoutine.StartRoutine(Move(Direction.Right));
-                                    }
-                                    else
-                                    {
-                                        _MoveRoutine.StartRoutine(Move(Direction.Left));
-                                    }
+                        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+                        {
+                            Vector3 delta = DeltaPosition();
+
+                            if (delta.magnitude > NeedDashLength)
+                            {
+                                if (delta.x > 0)
+                                {
+                                    _Player.DashOrder(UnitizedPosH.RIGHT);
+                                }
+                                else
+                                {
+                                    _Player.DashOrder(UnitizedPosH.LEFT);
                                 }
                             }
-                            else
+                            else if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
                             {
-                                if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 2f)
-                                {
-                                    _BeganInputPoint = inputPosition;
+                                _BeganInputPoint = inputPosition;
 
-                                    if (direction.y > 0)
-                                    {
-                                        _MoveRoutine.StartRoutine(Move(Direction.Up));
-                                    }
-                                    else
-                                    {
-                                        _MoveRoutine.StartRoutine(Move(Direction.Down));
-                                    }
-                                    _StationaryTime = 0f;
+                                if (direction.x > 0)
+                                {
+                                    _MoveRoutine.StartRoutine(Move(Direction.Right));
                                 }
+                                else
+                                {
+                                    _MoveRoutine.StartRoutine(Move(Direction.Left));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 2f)
+                            {
+                                _BeganInputPoint = inputPosition;
+
+                                if (direction.y > 0)
+                                {
+                                    _MoveRoutine.StartRoutine(Move(Direction.Up));
+                                }
+                                else
+                                {
+                                    _MoveRoutine.StartRoutine(Move(Direction.Down));
+                                }
+                                _StationaryTime = 0f;
+
+                                _BeganInputPoint = inputPosition;
                             }
                         }
                     }
@@ -169,7 +195,7 @@ public class TouchController : MonoBehaviour
 
                             if (!_IsAlreadyCharging)
                             {
-                                if (_StationaryTime > NeedChargingTime)
+                                if (_StationaryTime > Finger.PRESS_TIME)
                                 {
                                     _IsAlreadyCharging = true;
                                     Finger.Instance.StartCharging();
@@ -184,7 +210,7 @@ public class TouchController : MonoBehaviour
                         {
                             if (_StationaryTime > 0f)
                             {
-                                if (_StationaryTime <= NeedChargingTime)
+                                if (_StationaryTime <= Finger.PRESS_TIME)
                                 {
                                     _Player.AttackOrder();
                                 }
@@ -204,6 +230,10 @@ public class TouchController : MonoBehaviour
                     break;
             }
         }
+    }
+    private void LateUpdate()
+    {
+        _LastInputPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
     private void CurrentPhaseCheck()
     {

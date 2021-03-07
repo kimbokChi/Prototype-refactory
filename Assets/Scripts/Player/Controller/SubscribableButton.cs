@@ -9,13 +9,18 @@ public enum ButtonState { Down, Up }
 public class SubscribableButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public event Action<ButtonState> ButtonAction;
+    public ButtonState CurrentState
+    {
+        get;
+        private set;
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        ButtonAction?.Invoke(ButtonState.Down);
+        ButtonAction?.Invoke(CurrentState = ButtonState.Down);
     }
     public void OnPointerUp(PointerEventData eventData)
     {
-        ButtonAction?.Invoke(ButtonState.Up);
+        ButtonAction?.Invoke(CurrentState = ButtonState.Up);
     }
 }

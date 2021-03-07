@@ -40,6 +40,7 @@ public class Player : MonoBehaviour, ICombatable
     #endregion
     public event Action<bool> DeathEvent;
     public event Action<UnitizedPosV, float> MovingEvent;
+    public event Action<Player> OnceDashEndEvent;
 
     [SerializeField] private bool CanMoveDown;
     [SerializeField] private bool IsUsingHealthBar;
@@ -62,7 +63,17 @@ public class Player : MonoBehaviour, ICombatable
     [SerializeField]
     private float mDefense;
 
-    [SerializeField]
+    [Header("Dash Property")]
+    [SerializeField, Range(0f, 3.5f)] private float _DashLength;
+    [SerializeField, Range(0f, 2.0f)] private float _DashTime;
+    [SerializeField, Range(0f, 2.0f)] private float _DashCool;
+    [SerializeField, Range(1f, 3.0f)] private float _DashSpeedScale;
+    [SerializeField] private AnimationCurve _DashCurve;
+
+    private Coroutine _DashRoutine;
+    private Coroutine _DashCoolRoutine;
+
+    [Space(), SerializeField]
     private UnitizedPos mLocation9;
     
     private IEnumerator mEMove;
@@ -137,6 +148,8 @@ public class Player : MonoBehaviour, ICombatable
         mInventory = Inventory.Instance;
 
         _MoveRoutine = _MoveRoutine ?? new Coroutine(this);
+        _DashRoutine = _DashRoutine ?? new Coroutine(this);
+        _DashCoolRoutine = new Coroutine(this);
 
         if (RangeArea.gameObject.TryGetComponent(out mRangeCollider))
         {
@@ -246,13 +259,16 @@ public class Player : MonoBehaviour, ICombatable
 
     public void BackToOriginalAnim()
     {
-        if (!_MoveRoutine.IsFinished())
+        if (AbilityTable[Ability.CurHealth] > 0f)
         {
-            PlayerAnimator.ChangeState(PlayerAnim.Move);
-        }
-        else
-        {
-            PlayerAnimator.ChangeState(PlayerAnim.Idle);
+            if (!_MoveRoutine.IsFinished())
+            {
+                PlayerAnimator.ChangeState(PlayerAnim.Move);
+            }
+            else
+            {
+                PlayerAnimator.ChangeState(PlayerAnim.Idle);
+            }
         }
     }
 
@@ -265,6 +281,85 @@ public class Player : MonoBehaviour, ICombatable
         else
             transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
+
+    // ========== Dash Order ========== //
+    public void DashOrder(UnitizedPosH direction)
+    {
+        if (_DashRoutine.IsFinished() && _DashCoolRoutine.IsFinished())
+        {            
+            Vector2 dashPoint = transform.position;
+            switch (direction)
+            {
+                case UnitizedPosH.LEFT:
+                    {
+                        dashPoint += Vector2.left * _DashLength;
+                        SetLookAtLeft(true);
+                    }
+                    break;
+
+                case UnitizedPosH.RIGHT:
+                    {
+                        dashPoint += Vector2.right * _DashLength;
+                        SetLookAtLeft(false);
+                    }
+                    break;
+            }
+            _MoveRoutine.StopRoutine();
+            _DashRoutine.StartRoutine(DashRoutine(dashPoint));
+        }
+    }
+    private IEnumerator DashRoutine(Vector2 dashPoint)
+    {
+        Vector2 movePointMin = Vector2.zero;
+        Vector2 movePointMax = Vector2.zero;
+
+        switch (GetUnitizedPosV())
+        {
+            case UnitizedPosV.TOP:
+                movePointMin = Castle.Instance.GetMovePoint(UnitizedPos.TOP_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(UnitizedPos.TOP_RIGHT);
+                break;
+            case UnitizedPosV.MID:
+                movePointMin = Castle.Instance.GetMovePoint(UnitizedPos.MID_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(UnitizedPos.MID_RIGHT);
+                break;
+            case UnitizedPosV.BOT:
+                movePointMin = Castle.Instance.GetMovePoint(UnitizedPos.BOT_LEFT);
+                movePointMax = Castle.Instance.GetMovePoint(UnitizedPos.BOT_RIGHT);
+                break;
+        }
+        Vector2 start = transform.position;
+
+        for (float i = 0; i < _DashTime; i += Time.deltaTime * Time.timeScale * AbilityTable.MoveSpeed * _DashSpeedScale)
+        {
+            float ratio = _DashCurve.Evaluate(i / _DashTime);
+            transform.position = Vector2.Lerp(start, dashPoint, ratio);
+
+            if (transform.position.x < movePointMin.x)
+            {
+                transform.position = new Vector2(movePointMin.x, transform.position.y);
+                break;
+            }
+            else if (transform.position.x > movePointMax.x)
+            {
+                transform.position = new Vector2(movePointMax.x, transform.position.y);
+                break;
+            }
+            yield return null;
+        }
+        _DashRoutine.Finish();
+
+        OnceDashEndEvent?.Invoke(this);
+        OnceDashEndEvent = null;
+
+        _DashCoolRoutine.StartRoutine(DashCoolTime());
+    }
+    private IEnumerator DashCoolTime()
+    {
+        for (float i = 0f; i < _DashCool; i += Time.deltaTime * Time.timeScale) yield return null;
+        _DashCoolRoutine.Finish();
+    }
+    // ========== Dash Order ========== //
 
     public void AttackCancel()
     {
@@ -323,12 +418,15 @@ public class Player : MonoBehaviour, ICombatable
     {
         _MoveRoutine.StopRoutine();
 
-        PlayerAnimator.ChangeState(PlayerAnim.Idle);
+        if (AbilityTable[Ability.CurHealth] > 0f)
+        {
+            PlayerAnimator.ChangeState(PlayerAnim.Idle);
+        }
     }
 
     public void MoveOrder(Direction direction)
     {
-        if (!mIsInputLock && AbilityTable[Ability.CurHealth] > 0f && _MoveRoutine.IsFinished())
+        if (!mIsInputLock && AbilityTable[Ability.CurHealth] > 0f && _MoveRoutine.IsFinished() && _DashRoutine.IsFinished())
         {
             Vector2 movePoint = Vector2.zero;
 

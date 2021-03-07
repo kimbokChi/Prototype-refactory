@@ -29,6 +29,10 @@ public class VirtualJoystick : MonoBehaviour
     [SerializeField] private SubscribableButton _Button;
     [SerializeField] private Image  _ButtonImage;
 
+    private const float IntervalClickTime = 0.2f;
+    private float _LastClickTime = 0f;
+    private Direction _PrevInputButton = Direction.None;
+
     public SubscribableButton this[Direction dir]
     {
         get
@@ -98,10 +102,10 @@ public class VirtualJoystick : MonoBehaviour
                         }
                     };
 
-                    _UMoveButton.ButtonAction += state => MoveOrderToPlayer(state, Direction.Up);
-                    _DMoveButton.ButtonAction += state => MoveOrderToPlayer(state, Direction.Down);
-                    _LMoveButton.ButtonAction += state => MoveOrderToPlayer(state, Direction.Left);
-                    _RMoveButton.ButtonAction += state => MoveOrderToPlayer(state, Direction.Right);
+                    _UMoveButton.ButtonAction += state => MoveOrderToPlayer(_UMoveButton, state, Direction.Up);
+                    _DMoveButton.ButtonAction += state => MoveOrderToPlayer(_DMoveButton, state, Direction.Down);
+                    _LMoveButton.ButtonAction += state => MoveOrderToPlayer(_LMoveButton, state, Direction.Left);
+                    _RMoveButton.ButtonAction += state => MoveOrderToPlayer(_RMoveButton, state, Direction.Right);
                 }
             }
             _IsAlreadyInit = true;
@@ -126,13 +130,40 @@ public class VirtualJoystick : MonoBehaviour
             transform.localPosition = GameLoger.Instance.ControllerPos;
         }
 
-        void MoveOrderToPlayer(ButtonState state, Direction direction)
+        void MoveOrderToPlayer(SubscribableButton button, ButtonState state, Direction direction)
         {
             switch (state)
             {
-                case ButtonState.Down: _Player.MoveOrder(direction);
+                case ButtonState.Down:
+                    if (direction == _PrevInputButton && Time.time - _LastClickTime < IntervalClickTime)
+                    {
+                        switch (direction)
+                        {
+                            case Direction.Right:
+                                _Player.DashOrder(UnitizedPosH.RIGHT);
+                                break;
+                            case Direction.Left:
+                                _Player.DashOrder(UnitizedPosH.LEFT);
+                                break;
+                        }
+                        _PrevInputButton = Direction.None;
+
+                        _Player.OnceDashEndEvent += p =>
+                        {
+                            if (button.CurrentState == ButtonState.Down)
+                            {
+                                p.MoveOrder(direction);
+                            }
+                        };
+                    }
+                    else
+                    {
+                        _Player.MoveOrder(direction);
+
+                        _PrevInputButton = direction;
+                    }
                     break;
-                case ButtonState.Up  :
+                case ButtonState.Up:
                     {
                         switch (direction)
                         {
@@ -144,6 +175,7 @@ public class VirtualJoystick : MonoBehaviour
                     }
                     break;
             }
+            _LastClickTime = Time.time;
         }
     }
     

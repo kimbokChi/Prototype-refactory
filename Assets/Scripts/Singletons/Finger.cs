@@ -6,12 +6,12 @@ using UnityEngine.EventSystems;
 
 public enum Direction
 {
-    Up, Down, Right, Left
+    Up, Down, Right, Left, None
 }
 
 public class Finger : Singleton<Finger>
 {
-    public const float PRESS_TIME = 1f;
+    public const float PRESS_TIME = 0.5f;
 
     private float DeltaTime => Time.deltaTime;
 
