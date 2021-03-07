@@ -32,6 +32,7 @@ public class MainCamera : Singleton<MainCamera>
     [SerializeField] private float OriginCameraScale;
 
     private Action mFadeOverAction;
+    private Player _Player;
 
     private IEnumerator mCameraFade;
     private IEnumerator mCameraShake;
@@ -59,6 +60,8 @@ public class MainCamera : Singleton<MainCamera>
 
         Fade(1f, FadeType.Out);
         // -- 화면이 서서히 밝아지게 --
+
+        _Player = FindObjectOfType<Player>();
     }
 
     public void UseDamagedFilter()
@@ -121,7 +124,16 @@ public class MainCamera : Singleton<MainCamera>
     {
         ZoomIn(mOriginPosition, time, percent, usingTimeScale);
     }
+    public void ZoomIn(Vector2 offset, float time, float percent)
+    {
+        if (mCameraZoom != null)
+        {
+            StopCoroutine(mCameraZoom);
+        }
+        float targetScale = 8 * percent;
 
+        StartCoroutine(mCameraZoom = CameraZoomIn((Vector2)mOriginPosition + offset, time, targetScale, true));
+    }
     public void ZoomIn(Vector2 point, float time, float percent, bool usingTimeScale)
     {
         if (mCameraZoom != null)
@@ -202,7 +214,6 @@ public class MainCamera : Singleton<MainCamera>
             yield return null;
         }
     }
-
     private IEnumerator CameraZoomIn(Vector2 point, float time, float targetScale, bool usingTimeScale)
     {
         float deltaTime = 0f;
