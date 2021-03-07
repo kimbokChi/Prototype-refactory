@@ -13,6 +13,9 @@ public class Inventory : Singleton<Inventory>
 
     public event Action<UnitizedPosV, Direction> MoveUpDownEvent;
 
+    public event ProjHit ProjectionHitEvent;
+    public delegate void ProjHit(GameObject victim, Projection proj, float damage);
+
     #region COMMENT
     /// <summary>
     /// parameter[1] : attacker gameobject
@@ -133,6 +136,10 @@ public class Inventory : Singleton<Inventory>
     public void PlayerMoveUpDownBegin(UnitizedPosV room, Direction direction)
     {
         MoveUpDownEvent?.Invoke(room, direction);
+    }
+    public void ProjectionHit(GameObject victim, Projection proj, float damage)
+    {
+        ProjectionHitEvent?.Invoke(victim, proj, damage);
     }
     public void AttackAction(GameObject attacker, ICombatable targetCombat)
     {

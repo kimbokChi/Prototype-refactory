@@ -96,11 +96,9 @@ public class Shuriken : Item
 
                 Vector2 offset = (new Vector2(Mathf.Cos(-betweenAngle), Mathf.Sin(-betweenAngle)) * Mathf.Rad2Deg).normalized;
                 _ShurikenPool.Get().Shoot(transform.GetChild(0).position, (direction + offset).normalized, ShootSpeed);
-                Debug.Log((direction + offset).normalized);
 
                         offset = (new Vector2(Mathf.Cos(+betweenAngle), Mathf.Sin(+betweenAngle)) * Mathf.Rad2Deg).normalized;
                 _ShurikenPool.Get().Shoot(transform.GetChild(0).position, (direction + offset).normalized, ShootSpeed);
-                Debug.Log((direction + offset).normalized);
 
                 MainCamera.Instance.Shake(0.2f, 0.8f);
                 break;
@@ -140,6 +138,7 @@ public class Shuriken : Item
                         if (hit.TryGetComponent(out ICombatable combatable))
                         {
                             combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
+                            Inventory.Instance.ProjectionHit(hit, o, StatTable[ItemStat.AttackPower]);
 
                             MainCamera.Instance.Shake(0.1f, 0.8f);
                         }

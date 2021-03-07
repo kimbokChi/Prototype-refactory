@@ -58,7 +58,10 @@ public class LongSword : Item
                     {
                         if (hit.TryGetComponent(out ICombatable combatable))
                         {
-                            combatable.Damaged(StatTable[ItemStat.AttackPower] * _DamageScale, mPlayer.gameObject);
+                            float damage = StatTable[ItemStat.AttackPower] * _DamageScale;
+                            combatable.Damaged(damage, mPlayer.gameObject);
+
+                            Inventory.Instance.ProjectionHit(hit, o, damage);
                         }
                     }, p => _SwordDancePool.Add(p));
                 });

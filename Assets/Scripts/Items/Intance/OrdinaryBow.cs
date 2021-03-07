@@ -51,6 +51,8 @@ public class OrdinaryBow : Item
                                     combatable.Damaged(StatTable[ItemStat.AttackPower], mPlayer);
 
                                     Inventory.Instance.OnAttackEvent(mPlayer, combatable);
+                                    Inventory.Instance.ProjectionHit(hit, o, StatTable[ItemStat.AttackPower]);
+
                                     MainCamera.Instance.Shake();
 
                                     SoundManager.Instance.PlaySound(SoundName.ArrowHit);
