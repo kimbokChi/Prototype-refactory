@@ -51,7 +51,7 @@ public class OrdinaryBow : Item
         }
     }
 
-    private void ProjectionHitEvent(GameObject victim, Projection proj, float damage)
+    private void ProjectionHitEvent(GameObject victim, float damage)
     {
         if (victim.TryGetComponent(out ICombatable combatable))
         {
@@ -75,7 +75,7 @@ public class OrdinaryBow : Item
                         combatable.Damaged(StatTable[ItemStat.AttackPower], mPlayer);
 
                         Inventory.Instance.OnAttackEvent(mPlayer, combatable);
-                        Inventory.Instance.ProjectionHit(hit, o, StatTable[ItemStat.AttackPower]);
+                        Inventory.Instance.ProjectionHit(hit, StatTable[ItemStat.AttackPower]);
 
                         MainCamera.Instance.Shake();
 

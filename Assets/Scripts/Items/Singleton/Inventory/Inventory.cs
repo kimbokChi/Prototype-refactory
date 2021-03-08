@@ -14,7 +14,7 @@ public class Inventory : Singleton<Inventory>
     public event Action<UnitizedPosV, Direction> MoveUpDownEvent;
 
     public event ProjHit ProjectionHitEvent;
-    public delegate void ProjHit(GameObject victim, Projection proj, float damage);
+    public delegate void ProjHit(GameObject victim, float damage);
 
     public event Action<Direction> DashEvent;
 
@@ -143,9 +143,9 @@ public class Inventory : Singleton<Inventory>
     {
         MoveUpDownEvent?.Invoke(room, direction);
     }
-    public void ProjectionHit(GameObject victim, Projection proj, float damage)
+    public void ProjectionHit(GameObject victim, float damage)
     {
-        ProjectionHitEvent?.Invoke(victim, proj, damage);
+        ProjectionHitEvent?.Invoke(victim, damage);
     }
     public void AttackAction(GameObject attacker, ICombatable targetCombat)
     {

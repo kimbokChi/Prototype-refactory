@@ -60,7 +60,7 @@ public class GreatSword : Item
                                     float damage = StatTable[ItemStat.AttackPower] * _DamageScale;
 
                                     combatable.Damaged(damage, mPlayer);
-                                    Inventory.Instance.ProjectionHit(o, p, damage);
+                                    Inventory.Instance.ProjectionHit(o, damage);
                                 }
                             }, 
                             o => SwordDancePool.Add(o));

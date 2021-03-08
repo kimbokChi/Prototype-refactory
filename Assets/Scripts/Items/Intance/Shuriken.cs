@@ -151,7 +151,7 @@ public class Shuriken : Item
                         if (hit.TryGetComponent(out ICombatable combatable))
                         {
                             combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
-                            Inventory.Instance.ProjectionHit(hit, o, StatTable[ItemStat.AttackPower]);
+                            Inventory.Instance.ProjectionHit(hit, StatTable[ItemStat.AttackPower]);
 
                             MainCamera.Instance.Shake(0.1f, 0.8f);
                         }

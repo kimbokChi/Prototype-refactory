@@ -61,7 +61,7 @@ public class LongSword : Item
                             float damage = StatTable[ItemStat.AttackPower] * _DamageScale;
                             combatable.Damaged(damage, mPlayer.gameObject);
 
-                            Inventory.Instance.ProjectionHit(hit, o, damage);
+                            Inventory.Instance.ProjectionHit(hit, damage);
                         }
                     }, p => _SwordDancePool.Add(p));
                 });
