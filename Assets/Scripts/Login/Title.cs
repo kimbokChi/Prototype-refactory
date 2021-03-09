@@ -13,34 +13,7 @@ public class Title : MonoBehaviour
         instance = this;
     }
     // Start is called before the first frame update
-    public void TouchStart()
-    {
-
-        BackEndServerManager.GetInstance().BackendTokenLogin((bool result, string error) =>
-        {
-            Dispatcher.Current.BeginInvoke(() =>
-            {
-
-                SceneManager.LoadScene((int)SceneIndex.Town);
-                Debug.Log("통과");
-                if (result)
-                {
-                    
-                    return;
-                }
-                else
-                if (!error.Equals(string.Empty))
-                {
-                    Debug.Log("유저 정보 불러오기 실패");
-                    
-                    return;
-                }
-
-               
-            });
-        });
-
-    }
+   
     // Update is called once per frame
     void Update()
     {
