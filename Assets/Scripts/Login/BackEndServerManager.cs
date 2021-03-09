@@ -181,7 +181,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         return instance;
     }
 
-    void Start()
+    void OnEnable()
     {
 
 #if UNITY_ANDROID
@@ -220,7 +220,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
                         Debug.Log(Backend.Utils.GetGoogleHash());
 
                     // 서버시간 획득
-                    Debug.Log(Backend.Utils.GetServerTime());
+                   Debug.Log(Backend.Utils.GetServerTime());
                     // Application 버전 확인
                    
 
@@ -242,7 +242,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
 
         
 
-
+      
 
     }
     void backendCallback(BackendReturnObject BRO)
@@ -316,7 +316,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             {
                 Debug.Log("토큰 로그인 실패\n" + callback.ToString());
                 func(false, string.Empty);
-                SceneLoader.Instance.SceneLoad(0);
+                //SceneLoader.Instance.SceneLoad(0);
             }
         });
     }

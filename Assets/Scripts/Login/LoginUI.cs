@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Battlehub.Dispatcher;
 using UnityEngine.SceneManagement;
-public class LoginUI : MonoBehaviour
+public class LoginUI : Singleton<LoginUI>
 {
     private static LoginUI instance;
 
@@ -46,7 +46,7 @@ public class LoginUI : MonoBehaviour
     {
 
        
-        TouchStart();
+       TouchStart();
         //loadingObject = GameObject.FindGameObjectWithTag("Loading");
         // loadingObject.SetActive(false);
 
@@ -74,7 +74,7 @@ public class LoginUI : MonoBehaviour
            if (result)
            {
 
-               ChangeLobbyScene();
+               SceneLoader.Instance.SceneLoad(2);
                return;
            }
            else
