@@ -181,7 +181,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         return instance;
     }
 
-    void Start()
+    void OnEnable()
     {
 
 #if UNITY_ANDROID

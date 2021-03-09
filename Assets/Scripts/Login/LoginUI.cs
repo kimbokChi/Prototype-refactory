@@ -74,7 +74,7 @@ public class LoginUI : MonoBehaviour
            if (result)
            {
 
-               ChangeLobbyScene();
+               SceneLoader.Instance.SceneLoad(2);
                return;
            }
            else
