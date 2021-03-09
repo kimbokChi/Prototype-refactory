@@ -309,7 +309,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
                 load = true;
                 if (load == true)
                 {
-                    SceneLoader.Instance.SceneLoad(1);
+                    SceneLoader.Instance.SceneLoad(2);
                 }
             }
             else
