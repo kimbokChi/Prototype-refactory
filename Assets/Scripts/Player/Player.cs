@@ -314,6 +314,8 @@ public class Player : MonoBehaviour, ICombatable
     }
     private IEnumerator DashRoutine(Vector2 dashPoint)
     {
+        PlayerAnimator.ChangeState(PlayerAnim.Dash);
+
         Vector2 movePointMin = Vector2.zero;
         Vector2 movePointMax = Vector2.zero;
 
@@ -352,6 +354,7 @@ public class Player : MonoBehaviour, ICombatable
             yield return null;
         }
         _DashRoutine.Finish();
+        // BackToOriginalAnim();
 
         OnceDashEndEvent?.Invoke(this);
         OnceDashEndEvent = null;
@@ -424,7 +427,10 @@ public class Player : MonoBehaviour, ICombatable
 
         if (AbilityTable[Ability.CurHealth] > 0f)
         {
-            PlayerAnimator.ChangeState(PlayerAnim.Idle);
+            if (_DashRoutine.IsFinished())
+            {
+                PlayerAnimator.ChangeState(PlayerAnim.Idle);
+            }
         }
     }
 
@@ -789,7 +795,7 @@ public class Player : MonoBehaviour, ICombatable
                 if (mIsMovingElevation && lerpAmount >= 0.1f)
                 {
                     a = false;
-                    PlayerAnimator.ChangeState(PlayerAnim.Landing);
+                    PlayerAnimator.ChangeState(PlayerAnim.Dash);
                 }
             }
             yield return null;
