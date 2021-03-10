@@ -956,6 +956,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5810549494006058014, guid: 01325a20e41267a488041a24730ae7f6,
         type: 3}
+      propertyPath: _DashTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5810549494006058014, guid: 01325a20e41267a488041a24730ae7f6,
+        type: 3}
       propertyPath: CanMoveDown
       value: 1
       objectReference: {fileID: 0}
@@ -3868,6 +3873,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_textInfo.characterCount
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090117192610370442, guid: 596ca2a92ccf6fe47bc909af532aec22,
+        type: 3}
+      propertyPath: productId
+      value: no_ad
       objectReference: {fileID: 0}
     - target: {fileID: 1140256572666747365, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}

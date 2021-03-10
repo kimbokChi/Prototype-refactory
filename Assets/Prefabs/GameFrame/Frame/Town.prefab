@@ -5430,6 +5430,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3926476649503410284}
     m_Modifications:
+    - target: {fileID: 212678695667986965, guid: 44f4ab34148fca0438579b95691591b7,
+        type: 3}
+      propertyPath: Name
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 700675137087303600, guid: 44f4ab34148fca0438579b95691591b7,
         type: 3}
       propertyPath: _BlockingLayer
