@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ItemName: "\uAC15\uCCA0 \uBC29\uD328"
   _ItemRating: "\uC77C\uBC18 \uC544\uC774\uD15C"
-  _ATK: 0.0
+  _ATK: 20.0
   _DPS: 0.0
   _TextColor: {r: 0.437, g: 0.452, b: 0.4, a: 1}
   _ItemSprite: {fileID: -6390323582099035327, guid: d1ca9fc4b47d1eb41971073eccbfd890,
