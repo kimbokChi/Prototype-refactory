@@ -43,9 +43,11 @@ public class ItemInfoPopup : Singleton<ItemInfoPopup>
         _DPSText.text = $"DPS : {info.DPS}";
 
         _WeaponInfoText.text = info.WeaponText;
+        _WeaponInfoText.fontSize = info.WeaponTextSize;
         _WeaponAblityText.text = info.WeaponAblity;
 
         _AccessoryInfoText.text = info.AccessoryText;
+        _AccessoryInfoText.fontSize = info.AccessoryTextSize;
         _AccessoryAblityText.text = info.AccessoryAblity;
     }
 

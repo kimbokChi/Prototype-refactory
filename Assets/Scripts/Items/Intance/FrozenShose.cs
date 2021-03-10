@@ -25,28 +25,50 @@ public class FrozenShose : Item
 
     public override void AttackAction(GameObject attacker, ICombatable combatable)
     {
-        _Player = attacker;
-
         Animator.SetBool(_AnimControlKey, true);
     }
 
     public override void OffEquipThis(SlotType offSlot)
-    { }
+    {
+        if (offSlot == SlotType.Accessory)
+        {
+            Inventory.Instance.MoveUpDownEvent -= MoveUpDownEvent;
+        }
+    }
 
     public override void OnEquipThis(SlotType onSlot)
     {
         Init();
+
+        if (onSlot == SlotType.Accessory)
+        {
+            Inventory.Instance.MoveUpDownEvent += MoveUpDownEvent;
+        }
+    }
+
+    private void MoveUpDownEvent(UnitizedPosV room, Direction direction)
+    {
+        MainCamera.Instance.Shake(0.35f, 0.7f);
+
+        var playerMovePoints = Castle.Instance.PlayerFloor.GetRooms()[(int)room].GetMovePoints();
+
+        float pointX = Random.Range(playerMovePoints[0].x, playerMovePoints[2].x);
+
+        _PillarPool.Get().Shoot(new Vector3(pointX, playerMovePoints[1].y + PillarOffsetY, 0f), Vector2.zero, 0f);
+        SoundManager.Instance.PlaySound(SoundName.SummonFrozenPillar);
     }
 
     private void Init()
     {
         if (!_IsAlreadyInit)
         {
+            if (_Player == null)
+            {
+                _Player = GameObject.FindGameObjectWithTag("Player");
+            }
             _PillarPool = new Pool<Projection>();
             _PillarPool.Init(4, FrozenPillar, pillar =>
             {
-                pillar.transform.parent = ItemStateSaver.Instance.transform;
-
                 pillar.SetAction(
                 hit => {
                     if (hit.TryGetComponent(out ICombatable combatable))

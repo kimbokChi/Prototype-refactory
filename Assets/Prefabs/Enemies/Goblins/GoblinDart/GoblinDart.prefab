@@ -109,7 +109,7 @@ MonoBehaviour:
   _Movement: {fileID: 8615163776626541797}
   _Recognition: {fileID: 517327099968501452}
   _AttackModule: {fileID: 688170121829781643}
-  _ItemDropper: {fileID: 0}
+  _ItemDropper: {fileID: 4408788064113466809}
 --- !u!95 &278768577591416048
 Animator:
   serializedVersion: 3
