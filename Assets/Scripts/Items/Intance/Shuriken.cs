@@ -35,7 +35,7 @@ public class Shuriken : Item
         {
             case SlotType.Accessory:
                 {
-                    Inventory.Instance.DashEvent -= DashEvent;
+                    Inventory.Instance.DashBeginEvent -= DashEvent;
                 }
                 break;
 
@@ -54,7 +54,7 @@ public class Shuriken : Item
         {
             case SlotType.Accessory:
                 {
-                    Inventory.Instance.DashEvent += DashEvent;
+                    Inventory.Instance.DashBeginEvent += DashEvent;
                 }
                 break;
 
