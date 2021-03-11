@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class ThronArmor : Item
 {
-    [SerializeField] private Area _CollisionArea;
+    [SerializeField] private Collider2D _Collider;
     [SerializeField] private Animator _Animator;
     [SerializeField, Range(0f, 1f)] private float _MirrorRate;
 
     private int _AnimatorHash;
     private bool _IsAlreadyInit = false;
 
-    private Player _Player;
+    private GameObject _Player;
 
     public override void AttackCancel()
     {
@@ -27,6 +27,10 @@ public class ThronArmor : Item
                 break;
 
             case SlotType.Weapon:
+                {
+                    Inventory.Instance.DashBeginEvent -= DashBeginEvent;
+                    Inventory.Instance.DashEndEvent -= DashEndEvent;
+                }
                 break;
         }
     }
@@ -42,12 +46,11 @@ public class ThronArmor : Item
 
             case SlotType.Weapon:
                 {
-                    if (_Player == null)
-                    {
-                        transform.parent.parent.TryGetComponent(out _Player);
-
-                        _CollisionArea.SetEnterAction(AreaEnterAction);
+                    if (_Player == null) {
+                        _Player = transform.parent.parent.gameObject;
                     }
+                    Inventory.Instance.DashBeginEvent += DashBeginEvent;
+                    Inventory.Instance.DashEndEvent += DashEndEvent;
                 }
                 break;
         }
@@ -59,6 +62,16 @@ public class ThronArmor : Item
             _AnimatorHash = _Animator.GetParameter(0).nameHash;
         }
     }
+    private void DashBeginEvent(Direction direction)
+    {
+        _Collider.enabled = true;
+        _Animator.SetBool(_AnimatorHash, true);
+    }
+    private void DashEndEvent(Direction direction)
+    {
+        _Collider.enabled = false;
+        _Animator.SetBool(_AnimatorHash, false);
+    }
     private void PlayerDamagedAction(ref float damage, GameObject attacker, GameObject victim)
     {
         if (attacker.TryGetComponent(out ICombatable combatable))
@@ -66,14 +79,14 @@ public class ThronArmor : Item
             combatable.Damaged(damage * _MirrorRate, victim);
         }
     }
-    private void AreaEnterAction(GameObject collider)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (_Player.IsMoving())
+        if (collision.CompareTag("Enemy"))
         {
-            if (collider.TryGetComponent(out ICombatable combatable))
+            if (collision.TryGetComponent(out ICombatable combatable))
             {
-                _Animator.SetBool(_AnimatorHash, true);
-                combatable.Damaged(StatTable[ItemStat.AttackPower], collider);
+                MainCamera.Instance.Shake(0.3f, 0.5f);
+                combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
             }
         }
     }
