@@ -123,6 +123,7 @@ public class IronShield : Item
         if (attacker.TryGetComponent(out ICombatable combatable))
         {
             combatable.Damaged(damage / 2, _Player);
+            combatable.CastBuff(Buff.Poision, BuffLibrary.Instance.GetBuff(Buff.Poision, 1, 5, combatable.GetAbility));
         }
         damage = 0f;
 
