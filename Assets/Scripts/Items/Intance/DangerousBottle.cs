@@ -46,7 +46,7 @@ public class DangerousBottle : Item
     {
         MainCamera.Instance.Shake(0.2f, 0.8f);
     }
-    private void EnableCollider()
+    private void UsingParticle()
     {
         _ParticleObject.SetActive(true);
 
