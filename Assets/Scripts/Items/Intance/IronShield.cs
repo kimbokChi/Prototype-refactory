@@ -88,6 +88,8 @@ public class IronShield : Item
                 if (o.TryGetComponent(out ICombatable combatable))
                 {
                     combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
+
+                    Inventory.Instance.OnAttackEvent(_Player, combatable);
                     MainCamera.Instance.Shake(0.2f, 1.2f);
                 }
             });

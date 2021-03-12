@@ -74,6 +74,7 @@ public class FrozenShose : Item
                     if (hit.TryGetComponent(out ICombatable combatable))
                     {
                         combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
+                        Inventory.Instance.OnAttackEvent(_Player, combatable);
                     }
                 },
                 fro => {

@@ -94,6 +94,8 @@ public class DangerousBottle : Item
             {
                 combatable.CastBuff(Buff.Poision, GetPoisionBuff(_W_PoisionLevel, _W_PoisionDurate, combatable));
                 combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
+
+                Inventory.Instance.OnAttackEvent(_Player, combatable);
             }
         }
     }

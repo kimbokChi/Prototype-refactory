@@ -86,6 +86,8 @@ public class ThronArmor : Item
             if (collision.TryGetComponent(out ICombatable combatable))
             {
                 MainCamera.Instance.Shake(0.3f, 0.5f);
+                Inventory.Instance.OnAttackEvent(_Player, combatable);
+
                 combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
             }
         }
