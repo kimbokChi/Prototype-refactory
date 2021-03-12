@@ -13,8 +13,12 @@ public class DangerousBottle : Item
     [SerializeField, Range(0f, 10f)] private float _ParticleDurate;
 
     [Header("Poision Property")]
-    [SerializeField, Range( 1,  10)] private uint _PoisionLevel;
-    [SerializeField, Range(0f, 10f)] private float _PoisionDurate;
+    [SerializeField, Range( 1,  10)] private uint _W_PoisionLevel;
+    [SerializeField, Range(0f, 10f)] private float _W_PoisionDurate;
+
+    [Space()]
+    [SerializeField, Range( 1,  10)] private uint _A_PoisionLevel;
+    [SerializeField, Range(0f, 10f)] private float _A_PoisionDurate;
 
     private int _AnimatorHash;
     private bool _IsAlreadyInit = false;
@@ -63,26 +67,39 @@ public class DangerousBottle : Item
     }
     public override void OffEquipThis(SlotType offSlot)
     {
-        
+        if (offSlot == SlotType.Accessory)
+        {
+            Inventory.Instance.AttackEvent -= AttackEvent;
+        }
     }
     public override void OnEquipThis(SlotType onSlot)
     {
         Init();
+
+        if (onSlot == SlotType.Accessory)
+        {
+            Inventory.Instance.AttackEvent += AttackEvent;
+        }
     }
+    private void AttackEvent(GameObject target, ICombatable targetCombatable)
+    {
+        targetCombatable.CastBuff(Buff.Poision, GetPoisionBuff(_A_PoisionLevel, _A_PoisionDurate, targetCombatable));
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy"))
         {
             if (collision.TryGetComponent(out ICombatable combatable))
             {
-                combatable.CastBuff(Buff.Poision, GetPoisionBuff(combatable));
+                combatable.CastBuff(Buff.Poision, GetPoisionBuff(_W_PoisionLevel, _W_PoisionDurate, combatable));
                 combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
             }
         }
     }
-    private IEnumerator GetPoisionBuff(ICombatable combatable)
+    private IEnumerator GetPoisionBuff(uint level, float durate, ICombatable combatable)
     {
-        return BuffLibrary.Instance.GetBuff(Buff.Poision, _PoisionLevel, _PoisionDurate, combatable.GetAbility);
+        return BuffLibrary.Instance.GetBuff(Buff.Poision, level, durate, combatable.GetAbility);
     }
     private IEnumerator ParticleLife()
     {

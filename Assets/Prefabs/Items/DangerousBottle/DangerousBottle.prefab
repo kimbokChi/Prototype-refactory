@@ -125,8 +125,10 @@ MonoBehaviour:
     type: 3}
   _ParticleOffsetX: 1.75
   _ParticleDurate: 1.4
-  _PoisionLevel: 2
-  _PoisionDurate: 5
+  _W_PoisionLevel: 2
+  _W_PoisionDurate: 5
+  _A_PoisionLevel: 1
+  _A_PoisionDurate: 2.5
 --- !u!114 &4427681327597745377
 MonoBehaviour:
   m_ObjectHideFlags: 0
