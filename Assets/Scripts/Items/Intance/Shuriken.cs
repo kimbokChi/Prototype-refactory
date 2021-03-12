@@ -41,7 +41,7 @@ public class Shuriken : Item
 
             case SlotType.Weapon:
                 {
-                    Inventory.Instance.ChargeAction += ChargeAction;
+                    Inventory.Instance.ChargeEndAction += ChargeAction;
                 }
                 break;
         }
@@ -60,7 +60,7 @@ public class Shuriken : Item
 
             case SlotType.Weapon:
                 {
-                    Inventory.Instance.ChargeAction += ChargeAction;
+                    Inventory.Instance.ChargeEndAction += ChargeAction;
                 }
                 break;
         }

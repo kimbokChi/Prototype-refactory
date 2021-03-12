@@ -70,6 +70,8 @@ public class Finger : Singleton<Finger>
 
         mChargeGauge.gameObject.SetActive(true);
         StartCoroutine(mEOnBulletTime = EOnBulletTime(1.5f, 0.45f));
+
+        Inventory.Instance.BeginOfCharge();
     }
     public void EndCharging()
     {
@@ -77,7 +79,7 @@ public class Finger : Singleton<Finger>
         {
             _ChargeEnable = false;
 
-            Inventory.Instance.OnCharge(mChargeGauge.Charge);
+            Inventory.Instance.EndOfCharge(mChargeGauge.Charge);
 
             mChargeGauge.gameObject.SetActive(false);
             mCurPressTime = 0;

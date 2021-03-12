@@ -39,7 +39,7 @@ public class IronShield : Item
                 Inventory.Instance.BeDamagedAction -= BeDamagedAction;
                 break;
             case SlotType.Weapon:
-                Inventory.Instance.ChargeAction -= ChargeAction;
+                Inventory.Instance.ChargeEndAction -= ChargeAction;
                 break;
         }
     }
@@ -54,7 +54,7 @@ public class IronShield : Item
                 Inventory.Instance.BeDamagedAction += BeDamagedAction;
                 break;
             case SlotType.Weapon:
-                Inventory.Instance.ChargeAction += ChargeAction;
+                Inventory.Instance.ChargeEndAction += ChargeAction;
                 break;
         }
     }

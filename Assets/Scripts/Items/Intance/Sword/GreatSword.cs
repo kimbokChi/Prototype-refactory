@@ -28,7 +28,7 @@ public class GreatSword : Item
         switch (offSlot)
         {
             case SlotType.Weapon:
-                Inventory.Instance.ChargeAction -= ChargeAction;
+                Inventory.Instance.ChargeEndAction -= ChargeAction;
                 break;
         }
     }
@@ -39,7 +39,7 @@ public class GreatSword : Item
         {
             case SlotType.Weapon:
                 {
-                    Inventory.Instance.ChargeAction += ChargeAction;
+                    Inventory.Instance.ChargeEndAction += ChargeAction;
 
                     if (!mIsAlreadyInit)
                     {

@@ -40,12 +40,8 @@ public class Inventory : Singleton<Inventory>
     public event action BeDamagedAction;
     public delegate void action(ref float damage, GameObject attacker, GameObject victim);
 
-    #region COMMENT
-    /// <summary>
-    /// parameter[1] : charge amount
-    /// </summary>
-    #endregion
-    public event Action<float> ChargeAction;
+    public event Action ChargeBeginAction;
+    public event Action<float> ChargeEndAction;
 
     #endregion
 
@@ -132,9 +128,13 @@ public class Inventory : Singleton<Inventory>
     {
         BeDamagedAction?.Invoke(ref damage, attacker, victim);
     }
-    public void OnCharge(float power)
+    public void BeginOfCharge()
     {
-        ChargeAction?.Invoke(power);
+        ChargeBeginAction?.Invoke();
+    }
+    public void EndOfCharge(float power)
+    {
+        ChargeEndAction?.Invoke(power);
     }
     public void PlayerBeginDash(Direction direction)
     {
