@@ -7,6 +7,11 @@ public class DangerousBottle : Item
     [SerializeField] private Animator _Animator;
     [SerializeField] private BoxCollider2D _Collider;
 
+    [Header("Particle Property")]
+    [SerializeField] private GameObject _ParticleObject;
+    [SerializeField] private float _ParticleOffsetX;
+    [SerializeField, Range(0f, 10f)] private float _ParticleDurate;
+
     [Header("Poision Property")]
     [SerializeField, Range( 1,  10)] private uint _PoisionLevel;
     [SerializeField, Range(0f, 10f)] private float _PoisionDurate;
@@ -23,6 +28,9 @@ public class DangerousBottle : Item
             _AnimatorHash = _Animator.GetParameter(0).nameHash;
 
             _Collider.enabled = false;
+
+            _ParticleObject = Instantiate(_ParticleObject);
+            _ParticleObject.SetActive(false);
         }
     }
     public override void AttackAction(GameObject attacker, ICombatable combatable)
@@ -30,17 +38,18 @@ public class DangerousBottle : Item
         _Player = attacker;
         _Animator.SetBool(_AnimatorHash, true);
     }
+    protected override void CameraShake()
+    {
+        MainCamera.Instance.Shake(0.2f, 0.8f);
+    }
     private void EnableCollider()
     {
-        float minX = _Collider.size.x - _Collider.offset.x;
-        float maxX = _Collider.size.x + _Collider.offset.x;
+        _ParticleObject.SetActive(true);
 
-        int invoke = (int)(_Collider.size.x * 16);
-        for (int i = 0; i < invoke; i++)
-        {
-            Vector3 offset = new Vector2(Random.Range(minX, maxX), Random.value);
-            EffectLibrary.Instance.UsingEffect(EffectKind.Poision, transform.position + offset);
-        }
+        Vector3 particleOffset = _ParticleOffsetX * (_Player.transform.rotation.eulerAngles.y > 0 ? Vector3.left : Vector3.right);
+        _ParticleObject.transform.position = transform.position + particleOffset;
+
+        StartCoroutine(ParticleLife());
     }
     protected override void AttackAnimationPlayOver()
     {
@@ -74,5 +83,13 @@ public class DangerousBottle : Item
     private IEnumerator GetPoisionBuff(ICombatable combatable)
     {
         return BuffLibrary.Instance.GetBuff(Buff.Poision, _PoisionLevel, _PoisionDurate, combatable.GetAbility);
+    }
+    private IEnumerator ParticleLife()
+    {
+        for (float i = 0f; i < _ParticleDurate; i += Time.deltaTime * Time.timeScale)
+        {
+            yield return null;
+        }
+        _ParticleObject.SetActive(false);
     }
 }

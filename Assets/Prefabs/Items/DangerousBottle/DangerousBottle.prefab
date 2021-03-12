@@ -43,7 +43,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8419970437547075508}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -121,6 +121,10 @@ MonoBehaviour:
   StatTable: {fileID: 4427681327597745377}
   _Animator: {fileID: 8419970437547075513}
   _Collider: {fileID: 8053688227846416175}
+  _ParticleObject: {fileID: 6382899761682843469, guid: 76c59a3be88b99248aebadfd8092bd4f,
+    type: 3}
+  _ParticleOffsetX: 1.75
+  _ParticleDurate: 2.2
   _PoisionLevel: 2
   _PoisionDurate: 5
 --- !u!114 &4427681327597745377
