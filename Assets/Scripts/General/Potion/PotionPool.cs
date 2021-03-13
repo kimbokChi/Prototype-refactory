@@ -40,6 +40,7 @@ public class PotionPool : Singleton<PotionPool>
             _PotionPool[name].Enqueue(instance);
         }
     }
+    /*
     private void Update()
     {
         _PlayerFloor = Castle.Instance.PlayerFloor.FloorIndex;
@@ -83,6 +84,7 @@ public class PotionPool : Singleton<PotionPool>
             }
         }
     }
+    */
     public Potion Get(PotionName potionName)
     {
         if (_PotionPool[potionName].Count < 1)

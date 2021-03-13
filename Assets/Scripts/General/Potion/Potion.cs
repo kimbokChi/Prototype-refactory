@@ -28,6 +28,7 @@ public abstract class Potion : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            UsePotion();
             _TriggerEntryPlayer = true;
         }
         OnTriggerEnterEvnt?.Invoke(collision);
