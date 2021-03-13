@@ -119,10 +119,10 @@ public class RuneFragment : Item
     }
     private void ChargingSkill()
     {
-        MainCamera.Instance.Shake(0.5f, 1f);
+        MainCamera.Instance.Shake(0.8f, 3f);
 
-        float minX = Castle.Instance.GetMovePoint(UnitizedPos.MID_LEFT).x  - 1f;
-        float maxX = Castle.Instance.GetMovePoint(UnitizedPos.MID_RIGHT).x + 1f;
+        float minX = Castle.Instance.GetMovePoint(UnitizedPos.MID_LEFT).x  - 3f;
+        float maxX = Castle.Instance.GetMovePoint(UnitizedPos.MID_RIGHT).x + 3f;
 
         void Shoot(Projection projection, Vector2 position, Vector2 direction)
         {

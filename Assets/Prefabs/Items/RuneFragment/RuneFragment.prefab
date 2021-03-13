@@ -248,7 +248,7 @@ MonoBehaviour:
   _RedStorm: {fileID: 746812125583642772, guid: edc1b91f48e3f8e48a65c3b9e8dad3b3,
     type: 3}
   _RedStormSpeed: 7
-  _RedStormOffsetY: 1.9
+  _RedStormOffsetY: 1.15
 --- !u!114 &6509606723477150745
 MonoBehaviour:
   m_ObjectHideFlags: 0
