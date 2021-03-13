@@ -61,6 +61,10 @@ public class FightersGlove : Item
         base.AttackAnimationPlayOver();
         _Animator.SetInteger(_AnimatorHash, (int)Anim.Attack_End);
     }
+    protected override void CameraShake()
+    {
+        MainCamera.Instance.Shake(0.4f, 0.7f);
+    }
     private void AttackEvent(GameObject attacker, ICombatable target)
     {
         target.Damaged(5f, attacker);
