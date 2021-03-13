@@ -47,7 +47,7 @@ public class RuneFragment : Item
         switch (offSlot)
         {
             case SlotType.Accessory:
-                Inventory.Instance.PlayerEnterFloorEvent += PlayerEnterFloorEvent;
+                Inventory.Instance.PlayerEnterFloorEvent -= PlayerEnterFloorEvent;
                 break;
 
             case SlotType.Weapon:
