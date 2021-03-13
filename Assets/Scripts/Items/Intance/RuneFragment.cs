@@ -44,7 +44,17 @@ public class RuneFragment : Item
     }
     public override void OffEquipThis(SlotType offSlot)
     {
-        
+        switch (offSlot)
+        {
+            case SlotType.Accessory:
+                Inventory.Instance.PlayerEnterFloorEvent += PlayerEnterFloorEvent;
+                break;
+
+            case SlotType.Weapon:
+                Inventory.Instance.ChargeBeginAction -= ChargeBeginAction;
+                Inventory.Instance.ChargeEndAction -= ChargeEndAction;
+                break;
+        }
     }
     public override void OnEquipThis(SlotType onSlot)
     {
@@ -53,6 +63,7 @@ public class RuneFragment : Item
         switch (onSlot)
         {
             case SlotType.Accessory:
+                Inventory.Instance.PlayerEnterFloorEvent += PlayerEnterFloorEvent;
                 break;
 
             case SlotType.Weapon:
@@ -67,6 +78,12 @@ public class RuneFragment : Item
         }
     }
 
+    private void PlayerEnterFloorEvent()
+    {
+        MainCamera.Instance.Shake(0.6f, 0.5f);
+
+        ShootRedStorm(UnitizedPosV.BOT, (Vector2.right * (Random.value - Random.value)).normalized);
+    }
     private void ChargeBeginAction()
     {
         _Animator.SetInteger(_AnimatorHash, (int)Anim.Charging_Begin);
@@ -119,36 +136,33 @@ public class RuneFragment : Item
     }
     private void ChargingSkill()
     {
-        MainCamera.Instance.Shake(0.8f, 3f);
+        MainCamera.Instance.Shake(1.3f, 1f);
 
-        float minX = Castle.Instance.GetMovePoint(UnitizedPos.MID_LEFT).x  - 3f;
-        float maxX = Castle.Instance.GetMovePoint(UnitizedPos.MID_RIGHT).x + 3f;
-
-        void Shoot(Projection projection, Vector2 position, Vector2 direction)
+        for (UnitizedPosV i = UnitizedPosV.TOP; i <= UnitizedPosV.BOT; i++)
         {
-            projection.Shoot(position, direction, _RedStormSpeed);
-
-            if (direction.x < 0)
-            {
-                projection.transform.rotation = RightRotation;
-            }
-            else
-            {
-                projection.transform.rotation = Quaternion.identity;
-            }
+            ShootRedStorm(i, (Vector2.right * (Random.value - Random.value)).normalized);
         }
-        if (Random.value < 0.5f)
+        _ChargingPower = 0f;
+    }
+    private void ShootRedStorm(UnitizedPosV point, Vector2 direction)
+    {
+        Projection projection = _RedStormPool.Get();
+        Vector2 shootPoint;
+
+        if (direction.x < 0)
         {
-            Shoot(_RedStormPool.Get(), new Vector2(minX, Castle.Instance.GetMovePointY(UnitizedPosV.TOP) + _RedStormOffsetY), Vector2.right);
-            Shoot(_RedStormPool.Get(), new Vector2(maxX, Castle.Instance.GetMovePointY(UnitizedPosV.MID) + _RedStormOffsetY), Vector2.left);
-            Shoot(_RedStormPool.Get(), new Vector2(minX, Castle.Instance.GetMovePointY(UnitizedPosV.BOT) + _RedStormOffsetY), Vector2.right);
+            float maxX = Castle.Instance.GetMovePoint(UnitizedPos.MID_RIGHT).x + 3f;
+
+            projection.transform.rotation = RightRotation;
+            shootPoint = new Vector2(maxX, Castle.Instance.GetMovePointY(point) + _RedStormOffsetY);
         }
         else
         {
-            Shoot(_RedStormPool.Get(), new Vector2(maxX, Castle.Instance.GetMovePointY(UnitizedPosV.TOP) + _RedStormOffsetY), Vector2.left);
-            Shoot(_RedStormPool.Get(), new Vector2(minX, Castle.Instance.GetMovePointY(UnitizedPosV.MID) + _RedStormOffsetY), Vector2.right);
-            Shoot(_RedStormPool.Get(), new Vector2(maxX, Castle.Instance.GetMovePointY(UnitizedPosV.BOT) + _RedStormOffsetY), Vector2.left);
+            float minX = Castle.Instance.GetMovePoint(UnitizedPos.MID_LEFT).x - 3f;
+
+            projection.transform.rotation = Quaternion.identity;
+            shootPoint = new Vector2(minX, Castle.Instance.GetMovePointY(point) + _RedStormOffsetY);
         }
-        _ChargingPower = 0f;
+        projection.Shoot(shootPoint, direction, _RedStormSpeed);
     }
 }
