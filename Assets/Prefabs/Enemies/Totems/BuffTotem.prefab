@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 53926453138816437}
   - component: {fileID: 53926453138816436}
   - component: {fileID: 53926453138816439}
-  - component: {fileID: 7971995624787853793}
   m_Layer: 0
   m_Name: Area&AbilityTable
   m_TagString: Untagged
@@ -74,19 +73,6 @@ MonoBehaviour:
   AreaCollider: {fileID: 0}
   mSenseTags:
   - Enemy
---- !u!114 &7971995624787853793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 53926453138816442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AblityObject: {fileID: 11400000, guid: 6bf5db99f1e7f914da3fdfa517b8a528, type: 2}
 --- !u!1 &53926453361515090
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,6 +88,7 @@ GameObject:
   - component: {fileID: 7138527647169006540}
   - component: {fileID: 2325238707315122105}
   - component: {fileID: 1539583649244806105}
+  - component: {fileID: 1845248700281617818}
   m_Layer: 0
   m_Name: BuffTotem
   m_TagString: Enemy
@@ -191,7 +178,7 @@ MonoBehaviour:
   AnimLength: 1.833
   Anim: {fileID: 833377283793197278}
   Animator: {fileID: 1722614913}
-  AbilityTable: {fileID: 7971995624787853793}
+  AbilityTable: {fileID: 1845248700281617818}
   mSenseArae: {fileID: 53926453138816439}
   mCastBuff: 1
   mDurate: 3
@@ -277,6 +264,19 @@ MonoBehaviour:
   _GroundOffsetY: -0.3
   _CommonPotion: 0.1
   _RarePotion: 0.05
+--- !u!114 &1845248700281617818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53926453361515090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AblityObject: {fileID: 11400000, guid: 6bf5db99f1e7f914da3fdfa517b8a528, type: 2}
 --- !u!1 &833377283793197278
 GameObject:
   m_ObjectHideFlags: 0

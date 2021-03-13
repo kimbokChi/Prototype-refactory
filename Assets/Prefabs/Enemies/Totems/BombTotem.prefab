@@ -9,10 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5280243655584907634}
-  - component: {fileID: 7447130978180794834}
   - component: {fileID: 1080074601151004900}
   - component: {fileID: 901497636886740779}
-  - component: {fileID: 6186253912153091605}
   m_Layer: 0
   m_Name: AbilityTable & Area
   m_TagString: Untagged
@@ -34,19 +32,6 @@ Transform:
   m_Father: {fileID: 1309640331586953152}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7447130978180794834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544651226204257176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AblityObject: {fileID: 11400000, guid: 2d59abb5c72021e489450f191c049ee7, type: 2}
 --- !u!114 &1080074601151004900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,27 +63,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
---- !u!50 &6186253912153091605
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 544651226204257176}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &1309640331586953155
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,6 +79,7 @@ GameObject:
   - component: {fileID: 8478487100379901975}
   - component: {fileID: 5673173598819149837}
   - component: {fileID: 4151755972900578113}
+  - component: {fileID: 4427420486322866246}
   m_Layer: 0
   m_Name: BombTotem
   m_TagString: Enemy
@@ -202,7 +167,7 @@ MonoBehaviour:
   _ItemDropper: {fileID: 4151755972900578113}
   Range: {fileID: 1080074601151004900}
   RangeCollider: {fileID: 901497636886740779}
-  AbilityTable: {fileID: 7447130978180794834}
+  AbilityTable: {fileID: 4427420486322866246}
   EnemyAnimator: {fileID: 8727877944927416976}
 --- !u!95 &4570571353432608866
 Animator:
@@ -298,3 +263,16 @@ MonoBehaviour:
   _GroundOffsetY: -0.3
   _CommonPotion: 0.1
   _RarePotion: 0.05
+--- !u!114 &4427420486322866246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309640331586953155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AblityObject: {fileID: 11400000, guid: 2d59abb5c72021e489450f191c049ee7, type: 2}
