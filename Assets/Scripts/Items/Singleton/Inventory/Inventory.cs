@@ -19,6 +19,8 @@ public class Inventory : Singleton<Inventory>
     public event Action<Direction> DashBeginEvent;
     public event Action<Direction> DashEndEvent;
 
+    public event Action PlayerEnterFloorEvent;
+
     #region COMMENT
     /// <summary>
     /// parameter[1] : attacker gameobject
@@ -143,6 +145,10 @@ public class Inventory : Singleton<Inventory>
     public void PlayerEndDash(Direction direction)
     {
         DashEndEvent?.Invoke(direction);
+    }
+    public void PlayerEnterFloor()
+    {
+        PlayerEnterFloorEvent?.Invoke();
     }
     public void PlayerMoveUpDownBegin(UnitizedPosV room, Direction direction)
     {
