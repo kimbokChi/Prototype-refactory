@@ -14,11 +14,15 @@ public class LoginUI : Singleton<LoginUI>
   //  public GameObject touchStart;
    // public GameObject errorObject;
    // public GameObject nicknameObject;
+   // public GameObject Scene;
+   // public GameObject nicknameObject;
+    
 
 
     private TMPro.TMP_InputField nicknameField;
     private Text errorText;
     private GameObject loadingObject;
+ 
     // private FadeAnimation fadeObject;
 
     private const byte ID_INDEX = 0;
@@ -73,8 +77,8 @@ public class LoginUI : Singleton<LoginUI>
 
            if (result)
            {
-
-               SceneLoader.Instance.SceneLoad(2);
+               
+               ///SceneLoader.Instance.SceneLoad(2);
                return;
            }
            else
@@ -108,8 +112,8 @@ public class LoginUI : Singleton<LoginUI>
                    
                    return;
                 }
-               ChangeLobbyScene();
-            });
+             // SceneLoader.Instance.SceneLoad(2);
+          });
       });
  }
 
@@ -135,7 +139,7 @@ public class LoginUI : Singleton<LoginUI>
                     return;
                 }
 
-            ChangeLobbyScene();
+              //  SceneLoader.Instance.SceneLoad(2);
             });
         });
     }

@@ -25,12 +25,14 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
     private Action<bool, string> loginSuccessFunc = null;
 
     public bool load = false;
+ 
 
     float x = 0;
     float Y = 0;
     bool IsInitialized = false;
     BackendReturnObject bro;
-
+     public GameObject Scene;
+     public GameObject Login;
     private const string BackendError = "statusCode : {0}\nErrorCode : {1}\nMessage : {2}";
     // Start is called before the first frame update
     
@@ -240,10 +242,15 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             Debug.LogError(e.Message);
         };
 
+
+
         
 
-      
-
+    }
+     void Start()
+    {
+        Login.SetActive(false);
+        Scene.SetActive(false);
     }
     void backendCallback(BackendReturnObject BRO)
     {
@@ -304,18 +311,22 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             if (callback.IsSuccess())
             {
                 OnBackendAuthorized();
+                indate();
                 loginSuccessFunc = func;
                 Debug.Log("토큰 로그인 성공");
                 load = true;
-                if (load == true)
-                {
-                    SceneLoader.Instance.SceneLoad(2);
-                }
+
+                Scene.SetActive(true);
+
+
             }
             else
             {
                 Debug.Log("토큰 로그인 실패\n" + callback.ToString());
                 func(false, string.Empty);
+
+
+                Login.SetActive(true);
                 //SceneLoader.Instance.SceneLoad(0);
             }
         });
@@ -524,13 +535,11 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
              
                 indate();
                 MessagePopManager.instance.ShowPop("GPGS 로그인 성공");
-
+                Scene.SetActive(true);
                 load = true;
+                Login.SetActive(false);
 
-                if (load == true)
-                {
-                    SceneLoader.Instance.SceneLoad(2);
-                }
+
             }
         }
         else
@@ -550,9 +559,8 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
                         
                         indate();
                         Debug.Log("GPGS 로그인 성공");
-
-                        SceneLoader.Instance.SceneLoad(2);
-                        
+                        Scene.SetActive(true);
+                        Login.SetActive(false);
                     }
                 }
                 else
@@ -600,7 +608,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         OnItem();
         OnStage();
         OnOption();
-        
+       
 
     }
     void Update()
@@ -620,7 +628,8 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
 
                 indate();
                 Debug.Log("게스트 로그인 성공");
-              
+                Scene.SetActive(true);
+                Login.SetActive(false);
                 return;
             }
 
