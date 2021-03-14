@@ -95,6 +95,8 @@ public class MysteriousMace : Item
         {
             // 2/3의 피해
             combat.Damaged(StatTable[ItemStat.AttackPower] * 0.666f, mPlayer);
+            Inventory.Instance.ProjectionHit(target, StatTable[ItemStat.AttackPower]);
+
         }
     }
     protected override void CameraShake()

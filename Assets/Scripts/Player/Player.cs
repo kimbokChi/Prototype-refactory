@@ -294,6 +294,8 @@ public class Player : MonoBehaviour, ICombatable
                     {
                         dashPoint += Vector2.left * _DashLength;
                         SetLookAtLeft(true);
+
+                        Inventory.Instance.PlayerDash(Direction.Left);
                     }
                     break;
 
@@ -301,6 +303,8 @@ public class Player : MonoBehaviour, ICombatable
                     {
                         dashPoint += Vector2.right * _DashLength;
                         SetLookAtLeft(false);
+
+                        Inventory.Instance.PlayerDash(Direction.Right);
                     }
                     break;
             }
@@ -310,6 +314,8 @@ public class Player : MonoBehaviour, ICombatable
     }
     private IEnumerator DashRoutine(Vector2 dashPoint)
     {
+        PlayerAnimator.ChangeState(PlayerAnim.Dash);
+
         Vector2 movePointMin = Vector2.zero;
         Vector2 movePointMax = Vector2.zero;
 
@@ -348,6 +354,7 @@ public class Player : MonoBehaviour, ICombatable
             yield return null;
         }
         _DashRoutine.Finish();
+        // BackToOriginalAnim();
 
         OnceDashEndEvent?.Invoke(this);
         OnceDashEndEvent = null;
@@ -420,7 +427,10 @@ public class Player : MonoBehaviour, ICombatable
 
         if (AbilityTable[Ability.CurHealth] > 0f)
         {
-            PlayerAnimator.ChangeState(PlayerAnim.Idle);
+            if (_DashRoutine.IsFinished())
+            {
+                PlayerAnimator.ChangeState(PlayerAnim.Idle);
+            }
         }
     }
 
@@ -442,6 +452,8 @@ public class Player : MonoBehaviour, ICombatable
                                 if (Castle.Instance.CanNextPoint(out movePoint))
                                 {
                                     mLocation9 += 6;
+                                    Inventory.Instance.PlayerMoveUpDownBegin(GetUnitizedPosV(), direction);
+
                                     _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
                                 }
                             }
@@ -482,6 +494,8 @@ public class Player : MonoBehaviour, ICombatable
                                 if (CanMoveDown && Castle.Instance.CanPrevPoint(out movePoint))
                                 {
                                     mLocation9 -= 6;
+                                    Inventory.Instance.PlayerMoveUpDownBegin(GetUnitizedPosV(), direction);
+
                                     _MoveRoutine.StartRoutine(MoveWithPoint(movePoint));
                                 }
                             }
@@ -573,9 +587,11 @@ public class Player : MonoBehaviour, ICombatable
         {
             case Direction.Up:
                 mLocation9 -= 3;
+                Inventory.Instance.PlayerMoveUpDownBegin(GetUnitizedPosV(), direction);
                 break;
             case Direction.Down:
                 mLocation9 += 3;
+                Inventory.Instance.PlayerMoveUpDownBegin(GetUnitizedPosV(), direction);
                 break;
             case Direction.Right:
                 mLocation9++;
@@ -746,8 +762,6 @@ public class Player : MonoBehaviour, ICombatable
         else
             PlayerAnimator.ChangeState(PlayerAnim.Move);
 
-        mInventory.OnMoveBegin(movePoint.normalized);
-
         for (float lerpAmount = 0f; lerpAmount < 1f;)
         {
             lerpAmount = Mathf.Min(1f, lerpAmount + DeltaTime * AbilityTable.MoveSpeed);
@@ -781,20 +795,17 @@ public class Player : MonoBehaviour, ICombatable
                 if (mIsMovingElevation && lerpAmount >= 0.1f)
                 {
                     a = false;
-                    PlayerAnimator.ChangeState(PlayerAnim.Landing);
+                    PlayerAnimator.ChangeState(PlayerAnim.Dash);
                 }
             }
             yield return null;
         }
         PlayerAnimator.ChangeState(PlayerAnim.Idle);
 
-        mInventory.OnMoveEnd(mCollidersOnMove.ToArray());
-
         mCollidersOnMove.Clear();
 
         if (mCanElevation)
         {
-            mInventory.OnFloorEnter();
             mCanElevation = false;
         }
         mIsMovingElevation = false;

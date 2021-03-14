@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsPlayOnEnable: 0
-  Name: 0
+  Name: 2
 --- !u!1 &767859376379735124
 GameObject:
   m_ObjectHideFlags: 0
