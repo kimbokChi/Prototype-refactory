@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum PlayerAnim
 {
-    Idle, Move, Jump, Landing, Death, Damaged
+    Idle, Move, Jump, Dash, Death, Damaged
 }
 
 public class PlayerAnimator : MonoBehaviour

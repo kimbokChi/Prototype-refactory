@@ -20,8 +20,11 @@ MonoBehaviour:
   _ItemSprite: {fileID: -5722735768399984094, guid: dd54d29f612e4ed4ea9f5b818779fe24,
     type: 3}
   _UsageKeywords: 
-  _WeaponText: "\uD55C \uBC88 \uAD00\uD1B5\uD560 \uC218 \uC788\uB294 \n\uD654\uC0B4\uC744
+  _WeaponText: "\n\uD55C \uBC88 \uAD00\uD1B5\uD560 \uC218 \uC788\uB294 \n\uD654\uC0B4\uC744
     \uBC1C\uC0AC\uD569\uB2C8\uB2E4."
+  _WeaponTextSize: 18
   _WeaponAblity: ATK+5.0 SPEED+0.0
-  _AccessoryText: '-'
+  _AccessoryText: "\uC0AC\uC6A9\uD558\uB294 \uBAA8\uB4E0 \uD22C\uC0AC\uCCB4\uC758
+    \n\uD53C\uD574\uB7C9\uC774 5\uB9CC\uD07C \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  _AccessoryTextSize: 18
   _AccessoryAblity: ATK+5.0 SPEED+0.0

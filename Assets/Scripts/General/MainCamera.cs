@@ -63,7 +63,6 @@ public class MainCamera : Singleton<MainCamera>
 
         _Player = FindObjectOfType<Player>();
     }
-
     public void UseDamagedFilter()
     {
         DamagedFilter.SetActive(true);
@@ -78,7 +77,7 @@ public class MainCamera : Singleton<MainCamera>
     {
         if (mCameraShake != null)
         {
-            transform.position = mOriginPosition;
+            transform.parent.position = Vector3.zero;
             StopCoroutine(mCameraShake);
         }
         StartCoroutine(mCameraShake = CameraShake(time, power));
@@ -183,19 +182,19 @@ public class MainCamera : Singleton<MainCamera>
 
     private IEnumerator CameraShake(float time, float power)
     {
-        float deltaTime = 0f;
+        float deltaTime;
 
         power *= 0.1f;
 
         for (float i = 0; i < time; i += deltaTime)
         {
-            transform.position = mOriginPosition + (Vector3)(UnityEngine.Random.insideUnitCircle * power);
+            transform.parent.position = (Vector3)(UnityEngine.Random.insideUnitCircle * power);
 
             deltaTime = Time.deltaTime;
 
             yield return null;
         }
-        transform.position = mOriginPosition;
+        transform.parent.position = Vector3.zero;
     }
 
     private IEnumerator CameraMove(Vector2 point, float speed)

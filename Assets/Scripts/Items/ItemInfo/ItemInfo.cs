@@ -27,13 +27,15 @@ public class ItemInfo : ScriptableObject
     [Header("Weapon Section")]
     [TextArea(2, 4)]
     [SerializeField] private string _WeaponText;
-    [TextArea(1, 1)]
+    [SerializeField] private float  _WeaponTextSize = 18f;
+    [Space(), TextArea(1, 1)]
     [SerializeField] private string _WeaponAblity;
 
     [Header("Accessory Section")]
     [TextArea(2, 4)]
     [SerializeField] private string _AccessoryText;
-    [TextArea(1, 1)]
+    [SerializeField] private float  _AccessoryTextSize = 18f;
+    [Space(), TextArea(1, 1)]
     [SerializeField] private string _AccessoryAblity;
 
     #region Access Variable
@@ -61,6 +63,9 @@ public class ItemInfo : ScriptableObject
     { get => _AccessoryText; }
     public string AccessoryAblity
     { get => _AccessoryAblity; }
+
+    public float WeaponTextSize => _WeaponTextSize;
+    public float AccessoryTextSize => _AccessoryTextSize;
     #endregion
 
     public void SetData(string nameText, ItemRating rating, float atk)

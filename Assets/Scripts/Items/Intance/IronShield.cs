@@ -16,6 +16,9 @@ public class IronShield : Item
     [SerializeField] private float DurationTime;
     [SerializeField] private float DemandCharge;
 
+    [Header("Accessory")]
+    [SerializeField, Range(0f, 1f)] private float _DmgDecrease;
+
     private int _AnimControlKey;
     private bool _IsAlreadyInit;
 
@@ -30,9 +33,14 @@ public class IronShield : Item
 
     public override void OffEquipThis(SlotType offSlot)
     {
-        if (offSlot == SlotType.Weapon)
+        switch (offSlot)
         {
-            Inventory.Instance.ChargeAction -= ChargeAction;
+            case SlotType.Accessory:
+                Inventory.Instance.BeDamagedAction -= BeDamagedAction;
+                break;
+            case SlotType.Weapon:
+                Inventory.Instance.ChargeAction -= ChargeAction;
+                break;
         }
     }
 
@@ -40,12 +48,23 @@ public class IronShield : Item
     {
         Init();
 
-        if (onSlot == SlotType.Weapon)
+        switch (onSlot)
         {
-            Inventory.Instance.ChargeAction += ChargeAction;
-
-            _Player = transform.parent.parent.gameObject;
+            case SlotType.Accessory:
+                Inventory.Instance.BeDamagedAction += BeDamagedAction;
+                break;
+            case SlotType.Weapon:
+                Inventory.Instance.ChargeAction += ChargeAction;
+                break;
         }
+    }
+
+    private void BeDamagedAction(ref float damage, GameObject attacker, GameObject victim)
+    {
+        damage *= 1 - _DmgDecrease;
+        Vector2 point = (Vector2)victim.transform.position + EffectOffset;
+
+        EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, point + Random.insideUnitCircle * 0.9f);
     }
 
     private void AnimationBeginOver()
@@ -62,6 +81,8 @@ public class IronShield : Item
     {
         if (!_IsAlreadyInit)
         {
+            _Player = GameObject.FindGameObjectWithTag("Player");
+
             _CollisionArea?.SetEnterAction(o =>
             {
                 if (o.TryGetComponent(out ICombatable combatable))
