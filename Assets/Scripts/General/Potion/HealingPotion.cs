@@ -12,9 +12,11 @@ public class HealingPotion : Potion
         EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position);
 
         float maxHealth = PotionPool.Instance.PlayerAbilityTable[Ability.MaxHealth];
-        float heal = Mathf.Min(maxHealth, maxHealth * _HealRate);
+        float curHealth = PotionPool.Instance.PlayerAbilityTable[Ability.CurHealth];
 
-        PotionPool.Instance.PlayerAbilityTable.Table[Ability.CurHealth] += heal;
+        float health = Mathf.Min(maxHealth, curHealth + maxHealth * _HealRate);
+
+        PotionPool.Instance.PlayerAbilityTable.Table[Ability.CurHealth] = health;
         PotionPool.Instance.Add(this);
     }
     public override void Interaction()
