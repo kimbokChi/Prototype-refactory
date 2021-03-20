@@ -28,7 +28,7 @@ public class LongSword : Item
         if (offSlot.Equals(SlotType.Weapon))
         {
             AttackOverAction = null;
-            Inventory.Instance.ChargeAction -= ChargeAction;
+            Inventory.Instance.ChargeEndAction -= ChargeAction;
         }
     }
     protected override void AttackAnimationPlayOver()
@@ -66,7 +66,7 @@ public class LongSword : Item
                     }, p => _SwordDancePool.Add(p));
                 });
             }
-            Inventory.Instance.ChargeAction += ChargeAction;
+            Inventory.Instance.ChargeEndAction += ChargeAction;
         }
     }
     public void ShootSwordDance()

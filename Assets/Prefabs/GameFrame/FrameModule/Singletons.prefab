@@ -292,6 +292,10 @@ MonoBehaviour:
     EffectOrigin: {fileID: 314849504013700523, guid: 3ca590692fb55994bbf22d346a425d66,
       type: 3}
     HoldingCount: 3
+  - EffectKind: 5
+    EffectOrigin: {fileID: 1874264150650358275, guid: 677fe337d7717de4689564a6aa1dc6d1,
+      type: 3}
+    HoldingCount: 3
 --- !u!1001 &6254484233742655852
 PrefabInstance:
   m_ObjectHideFlags: 0

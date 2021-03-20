@@ -35,13 +35,13 @@ public class Shuriken : Item
         {
             case SlotType.Accessory:
                 {
-                    Inventory.Instance.DashEvent -= DashEvent;
+                    Inventory.Instance.DashBeginEvent -= DashEvent;
                 }
                 break;
 
             case SlotType.Weapon:
                 {
-                    Inventory.Instance.ChargeAction += ChargeAction;
+                    Inventory.Instance.ChargeEndAction += ChargeAction;
                 }
                 break;
         }
@@ -54,13 +54,13 @@ public class Shuriken : Item
         {
             case SlotType.Accessory:
                 {
-                    Inventory.Instance.DashEvent += DashEvent;
+                    Inventory.Instance.DashBeginEvent += DashEvent;
                 }
                 break;
 
             case SlotType.Weapon:
                 {
-                    Inventory.Instance.ChargeAction += ChargeAction;
+                    Inventory.Instance.ChargeEndAction += ChargeAction;
                 }
                 break;
         }
@@ -151,6 +151,7 @@ public class Shuriken : Item
                         if (hit.TryGetComponent(out ICombatable combatable))
                         {
                             combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
+                            Inventory.Instance.OnAttackEvent(_Player, combatable);
                             Inventory.Instance.ProjectionHit(hit, StatTable[ItemStat.AttackPower]);
 
                             MainCamera.Instance.Shake(0.1f, 0.8f);

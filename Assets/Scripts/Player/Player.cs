@@ -286,7 +286,9 @@ public class Player : MonoBehaviour, ICombatable
     public void DashOrder(UnitizedPosH direction)
     {
         if (_DashRoutine.IsFinished() && _DashCoolRoutine.IsFinished())
-        {            
+        {
+            Direction dir = Direction.None;
+
             Vector2 dashPoint = transform.position;
             switch (direction)
             {
@@ -295,7 +297,7 @@ public class Player : MonoBehaviour, ICombatable
                         dashPoint += Vector2.left * _DashLength;
                         SetLookAtLeft(true);
 
-                        Inventory.Instance.PlayerDash(Direction.Left);
+                        Inventory.Instance.PlayerBeginDash(dir = Direction.Left);
                     }
                     break;
 
@@ -304,15 +306,15 @@ public class Player : MonoBehaviour, ICombatable
                         dashPoint += Vector2.right * _DashLength;
                         SetLookAtLeft(false);
 
-                        Inventory.Instance.PlayerDash(Direction.Right);
+                        Inventory.Instance.PlayerBeginDash(dir = Direction.Right);
                     }
                     break;
             }
             _MoveRoutine.StopRoutine();
-            _DashRoutine.StartRoutine(DashRoutine(dashPoint));
+            _DashRoutine.StartRoutine(DashRoutine(dashPoint, dir));
         }
     }
-    private IEnumerator DashRoutine(Vector2 dashPoint)
+    private IEnumerator DashRoutine(Vector2 dashPoint, Direction direction)
     {
         PlayerAnimator.ChangeState(PlayerAnim.Dash);
 
@@ -358,6 +360,8 @@ public class Player : MonoBehaviour, ICombatable
 
         OnceDashEndEvent?.Invoke(this);
         OnceDashEndEvent = null;
+
+        Inventory.Instance.PlayerEndDash(direction);
 
         _DashCoolRoutine.StartRoutine(DashCoolTime());
     }

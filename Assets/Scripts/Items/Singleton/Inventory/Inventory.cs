@@ -16,7 +16,10 @@ public class Inventory : Singleton<Inventory>
     public event ProjHit ProjectionHitEvent;
     public delegate void ProjHit(GameObject victim, float damage);
 
-    public event Action<Direction> DashEvent;
+    public event Action<Direction> DashBeginEvent;
+    public event Action<Direction> DashEndEvent;
+
+    public event Action PlayerEnterFloorEvent;
 
     #region COMMENT
     /// <summary>
@@ -39,12 +42,8 @@ public class Inventory : Singleton<Inventory>
     public event action BeDamagedAction;
     public delegate void action(ref float damage, GameObject attacker, GameObject victim);
 
-    #region COMMENT
-    /// <summary>
-    /// parameter[1] : charge amount
-    /// </summary>
-    #endregion
-    public event Action<float> ChargeAction;
+    public event Action ChargeBeginAction;
+    public event Action<float> ChargeEndAction;
 
     #endregion
 
@@ -131,13 +130,25 @@ public class Inventory : Singleton<Inventory>
     {
         BeDamagedAction?.Invoke(ref damage, attacker, victim);
     }
-    public void OnCharge(float power)
+    public void BeginOfCharge()
     {
-        ChargeAction?.Invoke(power);
+        ChargeBeginAction?.Invoke();
     }
-    public void PlayerDash(Direction direction)
+    public void EndOfCharge(float power)
     {
-        DashEvent?.Invoke(direction);
+        ChargeEndAction?.Invoke(power);
+    }
+    public void PlayerBeginDash(Direction direction)
+    {
+        DashBeginEvent?.Invoke(direction);
+    }
+    public void PlayerEndDash(Direction direction)
+    {
+        DashEndEvent?.Invoke(direction);
+    }
+    public void PlayerEnterFloor()
+    {
+        PlayerEnterFloorEvent?.Invoke();
     }
     public void PlayerMoveUpDownBegin(UnitizedPosV room, Direction direction)
     {

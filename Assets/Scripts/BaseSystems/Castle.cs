@@ -228,6 +228,7 @@ public class Castle : Singleton<Castle>
         {
             StageEventLibrary.Instance?.NotifyEvent(NotifyMessage.StageEnter);
         }
+        Inventory.Instance.PlayerEnterFloor();
         mIsCastClearEvent = false;
     }
     #region _MEMBER
