@@ -6,19 +6,20 @@ using UnityEngine.EventSystems;
 
 public class TouchController : MonoBehaviour
 {
-    private const float NeedMovingLength = 0.5f;
-    private const float NeedDashLength = 45f;
+    private const float NeedMovingLength = 20f;
+    private const float NeedDashLength = 40f;
 
     private Coroutine _MoveRoutine;
     private TouchPhase _CurrentPhase;
+    private TouchPhase _PreviousPhase;
     private Vector2 _BeganInputPoint;
-    private Vector3 _LastInputPoint;
 
     private Player _Player;
     private float _StationaryTime;
 
     private bool _IsAlreadyCharging;
     private bool _IsAlreadyInit = false;
+    private bool _IsPrevInputOnUI = false;
 
     public bool IsMobilePlatform()
     {
@@ -95,7 +96,6 @@ public class TouchController : MonoBehaviour
 
             _Player = FindObjectOfType<Player>();
         }
-        _LastInputPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
     private void Update()
     {
@@ -148,7 +148,7 @@ public class TouchController : MonoBehaviour
                                 }
                                 _BeganInputPoint = inputPosition;
                             }
-                            else if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 2)
+                            else if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
                             {
                                 _BeganInputPoint = inputPosition;
 
@@ -164,7 +164,7 @@ public class TouchController : MonoBehaviour
                         }
                         else
                         {
-                            if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 2f)
+                            if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 1.5f)
                             {
                                 _BeganInputPoint = inputPosition;
 
@@ -177,8 +177,6 @@ public class TouchController : MonoBehaviour
                                     _MoveRoutine.StartRoutine(Move(Direction.Down));
                                 }
                                 _StationaryTime = 0f;
-
-                                _BeganInputPoint = inputPosition;
                             }
                         }
                     }
@@ -204,17 +202,18 @@ public class TouchController : MonoBehaviour
                     {
                         if (_MoveRoutine.IsFinished())
                         {
-                            if (_StationaryTime > 0f)
-                            {
-                                if (_StationaryTime <= Finger.PRESS_TIME)
-                                {
-                                    _Player.AttackOrder();
-                                }
-                            }
                             if (_IsAlreadyCharging)
                             {
                                 Finger.Instance.EndCharging();
                                 _IsAlreadyCharging = false;
+                            }
+                            else if (_IsPrevInputOnUI)
+                            {
+                                if (_PreviousPhase == TouchPhase.Began ||
+                                    _PreviousPhase == TouchPhase.Stationary)
+                                {
+                                    _Player.AttackOrder();
+                                }
                             }
                         }
                         _StationaryTime = 0f;
@@ -226,10 +225,8 @@ public class TouchController : MonoBehaviour
                     break;
             }
         }
-    }
-    private void LateUpdate()
-    {
-        _LastInputPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _PreviousPhase = _CurrentPhase;
+        _IsPrevInputOnUI = !EventSystem.current.IsPointerInUIObject();
     }
     private void CurrentPhaseCheck()
     {
