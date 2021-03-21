@@ -204,8 +204,8 @@ public class VirtualJoystick : MonoBehaviour
         rect.width  /= 2f;
         rect.height /= 2f;
 
-        position.x = Mathf.Clamp(position.x, -HalfScreen.x + rect.width,  HalfScreen.x - rect.width );
-        position.y = Mathf.Clamp(position.y, -HalfScreen.y + rect.height, HalfScreen.y - rect.height);
+        position.x = Mathf.Clamp(position.x, -HalfScreen.x + rect.width,  HalfScreen.x - rect.width);
+        position.y = Mathf.Clamp(position.y, -HalfScreen.y + rect.height, HalfScreen.y - rect.height - HalfScreen.y * 0.5f);
 
         transform.localPosition = position;
     }
