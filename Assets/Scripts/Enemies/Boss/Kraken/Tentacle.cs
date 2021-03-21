@@ -10,8 +10,9 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     [SerializeField] private ItemDropper _ItemDropper;
     [SerializeField] private AbilityTable AbilityTable;
     [SerializeField] private EnemyAnimator EnemyAnimator;
-    
+
     [Header("Areas")]
+    [SerializeField] private Collider2D BeAtkedCollider;
     [SerializeField] private Area Range;
     [SerializeField] private Area AttackArea;
 
@@ -63,10 +64,7 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
             _ItemDropper.CoinDrop(3);
             _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
 
-            if (TryGetComponent(out Collider2D collider))
-            {
-                collider.enabled = false;
-            }
+            BeAtkedCollider.enabled = false;
         }
     }
 
@@ -77,6 +75,8 @@ public class Tentacle : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 
     public void IInit()
     {
+        BeAtkedCollider.enabled = true;
+
         EnemyAnimator.Init();
         HealthBarPool.Instance.UsingHealthBar(-2.28f, transform, AbilityTable);
 

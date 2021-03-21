@@ -219,6 +219,7 @@ MonoBehaviour:
   _ItemDropper: {fileID: 1231329164267045668}
   AbilityTable: {fileID: 3550762048770414474}
   EnemyAnimator: {fileID: 5774750757637743333}
+  BeAtkedCollider: {fileID: 3784561706877194330}
   Range: {fileID: 7385146187157378355}
   AttackArea: {fileID: 3652416856098742388}
 --- !u!114 &5774750757637743333
