@@ -634,10 +634,9 @@ public class Player : MonoBehaviour, ICombatable
         {
             Debug.Log("저장");
 
-#if UNITY_EDITOR
-#else
-            BackEndServerManager.Instance.SendDataToServerSchema("Player");
-#endif
+
+            BackEndServerManager.Instance.SendDataToServerSchema();
+
             PlayerAnimator.ChangeState(PlayerAnim.Death);
         }
     }
