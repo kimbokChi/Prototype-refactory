@@ -5085,6 +5085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88decd77feaed14d9ff6177f447d550, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _RectTransform: {fileID: 4980155176954843690}
   _AttackButton: {fileID: 2596847204211168}
   _ScalingTime: 2.5
   _DefaultScale: 0.65

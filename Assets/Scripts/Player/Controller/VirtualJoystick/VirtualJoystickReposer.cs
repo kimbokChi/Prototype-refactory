@@ -85,9 +85,9 @@ public class VirtualJoystickReposer : MonoBehaviour
         while (_IsButtonStateDown)
         {
             yield return null;
-
             Vector2 position = Input.mousePosition - HalfScreen;
-            _Controller.transform.localPosition = position;
+
+            _Controller.SetPositionWithScreenRange(position);
         }
     }
 }

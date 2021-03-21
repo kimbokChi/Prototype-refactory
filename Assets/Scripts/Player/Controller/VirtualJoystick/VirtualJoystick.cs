@@ -12,6 +12,10 @@ using UnityEngine.EventSystems;
 
 public class VirtualJoystick : MonoBehaviour
 {
+    private readonly Vector3 HalfScreen
+        = new Vector3(Screen.width / 2f, Screen.height / 2f);
+
+    [SerializeField] private RectTransform _RectTransform;
     [SerializeField] private SubscribableButton _AttackButton;
 
     [Header("___Scaling Prop___")]
@@ -30,8 +34,14 @@ public class VirtualJoystick : MonoBehaviour
     [SerializeField] private Image  _ButtonImage;
 
     private const float IntervalClickTime = 0.2f;
+    private const float DefaultSizeDelta = 393.84615f;
     private float _LastClickTime = 0f;
     private Direction _PrevInputButton = Direction.None;
+
+    public Rect GetRect
+    {
+        get => _RectTransform.rect;
+    }
 
     public SubscribableButton this[Direction dir]
     {
@@ -187,7 +197,18 @@ public class VirtualJoystick : MonoBehaviour
             _LMoveButton, _RMoveButton, _AttackButton
         };
     }
+    public void SetPositionWithScreenRange(Vector2 position)
+    {
+        Rect rect = _RectTransform.rect;
 
+        rect.width  /= 2f;
+        rect.height /= 2f;
+
+        position.x = Mathf.Clamp(position.x, -HalfScreen.x + rect.width,  HalfScreen.x - rect.width );
+        position.y = Mathf.Clamp(position.y, -HalfScreen.y + rect.height, HalfScreen.y - rect.height);
+
+        transform.localPosition = position;
+    }
     public void SetActiveInteraction(bool enable)
     {
         _ButtonImage.enabled = _Button.enabled = enable;
@@ -210,6 +231,7 @@ public class VirtualJoystick : MonoBehaviour
 
         _AttackButton.transform.localScale = scale;
 
+        _RectTransform.sizeDelta = Vector2.one * defaultScale * DefaultSizeDelta;
         _WaitScaling.StopRoutine();
     }
     public void SetButtonOffset(float offset)
