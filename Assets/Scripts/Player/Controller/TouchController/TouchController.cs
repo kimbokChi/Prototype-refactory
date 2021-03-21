@@ -8,11 +8,15 @@ public class TouchController : MonoBehaviour
 {
     private const float NeedMovingLength = 20f;
     private const float NeedDashLength = 40f;
+    private const float AttackableInputRange = 2.5f;
 
     private Coroutine _MoveRoutine;
     private TouchPhase _CurrentPhase;
     private TouchPhase _PreviousPhase;
     private Vector2 _BeganInputPoint;
+
+    private Vector2 _FirstInputPoint;
+    private Vector2  _LastInputPoint;
 
     private Player _Player;
     private float _StationaryTime;
@@ -117,7 +121,7 @@ public class TouchController : MonoBehaviour
             {
                 case TouchPhase.Began:
                     {
-                        _BeganInputPoint = InputPosition();
+                        _FirstInputPoint = _BeganInputPoint = InputPosition();
                     }
                     break;
                 case TouchPhase.Moved:
@@ -200,6 +204,8 @@ public class TouchController : MonoBehaviour
                     break;
                 case TouchPhase.Ended:
                     {
+                        _LastInputPoint = InputPosition();
+
                         if (_MoveRoutine.IsFinished())
                         {
                             if (_IsAlreadyCharging)
@@ -209,10 +215,13 @@ public class TouchController : MonoBehaviour
                             }
                             else if (_IsPrevInputOnUI)
                             {
-                                if (_PreviousPhase == TouchPhase.Began ||
-                                    _PreviousPhase == TouchPhase.Stationary)
+                                if (Vector2.Distance(_LastInputPoint, _FirstInputPoint) <= AttackableInputRange)
                                 {
-                                    _Player.AttackOrder();
+                                    if (_PreviousPhase == TouchPhase.Began ||
+                                        _PreviousPhase == TouchPhase.Stationary)
+                                    {
+                                        _Player.AttackOrder();
+                                    }
                                 }
                             }
                         }
