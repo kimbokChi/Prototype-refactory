@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class TouchController : MonoBehaviour
 {
     private const float NeedMovingLength = 0.5f;
-    private const float NeedDashLength = 180f;
+    private const float NeedDashLength = 45f;
 
     private Coroutine _MoveRoutine;
     private TouchPhase _CurrentPhase;
@@ -75,25 +75,13 @@ public class TouchController : MonoBehaviour
     {
         if (IsMobilePlatform())
         {
-            return Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+            return Input.GetTouch(0).position;
         }
         else
         {
-            return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            return Input.mousePosition;
         }
     }
-    public Vector2 DeltaPosition()
-    {
-        if (IsMobilePlatform())
-        {
-            return Input.GetTouch(0).deltaPosition;
-        }
-        else
-        {
-            return Camera.main.ScreenToWorldPoint(Input.mousePosition) - _LastInputPoint;
-        }
-    }
-
     private void Start()
     {
         _StationaryTime = 0f;
@@ -139,20 +127,28 @@ public class TouchController : MonoBehaviour
 
                         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
                         {
-                            Vector3 delta = DeltaPosition();
+                            float distance = Vector2.Distance(inputPosition, _BeganInputPoint);
 
-                            if (delta.magnitude > NeedDashLength)
+                            if (distance > NeedDashLength)
                             {
-                                if (delta.x > 0)
+                                void DashEndEvent(Player player, Direction dir)
+                                {
+                                    if (_CurrentPhase == TouchPhase.Stationary) 
+                                        player.MoveOrder(dir);
+                                }
+                                if (direction.x > 0)
                                 {
                                     _Player.DashOrder(UnitizedPosH.RIGHT);
+                                    _Player.OnceDashEndEvent += p => DashEndEvent(p, Direction.Right);
                                 }
                                 else
                                 {
                                     _Player.DashOrder(UnitizedPosH.LEFT);
+                                    _Player.OnceDashEndEvent += p => DashEndEvent(p, Direction.Left);
                                 }
+                                _BeganInputPoint = inputPosition;
                             }
-                            else if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
+                            else if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 2)
                             {
                                 _BeganInputPoint = inputPosition;
 
