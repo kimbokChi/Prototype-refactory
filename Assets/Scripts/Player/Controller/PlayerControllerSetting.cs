@@ -105,9 +105,6 @@ public class PlayerControllerSetting : MonoBehaviour
         float defScale = value * _ControllerDefScale;
         float maxScale = value * _ControllerMaxScale;
 
-        Vector3 scale = Vector3.one;
-                scale.x = scale.y = defScale;
-
         float offset = _ControllerOffset * value;
 
         GameLoger.Instance.ControllerDefScale = defScale;
