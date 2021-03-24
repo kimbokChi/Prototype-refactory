@@ -20,7 +20,7 @@ public class IAP : Singleton<IAP>
     public void Reward()
     {
         APP = true;
-        BackEndServerManager.Instance.SendDataToServerSchema("IAP");
+        BackEndServerManager.Instance.IAPSAVE();
         print("인앱성공");
     }
 

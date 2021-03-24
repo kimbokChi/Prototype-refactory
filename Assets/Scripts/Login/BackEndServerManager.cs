@@ -55,7 +55,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         Param _Param = new Param();
         Debug.Log(_Param);
 
-        where.Equal("gamerIndate", mIndate);
+        where.Contains("gamerIndate", mIndate);
         _Param.Add("ControllerOffset", GameLoger.Instance.ControllerOffset);
         _Param.Add("ControllerDefScale", GameLoger.Instance.ControllerDefScale);
         _Param.Add("ControllerMaxScale", GameLoger.Instance.ControllerMaxScale);
@@ -91,7 +91,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         });
     }
 
-    public void SendDataToServerSchema(string _Table )
+    public void SendDataToServerSchema()
     {
         Where where = new Where();
         Debug.Log("쿠르르");
@@ -99,20 +99,20 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         Param _Param = new Param();
         Debug.Log(_Param);
 
-        where.Equal("gamerIndate", mIndate);
+        where.Contains("gamerIndate", mIndate);
         _Param.Add("IAP", IAP.Instance.APP);
         _Param.Add("Gold", MoneyManager.Instance.Money);
         _Param.Add("Kill", GameLoger.Instance.KillCount);
         _Param.Add("Time", GameLoger.Instance.ElapsedTime.ToString());
        
-        Enqueue(Backend.GameSchemaInfo.Get, _Table, where, 1, (BackendReturnObject Getbro) =>
+        Enqueue(Backend.GameSchemaInfo.Get, "Player", where ,10, (BackendReturnObject Getbro) =>
         {
-          
-            Debug.Log("커넥트");
+            
+              Debug.Log("커넥트");
 
             if (Getbro.IsSuccess())
-            {
-             Enqueue(Backend.GameSchemaInfo.Update, _Table, Getbro.GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString(), _Param, (BackendReturnObject Updatebro) =>
+            {            
+                Enqueue(Backend.GameSchemaInfo.Update, "Player", Getbro.GetReturnValuetoJSON()["rows"][0]["inDate"]["S"].ToString(), _Param, (BackendReturnObject Updatebro) =>
              {
               if(Updatebro.IsSuccess())
                  Debug.Log("Update");
@@ -122,7 +122,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             }
             else
             {
-               Enqueue(Backend.GameSchemaInfo.Insert, _Table, _Param, (BackendReturnObject Insertbro) =>
+               Enqueue(Backend.GameSchemaInfo.Insert, "Player", _Param, (BackendReturnObject Insertbro) =>
                 {
                   if(Insertbro.IsSuccess())
                     Debug.Log("insert");
@@ -133,7 +133,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         });
     }
 
-    public void IAPSAVE(string _Table)
+    public void IAPSAVE()
     {
         Where where = new Where();
         Debug.Log("iap");
@@ -141,18 +141,18 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         Param _Param = new Param();
         Debug.Log(_Param);
 
-        where.Equal("gamerIndate", mIndate);
+        where.Contains("gamerIndate", mIndate);
         _Param.Add("IAP", IAP.Instance.APP);
        
 
-        Enqueue(Backend.GameSchemaInfo.Get, _Table, where, 1, (BackendReturnObject Getbro) =>
+        Enqueue(Backend.GameSchemaInfo.Get, "IAP", where, 1, (BackendReturnObject Getbro) =>
         {
 
             Debug.Log("iap커넥트");
 
             if (Getbro.IsSuccess())
             {
-                Enqueue(Backend.GameSchemaInfo.Update, _Table, Getbro.GetReturnValuetoJSON()["rows"][0]["inDate"]["BOOL"].ToString(), _Param, (BackendReturnObject Updatebro) =>
+                Enqueue(Backend.GameSchemaInfo.Update, "IAP", Getbro.GetReturnValuetoJSON()["rows"][0]["inDate"]["BOOL"].ToString(), _Param, (BackendReturnObject Updatebro) =>
                 {
                     if (Updatebro.IsSuccess())
                         Debug.Log("Update");
@@ -162,7 +162,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             }
             else
             {
-                Enqueue(Backend.GameSchemaInfo.Insert, _Table, _Param, (BackendReturnObject Insertbro) =>
+                Enqueue(Backend.GameSchemaInfo.Insert, "IAP", _Param, (BackendReturnObject Insertbro) =>
                 {
                     if (Insertbro.IsSuccess())
                         Debug.Log("insert");
@@ -283,7 +283,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         Param param = new Param();
         param.Add("Gold", MoneyManager.Instance.Money);
 
-        SendDataToServerSchema("Player");
+        SendDataToServerSchema();
         Debug.Log("OnApplicationQuit");
         StopSendQueue();
 
@@ -311,7 +311,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
             if (callback.IsSuccess())
             {
                 OnBackendAuthorized();
-                indate();
+                //indate();
                 loginSuccessFunc = func;
                 Debug.Log("토큰 로그인 성공");
                 load = true;
@@ -340,7 +340,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         if (bro.IsSuccess())
         {
             Where param = new Where();
-            param.Equal("gamerIndate", mIndate);
+            param.Contains("gamerIndate", mIndate);
             Backend.GameInfo.GetPrivateContents("STAGE", (callback1) =>
             {
                 if (callback1.IsSuccess())
@@ -379,7 +379,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         if (bro.IsSuccess())
         {
             Where param = new Where();
-            param.Equal("gamerIndate", mIndate);
+            param.Contains("gamerIndate", mIndate);
             Backend.GameInfo.GetPrivateContents("ITem", (callback1) =>
             {
                 if (callback1.IsSuccess())
@@ -417,7 +417,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         if (bro.IsSuccess())
         {
             Where param = new Where();
-            param.Equal("gamerIndate", mIndate);
+            param.Contains("gamerIndate", mIndate);
             Backend.GameSchemaInfo.Get("Option", param,1, callback1 =>
             {
                 if (callback1.IsSuccess())
@@ -456,7 +456,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         if (bro.IsSuccess())
         {
             Where param = new Where();
-            param.Equal("gamerIndate", mIndate);
+            param.Contains("gamerIndate", mIndate);
             Backend.GameSchemaInfo.Get("IAP", param, 1, callback1 =>
             {
                 if (callback1.IsSuccess())
@@ -490,8 +490,8 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         if (bro.IsSuccess())
         {
             Where param = new Where();
-            param.Equal("gamerIndate", mIndate);
-            Backend.GameSchemaInfo.Get("Player", param, 1, callback1 =>
+            param.Contains("gamerIndate", mIndate);
+            Backend.GameSchemaInfo.Get("Player", param, 10, callback1 =>
             {
                 if (callback1.IsSuccess())
                 {
@@ -499,7 +499,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
                     Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
 
                     GameLoger.Instance.RecordMoney(int.Parse(callback1.Rows()[0]["Gold"]["N"].ToString()));
-                  // IAP.Instance.AiP(bool.Parse(callback1.Rows()[0]["IAP"]["BOOL"].ToString()));
+                 
 
 
                     Debug.Log("정보 불러오기 성공"+callback1);
