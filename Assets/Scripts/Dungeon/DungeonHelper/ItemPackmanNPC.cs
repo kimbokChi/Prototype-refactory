@@ -28,19 +28,26 @@ public class ItemPackmanNPC : MonoBehaviour
         }
         else
         {
-            Ads.Instance.ShowRewardAd();
-            Ads.Instance.UserEarnedRewardEvent(() => 
+            SystemMessage.Instance.ShowCheckMessage("광고를 시청하고\n아이템을 획득하시겠습니까?", result => 
             {
-                var drop = Instantiate(DropItemHolder.gameObject, transform);
-
-                if (drop.transform.GetChild(0).TryGetComponent(out DropItem dropItem))
+                if (result)
                 {
-                    dropItem.Init(ItemLibrary.Instance.GetRandomItem());
-                    dropItem.gameObject.SetActive(true);
+                    Ads.Instance.ShowRewardAd();
+                    Ads.Instance.UserEarnedRewardEvent(() =>
+                    {
+                        var drop = Instantiate(DropItemHolder.gameObject, transform);
 
-                    StartCoroutine(ItemDrop(drop.transform));
+                        if (drop.transform.GetChild(0).TryGetComponent(out DropItem dropItem))
+                        {
+                            dropItem.Init(ItemLibrary.Instance.GetRandomItem());
+                            dropItem.gameObject.SetActive(true);
+
+                            StartCoroutine(ItemDrop(drop.transform));
+                        }
+                        EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position);
+                    });
                 }
-                EffectLibrary.Instance.UsingEffect(EffectKind.Twinkle, transform.position);
+                SystemMessage.Instance.CloseMessage();
             });
         }
     }
