@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Forest_BG
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: da12253629964114a8bd25cd44f702c6, type: 3}
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 286a4551889aeb14ea582f7457c94017, type: 3}
+  - {fileID: 21300000, guid: 9539239211de4a74ba1ab37590ce59cd, type: 3}
+  - {fileID: 21300000, guid: 715eabd5494626b43b448642245e013e, type: 3}
+  - {fileID: 21300000, guid: 9c2f87c819c1425428f8aaefea0e9d49, type: 3}
+  - {fileID: 21300000, guid: 56e8d539f5b1efc46ae7d202f60ae326, type: 3}
+  - {fileID: 21300000, guid: 630bffa9d5c418c41af45b6b328dab82, type: 3}
+  - {fileID: 21300000, guid: eaf58ecd48e46ab4fb5218fdc0798a04, type: 3}
+  - {fileID: 21300000, guid: dc5d705ece2289741887da29325b1970, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Bird_2
+  - Bird_1
+  - Background
+  - Bird_3
+  - Bird_5
+  - Bird_4
+  - Cloud
+  - Background_Outline
+  m_Tag: Forest_BG
+  m_IsVariant: 0
