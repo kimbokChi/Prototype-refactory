@@ -31,12 +31,12 @@ public class SystemMessage : Singleton<SystemMessage>
 
         _YesButton.ButtonAction += state =>
         {
-            if (state == ButtonState.Down) 
+            if (state == ButtonState.Up) 
                 ButtonAction(true);
         };
         _NoButton.ButtonAction += state =>
         {
-            if (state == ButtonState.Down) 
+            if (state == ButtonState.Up) 
                 ButtonAction(false);
         };
         void ButtonAction(bool parameter)
