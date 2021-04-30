@@ -43,7 +43,7 @@ public class GameLoger : Singleton<GameLoger>
         private set;
     }
 
-    [HideInInspector] public bool UsingVJoystick = true;
+    [HideInInspector] public bool UsingVJoystick = false;
 
     [HideInInspector] public float ControllerOffset;
     [HideInInspector] public float ControllerDefScale;
