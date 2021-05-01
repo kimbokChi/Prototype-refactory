@@ -2,12 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemID
+{
+    None, GreatSword, FrozenShose, IronShield, 
+    MysteriousMace, OrdinaryBow, Shuriken, LongSword, ThronArmor,
+    DangerousBottle, RuneFragment, FightersGlove
+}
 public abstract class Item : MonoBehaviour
 {
     public System.Action AttackOverAction;
 
-    [SerializeField]
-    protected ItemStatTable StatTable;
+    [SerializeField] private ItemInfo _ItemInfoTable;
+    [SerializeField] protected ItemStatTable StatTable;
+
+    public ItemInfo GetItemInfo => _ItemInfoTable;
+
+    public string NameKR
+    {
+        get => StatTable.NameKR;
+    }
+    public int Cost
+    {
+        get => StatTable.Cost;
+    }
 
     public    Sprite  Sprite
     {
@@ -26,25 +43,16 @@ public abstract class Item : MonoBehaviour
     protected Sprite mSprite;
 
     // *********************************** //
-    public virtual bool CanAttackState
-    {
-        get
-        {
-            switch (Application.platform)
-            {
-                case RuntimePlatform.WindowsPlayer:
-                case RuntimePlatform.WindowsEditor:
-                    return Input.GetMouseButtonDown(0);
+    public virtual bool IsNeedAttackBtn
+    { get => true; }
 
-                case RuntimePlatform.Android:
-                    return Input.touchCount > 0;
-            }
-            return false;
-        }
-    }
     public ItemRating Rating
     {
         get => StatTable.Rating;
+    }
+    public ItemID ID
+    {
+        get => StatTable.ID;
     }
     public float WeaponRange
     { 
@@ -63,6 +71,8 @@ public abstract class Item : MonoBehaviour
 
     public abstract void  OnEquipThis(SlotType onSlot);
     public abstract void OffEquipThis(SlotType offSlot);
+
+    public abstract void AttackCancel();
 
     public virtual void AttackAction(GameObject attacker, ICombatable combatable)
     { }

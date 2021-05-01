@@ -12,7 +12,8 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     {
         Idle, Jump, Swing, Skill, Landing, End
     }
-    [SerializeField] private LPOSITION3 LPosition3;
+    [SerializeField] private UnitizedPosV LPosition3;
+    [SerializeField] private ItemDropper _ItemDropper;
 
     [Header("Ability")]
     [SerializeField] private AbilityTable AbilityTable;
@@ -44,7 +45,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     private int mControlKey;
 
     private Anim mNextPattern;
-    private DIRECTION9 mJumpDIR9;
     private AttackPeriod mAttackPeriod;
 
     public AbilityTable GetAbility => AbilityTable;
@@ -69,12 +69,21 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         {
             gameObject.SetActive(false);
 
+            _ItemDropper.CoinDrop(15);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
+
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
             DeathRattle();
         }
     }
 
     public void IInit()
     {
+        SoundManager.Instance.PlaySound(SoundName.BossAppear_Forest);
+
         HealthBar.SetActive(true);
         mNextPattern = (Anim)Random.Range(2, 4);
 
@@ -88,7 +97,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
                     break;
             
                 case Anim.Swing:
-                    if (mPlayer.GetLPOSITION3() == LPosition3)
+                    if (mPlayer.GetUnitizedPosV() == LPosition3)
                     {
                         DashSwing();
                     }
@@ -136,33 +145,9 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     private void Jumping()
     {
-        mJumpDIR9 = mPlayer.GetDIRECTION9();
+        UnitizedPosV jumpPos = mPlayer.GetUnitizedPosV();
 
-        LPOSITION3 Dir2LPos(DIRECTION9 dir)
-        {
-            switch (dir)
-            {
-                case DIRECTION9.TOP_LEFT:
-                case DIRECTION9.TOP:
-                case DIRECTION9.TOP_RIGHT:
-                    return LPOSITION3.TOP;
-
-                case DIRECTION9.MID_LEFT:
-                case DIRECTION9.MID:
-                case DIRECTION9.MID_RIGHT:
-                    return LPOSITION3.MID;
-
-                case DIRECTION9.BOT_LEFT:
-                case DIRECTION9.BOT:
-                case DIRECTION9.BOT_RIGHT:
-                    return LPOSITION3.BOT;
-            }
-            return LPOSITION3.NONE;
-        }
-
-        float moveY = Castle.Instance.GetMovePoint(mJumpDIR9).y;
-
-        Vector2 point = new Vector2(transform.position.x, moveY + 1.05f);
+        Vector2 point = new Vector2(transform.position.x, Castle.Instance.GetMovePointY(jumpPos) + 1.05f);
 
         if (point.x > transform.position.x)
         {
@@ -171,7 +156,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
         else
             transform.rotation = Quaternion.Euler(Vector3.zero);
 
-        LPosition3 = Dir2LPos(mJumpDIR9);
+        LPosition3 = jumpPos;
 
         StartCoroutine(Move(point, () =>
         {
@@ -181,9 +166,7 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     private void DashSwing()
     {
-        float moveX = Castle.Instance.GetMovePoint(mPlayer.GetDIRECTION9()).x;
-
-        Vector2 point = new Vector2(moveX, transform.position.y);
+        Vector2 point = new Vector2(mPlayer.transform.position.x, transform.position.y);
 
         if (point.x > transform.position.x)
         {
@@ -220,10 +203,10 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
     {
         int random = Random.Range(0, 3);
 
-        DIRECTION9 playerDIR9 = mPlayer.GetDIRECTION9();
+        UnitizedPosV playerPosV = mPlayer.GetUnitizedPosV();
 
         Vector2 castPoint = new Vector2
-            (mPlayer.transform.position.x, Castle.Instance.GetMovePoint(playerDIR9).y + 1.2f);
+            (mPlayer.transform.position.x, Castle.Instance.GetMovePointY(playerPosV) + 1.2f);
 
         switch (random) {
             case 0:

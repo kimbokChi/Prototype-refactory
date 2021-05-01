@@ -15,7 +15,6 @@ using System.Text;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Linq;
-using UnityEditor;
 
 public class DataManager : Singleton<DataManager>
 {
@@ -213,24 +212,3 @@ public class DataManager : Singleton<DataManager>
         return jsonBuilder.ToString();
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(DataManager))]
-public class DataManagerInit : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-
-        if (!Application.isPlaying)
-        {
-            EditorGUILayout.Space(16f);
-
-            if (GUILayout.Button("Update DataTable", GUILayout.Height(31f)))
-            {
-                DataManager.Instance.Init();
-            }
-        }
-    }
-}
-#endif

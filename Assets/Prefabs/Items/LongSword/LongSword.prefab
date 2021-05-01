@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 6202769102569731552}
   - component: {fileID: 6026546337754659799}
   - component: {fileID: 6202769102569731551}
+  - component: {fileID: 4263574580434294787}
   m_Layer: 0
   m_Name: LongSword
   m_TagString: Untagged
@@ -63,7 +64,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6202769102699381351}
-  - {fileID: 6202769103183093721}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -98,11 +98,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06fd53a1a997a5c46a9a84c8c726d47f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ItemInfoTable: {fileID: 11400000, guid: ebadc3f9323ab0e44ad3b3bd42ecf550, type: 2}
   StatTable: {fileID: 6026546337754659799}
   Animator: {fileID: 6202769102915456820}
   CollisionArea: {fileID: 6202769102569731556}
-  SwordDance: {fileID: 6542455125956781471, guid: bbf5bd88bc7684f4db4f4c896458334d,
+  _SwordDance: {fileID: 864443644590418600, guid: bb1a0ee486c87714999e0084e994e9f1,
     type: 3}
+  _DamageScale: 2
+  _Speed: 8
 --- !u!114 &6026546337754659799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f78c79a89d77534c9dbe8c437363c25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JsonLabelName: LongSword
+  StatObject: {fileID: 11400000, guid: cc805676c7298a544a6344263a12cff8, type: 2}
 --- !u!212 &6202769102569731551
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -166,87 +169,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &6202769103183093727
-GameObject:
+--- !u!114 &4263574580434294787
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6202769103183093721}
-  - component: {fileID: 6202769103183093726}
-  m_Layer: 0
-  m_Name: LongSword_Effect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6202769103183093721
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6202769103183093727}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.17, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 6202769102915456821}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &6202769103183093726
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6202769103183093727}
+  m_GameObject: {fileID: 6202769102915456826}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1494485663
-  m_SortingLayer: 11
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 2.5, y: 2.5}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9080871fdec5914fa03376cd6a9d1ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsPlayOnEnable: 0
+  Name: 15
 --- !u!1 &6202769103187889876
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,7 +254,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -791847407
-  m_SortingLayer: 10
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 552d69f7b4f249646ae21ee8aab66343, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

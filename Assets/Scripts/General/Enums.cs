@@ -1,4 +1,4 @@
-﻿public enum DIRECTION9
+﻿public enum UnitizedPos
 {
     TOP_LEFT, TOP, TOP_RIGHT,
 
@@ -8,12 +8,12 @@
     
     END
 }
-public enum LPOSITION3
+public enum UnitizedPosV
 {
     TOP, MID, BOT, NONE
 }
 
-public enum TPOSITION3
+public enum UnitizedPosH
 {
     LEFT, MID, RIGHT, NONE
 }
@@ -25,4 +25,8 @@ public enum MESSAGE
 public enum RecognitionArea
 {
     Default, Room, Floor
+}
+public enum SceneIndex
+{
+    Title, Login, Town, Forest, DeepSea, SteamPunk
 }

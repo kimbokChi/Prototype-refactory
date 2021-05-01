@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 3550762048770414474}
   - component: {fileID: 3675016855813807283}
   - component: {fileID: 3784561706877194330}
+  - component: {fileID: 1231329164267045668}
   m_Layer: 0
   m_Name: Tentacle
   m_TagString: Enemy
@@ -171,7 +172,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1704071513
-  m_SortingLayer: 8
+  m_SortingLayer: 10
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: b6ddc50c182ddea40b55088db7520fb8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -215,8 +216,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f16ed30c46dd54c8b6f5ffaada04fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ItemDropper: {fileID: 1231329164267045668}
   AbilityTable: {fileID: 3550762048770414474}
   EnemyAnimator: {fileID: 5774750757637743333}
+  BeAtkedCollider: {fileID: 3784561706877194330}
   Range: {fileID: 7385146187157378355}
   AttackArea: {fileID: 3652416856098742388}
 --- !u!114 &5774750757637743333
@@ -244,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Sea_Tentacle
+  AblityObject: {fileID: 11400000, guid: 9ea55abdd09171840b7c19846ee45eb2, type: 2}
 --- !u!50 &3675016855813807283
 Rigidbody2D:
   serializedVersion: 4
@@ -292,6 +295,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 4}
   m_EdgeRadius: 0
+--- !u!114 &1231329164267045668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962337063486827636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 742c0fd89b2091643b66fe8944ad09dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _GroundOffsetY: -1.6
+  _CommonPotion: 0.1
+  _RarePotion: 0.05
 --- !u!1 &2220442435515117392
 GameObject:
   m_ObjectHideFlags: 0

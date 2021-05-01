@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    [SerializeField] private ItemDropper _ItemDropper;
+
     [Header("Ability")]
     [SerializeField] private bool IsLookAtLeft;
     [SerializeField] private AbilityTable AbilityTable;
@@ -78,8 +80,17 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
         {
             _AttackPeriod.StopPeriod();
 
+            MoveStop();
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _ItemDropper.CoinDrop(6);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
+
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 
@@ -142,6 +153,8 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     // == 애니메이션 이벤트로 실행 ==
     private void AttackAction()
     {
+        SoundManager.Instance.PlaySound(SoundName.LatentMonkfish_Attack);
+
         if (IsLookAtPlayer()) 
         {
             if (Range.HasThis(_Player.gameObject)) 
@@ -152,6 +165,8 @@ public class LatentMonkfish : MonoBehaviour, IObject, ICombatable, IAnimEventRec
     }
     private void BurrowAttackEnable()
     {
+        SoundManager.Instance.PlaySound(SoundName.LatentMonkfish_Swoop);
+
         MainCamera.Instance.Shake();
         BurrowAttackArea.gameObject.SetActive(true);
     }

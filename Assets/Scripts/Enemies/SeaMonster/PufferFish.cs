@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    [SerializeField] private ItemDropper _ItemDropper;
+
     [Header("Ability")]
     [SerializeField] private bool IsLookAtLeft;
     [SerializeField] private AbilityTable AbilityTable;
@@ -66,8 +68,17 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
         {
             _AttackPeriod.StopPeriod();
 
+            MoveStop();
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _ItemDropper.CoinDrop(5);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
+
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 
@@ -124,6 +135,7 @@ public class PufferFish : MonoBehaviour, IObject, ICombatable, IAnimEventReceive
         MainCamera.Instance.Shake(0.8f, 1.1f);
 
         StunArea.gameObject.SetActive(true);
+        SoundManager.Instance.PlaySound(SoundName.PufferFish_Explosion);
     }
 
     private bool IsLookAtPlayer()

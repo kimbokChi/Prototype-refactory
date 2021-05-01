@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 3959295661310075208}
   - component: {fileID: 3959295661310075211}
   - component: {fileID: 3959295661310075210}
+  - component: {fileID: 459646437408038570}
   - component: {fileID: 1771829553}
   m_Layer: 0
   m_Name: ItemPackmanNPC
@@ -350,6 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40277510bdd51464d8436ebc9682c19c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _Hider: {fileID: 459646437408038570}
   InteractionButton: {fileID: 0}
   DropItem: {fileID: 8836453920314280155}
   DropItemHolder: {fileID: 4114080056086707101}
@@ -358,6 +360,18 @@ MonoBehaviour:
   PointB: {x: 0.2, y: 0.7}
   PointC: {x: 0.5, y: 0.4}
   PointD: {x: 0.9, y: -0.55}
+--- !u!114 &459646437408038570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3959295661310075212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bbb634dfa1a4f049835e276efb060a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &1771829553
 Animator:
   serializedVersion: 3

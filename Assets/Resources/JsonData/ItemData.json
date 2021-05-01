@@ -1,42 +1,82 @@
 [
   {
     "ID": "IronSword",
-    "AttackPower": "15.00",
+    "AttackPower": "20.00",
     "Range": "1.50",
-    "Begin_AttackDelay": "0.50",
-    "After_AttackDelay": "0.50",
-    "Rating": "Common"
+    "Begin_AttackDelay": "0.00",
+    "After_AttackDelay": "0.00",
+    "Rating": "Common",
+    "NameKR": "철검",
+    "Cost": "8.00"
   },
   {
     "ID": "LongSword",
-    "AttackPower": "4.00",
+    "AttackPower": "16.00",
     "Range": "1.25",
-    "Begin_AttackDelay": "0.05",
-    "After_AttackDelay": "0.05",
-    "Rating": "Rare"
+    "Begin_AttackDelay": "0.00",
+    "After_AttackDelay": "0.00",
+    "Rating": "Common",
+    "NameKR": "강철검",
+    "Cost": "8"
   },
   {
     "ID": "MysteriousMace",
-    "AttackPower": "8.00",
+    "AttackPower": "20.00",
     "Range": "1.00",
-    "Begin_AttackDelay": "0.40",
-    "After_AttackDelay": "0.40",
-    "Rating": "Rare"
+    "Begin_AttackDelay": "0.00",
+    "After_AttackDelay": "0.00",
+    "Rating": "Rare",
+    "NameKR": "신비한 메이스",
+    "Cost": "15"
   },
   {
     "ID": "GreatSword",
-    "AttackPower": "10.00",
+    "AttackPower": "18.00",
     "Range": "1.00",
     "Begin_AttackDelay": "0.00",
-    "After_AttackDelay": "0.15",
-    "Rating": "Epic"
+    "After_AttackDelay": "0.00",
+    "Rating": "Epic",
+    "NameKR": "짱쎈 대검",
+    "Cost": "40"
   },
   {
     "ID": "OrdinaryBow",
-    "AttackPower": "8.00",
+    "AttackPower": "16.00",
     "Range": "2.50",
     "Begin_AttackDelay": "0.00",
     "After_AttackDelay": "0.00",
-    "Rating": "Rare"
+    "Rating": "Rare",
+    "NameKR": "평범한 활",
+    "Cost": "25"
+  },
+  {
+    "ID": "FrozenShose",
+    "AttackPower": "30.00",
+    "Range": "1.50",
+    "Begin_AttackDelay": "0.00",
+    "After_AttackDelay": "0.00",
+    "Rating": "Legendary",
+    "NameKR": "얼음 구두",
+    "Cost": "60"
+  },
+  {
+    "ID": "IronShield",
+    "AttackPower": "20.00",
+    "Range": "1.00",
+    "Begin_AttackDelay": "0.00",
+    "After_AttackDelay": "0.00",
+    "Rating": "Common",
+    "NameKR": "강철 방패",
+    "Cost": "5"
+  },
+  {
+    "ID": "Shuriken",
+    "AttackPower": "7.00",
+    "Range": "2.00",
+    "Begin_AttackDelay": "0.00",
+    "After_AttackDelay": "0.00",
+    "Rating": "Rare",
+    "NameKR": "수리검",
+    "Cost": "15"
   }
 ]

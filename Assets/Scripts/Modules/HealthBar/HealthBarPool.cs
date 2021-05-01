@@ -37,9 +37,26 @@ public class HealthBarPool : Singleton<HealthBarPool>
             PlayerHealthBar.transform.SetAsLastSibling();
         }
         HealthBar healthBar = mPool.Dequeue();
+
+        if (!mUserList.ContainsKey(master)) 
+        {
+            mUserList.Add(master, healthBar);
+        }
+        healthBar.Init(Vector3.up * offsetY, master, abilityTable);
+        healthBar.gameObject.SetActive(true);
+    }
+    public void UsingHealthBar(Vector2 offset, Transform master, AbilityTable abilityTable)
+    {
+        if (mPool.Count == 0)
+        {
+            mPool.Enqueue(Instantiate(OrignHealthBar, WorldCanvasTransform));
+
+            PlayerHealthBar.transform.SetAsLastSibling();
+        }
+        HealthBar healthBar = mPool.Dequeue();
         mUserList.Add(master, healthBar);
 
-        healthBar.Init(Vector3.up * offsetY, master, abilityTable);
+        healthBar.Init(offset, master, abilityTable);
         healthBar.gameObject.SetActive(true);
     }
 

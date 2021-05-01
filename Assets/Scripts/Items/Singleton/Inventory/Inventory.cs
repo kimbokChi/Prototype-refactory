@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Inventory : Singleton<Inventory>
 {
@@ -12,19 +11,15 @@ public class Inventory : Singleton<Inventory>
 
     #region Item Function Event
 
-    #region COMMENT
-    /// <summary>
-    /// parameter[1] : move direction
-    /// </summary>
-    #endregion
-    public event Action<Vector2> MoveBeginAction;
+    public event Action<UnitizedPosV, Direction> MoveUpDownEvent;
 
-    #region COMMENT
-    /// <summary>
-    /// parameter[1] : collision objects when the moving
-    /// </summary>
-    #endregion
-    public event Action<Collider2D[]> MoveEndAction;
+    public event ProjHit ProjectionHitEvent;
+    public delegate void ProjHit(GameObject victim, float damage);
+
+    public event Action<Direction> DashBeginEvent;
+    public event Action<Direction> DashEndEvent;
+
+    public event Action PlayerEnterFloorEvent;
 
     #region COMMENT
     /// <summary>
@@ -47,14 +42,8 @@ public class Inventory : Singleton<Inventory>
     public event action BeDamagedAction;
     public delegate void action(ref float damage, GameObject attacker, GameObject victim);
 
-    public event Action FloorEnterAction;
-
-    #region COMMENT
-    /// <summary>
-    /// parameter[1] : charge amount
-    /// </summary>
-    #endregion
-    public event Action<float> ChargeAction;
+    public event Action ChargeBeginAction;
+    public event Action<float> ChargeEndAction;
 
     #endregion
 
@@ -72,6 +61,9 @@ public class Inventory : Singleton<Inventory>
     {
         get => mWeaponSlot.ContainItem;
     }
+
+                     public  GameObject  InventoryWindow => _InventoryWindow;
+    [SerializeField] private GameObject _InventoryWindow;
 
     [SerializeField] private ItemSlot   mWeaponSlot;
     [SerializeField] private ItemSlot[] mAccessorySlot;
@@ -91,31 +83,25 @@ public class Inventory : Singleton<Inventory>
 
         mWeaponSlot.Init(SlotType.Weapon);
 
-        for (int i = 0; i < mContainer.Length; ++i)
-        {
-            mContainer[i].Init(SlotType.Container);
-
-            mContainer[i].SetItem(ItemStateSaver.Instance.LoadSlotItem(SlotType.Container, i));
-
-            if (i < mAccessorySlot.Length)
+        for (int i = 0; i < ContainerSlotCount; ++i)
+        {   
+            if (i < AccessorySlotCount)
             {
+                var instance = ItemStateSaver.Instance.LoadSlotItem(SlotType.Accessory, i);
+                if (instance != null) {
+                    instance = ItemLibrary.Instance.GetItemObject(instance.ID);
+                }
                 mAccessorySlot[i].Init(SlotType.Accessory);
-
-                mAccessorySlot[i].SetItem(ItemStateSaver.Instance.LoadSlotItem(SlotType.Accessory, i));
+                mAccessorySlot[i].SetItem(instance);
             }
-        }
-        SceneManager.sceneUnloaded += PreventionItem;
-    }
-
-    private void PreventionItem(Scene scene)
-    {
-        for (int i = 0; i < mAccessorySlot.Length; ++i)
-        {
-            ItemStateSaver.Instance.SaveSlotItem(SlotType.Accessory, mAccessorySlot[i].ContainItem, i);
-        }
-        for (int i = 0; i < mContainer.Length; ++i)
-        {
-            ItemStateSaver.Instance.SaveSlotItem(SlotType.Container, mContainer[i].ContainItem, i);
+            {
+                var instance = ItemStateSaver.Instance.LoadSlotItem(SlotType.Container, i);
+                if (instance != null) {
+                    instance = ItemLibrary.Instance.GetItemObject(instance.ID);
+                }
+                mContainer[i].Init(SlotType.Container);
+                mContainer[i].SetItem(instance);
+            }
         }
     }
     public bool IsEquipWeapon()
@@ -132,33 +118,58 @@ public class Inventory : Singleton<Inventory>
     }
     public void Clear()
     {
+        ItemLibrary.Instance.ItemBoxReset();
+
         mWeaponSlot.SetItem(null);
 
         mAccessorySlot.ToList().ForEach(o => o.SetItem(null));
             mContainer.ToList().ForEach(o => o.SetItem(null));
     }
+    // ========== ItemEvent Method ========== //
     public void OnDamaged(ref float damage, GameObject attacker, GameObject victim)
     {
         BeDamagedAction?.Invoke(ref damage, attacker, victim);
     }
-
-    public void OnCharge(float power)
+    public void BeginOfCharge()
     {
-        ChargeAction?.Invoke(power);
+        ChargeBeginAction?.Invoke();
     }
-
+    public void EndOfCharge(float power)
+    {
+        ChargeEndAction?.Invoke(power);
+    }
+    public void PlayerBeginDash(Direction direction)
+    {
+        DashBeginEvent?.Invoke(direction);
+    }
+    public void PlayerEndDash(Direction direction)
+    {
+        DashEndEvent?.Invoke(direction);
+    }
+    public void PlayerEnterFloor()
+    {
+        PlayerEnterFloorEvent?.Invoke();
+    }
+    public void PlayerMoveUpDownBegin(UnitizedPosV room, Direction direction)
+    {
+        MoveUpDownEvent?.Invoke(room, direction);
+    }
+    public void ProjectionHit(GameObject victim, float damage)
+    {
+        ProjectionHitEvent?.Invoke(victim, damage);
+    }
     public void AttackAction(GameObject attacker, ICombatable targetCombat)
     {
         mWeaponSlot.ContainItem?.AttackAction(attacker, targetCombat);
+    }
+    public void AttackCancel()
+    {
+        mWeaponSlot.ContainItem?.AttackCancel();
     }
 
     public void OnAttackEvent(GameObject attacker, ICombatable targetCombat)
     {
         AttackEvent?.Invoke(attacker, targetCombat);
     }
-
-    public void OnFloorEnter() => FloorEnterAction?.Invoke();
-
-    public void OnMoveBegin(Vector2 moveDir) => MoveBeginAction?.Invoke(moveDir);
-    public void OnMoveEnd(Collider2D[] colliders) => MoveEndAction?.Invoke(colliders);
+    // ========== ItemEvent Method ========== //
 }

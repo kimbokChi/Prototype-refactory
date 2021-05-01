@@ -117,6 +117,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AbilityTable: {fileID: 9005012320216118399}
+  HealthBar: {fileID: 0}
+  HealthBarImage: {fileID: 0}
+  TownLoader: {fileID: 0}
   ArtilleryShell: {fileID: -5142557603943978492, guid: fbb3a7fcc74616846970d88ee43b0324,
     type: 3}
   ArtilleryShellSpeed: 13
@@ -150,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Sea_Kraken
+  AblityObject: {fileID: 11400000, guid: 2fe302e0a6c949c469ff927dc46a3094, type: 2}
 --- !u!114 &6635541276537662843
 MonoBehaviour:
   m_ObjectHideFlags: 0

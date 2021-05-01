@@ -12,8 +12,7 @@ public class MysteriousMace : Item
 
     private Pool<MysteriousBullet> mPool;
 
-    private int mAnimPlayKey;
-    private int mAnimControlKey;
+    private int _AnimControlKey;
 
     private GameObject mPlayer;
 
@@ -24,10 +23,16 @@ public class MysteriousMace : Item
 
     public override void AttackAction(GameObject attacker, ICombatable combatable)
     {
-        Animator.SetBool(mAnimPlayKey, true);
-        Animator.SetBool(mAnimControlKey, !Animator.GetBool(mAnimControlKey));
+        Animator.SetBool(_AnimControlKey, true);
 
         mPlayer = attacker;
+    }
+
+    protected override void AttackAnimationPlayOver()
+    {
+        base.AttackAnimationPlayOver();
+
+        Animator.SetBool(_AnimControlKey, false);
     }
 
     public override void OffEquipThis(SlotType offSlot)
@@ -42,12 +47,14 @@ public class MysteriousMace : Item
             if (mPool == null)
             {
                 mPool = new Pool<MysteriousBullet>();
-                mPool.Init(2, TracerBullet, o => o.DisableAction = b => mPool.Add(b));
+                mPool.Init(2, TracerBullet, o => o.DisableAction = b =>
+                {
+                    mPool.Add(b);
+                });
             }
             CollisionArea.SetEnterAction(HitAction);
-
-            mAnimPlayKey    = Animator.GetParameter(0).nameHash;
-            mAnimControlKey = Animator.GetParameter(1).nameHash;
+            
+            _AnimControlKey = Animator.GetParameter(0).nameHash;
 
             mPlayer = transform.parent.parent.gameObject;
         }
@@ -88,10 +95,17 @@ public class MysteriousMace : Item
         {
             // 2/3의 피해
             combat.Damaged(StatTable[ItemStat.AttackPower] * 0.666f, mPlayer);
+            Inventory.Instance.ProjectionHit(target, StatTable[ItemStat.AttackPower]);
+
         }
     }
     protected override void CameraShake()
     {
-        MainCamera.Instance.Shake(0.25f, 1.5f);
+        MainCamera.Instance.Shake(0.25f, 1.8f);
+    }
+
+    public override void AttackCancel()
+    {
+        Animator.SetBool(_AnimControlKey, false);
     }
 }

@@ -34,6 +34,7 @@ public class SpecialLightningTotem : MonoBehaviour
 
         transform.position = castPoint;
         SpecialTotem.SetActive(true);
+        SoundManager.Instance.PlaySound(SoundName.GoblinChief_SummonTotem);
 
         StartCoroutine(WaitSkillCasting());
     }

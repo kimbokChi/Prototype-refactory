@@ -18,30 +18,58 @@ public class ItemCollection : MonoBehaviour
 
     private void Start()
     {
-        var lockedList = ItemLibrary.Instance.GetLockedItemListForTest();
+        var lockedList = ItemStateSaver.Instance.GetLockedItem();
         var collection = CreateCollectionBox(lockedList.Count, LockedSection);
 
         for (int i = 0; i < lockedList.Count; i++)
         {
-            if (collection[i].GetChild(0).TryGetComponent(out Image image))
+            if (lockedList[i] == null)
+            {
+                continue;
+            }
+            var collectionBox = collection[i].GetChild(0).gameObject;
+
+            if (collectionBox.TryGetComponent(out Image image))
             {
 
                 image.sprite = lockedList[i].Sprite;
             }
+            UnitizedPos pivot = UnitizedPos.BOT_LEFT;
+            ShowerSetting(collectionBox, lockedList[i], pivot + i%3);
         }
-        var unlockedList = ItemLibrary.Instance.GetUnlockedItemListForTest();
+        var unlockedList = ItemStateSaver.Instance.GetUnlockedItem();
         collection = CreateCollectionBox(unlockedList.Count, UnlockedSection);
 
         for (int i = 0; i < unlockedList.Count; i++)
         {
-            if (collection[i].GetChild(0).TryGetComponent(out Image image))
+            if (unlockedList[i] == null)
+            {
+                continue;
+            }
+            var collectionBox = collection[i].GetChild(0).gameObject;
+
+            if (collectionBox.TryGetComponent(out Image image))
             {
 
                 image.sprite = unlockedList[i].Sprite;
             }
+            UnitizedPos pivot = UnitizedPos.BOT_LEFT;
+            ShowerSetting(collectionBox, unlockedList[i], pivot + (i % 3));
         }
     }
 
+    private void ShowerSetting(GameObject _object, Item showItem, UnitizedPos pivot)
+    {
+        if (_object.TryGetComponent(out ItemInfoShower shower))
+        {
+            shower.OnPopupEvent = () =>
+            {
+                ItemInfoPopup.Instance.SetPopup(showItem.GetItemInfo);
+            };
+            shower.SetPopupPivot(pivot);
+            shower.IsEnable = true;
+        }
+    }
     private List<Transform> CreateCollectionBox(int itemListLength, Transform parent)
     {
         var list = new List<Transform>();
@@ -59,54 +87,5 @@ public class ItemCollection : MonoBehaviour
             }
         }
         return list;
-    }
-}
-
-[CreateAssetMenu(fileName = "RegisteredItem", menuName = "ScriptableObject/RegisteredItem")]
-public class RegisteredItem : ScriptableObject
-{
-    [Space()]
-    [SerializeField] private List<Item> _UnlockedItemList;
-                     private List<Item> _UnlockedItemCloneList;
-    private bool _HasUnlockedListInit;
-
-    [Space()]
-    [SerializeField] private List<Item> _LockedItemList;
-                     private List<Item> _LockedItemCloneList;
-    private bool _HasLockedListInit;
-
-    public List<Item> UnlockedItemList
-    {
-        get
-        {
-            if (!_HasUnlockedListInit)
-            {
-                _UnlockedItemCloneList = _UnlockedItemList.ToList();
-
-                _HasUnlockedListInit = true;
-            }
-            Debug.Log("Origin : "+ _UnlockedItemList.Count);
-            Debug.Log("Clone : "+ _UnlockedItemCloneList.Count);
-
-            return _UnlockedItemCloneList;
-        }
-    }
-    public List<Item> LockedItemList
-    {
-        get
-        {
-            if (!_HasLockedListInit)
-            {
-                _LockedItemCloneList = _LockedItemList.ToList();
-
-                _HasLockedListInit = true;
-            }
-            return _LockedItemCloneList;
-        }
-    }
-
-    public List<Item> ItemListAll()
-    {
-        return new List<Item>(_LockedItemList.Union(_UnlockedItemList));
     }
 }

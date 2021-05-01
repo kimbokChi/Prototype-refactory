@@ -15,15 +15,28 @@ public class DungeonFaildUI : MonoBehaviour
 
         ClearTime.text = $"{clearMin:D2} : {clearSec:D2}";
         KillCount.text = $"{GameLoger.Instance.KillCount:D3} 마리";
+
+        SoundManager.Instance.PlaySound(SoundName.DungeonResult);
     }
 
     public void ReTry()
     {
+        gameObject.SetActive(false);
         MainCamera.Instance.Fade(2.25f, FadeType.In, () => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex));
     }
 
     public void BackToTown()
     {
-        MainCamera.Instance.Fade(2.25f, FadeType.In, () => SceneManager.LoadScene(0));
+        gameObject.SetActive(false);
+        MainCamera.Instance.Fade(2.25f, FadeType.In, () =>
+        {
+            Inventory.Instance.Clear();
+
+            Ads.Instance.ShowFrontAd();
+            Ads.Instance.ClosedADEvent(() =>
+            {
+                SceneManager.LoadScene((int)SceneIndex.Town);
+            });
+        });
     }
 }

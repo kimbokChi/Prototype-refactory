@@ -8,171 +8,267 @@ public class ItemStateSaver : Singleton<ItemStateSaver>
 {
     [SerializeField] private RegisteredItem RegisteredItem;
 
-    private Dictionary<ItemRating, List<Item>> _ItemLibDictionary;
+    private List<Item> _UnlockedItemList = null;
+    private List<Item>   _LockedItemList = null;
 
-    private List<Item> _UnlockedItemList;
-    private List<Item>   _LockedItemList;
+    private ItemID[] _AccessoryIDArray;
+    private ItemID[] _ContainerIDArray;
 
-    private Item[] _AccessoryCollection;
-    private Item[] _ContainerCollection;
+    private ItemID _WeaponItemID;
 
-    private Type _WeaponItemType;
-    private int _LastSceneBuildIndex = int.MinValue;
+    private bool _IsAlreadyInit = false;
 
     private void Awake()
     {
-        if (FindObjectsOfType(typeof(ItemStateSaver)).Length > 1)
+        Init();
+    }
+    private void Init()
+    {
+        if (!_IsAlreadyInit)
         {
-            Destroy(gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(gameObject);
+            _IsAlreadyInit = true;
+            ItemListInit();
+            ItemSlotArrayInit();
 
-            SceneManager.sceneLoaded += (loadScene, loadMode) =>
+            // ====== ====== Test ====== ====== //
+            // List<int> list = new List<int>();
+            // for (int i = 0; i < RegisteredItem.GetAllID().Count; i++)
+            //  {
+            //    list.Add((int)RegisteredItem.GetAllID()[i]);
+            // }
+            //SetUnlockedItem(list);
+            // ====== ====== Test ====== ====== //
+            SetUnlockedItem(new List<int>());
+
+            // ====== ====== 기본아이템 지급 ====== ====== //
+            EquipWeaponItem();
+
+            SceneManager.sceneUnloaded += o => 
             {
-                // 같은 씬을 불러온다면
-                if (loadScene.buildIndex == _LastSceneBuildIndex || 
-                    loadScene.buildIndex == 0 && _LastSceneBuildIndex != int.MinValue)
-                {
-                    ItemLibrary.Instance.ItemBoxReset();
-                }
+                EquipWeaponItem();
             };
-            SceneManager.sceneUnloaded += currentScene =>
+            // ====== ====== 기본아이템 지급 ====== ====== // 
+
+            if (FindObjectsOfType(typeof(ItemStateSaver)).Length > 1)
             {
-                _LastSceneBuildIndex = currentScene.buildIndex;
-            };
+                Destroy(gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
     }
 
-    public bool IsSavedItem(Item saveCheckItem, out Item getItem)
+    public void SetUnlockedItem(List<int> idList)
     {
-        for (int i = 0; i < transform.childCount; ++i)
-        {
-            if (transform.GetChild(i).TryGetComponent(out Item item))
-            {
-                if (saveCheckItem.GetType().Equals(item.GetType()))
-                {
-                    getItem = item;
+        ItemListInit();
 
-                    return true;
+        _UnlockedItemList.Clear();
+          _LockedItemList.Clear();
+
+        int registerCount = RegisteredItem.Count();
+        for (int i = 1; i < registerCount + 1; i++)
+        {
+            Item instance = RegisteredItem.GetItemInstance((ItemID)i);
+
+            if (IsDefaultUnlockItemCheck(i) || idList.Contains(i))
+            {
+                _UnlockedItemList.Add(instance);
+            }
+            else
+            {
+                _LockedItemList.Add(instance);
+            }
+        }
+    }
+    public void SetInventoryItem(List<int> idList)
+    {
+        Debug.Log(idList.Count());
+
+        _WeaponItemID = (ItemID)idList[0];
+        idList.RemoveAt(0);
+
+        int container = Inventory.ContainerSlotCount;
+        int accessory = Inventory.AccessorySlotCount;
+
+        int invokeCount = container + accessory;
+
+        for (int i = 0; i < invokeCount; i++)
+        {
+            if (i < accessory)
+            {
+                _AccessoryIDArray[i] = (ItemID)idList[i];
+            }
+            if (i < container)
+            {
+                _ContainerIDArray[i] = (ItemID)idList[i + accessory];
+            }
+        }
+    }
+
+
+    public List<Item> GetUnlockedItem()
+    {
+        Init();
+        return new List<Item>(_UnlockedItemList);
+    }
+    public List<Item> GetLockedItem()
+    {
+        Init();
+        return new List<Item>(_LockedItemList);
+    }
+
+    public List<int> GetInventoryItem()
+    {
+        List<int> list = new List<int>();
+        list.Add((int)_WeaponItemID);
+
+        int invokeCount = 
+            Inventory.AccessorySlotCount + 
+            Inventory.ContainerSlotCount;
+
+        for (int i = 0; i < invokeCount; i++)
+        {
+            if (i < Inventory.AccessorySlotCount)
+            {
+                list.Add((int)_AccessoryIDArray[i]);
+            }
+            else
+            {
+                list.Add((int)_ContainerIDArray[i]);
+            }
+        }
+        return list;
+    }
+    public void ItemUnlock(params ItemID[] ids)
+    {
+        ItemListInit();
+
+        for (int i = 0; i < ids.Length; i++)
+        {
+            for (int j = 0; j < _LockedItemList.Count; j++)
+            {
+                if (_LockedItemList[j].ID == ids[i])
+                {
+                    _UnlockedItemList.Add(_LockedItemList[j]);
+                  
+                    _LockedItemList.RemoveAt(j);
                 }
             }
         }
-        getItem = null;
-
-        return false;
+        SoundManager.Instance.PlaySound(SoundName.UnlockItem);
     }
 
     public void SaveSlotItem(SlotType slotType, Item item, int index)
     {
+        ItemSlotArrayInit();
+
         switch (slotType)
         {
             case SlotType.Weapon:
                 {
                     if (item == null)
                     {
-                        _WeaponItemType = null;
+                        _WeaponItemID = ItemID.None;
                     }
-                    else _WeaponItemType = item.GetType();
+                    else 
+                        _WeaponItemID = item.ID;
                 }
                 break;
 
             case SlotType.Container:
-                if (_ContainerCollection == null)
                 {
-                    _ContainerCollection = new Item[Inventory.ContainerSlotCount];
+                    if (item == null)
+                    {
+                        _ContainerIDArray[index] = ItemID.None;
+                    }
+                    else
+                        _ContainerIDArray[index] = item.ID;
                 }
-                _ContainerCollection[index] = item;
                 break;
 
             case SlotType.Accessory:
-                if (_AccessoryCollection == null)
                 {
-                    _AccessoryCollection = new Item[Inventory.AccessorySlotCount];
+                    if (item == null)
+                    {
+                        _AccessoryIDArray[index] = ItemID.None;
+                    }
+                    else
+                        _AccessoryIDArray[index] = item.ID;
                 }
-                _AccessoryCollection[index] = item;
                 break;
         }
     }
     public Item LoadSlotItem(SlotType slotType, int index)
     {
+        ItemSlotArrayInit();
+        ItemID loadID = ItemID.None;
+
         switch (slotType)
         {
             case SlotType.Weapon:
-                {
-                    if (_WeaponItemType != null)
-                    {
-                        return Instantiate(_UnlockedItemList.First(o => o.GetType().Equals(_WeaponItemType)));
-                    }
-                }
-                return null;
+                loadID = _WeaponItemID;
+                break;
 
             case SlotType.Container:
-                if (_ContainerCollection != null)
-                {
-                    return _ContainerCollection[index];
-                }
+                loadID = _ContainerIDArray[index];
                 break;
 
             case SlotType.Accessory:
-                if (_AccessoryCollection != null)
-                {
-                    return _AccessoryCollection[index];
-                }
+                loadID = _AccessoryIDArray[index];
                 break;
         }
-        return null;
+        return RegisteredItem.GetItemInstance(loadID);
     }
-
-    public void SaveLibDictionary(Dictionary<ItemRating, List<Item>> itemLibDictionary)
+    public void EquipWeaponItem()
     {
-        _ItemLibDictionary = itemLibDictionary;
-    }
-    public bool LoadLibDictionary(out Dictionary<ItemRating, List<Item>> itemLibDictionary)
-    {
-        if (_ItemLibDictionary == null)
+        if (_WeaponItemID == ItemID.None)
         {
-            itemLibDictionary = new Dictionary<ItemRating, List<Item>>();
-
-            return false;
-        }
-        else
-        {
-            itemLibDictionary = _ItemLibDictionary;
-
-            return true;
+            for (int i = 0; i < Inventory.ContainerSlotCount; ++i)
+            {
+                if (_ContainerIDArray[i] != ItemID.None)
+                {
+                    _WeaponItemID = _ContainerIDArray[i];
+                    _ContainerIDArray[i] = ItemID.None;
+                    break;
+                }
+            }
+            if (_WeaponItemID == ItemID.None)
+            {
+                for (int i = 0; i < Inventory.AccessorySlotCount; ++i)
+                {
+                    if (_AccessoryIDArray[i] != ItemID.None)
+                    {
+                        _WeaponItemID = _AccessoryIDArray[i];
+                        _AccessoryIDArray[i] = ItemID.None;
+                        break;
+                    }
+                }
+                if (_WeaponItemID == ItemID.None)
+                {
+                    _WeaponItemID = ItemID.LongSword;
+                }
+            }
         }
     }
 
-
-    public void SaveUnlockedItemListForTest(List<Item> unlockedList)
+    private void ItemSlotArrayInit()
     {
-        _UnlockedItemList = unlockedList;
+        _ContainerIDArray = _ContainerIDArray ?? new ItemID[Inventory.ContainerSlotCount];
+        _AccessoryIDArray = _AccessoryIDArray ?? new ItemID[Inventory.AccessorySlotCount];
     }
-    public bool LoadUnlockedItemListForTest(out List<Item> unlockedList)
+    private void ItemListInit()
     {
-        if (_UnlockedItemList == null)
-        {
-            unlockedList = new List<Item>();
-            return false;
-        }
-        unlockedList = _UnlockedItemList;
-        return true;
+        _UnlockedItemList = _UnlockedItemList ?? new List<Item>();
+          _LockedItemList =   _LockedItemList ?? new List<Item>();
     }
-
-    public void SaveLockedItemListForTest(List<Item> lockedList)
+    private bool IsDefaultUnlockItemCheck(int id)
     {
-        _LockedItemList = lockedList;
-    }
-    public bool LoadLockedItemListForTest(out List<Item> lockedList)
-    {
-        if (_LockedItemList == null)
-        {
-            lockedList = new List<Item>();
-            return false;
-        }
-        lockedList = _LockedItemList;
-        return true;
+        return id == (int)ItemID.LongSword
+            || id == (int)ItemID.OrdinaryBow
+            || id == (int)ItemID.Shuriken
+            || id == (int)ItemID.MysteriousMace
+            || id == (int)ItemID.IronShield;
     }
 }

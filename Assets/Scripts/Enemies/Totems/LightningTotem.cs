@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    [SerializeField] private ItemDropper _ItemDropper;
     [SerializeField] private AbilityTable AbilityTable;
 
     [SerializeField] private EnemyAnimator EnemyAnimator;
@@ -63,15 +64,16 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
 
     private void AttackAction()
     {
+        SoundManager.Instance.PlaySound(SoundName.LightningTotem);
         MainCamera.Instance.Shake(0.1f, 0.3f);
 
-        if (mPlayer.TryGetPosition(out Vector2 playerPos)) 
-        {
-            mLighting.transform.position = mLightingOffset + playerPos;
-            mLighting.gameObject.SetActive(true);
+        Vector2 playerPos = new Vector2
+            (mPlayer.transform.position.x, Castle.Instance.GetMovePointY(mPlayer.GetUnitizedPosV()));
 
-            mLighting.SetAttackPower(AbilityTable.AttackPower);
-        }
+        mLighting.transform.position = mLightingOffset + playerPos;
+        mLighting.gameObject.SetActive(true);
+
+        mLighting.SetAttackPower(AbilityTable.AttackPower);
     }
 
     private void Pool_popMethod(Lightning lighting)
@@ -92,6 +94,13 @@ public class LightningTotem : MonoBehaviour, IObject, ICombatable, IAnimEventRec
             EnemyAnimator.ChangeState(AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _ItemDropper.CoinDrop(6);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 

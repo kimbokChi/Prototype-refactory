@@ -32,7 +32,23 @@ public class ChargeGauge : MonoBehaviour
             GameObject.FindGameObjectWithTag("Player").TryGetComponent(out mPlayer);
         }
         mPlayer.InputLock(true);
-        MainCamera.Instance.ZoomIn(4.5f, 0.9f, true);
+
+        void PlayerZoom(float zoomScale, float time)
+        {
+            float playerX;
+            if (mPlayer.transform.position.x > 0)
+            {
+                playerX = Mathf.Min(+4.5f * (1 - zoomScale), mPlayer.transform.position.x);
+            }
+            else
+            {
+                playerX = Mathf.Max(-4.5f * (1 - zoomScale), mPlayer.transform.position.x);
+            }
+            float playerY = ((int)mPlayer.GetUnitizedPosV() - 1) * -(8 - 8 * zoomScale);
+
+            MainCamera.Instance.ZoomIn(new Vector2(playerX, playerY), time, zoomScale);
+        }
+        PlayerZoom(0.6f, 4.5f);
     }
 
     private void OnDisable()
@@ -40,7 +56,7 @@ public class ChargeGauge : MonoBehaviour
         DisChargeEvent?.Invoke();
 
         mPlayer.InputLock(false);
-        MainCamera.Instance.ZoomOut(2.5f, true);
+        MainCamera.Instance.ZoomIn(Vector2.zero, 2.5f, 1f);
 
         transform.localScale = Vector3.zero;
 

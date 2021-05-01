@@ -23,11 +23,16 @@ public static class MathExtension
 
 public class MainCamera : Singleton<MainCamera>
 {
+    [Header("____Filter Props____")]
     [SerializeField] private Image FadeFilter;
+    [SerializeField] private GameObject DamagedFilter;
+
+    [Header("____Camera Props____")]
     [SerializeField] private Camera ThisCamera;
     [SerializeField] private float OriginCameraScale;
 
     private Action mFadeOverAction;
+    private Player _Player;
 
     private IEnumerator mCameraFade;
     private IEnumerator mCameraShake;
@@ -45,7 +50,6 @@ public class MainCamera : Singleton<MainCamera>
             OriginCameraScale = ThisCamera.orthographicSize;
         }
     }
-
     private void Start()
     {
         mIsZoomIn = false;
@@ -56,6 +60,12 @@ public class MainCamera : Singleton<MainCamera>
 
         Fade(1f, FadeType.Out);
         // -- 화면이 서서히 밝아지게 --
+
+        _Player = FindObjectOfType<Player>();
+    }
+    public void UseDamagedFilter()
+    {
+        DamagedFilter.SetActive(true);
     }
 
     public void Shake()
@@ -67,7 +77,7 @@ public class MainCamera : Singleton<MainCamera>
     {
         if (mCameraShake != null)
         {
-            transform.position = mOriginPosition;
+            transform.parent.position = Vector3.zero;
             StopCoroutine(mCameraShake);
         }
         StartCoroutine(mCameraShake = CameraShake(time, power));
@@ -113,7 +123,16 @@ public class MainCamera : Singleton<MainCamera>
     {
         ZoomIn(mOriginPosition, time, percent, usingTimeScale);
     }
+    public void ZoomIn(Vector2 offset, float time, float percent)
+    {
+        if (mCameraZoom != null)
+        {
+            StopCoroutine(mCameraZoom);
+        }
+        float targetScale = 8 * percent;
 
+        StartCoroutine(mCameraZoom = CameraZoomIn((Vector2)mOriginPosition + offset, time, targetScale, true));
+    }
     public void ZoomIn(Vector2 point, float time, float percent, bool usingTimeScale)
     {
         if (mCameraZoom != null)
@@ -163,19 +182,19 @@ public class MainCamera : Singleton<MainCamera>
 
     private IEnumerator CameraShake(float time, float power)
     {
-        float deltaTime = 0f;
+        float deltaTime;
 
         power *= 0.1f;
 
         for (float i = 0; i < time; i += deltaTime)
         {
-            transform.position = mOriginPosition + (Vector3)(UnityEngine.Random.insideUnitCircle * power);
+            transform.parent.position = (Vector3)(UnityEngine.Random.insideUnitCircle * power);
 
             deltaTime = Time.deltaTime;
 
             yield return null;
         }
-        transform.position = mOriginPosition;
+        transform.parent.position = Vector3.zero;
     }
 
     private IEnumerator CameraMove(Vector2 point, float speed)
@@ -194,7 +213,6 @@ public class MainCamera : Singleton<MainCamera>
             yield return null;
         }
     }
-
     private IEnumerator CameraZoomIn(Vector2 point, float time, float targetScale, bool usingTimeScale)
     {
         float deltaTime = 0f;

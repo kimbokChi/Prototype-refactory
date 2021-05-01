@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    [SerializeField] private ItemDropper _ItemDropper;
+
     [Header("Range Info")]
     [SerializeField] private Area Range;
     [SerializeField] private CircleCollider2D RangeCollider;
@@ -65,6 +67,7 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
     private void AttackAction()
     {
         MainCamera.Instance.Shake(0.4f, 1.2f);
+        SoundManager.Instance.PlaySound(SoundName.ExplosionTotem);
 
         if (Range.TryEnterTypeT(out Player player))
         {
@@ -84,6 +87,13 @@ public class BombTotem : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
             EnemyAnimator.ChangeState(AnimState.Death);
 
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+            _ItemDropper.CoinDrop(4);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
+
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 

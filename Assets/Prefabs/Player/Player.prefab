@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 5810549494006058013}
   - component: {fileID: 5810549494006058012}
   - component: {fileID: 2441175701001870715}
+  - component: {fileID: 2085608592035298536}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -154,13 +155,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CanMoveDown: 0
   IsUsingHealthBar: 1
-  mGameOverWindow: {fileID: 0}
+  _Resurrectable: {fileID: 2085608592035298536}
   EquipWeaponSlot: {fileID: 5810549493965192802}
-  mBlinkTime: 0.2
   RangeArea: {fileID: 5810549494338724702}
   AbilityTable: {fileID: 5810549494281094165}
   PlayerAnimator: {fileID: 6242916743501542565}
-  mDefense: 10
+  mDefense: 1
+  _DashLength: 3
+  _DashTime: 1
+  _DashCool: 0.5
+  _DashSpeedScale: 1.1
+  _DashCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -0.19916143
+      outSlope: -0.19916143
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.225
+    - serializedVersion: 3
+      time: 0.58785474
+      value: 0.5024531
+      inSlope: 2.1244216
+      outSlope: 2.1244216
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.12648846
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.14638917
+      outSlope: -0.14638917
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.24166667
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   mLocation9: 4
 --- !u!114 &6242916743501542565
 MonoBehaviour:
@@ -188,7 +225,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.03, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -241,6 +278,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2085608592035298536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5810549494006058011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 966c8ee146a50954998f62d5268f3085, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5810549494281094164
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Player
+  AblityObject: {fileID: 11400000, guid: d8d454b1575c220488ebd859b5280829, type: 2}
 --- !u!1 &5810549494338724701
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,6 +433,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7423310042540755780, guid: ef422ece84319764982ab3ebca667437,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7423310042540755780, guid: ef422ece84319764982ab3ebca667437,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -399,6 +453,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7423310042540755780, guid: ef422ece84319764982ab3ebca667437,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7423310042540755780, guid: ef422ece84319764982ab3ebca667437,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -411,16 +470,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7423310042540755780, guid: ef422ece84319764982ab3ebca667437,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7423310042540755780, guid: ef422ece84319764982ab3ebca667437,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7423310042540755780, guid: ef422ece84319764982ab3ebca667437,
         type: 3}

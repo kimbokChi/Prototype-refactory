@@ -1,21 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.U2D.Path;
 using UnityEngine;
+using Kimbokchi;
 
 public enum NotifyMessage
 {
     StageClear, StageEnter
 }
-
+[ExecuteInEditMode]
 public class StageEventLibrary : Singleton<StageEventLibrary>
 {
+    private const int ProbablityPropertyCount = 4;
+
+    private enum StageClearEnventName
+    {
+        CreateItemBox, SummonPeddlerNPC, CreateLHealingPotion, CreateMHealingPotion
+    }
+    [SerializeField, Range(0f, 1f)] private float _ItemBoxProbab;
+    [SerializeField, Range(0f, 1f)] private float _PeddlerNPCProbab;
+    [SerializeField, Range(0f, 1f)] private float _LHealPotionProbab;
+    [SerializeField, Range(0f, 1f)] private float _MHealPotionProbab;
+    private float[] _ProbablityArray;
+
     [Header("ItemBox Section")]
     [SerializeField] private ItemBoxHolder ItemBox;
     [SerializeField] private ItemBoxSprite WoodenSprite;
     [SerializeField] private ItemBoxSprite GoldenSprite;
 
-    [SerializeField] private GameObject DungeonNPC;
+    [Header("NPC Section")]
+    [SerializeField] private GameObject  PeddlerNPC;
+                     private GameObject _PeddlerNPC;
 
     [SerializeField] private Animator InventoryButton;
 
@@ -24,8 +38,32 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
 
     private void Awake()
     {
-        StageClearEvent += CreateItemBox;
-        StageClearEvent += CreateNPC;
+        _ProbablityArray = new float[ProbablityPropertyCount] 
+        {
+            _ItemBoxProbab, _PeddlerNPCProbab, _LHealPotionProbab, _MHealPotionProbab
+        };
+        StageClearEvent += () =>
+        {
+            int eventIndex = Utility.LuckyNumber(_ProbablityArray);
+
+            switch ((StageClearEnventName)eventIndex)
+            {
+                case StageClearEnventName.CreateItemBox:
+                    CreateItemBox();
+                    break;
+                case StageClearEnventName.SummonPeddlerNPC:
+                    OnEnablePeddlerNPC();
+                    break;
+                case StageClearEnventName.CreateLHealingPotion:
+                    CreatePotion(PotionName.LHealingPotion);
+                    break;
+                case StageClearEnventName.CreateMHealingPotion:
+                    CreatePotion(PotionName.MHealingPotion);
+                    break;
+                default:
+                    break;
+            }
+        };
         StageClearEvent += () => SetActiveInventoryButton(true);
 
         StageEnterEvent += () =>
@@ -36,6 +74,7 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
                 SetActiveInventoryButton(false);
             }
         };
+        StageEnterEvent += OnDisablePeddlerNPC;
     }
 
     public void NotifyEvent(NotifyMessage message)
@@ -54,7 +93,7 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
 
     private void CreateItemBox()
     {
-        Vector2 createPoint = Castle.Instance.GetMovePoint(DIRECTION9.MID);
+        Vector2 createPoint = Castle.Instance.GetMovePoint(UnitizedPos.MID);
 
         var boxSprite = WoodenSprite;
         var boxContainItem = ItemLibrary.Instance.GetRandomItem();
@@ -77,9 +116,24 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
         var box = Instantiate(ItemBox, createPoint, Quaternion.identity);
             box.HoldingItemBox.Init(boxContainItem, boxSprite);
     }
-
-    private void CreateNPC()
+    private void CreatePotion(PotionName potionName)
     {
+        PotionPool.Instance.Get(potionName).transform.position 
+            = Castle.Instance.GetMovePoint(UnitizedPos.MID);
+    }
+
+    private void OnEnablePeddlerNPC()
+    {
+        if (_PeddlerNPC == null)
+        {
+            _PeddlerNPC = Instantiate(PeddlerNPC);
+        }
+        _PeddlerNPC.SetActive(true);
+        _PeddlerNPC.transform.position = (Vector2)Camera.main.transform.position;
+    }
+    private void OnDisablePeddlerNPC()
+    {
+        _PeddlerNPC?.SetActive(false);
     }
 
     private Vector2 RandomRoomPoint()
@@ -87,8 +141,8 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
         // 0 or 3 or 6
         int floorIndex = Random.Range(0, 3) * 3;
 
-        Vector2 createPointMin = Castle.Instance.GetMovePoint((DIRECTION9)floorIndex);
-        Vector2 createPointMax = Castle.Instance.GetMovePoint((DIRECTION9)floorIndex + 2);
+        Vector2 createPointMin = Castle.Instance.GetMovePoint((UnitizedPos)floorIndex);
+        Vector2 createPointMax = Castle.Instance.GetMovePoint((UnitizedPos)floorIndex + 2);
 
         return new Vector2(Random.Range(createPointMin.x, createPointMax.x), createPointMin.y + 0.5f);
     }

@@ -95,11 +95,11 @@ public class Floor : MonoBehaviour
         mMemberRooms[1].EnterPlayer(MESSAGE.BELONG_FLOOR, player);
         mMemberRooms[2].EnterPlayer(MESSAGE.BELONG_FLOOR, player);
     }
-    public void EnterPlayer(Player player, LPOSITION3 position)
+    public void EnterPlayer(Player player, UnitizedPosV position)
     {
         mMemberRooms[(int)position].EnterPlayer(MESSAGE.THIS_ROOM, player);
     }
-    public void ExitPlayer(MESSAGE message, LPOSITION3 position)
+    public void ExitPlayer(MESSAGE message, UnitizedPosV position)
     {
         switch (message)
         {
@@ -120,7 +120,7 @@ public class Floor : MonoBehaviour
     /// 지정한 방에 존재하는 이동지점들을 반환합니다.
     /// </summary>
     #endregion
-    public Vector2[] GetMovePoints(LPOSITION3 position)
+    public Vector2[] GetMovePoints(UnitizedPosV position)
     {
         return mMemberRooms[(int)position].GetMovePoints();
     }

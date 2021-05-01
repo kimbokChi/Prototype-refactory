@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 4921760133263328403}
   - component: {fileID: 4921760133263328430}
   - component: {fileID: 4921760133263328429}
+  - component: {fileID: 9081415619431515273}
   - component: {fileID: 4921760133263328431}
   m_Layer: 0
   m_Name: DungeonGuideNPC
@@ -198,9 +199,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a0773250292484ebbd765fd09fa2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsWaitForEffectDisable: 0
+  _Hider: {fileID: 9081415619431515273}
+  IsWaitForEffectDisable: 1
   InteractionButton: {fileID: 0}
   DungeonSelectWindow: {fileID: 0}
+--- !u!114 &9081415619431515273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4921760133263328402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bbb634dfa1a4f049835e276efb060a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &4921760133263328431
 BoxCollider2D:
   m_ObjectHideFlags: 0

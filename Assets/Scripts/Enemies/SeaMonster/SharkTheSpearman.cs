@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventReceiver
 {
+    [SerializeField] private ItemDropper _ItemDropper;
+
     [Header("Spear Info")]
     [SerializeField] private Arrow Spear;
     [SerializeField] private float ShootSpeed;
@@ -64,8 +66,17 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
         {
             _AttackPeriod.StopPeriod();
 
+            MoveStop();
             EnemyAnimator.ChangeState(AnimState.Death);
             HealthBarPool.Instance.UnUsingHealthBar(transform);
+
+            _ItemDropper.CoinDrop(8);
+            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.MHealingPotion);
+
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
         }
     }
 
@@ -115,6 +126,7 @@ public class SharkTheSpearman : MonoBehaviour, IObject, ICombatable, IAnimEventR
 
     private void AttackAction()
     {
+        SoundManager.Instance.PlaySound(SoundName.SharkTheSpearman_Attack);
         EnemyAnimator.ChangeState(AnimState.Attack);
 
         Spear.gameObject.SetActive(true);

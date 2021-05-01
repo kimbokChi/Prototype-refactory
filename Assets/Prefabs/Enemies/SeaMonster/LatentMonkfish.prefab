@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 4033230348203486468}
   - component: {fileID: 482132285656590479}
   - component: {fileID: 7898008926711458770}
+  - component: {fileID: 3775012660306610595}
   m_Layer: 0
   m_Name: LatentMonkfish
   m_TagString: Enemy
@@ -205,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91a8bea7d83d9ae4dad837623e0d6a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ItemDropper: {fileID: 3775012660306610595}
   IsLookAtLeft: 1
   AbilityTable: {fileID: 4033230348203486471}
   EnemyAnimator: {fileID: 4033230348203486468}
@@ -227,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6737ae96f0551d146a948e27dee5d1eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _JsonLableName: Sea_LatentMonkfish
+  AblityObject: {fileID: 11400000, guid: 1d3dcf7be5af77145b7581a61fedc88b, type: 2}
 --- !u!114 &4033230348203486468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +290,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.2, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &3775012660306610595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4033230348203486490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 742c0fd89b2091643b66fe8944ad09dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _GroundOffsetY: -0.3
+  _CommonPotion: 0.1
+  _RarePotion: 0.05
 --- !u!1 &8041535007745293349
 GameObject:
   m_ObjectHideFlags: 0
