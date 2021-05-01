@@ -127,9 +127,11 @@ public class PlayerControllerSetting : MonoBehaviour
     {
         _Reposer.gameObject.SetActive(true);
     }
-
+#if UNITY_EDITOR
+#else
     private void OnDisable()
     {
         BackEndServerManager.Instance.Optionsaver();
     }
+#endif
 }
