@@ -6,19 +6,26 @@ using UnityEngine.EventSystems;
 
 public class TouchController : MonoBehaviour
 {
-    private const float NeedMovingLength = 0.5f;
-    private const float NeedDashLength = 180f;
+    private const float NeedMovingLength = 20f;
+    private const float NeedDashLength = 30f;
+    private const float AttackableInputRange = 2.5f;
 
     private Coroutine _MoveRoutine;
     private TouchPhase _CurrentPhase;
+    private TouchPhase _PreviousPhase;
     private Vector2 _BeganInputPoint;
-    private Vector3 _LastInputPoint;
+
+    private Vector2 _FirstInputPoint;
+    private Vector2  _LastInputPoint;
 
     private Player _Player;
     private float _StationaryTime;
 
     private bool _IsAlreadyCharging;
     private bool _IsAlreadyInit = false;
+    private bool _IsPrevInputOnUI = false;
+
+    private bool _CanDashOrder = true;
 
     public bool IsMobilePlatform()
     {
@@ -75,25 +82,13 @@ public class TouchController : MonoBehaviour
     {
         if (IsMobilePlatform())
         {
-            return Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+            return Input.GetTouch(0).position;
         }
         else
         {
-            return Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            return Input.mousePosition;
         }
     }
-    public Vector2 DeltaPosition()
-    {
-        if (IsMobilePlatform())
-        {
-            return Input.GetTouch(0).deltaPosition;
-        }
-        else
-        {
-            return Camera.main.ScreenToWorldPoint(Input.mousePosition) - _LastInputPoint;
-        }
-    }
-
     private void Start()
     {
         _StationaryTime = 0f;
@@ -107,7 +102,6 @@ public class TouchController : MonoBehaviour
 
             _Player = FindObjectOfType<Player>();
         }
-        _LastInputPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
     private void Update()
     {
@@ -129,7 +123,7 @@ public class TouchController : MonoBehaviour
             {
                 case TouchPhase.Began:
                     {
-                        _BeganInputPoint = InputPosition();
+                        _FirstInputPoint = _BeganInputPoint = InputPosition();
                     }
                     break;
                 case TouchPhase.Moved:
@@ -139,18 +133,27 @@ public class TouchController : MonoBehaviour
 
                         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
                         {
-                            Vector3 delta = DeltaPosition();
+                            float distance = Vector2.Distance(inputPosition, _BeganInputPoint);
 
-                            if (delta.magnitude > NeedDashLength)
+                            if (distance > NeedDashLength && _CanDashOrder)
                             {
-                                if (delta.x > 0)
+                                void DashEndEvent(Player player, Direction dir)
+                                {
+                                    if (_CurrentPhase == TouchPhase.Stationary) 
+                                        player.MoveOrder(dir);
+                                }
+                                if (direction.x > 0)
                                 {
                                     _Player.DashOrder(UnitizedPosH.RIGHT);
+                                    _Player.OnceDashEndEvent += p => DashEndEvent(p, Direction.Right);
                                 }
                                 else
                                 {
                                     _Player.DashOrder(UnitizedPosH.LEFT);
+                                    _Player.OnceDashEndEvent += p => DashEndEvent(p, Direction.Left);
                                 }
+                                _CanDashOrder = false;
+                                _BeganInputPoint = inputPosition;
                             }
                             else if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
                             {
@@ -168,7 +171,7 @@ public class TouchController : MonoBehaviour
                         }
                         else
                         {
-                            if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 2f)
+                            if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 1.5f)
                             {
                                 _BeganInputPoint = inputPosition;
 
@@ -181,8 +184,6 @@ public class TouchController : MonoBehaviour
                                     _MoveRoutine.StartRoutine(Move(Direction.Down));
                                 }
                                 _StationaryTime = 0f;
-
-                                _BeganInputPoint = inputPosition;
                             }
                         }
                     }
@@ -206,19 +207,26 @@ public class TouchController : MonoBehaviour
                     break;
                 case TouchPhase.Ended:
                     {
+                        _LastInputPoint = InputPosition();
+                        _CanDashOrder = true;
+
                         if (_MoveRoutine.IsFinished())
                         {
-                            if (_StationaryTime > 0f)
-                            {
-                                if (_StationaryTime <= Finger.PRESS_TIME)
-                                {
-                                    _Player.AttackOrder();
-                                }
-                            }
                             if (_IsAlreadyCharging)
                             {
                                 Finger.Instance.EndCharging();
                                 _IsAlreadyCharging = false;
+                            }
+                            else if (_IsPrevInputOnUI)
+                            {
+                                if (Vector2.Distance(_LastInputPoint, _FirstInputPoint) <= AttackableInputRange)
+                                {
+                                    if (_PreviousPhase == TouchPhase.Began ||
+                                        _PreviousPhase == TouchPhase.Stationary)
+                                    {
+                                        _Player.AttackOrder();
+                                    }
+                                }
                             }
                         }
                         _StationaryTime = 0f;
@@ -230,10 +238,8 @@ public class TouchController : MonoBehaviour
                     break;
             }
         }
-    }
-    private void LateUpdate()
-    {
-        _LastInputPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _PreviousPhase = _CurrentPhase;
+        _IsPrevInputOnUI = !EventSystem.current.IsPointerInUIObject();
     }
     private void CurrentPhaseCheck()
     {

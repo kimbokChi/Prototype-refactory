@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 // Include Backend
 using BackEnd;
 using LitJson;
@@ -247,10 +248,41 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         
 
     }
-     void Start()
+    void Start()
     {
         Login.SetActive(false);
         Scene.SetActive(false);
+
+        SceneManager.sceneUnloaded += scene =>
+        {
+            if (scene.buildIndex == (int)SceneIndex.Title)
+            {
+                bro = Backend.BMember.GetUserInfo();
+                mIndate = bro.GetReturnValuetoJSON()["row"]["inDate"].ToString();
+                if (bro.IsSuccess())
+                {
+                    Where param = new Where();
+                    param.Contains("gamerIndate", mIndate);
+                    Backend.GameSchemaInfo.Get("Player", param, 10, callback1 =>
+                    {
+                        if (callback1.IsSuccess())
+                        {
+                            Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
+                            Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
+
+                            GameLoger.Instance.RecordMoney(int.Parse(callback1.Rows()[0]["Gold"]["N"].ToString()));
+                            Debug.Log("정보 불러오기 성공" + callback1);
+                        }
+                        else
+                        {
+                            Debug.Log("정보 불러오기 실패" + callback1);
+                        }
+                    });
+                }
+                else
+                    Debug.Log(bro + "812");
+            }
+        };
     }
     void backendCallback(BackendReturnObject BRO)
     {
@@ -483,6 +515,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
         else
             Debug.Log(bro + "812");
     }
+    [System.Obsolete]
     public void OnLogined()
     {
         bro = Backend.BMember.GetUserInfo();
@@ -498,7 +531,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
                     Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
                     Debug.Log(callback1.GetReturnValuetoJSON().ToJson());
 
-                    GameLoger.Instance.RecordMoney(int.Parse(callback1.Rows()[0]["Gold"]["N"].ToString()));
+                    GameLoger.Instance.RecordMoney(10000/*int.Parse(callback1.Rows()[0]["Gold"]["N"].ToString())*/);
                  
 
 
@@ -603,7 +636,7 @@ public class BackEndServerManager : Singleton<BackEndServerManager>
 
     private void OnBackendAuthorized()
     {
-        OnLogined();
+        // OnLogined();
         IAPCOME();
         OnItem();
         OnStage();

@@ -15,6 +15,10 @@ public class SubscribableButton : MonoBehaviour, IPointerDownHandler, IPointerUp
         private set;
     }
 
+    public void ButtonActionReset()
+    {
+        ButtonAction = null;
+    }
     public void OnPointerDown(PointerEventData eventData)
     {
         ButtonAction?.Invoke(CurrentState = ButtonState.Down);

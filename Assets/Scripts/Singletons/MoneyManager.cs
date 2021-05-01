@@ -44,13 +44,21 @@ public class MoneyManager : Singleton<MoneyManager>
         }
         return false;
     }
-    private void Awake()
+    private void Start()
     {
+        StartCoroutine(InitRoutine());
+    }
+    private IEnumerator InitRoutine()
+    {
+        yield return null;
         SetMoney(GameLoger.Instance.RecordedMoney);
 
-        SceneManager.sceneUnloaded += scene =>
+        if (FindObjectsOfType<MoneyManager>().Length == 1)
         {
-            GameLoger.Instance.RecordMoney(Money);
-        };
+            SceneManager.sceneUnloaded += scene =>
+            {
+                GameLoger.Instance.RecordMoney(Money);
+            };
+        }
     }
 }
