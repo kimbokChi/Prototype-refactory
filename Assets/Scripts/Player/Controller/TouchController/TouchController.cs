@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class TouchController : MonoBehaviour
 {
     private const float NeedMovingLength = 20f;
-    private const float NeedDashLength = 40f;
+    private const float NeedDashLength = 30f;
     private const float AttackableInputRange = 2.5f;
 
     private Coroutine _MoveRoutine;
@@ -24,6 +24,8 @@ public class TouchController : MonoBehaviour
     private bool _IsAlreadyCharging;
     private bool _IsAlreadyInit = false;
     private bool _IsPrevInputOnUI = false;
+
+    private bool _CanDashOrder = true;
 
     public bool IsMobilePlatform()
     {
@@ -133,7 +135,7 @@ public class TouchController : MonoBehaviour
                         {
                             float distance = Vector2.Distance(inputPosition, _BeganInputPoint);
 
-                            if (distance > NeedDashLength)
+                            if (distance > NeedDashLength && _CanDashOrder)
                             {
                                 void DashEndEvent(Player player, Direction dir)
                                 {
@@ -150,6 +152,7 @@ public class TouchController : MonoBehaviour
                                     _Player.DashOrder(UnitizedPosH.LEFT);
                                     _Player.OnceDashEndEvent += p => DashEndEvent(p, Direction.Left);
                                 }
+                                _CanDashOrder = false;
                                 _BeganInputPoint = inputPosition;
                             }
                             else if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
@@ -205,6 +208,7 @@ public class TouchController : MonoBehaviour
                 case TouchPhase.Ended:
                     {
                         _LastInputPoint = InputPosition();
+                        _CanDashOrder = true;
 
                         if (_MoveRoutine.IsFinished())
                         {
