@@ -18,6 +18,9 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     [SerializeField] private GameObject _HealthBar;
     [SerializeField] private Image _HealthBarImage;
 
+    [Header("Attack Property")]
+    [SerializeField] private float _DownFallLength;
+
     private Player _Player;
     private int _AnimControlKey;
 
@@ -90,5 +93,22 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     private void AE_SetIdleState()
     {
         _Animator.SetInteger(_AnimControlKey, Idle);
+    }
+    private void AE_DownFall()
+    {
+        StartCoroutine(DownFallRoutine());
+        EffectLibrary.Instance.UsingEffect(EffectKind.SwordAfterImage, transform.position + Vector3.down * 4.5f);
+    }
+    private IEnumerator DownFallRoutine()
+    {
+        var targetPos = transform.localPosition + Vector3.down * _DownFallLength;
+
+        for (float i = 0; i < 0.167f; i += Time.deltaTime * Time.timeScale)
+        {
+            float rate = Mathf.Min(i / 0.167f, 1f);
+            transform.localPosition = Vector2.Lerp(transform.localPosition, targetPos, rate);
+
+            yield return null;
+        }
     }
 }
