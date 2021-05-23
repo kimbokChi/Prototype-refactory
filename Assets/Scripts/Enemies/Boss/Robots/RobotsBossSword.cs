@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 {
+    private const int Idle   = 0;
+    private const int Move   = 1;
+    private const int Attack = 2;
+    private const int Death  = 3;
+
     [SerializeField] private ItemDropper _ItemDropper;
 
     [Header("Ability")]
@@ -16,6 +21,26 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     private Player _Player;
     private int _AnimControlKey;
 
+    [ContextMenu("MoveOrder")]
+    private void MoveOrder()
+    {
+        _Animator.SetInteger(_AnimControlKey, Move);
+    }
+    [ContextMenu("IdleOrder")]
+    private void IdleOrder()
+    {
+        _Animator.SetInteger(_AnimControlKey, Idle);
+    }
+    [ContextMenu("AttackOrder")]
+    private void AttackOrder()
+    {
+        _Animator.SetInteger(_AnimControlKey, Attack);
+    }
+
+    private void Awake()
+    {
+        IInit();
+    }
     public void IInit()
     {
         _AnimControlKey = _Animator.GetParameter(0).nameHash;
@@ -61,4 +86,9 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     }
     public AbilityTable GetAbility => _AbilityTable;
     #endregion;
+
+    private void AE_SetIdleState()
+    {
+        _Animator.SetInteger(_AnimControlKey, Idle);
+    }
 }
