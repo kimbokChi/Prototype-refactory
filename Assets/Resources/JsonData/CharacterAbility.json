@@ -228,5 +228,35 @@
     "After_AttackDelay": "0.4",
     "RecognitionArea": "Room",
     "Range": "1.0"
+  },
+  {
+    "ID": "Bot_Boss_Sword",
+    "MoveSpeed": "1.8",
+    "MaxHealth": "120.0",
+    "AttackPower": "20.0",
+    "Begin_AttackDelay": "0.0",
+    "After_AttackDelay": "3.0",
+    "RecognitionArea": "Floor",
+    "Range": "3.0"
+  },
+  {
+    "ID": "Bot_Boss_Shield",
+    "MoveSpeed": "",
+    "MaxHealth": "",
+    "AttackPower": "",
+    "Begin_AttackDelay": "",
+    "After_AttackDelay": "",
+    "RecognitionArea": "Floor",
+    "Range": null
+  },
+  {
+    "ID": "Bot_Boss_Gunner",
+    "MoveSpeed": "",
+    "MaxHealth": "",
+    "AttackPower": "",
+    "Begin_AttackDelay": "",
+    "After_AttackDelay": "",
+    "RecognitionArea": "Floor",
+    "Range": null
   }
 ]
