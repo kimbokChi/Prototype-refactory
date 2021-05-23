@@ -70,20 +70,31 @@ public class BuffLibrary : Singleton<BuffLibrary>
     }
     private IEnumerable StunBuff(float duration, AbilityTable ability)
     {
+        Animator animator;
+        float animatorSpeed = 1.0f;
+
+        if (ability.TryGetComponent(out animator))
+        {
+            animatorSpeed = animator.speed;
+            animator.speed = 0f;
+        }
+        ability.Table[Ability.IBegin_AttackDelay] = float.MaxValue;
+        ability.Table[Ability.IAfter_AttackDelay] = float.MaxValue;
         for (float i = 0; i < duration; i += DeltaTime) 
         {
-            ability.Table[Ability.IMoveSpeed] = -ability.Table[Ability.MoveSpeed];
-            ability.Table[Ability.IBegin_AttackDelay] = 99999f;
-            ability.Table[Ability.IAfter_AttackDelay] = 99999f;
-            yield return null;
+            if (ability[Ability.CurHealth] <= 0f) break;
 
             ability.Table[Ability.IMoveSpeed] = -ability.Table[Ability.MoveSpeed];
-            ability.Table[Ability.IBegin_AttackDelay] = 99999f;
-            ability.Table[Ability.IAfter_AttackDelay] = 99999f;
+            yield return null;
+            ability.Table[Ability.IMoveSpeed] = -ability.Table[Ability.MoveSpeed];
         }
         ability.Table[Ability.IMoveSpeed] = 0f;
         ability.Table[Ability.IBegin_AttackDelay] = 0f;
         ability.Table[Ability.IAfter_AttackDelay] = 0f;
+        if (animator != null)
+        {
+            animator.speed = animatorSpeed;
+        }
     }
 
     public IEnumerator GetBuff(Buff buff, uint level, float duration, AbilityTable ability)
