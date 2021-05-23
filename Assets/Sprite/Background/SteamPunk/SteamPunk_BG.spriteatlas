@@ -40,10 +40,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 83272b6665871124293f1f3c51297e95, type: 3}
+    totalSpriteSurfaceArea: 1535975
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 8961090413319157468, guid: 2dbc275639946ac46a88beb54bd99cca, type: 3}
@@ -53,5 +57,6 @@ SpriteAtlas:
   - Meteor_0
   - Background
   - Tile
+  m_RenderDataMap: {}
   m_Tag: SteamPunk_BG
   m_IsVariant: 0

@@ -28,10 +28,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 8d1ba56f3361b3746bd2e4aa4ac25217, type: 3}
+    totalSpriteSurfaceArea: 1625000
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 1fd11ce0b1ca4664c9384edd5d12fafc, type: 3}
@@ -87,5 +91,6 @@ SpriteAtlas:
   - Repair-Robot-Move-3
   - Repair-Robot-Move-8
   - Repair-Robot-Move-6
+  m_RenderDataMap: {}
   m_Tag: RepairBot
   m_IsVariant: 0

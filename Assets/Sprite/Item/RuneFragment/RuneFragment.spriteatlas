@@ -28,10 +28,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: a1de2d24db68d65418dce8386dc60bcb, type: 3}
+    totalSpriteSurfaceArea: 851968
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 2f26a200b808d3541af27c8c445f2d27, type: 3}
@@ -61,5 +65,6 @@ SpriteAtlas:
   - Rune-Storn-Charging-2
   - Rune-Storn-Charging-6
   - Rune-Storn-Charging-10
+  m_RenderDataMap: {}
   m_Tag: RuneFragment
   m_IsVariant: 0

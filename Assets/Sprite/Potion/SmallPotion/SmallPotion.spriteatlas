@@ -40,10 +40,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 207a720bbe89b7741851e27c717ab277, type: 3}
+    totalSpriteSurfaceArea: 81920
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: abd0c93066e3cba4ea06cc9081cea327, type: 3}
@@ -57,5 +61,6 @@ SpriteAtlas:
   - Small-Potion-4
   - Small-Potion-3
   - Small-Potion-5
+  m_RenderDataMap: {}
   m_Tag: SmallPotion
   m_IsVariant: 0

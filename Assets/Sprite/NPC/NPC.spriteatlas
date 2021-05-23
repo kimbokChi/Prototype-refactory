@@ -28,10 +28,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 3de42b8d26ab6a04b8e0953fed32ac14, type: 3}
+    totalSpriteSurfaceArea: 769200
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 0bf326d03bf0aab4392e5ab948e22662, type: 3}
@@ -75,5 +79,6 @@ SpriteAtlas:
   - Merchant-3
   - Merchant-5
   - Receptionist-5
+  m_RenderDataMap: {}
   m_Tag: NPC
   m_IsVariant: 0

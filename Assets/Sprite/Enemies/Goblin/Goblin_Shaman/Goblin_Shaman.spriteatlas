@@ -28,10 +28,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 6e42805256b71e74daae8d3694b9b17e, type: 3}
+    totalSpriteSurfaceArea: 1562500
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 1bd3c90256890a24f8587d15f8532f9b, type: 3}
@@ -85,5 +89,6 @@ SpriteAtlas:
   - Shaman-Gobline-Move-3
   - Shaman-Gobline-Attack-5
   - Shaman-Gobline-Move-2
+  m_RenderDataMap: {}
   m_Tag: Goblin_Shaman
   m_IsVariant: 0

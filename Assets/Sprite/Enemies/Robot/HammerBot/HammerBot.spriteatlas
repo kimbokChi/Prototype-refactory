@@ -40,10 +40,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 2eaeb74b0b92c00409ac6b8ff6e88e0b, type: 3}
+    totalSpriteSurfaceArea: 2345000
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 040c1480fa69fb54b9d9a4dcdf919efb, type: 3}
@@ -99,5 +103,6 @@ SpriteAtlas:
   - Hammer-Robot-Idle-8
   - Hammer-Robot-Idle-7
   - Hammer-Robot-Die-2
+  m_RenderDataMap: {}
   m_Tag: HammerBot
   m_IsVariant: 0

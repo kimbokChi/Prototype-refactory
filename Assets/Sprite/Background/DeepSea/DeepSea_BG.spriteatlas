@@ -40,10 +40,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 6a3512bd14fdd3c4fa4c12bd0cfe93aa, type: 3}
+    totalSpriteSurfaceArea: 1804059
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 7760295261869778992, guid: d399694298824e045a7fd52090999e24, type: 3}
@@ -79,5 +83,6 @@ SpriteAtlas:
   - Upper_Fish_2
   - Upper_Fish_1
   - Upper_Fish_0
+  m_RenderDataMap: {}
   m_Tag: DeepSea_BG
   m_IsVariant: 0

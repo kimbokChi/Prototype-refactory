@@ -40,10 +40,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 3466181687ccffa418ba6e7fa7c5e7ff, type: 3}
+    totalSpriteSurfaceArea: 34975000
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: c3dc42f037336e741801f3c2910f4084, type: 3}
@@ -155,5 +159,6 @@ SpriteAtlas:
   - Tentacle-Idle-4
   - Tentacle-Die-2
   - Kraken-Idle-18
+  m_RenderDataMap: {}
   m_Tag: Kraken
   m_IsVariant: 0

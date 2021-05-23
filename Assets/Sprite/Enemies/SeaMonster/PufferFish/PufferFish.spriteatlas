@@ -28,10 +28,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: a596d6ef62512514ca362cf584a41b06, type: 3}
+    totalSpriteSurfaceArea: 1705000
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: fe70ee40384f11f48996bfd387381184, type: 3}
@@ -85,5 +89,6 @@ SpriteAtlas:
   - PufferFish-Die-2
   - PufferFish-Idle-8
   - PufferFish-Idle-1
+  m_RenderDataMap: {}
   m_Tag: PufferFish
   m_IsVariant: 0

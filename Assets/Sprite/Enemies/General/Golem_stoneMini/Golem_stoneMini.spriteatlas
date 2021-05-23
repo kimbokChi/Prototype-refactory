@@ -40,10 +40,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: d47d4503347cfaa408bd423e815319e7, type: 3}
+    totalSpriteSurfaceArea: 1562500
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 7ea5d7f0e803b0e428d8b867437c53b0, type: 3}
@@ -97,5 +101,6 @@ SpriteAtlas:
   - Golem-Attack-9
   - Golem-Idle-8
   - Golem-Attack-10
+  m_RenderDataMap: {}
   m_Tag: Golem_stoneMini
   m_IsVariant: 0

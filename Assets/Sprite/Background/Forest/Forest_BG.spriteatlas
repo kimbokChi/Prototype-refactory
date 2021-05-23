@@ -40,10 +40,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: da12253629964114a8bd25cd44f702c6, type: 3}
+    totalSpriteSurfaceArea: 3897550
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: 286a4551889aeb14ea582f7457c94017, type: 3}
@@ -79,5 +83,6 @@ SpriteAtlas:
   - Small_Grass
   - Cloud
   - Background_Outline
+  m_RenderDataMap: {}
   m_Tag: Forest_BG
   m_IsVariant: 0

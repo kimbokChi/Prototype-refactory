@@ -40,10 +40,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: db32e8712ec92b54d9936c1d97d424bb, type: 3}
+    totalSpriteSurfaceArea: 65068600
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: c729aa70d4a01824e8a53a1c17217a4e, type: 3}
@@ -271,5 +275,6 @@ SpriteAtlas:
   - Special-Explosion-Totem-3
   - Special-Buff-Totem-11
   - Special-Explosion-Totem-8
+  m_RenderDataMap: {}
   m_Tag: GoblinChief
   m_IsVariant: 0

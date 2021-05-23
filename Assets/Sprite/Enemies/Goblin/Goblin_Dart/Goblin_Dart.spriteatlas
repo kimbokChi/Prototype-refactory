@@ -40,10 +40,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: db8c94ec68e1363409c67c9fd47c9382, type: 3}
+    totalSpriteSurfaceArea: 1272500
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: e32d8940bd5057942a99fbbc1766c003, type: 3}
@@ -89,5 +93,6 @@ SpriteAtlas:
   - Dart-Goblin-Attack-2
   - Dart-Goblin-Move-4
   - Dart-Goblin-Idle-6
+  m_RenderDataMap: {}
   m_Tag: Goblin_Dart
   m_IsVariant: 0

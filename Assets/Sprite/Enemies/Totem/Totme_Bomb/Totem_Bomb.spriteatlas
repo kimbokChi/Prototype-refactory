@@ -28,10 +28,14 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 1
       enableTightPacking: 1
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: a77ff5de645a2a14db37375eeefa4233, type: 3}
+    totalSpriteSurfaceArea: 4258700
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: c91b68701fd37b84683e66de260b457c, type: 3}
@@ -111,5 +115,6 @@ SpriteAtlas:
   - Explosion-Totem-Die-5
   - Explosion-Totem-Attack-1
   - Explosion-Totem-Die-9
+  m_RenderDataMap: {}
   m_Tag: Totem_Bomb
   m_IsVariant: 0
