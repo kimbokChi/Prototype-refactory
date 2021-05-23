@@ -30,25 +30,14 @@ SpriteAtlas:
       enableTightPacking: 1
     secondaryTextureSettings: {}
     variantMultiplier: 1
-    packables:
-    - {fileID: 102900000, guid: 0569909a93673d6448aab0313c9df8c2, type: 3}
-    totalSpriteSurfaceArea: 2500000
+    packables: []
+    totalSpriteSurfaceArea: 0
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
-  m_PackedSprites:
-  - {fileID: 21300000, guid: 7a623a9166296724997cfa5cb93e3a28, type: 3}
-  - {fileID: 21300000, guid: a0eedb345aab5f44ebb357e775f5bbd1, type: 3}
-  - {fileID: 21300000, guid: bb387ee457f365f4eaae7253e83c5e57, type: 3}
-  - {fileID: 21300000, guid: 27caab6929dcd274cb4cfe137916c4c2, type: 3}
-  - {fileID: 21300000, guid: 058f0679fdcde2243937337ddfedc9c5, type: 3}
-  m_PackedSpriteNamesToIndex:
-  - Boss-Sword-Attack-Effect-4
-  - Boss-Sword-Attack-Effect-1
-  - Boss-Sword-Attack-Effect-3
-  - Boss-Sword-Attack-Effect-2
-  - Boss-Sword-Attack-Effect-5
+  m_PackedSprites: []
+  m_PackedSpriteNamesToIndex: []
   m_RenderDataMap: {}
   m_Tag: Boss_Robots_Sword_Effect
   m_IsVariant: 0
