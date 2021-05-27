@@ -21,6 +21,15 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     [Header("Attack Property")]
     [SerializeField] private float _DownFallLength;
 
+    [Header("Move Property")]
+    [SerializeField] private Vector2 _MoveRange;
+    [Space()]
+    [SerializeField] private float _MoveWaitMin;
+    [SerializeField] private float _MoveWaitMax;
+    [Space()]
+    [SerializeField] private float _MoveTimeMin;
+    [SerializeField] private float _MoveTimeMax;
+
     private Player _Player;
     private int _AnimControlKey;
 
@@ -47,6 +56,8 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     public void IInit()
     {
         _AnimControlKey = _Animator.GetParameter(0).nameHash;
+
+        StartCoroutine(UpdateRoutine());
     }
     public void IUpdate()
     {
@@ -99,6 +110,10 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
         StartCoroutine(DownFallRoutine());
         EffectLibrary.Instance.UsingEffect(EffectKind.SwordAfterImage, transform.position + Vector3.down * 4.5f);
     }
+    private void AE_MoveAction()
+    {
+        StartCoroutine(MoveRoutine());
+    }
     private IEnumerator DownFallRoutine()
     {
         var targetPos = transform.localPosition + Vector3.down * _DownFallLength;
@@ -110,5 +125,52 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 
             yield return null;
         }
+    }
+    private IEnumerator UpdateRoutine()
+    {
+        while (_AbilityTable[Ability.CurHealth] > 0f)
+        {
+            float moveWait = Random.Range(_MoveTimeMin, _MoveWaitMax);
+            for (float i = 0f; i < moveWait; i += Time.deltaTime * Time.timeScale)
+                yield return null;
+
+            _Animator.SetInteger(_AnimControlKey, Move);
+            while (_Animator.GetInteger(_AnimControlKey) != Idle) yield return null;
+        }
+    }
+    private IEnumerator MoveRoutine()
+    {
+        Vector3 direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+        {
+            float xAbsSub = Mathf.Abs(transform.localPosition.x - _MoveRange.x);
+            float xAbsAdd = Mathf.Abs(transform.localPosition.x + _MoveRange.x);
+
+            direction.x *=
+                ((xAbsSub > xAbsAdd) && direction.x < 0) ||
+                ((xAbsSub < xAbsAdd) && direction.x > 0) ? -1 : 1;
+
+            float yAbsSub = Mathf.Abs(transform.localPosition.y - _MoveRange.y);
+            float yAbsAdd = Mathf.Abs(transform.localPosition.y + _MoveRange.y);
+
+            direction.y *=
+                ((yAbsSub > yAbsAdd) && direction.y < 0) ||
+                ((yAbsSub < yAbsAdd) && direction.y > 0) ? -1 : 1;
+        }
+        float moveTime = Random.Range(_MoveTimeMin, _MoveTimeMax);
+
+        for (float i = 0f; i < moveTime; i += Time.deltaTime * Time.timeScale)
+        {
+            Vector3 pos = transform.localPosition;
+            pos += direction * _AbilityTable.MoveSpeed * Time.deltaTime * Time.timeScale;
+
+            if ((pos.x > _MoveRange.x) || (pos.x < -_MoveRange.x) ||
+                (pos.y > _MoveRange.y) || (pos.y < -_MoveRange.y))
+            {
+                break;
+            }
+            transform.localPosition = pos;
+            yield return null;
+        }
+        _Animator.SetInteger(_AnimControlKey, Idle);
     }
 }
