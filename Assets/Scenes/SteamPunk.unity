@@ -767,11 +767,35 @@ MonoBehaviour:
   _HealthBar: {fileID: 832419140}
   _HealthBarImage: {fileID: 1668594059}
   _SplittingAccel: 1.3
+  _TurningCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.6812315
+      outSlope: 2.6812315
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.079166666
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _MoveRange: {x: 3.75, y: 7}
   _MoveWaitMin: 0.5
-  _MoveWaitMax: 1.5
+  _MoveWaitMax: 1
   _MoveTimeMin: 1
-  _MoveTimeMax: 4
+  _MoveTimeMax: 3
 --- !u!4 &1301691460
 Transform:
   m_ObjectHideFlags: 0

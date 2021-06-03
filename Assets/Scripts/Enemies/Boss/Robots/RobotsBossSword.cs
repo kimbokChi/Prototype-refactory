@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 {
     private const float SplittingTime = 0.167f;
+    private const float TurningTimeScale = 2.5f;
 
     private const int Idle   = 0;
     private const int Move   = 1;
@@ -22,6 +23,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 
     [Header("Attack Property")]
     [SerializeField] private float _SplittingAccel;
+    [SerializeField] private AnimationCurve _TurningCurve;
 
     [Header("Move Property")]
     [SerializeField] private Vector2 _MoveRange;
@@ -158,14 +160,27 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
             for (float i = 0f; i < 0.75f; i += Time.deltaTime * Time.timeScale)
                 yield return null;
 
+            // Attack and AttackTurning
             {
                 Vector3 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
                 _AttackDirection = dir.normalized;
-                transform.rotation = Quaternion.AngleAxis(angle - 180f, Vector3.forward);
+
+                var rotA = transform.rotation;
+                var rotB = Quaternion.AngleAxis(angle - 180f, Vector3.forward);
+
+                AttackOrder();
+
+                float time = Mathf.Abs(rotB.z - transform.rotation.z * TurningTimeScale);
+                for (float i = 0f; i < time; i += Time.timeScale * Time.deltaTime)
+                {
+                    float rate = _TurningCurve.Evaluate(Mathf.Min(i / time, 1f));
+
+                    transform.rotation = Quaternion.Lerp(rotA, rotB, rate);
+                    yield return null;
+                }
             }
-            AttackOrder();
             while (_Animator.GetInteger(_AnimControlKey) != Idle) yield return null;
         }
     }
