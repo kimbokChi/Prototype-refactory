@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 {
+    private const float SplittingTime = 0.167f;
+
     private const int Idle   = 0;
     private const int Move   = 1;
     private const int Attack = 2;
@@ -19,7 +21,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     [SerializeField] private Image _HealthBarImage;
 
     [Header("Attack Property")]
-    [SerializeField] private float _DownFallLength;
+    [SerializeField] private float _SplittingAccel;
 
     [Header("Move Property")]
     [SerializeField] private Vector2 _MoveRange;
@@ -32,6 +34,10 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 
     private Player _Player;
     private int _AnimControlKey;
+
+    private int _RestCount;
+
+    private Vector2 _AttackDirection;
 
     [ContextMenu("MoveOrder")]
     private void MoveOrder()
@@ -108,7 +114,11 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     private void AE_DownFall()
     {
         StartCoroutine(DownFallRoutine());
-        EffectLibrary.Instance.UsingEffect(EffectKind.SwordAfterImage, transform.position + Vector3.down * 4.5f);
+
+        float angle = Mathf.Atan2(_AttackDirection.y, _AttackDirection.x) * Mathf.Rad2Deg;
+
+        EffectLibrary.Instance.UsingEffect(EffectKind.SwordAfterImage, transform.position + (Vector3)(_AttackDirection * 4.5f)).transform.rotation 
+            = Quaternion.AngleAxis(angle - 270f, Vector3.forward);
     }
     private void AE_MoveAction()
     {
@@ -116,13 +126,21 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     }
     private IEnumerator DownFallRoutine()
     {
-        var targetPos = transform.localPosition + Vector3.down * _DownFallLength;
+        float speed = _AbilityTable.MoveSpeed * SplittingTime * _SplittingAccel;
+        Vector3 dir = _AttackDirection;
+        Vector3 pos;
 
-        for (float i = 0; i < 0.167f; i += Time.deltaTime * Time.timeScale)
+        dir.Normalize();
+        for (float i = 0; i < SplittingTime; i += Time.deltaTime * Time.timeScale)
         {
-            float rate = Mathf.Min(i / 0.167f, 1f);
-            transform.localPosition = Vector2.Lerp(transform.localPosition, targetPos, rate);
+            pos = transform.localPosition + dir * speed;
 
+            if (_MoveRange.x < pos.x || -_MoveRange.x > pos.x || 
+                _MoveRange.y < pos.y || -_MoveRange.y > pos.y) 
+            {
+                break; 
+            }
+            transform.localPosition = pos;
             yield return null;
         }
     }
@@ -135,6 +153,19 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
                 yield return null;
 
             _Animator.SetInteger(_AnimControlKey, Move);
+            while (_Animator.GetInteger(_AnimControlKey) != Idle) yield return null;
+
+            for (float i = 0f; i < 0.75f; i += Time.deltaTime * Time.timeScale)
+                yield return null;
+
+            {
+                Vector3 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+                _AttackDirection = dir.normalized;
+                transform.rotation = Quaternion.AngleAxis(angle - 180f, Vector3.forward);
+            }
+            AttackOrder();
             while (_Animator.GetInteger(_AnimControlKey) != Idle) yield return null;
         }
     }
