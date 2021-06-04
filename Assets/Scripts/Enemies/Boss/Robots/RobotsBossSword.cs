@@ -12,6 +12,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     private const int Move   = 1;
     private const int Attack = 2;
     private const int Death  = 3;
+    private const int Rest   = 4;
 
     [SerializeField] private ItemDropper _ItemDropper;
 
@@ -33,6 +34,9 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     [Space()]
     [SerializeField] private float _MoveTimeMin;
     [SerializeField] private float _MoveTimeMax;
+
+    [Header("Rest Property")]
+    [SerializeField] private float _RestTime;
 
     private Player _Player;
     private int _AnimControlKey;
@@ -186,8 +190,6 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
                 var rotA = transform.rotation;
                 var rotB = Quaternion.identity;
 
-                AttackOrder();
-
                 float time = Mathf.Abs(rotB.z - transform.rotation.z * TurningTimeScale);
                 for (float i = 0f; i < time; i += Time.timeScale * Time.deltaTime)
                 {
@@ -196,6 +198,17 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
                     transform.rotation = Quaternion.Lerp(rotA, rotB, rate);
                     yield return null;
                 }
+            }
+            _RestCount++;
+
+            if (_RestCount == 3)
+            {
+                _RestCount = 0;
+
+                _Animator.SetInteger(_AnimControlKey, Rest);
+                for (float i = 0f; i < _RestTime; i += Time.deltaTime * Time.timeScale)
+                    yield return null;
+                _Animator.SetInteger(_AnimControlKey, Idle);
             }
         }
     }
