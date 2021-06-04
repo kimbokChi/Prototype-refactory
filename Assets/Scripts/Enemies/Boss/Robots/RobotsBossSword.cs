@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 {
     private const float SplittingTime = 0.167f;
-    private const float TurningTimeScale = 2.5f;
+    private const float TurningTimeScale = 0.35f;
 
     private const int Idle   = 0;
     private const int Move   = 1;
@@ -172,7 +172,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 
                 AttackOrder();
 
-                float time = Mathf.Abs(rotB.z - transform.rotation.z * TurningTimeScale);
+                float time = Mathf.Abs(rotB.z - transform.rotation.z) * TurningTimeScale;
                 for (float i = 0f; i < time; i += Time.timeScale * Time.deltaTime)
                 {
                     float rate = _TurningCurve.Evaluate(Mathf.Min(i / time, 1f));
@@ -182,6 +182,21 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
                 }
             }
             while (_Animator.GetInteger(_AnimControlKey) != Idle) yield return null;
+            {
+                var rotA = transform.rotation;
+                var rotB = Quaternion.identity;
+
+                AttackOrder();
+
+                float time = Mathf.Abs(rotB.z - transform.rotation.z * TurningTimeScale);
+                for (float i = 0f; i < time; i += Time.timeScale * Time.deltaTime)
+                {
+                    float rate = _TurningCurve.Evaluate(Mathf.Min(i / time, 1f));
+
+                    transform.rotation = Quaternion.Lerp(rotA, rotB, rate);
+                    yield return null;
+                }
+            }
         }
     }
     private IEnumerator MoveRoutine()
