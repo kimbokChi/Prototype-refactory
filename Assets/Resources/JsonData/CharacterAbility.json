@@ -231,7 +231,7 @@
   },
   {
     "ID": "Bot_Boss_Sword",
-    "MoveSpeed": "1.8",
+    "MoveSpeed": "2.8",
     "MaxHealth": "120.0",
     "AttackPower": "20.0",
     "Begin_AttackDelay": "0.0",
@@ -241,13 +241,13 @@
   },
   {
     "ID": "Bot_Boss_Shield",
-    "MoveSpeed": "",
-    "MaxHealth": "",
-    "AttackPower": "",
-    "Begin_AttackDelay": "",
-    "After_AttackDelay": "",
+    "MoveSpeed": "2.0",
+    "MaxHealth": "160.0",
+    "AttackPower": "15.0",
+    "Begin_AttackDelay": "0.0",
+    "After_AttackDelay": "0.0",
     "RecognitionArea": "Floor",
-    "Range": null
+    "Range": "3.0"
   },
   {
     "ID": "Bot_Boss_Gunner",
