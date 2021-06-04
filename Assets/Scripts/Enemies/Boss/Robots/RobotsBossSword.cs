@@ -37,6 +37,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 
     [Header("Rest Property")]
     [SerializeField] private float _RestTime;
+    [SerializeField] private AnimationCurve _FallingCurve;
 
     private Player _Player;
     private int _AnimControlKey;
@@ -206,6 +207,28 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
                 _RestCount = 0;
 
                 _Animator.SetInteger(_AnimControlKey, Rest);
+
+                Vector2 point = Vector3.one * 1000f;
+                Vector2 position = transform.position;
+
+                for (UnitizedPos pos = UnitizedPos.TOP; pos < UnitizedPos.END; pos += 3)
+                {
+                    Vector2 p = Castle.Instance.GetMovePoint(pos);
+                    if (pos != UnitizedPos.BOT && p.y > position.y) continue;
+
+                    if ((p - position).sqrMagnitude < point.sqrMagnitude)
+                    {
+                        point = p;
+                    }
+                }
+                point.x = position.x;
+                for (float i = 0f; i < 0.9f; i += Time.deltaTime * Time.timeScale)
+                {
+                    float rate = _FallingCurve.Evaluate(Mathf.Min(i / 1.2f, 1f));
+
+                    transform.position = Vector3.Lerp(position, point, rate);
+                    yield return null;
+                }
                 for (float i = 0f; i < _RestTime; i += Time.deltaTime * Time.timeScale)
                     yield return null;
                 _Animator.SetInteger(_AnimControlKey, Idle);
