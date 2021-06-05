@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 {
+    private const float MoveAfterAnimation = 0.75f;
+
     private const float SplittingTime = 0.167f;
     private const float TurningTimeScale = 0.35f;
 
@@ -140,7 +142,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
         dir.Normalize();
         for (float i = 0; i < SplittingTime; i += Time.deltaTime * Time.timeScale)
         {
-            pos = transform.localPosition + dir * speed;
+            pos = transform.localPosition + dir * speed * Time.timeScale;
 
             if (_MoveRange.x < pos.x || -_MoveRange.x > pos.x || 
                 _MoveRange.y < pos.y || -_MoveRange.y > pos.y) 
@@ -162,7 +164,8 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
             _Animator.SetInteger(_AnimControlKey, Move);
             while (_Animator.GetInteger(_AnimControlKey) != Idle) yield return null;
 
-            for (float i = 0f; i < 0.75f; i += Time.deltaTime * Time.timeScale)
+            float wait = _AbilityTable.BeginAttackDelay + MoveAfterAnimation;
+            for (float i = 0f; i < wait; i += Time.deltaTime * Time.timeScale)
                 yield return null;
 
             // Attack and AttackTurning
@@ -224,7 +227,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
                 point.x = position.x;
                 for (float i = 0f; i < 0.9f; i += Time.deltaTime * Time.timeScale)
                 {
-                    float rate = _FallingCurve.Evaluate(Mathf.Min(i / 1.2f, 1f));
+                    float rate = _FallingCurve.Evaluate(Mathf.Min(i / 0.9f, 1f));
 
                     transform.position = Vector3.Lerp(position, point, rate);
                     yield return null;
@@ -232,6 +235,22 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
                 for (float i = 0f; i < _RestTime; i += Time.deltaTime * Time.timeScale)
                     yield return null;
                 _Animator.SetInteger(_AnimControlKey, Idle);
+
+                Vector2 start = position = transform.localPosition;
+                if ((position.x > _MoveRange.x) || (position.x < -_MoveRange.x) ||
+                    (position.y > _MoveRange.y) || (position.y < -_MoveRange.y))
+                {
+                    position.x = Mathf.Clamp(position.x, -_MoveRange.x, _MoveRange.x);
+                    position.y = Mathf.Clamp(position.y, -_MoveRange.y, _MoveRange.y);
+
+                    for (float i = 0f; i < 0.9f; i += Time.deltaTime * Time.timeScale)
+                    {
+                        float rate = _FallingCurve.Evaluate(Mathf.Min(i / 0.9f, 1f));
+
+                        transform.localPosition = Vector3.Lerp(start, position, rate);
+                        yield return null;
+                    }
+                }
             }
         }
     }
