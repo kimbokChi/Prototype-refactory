@@ -7,6 +7,9 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
 {
     private const float ActiveEndTime = 0.571f;
 
+    private const float RestBeginTime = 1.0f;
+    private const float RestEndTime = 0.917f;
+
     private const int Idle   = 0;
     private const int Active = 1;
     private const int Death  = 2;
@@ -177,9 +180,9 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
                     }
                 }
                 point.x = position.x;
-                for (float i = 0f; i < 0.9f; i += Time.deltaTime * Time.timeScale)
+                for (float i = 0f; i < RestBeginTime; i += Time.deltaTime * Time.timeScale)
                 {
-                    float rate = _FallingCurve.Evaluate(Mathf.Min(i / 0.9f, 1f));
+                    float rate = _FallingCurve.Evaluate(Mathf.Min(i / RestBeginTime, 1f));
 
                     transform.position = Vector3.Lerp(position, point, rate);
                     yield return null;
@@ -196,9 +199,9 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
                     position.x = Mathf.Clamp(position.x, -_MoveRange.x, _MoveRange.x);
                     position.y = Mathf.Clamp(position.y, -_MoveRange.y, _MoveRange.y);
 
-                    for (float i = 0f; i < 0.9f; i += Time.deltaTime * Time.timeScale)
+                    for (float i = 0f; i < RestEndTime; i += Time.deltaTime * Time.timeScale)
                     {
-                        float rate = _FallingCurve.Evaluate(Mathf.Min(i / 0.9f, 1f));
+                        float rate = _FallingCurve.Evaluate(Mathf.Min(i / RestEndTime, 1f));
 
                         transform.localPosition = Vector3.Lerp(start, position, rate);
                         yield return null;
