@@ -16,7 +16,7 @@ MonoBehaviour:
   _MoveSpeed: 2.8
   _MaxHealth: 120
   _AttackPower: 20
-  _BeginAttackDelay: 0
+  _BeginAttackDelay: 1
   _AfterAttackDelay: 3
   _Range: 3
   _Area: 2

@@ -234,7 +234,7 @@
     "MoveSpeed": "2.8",
     "MaxHealth": "120.0",
     "AttackPower": "20.0",
-    "Begin_AttackDelay": "0.0",
+    "Begin_AttackDelay": "1.0",
     "After_AttackDelay": "3.0",
     "RecognitionArea": "Floor",
     "Range": "3.0"
@@ -244,7 +244,7 @@
     "MoveSpeed": "2.0",
     "MaxHealth": "160.0",
     "AttackPower": "15.0",
-    "Begin_AttackDelay": "0.0",
+    "Begin_AttackDelay": "1.0",
     "After_AttackDelay": "0.0",
     "RecognitionArea": "Floor",
     "Range": "3.0"
