@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
 {
+    private const float OnActiveSpeed = 5f;
     private const float ActiveEndTime = 0.571f;
 
     private const float RestBeginTime = 1.0f;
@@ -140,7 +141,7 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
                 while (!enumator.Current.Equals(Vector2.zero))
                 {
                     Vector2 pos = transform.localPosition;
-                    pos += moveDirection * _AbilityTable.MoveSpeed * Time.deltaTime * Time.timeScale;
+                    pos += moveDirection * OnActiveSpeed * _AbilityTable.MoveSpeed * Time.deltaTime * Time.timeScale;
 
                     if ((pos.x > _MoveRange.x) || (pos.x < -_MoveRange.x) ||
                         (pos.y > _MoveRange.y) || (pos.y < -_MoveRange.y))
