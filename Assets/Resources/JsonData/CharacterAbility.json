@@ -251,12 +251,12 @@
   },
   {
     "ID": "Bot_Boss_Gunner",
-    "MoveSpeed": "",
-    "MaxHealth": "",
-    "AttackPower": "",
-    "Begin_AttackDelay": "",
-    "After_AttackDelay": "",
+    "MoveSpeed": "2.4",
+    "MaxHealth": "100.0",
+    "AttackPower": "20.0",
+    "Begin_AttackDelay": "1.0",
+    "After_AttackDelay": "0.0",
     "RecognitionArea": "Floor",
-    "Range": null
+    "Range": "10.0"
   }
 ]
