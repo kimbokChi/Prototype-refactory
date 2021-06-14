@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class GunnerArmParts : MonoBehaviour
 {
-    [SerializeField] private Projection _Bullet;
+    [Header("# Owner Property")]
     [SerializeField] private GameObject _Owner;
-    [SerializeField] private Transform _Arm;
     [SerializeField] private AbilityTable _Ability;
 
+    [Header("# Bullet Property")]
+    [SerializeField] private Projection _Bullet;
+    [SerializeField] private Transform _BulletAxis;
+    [SerializeField] private float _BulletSpeed;
+
+    [Header("# Shooting Point")]
     [SerializeField] private Transform _LShootPoint;
     [SerializeField] private Transform _RShootPoint;
-
-    [SerializeField] private float _ShootSpeed;
 
     private Pool<Projection> _BulletPool;
     private ICombatable _PlayerCombat;
@@ -22,18 +25,20 @@ public class GunnerArmParts : MonoBehaviour
     public void ShootingBullet()
     {
         LazyInit();
-        float eulerAngleZ = _Arm.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI;
+        float eulerAngleZ = _BulletAxis.rotation.eulerAngles.z * Mathf.Deg2Rad + Mathf.PI;
 
         Quaternion rotation = Quaternion.AngleAxis(eulerAngleZ * Mathf.Rad2Deg - 90, Vector3.forward);
         Vector2 direction = new Vector2(Mathf.Cos(eulerAngleZ), Mathf.Sin(eulerAngleZ));
 
         var bullet = _BulletPool.Get();
-        bullet.Shoot(_LShootPoint.position, direction, _ShootSpeed);
+        bullet.Shoot(_LShootPoint.position, direction, _BulletSpeed);
         bullet.transform.rotation = rotation;
 
         bullet = _BulletPool.Get();
-        bullet.Shoot(_RShootPoint.position, direction, _ShootSpeed);
+        bullet.Shoot(_RShootPoint.position, direction, _BulletSpeed);
         bullet.transform.rotation = rotation;
+
+        MainCamera.Instance.Shake(0.07f, 0.5f);
     }
     private void LazyInit()
     {
@@ -52,7 +57,6 @@ public class GunnerArmParts : MonoBehaviour
                                 hit.TryGetComponent(out _PlayerCombat);
                             }
                             _PlayerCombat.Damaged(_Ability.AttackPower, _Owner);
-                            MainCamera.Instance.Shake(0.1f, 0.8f);
                         }
                     }, 
                     bullet => 

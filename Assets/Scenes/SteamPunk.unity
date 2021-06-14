@@ -2258,13 +2258,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4837c7e62a40a47498d8ceb88ee222ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Bullet: {fileID: 353470915029183522, guid: c4ce5a17025a2a54ebc6aee5d3e195cf, type: 3}
   _Owner: {fileID: 974715822}
-  _Arm: {fileID: 892524457}
   _Ability: {fileID: 974715825}
+  _Bullet: {fileID: 353470915029183522, guid: c4ce5a17025a2a54ebc6aee5d3e195cf, type: 3}
+  _BulletAxis: {fileID: 892524457}
+  _BulletSpeed: 11
   _LShootPoint: {fileID: 830185113993541341}
   _RShootPoint: {fileID: 7338100204918256847}
-  _ShootSpeed: 11
 --- !u!1 &2055289071
 GameObject:
   m_ObjectHideFlags: 0
