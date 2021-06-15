@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class GunnerArmParts : MonoBehaviour
 {
+    private const int Idle = 0;
+
     [Header("# Owner Property")]
     [SerializeField] private GameObject _Owner;
     [SerializeField] private AbilityTable _Ability;
+    [SerializeField] private Animator _ArmAnimator;
+    private int _AnimControlKey;
 
     [Header("# Bullet Property")]
     [SerializeField] private Projection _Bullet;
@@ -66,6 +70,13 @@ public class GunnerArmParts : MonoBehaviour
             });
 
             _IsAlreadyInit = true;
+            _AnimControlKey = _ArmAnimator.GetParameter(0).nameHash;
         }
+    }
+
+    private void AE_SetIdleState()
+    {
+        LazyInit();
+        _ArmAnimator.SetInteger(_AnimControlKey, Idle);
     }
 }

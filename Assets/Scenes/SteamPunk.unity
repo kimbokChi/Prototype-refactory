@@ -2260,6 +2260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Owner: {fileID: 974715822}
   _Ability: {fileID: 974715825}
+  _ArmAnimator: {fileID: 1995887109}
   _Bullet: {fileID: 353470915029183522, guid: c4ce5a17025a2a54ebc6aee5d3e195cf, type: 3}
   _BulletAxis: {fileID: 892524457}
   _BulletSpeed: 11
