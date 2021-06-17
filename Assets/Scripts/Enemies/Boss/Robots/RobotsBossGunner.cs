@@ -7,19 +7,19 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
     private readonly Vector3 LookRightScaleBody = new Vector3(-1f, 1f, 1f);
     private readonly Vector3 LookRightScaleArm = new Vector3(-1f, -1f, 1f);
 
-    private const float ActiveEndTime = 0.571f;
+    private const float AimingTime = 0.317f;
+    private const float AttackAnimTime = 1.833f;
 
     private const float RestBeginTime = 1.0f;
     private const float RestEndTime = 0.917f;
 
-    private const int Arm_Idle   = 0;
-    private const int Arm_Rest   = 1;
+    private const int Arm_Idle = 0;
+    private const int Arm_Rest = 1;
     private const int Arm_Attack = 2;
-    private const int Arm_Move   = 3;
-    private const int Arm_Death  = 4;
+    private const int Arm_Death = 4;
 
-    private const int Body_Idle  = 0;
-    private const int Body_Rest  = 1;
+    private const int Body_Idle = 0;
+    private const int Body_Rest = 1;
     private const int Body_Death = 2;
 
     private readonly UnitizedPos[] Directions = new UnitizedPos[4]
@@ -53,6 +53,7 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
     [Header("General Property")]
     [SerializeField] private Transform _FrontArmAxis;
     [SerializeField] private Transform _BehindArmAxis;
+    [SerializeField] private AnimationCurve _AimingCurve;
 
     private Player _Player;
     private int _BodyControlKey;
@@ -69,6 +70,8 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
     [ContextMenu("AttackOrder")]
     private void AttackOrder()
     {
+        Aiming();
+
         _BodyAnimator.SetInteger(_BodyControlKey, Body_Idle);
         _ArmAnimator.SetInteger(_ArmControlKey, Arm_Attack);
     }
@@ -94,34 +97,8 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
         _ArmControlKey = _ArmAnimator.GetParameter(0).nameHash;
 
         StartCoroutine(UpdateRoutine());
-    }
-    private void Update()
-    {
-        Vector2 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        
-        float rot = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 180f;
-        Quaternion rotation;
 
-        if (-90 > rot && rot > -270)
-        {
-            transform.localScale = LookRightScaleBody;
-
-             _FrontArmAxis.localScale = LookRightScaleArm;
-            _BehindArmAxis.localScale = LookRightScaleArm;
-
-            rotation = Quaternion.AngleAxis(-rot, Vector3.forward);
-        }
-        else
-        {
-            transform.localScale = Vector3.one;
-
-             _FrontArmAxis.localScale = Vector3.one;
-            _BehindArmAxis.localScale = Vector3.one;
-
-            rotation = Quaternion.AngleAxis(rot, Vector3.forward);
-        }
-         _FrontArmAxis.localRotation = rotation;
-        _BehindArmAxis.localRotation = rotation;
+        _Player = FindObjectOfType<Player>();
     }
     public void IUpdate()
     {
@@ -164,7 +141,36 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
     }
     public AbilityTable GetAbility => _AbilityTable;
     #endregion;
+    private void Aiming()
+    {
+        StartCoroutine(AimingRoutine());
+        return;
+        Vector2 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
 
+        float rot = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 180f;
+        Quaternion rotation;
+
+        if (-90 > rot && rot > -270)
+        {
+            transform.localScale = LookRightScaleBody;
+
+            _FrontArmAxis.localScale = LookRightScaleArm;
+            _BehindArmAxis.localScale = LookRightScaleArm;
+
+            rotation = Quaternion.AngleAxis(-rot, Vector3.forward);
+        }
+        else
+        {
+            transform.localScale = Vector3.one;
+
+            _FrontArmAxis.localScale = Vector3.one;
+            _BehindArmAxis.localScale = Vector3.one;
+
+            rotation = Quaternion.AngleAxis(rot, Vector3.forward);
+        }
+        _FrontArmAxis.localRotation = rotation;
+        _BehindArmAxis.localRotation = rotation;
+    }
     private void AE_SetIdleState()
     {
         IdleOrder();
@@ -184,13 +190,13 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
                 yield return null;
 
             AttackOrder();
-            {
-                
-            }
             _RestCount++;
+            yield return StartCoroutine(AimingRoutine());
 
-            for (float i = 0f; i < ActiveEndTime; i += Time.timeScale * Time.deltaTime)
+            for (float i = 0f; i < AttackAnimTime; i += Time.timeScale * Time.deltaTime)
                 yield return null;
+
+            yield return StartCoroutine(BackToDefaultStateRoutine());
 
             if (_RestCount == 3)
             {
@@ -276,5 +282,50 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
             yield return null;
         }
         IdleOrder();
+    }
+    private IEnumerator AimingRoutine()
+    {
+        Vector2 dir = _Player.transform.position - transform.position;
+
+        float rot = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 180f;
+        bool lookRight = (-90 > rot && rot > -270);
+
+        Quaternion goalRotation = Quaternion.AngleAxis(rot * (lookRight ? -1 : 1), Vector3.forward);
+        Vector3 goalBodyScale = lookRight ? new Vector3(-1f, 1f, 1f) : Vector3.one;
+        Vector3 goalArmScale = lookRight ? new Vector3(-1f, -1f, 1f) : Vector3.one;
+
+        Quaternion startRotation = _BehindArmAxis.localRotation;
+        Vector3 startBodyScale = transform.localScale;
+        Vector3 startArmScale = _BehindArmAxis.localScale;
+
+        for (float i = 0f; i < AimingTime; i += Time.deltaTime * Time.timeScale)
+        {
+            float rate = _AimingCurve.Evaluate(i / AimingTime);
+
+            transform.localScale = Vector3.Lerp(startBodyScale, goalBodyScale, rate);
+
+            _FrontArmAxis.localScale = _BehindArmAxis.localScale =
+                Vector3.Lerp(startArmScale, goalArmScale, rate);
+
+            _FrontArmAxis.localRotation = _BehindArmAxis.localRotation =
+                Quaternion.Lerp(startRotation, goalRotation, rate);
+
+            yield return null;
+        }
+    }
+    private IEnumerator BackToDefaultStateRoutine()
+    {
+        Quaternion goalRotation = (transform.localScale.x < 0f ? Quaternion.Euler(0, 0, 180) : Quaternion.identity);
+        Quaternion startRotation = _BehindArmAxis.localRotation;
+
+        for (float i = 0f; i < AimingTime; i += Time.deltaTime * Time.timeScale)
+        {
+            float rate = _AimingCurve.Evaluate(i / AimingTime);
+
+            _FrontArmAxis.localRotation = _BehindArmAxis.localRotation =
+                Quaternion.Lerp(startRotation, goalRotation, rate);
+
+            yield return null;
+        }
     }
 }
