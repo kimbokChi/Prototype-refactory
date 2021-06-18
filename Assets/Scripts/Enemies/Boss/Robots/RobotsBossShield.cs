@@ -29,6 +29,7 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
     [Header("Ability")]
     [SerializeField] private AbilityTable _AbilityTable;
     [SerializeField] private Animator _Animator;
+    [SerializeField] private Image _HealthBarImage;
 
     [Header("Move Property")]
     [SerializeField] private Vector2 _MoveRange;
@@ -88,11 +89,15 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
     }
     public void Damaged(float damage, GameObject attacker)
     {
+        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
+
         if ((_AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
         {
             _ItemDropper.CoinDrop(40);
             _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.LHealingPotion);
         }
+        float rate = _AbilityTable[Ability.CurHealth] / _AbilityTable[Ability.MaxHealth];
+        _HealthBarImage.fillAmount = rate;
     }
     #region
     public void CastBuff(Buff buffType, IEnumerator castedBuff)

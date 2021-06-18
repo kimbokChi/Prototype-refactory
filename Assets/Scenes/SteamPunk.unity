@@ -475,6 +475,7 @@ MonoBehaviour:
   _ItemDropper: {fileID: 320660456}
   _AbilityTable: {fileID: 320660457}
   _Animator: {fileID: 320660455}
+  _HealthBarImage: {fileID: 513046667}
   _MoveRange: {x: 3.25, y: 6}
   _MoveWaitMin: 1
   _MoveWaitMax: 1.5
@@ -641,6 +642,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01325a20e41267a488041a24730ae7f6, type: 3}
+--- !u!114 &513046667 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1688617940722758492, guid: 2c076833f0929224aa04f80fd30bc408,
+    type: 3}
+  m_PrefabInstance: {fileID: 7650367632805531303}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &595501007
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1023,6 +1036,7 @@ MonoBehaviour:
   _AbilityTable: {fileID: 974715825}
   _BodyAnimator: {fileID: 860100829}
   _ArmAnimator: {fileID: 1995887109}
+  _HealthBarImage: {fileID: 2112234859}
   _MoveRange: {x: 3.5, y: 7}
   _MoveWaitMin: 0.5
   _MoveWaitMax: 1.2
@@ -1228,7 +1242,6 @@ GameObject:
   - component: {fileID: 1301691464}
   - component: {fileID: 1301691465}
   - component: {fileID: 1301691462}
-  - component: {fileID: 1301691466}
   m_Layer: 0
   m_Name: Robots_Boss_Sword
   m_TagString: Enemy
@@ -1426,46 +1439,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.25, y: 0.3}
   m_EdgeRadius: 0
---- !u!114 &1301691466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301691458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b76997c4787e4fc448b810b8e0e07dc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _HitMat: {fileID: 2100000, guid: d0530982f24a5844187401c63285ee0c, type: 2}
-  _DefaultMat: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  _Renderer: {fileID: 1715802205}
-  _Animator: {fileID: 1301691464}
-  _ScaleCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1319319310
 GameObject:
   m_ObjectHideFlags: 0
@@ -2602,6 +2575,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2112234859 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7148226586055113968, guid: 2c076833f0929224aa04f80fd30bc408,
+    type: 3}
+  m_PrefabInstance: {fileID: 7650367632805531303}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2125015427
 PrefabInstance:
   m_ObjectHideFlags: 0

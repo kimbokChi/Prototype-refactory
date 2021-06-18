@@ -76,6 +76,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
         _AnimControlKey = _Animator.GetParameter(0).nameHash;
 
         StartCoroutine(UpdateRoutine());
+        _HealthBar.SetActive(true);
     }
     public void IUpdate()
     {
@@ -97,11 +98,15 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     }
     public void Damaged(float damage, GameObject attacker)
     {
+        EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
         if ((_AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
         {
             _ItemDropper.CoinDrop(40);
             _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.LHealingPotion);
         }
+        float rate = _AbilityTable[Ability.CurHealth] / _AbilityTable[Ability.MaxHealth];
+        _HealthBarImage.fillAmount = rate;
+
     }
     #region
     public void CastBuff(Buff buffType, IEnumerator castedBuff)
