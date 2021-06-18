@@ -10,6 +10,7 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
 
     private const float AimingTime = 0.317f;
     private const float AttackAnimTime = 1.833f;
+    private const float DeathAnimTime = 1.667f;
 
     private const float RestBeginTime = 1.0f;
     private const float RestEndTime = 0.917f;
@@ -88,6 +89,8 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
     {
         _BodyAnimator.SetInteger(_BodyControlKey, Body_Death);
         _ArmAnimator.SetInteger(_ArmControlKey, Arm_Death);
+
+        StartCoroutine(DeathRoutine());
     }
     private void Awake()
     {
@@ -127,6 +130,8 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
         {
             _ItemDropper.CoinDrop(40);
             _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.LHealingPotion);
+
+            DeathOrder();
         }
         float rate = _AbilityTable[Ability.CurHealth] / _AbilityTable[Ability.MaxHealth];
         _HealthBarImage.fillAmount = rate;
@@ -287,6 +292,12 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
             yield return null;
         }
         IdleOrder();
+    }
+    private IEnumerator DeathRoutine()
+    {
+        for (float i = 0f; i < DeathAnimTime; i += Time.deltaTime * Time.timeScale)
+            yield return null;
+        gameObject.SetActive(false);
     }
     private IEnumerator AimingRoutine()
     {

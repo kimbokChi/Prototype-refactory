@@ -95,6 +95,8 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
         {
             _ItemDropper.CoinDrop(40);
             _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.LHealingPotion);
+
+            _Animator.SetInteger(_AnimControlKey, Death);
         }
         float rate = _AbilityTable[Ability.CurHealth] / _AbilityTable[Ability.MaxHealth];
         _HealthBarImage.fillAmount = rate;
@@ -118,6 +120,10 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
     private void AE_SetIdleState()
     {
         _Animator.SetInteger(_AnimControlKey, Idle);
+    }
+    private void AE_DeathEndHook()
+    {
+        gameObject.SetActive(false);
     }
     private IEnumerator UpdateRoutine()
     {
