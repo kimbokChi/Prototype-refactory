@@ -1957,6 +1957,26 @@ PrefabInstance:
       propertyPath: _HealthBarImage
       value: 
       objectReference: {fileID: 5664161419665965302}
+    - target: {fileID: 6078661236073408683, guid: 1c789698dbe23a3438887bb3f52a145f,
+        type: 3}
+      propertyPath: _MoveRangeMax.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6078661236073408683, guid: 1c789698dbe23a3438887bb3f52a145f,
+        type: 3}
+      propertyPath: _MoveRangeMax.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6078661236073408683, guid: 1c789698dbe23a3438887bb3f52a145f,
+        type: 3}
+      propertyPath: _MoveRangeMin.x
+      value: -3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6078661236073408683, guid: 1c789698dbe23a3438887bb3f52a145f,
+        type: 3}
+      propertyPath: _MoveRangeMin.y
+      value: -10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c789698dbe23a3438887bb3f52a145f, type: 3}
 --- !u!4 &3643598391764274354 stripped

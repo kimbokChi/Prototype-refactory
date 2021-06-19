@@ -130,12 +130,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42f4b62329fe9144c98b53ca0c5b605b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ItemDropper: {fileID: 0}
   _AbilityTable: {fileID: 8177293690948231887}
   _Animator: {fileID: 8177293690948231872}
   _HealthBar: {fileID: 0}
   _HealthBarImage: {fileID: 0}
-  _SplittingAccel: 1.3
+  _SplittingAccel: 4.1
   _TurningCurve:
     serializedVersion: 2
     m_Curve:
@@ -160,7 +159,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _MoveRange: {x: 3.75, y: 7}
+  _MoveRangeMin: {x: -3.5, y: -7}
+  _MoveRangeMax: {x: 3.5, y: 7}
   _MoveWaitMin: 0.5
   _MoveWaitMax: 1
   _MoveTimeMin: 1

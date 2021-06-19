@@ -30,7 +30,8 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     [SerializeField] private AnimationCurve _TurningCurve;
 
     [Header("Move Property")]
-    [SerializeField] private Vector2 _MoveRange;
+    [SerializeField] private Vector2 _MoveRangeMin;
+    [SerializeField] private Vector2 _MoveRangeMax;
     [Space()]
     [SerializeField] private float _MoveWaitMin;
     [SerializeField] private float _MoveWaitMax;
@@ -157,8 +158,8 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
         {
             pos = transform.localPosition + dir * speed * Time.timeScale;
 
-            if (_MoveRange.x < pos.x || -_MoveRange.x > pos.x || 
-                _MoveRange.y < pos.y || -_MoveRange.y > pos.y) 
+            if (_MoveRangeMax.x < pos.x || _MoveRangeMin.x > pos.x || 
+                _MoveRangeMax.y < pos.y || _MoveRangeMin.y > pos.y) 
             {
                 break; 
             }
@@ -184,7 +185,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 
             // Attack and AttackTurning
             {
-                Vector3 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                Vector3 dir = _Player.transform.position - transform.position;
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
                 _AttackDirection = dir.normalized;
@@ -251,11 +252,11 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
                 _Animator.SetInteger(_AnimControlKey, Idle);
 
                 Vector2 start = position = transform.localPosition;
-                if ((position.x > _MoveRange.x) || (position.x < -_MoveRange.x) ||
-                    (position.y > _MoveRange.y) || (position.y < -_MoveRange.y))
+                if ((position.x > _MoveRangeMax.x) || (position.x < _MoveRangeMin.x) ||
+                    (position.y > _MoveRangeMax.y) || (position.y < _MoveRangeMin.y))
                 {
-                    position.x = Mathf.Clamp(position.x, -_MoveRange.x, _MoveRange.x);
-                    position.y = Mathf.Clamp(position.y, -_MoveRange.y, _MoveRange.y);
+                    position.x = Mathf.Clamp(position.x, _MoveRangeMin.x, _MoveRangeMax.x);
+                    position.y = Mathf.Clamp(position.y, _MoveRangeMin.y, _MoveRangeMax.y);
 
                     for (float i = 0f; i < RestEndTime; i += Time.deltaTime * Time.timeScale)
                     {
@@ -272,19 +273,19 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     {
         Vector3 direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
         {
-            float xAbsSub = Mathf.Abs(transform.localPosition.x - _MoveRange.x);
-            float xAbsAdd = Mathf.Abs(transform.localPosition.x + _MoveRange.x);
+            float xAbsMax = Mathf.Abs(transform.localPosition.x + _MoveRangeMax.x);
+            float xAbsMin = Mathf.Abs(transform.localPosition.x + _MoveRangeMin.x);
 
             direction.x *=
-                ((xAbsSub > xAbsAdd) && direction.x < 0) ||
-                ((xAbsSub < xAbsAdd) && direction.x > 0) ? -1 : 1;
+                ((xAbsMin > xAbsMax) && direction.x < 0) ||
+                ((xAbsMin < xAbsMax) && direction.x > 0) ? -1 : 1;
 
-            float yAbsSub = Mathf.Abs(transform.localPosition.y - _MoveRange.y);
-            float yAbsAdd = Mathf.Abs(transform.localPosition.y + _MoveRange.y);
+            float yAbsMax = Mathf.Abs(transform.localPosition.y + _MoveRangeMax.y);
+            float yAbsMin = Mathf.Abs(transform.localPosition.y + _MoveRangeMin.y);
 
             direction.y *=
-                ((yAbsSub > yAbsAdd) && direction.y < 0) ||
-                ((yAbsSub < yAbsAdd) && direction.y > 0) ? -1 : 1;
+                ((yAbsMax > yAbsMin) && direction.y < 0) ||
+                ((yAbsMax < yAbsMin) && direction.y > 0) ? -1 : 1;
         }
         float moveTime = Random.Range(_MoveTimeMin, _MoveTimeMax);
 
@@ -293,8 +294,8 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
             Vector3 pos = transform.localPosition;
             pos += direction * _AbilityTable.MoveSpeed * Time.deltaTime * Time.timeScale;
 
-            if ((pos.x > _MoveRange.x) || (pos.x < -_MoveRange.x) ||
-                (pos.y > _MoveRange.y) || (pos.y < -_MoveRange.y))
+            if ((pos.x > _MoveRangeMax.x) || (pos.x < _MoveRangeMin.x) ||
+                (pos.y > _MoveRangeMax.y) || (pos.y < _MoveRangeMin.y))
             {
                 break;
             }
