@@ -28,6 +28,7 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
     [SerializeField] private AbilityTable _AbilityTable;
     [SerializeField] private Animator _Animator;
     [SerializeField] private Image _HealthBarImage;
+    [SerializeField] private Area _AttackArea;
 
     [Header("Move Property")]
     [SerializeField] private Vector2 _MoveRangeMin;
@@ -68,6 +69,14 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
         _UpdateRoutine = new Coroutine(this);
 
         _UpdateRoutine.StartRoutine(UpdateRoutine());
+
+        _AttackArea.SetEnterAction(o => 
+        {
+            if (o.Equals(_Player.gameObject) && _Animator.GetInteger(_AnimControlKey) == Active)
+            {
+                _Player.Damaged(_AbilityTable.AttackPower, gameObject);
+            }
+        });
     }
     public void IUpdate()
     {

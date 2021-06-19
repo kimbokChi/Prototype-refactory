@@ -24,6 +24,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     [SerializeField] private Animator _Animator;
     [SerializeField] private GameObject _HealthBar;
     [SerializeField] private Image _HealthBarImage;
+    [SerializeField] private Area _AttackArea;
 
     [Header("Attack Property")]
     [SerializeField] private float _SplittingAccel;
@@ -77,6 +78,14 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 
         _UpdateRoutine.StartRoutine(UpdateRoutine());
         _HealthBar.SetActive(true);
+
+        _AttackArea.SetEnterAction(o =>
+        {
+            if (o.Equals(_Player.gameObject) && _Animator.GetInteger(_AnimControlKey) == Attack)
+            {
+                _Player.Damaged(_AbilityTable.AttackPower, gameObject);
+            }
+        });
     }
     public void IUpdate()
     {
