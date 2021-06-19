@@ -19,8 +19,6 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     private const int Death  = 3;
     private const int Rest   = 4;
 
-    [SerializeField] private ItemDropper _ItemDropper;
-
     [Header("Ability")]
     [SerializeField] private AbilityTable _AbilityTable;
     [SerializeField] private Animator _Animator;
@@ -102,9 +100,6 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
         EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
         if ((_AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
         {
-            _ItemDropper.CoinDrop(40);
-            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.LHealingPotion);
-
             _Animator.SetInteger(_AnimControlKey, Death);
 
             _UpdateRoutine.StopRoutine();

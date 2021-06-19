@@ -24,8 +24,6 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
         UnitizedPos.BOT
     };
 
-    [SerializeField] private ItemDropper _ItemDropper;
-
     [Header("Ability")]
     [SerializeField] private AbilityTable _AbilityTable;
     [SerializeField] private Animator _Animator;
@@ -95,9 +93,6 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
 
         if ((_AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
         {
-            _ItemDropper.CoinDrop(40);
-            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.LHealingPotion);
-
             _Animator.SetInteger(_AnimControlKey, Death);
 
             _ActionRoutine.StopRoutine();

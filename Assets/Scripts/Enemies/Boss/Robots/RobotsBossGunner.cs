@@ -31,9 +31,6 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
         UnitizedPos.MID_RIGHT,
         UnitizedPos.BOT
     };
-
-    [SerializeField] private ItemDropper _ItemDropper;
-
     [Header("Ability")]
     [SerializeField] private AbilityTable _AbilityTable;
     [SerializeField] private Animator _BodyAnimator;
@@ -130,9 +127,6 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
         EffectLibrary.Instance.UsingEffect(EffectKind.Damage, transform.position);
         if ((_AbilityTable.Table[Ability.CurHealth] -= damage) <= 0f)
         {
-            _ItemDropper.CoinDrop(40);
-            _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.LHealingPotion);
-
             DeathOrder();
 
             _UpdateRoutine.StopRoutine();
