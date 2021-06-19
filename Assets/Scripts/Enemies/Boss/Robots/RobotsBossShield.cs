@@ -175,15 +175,15 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
 
                 _Animator.SetInteger(_AnimControlKey, Rest);
 
-                Vector2 point = Vector3.one * 1000f;
+                Vector2 point = Castle.Instance.GetMovePoint(UnitizedPos.TOP);
                 Vector2 position = transform.position;
 
-                for (UnitizedPos pos = UnitizedPos.TOP; pos < UnitizedPos.END; pos += 3)
+                for (UnitizedPos pos = UnitizedPos.MID; pos < UnitizedPos.END; pos += 3)
                 {
                     Vector2 p = Castle.Instance.GetMovePoint(pos);
                     if (pos != UnitizedPos.BOT && p.y > position.y) continue;
 
-                    if ((p - position).sqrMagnitude < point.sqrMagnitude)
+                    if (Mathf.Abs(p.y - position.y) < Mathf.Abs(point.y - position.y))
                     {
                         point = p;
                     }
