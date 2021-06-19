@@ -66,11 +66,6 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     {
         _Animator.SetInteger(_AnimControlKey, Attack);
     }
-
-    private void Awake()
-    {
-        IInit();
-    }
     public void IInit()
     {
         _AnimControlKey = _Animator.GetParameter(0).nameHash;

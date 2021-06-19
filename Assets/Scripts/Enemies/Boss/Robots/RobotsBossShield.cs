@@ -59,10 +59,6 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
     {
         _Animator.SetInteger(_AnimControlKey, Active);
     }
-    private void Awake()
-    {
-        IInit();
-    }
     public void IInit()
     {
         _AnimControlKey = _Animator.GetParameter(0).nameHash;

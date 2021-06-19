@@ -92,10 +92,6 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
 
         StartCoroutine(DeathRoutine());
     }
-    private void Awake()
-    {
-        IInit();
-    }
     public void IInit()
     {
         _BodyControlKey = _BodyAnimator.GetParameter(0).nameHash;
