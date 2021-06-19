@@ -243,6 +243,9 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
                 ((xAbsSub > xAbsAdd) && direction.x < 0) ||
                 ((xAbsSub < xAbsAdd) && direction.x > 0) ? -1 : 1;
 
+            transform.localScale 
+                = direction.x < 0 ? Vector3.one : LookRightScaleBody;
+
             float yAbsSub = Mathf.Abs(transform.localPosition.y - _MoveRange.y);
             float yAbsAdd = Mathf.Abs(transform.localPosition.y + _MoveRange.y);
 
