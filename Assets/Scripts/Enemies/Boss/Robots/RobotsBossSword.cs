@@ -114,6 +114,8 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 
             _UpdateRoutine.StopRoutine();
             _ActionRoutine.StopRoutine();
+
+            transform.rotation = Quaternion.identity;
         }
         float rate = _AbilityTable[Ability.CurHealth] / _AbilityTable[Ability.MaxHealth];
         _HealthBarImage.fillAmount = rate;
