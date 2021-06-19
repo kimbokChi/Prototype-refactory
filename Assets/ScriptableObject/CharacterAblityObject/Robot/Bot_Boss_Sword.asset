@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bot_Boss_Sword
   m_EditorClassIdentifier: 
   JsonLabelName: Bot_Boss_Sword
-  _MoveSpeed: 2.8
+  _MoveSpeed: 3
   _MaxHealth: 120
   _AttackPower: 20
   _BeginAttackDelay: 1
