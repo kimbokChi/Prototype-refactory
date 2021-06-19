@@ -49,6 +49,8 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
     private int _AnimControlKey;
 
     private int _RestCount;
+    private Coroutine _UpdateRoutine;
+    private Coroutine _ActionRoutine;
 
     [ContextMenu("IdleOrder")]
     private void IdleOrder()
@@ -64,7 +66,10 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
     {
         _AnimControlKey = _Animator.GetParameter(0).nameHash;
 
-        StartCoroutine(UpdateRoutine());
+        _ActionRoutine = new Coroutine(this);
+        _UpdateRoutine = new Coroutine(this);
+
+        _UpdateRoutine.StartRoutine(UpdateRoutine());
     }
     public void IUpdate()
     {
@@ -94,6 +99,9 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
             _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.LHealingPotion);
 
             _Animator.SetInteger(_AnimControlKey, Death);
+
+            _ActionRoutine.StopRoutine();
+            _UpdateRoutine.StopRoutine();
         }
         float rate = _AbilityTable[Ability.CurHealth] / _AbilityTable[Ability.MaxHealth];
         _HealthBarImage.fillAmount = rate;
@@ -130,7 +138,9 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
             for (float i = 0f; i < moveWait; i += Time.deltaTime * Time.timeScale)
                 yield return null;
 
-            yield return StartCoroutine(MoveRoutine());
+            _ActionRoutine.StartRoutine(MoveRoutine());
+            while (!_ActionRoutine.IsFinished())
+                yield return null;
 
             float wait = _AbilityTable.BeginAttackDelay;
             for (float i = 0f; i < wait; i += Time.deltaTime * Time.timeScale)
@@ -253,6 +263,8 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
             yield return null;
         }
         _Animator.SetInteger(_AnimControlKey, Idle);
+
+        _ActionRoutine.Finish();
     }
 
     private IEnumerable<Vector2> OnActiveDirection(UnitizedPos start)
