@@ -167,12 +167,16 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
         {
             pos = transform.localPosition + dir * speed * Time.timeScale;
 
-            if (_MoveRangeMax.x < pos.x || _MoveRangeMin.x > pos.x || 
-                _MoveRangeMax.y < pos.y || _MoveRangeMin.y > pos.y) 
+            pos.x = Mathf.Clamp(pos.x, _MoveRangeMin.x, _MoveRangeMax.x);
+            pos.y = Mathf.Clamp(pos.y, _MoveRangeMin.y, _MoveRangeMax.y);
+
+            transform.localPosition = pos;
+
+            if (_MoveRangeMax.x == pos.x || _MoveRangeMin.x == pos.x || 
+                _MoveRangeMax.y == pos.y || _MoveRangeMin.y == pos.y) 
             {
                 break; 
             }
-            transform.localPosition = pos;
             yield return null;
         }
         _ActionRoutine.Finish();
