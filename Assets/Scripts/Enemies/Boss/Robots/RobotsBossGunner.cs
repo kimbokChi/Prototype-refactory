@@ -64,6 +64,9 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
 
     private int _RestCount;
 
+    private Coroutine _UpdateRoutine;
+    private Coroutine _ActionRoutine;
+
     [ContextMenu("IdleOrder")]
     private void IdleOrder()
     {
@@ -73,7 +76,7 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
     [ContextMenu("AttackOrder")]
     private void AttackOrder()
     {
-        Aiming();
+        _ActionRoutine.StartRoutine(AimingRoutine());
 
         _BodyAnimator.SetInteger(_BodyControlKey, Body_Idle);
         _ArmAnimator.SetInteger(_ArmControlKey, Arm_Attack);
@@ -97,7 +100,10 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
         _BodyControlKey = _BodyAnimator.GetParameter(0).nameHash;
         _ArmControlKey = _ArmAnimator.GetParameter(0).nameHash;
 
-        StartCoroutine(UpdateRoutine());
+        _UpdateRoutine = new Coroutine(this);
+        _ActionRoutine = new Coroutine(this);
+
+        _UpdateRoutine.StartRoutine(UpdateRoutine());
 
         _Player = FindObjectOfType<Player>();
     }
@@ -128,6 +134,9 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
             _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.LHealingPotion);
 
             DeathOrder();
+
+            _UpdateRoutine.StopRoutine();
+            _ActionRoutine.StopRoutine();
         }
         float rate = _AbilityTable[Ability.CurHealth] / _AbilityTable[Ability.MaxHealth];
         _HealthBarImage.fillAmount = rate;
@@ -147,36 +156,6 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
     }
     public AbilityTable GetAbility => _AbilityTable;
     #endregion;
-    private void Aiming()
-    {
-        StartCoroutine(AimingRoutine());
-        return;
-        Vector2 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-
-        float rot = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 180f;
-        Quaternion rotation;
-
-        if (-90 > rot && rot > -270)
-        {
-            transform.localScale = LookRightScaleBody;
-
-            _FrontArmAxis.localScale = LookRightScaleArm;
-            _BehindArmAxis.localScale = LookRightScaleArm;
-
-            rotation = Quaternion.AngleAxis(-rot, Vector3.forward);
-        }
-        else
-        {
-            transform.localScale = Vector3.one;
-
-            _FrontArmAxis.localScale = Vector3.one;
-            _BehindArmAxis.localScale = Vector3.one;
-
-            rotation = Quaternion.AngleAxis(rot, Vector3.forward);
-        }
-        _FrontArmAxis.localRotation = rotation;
-        _BehindArmAxis.localRotation = rotation;
-    }
     private void AE_SetIdleState()
     {
         IdleOrder();
@@ -189,7 +168,9 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
             for (float i = 0f; i < moveWait; i += Time.deltaTime * Time.timeScale)
                 yield return null;
 
-            yield return StartCoroutine(MoveRoutine());
+            _ActionRoutine.StartRoutine(MoveRoutine());
+            while (!_ActionRoutine.IsFinished())
+                yield return null;
 
             float wait = _AbilityTable.BeginAttackDelay;
             for (float i = 0f; i < wait; i += Time.deltaTime * Time.timeScale)
@@ -197,12 +178,15 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
 
             AttackOrder();
             _RestCount++;
-            yield return StartCoroutine(AimingRoutine());
+            while (!_ActionRoutine.IsFinished())
+                yield return null;
 
             for (float i = 0f; i < AttackAnimTime; i += Time.timeScale * Time.deltaTime)
                 yield return null;
 
-            yield return StartCoroutine(BackToDefaultStateRoutine());
+            _ActionRoutine.StartRoutine(BackToDefaultStateRoutine());
+            while (!_ActionRoutine.IsFinished())
+                yield return null;
 
             if (_RestCount == 3)
             {
@@ -288,6 +272,7 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
             yield return null;
         }
         IdleOrder();
+        _ActionRoutine.Finish();
     }
     private IEnumerator DeathRoutine()
     {
@@ -324,6 +309,7 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
 
             yield return null;
         }
+        _ActionRoutine.Finish();
     }
     private IEnumerator BackToDefaultStateRoutine()
     {
@@ -339,5 +325,6 @@ public class RobotsBossGunner : MonoBehaviour, IObject, ICombatable
 
             yield return null;
         }
+        _ActionRoutine.Finish();
     }
 }
