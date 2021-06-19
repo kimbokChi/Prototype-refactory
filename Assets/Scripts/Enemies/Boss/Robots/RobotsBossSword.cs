@@ -51,6 +51,9 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
 
     private Vector2 _AttackDirection;
 
+    private Coroutine _UpdateRoutine;
+    private Coroutine _ActionRoutine;
+
     [ContextMenu("MoveOrder")]
     private void MoveOrder()
     {
@@ -70,7 +73,10 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     {
         _AnimControlKey = _Animator.GetParameter(0).nameHash;
 
-        StartCoroutine(UpdateRoutine());
+        _UpdateRoutine = new Coroutine(this);
+        _ActionRoutine = new Coroutine(this);
+
+        _UpdateRoutine.StartRoutine(UpdateRoutine());
         _HealthBar.SetActive(true);
     }
     public void IUpdate()
@@ -100,6 +106,9 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
             _ItemDropper.TryPotionDrop(PotionName.SHealingPotion, PotionName.LHealingPotion);
 
             _Animator.SetInteger(_AnimControlKey, Death);
+
+            _UpdateRoutine.StopRoutine();
+            _ActionRoutine.StopRoutine();
         }
         float rate = _AbilityTable[Ability.CurHealth] / _AbilityTable[Ability.MaxHealth];
         _HealthBarImage.fillAmount = rate;
@@ -127,7 +136,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     }
     private void AE_DownFall()
     {
-        StartCoroutine(DownFallRoutine());
+        _ActionRoutine.StartRoutine(DownFallRoutine());
 
         float angle = Mathf.Atan2(_AttackDirection.y, _AttackDirection.x) * Mathf.Rad2Deg;
 
@@ -136,7 +145,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
     }
     private void AE_MoveAction()
     {
-        StartCoroutine(MoveRoutine());
+        _ActionRoutine.StartRoutine(MoveRoutine());
     }
     private void AE_DeathEndHook()
     {
@@ -161,6 +170,7 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
             transform.localPosition = pos;
             yield return null;
         }
+        _ActionRoutine.Finish();
     }
     private IEnumerator UpdateRoutine()
     {
@@ -297,5 +307,6 @@ public class RobotsBossSword : MonoBehaviour, IObject, ICombatable
             yield return null;
         }
         _Animator.SetInteger(_AnimControlKey, Idle);
+        _ActionRoutine.Finish();
     }
 }
