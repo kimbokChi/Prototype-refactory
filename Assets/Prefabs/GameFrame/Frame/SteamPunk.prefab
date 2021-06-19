@@ -2165,6 +2165,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossRoom_Gunner
       objectReference: {fileID: 0}
+    - target: {fileID: 4084529287736478131, guid: e28af84e289cbbe468faf2f61c26f76c,
+        type: 3}
+      propertyPath: _HealthBarImage
+      value: 
+      objectReference: {fileID: 7148226586055113968}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e28af84e289cbbe468faf2f61c26f76c, type: 3}
 --- !u!4 &1198140093871047360 stripped
@@ -2252,6 +2257,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossRoom_Shield
       objectReference: {fileID: 0}
+    - target: {fileID: 5943158355995963972, guid: 52350dd96e3dd7b45bb218056d4442e0,
+        type: 3}
+      propertyPath: _HealthBarImage
+      value: 
+      objectReference: {fileID: 1688617940722758492}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52350dd96e3dd7b45bb218056d4442e0, type: 3}
 --- !u!4 &469411572938592891 stripped
