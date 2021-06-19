@@ -282,6 +282,11 @@ PrefabInstance:
       propertyPath: _ItemDropper
       value: 
       objectReference: {fileID: 4580531935602301567}
+    - target: {fileID: 8918085806347889091, guid: 62d23c1ca6bc99549aca469508013608,
+        type: 3}
+      propertyPath: _MoveRangeMin.y
+      value: -8
+      objectReference: {fileID: 0}
     - target: {fileID: 8918085806347889100, guid: 62d23c1ca6bc99549aca469508013608,
         type: 3}
       propertyPath: m_Name

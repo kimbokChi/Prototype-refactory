@@ -32,7 +32,8 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
     [SerializeField] private Image _HealthBarImage;
 
     [Header("Move Property")]
-    [SerializeField] private Vector2 _MoveRange;
+    [SerializeField] private Vector2 _MoveRangeMin;
+    [SerializeField] private Vector2 _MoveRangeMax;
     [Space()]
     [SerializeField] private float _MoveWaitMin;
     [SerializeField] private float _MoveWaitMax;
@@ -150,8 +151,8 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
                     Vector2 pos = transform.localPosition;
                     pos += moveDirection * OnActiveSpeed * _AbilityTable.MoveSpeed * Time.deltaTime * Time.timeScale;
 
-                    if ((pos.x > _MoveRange.x) || (pos.x < -_MoveRange.x) ||
-                        (pos.y > _MoveRange.y) || (pos.y < -_MoveRange.y))
+                    if ((pos.x > _MoveRangeMax.x) || (pos.x < _MoveRangeMin.x) ||
+                        (pos.y > _MoveRangeMax.y) || (pos.y < _MoveRangeMin.y))
                     {
                         enumator.MoveNext();
                         moveDirection = enumator.Current;
@@ -201,11 +202,11 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
 
                 Vector2 start = position = transform.localPosition;
                 
-                if ((position.x > _MoveRange.x) || (position.x < -_MoveRange.x) ||
-                    (position.y > _MoveRange.y) || (position.y < -_MoveRange.y))
+                if ((position.x > _MoveRangeMax.x) || (position.x < _MoveRangeMin.x) ||
+                    (position.y > _MoveRangeMax.y) || (position.y < _MoveRangeMin.y))
                 {
-                    position.x = Mathf.Clamp(position.x, -_MoveRange.x, _MoveRange.x);
-                    position.y = Mathf.Clamp(position.y, -_MoveRange.y, _MoveRange.y);
+                    position.x = Mathf.Clamp(position.x, _MoveRangeMin.x, _MoveRangeMax.x);
+                    position.y = Mathf.Clamp(position.y, _MoveRangeMin.y, _MoveRangeMax.y);
 
                     for (float i = 0f; i < RestEndTime; i += Time.deltaTime * Time.timeScale)
                     {
@@ -222,15 +223,15 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
     {
         Vector3 direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
         {
-            float xAbsSub = Mathf.Abs(transform.localPosition.x - _MoveRange.x);
-            float xAbsAdd = Mathf.Abs(transform.localPosition.x + _MoveRange.x);
+            float xAbsSub = Mathf.Abs(transform.localPosition.x + _MoveRangeMin.x);
+            float xAbsAdd = Mathf.Abs(transform.localPosition.x + _MoveRangeMax.x);
 
             direction.x *=
                 ((xAbsSub > xAbsAdd) && direction.x < 0) ||
                 ((xAbsSub < xAbsAdd) && direction.x > 0) ? -1 : 1;
 
-            float yAbsSub = Mathf.Abs(transform.localPosition.y - _MoveRange.y);
-            float yAbsAdd = Mathf.Abs(transform.localPosition.y + _MoveRange.y);
+            float yAbsSub = Mathf.Abs(transform.localPosition.y + _MoveRangeMin.y);
+            float yAbsAdd = Mathf.Abs(transform.localPosition.y + _MoveRangeMax.y);
 
             direction.y *=
                 ((yAbsSub > yAbsAdd) && direction.y < 0) ||
@@ -243,8 +244,8 @@ public class RobotsBossShield : MonoBehaviour, IObject, ICombatable
             Vector3 pos = transform.localPosition;
             pos += direction * _AbilityTable.MoveSpeed * Time.deltaTime * Time.timeScale;
 
-            if ((pos.x > _MoveRange.x) || (pos.x < -_MoveRange.x) ||
-                (pos.y > _MoveRange.y) || (pos.y < -_MoveRange.y))
+            if ((pos.x > _MoveRangeMax.x) || (pos.x < _MoveRangeMin.x) ||
+                (pos.y > _MoveRangeMax.y) || (pos.y < _MoveRangeMin.y))
             {
                 break;
             }

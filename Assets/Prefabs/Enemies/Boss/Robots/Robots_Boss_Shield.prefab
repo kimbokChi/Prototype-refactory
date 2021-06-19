@@ -134,7 +134,8 @@ MonoBehaviour:
   _AbilityTable: {fileID: 8918085806347889088}
   _Animator: {fileID: 8918085806347889102}
   _HealthBarImage: {fileID: 0}
-  _MoveRange: {x: 3.25, y: 6}
+  _MoveRangeMin: {x: -3.5, y: 0}
+  _MoveRangeMax: {x: 3.5, y: 8}
   _MoveWaitMin: 1
   _MoveWaitMax: 1.5
   _MoveTimeMin: 1

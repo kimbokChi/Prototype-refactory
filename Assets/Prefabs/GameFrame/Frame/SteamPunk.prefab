@@ -2262,6 +2262,21 @@ PrefabInstance:
       propertyPath: _HealthBarImage
       value: 
       objectReference: {fileID: 1688617940722758492}
+    - target: {fileID: 5943158355995963972, guid: 52350dd96e3dd7b45bb218056d4442e0,
+        type: 3}
+      propertyPath: _MoveRangeMax.y
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5943158355995963972, guid: 52350dd96e3dd7b45bb218056d4442e0,
+        type: 3}
+      propertyPath: _MoveRangeMin.y
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 5943158355995963976, guid: 52350dd96e3dd7b45bb218056d4442e0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 52350dd96e3dd7b45bb218056d4442e0, type: 3}
 --- !u!4 &469411572938592891 stripped
