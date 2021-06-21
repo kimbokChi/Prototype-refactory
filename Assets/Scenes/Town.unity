@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 3262463}
   - component: {fileID: 3262462}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Notifier_Dun_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1935,7 +1935,7 @@ GameObject:
   - component: {fileID: 1004024865}
   - component: {fileID: 1004024864}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Notifier_Store_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2193,7 +2193,7 @@ GameObject:
   - component: {fileID: 1028110877}
   - component: {fileID: 1028110876}
   m_Layer: 5
-  m_Name: Notifier_Seller
+  m_Name: Notifier_Store
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2920,7 +2920,7 @@ GameObject:
   - component: {fileID: 1510342697}
   - component: {fileID: 1510342696}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Notifier_Item_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3361,7 +3361,7 @@ GameObject:
   - component: {fileID: 1652326401}
   - component: {fileID: 1652326400}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Notifier_Collect_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3477,6 +3477,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1673379112}
+  - component: {fileID: 1673379113}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -3502,6 +3503,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1673379113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673379111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b59509d7fa96d0f4db4fa22ba680e8b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _PlayerController: {fileID: 5846258137606730953}
+  _InteractionUISets:
+  - Key: Collector
+    InteractionBtn: {fileID: 1652326398}
+    InteractionObj: {fileID: 1358855479}
+  - Key: Dungeon
+    InteractionBtn: {fileID: 3262460}
+    InteractionObj: {fileID: 716786635}
+  - Key: Item
+    InteractionBtn: {fileID: 1510342694}
+    InteractionObj: {fileID: 656274774}
+  - Key: Store
+    InteractionBtn: {fileID: 1004024862}
+    InteractionObj: {fileID: 1028110874}
 --- !u!1 &1697552803
 GameObject:
   m_ObjectHideFlags: 0
@@ -4143,7 +4170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40277510bdd51464d8436ebc9682c19c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Hider: {fileID: 0}
   DropItem: {fileID: 8836453919034271384}
   DropItemHolder: {fileID: 4114080058036229598}
   CurveSpeed: 1.5
@@ -7864,6 +7890,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5846258137606730949}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5846258137606730953 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8432831117490432110, guid: 596ca2a92ccf6fe47bc909af532aec22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5846258137606730949}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959e401c7cbb5a449b96e8cf3c2c5c87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5924062842669957491
 GameObject:
   m_ObjectHideFlags: 0
