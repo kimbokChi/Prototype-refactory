@@ -862,7 +862,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1400038390}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: Interact
         m_Mode: 1
@@ -942,8 +942,8 @@ GameObject:
   - component: {fileID: 569499744}
   - component: {fileID: 569499743}
   - component: {fileID: 569499746}
-  - component: {fileID: 569499745}
   - component: {fileID: 569499747}
+  - component: {fileID: 569499748}
   m_Layer: 0
   m_Name: NPC_Dungeon
   m_TagString: Untagged
@@ -1017,21 +1017,6 @@ Transform:
   m_Father: {fileID: 1673379112}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &569499745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 569499742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78a0773250292484ebbd765fd09fa2fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Hider: {fileID: 0}
-  IsWaitForEffectDisable: 1
-  DungeonSelectWindow: {fileID: 5846258137606730952}
 --- !u!95 &569499746
 Animator:
   serializedVersion: 3
@@ -1077,6 +1062,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.5, y: 2.5}
   m_EdgeRadius: 0
+--- !u!114 &569499748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 569499742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a65475ba4251b4293d56fa60b499ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Key: Dungeon
+  _Popup: {fileID: 5846258137606730952}
+  _WaitForEffectEnd: 1
 --- !u!1 &637713111
 GameObject:
   m_ObjectHideFlags: 0
@@ -2512,7 +2512,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3959295661516803849}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: Interaction
         m_Mode: 1
@@ -2650,7 +2650,7 @@ GameObject:
   - component: {fileID: 1400038386}
   - component: {fileID: 1400038388}
   - component: {fileID: 1400038389}
-  - component: {fileID: 1400038390}
+  - component: {fileID: 1400038391}
   m_Layer: 0
   m_Name: NPC_Collector
   m_TagString: Untagged
@@ -2769,7 +2769,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.5, y: 2.5}
   m_EdgeRadius: 0
---- !u!114 &1400038390
+--- !u!114 &1400038391
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2778,12 +2778,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1400038385}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78a0773250292484ebbd765fd09fa2fb, type: 3}
+  m_Script: {fileID: 11500000, guid: f1a65475ba4251b4293d56fa60b499ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Hider: {fileID: 0}
-  IsWaitForEffectDisable: 0
-  DungeonSelectWindow: {fileID: 5846258137606730951}
+  _Key: Collector
+  _Popup: {fileID: 5846258137606730951}
+  _WaitForEffectEnd: 0
 --- !u!1 &1507383466
 GameObject:
   m_ObjectHideFlags: 0
@@ -3039,7 +3039,7 @@ GameObject:
   - component: {fileID: 1587181402}
   - component: {fileID: 1587181401}
   - component: {fileID: 1587181400}
-  - component: {fileID: 1587181399}
+  - component: {fileID: 1587181404}
   m_Layer: 0
   m_Name: NPC_Store
   m_TagString: Untagged
@@ -3047,21 +3047,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1587181399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1587181398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78a0773250292484ebbd765fd09fa2fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _Hider: {fileID: 0}
-  IsWaitForEffectDisable: 0
-  DungeonSelectWindow: {fileID: 5846258137606730950}
 --- !u!61 &1587181400
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3173,6 +3158,21 @@ Transform:
   m_Father: {fileID: 1673379112}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1587181404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1587181398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a65475ba4251b4293d56fa60b499ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Key: Store
+  _Popup: {fileID: 5846258137606730950}
+  _WaitForEffectEnd: 0
 --- !u!1 &1607304748
 GameObject:
   m_ObjectHideFlags: 0
@@ -3298,7 +3298,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 569499745}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: Interact
         m_Mode: 1
@@ -3948,7 +3948,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1587181399}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: Interact
         m_Mode: 1
@@ -4158,25 +4158,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.5, y: 2.5}
   m_EdgeRadius: 0
---- !u!114 &3959295661516803849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3959295661516803855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40277510bdd51464d8436ebc9682c19c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DropItem: {fileID: 8836453919034271384}
-  DropItemHolder: {fileID: 4114080058036229598}
-  CurveSpeed: 1.5
-  PointA: {x: 0, y: 0}
-  PointB: {x: 0.2, y: 0.7}
-  PointC: {x: 0.5, y: 0.4}
-  PointD: {x: 0.9, y: -0.55}
 --- !u!212 &3959295661516803851
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4254,9 +4235,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3959295661516803854}
   - component: {fileID: 3959295661516803851}
-  - component: {fileID: 3959295661516803848}
-  - component: {fileID: 3959295661516803849}
   - component: {fileID: 500062066}
+  - component: {fileID: 3959295661516803848}
+  - component: {fileID: 3959295661516803856}
   m_Layer: 0
   m_Name: NPC_Item
   m_TagString: Untagged
@@ -4264,6 +4245,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &3959295661516803856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3959295661516803855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c2cbdbc9cce3884aba805a7ea444a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _Key: Item
+  DropItem: {fileID: 8836453919034271384}
+  DropItemHolder: {fileID: 4114080058036229598}
+  _CurveSpeed: 1.5
+  _Points:
+  - {x: 0, y: 0}
+  - {x: 0.2, y: 0.7}
+  - {x: 0.5, y: 0.4}
+  - {x: 0.9, y: -0.55}
 --- !u!4 &4114080058036229598
 Transform:
   m_ObjectHideFlags: 0
