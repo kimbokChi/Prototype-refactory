@@ -5,12 +5,22 @@ using Kimbokchi;
 
 public class ItemPackmanNPC : NPC
 {
+    [SerializeField] private SubscribableButton _InteractionBtn;
     [SerializeField] private DropItem DropItem;
     [SerializeField] private Transform DropItemHolder;
 
     [Header("ItemDrop Curve")]
     [SerializeField] private float _CurveSpeed;[Space()]
     [SerializeField] private Vector2[] _Points;
+
+    private void Start()
+    {
+        _InteractionBtn.ButtonAction += state =>
+        {
+            if (state == ButtonState.Down)
+                Interaction();
+        };
+    }
 
     public override void Interaction()
     {

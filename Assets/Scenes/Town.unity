@@ -1043,6 +1043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Key: Dungeon
+  _InteractionBtn: {fileID: 3262462}
   _Popup: {fileID: 5846258137606730952}
   _WaitForEffectEnd: 1
 --- !u!1 &637713111
@@ -2718,6 +2719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Key: Collector
+  _InteractionBtn: {fileID: 1652326400}
   _Popup: {fileID: 5846258137606730951}
   _WaitForEffectEnd: 0
 --- !u!1 &1507383466
@@ -3075,6 +3077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Key: Store
+  _InteractionBtn: {fileID: 1004024864}
   _Popup: {fileID: 5846258137606730950}
   _WaitForEffectEnd: 0
 --- !u!1 &1607304748
@@ -4130,6 +4133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Key: Item
+  _InteractionBtn: {fileID: 1510342696}
   DropItem: {fileID: 8836453919034271384}
   DropItemHolder: {fileID: 4114080058036229598}
   _CurveSpeed: 1.5
