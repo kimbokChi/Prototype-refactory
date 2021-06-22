@@ -5618,7 +5618,7 @@ GameObject:
   - component: {fileID: 8334083838206832321}
   - component: {fileID: 2596847204211168}
   m_Layer: 5
-  m_Name: AttackButton
+  m_Name: CoreButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7973,7 +7973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _RectTransform: {fileID: 4980155176954843690}
-  _AttackButton: {fileID: 2596847204211168}
+  _CoreButton: {fileID: 2596847204211168}
   _ScalingTime: 2.5
   _DefaultScale: 0.65
   _MaxScale: 0.7
@@ -7983,6 +7983,11 @@ MonoBehaviour:
   _RMoveButton: {fileID: 2602540135779175527}
   _Button: {fileID: 9048263441331374939}
   _ButtonImage: {fileID: 2932870824434277267}
+  _CoreBtnImage: {fileID: 1511099119572559398}
+  _CoreBtnSprite_Attack: {fileID: -1618485069142946383, guid: 6a61ae7f54bfee641840d8dffbb801eb,
+    type: 3}
+  _CoreBtnSprite_Interaction: {fileID: 21300000, guid: 36ca4fff15ca73e4dbda3619c5503650,
+    type: 3}
 --- !u!222 &941585303892618029
 CanvasRenderer:
   m_ObjectHideFlags: 0
