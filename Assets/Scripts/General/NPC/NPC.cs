@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Manager = NPCInteractionManager;
 
 public abstract class NPC : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public abstract class NPC : MonoBehaviour
         {
             if (GameLoger.Instance.UsingVJoystick)
             {
-                NPCInteractionManager.Instance.VJoystick_SetCoreBtnMode(CoreBtnMode.InteractionOrder);
+                Manager.Instance.VJoystick_SetCoreBtnMode(CoreBtnMode.InteractionOrder);
             }
             PlayerEvent(true);
         }
@@ -23,7 +24,7 @@ public abstract class NPC : MonoBehaviour
         {
             if (GameLoger.Instance.UsingVJoystick)
             {
-                NPCInteractionManager.Instance.VJoystick_SetCoreBtnMode(CoreBtnMode.AttackOrder);
+                Manager.Instance.VJoystick_SetCoreBtnMode(CoreBtnMode.AttackOrder);
             }
             PlayerEvent(false);
         }
@@ -32,6 +33,7 @@ public abstract class NPC : MonoBehaviour
     public abstract void Interaction();
     public virtual void PlayerEvent(bool enter)
     {
-        NPCInteractionManager.Instance.SetActive(_Key, enter);
+        Manager.Instance.SetActive(_Key, enter);
+        Manager.Instance.SetNowEnableNPC(this, enter);
     }
 }

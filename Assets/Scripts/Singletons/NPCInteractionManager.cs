@@ -14,6 +14,8 @@ public class NPCInteractionManager : Singleton<NPCInteractionManager>
         public GameObject InteractionObj;
     }
 
+    public NPC LastEnableNPC { get; private set; }
+
     [SerializeField, Header("Controller Property")] 
     private PlayerControllerSetting _PlayerController;
     [SerializeField]
@@ -23,7 +25,6 @@ public class NPCInteractionManager : Singleton<NPCInteractionManager>
     private InteractionUISet[] _InteractionUISets;
 
     private Dictionary<string, GameObject> _InteractionObjDic;
-
     private void Awake()
     {
         _InteractionObjDic = new Dictionary<string, GameObject>();
@@ -43,6 +44,19 @@ public class NPCInteractionManager : Singleton<NPCInteractionManager>
             }
         };
     }
+    
+    public void SetNowEnableNPC(NPC npc, bool enable)
+    {
+        if (enable)
+        {
+            LastEnableNPC = npc;
+        }
+        else if (LastEnableNPC.Equals(npc))
+        {
+            LastEnableNPC = null;
+        }
+    }
+    
     public void SetActive(string key, bool active)
     {
         _InteractionObjDic[key]?.SetActive(active);
