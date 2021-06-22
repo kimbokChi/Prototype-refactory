@@ -14,12 +14,14 @@ public class NPCInteractionManager : Singleton<NPCInteractionManager>
         public GameObject InteractionObj;
     }
 
-    [SerializeField] 
+    [SerializeField, Header("Controller Property")] 
     private PlayerControllerSetting _PlayerController;
-
     [SerializeField]
+    private VirtualJoystick _VirtualJoystick;
+
+    [SerializeField, Space()]
     private InteractionUISet[] _InteractionUISets;
-    
+
     private Dictionary<string, GameObject> _InteractionObjDic;
 
     private void Awake()
@@ -44,5 +46,9 @@ public class NPCInteractionManager : Singleton<NPCInteractionManager>
     public void SetActive(string key, bool active)
     {
         _InteractionObjDic[key]?.SetActive(active);
+    }
+    public void VJoystick_SetCoreBtnMode(CoreBtnMode btnMode)
+    {
+        _VirtualJoystick.SetCoreBtnMode(btnMode);
     }
 }

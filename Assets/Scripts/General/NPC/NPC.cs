@@ -8,13 +8,23 @@ public abstract class NPC : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) {
+        if (collision.CompareTag("Player")) 
+        {
+            if (GameLoger.Instance.UsingVJoystick)
+            {
+                NPCInteractionManager.Instance.VJoystick_SetCoreBtnMode(CoreBtnMode.InteractionOrder);
+            }
             PlayerEvent(true);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) {
+        if (collision.CompareTag("Player")) 
+        {
+            if (GameLoger.Instance.UsingVJoystick)
+            {
+                NPCInteractionManager.Instance.VJoystick_SetCoreBtnMode(CoreBtnMode.AttackOrder);
+            }
             PlayerEvent(false);
         }
     }
