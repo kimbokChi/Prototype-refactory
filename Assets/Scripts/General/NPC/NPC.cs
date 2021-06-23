@@ -11,10 +11,7 @@ public abstract class NPC : MonoBehaviour
     {
         if (collision.CompareTag("Player")) 
         {
-            if (GameLoger.Instance.UsingVJoystick)
-            {
-                Manager.Instance.VJoystick_SetCoreBtnMode(CoreBtnMode.InteractionOrder);
-            }
+            Manager.Instance.VJoystick_SetCoreBtnMode(CoreBtnMode.InteractionOrder);
             PlayerEvent(true);
         }
     }
@@ -22,10 +19,7 @@ public abstract class NPC : MonoBehaviour
     {
         if (collision.CompareTag("Player")) 
         {
-            if (GameLoger.Instance.UsingVJoystick)
-            {
-                Manager.Instance.VJoystick_SetCoreBtnMode(CoreBtnMode.AttackOrder);
-            }
+            Manager.Instance.VJoystick_SetCoreBtnMode(CoreBtnMode.AttackOrder);
             PlayerEvent(false);
         }
     }
