@@ -44,7 +44,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 2c7251bf4a0123b45b701604773c979e, type: 3}
-    totalSpriteSurfaceArea: 1170260
+    totalSpriteSurfaceArea: 3670260
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -54,10 +54,13 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 1b1f1390f0955c74ba7c35f5e16d1a6e, type: 3}
   - {fileID: 21300000, guid: 6d815d413b39991438d872f35102568b, type: 3}
   - {fileID: 21300000, guid: 5e43ef51f1e21da4e89d2e482c531455, type: 3}
+  - {fileID: 21300000, guid: 7a623a9166296724997cfa5cb93e3a28, type: 3}
   - {fileID: 21300000, guid: 5b215a532512fad4aaac7af2a5ad2939, type: 3}
   - {fileID: 21300000, guid: 423d1c534779edc4f8d3ef9079f7b934, type: 3}
+  - {fileID: 21300000, guid: a0eedb345aab5f44ebb357e775f5bbd1, type: 3}
   - {fileID: 21300000, guid: ada7d1548c79d404f95dacf5d491af45, type: 3}
   - {fileID: 21300000, guid: 214d9364c6ee0b04a8bfe97b8865abdf, type: 3}
+  - {fileID: 21300000, guid: bb387ee457f365f4eaae7253e83c5e57, type: 3}
   - {fileID: 21300000, guid: 9da7ae657bc5fde49a437ba42af50139, type: 3}
   - {fileID: 21300000, guid: b61d0c367c4514a4683cd4f12992bc14, type: 3}
   - {fileID: 21300000, guid: f90312e6bec978240a1fcb64b1ee8eec, type: 3}
@@ -69,6 +72,8 @@ SpriteAtlas:
   - {fileID: 5399898616960993816, guid: 5452b04811964004a8df713e0d07be9f, type: 3}
   - {fileID: -1426711527446038170, guid: 5452b04811964004a8df713e0d07be9f, type: 3}
   - {fileID: 21300000, guid: 17035919a52c7be4a8111f3df4f641bf, type: 3}
+  - {fileID: 21300000, guid: 27caab6929dcd274cb4cfe137916c4c2, type: 3}
+  - {fileID: 21300000, guid: 058f0679fdcde2243937337ddfedc9c5, type: 3}
   - {fileID: 21300000, guid: 8dce67898e63e294dbf00c8134d9c738, type: 3}
   - {fileID: 21300000, guid: 2e72cff9ef581cb4396f4e9c6fb642f7, type: 3}
   - {fileID: 21300000, guid: b8e43d7a9fe4247458dc9317d6d35344, type: 3}
@@ -85,10 +90,13 @@ SpriteAtlas:
   - shield-effeck-3
   - enemy-Damage-2
   - Dangerous-Bottle-4
+  - Boss-Sword-Attack-Effect-4
   - Player-Run-Effect-6
   - shield-effeck-4
+  - Boss-Sword-Attack-Effect-1
   - Player-Run-Effect-2
   - enemy-Damage-1
+  - Boss-Sword-Attack-Effect-3
   - Player-Run-Effect-1
   - shield-effeck-2
   - Player-Run-Effect-3
@@ -100,6 +108,8 @@ SpriteAtlas:
   - Effect-Chest-Open_2
   - Effect-Chest-Open_3
   - Dangerous-Bottle-5
+  - Boss-Sword-Attack-Effect-2
+  - Boss-Sword-Attack-Effect-5
   - Dangerous-Bottle-9
   - enemy-Damage-3
   - Dangerous-Bottle-2

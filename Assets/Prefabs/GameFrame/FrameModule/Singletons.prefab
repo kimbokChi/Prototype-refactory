@@ -204,6 +204,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -228,6 +229,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &6004888993756164152
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,6 +298,10 @@ MonoBehaviour:
     EffectOrigin: {fileID: 1874264150650358275, guid: 677fe337d7717de4689564a6aa1dc6d1,
       type: 3}
     HoldingCount: 3
+  - EffectKind: 6
+    EffectOrigin: {fileID: 1254864109106826464, guid: 8730b799ad1040f4cb5a953d53264fbf,
+      type: 3}
+    HoldingCount: 1
 --- !u!1001 &6254484233742655852
 PrefabInstance:
   m_ObjectHideFlags: 0
