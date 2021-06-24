@@ -1017,7 +1017,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.15, y: 0.5}
+  m_Offset: {x: 0, y: 0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1028,7 +1028,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.5, y: 2.5}
+  m_Size: {x: 2, y: 1.7}
   m_EdgeRadius: 0
 --- !u!114 &569499748
 MonoBehaviour:
@@ -2705,7 +2705,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.3, y: 0.5}
+  m_Offset: {x: 0, y: 0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2716,7 +2716,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.5, y: 2.5}
+  m_Size: {x: 2, y: 1.7}
   m_EdgeRadius: 0
 --- !u!114 &1400038391
 MonoBehaviour:
@@ -2978,7 +2978,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.3, y: 0.5}
+  m_Offset: {x: 0, y: 0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2989,7 +2989,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.5, y: 2.5}
+  m_Size: {x: 2, y: 1.7}
   m_EdgeRadius: 0
 --- !u!95 &1587181401
 Animator:
@@ -4033,7 +4033,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.2, y: 0.2}
+  m_Offset: {x: 0, y: -0.20000005}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -4044,7 +4044,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.5, y: 2.5}
+  m_Size: {x: 2, y: 1.7}
   m_EdgeRadius: 0
 --- !u!212 &3959295661516803851
 SpriteRenderer:
@@ -5484,7 +5484,7 @@ PrefabInstance:
     - target: {fileID: 3242674076979319075, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -437.5
       objectReference: {fileID: 0}
     - target: {fileID: 3242674078255676848, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
@@ -5504,7 +5504,7 @@ PrefabInstance:
     - target: {fileID: 3242674078255676848, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -437.5
       objectReference: {fileID: 0}
     - target: {fileID: 3256190003347417962, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
@@ -6883,13 +6883,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6809226844943468196, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6809226844943468196, guid: 596ca2a92ccf6fe47bc909af532aec22,
-        type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000061035156
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6809226845467757548, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
@@ -6904,7 +6899,7 @@ PrefabInstance:
     - target: {fileID: 6809226845975267203, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.6764706
       objectReference: {fileID: 0}
     - target: {fileID: 6809226845975267203, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
@@ -6915,6 +6910,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809226845980546134, guid: 596ca2a92ccf6fe47bc909af532aec22,
+        type: 3}
+      propertyPath: m_Size
+      value: 0.6764645
       objectReference: {fileID: 0}
     - target: {fileID: 6809226846053005618, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
@@ -6934,6 +6934,11 @@ PrefabInstance:
     - target: {fileID: 6809226846053005618, guid: 596ca2a92ccf6fe47bc909af532aec22,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: -437.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6809226846445213506, guid: 596ca2a92ccf6fe47bc909af532aec22,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7032455930390744180, guid: 596ca2a92ccf6fe47bc909af532aec22,
