@@ -49,6 +49,9 @@ public class NPCInteractionManager : Singleton<NPCInteractionManager>
     {
         if (enable)
         {
+            if (LastEnableNPC != null)
+                LastEnableNPC.PlayerEvent(false);
+            
             LastEnableNPC = npc;
         }
         else if (LastEnableNPC.Equals(npc))
