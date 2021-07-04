@@ -130,7 +130,10 @@ public class VirtualJoystick : MonoBehaviour
                             case CoreBtnMode.InteractionOrder:
                                 if (state == ButtonState.Down)
                                 {
-                                    NPCInteractionManager.Instance.LastEnableNPC?.Interaction();
+                                    var npc = NPCInteractionManager.Instance.LastEnableNPC;
+
+                                    if (npc != null)
+                                        npc.Interaction();
                                 }
                                 break;
                         }

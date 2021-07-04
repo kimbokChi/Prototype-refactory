@@ -14,7 +14,20 @@ public class NPCInteractionManager : Singleton<NPCInteractionManager>
         public GameObject InteractionObj;
     }
 
-    public NPC LastEnableNPC { get; private set; }
+    public NPC LastEnableNPC 
+    {
+        get
+        {
+            try
+            {
+                return _EnableNPClist.First.Value;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+    }
 
     [SerializeField, Header("Controller Property")] 
     private PlayerControllerSetting _PlayerController;
@@ -25,9 +38,12 @@ public class NPCInteractionManager : Singleton<NPCInteractionManager>
     private InteractionUISet[] _InteractionUISets;
 
     private Dictionary<string, GameObject> _InteractionObjDic;
+    private LinkedList<NPC> _EnableNPClist;
+
     private void Awake()
     {
         _InteractionObjDic = new Dictionary<string, GameObject>();
+        _EnableNPClist = new LinkedList<NPC>();
 
         for (int i = 0; i < _InteractionUISets.Length; i++)
         {
@@ -49,23 +65,39 @@ public class NPCInteractionManager : Singleton<NPCInteractionManager>
     {
         if (enable)
         {
-            if (LastEnableNPC != null)
-                LastEnableNPC.PlayerEvent(false);
-            
-            LastEnableNPC = npc;
+            if (_EnableNPClist.Count != 0)
+                _EnableNPClist.First.Value.SetEnable(false);
+
+            _EnableNPClist.AddFirst(npc);
+            npc.SetEnable(true);
         }
-        else if (LastEnableNPC.Equals(npc))
+        else
         {
-            LastEnableNPC = null;
+            var first = LastEnableNPC;
+            _EnableNPClist.Remove(npc);
+
+            if (_EnableNPClist.Count != 0 && first.Equals(npc))
+                _EnableNPClist.First.Value.SetEnable(true);
         }
     }
     
     public void SetActive(string key, bool active)
     {
-        _InteractionObjDic[key]?.SetActive(active);
+        _InteractionObjDic[key].SetActive(active);
     }
     public void VJoystick_SetCoreBtnMode(CoreBtnMode btnMode)
     {
-        _VirtualJoystick.SetCoreBtnMode(btnMode);
+        switch (btnMode)
+        {
+            case CoreBtnMode.AttackOrder:
+                if (_EnableNPClist.Count == 0)
+                {
+                    _VirtualJoystick.SetCoreBtnMode(CoreBtnMode.AttackOrder);
+                }
+                break;
+            case CoreBtnMode.InteractionOrder:
+                _VirtualJoystick.SetCoreBtnMode(CoreBtnMode.InteractionOrder);
+                break;
+        }
     }
 }

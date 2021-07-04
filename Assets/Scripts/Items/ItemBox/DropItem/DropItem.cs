@@ -22,6 +22,7 @@ public class DropItem : NPC
         gameObject.SetActive(false);
 
         Inventory.Instance.AddItem(mContainItem);
+        PlayerEvent(false);
     }
 
     private void Reset()
