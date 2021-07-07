@@ -7,8 +7,11 @@ using UnityEngine.EventSystems;
 public class TouchController : MonoBehaviour
 {
     private const float NeedMovingLength = 20f;
-    private const float NeedDashLength = 30f;
-    private const float AttackableInputRange = 2.5f;
+    private const float NeedDashLength = 25f;
+    private const float AttackableInputRange = 3.5f;
+
+    private Vector2 pointA;
+    private Vector2 pointB;
 
     private Coroutine _MoveRoutine;
     private TouchPhase _CurrentPhase;
@@ -21,9 +24,13 @@ public class TouchController : MonoBehaviour
     private Player _Player;
     private float _StationaryTime;
 
+    public Transform circle;
+    public Transform outerC;
+
     private bool _IsAlreadyCharging;
     private bool _IsAlreadyInit = false;
     private bool _IsPrevInputOnUI = false;
+    private bool Tstart= false;
 
     private bool _CanDashOrder = true;
 
@@ -62,14 +69,14 @@ public class TouchController : MonoBehaviour
                 case TouchPhase.Moved:
                     {
                         return Input.GetMouseButton(0) && 
-                            Mathf.Abs(Input.GetAxis("Mouse X")) + 
-                            Mathf.Abs(Input.GetAxis("Mouse Y")) > 0f;
+                         Mathf.Abs(Input.GetAxis("Mouse X")) + 
+                         Mathf.Abs(Input.GetAxis("Mouse Y")) > 0f;
                     }
                 case TouchPhase.Stationary:
                     {
                         return Input.GetMouseButton(0);
                     }
-                case TouchPhase.Ended:
+                case TouchPhase.Ended:                   
                 case TouchPhase.Canceled:
                     {
                         return Input.GetMouseButtonUp(0);
@@ -91,6 +98,9 @@ public class TouchController : MonoBehaviour
     }
     private void Start()
     {
+        circle.GetComponent<Image>().enabled = false;
+        outerC.GetComponent<Image>().enabled = false;
+
         _StationaryTime = 0f;
         _IsAlreadyCharging = false;
         
@@ -117,6 +127,7 @@ public class TouchController : MonoBehaviour
             _CurrentPhase = TouchPhase.Ended;
         }
 #endif
+
         if (!EventSystem.current.IsPointerInUIObject())
         {
             switch (_CurrentPhase)
@@ -124,67 +135,44 @@ public class TouchController : MonoBehaviour
                 case TouchPhase.Began:
                     {
                         _FirstInputPoint = _BeganInputPoint = InputPosition();
+                       
+                        pointA = InputPosition();
+
+
+                        circle.transform.position = pointA * -1;
+                        outerC.transform.position = pointA * -1;
+                        circle.GetComponent<Image>().enabled = true;
+                        outerC.GetComponent<Image>().enabled = true;
                     }
                     break;
                 case TouchPhase.Moved:
                     {
+                        
                         Vector2 inputPosition = InputPosition();
                         Vector2 direction = (inputPosition - _BeganInputPoint).normalized;
 
-                        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-                        {
-                            float distance = Vector2.Distance(inputPosition, _BeganInputPoint);
 
-                            if (distance > NeedDashLength && _CanDashOrder)
-                            {
-                                void DashEndEvent(Player player, Direction dir)
-                                {
-                                    if (_CurrentPhase == TouchPhase.Stationary) 
-                                        player.MoveOrder(dir);
-                                }
-                                if (direction.x > 0)
-                                {
-                                    _Player.DashOrder(UnitizedPosH.RIGHT);
-                                    _Player.OnceDashEndEvent += p => DashEndEvent(p, Direction.Right);
-                                }
-                                else
-                                {
-                                    _Player.DashOrder(UnitizedPosH.LEFT);
-                                    _Player.OnceDashEndEvent += p => DashEndEvent(p, Direction.Left);
-                                }
-                                _CanDashOrder = false;
-                                _BeganInputPoint = inputPosition;
-                            }
-                            else if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
-                            {
-                                _BeganInputPoint = inputPosition;
+                        pointB = InputPosition();
 
-                                if (direction.x > 0)
-                                {
-                                    _MoveRoutine.StartRoutine(Move(Direction.Right));
-                                }
-                                else
-                                {
-                                    _MoveRoutine.StartRoutine(Move(Direction.Left));
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 1.5f)
+                        Vector2 offset = pointB - pointA;
+                            Vector2 direct = Vector2.ClampMagnitude(offset, 1.0f);
+                            circle.transform.position = new Vector2(pointA.x, pointA.y) ;
+                            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
                             {
-                                _BeganInputPoint = inputPosition;
+                                if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength)
+                                {
+                                    _BeganInputPoint = inputPosition;
 
-                                if (direction.y > 0)
-                                {
-                                    _MoveRoutine.StartRoutine(Move(Direction.Up));
+                                    if (direction.x > 0)
+                                    {
+                                        _MoveRoutine.StartRoutine(Move(Direction.Right));
+                                    }
+                                    else
+                                    {
+                                        _MoveRoutine.StartRoutine(Move(Direction.Left));
+                                    }
                                 }
-                                else
-                                {
-                                    _MoveRoutine.StartRoutine(Move(Direction.Down));
-                                }
-                                _StationaryTime = 0f;
-                            }
+                           
                         }
                     }
                     break;
@@ -207,9 +195,11 @@ public class TouchController : MonoBehaviour
                     break;
                 case TouchPhase.Ended:
                     {
+                       
                         _LastInputPoint = InputPosition();
                         _CanDashOrder = true;
-
+                        circle.GetComponent<Image>().enabled = false;
+                        outerC.GetComponent<Image>().enabled = false;
                         if (_MoveRoutine.IsFinished())
                         {
                             if (_IsAlreadyCharging)
@@ -229,6 +219,50 @@ public class TouchController : MonoBehaviour
                                 }
                             }
                         }
+                        Vector2 inputPosition = InputPosition();
+                        Vector2 direction = (inputPosition - _BeganInputPoint).normalized;
+
+                        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+                        {
+                            float distance = Vector2.Distance(inputPosition, _BeganInputPoint);
+
+                            if (distance > NeedDashLength && _CanDashOrder)
+                            {
+                                void DashEndEvent(Player player, Direction dir)
+                                {
+                                    if (_CurrentPhase == TouchPhase.Stationary)
+                                        player.MoveOrder(dir);
+                                }
+                                if (direction.x > 0)
+                                {
+                                    _Player.DashOrder(UnitizedPosH.RIGHT);
+                                    _Player.OnceDashEndEvent += p => DashEndEvent(p, Direction.Right);
+                                }
+                                else
+                                {
+                                    _Player.DashOrder(UnitizedPosH.LEFT);
+                                    _Player.OnceDashEndEvent += p => DashEndEvent(p, Direction.Left);
+                                }
+                                _CanDashOrder = false;
+                                _BeganInputPoint = inputPosition;
+                            }
+                        }else
+                        if (Vector2.Distance(inputPosition, _BeganInputPoint) >= NeedMovingLength * 1.5f)
+                        {
+                            _BeganInputPoint = inputPosition;
+
+                            if (direction.y > 0)
+                            {
+                                _MoveRoutine.StartRoutine(Move(Direction.Up));
+                            }
+                            else
+                            {
+                                _MoveRoutine.StartRoutine(Move(Direction.Down));
+                            }
+                            _StationaryTime = 0f;
+                        }
+
+                       
                         _StationaryTime = 0f;
                     }
                     break;
