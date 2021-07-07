@@ -8038,6 +8038,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Key: DropItem
+  _InteractionBtn: {fileID: 1171205085}
   Animator: {fileID: 2556079832559032419}
   Renderer: {fileID: 9176813936841544883}
 --- !u!4 &8963677345663533398

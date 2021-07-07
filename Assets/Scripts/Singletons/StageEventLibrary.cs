@@ -32,6 +32,7 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
                      private GameObject _PeddlerNPC;
 
     [SerializeField] private Animator InventoryButton;
+    [SerializeField] private SubscribableButton _SubscribableButton;
 
     public event System.Action StageClearEvent;
     public event System.Action StageEnterEvent;
@@ -114,7 +115,7 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
             }
         }
         var box = Instantiate(ItemBox, createPoint, Quaternion.identity);
-            box.HoldingItemBox.Init(boxContainItem, boxSprite);
+            box.HoldingItemBox.Init(boxContainItem, boxSprite, _SubscribableButton);
     }
     private void CreatePotion(PotionName potionName)
     {
