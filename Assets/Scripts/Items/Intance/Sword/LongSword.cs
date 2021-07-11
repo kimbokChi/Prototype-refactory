@@ -2,9 +2,9 @@
 
 public class LongSword : Item
 {
+    [Header("Item Action Property")]
     [SerializeField] private Animator Animator;
     [SerializeField] private Area CollisionArea;
-    [SerializeField] private Transform _EffectSummonPoint;
 
     [Header("SwordDance Property")]
     [SerializeField] private Projection _SwordDance;
