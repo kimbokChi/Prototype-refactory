@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 
 public class DropItem : NPC
 {
+    public SubscribableButton _InteractionBtn;
+
     [SerializeField] private Animator Animator;
     [SerializeField] private SpriteRenderer Renderer;
    
@@ -24,7 +26,11 @@ public class DropItem : NPC
         Inventory.Instance.AddItem(mContainItem);
         PlayerEvent(false);
     }
-
+    private void Start()
+    {
+        if (_InteractionBtn != null)
+            _InteractionBtn.ButtonAction += IteractionMethod;
+    }
     private void Reset()
     {
         Debug.Assert(TryGetComponent(out Animator));
@@ -46,5 +52,13 @@ public class DropItem : NPC
                 Animator.SetBool(animControlKey, true);
             }
         }
+        if (_InteractionBtn != null)
+            _InteractionBtn.ButtonAction -= IteractionMethod;
+    }
+
+    private void IteractionMethod(ButtonState state)
+    {
+        if (state == ButtonState.Down)
+            Interaction();
     }
 }

@@ -12,8 +12,12 @@ public abstract class Item : MonoBehaviour
 {
     public System.Action AttackOverAction;
 
+    [Header("Item Info Property")]
     [SerializeField] private ItemInfo _ItemInfoTable;
     [SerializeField] protected ItemStatTable StatTable;
+
+    [Header("Item Effect Property")]
+    [SerializeField] protected Transform _EffectSummonPoint;
 
     public ItemInfo GetItemInfo => _ItemInfoTable;
 

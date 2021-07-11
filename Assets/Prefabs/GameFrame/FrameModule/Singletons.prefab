@@ -110,6 +110,7 @@ MonoBehaviour:
   PeddlerNPC: {fileID: 6745026825134036996, guid: 799ba0387b5d1bb45982d7bacd1a110b,
     type: 3}
   InventoryButton: {fileID: 0}
+  _ItemBoxButton: {fileID: 0}
 --- !u!114 &2518353896841765207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +301,10 @@ MonoBehaviour:
     HoldingCount: 3
   - EffectKind: 6
     EffectOrigin: {fileID: 1254864109106826464, guid: 8730b799ad1040f4cb5a953d53264fbf,
+      type: 3}
+    HoldingCount: 1
+  - EffectKind: 7
+    EffectOrigin: {fileID: 4009454108664962646, guid: 07e55eabd22b3224baaf51b4c46b46e7,
       type: 3}
     HoldingCount: 1
 --- !u!1001 &6254484233742655852
