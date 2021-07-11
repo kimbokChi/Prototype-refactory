@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Kimbokchi;
 
 public enum NotifyMessage
@@ -32,7 +33,8 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
                      private GameObject _PeddlerNPC;
 
     [SerializeField] private Animator InventoryButton;
-    [SerializeField] private SubscribableButton _SubscribableButton;
+    [SerializeField, FormerlySerializedAs("_SubscribableButton")] 
+    private SubscribableButton _ItemBoxButton;
 
     public event System.Action StageClearEvent;
     public event System.Action StageEnterEvent;
@@ -115,7 +117,7 @@ public class StageEventLibrary : Singleton<StageEventLibrary>
             }
         }
         var box = Instantiate(ItemBox, createPoint, Quaternion.identity);
-            box.HoldingItemBox.Init(boxContainItem, boxSprite, _SubscribableButton);
+            box.HoldingItemBox.Init(boxContainItem, boxSprite, _ItemBoxButton);
     }
     private void CreatePotion(PotionName potionName)
     {
