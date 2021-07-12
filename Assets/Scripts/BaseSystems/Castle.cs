@@ -23,6 +23,7 @@ public class Castle : Singleton<Castle>
 
     private Player mPlayer;
 
+    private IEnumerator _EUpdate;
     private UnitizedPosV mLastPlayerPOS = UnitizedPosV.NONE;
 
     [Header("Floor")]
@@ -298,7 +299,17 @@ public class Castle : Singleton<Castle>
         }
         yield break;
     }
-
+    public void ForceStopUpdate()
+    {
+        if (_EUpdate != null) {
+            StopCoroutine(_EUpdate);
+        }       
+        _EUpdate = null;
+    }
+    public void ReStartUpdate()
+    {
+        StartCoroutine(_EUpdate = EUpdate());
+    }
     private void Start()
     {
         mIsCastClearEvent = false;
@@ -309,6 +320,6 @@ public class Castle : Singleton<Castle>
 
         RenewPlayerFloor();
 
-        StartCoroutine(EUpdate());
+        StartCoroutine(_EUpdate = EUpdate());
     }
 }
