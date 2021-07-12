@@ -11,6 +11,9 @@ public class Castle : Singleton<Castle>
     [SerializeField]
     private bool DisableStageEvent;
 
+    [HideInInspector] public bool CanPlayerFloorInit   = true;
+    [HideInInspector] public bool CanPlayerFloorNotify = true;
+
     [SerializeField][Range(0.1f, 2f)]
     private float CameraMoveAccel;
 
@@ -206,14 +209,18 @@ public class Castle : Singleton<Castle>
     #endregion 
     private void RenewPlayerFloor()
     {
-        mPlayerFloor.IInit();
-
-        mPlayerFloor.EnterPlayer(mPlayer);
-
-        if (mPlayer)
+        if (CanPlayerFloorInit)
         {
-            RenewPlayerPOS();
+            PlayerFloorInit();
         }
+        if (CanPlayerFloorNotify)
+        {
+            PlayerFloorNotify();
+        }
+    }
+    public void PlayerFloorInit()
+    {
+        mPlayerFloor.IInit();
         Vector2[] topMovePoint = mPlayerFloor.GetMovePoints(UnitizedPosV.TOP);
         Vector2[] midMovePoint = mPlayerFloor.GetMovePoints(UnitizedPosV.MID);
         Vector2[] botMovePoint = mPlayerFloor.GetMovePoints(UnitizedPosV.BOT);
@@ -224,6 +231,15 @@ public class Castle : Singleton<Castle>
             midMovePoint[0], midMovePoint[1], midMovePoint[2],
             botMovePoint[0], botMovePoint[1], botMovePoint[2]
         };
+    }
+    public void PlayerFloorNotify()
+    {
+        mPlayerFloor.EnterPlayer(mPlayer);
+
+        if (mPlayer)
+        {
+            RenewPlayerPOS();
+        }
         if (!DisableStageEvent)
         {
             StageEventLibrary.Instance?.NotifyEvent(NotifyMessage.StageEnter);
@@ -231,6 +247,7 @@ public class Castle : Singleton<Castle>
         Inventory.Instance.PlayerEnterFloor();
         mIsCastClearEvent = false;
     }
+
     #region _MEMBER
     /// <summary>
     /// 현재 플레이어가 있는 층을 가리키는 mPlayerFloor를 가동시키고,
