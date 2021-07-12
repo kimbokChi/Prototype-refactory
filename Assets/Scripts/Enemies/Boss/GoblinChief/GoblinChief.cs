@@ -82,8 +82,6 @@ public class GoblinChief : MonoBehaviour, IObject, ICombatable
 
     public void IInit()
     {
-        SoundManager.Instance.PlaySound(SoundName.BossAppear_Forest);
-
         HealthBar.SetActive(true);
         mNextPattern = (Anim)Random.Range(2, 4);
 
