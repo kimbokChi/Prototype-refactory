@@ -634,6 +634,11 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2657234772226528089, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2706204837293568896, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
         type: 3}
       propertyPath: m_IsActive
@@ -1490,7 +1495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!95 &254027286 stripped
 Animator:
-  m_CorrespondingSourceObject: {fileID: 8253530712008720884, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+  m_CorrespondingSourceObject: {fileID: 2076662534573431721, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
     type: 3}
   m_PrefabInstance: {fileID: 254027281}
   m_PrefabAsset: {fileID: 0}
@@ -2081,6 +2086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _Director: {fileID: 734690526}
+  _BossFloor: {fileID: 1933575136}
   _BossThema: {fileID: 8300000, guid: becea56e5b714974f932388245a44eb1, type: 3}
   _AudioSource: {fileID: 238762197}
 --- !u!320 &734690526
@@ -2109,7 +2115,7 @@ PlayableDirector:
   - key: {fileID: 4550420101375739450, guid: d739ccdd63abd314895d246bdd242e6f, type: 2}
     value: {fileID: 238762196}
   - key: {fileID: 0}
-    value: {fileID: 254027286}
+    value: {fileID: 0}
   - key: {fileID: -9045449830217936189, guid: d739ccdd63abd314895d246bdd242e6f, type: 2}
     value: {fileID: 300584036}
   - key: {fileID: -7436940011652890948, guid: d739ccdd63abd314895d246bdd242e6f, type: 2}
@@ -2122,6 +2128,8 @@ PlayableDirector:
     value: {fileID: 1768498522}
   - key: {fileID: -7844283996671905535, guid: d739ccdd63abd314895d246bdd242e6f, type: 2}
     value: {fileID: 1810317900}
+  - key: {fileID: -2724496784442695310, guid: d739ccdd63abd314895d246bdd242e6f, type: 2}
+    value: {fileID: 254027286}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &734690527
@@ -2139,12 +2147,42 @@ MonoBehaviour:
   m_Events:
     m_Signals:
     - {fileID: 11400000, guid: 2169b7dd820df24409dd6a3c54147c77, type: 2}
+    - {fileID: 11400000, guid: 31670bb4e2df44745b86c5445d3c96bd, type: 2}
+    - {fileID: 11400000, guid: 2ab39151bcb6a37469f61699c8cebfcb, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 734690525}
           m_TargetAssemblyTypeName: BossDirector, Assembly-CSharp
-          m_MethodName: SE_Action
+          m_MethodName: SE_Finish
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 734690525}
+          m_TargetAssemblyTypeName: BossDirector, Assembly-CSharp
+          m_MethodName: SE_Start
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 734690525}
+          m_TargetAssemblyTypeName: BossDirector, Assembly-CSharp
+          m_MethodName: SE_CameraSetPosition
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -3173,6 +3211,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1810317900}
   m_CullTransparentMesh: 1
+--- !u!114 &1933575136 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5768596561624475851, guid: 51e73a3e3f1d2b947bbbed0df04f4304,
+    type: 3}
+  m_PrefabInstance: {fileID: 254027281}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83f10ce0c8c846f44a368746d8dfa97c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1934571848
 GameObject:
   m_ObjectHideFlags: 0
