@@ -508,6 +508,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &403356585 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5624691515854001426, guid: 2c076833f0929224aa04f80fd30bc408,
+    type: 3}
+  m_PrefabInstance: {fileID: 7650367632805531303}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959e401c7cbb5a449b96e8cf3c2c5c87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &404620026
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1072,8 +1084,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b59509d7fa96d0f4db4fa22ba680e8b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _PlayerController: {fileID: 0}
-  _VirtualJoystick: {fileID: 0}
+  _PlayerController: {fileID: 403356585}
+  _VirtualJoystick: {fileID: 7650367632805531313}
   _InteractionUISets:
   - Key: DropItem
     InteractionBtn: {fileID: 536257193}
@@ -3622,3 +3634,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7650367632805531303}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7650367632805531313 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4899812891520255151, guid: 2c076833f0929224aa04f80fd30bc408,
+    type: 3}
+  m_PrefabInstance: {fileID: 7650367632805531303}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7650367632805531308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c88decd77feaed14d9ff6177f447d550, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
