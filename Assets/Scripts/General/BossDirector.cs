@@ -39,7 +39,8 @@ public class BossDirector : MonoBehaviour
     }
     public void SE_CameraSetPosition()
     {
-        MainCamera.Instance.Move(_BossFloor.transform.localPosition, 100f);
+        Camera.main.transform.position = 
+            _BossFloor.transform.localPosition + Vector3.back * 10;
     }
     public void SE_Finish()
     {

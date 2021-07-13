@@ -84,8 +84,6 @@ public class Castle : Singleton<Castle>
             point = new Vector2(playerX, mPlayerFloor.GetMovePoints(UnitizedPosV.BOT)[0].y);
 
             RenewPlayerFloor();
-            MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
-
             return true;
         }
         return false;
@@ -122,8 +120,6 @@ public class Castle : Singleton<Castle>
             point = new Vector2(playerX, mPlayerFloor.GetMovePoints(UnitizedPosV.TOP)[0].y);
 
             RenewPlayerFloor();
-            MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
-
             return true;
         }
         return false;
@@ -236,6 +232,7 @@ public class Castle : Singleton<Castle>
     public void PlayerFloorNotify()
     {
         mPlayerFloor.EnterPlayer(mPlayer);
+        MainCamera.Instance.Move(mPlayerFloor.transform.position, CameraMoveAccel);
 
         if (mPlayer)
         {
