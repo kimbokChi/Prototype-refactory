@@ -113,31 +113,30 @@ public class BuffLibrary : Singleton<BuffLibrary>
         ability.Table[Ability.IAfter_AttackDelay] += duration;
 
         int hash = ability.GetHashCode();
-        _StunedDic.TryGetValue(hash, out StunBuffInfo info);
+        _StunedDic.TryGetValue(hash, out StunBuffInfo stunInfo);
 
-        IEnumerator thisRoutine = info.StunRoutine;
+        IEnumerator thisRoutine = stunInfo.StunRoutine;
 
-        for (float i = 0; i < duration && _StunedDic.TryGetValue(hash, out info); i += DeltaTime) 
+        for (float i = 0; i < duration; i += DeltaTime) 
         {
             if (ability[Ability.CurHealth] <= 0f) break;
 
-            if (thisRoutine != info.StunRoutine)
+            if (thisRoutine != stunInfo.StunRoutine)
             {
                 ability.Table[Ability.IBegin_AttackDelay] -= duration;
                 ability.Table[Ability.IAfter_AttackDelay] -= duration;
                 yield break;
             }
-            info.Duration = duration - i;
+            stunInfo.Duration = duration - i;
             ability.Table[Ability.IMoveSpeed] = -ability.Table[Ability.MoveSpeed];
             yield return null;
-            ability.Table[Ability.IMoveSpeed] = -ability.Table[Ability.MoveSpeed];
         }
         ability.Table[Ability.IMoveSpeed] = 0f;
         ability.Table[Ability.IBegin_AttackDelay] -= duration;
         ability.Table[Ability.IAfter_AttackDelay] -= duration;
 
-        if (info != null) {
-            animator.speed = info.AnimationSpeed;
+        if (stunInfo != null) {
+            animator.speed = stunInfo.AnimationSpeed;
         }
         _StunedDic.Remove(ability.GetHashCode());
     }
