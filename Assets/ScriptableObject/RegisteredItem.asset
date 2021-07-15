@@ -46,3 +46,6 @@ MonoBehaviour:
   - ID: 11
     Instance: {fileID: 47868532970686941, guid: 7d3256fd3bad96c4db22667942308d6f,
       type: 3}
+  - ID: 12
+    Instance: {fileID: 6784119838042585254, guid: c52ae6eabadb4184ba8ef2d780ab7787,
+      type: 3}
