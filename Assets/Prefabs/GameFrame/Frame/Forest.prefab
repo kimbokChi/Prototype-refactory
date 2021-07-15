@@ -573,6 +573,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DisableStageEvent: 0
+  CanPlayerFloorInit: 1
+  CanPlayerFloorNotify: 1
   CameraMoveAccel: 0.6
   mFloors:
   - {fileID: 5768596560899073513}
@@ -2160,6 +2162,12 @@ PrefabInstance:
       propertyPath: m_textInfo.characterCount
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 775559493169150056, guid: b338fd190ba165c40ae67b45a7e34d76,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 511733201378069097, guid: b6e444820f2f08d4987528b020b3d070,
+        type: 3}
     - target: {fileID: 1004223647072048471, guid: b338fd190ba165c40ae67b45a7e34d76,
         type: 3}
       propertyPath: _UnlockDungeonInfo
