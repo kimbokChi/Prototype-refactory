@@ -12,6 +12,8 @@ public class StScissors : Item
     private const int Attack = 2;
     private const int AttackHolding = 3;
     private const int AttackDC = 4;
+    private const int AttackCharge = 5;
+    private const int AttackChargePrepare = 6;
 
     [Header("Item Action Property")]
     [SerializeField] private Animator _Animator;
@@ -53,6 +55,11 @@ public class StScissors : Item
             case SlotType.Accessory:
                 Inventory.Instance.AttackEvent -= Accessory_AttackEvent;
                 break;
+
+            case SlotType.Weapon:
+                Inventory.Instance.ChargeBeginAction -= Weapon_ChargeBeginAction;
+                Inventory.Instance.ChargeEndAction   -= Weapon_ChargeEndAction;
+                break;
         }
     }
     public override void OnEquipThis(SlotType onSlot)
@@ -79,12 +86,27 @@ public class StScissors : Item
                     _Player = transform.root.gameObject;
                     _CollisionArea.SetEnterAction(HitAction);
                 }
+                Inventory.Instance.ChargeBeginAction += Weapon_ChargeBeginAction;
+                Inventory.Instance.ChargeEndAction += Weapon_ChargeEndAction;
                 break;
         }
     }
+
+    private void Weapon_ChargeEndAction(float charge)
+    {
+        if (_Animator.GetInteger(_AnimHash) == AttackChargePrepare) {
+            _Animator.SetInteger(_AnimHash, AttackCharge);
+        }
+    }
+    private void Weapon_ChargeBeginAction()
+    {
+        if (_Animator.GetInteger(_AnimHash) == Idle)
+            _Animator.SetInteger(_AnimHash, AttackChargePrepare);
+    }
+    
     private void HitAction(GameObject enter)
     {
-        Debug.Log("hit! : " + enter.name);
+        
         if (enter.TryGetComponent(out ICombatable combatable))
         {
             combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
