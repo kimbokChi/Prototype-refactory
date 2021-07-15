@@ -6,7 +6,7 @@ public enum ItemID
 {
     None, GreatSword, FrozenShose, IronShield, 
     MysteriousMace, OrdinaryBow, Shuriken, LongSword, ThronArmor,
-    DangerousBottle, RuneFragment, FightersGlove
+    DangerousBottle, RuneFragment, FightersGlove, StScissors
 }
 public abstract class Item : MonoBehaviour
 {

@@ -84,8 +84,9 @@ public class StScissors : Item
                     _IsAlreadyInit = true;
 
                     _Player = transform.root.gameObject;
-                    _CollisionArea.SetEnterAction(HitAction);
                 }
+                _CollisionArea.SetEnterAction(HitAction);
+
                 Inventory.Instance.ChargeBeginAction += Weapon_ChargeBeginAction;
                 Inventory.Instance.ChargeEndAction += Weapon_ChargeEndAction;
                 break;
@@ -106,7 +107,6 @@ public class StScissors : Item
     
     private void HitAction(GameObject enter)
     {
-        
         if (enter.TryGetComponent(out ICombatable combatable))
         {
             combatable.Damaged(StatTable[ItemStat.AttackPower], _Player);
